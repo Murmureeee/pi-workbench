@@ -1,0 +1,6 @@
+* text=auto eol=lf
+
+# Recorded evidence and lockfile hashes must survive Windows checkouts exactly.
+packages/agent-adapter/test/contracts/recordings/** -text
+docs/validation/** -text
+pnpm-lock.yaml -text

@@ -1,0 +1,41 @@
+{
+  "feature": "CORE-03",
+  "verifiedAt": "2026-10-31T17:55:59.227Z",
+  "prerequisite": "CORE-01 verified",
+  "acceptanceChecked": [
+    true,
+    true
+  ],
+  "scenarios": 34,
+  "evidenceDirectory": "D:\\Project\\pi-workbench\\spikes\\core-03\\artifacts\\offline-2026-10-31T17-47-37-054Z",
+  "summarySha256": "093de77a34738c60876649a2d99d5b771419a26009be6fbb10cb81604d834110",
+  "sourceHashes": {
+    "ledger.mjs": "e61cf412b7c81703be88d845b3d734533eca21aafcfa11ee74faf0a7d2346d78",
+    "run.mjs": "a275164ae7b0ddc1d037f920487a126334ad75ce447f3e59caf4cdf0eddad438",
+    "lock-worker.mjs": "e4b3b1ff52bb5e4320f1291980137ce16086d1a5995057884f68cfdfe572e09b"
+  },
+  "checkedFiles": 54,
+  "checkedUserGitFiles": 58,
+  "checkedSnapshots": 54,
+  "checkedObjects": 185,
+  "checkedTools": 37,
+  "sdk": "1.4.0",
+  "externalModelRequests": 0,
+  "credentialsRead": false,
+  "findings": [
+    "Dirty staged/unstaged/untracked content survives file and whole-turn rollback; user Git metadata is unchanged.",
+    "Only an observed contiguous tool write chain with supported pre/post snapshots is eligible for automatic rollback.",
+    "Conflicts block preflight; runtime failures compensate conditionally and retain needs-recovery when an external edit prevents compensation."
+  ],
+  "limitations": [
+    "Windows regular-file bytes only; ACLs, permissions, empty directories, case-only rename and other platforms are not verified.",
+    "File symlink creation returned EPERM on this host; actual file-symlink execution remains unverified. Directory junction and hardlink tests ran.",
+    "Same canonical workspace must use a single host-owned store/lock mapping; other stores and external processes do not obey that lock.",
+    "Path checks and double scans cannot eliminate the final OS write race or establish authorship when external writes are indistinguishable.",
+    "Multi-file rollback is not an OS transaction; crash recovery and durable fsync require production implementation.",
+    "Ignored/builtin-excluded/nested repositories, files above 5 MiB, symlinks/junctions/hardlinks and external command/network effects are not rollback promises.",
+    "Ignored files store metadata only; excluded-directory contents are not scanned. No sensitive fixture content is stored for these paths.",
+    "Staging rename requires same volume; stale locks, manual overrides, UI, block rollback and GC policy remain later work.",
+    "ENOSPC/EACCES/EIO and timing races use explicitly labelled local injection, not genuine disk exhaustion or ACL incidents."
+  ]
+}

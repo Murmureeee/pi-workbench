@@ -1,0 +1,104 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 307ms on 83 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+apps/desktop typecheck: Done
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+$ knip
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+
+ Test Files  3 passed (3)
+      Tests  12 passed (12)
+   Start at  12:21:47
+   Duration  1.27s (import 67%, tests 24%, transform 8%, worker 1%)
+
+$ pnpm --filter @pi-workbench/agent-adapter smoke
+$ node dist/smoke.js
+{"source":"real-sdk/bootstrap-only/no-prompt","sdk":"1.4.0","node":"v24.22.2","pid":24768,"tools":0,"providerRequests":0,"disposed":true}
+$ pnpm build && playwright test
+$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2338 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.45 kB │ gzip:   0.29 kB
+dist/assets/index-Cx_n2rxA.css   56.12 kB │ gzip:   9.89 kB
+dist/assets/index-DAYjpge_.js   433.75 kB │ gzip: 132.35 kB
+
+✓ built in 196ms
+$ tsc -p tsconfig.json
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ [WebServer] tsc -p tsconfig.json
+[WebServer] (node:26884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:18028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\desktop.spec.ts:6:1 › Electron isolates the renderer and close hides the window until explicit quit (693ms)
+  ok 2 e2e\workbench.spec.ts:10:1 › first send respects composition and Shift Enter; all traffic stays local (595ms)
+  ok 3 e2e\workbench.spec.ts:38:1 › approval refusal and stop have distinct states; drafts survive switching (756ms)
+  ok 4 e2e\workbench.spec.ts:60:1 › review opens a wide panel and closing restores conversation width (626ms)
+  ok 5 e2e\workbench.spec.ts:78:1 › settling, error, and lost service are visible without losing drafts (5.5s)
+  ok 6 e2e\workbench.spec.ts:99:1 › system, light and dark themes render at 1080p and 390px without overflow (1.0s)
+
+  6 passed (15.1s)

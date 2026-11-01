@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark light">
+<title>Pi Workbench · 交互式 PRD v2</title>
+<style>__PRD_CSS__</style>
+</head>
+<body data-view="prototype">
+<header class="review-bar">
+  <a class="review-brand" href="#" data-action="home"><span class="pi-mark" aria-hidden="true">π</span><span>Pi Workbench</span><span class="review-label">交互式 PRD v2</span></a>
+  <div class="review-views" role="group" aria-label="评审视图">
+    <button type="button" data-view="prototype" aria-pressed="true">原型</button>
+    <button type="button" data-view="spec" aria-pressed="false">规格</button>
+    <button type="button" data-view="compare" aria-pressed="false">对照</button>
+  </div>
+  <div class="review-tools">
+    <label class="sr-only" for="demoScene">演示场景</label>
+    <select id="demoScene" aria-label="演示场景"><option value="">演示场景</option><option value="new">新会话</option><option value="onboarding">首次启动</option><option value="search">搜索与整理</option><option value="plan">计划与澄清</option><option value="running">运行与队列</option><option value="approval">执行前审批</option><option value="review">变更审查</option><option value="conflict">回滚冲突</option><option value="files">文件与预览</option><option value="terminal">终端与后台任务</option><option value="git">Git 与 PR 交付</option><option value="agents">子 Agent 与预算</option><option value="automation">自动化与收件箱</option><option value="capabilities">模型与能力</option><option value="failure">失败与恢复</option><option value="layout">布局与快捷键</option><option value="optional">可选扩展</option></select>
+    <a href="roadmap.html" class="roadmap-link">需求与进度 <span aria-hidden="true">↗</span></a>
+  </div>
+</header>
+<div class="review-layout">
+  <main class="prototype" id="prototype" aria-label="Pi Workbench 可交互原型">
+    <div class="prototype-note"><span class="prototype-dot" aria-hidden="true"></span><span>交互原型</span><span class="note-detail">模拟消息、审批和文件变更；未连接模型或执行系统命令。</span><button type="button" data-action="prototype-help" aria-label="查看原型说明">说明</button></div>
+    <div class="workbench" id="workbench">
+      <button class="drawer-scrim" id="sidebarScrim" type="button" data-action="close-sidebar" aria-label="关闭导航"></button>
+      <aside class="sidebar" id="sidebar" aria-label="项目与会话导航">
+        <div class="sidebar-brand"><span class="pi-mark" aria-hidden="true">π</span><strong>Pi Workbench</strong><button type="button" class="icon-button" data-action="toggle-sidebar" aria-label="收起侧栏" data-icon="panel"></button></div>
+        <nav class="primary-nav" aria-label="主要操作">
+          <button type="button" data-action="new-session"><span data-icon="compose"></span><span>新会话</span><kbd>Ctrl N</kbd></button>
+          <button type="button" data-action="search"><span data-icon="search"></span><span>搜索会话</span><kbd>Ctrl K</kbd></button>
+          <button type="button" data-action="automation"><span data-icon="clock"></span><span>自动化</span><span class="nav-badge">M7</span></button>
+          <button type="button" data-action="inbox"><span data-icon="inbox"></span><span>运行收件箱</span><span class="nav-badge" id="inboxCount">2</span></button>
+        </nav>
+        <div class="sidebar-scroll" id="sessionNavigation"></div>
+        <div class="sidebar-bottom"><button type="button" data-action="settings"><span data-icon="settings"></span><span>设置与能力</span></button><span class="local-connection"><i aria-hidden="true"></i>本地服务</span></div>
+      </aside>
+      <section class="work-area" aria-label="当前任务工作区">
+        <header class="thread-header" id="threadHeader"></header>
+        <div class="workspace" id="workspace">
+          <section class="conversation-pane" aria-label="任务与对话">
+            <div class="thread-viewport" id="threadViewport" tabindex="0" aria-label="会话消息"><div class="thread-content" id="threadContent"></div></div>
+            <button type="button" class="return-latest" id="returnLatest" data-action="latest" hidden>返回最新消息 <span aria-hidden="true">↓</span></button>
+            <div class="composer-area" id="composerArea">
+              <div id="contextChips" class="context-chips" aria-label="已附加上下文"></div>
+              <div class="queue-list" id="queueList" aria-label="待送达消息"></div>
+              <div class="composer-box">
+                <label class="sr-only" for="composerInput">任务内容</label>
+                <textarea id="composerInput" rows="3" placeholder="描述任务，或输入 / 选择操作" autocomplete="off"></textarea>
+                <div class="composer-toolbar">
+                  <button type="button" class="icon-button attach-button" data-action="attach" aria-label="添加上下文" data-icon="plus"></button>
+                  <label class="composer-select project-select"><span data-icon="folder"></span><span class="sr-only">会话项目</span><select id="projectSelect" aria-label="会话项目"></select></label>
+                  <label class="composer-select"><span class="sr-only">任务模式</span><select id="modeSelect" aria-label="任务模式"><option value="execute">执行</option><option value="plan">计划</option><option value="discuss">讨论</option></select></label>
+                  <label class="composer-select model-select"><span class="sr-only">模型</span><select id="modelSelect" aria-label="模型"><option>Claude Sonnet · 示例</option><option>GPT · 示例</option><option>本地模型 · 示例</option></select></label>
+                  <label class="composer-select thinking-select"><span class="sr-only">思考级别</span><select id="thinkingSelect" aria-label="思考级别"><option>标准</option><option>深入</option></select></label>
+                  <label class="composer-select queue-kind" id="queueKindLabel" hidden><span class="sr-only">运行中发送方式</span><select id="queueKind" aria-label="运行中发送方式"><option value="steer">引导当前轮</option><option value="followup">追加下一轮</option></select></label>
+                  <div class="send-actions"><button type="button" class="stop-button" id="stopButton" data-action="stop" aria-label="停止运行" hidden data-icon="stop"></button><button type="button" class="send-button" id="sendButton" data-action="send" aria-label="发送任务" data-icon="arrow-up" disabled></button></div>
+                </div>
+              </div>
+              <div class="composer-context"><span id="executionContext"></span><button type="button" class="text-button" data-action="feature" data-feature="feature-compose" aria-label="查看输入交互规格">交互规格</button></div>
+            </div>
+          </section>
+          <div class="panel-scrim" id="panelScrim" data-action="close-panel"></div>
+          <div class="panel-resizer" id="panelResizer" role="separator" tabindex="0" aria-label="调整工作面板宽度" aria-orientation="vertical" aria-valuemin="320" aria-valuemax="640" aria-valuenow="420"></div>
+          <aside class="context-panel" id="contextPanel" aria-label="文件与变更工作面板"></aside>
+        </div>
+        <section class="bottom-panel" id="bottomPanel" aria-label="终端与后台任务" hidden></section>
+        <footer class="status-bar" id="statusBar"></footer>
+      </section>
+    </div>
+  </main>
+  __PRD_DOCUMENT__
+</div>
+<dialog id="workbenchDialog" class="workbench-dialog" aria-labelledby="dialogTitle"></dialog>
+<div class="toast" id="toast" role="status" hidden></div>
+<script type="application/json" id="prdBacklog">__PRD_BACKLOG__</script>
+<script>__PRD_JS__</script>
+</body>
+</html>

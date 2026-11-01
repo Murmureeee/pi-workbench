@@ -1,0 +1,9 @@
+{
+  "extends": "@pi-workbench/config/tsconfig",
+  "compilerOptions": {
+    "rootDir": "src",
+    "types": ["node"],
+    "outDir": "dist"
+  },
+  "include": ["src/**/*.ts"]
+}

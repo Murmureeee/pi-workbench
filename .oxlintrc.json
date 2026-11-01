@@ -1,0 +1,235 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "plugins": ["typescript", "unicorn", "oxc", "import", "node", "promise", "react", "jsx-a11y"],
+  "categories": {
+    "correctness": "error",
+    "suspicious": "warn",
+    "perf": "warn"
+  },
+  "options": {
+    "typeAware": true,
+    "typeCheck": false,
+    "denyWarnings": true,
+    "reportUnusedDisableDirectives": "error",
+    "respectEslintDisableDirectives": false
+  },
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/migrations/**",
+    ".workbench/**",
+    ".tools/**",
+    "coverage/**",
+    "test-results/**",
+    "playwright-report/**",
+    "scripts/planning/**",
+    "docs/**",
+    "spikes/**"
+  ],
+  "rules": {
+    "eslint/no-console": [
+      "error",
+      {
+        "allow": ["warn", "error"]
+      }
+    ],
+    "eslint/no-debugger": "error",
+    "eslint/no-eval": "error",
+    "eslint/no-implied-eval": "error",
+    "eslint/no-new-func": "error",
+    "eslint/no-var": "error",
+    "eslint/prefer-const": "error",
+    "eslint/eqeqeq": [
+      "error",
+      "always",
+      {
+        "null": "ignore"
+      }
+    ],
+    "eslint/curly": ["error", "all"],
+    "eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_",
+        "varsIgnorePattern": "^_",
+        "caughtErrorsIgnorePattern": "^_"
+      }
+    ],
+    "import/no-cycle": "error",
+    "import/no-duplicates": "error",
+    "import/no-self-import": "error",
+    "import/no-mutable-exports": "error",
+    "eslint/sort-imports": ["error", { "ignoreCase": true, "ignoreDeclarationSort": true }],
+    "typescript/no-explicit-any": "error",
+    "typescript/consistent-type-imports": [
+      "error",
+      {
+        "prefer": "type-imports",
+        "fixStyle": "separate-type-imports"
+      }
+    ],
+    "typescript/no-floating-promises": "error",
+    "typescript/no-misused-promises": "error",
+    "typescript/no-unsafe-assignment": "error",
+    "typescript/no-unsafe-argument": "error",
+    "typescript/no-unsafe-call": "error",
+    "typescript/no-unsafe-member-access": "error",
+    "typescript/no-unsafe-return": "error",
+    "typescript/switch-exhaustiveness-check": "error",
+    "typescript/return-await": ["error", "in-try-catch"],
+    "unicorn/prefer-node-protocol": "error",
+    "import/no-unassigned-import": [
+      "error",
+      {
+        "allow": ["**/*.css", "reflect-metadata"]
+      }
+    ]
+  },
+  "overrides": [
+    {
+      "files": ["apps/web/**/*.{ts,tsx}", "packages/ui/**/*.{ts,tsx}"],
+      "plugins": ["typescript", "unicorn", "oxc", "import", "node", "promise", "react", "jsx-a11y"],
+      "env": {
+        "browser": true
+      },
+      "rules": {
+        "react/rules-of-hooks": "error",
+        "react/react-in-jsx-scope": "off",
+        "react/exhaustive-deps": "error",
+        "react/only-export-components": "error",
+        "react/self-closing-comp": "error",
+        "react/hooks": "off",
+        "react/exhaustive-effect-dependencies": "off",
+        "react/error-boundaries": "off",
+        "react/globals": "off",
+        "react/immutability": "off",
+        "react/incompatible-library": "off",
+        "react/preserve-manual-memoization": "off",
+        "react/purity": "off",
+        "react/refs": "off",
+        "react/set-state-in-effect": "off",
+        "react/set-state-in-render": "off",
+        "react/static-components": "off",
+        "react/use-memo": "off",
+        "react/void-use-memo": "off"
+      }
+    },
+    {
+      "files": ["packages/ui/src/components/*.tsx"],
+      "rules": {
+        "react/only-export-components": "off"
+      }
+    },
+    {
+      "files": ["packages/ui/src/components/input-group.tsx"],
+      "rules": {
+        "jsx-a11y/prefer-tag-over-role": "off",
+        "jsx-a11y/click-events-have-key-events": "off",
+        "jsx-a11y/no-noninteractive-element-interactions": "off"
+      }
+    },
+    {
+      "files": [
+        "apps/daemon/**/*.ts",
+        "apps/desktop/**/*.ts",
+        "packages/agent-adapter/**/*.ts",
+        "scripts/**/*.mjs",
+        "e2e/*.ts",
+        "*.config.ts"
+      ],
+      "env": {
+        "node": true
+      }
+    },
+    {
+      "files": [
+        "scripts/**/*.mjs",
+        "apps/daemon/src/bootstrap/main.ts",
+        "packages/agent-adapter/src/smoke.ts"
+      ],
+      "rules": {
+        "eslint/no-console": [
+          "error",
+          {
+            "allow": ["log", "warn", "error"]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["**/*.test.ts"],
+      "plugins": ["typescript", "unicorn", "oxc", "import", "node", "promise", "vitest"],
+      "rules": {
+        "vitest/no-focused-tests": "error",
+        "vitest/no-disabled-tests": "error",
+        "vitest/prefer-lowercase-title": ["warn", { "ignoreTopLevelDescribe": true }],
+        "vitest/valid-expect": "error"
+      }
+    },
+    {
+      "files": ["packages/shared/src/**/*.ts"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "node:*",
+                  "react",
+                  "react-dom",
+                  "react-dom/*",
+                  "@nestjs/*",
+                  "@pi-workbench/*"
+                ],
+                "message": "shared 仅依赖纯领域模块和 Zod；Node IO、UI 和宿主实现放在各自适配层。"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["apps/web/src/**/*.{ts,tsx}", "packages/ui/src/**/*.{ts,tsx}"],
+      "rules": {
+        "eslint/no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "group": [
+                  "node:*",
+                  "electron",
+                  "@nestjs/*",
+                  "better-sqlite3",
+                  "@pi-workbench/agent-adapter",
+                  "@pi-workbench/agent-adapter/*",
+                  "@pi-workbench/ledger",
+                  "@pi-workbench/ledger/*"
+                ],
+                "message": "Renderer 通过 shared 契约与 daemon 通信，不能直接引入特权运行时。"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["apps/daemon/src/bootstrap/app.ts"],
+      "rules": {
+        "typescript/no-extraneous-class": [
+          "error",
+          {
+            "allowWithDecorator": true
+          }
+        ]
+      }
+    },
+    {
+      "files": ["scripts/verify-clean.mjs", "packages/agent-adapter/src/validation-budget.ts"],
+      "rules": {
+        "eslint/no-await-in-loop": "off"
+      }
+    }
+  ]
+}

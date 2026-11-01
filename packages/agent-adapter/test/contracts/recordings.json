@@ -1,0 +1,416 @@
+{
+  "schemaVersion": 1,
+  "sdk": "1.4.0",
+  "mode": "read-only-replay",
+  "newProviderRequests": 0,
+  "envelopeSource": "synthetic replay envelopes; original SDK/provider origins are preserved per sample",
+  "samples": [
+    {
+      "id": "core01/normal-restore",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/normal-restore.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "57068dd86fecc2c97908759564ff2861f0c8711c3d0dcc6c5b5209d51bc7ee93",
+      "expected": {
+        "rows": 15,
+        "text": "PIW_OK",
+        "phase": "review",
+        "final": {
+          "status": "idle",
+          "result": "success"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/error",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/error.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "47c201ab466225c08921638626a3c6896733a67b268506a44eb116022b90dc21",
+      "expected": {
+        "rows": 11,
+        "text": "",
+        "phase": "error",
+        "final": {
+          "status": "idle",
+          "result": "error"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/retry",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/retry.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "a89cd47ddd225680a737cf596abe9aa7df7f6338cb03ad79a47bd977ff0d07cf",
+      "expected": {
+        "rows": 24,
+        "text": "PIW_OK",
+        "phase": "review",
+        "final": {
+          "status": "idle",
+          "result": "success"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "turn_end",
+          "agent_end",
+          "auto_retry_start",
+          "entry_appended",
+          "message_update",
+          "auto_retry_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/queues",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/queues.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "a13bae23e01cea8088c07ef45b09a4454e194c0f412717e45a031c5ec9e159e4",
+      "expected": {
+        "rows": 38,
+        "text": "FIRSTPIW_OKPIW_OK",
+        "phase": "review",
+        "final": {
+          "status": "idle",
+          "result": "success"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "queue_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/abort",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/abort.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "c78d10623fd6ce437f58fb360ffe54ed0b72a7cd7df88de1f902f97ebe112a01",
+      "expected": {
+        "rows": 14,
+        "text": "FIRST",
+        "phase": "stopped",
+        "final": {
+          "status": "idle",
+          "result": "interrupted"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/abort-thinking",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/abort-thinking.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "6ea2867bc9a8619e696f6afe1ea3ee856263d3572fd9cb6307ad38f2567c17c3",
+      "expected": {
+        "rows": 14,
+        "text": "",
+        "phase": "stopped",
+        "final": {
+          "status": "idle",
+          "result": "interrupted"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/abort-buffered",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/abort-buffered.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "9c129498adbb07a6c88c48acb9c0300399d30e165f5853f880c0619980303c18",
+      "expected": {
+        "rows": 16,
+        "text": "FIRSTSECONDTHIRD",
+        "phase": "stopped",
+        "final": {
+          "status": "idle",
+          "result": "interrupted"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/thinking-stream-error",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/thinking-stream-error.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "b31da3f07ddcae6a99f216a9ba77425dfd258ba849fdfe2ffee8b32a5f03a326",
+      "expected": {
+        "rows": 14,
+        "text": "",
+        "phase": "error",
+        "final": {
+          "status": "idle",
+          "result": "error"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/compaction",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/compaction.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/local-http-fixture",
+      "sha256": "3cd956374c131fa98af403382998e8034869b85c57f8174e8c9f5da44e00874b",
+      "expected": {
+        "rows": 17,
+        "text": "PIW_OK",
+        "phase": "review",
+        "final": {
+          "status": "idle",
+          "result": "success"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled",
+          "compaction_start",
+          "compaction_end"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/normal-stream-and-manual-compaction",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/normal-stream-and-manual-compaction.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/configured-provider",
+      "sha256": "d5b77fc5fe1093ba963153d6080fc0b03c6522d91d4e4efb0967871790a6a59d",
+      "expected": {
+        "rows": 20,
+        "text": "PIW_LIVE_OK",
+        "phase": "review",
+        "final": {
+          "status": "idle",
+          "result": "success"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled",
+          "compaction_start",
+          "compaction_end"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core01/abort-stream",
+      "file": "packages/agent-adapter/test/contracts/recordings/core01/abort-stream.jsonl",
+      "kind": "core01",
+      "origin": "real-sdk/configured-provider",
+      "sha256": "d79cda4f6c9534048aa1a9a466d8748dca041b7a27d3cfc53c582a4777826562",
+      "expected": {
+        "rows": 14,
+        "text": "OK",
+        "phase": "stopped",
+        "final": {
+          "status": "idle",
+          "result": "interrupted"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": []
+      }
+    },
+    {
+      "id": "core02/builtin-write-deny",
+      "file": "packages/agent-adapter/test/contracts/recordings/core02/builtin-write-deny.jsonl",
+      "kind": "core02",
+      "origin": "real-sdk/local-fixtures",
+      "sha256": "a65b50baad6707658942c42e116ce5f9a40cccaed6dd4603c5626d551a82f3a2",
+      "expected": {
+        "rows": 30,
+        "text": "PIW_OK",
+        "phase": "review",
+        "final": {
+          "status": "idle",
+          "result": "success"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "tool_execution_start",
+          "tool_execution_end",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": [
+          "tool.observed",
+          "approval.requested",
+          "pending.checked",
+          "tool.blocked-or-failed"
+        ]
+      }
+    },
+    {
+      "id": "core02/revoke-pending",
+      "file": "packages/agent-adapter/test/contracts/recordings/core02/revoke-pending.jsonl",
+      "kind": "core02",
+      "origin": "real-sdk/local-fixtures",
+      "sha256": "79a0adc28a3a9d15a15f8868585cda360df5b9127493a949ef3157425e221961",
+      "expected": {
+        "rows": 31,
+        "text": "PIW_OK",
+        "phase": "review",
+        "final": {
+          "status": "idle",
+          "result": "success"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "tool_execution_start",
+          "tool_execution_end",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": [
+          "tool.observed",
+          "approval.requested",
+          "pending.checked",
+          "approval.invalidated",
+          "tool.blocked-or-failed"
+        ]
+      }
+    },
+    {
+      "id": "core02/ipc-disconnect",
+      "file": "packages/agent-adapter/test/contracts/recordings/core02/ipc-disconnect.jsonl",
+      "kind": "core02",
+      "origin": "real-sdk/local-fixtures",
+      "sha256": "bc15c4ba67ab82f3b3d434bce77ea0e0485cb4ed305641cf6d5ee12f70586ed9",
+      "expected": {
+        "rows": 30,
+        "text": "PIW_OK",
+        "phase": "review",
+        "final": {
+          "status": "idle",
+          "result": "success"
+        },
+        "sdkTypes": [
+          "agent_start",
+          "turn_start",
+          "message_start",
+          "message_end",
+          "message_update",
+          "tool_execution_start",
+          "tool_execution_end",
+          "turn_end",
+          "agent_end",
+          "agent_settled"
+        ],
+        "hostTypes": [
+          "tool.observed",
+          "approval.requested",
+          "pending.checked",
+          "tool.blocked-or-failed"
+        ]
+      }
+    }
+  ]
+}

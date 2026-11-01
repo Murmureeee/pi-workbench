@@ -1,0 +1,66 @@
+{
+  "schemaVersion": 1,
+  "purpose": "development-validation-only",
+  "authorization": "project-confirmation.md#第-6-轮核心使用规则已确认 / R6-02",
+  "policy": "live-validation-policy.md",
+  "enforcement": {
+    "implemented": false,
+    "requiredFeature": "OPS-01",
+    "reservationGuardImplemented": true,
+    "realProviderEnabled": false,
+    "evidence": "ops-01-acceptance.md",
+    "note": "Persistent atomic reservation guard verified offline. Real transport remains disabled until SDK implicit rounds, retry, compaction and effective provider output limits are covered; no live validation entry is exposed."
+  },
+  "limits": {
+    "maxNewProviderRequestsPerMilestone": 2,
+    "maxOutputTokensPerRequest": 512,
+    "automaticRetry": false,
+    "carryOver": false,
+    "currencyCap": null
+  },
+  "priorEvidence": {
+    "milestone": "M0",
+    "closed": true,
+    "requestCount": 4,
+    "files": [
+      "docs/validation/m0-evidence/live-budget.json",
+      "docs/validation/m0-evidence/live-abort-budget.json"
+    ],
+    "note": "Historical 3 + 1 requests remain under their original records; do not rerun or reset."
+  },
+  "milestones": [
+    {
+      "id": "M1",
+      "requests": []
+    },
+    {
+      "id": "M2",
+      "requests": []
+    },
+    {
+      "id": "M3",
+      "requests": []
+    },
+    {
+      "id": "M4",
+      "requests": []
+    },
+    {
+      "id": "M5",
+      "requests": []
+    },
+    {
+      "id": "M6",
+      "requests": []
+    },
+    {
+      "id": "M7",
+      "requests": []
+    },
+    {
+      "id": "M8",
+      "requests": [],
+      "scopeAuthorization": "candidate-specific-confirmation-required"
+    }
+  ]
+}

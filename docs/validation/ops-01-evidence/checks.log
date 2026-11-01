@@ -1,0 +1,89 @@
+$ pnpm lint && pnpm typecheck && pnpm knip && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ eslint apps packages scripts e2e eslint.config.mjs vitest.config.ts playwright.config.ts
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+apps/desktop typecheck: Done
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+$ knip
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+
+ Test Files  3 passed (3)
+      Tests  11 passed (11)
+   Start at  12:03:53
+   Duration  1.10s (import 70%, tests 25%, transform 4%, worker 1%)
+
+$ pnpm --filter @pi-workbench/agent-adapter smoke
+$ node dist/smoke.js
+{"source":"real-sdk/bootstrap-only/no-prompt","sdk":"1.4.0","node":"v24.22.2","pid":25512,"tools":0,"providerRequests":0,"disposed":true}
+$ pnpm build && playwright test
+$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2338 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.40 kB │ gzip:   0.28 kB
+dist/assets/index-DWHeRCd5.css   56.17 kB │ gzip:   9.89 kB
+dist/assets/index-DhFuGFNj.js   433.64 kB │ gzip: 132.80 kB
+
+✓ built in 215ms
+$ tsc -p tsconfig.json
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:40444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:35068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\desktop.spec.ts:5:1 › Electron isolates the renderer and close hides the window until explicit quit (630ms)
+  ok 2 e2e\workbench.spec.ts:8:1 › first send respects composition and Shift Enter; all traffic stays local (640ms)
+  ok 3 e2e\workbench.spec.ts:33:1 › approval refusal and stop have distinct states; drafts survive switching (735ms)
+  ok 4 e2e\workbench.spec.ts:53:1 › review opens a wide panel and closing restores conversation width (670ms)
+  ok 5 e2e\workbench.spec.ts:68:1 › settling, error, and lost service are visible without losing drafts (5.5s)
+  ok 6 e2e\workbench.spec.ts:89:1 › system, light and dark themes render at 1080p and 390px without overflow (981ms)
+
+  6 passed (16.0s)

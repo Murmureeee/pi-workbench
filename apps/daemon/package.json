@@ -1,0 +1,32 @@
+{
+  "name": "@pi-workbench/daemon",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "db:generate": "drizzle-kit generate",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@fastify/websocket": "catalog:prod",
+    "@nestjs/common": "catalog:prod",
+    "@nestjs/core": "catalog:prod",
+    "@nestjs/platform-fastify": "catalog:prod",
+    "@pi-workbench/agent-adapter": "workspace:*",
+    "@pi-workbench/shared": "workspace:*",
+    "better-sqlite3": "catalog:prod",
+    "drizzle-orm": "catalog:prod",
+    "fastify": "catalog:prod",
+    "reflect-metadata": "catalog:prod",
+    "rxjs": "catalog:prod"
+  },
+  "devDependencies": {
+    "@pi-workbench/config": "workspace:*",
+    "@types/better-sqlite3": "catalog:dev",
+    "@types/node": "catalog:dev",
+    "@types/ws": "catalog:dev",
+    "drizzle-kit": "catalog:dev",
+    "ws": "catalog:dev"
+  }
+}

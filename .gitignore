@@ -1,0 +1,36 @@
+# Dependencies, builds and local tools.
+node_modules/
+dist/
+.workbench/
+.playwright-cli/
+.trae-html-share-packages/
+.tools/
+.githooks/
+skills/npm-*
+test-results/
+playwright-report/
+coverage/
+*.tsbuildinfo
+*.log
+!/docs/validation/**/*.log
+
+# Local settings, credentials and runtime databases.
+.npmrc
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+*.pem
+*.key
+*.p12
+*.pfx
+*.sqlite
+*.sqlite-*
+*.db
+*.db-*
+.DS_Store
+Thumbs.db
+
+# Local feasibility experiments and their generated artifacts.
+/spikes/

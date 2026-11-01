@@ -1,0 +1,50 @@
+### Result
+{"pages":[{"page":"http://127.0.0.1:8765/product/roadmap.html","title":"Pi Workbench · 需求与进度"},{"legacy":"roadmap","redirected":"http://127.0.0.1:8765/product/roadmap.html?v=browser-migration#feature=CORE-01","featureTitle":"验证 SDK 核心生命周期"},{"legacy":"prd","redirected":"http://127.0.0.1:8765/product/prd.html?v=browser-migration#feature-compose","title":"Pi Workbench · 交互式 PRD v2"},{"legacy":"design","redirected":"http://127.0.0.1:8765/design/review.html?direction=hybrid&scene=review","comparisonFrames":["http://127.0.0.1:8765/design/review.html?embed=1&direction=hybrid&theme=light&scene=review","http://127.0.0.1:8765/design/review.html?embed=1&direction=hybrid&theme=dark&scene=review"]}],"failures":[],"roadmap768Overflow":false,"providerRequests":0}
+### Ran Playwright code
+```js
+await (async page => {
+  const failures = [];
+  const pages = [];
+  page.on('pageerror', error => failures.push(error.message));
+  page.on('console', message => { if (message.type() === 'error') failures.push(message.text()); });
+  page.on('response', response => { if (response.status() >= 400) failures.push(response.url() + ': ' + response.status()); });
+  const origin = 'http://127.0.0.1:8765';
+  await page.setViewportSize({ width: 1920, height: 1080 });
+  await page.goto(origin + '/');
+  await page.getByRole('link', { name: '需求与进度看板', exact: true }).click();
+  if (new URL(page.url()).pathname !== '/product/roadmap.html') throw new Error('Index roadmap link did not resolve');
+  await page.getByRole('heading', { name: /Pi Workbench/ }).first().waitFor();
+  pages.push({ page: page.url(), title: await page.title() });
+  await page.goto(origin + '/pi-workbench-roadmap.html?v=browser-migration#feature=CORE-01');
+  if (!page.url().endsWith('/product/roadmap.html?v=browser-migration#feature=CORE-01')) throw new Error('Legacy query/hash lost');
+  await page.locator('#detailTitle').waitFor();
+  pages.push({ legacy: 'roadmap', redirected: page.url(), featureTitle: await page.locator('#detailTitle').textContent() });
+  await page.goto(origin + '/pi-workbench-prd.html?v=browser-migration#feature-compose');
+  if (!page.url().includes('/product/prd.html?')) throw new Error('PRD redirect failed');
+  await page.locator('#feature-compose').waitFor({ state: 'attached' });
+  pages.push({ legacy: 'prd', redirected: page.url(), title: await page.title() });
+  await page.goto(origin + '/pi-workbench-design-review.html?direction=hybrid&scene=review');
+  await page.getByRole('button', { name: '明暗对照', exact: true }).click();
+  const frames = page.locator('iframe');
+  if (await frames.count() !== 2) throw new Error('Comparison frames missing');
+  for (const frame of await frames.all()) {
+    const element = await frame.elementHandle();
+    const content = await element.contentFrame();
+    await content.locator('#stage').waitFor();
+    if (!content.url().includes('/design/review.html?embed=1')) throw new Error('Comparison asset path broken');
+  }
+  pages.push({ legacy: 'design', redirected: page.url(), comparisonFrames: page.frames().slice(1).map(f=>f.url()) });
+  await page.screenshot({ path: 'docs/validation/structure-evidence/design-comparison.png', fullPage: true });
+  await page.setViewportSize({ width: 768, height: 900 });
+  await page.goto(origin + '/product/roadmap.html');
+  const overflow = await page.evaluate(() => document.documentElement.scrollWidth > innerWidth);
+  if (overflow) throw new Error('Roadmap overflow at 768px');
+  await page.screenshot({ path: 'docs/validation/structure-evidence/roadmap-768.png', fullPage: true });
+  if (failures.length) throw new Error(JSON.stringify(failures));
+  return { pages, failures, roadmap768Overflow: overflow, providerRequests: 0 };
+}
+)(page);
+```
+### Page
+- Page URL: http://127.0.0.1:8765/product/roadmap.html
+- Page Title: Pi Workbench · 需求与进度

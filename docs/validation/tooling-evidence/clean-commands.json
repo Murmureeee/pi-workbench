@@ -1,0 +1,30 @@
+{
+  "destination": "D:\\Project\\.piw-clean-KtLZAo",
+  "commands": [
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exitCode": 0,
+      "output": "Scope: all 8 workspace projects\n[WARN] The store at C:\\Users\\Murmure\\AppData\\Local\\pnpm\\store\\v11 is not used because packages cannot be hard linked from it into this project. Using the store at D:\\.pnpm-store\\v11 instead. Set storeDir to choose the store.\n✓ Lockfile passes supply-chain policies (verified 8m ago)\nLockfile is up to date, resolution step is skipped\nPackages are hard linked from the content-addressable store to the virtual store.\n  Content-addressable store is at: D:\\.pnpm-store\\v11\n  Virtual store is at:             node_modules/.pnpm\nProgress: resolved 160, reused 159, downloaded 0, added 145\nProgress: resolved 225, reused 225, downloaded 0, added 214\nProgress: resolved 296, reused 296, downloaded 0, added 284\nProgress: resolved 315, reused 315, downloaded 0, added 307\nProgress: resolved 315, reused 315, downloaded 0, added 314\nPackages: +316\n++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++\nProgress: resolved 316, reused 316, downloaded 0, added 316, done\n.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js\n.../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js\n.../esbuild@0.18.20/node_modules/esbuild postinstall$ node install.js\n.../esbuild@0.25.12/node_modules/esbuild postinstall: Done\n.../esbuild@0.18.20/node_modules/esbuild postinstall: Done\n.../esbuild@0.28.2/node_modules/esbuild postinstall: Done\n\ndevDependencies:\n+ @playwright/test 1.64.1\n+ @types/node 24.19.2\n+ knip 6.44.1\n+ node 24.22.2\n+ oxfmt 0.75.0\n+ oxlint 1.90.0\n+ oxlint-tsgolint 7.0.2005\n+ typescript 6.0.3\n+ vite 8.3.5\n+ vitest 5.0.5\n\nDone in 8s using pnpm v12.16.1\n"
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0,
+      "output": "$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip\n$ oxfmt --check .\nChecking formatting...\n\nAll matched files use the correct format.\nFinished in 361ms on 83 files using 20 threads.\n$ pnpm build:server && oxlint .\n$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build\n$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build\npackages/shared build$ tsc -p tsconfig.json\npackages/ui build$ tsc -p tsconfig.json\npackages/shared build: Done\npackages/agent-adapter build$ tsc -p tsconfig.json\npackages/ui build: Done\npackages/agent-adapter build: Done\n$ tsc -p tsconfig.json\n$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json\n$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build\n$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build\npackages/shared build$ tsc -p tsconfig.json\npackages/ui build$ tsc -p tsconfig.json\npackages/shared build: Done\npackages/agent-adapter build$ tsc -p tsconfig.json\npackages/ui build: Done\npackages/agent-adapter build: Done\n$ tsc -p tsconfig.json\napps/desktop typecheck$ tsc -p tsconfig.json --noEmit\npackages/ui typecheck$ tsc -p tsconfig.json --noEmit\npackages/shared typecheck$ tsc -p tsconfig.json --noEmit\npackages/shared typecheck: Done\npackages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit\napps/desktop typecheck: Done\npackages/ui typecheck: Done\napps/web typecheck$ tsc --noEmit\napps/web typecheck: Done\npackages/agent-adapter typecheck: Done\napps/daemon typecheck$ tsc -p tsconfig.json --noEmit\napps/daemon typecheck: Done\n$ knip\n"
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0,
+      "output": "$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build\n$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build\n$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build\npackages/shared build$ tsc -p tsconfig.json\npackages/ui build$ tsc -p tsconfig.json\npackages/shared build: Done\npackages/agent-adapter build$ tsc -p tsconfig.json\npackages/ui build: Done\npackages/agent-adapter build: Done\n$ tsc -p tsconfig.json\n$ vite build\nvite v8.3.5 building client environment for production...\ntransforming...\n✓ 2338 modules transformed.\nrendering chunks...\ncomputing gzip size...\ndist/index.html                   0.45 kB │ gzip:   0.29 kB\ndist/assets/index-Cx_n2rxA.css   56.12 kB │ gzip:   9.89 kB\ndist/assets/index-DAYjpge_.js   433.75 kB │ gzip: 132.35 kB\n\n✓ built in 216ms\n$ tsc -p tsconfig.json\n"
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 0,
+      "output": "$ pnpm build:server && vitest run\n$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build\n$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build\npackages/shared build$ tsc -p tsconfig.json\npackages/ui build$ tsc -p tsconfig.json\npackages/shared build: Done\npackages/agent-adapter build$ tsc -p tsconfig.json\npackages/ui build: Done\npackages/agent-adapter build: Done\n$ tsc -p tsconfig.json\n\n RUN  v5.0.5 D:/Project/.piw-clean-KtLZAo\n\n\n Test Files  3 passed (3)\n      Tests  12 passed (12)\n   Start at  12:23:16\n   Duration  1.29s (import 66%, tests 24%, transform 8%, worker 1%)\n\n"
+    },
+    {
+      "command": "pnpm smoke:sdk",
+      "exitCode": 0,
+      "output": "$ pnpm --filter @pi-workbench/agent-adapter smoke\n$ node dist/smoke.js\n{\"source\":\"real-sdk/bootstrap-only/no-prompt\",\"sdk\":\"1.4.0\",\"node\":\"v24.22.2\",\"pid\":43660,\"tools\":0,\"providerRequests\":0,\"disposed\":true}\n"
+    }
+  ]
+}

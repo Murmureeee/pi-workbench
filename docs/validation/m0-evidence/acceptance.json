@@ -1,0 +1,33 @@
+{
+  "milestone": "M0",
+  "status": "passed",
+  "verifiedAt": "2026-10-31T17:55:59.587Z",
+  "gates": [
+    {
+      "criterion": "真实 SDK 完成流式对话、中止、错误和恢复演示。",
+      "status": "passed",
+      "feature": "CORE-01",
+      "evidence": "core-01/artifacts/acceptance.json"
+    },
+    {
+      "criterion": "拒绝内建、扩展及嵌套调用后目标副作用均未发生。",
+      "status": "passed",
+      "feature": "CORE-02",
+      "evidence": "core-02/artifacts/acceptance.json"
+    },
+    {
+      "criterion": "包含脏工作区和外部编辑的快照回滚验证有可复现记录。",
+      "status": "passed",
+      "feature": "CORE-03",
+      "evidence": "core-03/artifacts/acceptance.json"
+    }
+  ],
+  "reportHashes": {
+    "core-01/artifacts/acceptance.json": "08fc09eaeca31de1a216014c18a4b863b6dac123983b541ea1a35a15dbf01d7c",
+    "core-02/artifacts/acceptance.json": "b90cf2fae6c783b42ce4f30396de13ec428a0f1896852f30b94f8395620e7def",
+    "core-03/artifacts/acceptance.json": "c3d9e5ca22bb36977997f4edc01cc31d33fe9d747fa8a47074f011b7fb676052"
+  },
+  "existingRealModelRequests": 4,
+  "additionalRealModelRequests": 0,
+  "boundary": "Feasibility gate only. This does not deliver a usable workbench or verify M1/CHANGE/SEC production features."
+}

@@ -1,0 +1,49 @@
+{
+  "verifiedAt": "2026-11-01T04:03:14.332Z",
+  "feature": "OPS-01",
+  "providerRequestsAdded": 0,
+  "canonicalRequests": [
+    {
+      "id": "M1",
+      "count": 0
+    },
+    {
+      "id": "M2",
+      "count": 0
+    },
+    {
+      "id": "M3",
+      "count": 0
+    },
+    {
+      "id": "M4",
+      "count": 0
+    },
+    {
+      "id": "M5",
+      "count": 0
+    },
+    {
+      "id": "M6",
+      "count": 0
+    },
+    {
+      "id": "M7",
+      "count": 0
+    },
+    {
+      "id": "M8",
+      "count": 0
+    }
+  ],
+  "historicalBudgetHashes": {
+    "spikes/core-01/artifacts/live-budget.json": "2f696b857633a5fd0e119fece6f626f2cda88ae6f2913afb829ea88d6c209829",
+    "spikes/core-01/artifacts/live-abort-budget.json": "33bc994819689565e32dfb6c579aa9ebfedc94b5d40668cf47ebef3133774802"
+  },
+  "verifiedFeatures": [
+    "CORE-01",
+    "CORE-02",
+    "CORE-03",
+    "OPS-01"
+  ]
+}

@@ -1,0 +1,19 @@
+{
+  "limits": {
+    "maxRequests": 1,
+    "maxOutputTokens": 64,
+    "maxPayloadBytes": 2000
+  },
+  "records": [
+    {
+      "number": 1,
+      "at": "2026-10-31T16:53:38.635Z",
+      "payloadBytes": 449,
+      "maxOutputTokens": 64,
+      "thinking": "disabled",
+      "httpStatus": 200
+    }
+  ],
+  "cost": null,
+  "costNote": "No provider price configured. An aborted stream may omit billed token usage."
+}

@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="dark">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light dark">
+  <title>Pi Workbench · 核心页面评审</title>
+  <link rel="stylesheet" href="assets/review.css">
+</head>
+<body>
+  <header class="review-bar" aria-label="设计评审控制">
+    <a class="review-brand" href="../product/prd.html"><span class="pi-mark">π</span><strong>Pi Workbench</strong><span>核心页面评审</span></a>
+    <div class="segments direction-switch" role="group" aria-label="设计方向">
+      <button type="button" data-action="direction" data-value="hybrid">组合<span>已选方案</span></button>
+      <button type="button" data-action="direction" data-value="a">A <span>对话优先</span></button>
+      <button type="button" data-action="direction" data-value="b">B <span>审查聚焦</span></button>
+    </div>
+    <div class="review-controls">
+      <label><span class="sr-only">预览场景</span><select id="sceneSelect"><optgroup label="开始任务"><option value="new">新会话</option><option value="creating">正在创建</option><option value="create-failed">创建失败</option><option value="queued">等待资源</option></optgroup><optgroup label="执行与决定"><option value="running">正在运行</option><option value="approval">执行前审批</option><option value="approval-invalid">审批失效</option><option value="settling">正在收尾</option><option value="stopping">正在停止</option><option value="stopped">已停止</option></optgroup><optgroup label="恢复"><option value="error">请求失败</option><option value="retrying">等待重试</option><option value="compacting">上下文压缩</option><option value="offline">连接中断</option><option value="reconnecting">正在同步</option></optgroup><optgroup label="修改审查"><option value="review">修改审查</option><option value="conflict">回滚冲突</option><option value="snapshot-failed">快照失败</option></optgroup></select></label>
+      <label><span class="sr-only">预览主题</span><select id="themeSelect"><option value="system">跟随系统</option><option value="light">浅色</option><option value="dark">深色</option></select></label>
+      <button type="button" class="review-button" data-action="compare" aria-pressed="false">明暗对照</button>
+      <button type="button" class="review-button" data-action="guide">评审说明</button>
+    </div>
+  </header>
+  <div class="review-note"><span class="outline-label">本地模拟</span><p id="directionNote"></p><button type="button" class="sample-advance" data-action="advance-sample" id="sampleAdvance" hidden></button><a href="core-spec.md">页面与状态规格</a><a href="../product/roadmap.html">需求与进度</a></div>
+  <main id="stage" class="stage" aria-label="工作台高保真原型"></main>
+  <section id="comparison" class="comparison" aria-label="同方向明暗对照" hidden></section>
+  <dialog id="dialog" aria-labelledby="dialogTitle"></dialog>
+  <div id="toast" class="toast" role="status" hidden></div>
+  <script src="assets/review.js"></script>
+</body>
+</html>

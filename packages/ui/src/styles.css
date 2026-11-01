@@ -1,0 +1,112 @@
+@import 'tailwindcss';
+@source './components';
+@source '../../../apps/web/src';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  color-scheme: light;
+  --background: #fafaf8;
+  --foreground: #262723;
+  --card: #ffffff;
+  --card-foreground: #262723;
+  --popover: #ffffff;
+  --popover-foreground: #262723;
+  --primary: #262723;
+  --primary-foreground: #fafaf8;
+  --secondary: #efefec;
+  --secondary-foreground: #262723;
+  --muted: #efefec;
+  --muted-foreground: #62635c;
+  --accent: #e4e4df;
+  --accent-foreground: #262723;
+  --destructive: #a73934;
+  --border: #d7d7d1;
+  --input: #d7d7d1;
+  --ring: #6d7067;
+  --sidebar: #efefec;
+  --success: #36764d;
+  --warning: #856317;
+  --radius: 0.5rem;
+}
+.dark {
+  color-scheme: dark;
+  --background: #202020;
+  --foreground: #ededeb;
+  --card: #262626;
+  --card-foreground: #ededeb;
+  --popover: #2b2b2b;
+  --popover-foreground: #ededeb;
+  --primary: #ededeb;
+  --primary-foreground: #262626;
+  --secondary: #2b2b2b;
+  --secondary-foreground: #ededeb;
+  --muted: #262626;
+  --muted-foreground: #aaa9a5;
+  --accent: #303030;
+  --accent-foreground: #ededeb;
+  --destructive: #ed9a94;
+  --border: #3b3b3b;
+  --input: #3b3b3b;
+  --ring: #b0b0a9;
+  --sidebar: #181818;
+  --success: #86b797;
+  --warning: #c5ac71;
+}
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+@layer base {
+  * {
+    box-sizing: border-box;
+    border-color: var(--border);
+  }
+  body {
+    margin: 0;
+    background: var(--background);
+    color: var(--foreground);
+    font:
+      14px/1.6 'Segoe UI Variable',
+      'Segoe UI',
+      'Microsoft YaHei',
+      sans-serif;
+  }
+  button,
+  input,
+  textarea,
+  select {
+    font: inherit;
+  }
+  button:not(:disabled),
+  select {
+    cursor: pointer;
+  }
+  :focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 3px;
+  }
+  code,
+  pre {
+    font-family: 'Cascadia Code', Consolas, monospace;
+  }
+}

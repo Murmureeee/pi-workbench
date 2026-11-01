@@ -1,0 +1,12 @@
+{
+  "feature": "OPS-01",
+  "verifiedAt": "2026-11-01T04:05:00.399Z",
+  "command": "pnpm run ci",
+  "exitCode": 0,
+  "unitIntegrationTests": 11,
+  "e2eTests": 6,
+  "providerRequestsAdded": 0,
+  "log": "checks.log",
+  "logSha256": "62655b2803ca9f71ede0dda7662b51516dcfb89ed6ba4e2563dfe41ad52f16b4",
+  "lockSha256": "7e6619381312b64d5d13023e515d2ee0de269e12bbd84ba3489a58e0cb3a04bb"
+}

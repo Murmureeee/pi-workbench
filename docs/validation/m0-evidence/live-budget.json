@@ -1,0 +1,34 @@
+{
+  "limits": {
+    "maxRequests": 3,
+    "maxOutputTokens": 512,
+    "maxPayloadBytes": 12000
+  },
+  "records": [
+    {
+      "number": 1,
+      "at": "2026-10-31T16:20:39.774Z",
+      "payloadBytes": 453,
+      "maxOutputTokens": 128,
+      "thinking": "disabled",
+      "httpStatus": 200
+    },
+    {
+      "number": 2,
+      "at": "2026-10-31T16:20:42.543Z",
+      "payloadBytes": 1402,
+      "maxOutputTokens": 512,
+      "thinking": "disabled",
+      "httpStatus": 200
+    },
+    {
+      "number": 3,
+      "at": "2026-10-31T16:20:48.267Z",
+      "payloadBytes": 1063,
+      "maxOutputTokens": 128,
+      "thinking": "disabled"
+    }
+  ],
+  "cost": null,
+  "costNote": "No provider price configured. An aborted stream may omit billed token usage."
+}

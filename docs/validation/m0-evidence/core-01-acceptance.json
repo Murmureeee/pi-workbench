@@ -1,0 +1,88 @@
+{
+  "feature": "CORE-01",
+  "verifiedAt": "2026-10-31T17:49:29.842Z",
+  "acceptanceChecked": [
+    true,
+    true
+  ],
+  "sdk": "1.4.0",
+  "localScenarios": 9,
+  "realProvider": "dli",
+  "realModel": "deepseek-v4.1-flash",
+  "realHttpRequestsTotal": 4,
+  "extraRequestsByThisVerifier": 0,
+  "cost": null,
+  "samples": [
+    {
+      "name": "normal-restore",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/normal-restore/events.jsonl",
+      "eventCount": 15
+    },
+    {
+      "name": "error",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/error/events.jsonl",
+      "eventCount": 11
+    },
+    {
+      "name": "retry",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/retry/events.jsonl",
+      "eventCount": 24
+    },
+    {
+      "name": "queues",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/queues/events.jsonl",
+      "eventCount": 38
+    },
+    {
+      "name": "abort",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/abort/events.jsonl",
+      "eventCount": 14
+    },
+    {
+      "name": "abort-thinking",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/abort-thinking/events.jsonl",
+      "eventCount": 14
+    },
+    {
+      "name": "abort-buffered",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/abort-buffered/events.jsonl",
+      "eventCount": 16
+    },
+    {
+      "name": "thinking-stream-error",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/thinking-stream-error/events.jsonl",
+      "eventCount": 14
+    },
+    {
+      "name": "compaction",
+      "source": "real-sdk/local-http-fixture",
+      "file": "artifacts/offline-2026-10-31T17-22-49-290Z/compaction/events.jsonl",
+      "eventCount": 17
+    },
+    {
+      "name": "normal-stream-and-manual-compaction",
+      "source": "real-sdk/configured-provider",
+      "file": "artifacts/live-2026-10-31T16-20-39-674Z/normal-and-compaction.events.jsonl",
+      "eventCount": 20
+    },
+    {
+      "name": "abort-stream",
+      "source": "real-sdk/configured-provider",
+      "file": "artifacts/live-abort-2026-10-31T16-53-38-523Z/abort.events.jsonl",
+      "eventCount": 14
+    }
+  ],
+  "limitations": [
+    "Local fault injection is explicitly labelled and is not real provider behavior.",
+    "Cancelled/errored stream billing is incomplete; configured pricing is absent.",
+    "CORE-01 acceptance does not establish CORE-02, CORE-03, or the M0 release gate."
+  ]
+}

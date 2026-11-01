@@ -1,0 +1,28 @@
+{
+  "name": "@pi-workbench/web",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite --host 127.0.0.1",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@pi-workbench/shared": "workspace:*",
+    "@pi-workbench/ui": "workspace:*",
+    "@tanstack/react-query": "catalog:frontend",
+    "lucide-react": "catalog:frontend",
+    "react": "catalog:frontend",
+    "react-dom": "catalog:frontend",
+    "zustand": "catalog:frontend"
+  },
+  "devDependencies": {
+    "@pi-workbench/config": "workspace:*",
+    "@tailwindcss/vite": "catalog:dev",
+    "@types/react": "catalog:dev",
+    "@types/react-dom": "catalog:dev",
+    "@vitejs/plugin-react": "catalog:dev",
+    "vite": "catalog:dev"
+  }
+}

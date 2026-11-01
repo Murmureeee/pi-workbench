@@ -1,0 +1,281 @@
+{
+  "verifiedAt": "2026-11-01T05:58:27.454Z",
+  "movedFiles": 93,
+  "frozenFilesUnchanged": 2918,
+  "featuresUnchanged": 146,
+  "verifiedLocalFeatures": 4,
+  "newProviderRequests": 0,
+  "budgetUnchanged": true,
+  "http": [
+    {
+      "old": "/pi-workbench-product-plan.md",
+      "next": "/product/plan.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-backlog.json",
+      "next": "/product/backlog.json",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-session-design.md",
+      "next": "/product/session-design.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-roadmap.html",
+      "next": "/product/roadmap.html",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-prd.html",
+      "next": "/product/prd.html",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-feature-list.md",
+      "next": "/product/feature-list.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-architecture.html",
+      "next": "/architecture/overview.html",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-implementation-plan.md",
+      "next": "/architecture/implementation-plan.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-project-structure.md",
+      "next": "/architecture/project-structure.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/pi-workbench-design-review.html",
+      "next": "/design/review.html",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/ui-review.css",
+      "next": "/design/assets/review.css",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/ui-review.js",
+      "next": "/design/assets/review.js",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/ui-core-spec.md",
+      "next": "/design/core-spec.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/ui-design-brief.md",
+      "next": "/design/brief.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/prd-design.md",
+      "next": "/design/prd-design.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/prd-references.md",
+      "next": "/design/prd-references.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/verification.md",
+      "next": "/design/verification.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/prd-implementation-route.png",
+      "next": "/design/screenshots/prd-implementation-route.png",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/prd-mobile-v2.jpg",
+      "next": "/design/screenshots/prd-mobile-v2.jpg",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/prd-workbench-v2.jpg",
+      "next": "/design/screenshots/prd-workbench-v2.jpg",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/roadmap-implementation-decisions.png",
+      "next": "/design/screenshots/roadmap-implementation-decisions.png",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/data-lifecycle-spec.md",
+      "next": "/architecture/data-lifecycle.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/project-confirmation.md",
+      "next": "/decisions/project-confirmation.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/pi-desktop-review.md",
+      "next": "/decisions/pi-desktop-review.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/pi-desktop-spec-audit.json",
+      "next": "/decisions/pi-desktop-spec-audit.json",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/live-validation-policy.md",
+      "next": "/validation/live-validation-policy.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/live-validation-budget.json",
+      "next": "/validation/live-validation-budget.json",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/ops-01-acceptance.md",
+      "next": "/validation/ops-01-acceptance.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/planning/tooling-acceptance.md",
+      "next": "/validation/tooling-acceptance.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/docs/tooling.md",
+      "next": "/development/tooling.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "old": "/docs/ui-components.md",
+      "next": "/development/ui-components.md",
+      "status": 302,
+      "targetStatus": 200,
+      "preservesQuery": true
+    },
+    {
+      "path": "/",
+      "status": 200
+    },
+    {
+      "path": "/product/roadmap.html",
+      "status": 200
+    },
+    {
+      "path": "/product/prd.html",
+      "status": 200
+    },
+    {
+      "path": "/design/review.html",
+      "status": 200
+    },
+    {
+      "path": "/design/assets/review.js",
+      "status": 200
+    },
+    {
+      "path": "/design/assets/review.css",
+      "status": 200
+    },
+    {
+      "path": "/spikes/m0-acceptance.md",
+      "status": 200
+    },
+    {
+      "path": "/package.json",
+      "status": 404
+    },
+    {
+      "path": "/.oxlintrc.json",
+      "status": 404
+    },
+    {
+      "path": "/apps/web/package.json",
+      "status": 404
+    },
+    {
+      "path": "/spikes/core-01/node_modules/typescript/package.json",
+      "status": 404
+    },
+    {
+      "path": "/..%2Fpackage.json",
+      "status": 404
+    },
+    {
+      "path": "/%ZZ",
+      "status": 400
+    }
+  ],
+  "headAndMethodChecks": true
+}

@@ -1,0 +1,54 @@
+{
+  "name": "pi-workbench",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build",
+    "build:packages": "pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build",
+    "build:server": "pnpm build:packages && pnpm --filter @pi-workbench/daemon build",
+    "check": "pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check",
+    "ci": "pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e",
+    "dev": "pnpm build:server && node scripts/dev.mjs",
+    "dev:desktop": "pnpm build && node scripts/dev.mjs --desktop",
+    "docs:build": "node scripts/planning/build-roadmap.mjs && node scripts/planning/build-prd.mjs",
+    "docs:check": "node scripts/planning/verify-roadmap.mjs && node scripts/docs/verify.mjs",
+    "docs:dev": "node scripts/docs/preview.mjs",
+    "fix": "pnpm lint:fix && pnpm format",
+    "format": "oxfmt --write .",
+    "format:check": "oxfmt --check .",
+    "knip": "knip",
+    "lint": "pnpm build:server && oxlint .",
+    "lint:fix": "pnpm build:server && oxlint --fix .",
+    "planning:build": "pnpm docs:build && pnpm docs:check",
+    "smoke:sdk": "pnpm --filter @pi-workbench/agent-adapter smoke",
+    "start": "node apps/daemon/dist/bootstrap/main.js",
+    "test": "pnpm build:server && vitest run",
+    "test:contracts": "pnpm build:server && vitest run packages/shared/src/reducer.test.ts packages/shared/src/runtime-contracts.test.ts packages/agent-adapter/src/contracts.test.ts packages/agent-adapter/src/kernel.test.ts packages/agent-adapter/src/native-history.test.ts apps/daemon/test/kernels.test.ts apps/daemon/test/events.test.ts apps/daemon/test/sessions.test.ts",
+    "test:e2e": "pnpm build && playwright test",
+    "typecheck": "pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json",
+    "verify:clean": "pnpm build:packages && node scripts/verify-clean.mjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "catalog:dev",
+    "@types/node": "catalog:dev",
+    "knip": "catalog:dev",
+    "oxfmt": "catalog:dev",
+    "oxlint": "catalog:dev",
+    "oxlint-tsgolint": "catalog:dev",
+    "typescript": "catalog:dev",
+    "vite": "catalog:dev",
+    "vitest": "catalog:dev"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "24.22.2",
+      "onFail": "download"
+    }
+  },
+  "engines": {
+    "node": ">=24.22.2 <25"
+  },
+  "packageManager": "pnpm@12.16.1"
+}

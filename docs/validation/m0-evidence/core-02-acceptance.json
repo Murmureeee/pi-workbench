@@ -1,0 +1,26 @@
+{
+  "feature": "CORE-02",
+  "verifiedAt": "2026-10-31T17:49:29.850Z",
+  "sdk": "1.4.0",
+  "prerequisite": "CORE-01 verified",
+  "scenarios": 28,
+  "acceptanceChecked": [
+    true,
+    true
+  ],
+  "evidenceDirectory": "D:\\Project\\pi-workbench\\spikes\\core-02\\artifacts\\offline-2026-10-31T17-28-38-496Z",
+  "approvedExecutionsChecked": 13,
+  "externalModelRequests": 0,
+  "sourceConfigurationUnchanged": true,
+  "findings": [
+    "SDK tool_execution_start precedes tool_call; it is preparation, not proof of side effects.",
+    "An early tool_call approval alone can be invalidated by later argument mutation.",
+    "The tested host execution guard checks the final immutable snapshot and reuses that exact snapshot for execution."
+  ],
+  "limitations": [
+    "This is the M0 spike, not the production permission service or UI.",
+    "The guard requires all active built-in/custom/MCP definitions to pass through host wrapping.",
+    "Arbitrary extension filesystem/process code outside the tool pipeline requires the later OS sandbox.",
+    "Model responses and approval decisions are synthetic local fixtures; SDK, file/command effects, MCP and IPC are real."
+  ]
+}

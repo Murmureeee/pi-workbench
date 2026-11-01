@@ -1,0 +1,37 @@
+{
+  "name": "@pi-workbench/ui",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./components/*": {
+      "types": "./dist/components/*.d.ts",
+      "default": "./dist/components/*.js"
+    },
+    "./lib/*": {
+      "types": "./dist/lib/*.d.ts",
+      "default": "./dist/lib/*.js"
+    },
+    "./styles.css": "./src/styles.css"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
+  },
+  "dependencies": {
+    "@base-ui/react": "catalog:frontend",
+    "@shadcn/react": "catalog:frontend",
+    "class-variance-authority": "catalog:frontend",
+    "clsx": "catalog:frontend",
+    "lucide-react": "catalog:frontend",
+    "react": "catalog:frontend",
+    "react-dom": "catalog:frontend",
+    "tailwind-merge": "catalog:frontend"
+  },
+  "devDependencies": {
+    "@pi-workbench/config": "workspace:*",
+    "@types/react": "catalog:dev",
+    "@types/react-dom": "catalog:dev",
+    "tailwindcss": "catalog:dev"
+  }
+}

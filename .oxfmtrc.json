@@ -1,0 +1,63 @@
+{
+  "$schema": "./node_modules/oxfmt/configuration_schema.json",
+  "printWidth": 100,
+  "tabWidth": 2,
+  "useTabs": false,
+  "semi": false,
+  "singleQuote": true,
+  "jsxSingleQuote": false,
+  "quoteProps": "as-needed",
+  "trailingComma": "all",
+  "arrowParens": "always",
+  "bracketSpacing": true,
+  "bracketSameLine": false,
+  "singleAttributePerLine": false,
+  "endOfLine": "lf",
+  "insertFinalNewline": true,
+  "proseWrap": "preserve",
+  "htmlWhitespaceSensitivity": "css",
+  "embeddedLanguageFormatting": "auto",
+  "sortImports": {
+    "order": "asc",
+    "ignoreCase": true,
+    "newlinesBetween": true,
+    "internalPattern": ["@pi-workbench/"],
+    "groups": [
+      "type-import",
+      "value-builtin",
+      "value-external",
+      "value-internal",
+      ["value-parent", "value-sibling", "value-index"],
+      "unknown"
+    ],
+    "sortSideEffects": false,
+    "partitionByComment": true,
+    "partitionByNewline": false
+  },
+  "sortPackageJson": { "sortScripts": true },
+  "sortTailwindcss": {
+    "stylesheet": "./packages/ui/src/styles.css",
+    "functions": ["cn", "clsx", "cva"],
+    "preserveWhitespace": false,
+    "preserveDuplicates": false
+  },
+  "ignorePatterns": [
+    "**/node_modules/**",
+    "**/dist/**",
+    "**/migrations/**",
+    ".workbench/**",
+    ".tools/**",
+    "coverage/**",
+    "test-results/**",
+    "playwright-report/**",
+    "pnpm-lock.yaml",
+    "scripts/planning/**",
+    "docs/product/**",
+    "docs/design/**",
+    "docs/architecture/**",
+    "docs/decisions/**",
+    "docs/validation/**",
+    "spikes/**",
+    "AGENTS.md"
+  ]
+}

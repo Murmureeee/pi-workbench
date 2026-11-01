@@ -1,0 +1,43 @@
+{
+  "feature": "OPS-01",
+  "verifiedAt": "2026-11-01T03:59:15.266Z",
+  "node": "v24.22.2",
+  "destination": "D:\\Project\\.piw-clean-PSAguz",
+  "commands": [
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm typecheck",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm smoke:sdk",
+      "exitCode": 0
+    }
+  ],
+  "lockSha256": "7e6619381312b64d5d13023e515d2ee0de269e12bbd84ba3489a58e0cb3a04bb",
+  "cleanLockSha256": "7e6619381312b64d5d13023e515d2ee0de269e12bbd84ba3489a58e0cb3a04bb",
+  "health": {
+    "status": "ok",
+    "kernel": "fake",
+    "protocolVersion": 1,
+    "node": "v24.22.2",
+    "storage": "sqlite",
+    "realProviderEnabled": false
+  },
+  "uiStatus": 200,
+  "uiModuleStatus": 200,
+  "gracefulShutdown": true,
+  "serverOutput": "Pi Workbench http://127.0.0.1:5173; offline fake kernel; no model calls\n",
+  "providerRequests": 0
+}

@@ -1,0 +1,67 @@
+{
+  "feature": "OPS-01",
+  "verifiedAt": "2026-11-01T04:19:45.458Z",
+  "node": "v24.22.2",
+  "versions": {
+    "oxlint": "1.90.0",
+    "oxfmt": "0.75.0",
+    "oxlint-tsgolint": "7.0.2005"
+  },
+  "diagnostics": [
+    {
+      "filename": "packages/shared/src/tooling-probe.ts",
+      "code": "eslint(no-restricted-imports)",
+      "message": "'node:path' import is restricted from being used by a pattern."
+    },
+    {
+      "filename": "packages/shared/src/tooling-probe.ts",
+      "code": "typescript(no-explicit-any)",
+      "message": "Unexpected `any`. Specify a different type."
+    },
+    {
+      "filename": "apps/web/src/tooling-probe.tsx",
+      "code": "react-hooks(rules-of-hooks)",
+      "message": "React Hook \"useState\" is called conditionally. React Hooks must be called in the exact same order in every component render."
+    },
+    {
+      "filename": "apps/web/src/tooling-probe.tsx",
+      "code": "jsx-a11y(alt-text)",
+      "message": "Missing `alt` attribute."
+    },
+    {
+      "filename": "packages/shared/src/tooling-probe.ts",
+      "code": "typescript(no-floating-promises)",
+      "message": "Promises must be awaited, add void operator to ignore."
+    },
+    {
+      "filename": "packages/shared/src/tooling-probe.ts",
+      "code": "typescript(no-unsafe-return)",
+      "message": "Unsafe return of a value of type error."
+    },
+    {
+      "filename": "packages/shared/src/tooling-probe.ts",
+      "code": "typescript(no-unsafe-call)",
+      "message": "Unsafe call of a(n) `error` type typed value."
+    },
+    {
+      "filename": "packages/shared/src/tooling-probe.ts",
+      "code": "typescript(no-unsafe-member-access)",
+      "message": "Unsafe member access .path on an `any` value."
+    }
+  ],
+  "formatting": [
+    {
+      "path": "apps/web/src/tooling-probe.tsx",
+      "input": "import './z-init.js'\nimport './a-init.js'\nimport { useState, useEffect } from 'react'\nimport { join, basename } from 'node:path'\nimport { sceneSchema } from '@pi-workbench/shared'\nimport type { Scene } from '@pi-workbench/shared'\nimport { zebra, alpha } from './local.js'\nexport const sample = <div className=\"text-sm p-4 flex p-4\" />\nexport const classes = cn('text-sm p-4 flex p-4')\nexport const variants = cva('text-sm p-4 flex p-4')\nexport const combined = clsx('text-sm p-4 flex p-4')\n",
+      "output": "import './z-init.js'\nimport './a-init.js'\nimport type { Scene } from '@pi-workbench/shared'\n\nimport { join, basename } from 'node:path'\n\nimport { useState, useEffect } from 'react'\n\nimport { sceneSchema } from '@pi-workbench/shared'\n\nimport { zebra, alpha } from './local.js'\nexport const sample = <div className=\"flex p-4 text-sm\" />\nexport const classes = cn('flex p-4 text-sm')\nexport const variants = cva('flex p-4 text-sm')\nexport const combined = clsx('flex p-4 text-sm')\n"
+    },
+    {
+      "path": "package.json",
+      "input": "{\"scripts\":{\"test\":\"vitest\",\"build\":\"tsc\",\"dev\":\"vite\"},\"devDependencies\":{\"zebra\":\"1.0.0\",\"alpha\":\"1.0.0\"},\"private\":true,\"version\":\"1.0.0\",\"name\":\"probe\"}",
+      "output": "{\n  \"name\": \"probe\",\n  \"version\": \"1.0.0\",\n  \"private\": true,\n  \"scripts\": {\n    \"build\": \"tsc\",\n    \"dev\": \"vite\",\n    \"test\": \"vitest\"\n  },\n  \"devDependencies\": {\n    \"alpha\": \"1.0.0\",\n    \"zebra\": \"1.0.0\"\n  }\n}\n"
+    }
+  ],
+  "namedImportSorting": "import { z, ZodError } from 'zod'\nexport const sorted = [ZodError, z]\n",
+  "probesRemoved": true,
+  "providerRequests": 0
+}

@@ -1,0 +1,32 @@
+$ pnpm build:packages && node scripts/verify-clean.mjs
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+node:fs:1937
+  binding.symlink(
+          ^
+
+Error: EPERM: operation not permitted, symlink 'D:\Project\pi-workbench\spikes\core-03\artifacts\offline-2026-10-31T17-46-28-693Z\canonical-junction-alias-lock\workspace' -> 'D:\Project\.piw-clean-JLGUdU\spikes\core-03\artifacts\offline-2026-10-31T17-46-28-693Z\canonical-junction-alias-lock\workspace-alias'
+    at symlinkSync (node:fs:1937:11)
+    at onLink (node:internal/fs/cp/cp-sync:209:12)
+    at getStats (node:internal/fs/cp/cp-sync:74:12)
+    at copyDir (node:internal/fs/cp/cp-sync:185:9)
+    at onDir (node:internal/fs/cp/cp-sync:136:25)
+    at getStats (node:internal/fs/cp/cp-sync:68:12)
+    at copyDir (node:internal/fs/cp/cp-sync:185:9)
+    at onDir (node:internal/fs/cp/cp-sync:136:25)
+    at getStats (node:internal/fs/cp/cp-sync:68:12)
+    at copyDir (node:internal/fs/cp/cp-sync:185:9) {
+  errno: -4048,
+  code: 'EPERM',
+  syscall: 'symlink',
+  path: 'D:\\Project\\pi-workbench\\spikes\\core-03\\artifacts\\offline-2026-10-31T17-46-28-693Z\\canonical-junction-alias-lock\\workspace',
+  dest: 'D:\\Project\\.piw-clean-JLGUdU\\spikes\\core-03\\artifacts\\offline-2026-10-31T17-46-28-693Z\\canonical-junction-alias-lock\\workspace-alias'
+}
+
+Node.js v24.22.2
+[ELIFECYCLE] Command failed with exit code 1.

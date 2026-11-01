@@ -1,0 +1,148 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 346ms on 120 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+apps/desktop typecheck: Done
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/web typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/daemon typecheck: Done
+$ knip
+$ node scripts/planning/verify-roadmap.mjs && node scripts/docs/verify.mjs
+PASS current backlog definitions, dependencies and progress are valid
+PASS design coverage does not count as implementation
+PASS cannot mark done without acceptance or evidence
+PASS unmet prerequisites prevent false completion
+PASS batch import checks the whole resulting graph, regardless of row order
+PASS failed import is atomic and cannot corrupt existing definitions
+PASS unknown IDs and changed acceptance definitions are rejected
+PASS blocked status requires a cause and invalid dates are rejected
+PASS cycles and dependencies in later stages are detected
+PASS downgrading a prerequisite cannot leave dependent completion valid
+PASS generated HTML embeds exactly the canonical scope and compiles
+PASS generated Markdown includes every stable feature and acceptance criterion
+Verified 12 checks. Product progress unchanged.
+PASS documentation structure: 28 documents, 556 local links, legacy redirects and PRD data
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+
+ Test Files  10 passed (10)
+      Tests  106 passed (106)
+   Start at  17:47:53
+   Duration  21.27s (tests 88%, import 11%, transform 1%)
+
+$ pnpm --filter @pi-workbench/agent-adapter smoke
+$ node dist/smoke.js
+{"feature":"CORE-04","source":"real-sdk/local-fixture","sdk":"1.4.0","node":"v24.22.2","pid":29388,"guard":"deny-all","reply":"completed","abort":"aborted","disposed":true,"localRequests":2,"providerRequests":0,"blockedNetworkAttempts":0}
+$ pnpm build && playwright test
+$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2343 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.45 kB │ gzip:   0.29 kB
+dist/assets/index-Cv4PIfNJ.css   56.66 kB │ gzip:  10.04 kB
+dist/assets/index-uY6ATCvn.js   457.80 kB │ gzip: 139.11 kB
+
+✓ built in 187ms
+$ tsc -p tsconfig.json
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:38756) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 19 tests using 1 worker
+
+(node:35500) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\contracts.spec.ts:9:1 › OPS-08 offline fixture: duplicate deltas preserve Unicode and output beyond 64 KiB (710ms)
+  ok  2 e2e\contracts.spec.ts:27:1 › OPS-08 offline fixture: a sequence gap pauses input and explicit resync restores content (611ms)
+  ok  3 e2e\contracts.spec.ts:61:1 › OPS-08 offline fixture: a delayed response cannot replace the selected view or its draft (544ms)
+  ok  4 e2e\contracts.spec.ts:92:1 › OPS-08 offline fixture: unknown payload fails validation without changing the draft (551ms)
+[WebServer] 17:48:32 [vite] (client) [console.error] Error: OPS-08 synthetic renderer fault
+[WebServer]     at Conversation (http://127.0.0.1:5173/src/features/conversation/conversation.tsx:1:40)
+[WebServer]     at Object.react_stack_bottom_frame (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:14140:12)
+[WebServer]     at renderWithHooks (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:4398:19)
+[WebServer]     at updateFunctionComponent (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:5773:16)
+[WebServer]     at beginWork (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:6389:20)
+[WebServer]     at runWithFiberInDEV (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:942:66)
+[WebServer]     at performUnitOfWork (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:9146:92)
+[WebServer]     at workLoopSync (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:9042:37)
+[WebServer]     at renderRootSync (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:9026:6)
+[WebServer]     at performWorkOnRoot (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=55082115:8713:27)
+[WebServer] 
+[WebServer] The above error occurred in the <Conversation> component.
+[WebServer] 
+[WebServer] React will try to recreate this component tree from scratch using the error boundary you provided, ConversationBoundary.
+[WebServer] 
+  ok  5 e2e\contracts.spec.ts:123:1 › OPS-08 synthetic renderer fault: actual boundary keeps composer usable and returns to new view (625ms)
+  ok  6 e2e\contracts.spec.ts:154:1 › OPS-08 offline fixture: an unknown command is shown as literal text and causes no execution requests (578ms)
+  ok  7 e2e\desktop.spec.ts:6:1 › Electron isolates the renderer and close hides the window until explicit quit (645ms)
+  ok  8 e2e\history.spec.ts:40:1 › CORE-06 real local SDK: restart reads exact native history and expands full Unicode content without writes (2.2s)
+  ok  9 e2e\history.spec.ts:81:1 › CORE-06 actual hard crash: partial text stays interrupted, records cannot execute and corrupt native bytes download intact (4.7s)
+  ok 10 e2e\history.spec.ts:154:1 › CORE-06 synthetic file fixture: newest 100 messages and earlier page have stable nonduplicated identities (736ms)
+  ok 11 e2e\runtime.spec.ts:45:1 › CORE-05 real local SDK: two browser clients reconnect to the same complete messages and tools (2.4s)
+  ok 12 e2e\runtime.spec.ts:111:1 › CORE-05 synthetic observations: buffer exhaustion and live gap resync complete Unicode content; automatic reconnect retains cursor (2.5s)
+  ok 13 e2e\runtime.spec.ts:183:1 › CORE-05 incompatible version/capabilities blocks observation changes and keeps existing content (801ms)
+  ok 14 e2e\runtime.spec.ts:220:1 › CORE-05 synthetic observations: a late snapshot cannot replace a newer request or runtime generation (785ms)
+  ok 15 e2e\workbench.spec.ts:10:1 › first send respects composition and Shift Enter; all traffic stays local (581ms)
+  ok 16 e2e\workbench.spec.ts:38:1 › approval refusal and stop have distinct states; drafts survive switching (751ms)
+  ok 17 e2e\workbench.spec.ts:60:1 › review opens a wide panel and closing restores conversation width (683ms)
+  ok 18 e2e\workbench.spec.ts:78:1 › settling, error, and lost service are visible without losing drafts (5.5s)
+  ok 19 e2e\workbench.spec.ts:99:1 › system, light and dark themes render at 1080p and 390px without overflow (858ms)
+
+  19 passed (35.4s)

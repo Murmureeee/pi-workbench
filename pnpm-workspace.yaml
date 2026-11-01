@@ -1,0 +1,62 @@
+packages:
+  - apps/*
+  - packages/*
+
+catalogs:
+  dev:
+    typescript: 6.0.3
+    '@types/node': 24.19.2
+    '@types/react': 19.3.0
+    '@types/react-dom': 19.3.0
+    '@types/better-sqlite3': 9.6.0
+    '@types/ws': 8.18.2
+    ws: 8.22.1
+    vite: 8.3.5
+    '@vitejs/plugin-react': 6.1.2
+    '@tailwindcss/vite': 4.3.3
+    tailwindcss: 4.3.3
+    vitest: 5.0.5
+    '@playwright/test': 1.64.1
+    oxlint: 1.90.0
+    oxfmt: 0.75.0
+    oxlint-tsgolint: 7.0.2005
+    knip: 6.44.1
+    electron: 45.2.1
+    drizzle-kit: 0.31.11
+  prod:
+    '@fastify/websocket': 11.2.0
+    fastify: 5.12.7
+    '@nestjs/common': 12.3.2
+    '@nestjs/core': 12.3.2
+    '@nestjs/platform-fastify': 12.3.2
+    better-sqlite3: 13.0.3
+    drizzle-orm: 0.45.4
+    zod: 4.6.7
+    reflect-metadata: 0.2.2
+    rxjs: 7.8.2
+    '@earendil-works/pi-coding-agent': 1.4.0
+  frontend:
+    '@base-ui/react': 1.9.0
+    '@shadcn/react': 0.3.1
+    react: 19.3.1
+    react-dom: 19.3.1
+    zustand: 5.0.16
+    '@tanstack/react-query': 5.105.0
+    clsx: 2.1.1
+    tailwind-merge: 3.7.0
+    class-variance-authority: 0.7.1
+    lucide-react: 1.66.0
+
+saveExact: true
+strictPeerDependencies: true
+pmOnFail: download
+allowBuilds:
+  better-sqlite3: true
+  electron: true
+  esbuild: true
+  '@google/genai': false
+  protobufjs: false
+minimumReleaseAgeExclude:
+  - knip@6.44.1
+  - lucide-react@1.66.0
+  - ws@8.22.1

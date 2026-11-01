@@ -1,0 +1,9 @@
+{
+  "extends": "./packages/config/tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["node"],
+    "lib": ["ES2023", "DOM", "DOM.Iterable"]
+  },
+  "include": ["e2e/**/*.ts", "packages/**/*.test.ts", "apps/daemon/test/**/*.ts", "*.config.ts"]
+}

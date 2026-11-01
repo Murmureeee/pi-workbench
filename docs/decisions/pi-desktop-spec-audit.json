@@ -1,0 +1,203 @@
+{
+  "purpose": "参考规格抽查记录，不是功能或测试通过证据",
+  "index": "https://pi-docs.aiuo.net/zh-CN/spec/README",
+  "date": "2026-11-01",
+  "repository": "https://github.com/vastsa/PI-Desktop",
+  "commit": "a21527e5c9ca272bb5e6714038c2d22a61fef68e",
+  "method": "在线索引及 23 页正文抓取；架构 / 技术栈重点读取，其余长文定向抽查，并与固定提交 ADR / 源码交叉核对。未安装、运行或测试参考应用。",
+  "retrievedAt": "2026-10-31T18:54:38.365Z",
+  "pages": [
+    {
+      "route": "00-baseline",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/00-baseline",
+      "status": 200,
+      "chars": 6535,
+      "sha256": "87f6f6f3dd43a8d0692abd16948465374bc6ad98370bca1bc1f568b3fa13195a",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "01-product/01-product-scope",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/01-product/01-product-scope",
+      "status": 200,
+      "chars": 2755,
+      "sha256": "1505e6b7a61d429c6ba58e5138de7bd5526e4dfe4eeb71d03defc73ee561bc0e",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "01-product/02-non-goals",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/01-product/02-non-goals",
+      "status": 200,
+      "chars": 683,
+      "sha256": "88bc1d63f6f82c3a20f307a3231e1dc243cbb4fc9fb2adf3beae4d1fd2116040",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "02-architecture/01-architecture",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/02-architecture/01-architecture",
+      "status": 200,
+      "chars": 4885,
+      "sha256": "25a8a8e418684ee898376b8ac5699ba782555122814964f8b40a408a2aca4e16",
+      "review": "重点读取"
+    },
+    {
+      "route": "02-architecture/02-tech-stack",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/02-architecture/02-tech-stack",
+      "status": 200,
+      "chars": 2098,
+      "sha256": "a0b73bf6d45c50d6fca725f53c9f4956ce0c196e44b6a0d26553a1b9e9cdba68",
+      "review": "重点读取"
+    },
+    {
+      "route": "03-runtime/01-ipc-protocol",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/03-runtime/01-ipc-protocol",
+      "status": 200,
+      "chars": 57482,
+      "sha256": "484b33072ab34f28c166dcc983764f05e120b7e87409bd9cba96c99c43611588",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "03-runtime/02-agent-runtime",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/03-runtime/02-agent-runtime",
+      "status": 200,
+      "chars": 34683,
+      "sha256": "907e8402a03b874e8daea8d295d3699b986208c4093ad0329696e06716c0a221",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "03-runtime/03-tools-and-permissions",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/03-runtime/03-tools-and-permissions",
+      "status": 200,
+      "chars": 14272,
+      "sha256": "cdea5f9fe0a9aff36b8a07cce15e3664b92f35a9641a0c2d10be944f31fce813",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "03-runtime/04-data-storage",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/03-runtime/04-data-storage",
+      "status": 200,
+      "chars": 48227,
+      "sha256": "b284b6798e94837920c48ca325c414a82d2c8f1d00306f020e6763ff8ba0e6d0",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "03-runtime/07-process-model",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/03-runtime/07-process-model",
+      "status": 200,
+      "chars": 8729,
+      "sha256": "5532dde61c70ce41289f3b683c01016cc8309422fe1b3c4ff9214a481687a623",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "03-runtime/10-session-state-machine",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/03-runtime/10-session-state-machine",
+      "status": 200,
+      "chars": 5529,
+      "sha256": "3e8b7d5ef797f7da5cbaad808cbec9d52d68a3ef02de72ca0ff5546d5bc8658f",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "03-runtime/16-tool-result-limits",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/03-runtime/16-tool-result-limits",
+      "status": 200,
+      "chars": 6164,
+      "sha256": "4da1a9a2661961c8c5afd9199e3f59ba9a0ead7fb635bbf5a21477639232820a",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "04-ux/01-ui-ia",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/04-ux/01-ui-ia",
+      "status": 200,
+      "chars": 11164,
+      "sha256": "8c5a108995e6eb4f9985520176bdf008e14f588e16558563980c8e7da99976c9",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "04-ux/03-permission-ux",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/04-ux/03-permission-ux",
+      "status": 200,
+      "chars": 4159,
+      "sha256": "b6c1cf5d8ec70036b2141f1c10020f84efd6186831de52f08d6bb6d73ee2e361",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "04-ux/07-ui-design-system",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/04-ux/07-ui-design-system",
+      "status": 200,
+      "chars": 35466,
+      "sha256": "172336544604c419d1437a13791a2b44a673f5b24a7b6cf9c3eb4e2911b6a514",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "04-ux/08-component-spec",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/04-ux/08-component-spec",
+      "status": 200,
+      "chars": 81129,
+      "sha256": "5489f5d7199320b78f071dfda88c5b55bebbf6f40d97fbf979a95cc1f2e1907f",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "04-ux/09-interaction-patterns",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/04-ux/09-interaction-patterns",
+      "status": 200,
+      "chars": 31973,
+      "sha256": "3fa00b71829d11bd17e2329d49e7bd7abc56bef4fcffcd23e40280bd76cf95fc",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "05-security/01-security",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/05-security/01-security",
+      "status": 200,
+      "chars": 7783,
+      "sha256": "b05bd590be88c25cdf35d465b309448467f418806aceff8a1a20b6029768ddde",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "06-delivery/02-acceptance-criteria",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/06-delivery/02-acceptance-criteria",
+      "status": 200,
+      "chars": 5142,
+      "sha256": "323e22e3960b6cb76f805cf400e2407a2df2ecd9575720f54628b96ee03bc55f",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "06-delivery/04-e2e-test-plan",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/06-delivery/04-e2e-test-plan",
+      "status": 200,
+      "chars": 326318,
+      "sha256": "804b9ba7dea6fd9f2c2460cb82f9bc6df18bbae937c5efe926e961df20cf04e0",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "07-plugins/01-plugin-system",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/07-plugins/01-plugin-system",
+      "status": 200,
+      "chars": 12528,
+      "sha256": "8d12427f1b9bf59155bd33892c98b47dc5aee82ccff57f57c39e56f5a9d5d593",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "07-plugins/04-plugin-security",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/07-plugins/04-plugin-security",
+      "status": 200,
+      "chars": 10784,
+      "sha256": "1a8bf487b485cdbe325c9812c03e50a9e70c461af373b92395e26b58f4706521",
+      "review": "定向抽查，非逐条验收"
+    },
+    {
+      "route": "08-meta/open-questions",
+      "url": "https://pi-docs.aiuo.net/zh-CN/spec/08-meta/open-questions",
+      "status": 200,
+      "chars": 1165,
+      "sha256": "7b47373c5deca6f873875775bf79237c35abff90ac64c79033de9e0a5e6a6df1",
+      "review": "定向抽查，非逐条验收"
+    }
+  ],
+  "amendments": [
+    "ADR 0113 supersedes 0084: explicit new creates / reuses empty session; our D15 remains first-send",
+    "ADR 0310: local permission no deadline, supersedes baseline 120s",
+    "ADR 0323 supersedes 0186: deterministic title in core; optional model plugin",
+    "ADR 0108 removes PTY; our EXEC scope retained",
+    "ADR 0254: native pi canonical history with lease / fingerprint checks",
+    "ADR 0153: inflight checkpoints and settlement races"
+  ]
+}
