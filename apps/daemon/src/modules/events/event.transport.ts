@@ -1,3 +1,4 @@
+import type { AccessService } from '../security/access.service.js'
 import type { EventService } from './event.service.js'
 import type { RuntimeFrame } from '@pi-workbench/shared'
 import type { FastifyInstance } from 'fastify'
@@ -7,10 +8,14 @@ import websocket from '@fastify/websocket'
 import { runtimeSubscribeSchema } from '@pi-workbench/shared'
 
 /** Registers read-only REST/WS on the existing Fastify adapter, under its Host/Origin hook.
- * No cookies/commands/pairing are claimed here (SEC-08). Upgrade requires an explicit allowed
+ * SEC-08 authenticates the upgrade and revokes live observers. Upgrade requires an explicit allowed
  * Origin; bounded subscribe time, inbound frames and outbound backlog protect the local service.
  */
-export async function registerEventTransport(server: FastifyInstance, events: EventService) {
+export async function registerEventTransport(
+  server: FastifyInstance,
+  events: EventService,
+  access: AccessService,
+) {
   await server.register(websocket, { options: { maxPayload: 16384 } })
   server.get('/api/protocol', (_request, reply) =>
     reply.header('cache-control', 'no-store').send(events.hello()),
@@ -18,7 +23,7 @@ export async function registerEventTransport(server: FastifyInstance, events: Ev
   server.get<{ Params: { sessionId: string } }>(
     '/api/sessions/:sessionId/snapshot',
     (request, reply) => {
-      const snapshot = events.snapshot(request.params.sessionId)
+      const snapshot = events.visibleSnapshot(request.params.sessionId)
       return reply
         .header('cache-control', 'no-store')
         .code(snapshot ? 200 : 404)
@@ -35,7 +40,14 @@ export async function registerEventTransport(server: FastifyInstance, events: Ev
         }
       },
     },
-    (socket) => {
+    (socket, request) => {
+      const authorization = access.observe(request.headers.cookie, () =>
+        socket.close(1008, 'Client authorization ended'),
+      )
+      if (!authorization) {
+        socket.close(1008, 'Client authorization ended')
+        return
+      }
       let unsubscribe: (() => void) | undefined
       const send = (frame: RuntimeFrame) => {
         if (socket.readyState !== socket.OPEN) {
@@ -81,12 +93,13 @@ export async function registerEventTransport(server: FastifyInstance, events: Ev
             return
           }
           clearTimeout(timer)
-          unsubscribe = events.subscribe(parsed.data, send)
+          unsubscribe = events.subscribe(parsed.data, send, true)
         } catch {
           socket.close(1008, 'Invalid subscription')
         }
       })
       const clean = () => {
+        authorization()
         clearTimeout(timer)
         clearInterval(heartbeat)
         unsubscribe?.()

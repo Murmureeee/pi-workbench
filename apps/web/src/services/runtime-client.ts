@@ -153,7 +153,13 @@ export class RuntimeClient {
           this.incompatible()
         }
       })
-      socket.addEventListener('close', () => {
+      socket.addEventListener('close', (event) => {
+        if (current() && event.code === 1008 && event.reason === 'Client authorization ended') {
+          this.paused = true
+          this.update('disconnected', '客户端授权已失效，请重新配对；后台任务继续')
+          window.dispatchEvent(new Event('piw-auth-required'))
+          return
+        }
         if (current()) {
           this.retry()
         }

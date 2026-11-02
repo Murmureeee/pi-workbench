@@ -8,6 +8,7 @@ import { describe, expect, it } from 'vitest'
 
 import { createApp } from '../dist/bootstrap/app.js'
 import { KernelService } from '../dist/modules/kernels/kernel.service.js'
+import { authorizedHeaders } from './helpers/access.js'
 
 describe('CORE-04 daemon authority and process ownership', () => {
   it('shares a single generation across callers and HTTP observers, then explicitly recreates it', async () => {
@@ -27,12 +28,13 @@ describe('CORE-04 daemon authority and process ownership', () => {
       expect(desktopKernel).toBe(browserKernel)
       expect(service.list()).toHaveLength(1)
       await expect(service.open(sessionId, otherCwd)).rejects.toThrow('cwd cannot change')
-      const server = app.getHttpAdapter().getInstance()
+      const server = app.getHttpAdapter().getInstance(),
+        headers = await authorizedHeaders(app, 4317)
       const observe = (origin: string) =>
         server.inject({
           method: 'GET',
           url: '/api/kernels',
-          headers: { host: '127.0.0.1:4317', origin },
+          headers: { ...headers, origin },
         })
       const desktop = await observe('http://127.0.0.1:5173')
       const browser = await observe('http://127.0.0.1:4317')
@@ -45,7 +47,10 @@ describe('CORE-04 daemon authority and process ownership', () => {
       })
       // Closing an observer is only the completion of this GET; the process still works.
       expect(
-        await browserKernel.prompt({ turnId: randomUUID(), text: 'shared daemon fixture' }),
+        await service.prompt(sessionId, cwd, {
+          turnId: randomUUID(),
+          text: 'shared daemon fixture',
+        }),
       ).toMatchObject({ outcome: 'completed' })
       expect((await observe('http://127.0.0.1:5173')).json()).toEqual(
         (await observe('http://127.0.0.1:4317')).json(),
@@ -58,7 +63,7 @@ describe('CORE-04 daemon authority and process ownership', () => {
             headers: { host: '127.0.0.1:4317' },
           })
         ).statusCode,
-      ).toBe(404)
+      ).toBe(403)
       const old = desktopKernel.snapshot
       await service.destroy(sessionId)
       expect(service.list()).toHaveLength(0)
@@ -69,7 +74,7 @@ describe('CORE-04 daemon authority and process ownership', () => {
       }).toThrow(/ESRCH/)
       const recreated = await service.open(sessionId, cwd)
       expect(recreated.snapshot.epoch).not.toBe(old.epoch)
-      expect(recreated.snapshot.sessionFile).not.toBe(old.sessionFile)
+      expect(recreated.snapshot.sessionFile).toBe(old.sessionFile)
       expect(recreated.snapshot.state).toBe('ready')
     } finally {
       await app.close()
@@ -93,7 +98,11 @@ describe('CORE-04 daemon authority and process ownership', () => {
           }
         })
       })
-      const run = first.prompt({ turnId: randomUUID(), text: 'shutdown fixture', fixture: 'hold' })
+      const run = service.prompt(first.snapshot.sessionId, directory, {
+        turnId: randomUUID(),
+        text: 'shutdown fixture',
+        fixture: 'hold',
+      })
       await delta
       await app.close()
       expect(await run).toMatchObject({ outcome: 'aborted' })

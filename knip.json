@@ -1,5 +1,6 @@
 {
   "$schema": "https://unpkg.com/knip@6/schema.json",
+  "ignoreBinaries": ["icacls"],
   "workspaces": {
     ".": {
       "entry": ["scripts/*.mjs", "scripts/docs/*.mjs"],
@@ -14,7 +15,8 @@
       "project": ["src/**/*.{ts,tsx,css}"]
     },
     "apps/desktop": {
-      "project": ["src/**/*.ts"]
+      "entry": ["src/preload.cts"],
+      "project": ["src/**/*.ts", "src/**/*.cts"]
     },
     "packages/shared": {
       "project": ["src/**/*.ts"]

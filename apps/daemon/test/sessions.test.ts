@@ -22,6 +22,7 @@ import { WorkspaceDatabase } from '../dist/infrastructure/database/database.js'
 import { EventService } from '../dist/modules/events/event.service.js'
 import { KernelService } from '../dist/modules/kernels/kernel.service.js'
 import { SessionStore } from '../dist/modules/sessions/session.store.js'
+import { authorizedHeaders } from './helpers/access.js'
 
 function syntheticHistory(
   store: SessionStore,
@@ -222,7 +223,7 @@ describe('CORE-06 durable managed history and crash recovery', () => {
       expect(Buffer.byteLength(first.text)).toBeLessThanOrEqual(65536)
       expect(page.messages[0]?.text).not.toContain('\ufffd')
       expect(page.messages[0]?.truncated).toBe(true)
-      expect(store.content(fixture.sessionId, first.id)).toBe(`${text}6`)
+      expect(store.content(fixture.sessionId, first.id)?.text).toBe(`${text}6`)
       expect(store.history(fixture.sessionId, page.nextCursor!)?.messages).toHaveLength(6)
       expect(() => store.history(fixture.sessionId, 'expired')).toThrow('cursor expired')
       expect(() => store.history(fixture.sessionId, undefined, 101)).toThrow('1..100')
@@ -230,7 +231,7 @@ describe('CORE-06 durable managed history and crash recovery', () => {
       const response = await server.inject({
         method: 'GET',
         url: `/api/sessions/${fixture.sessionId}/history?limit=101`,
-        headers: { host: '127.0.0.1:4338' },
+        headers: await authorizedHeaders(app, 4338),
       })
       expect(response.statusCode).toBe(409)
       expect(readFileSync(fixture.sessionFile)).toEqual(original)
@@ -325,7 +326,7 @@ describe('CORE-06 durable managed history and crash recovery', () => {
       const response = await server.inject({
         method: 'GET',
         url: `/api/sessions/${fixture.sessionId}/diagnostics/${diagnostic.id}/raw`,
-        headers: { host: '127.0.0.1:4338' },
+        headers: await authorizedHeaders(app, 4338),
       })
       expect(response.rawPayload).toEqual(badLine)
       expect(response.headers['content-type']).toContain('application/octet-stream')
@@ -545,7 +546,7 @@ describe('CORE-06 durable managed history and crash recovery', () => {
       const response = await server.inject({
         method: 'GET',
         url: `/api/sessions/${message.sessionId}/history`,
-        headers: { host: '127.0.0.1:4338' },
+        headers: await authorizedHeaders(app, 4338),
       })
       expect(historyPageSchema.parse(response.json())).toEqual(page)
       expect(existsSync(join(directory, 'MUST-NOT-EXIST'))).toBe(false)

@@ -8,6 +8,9 @@
     "build": "tsc -p tsconfig.json",
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
+  "dependencies": {
+    "@pi-workbench/shared": "workspace:*"
+  },
   "devDependencies": {
     "@pi-workbench/config": "workspace:*",
     "@types/node": "catalog:dev",

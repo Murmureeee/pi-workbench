@@ -357,6 +357,9 @@ importers:
       rxjs:
         specifier: catalog:prod
         version: 7.8.2
+      zod:
+        specifier: catalog:prod
+        version: 4.6.7
     devDependencies:
       '@pi-workbench/config':
         specifier: workspace:*
@@ -378,6 +381,10 @@ importers:
         version: 8.22.1
 
   apps/desktop:
+    dependencies:
+      '@pi-workbench/shared':
+        specifier: workspace:*
+        version: link:../../packages/shared
     devDependencies:
       '@pi-workbench/config':
         specifier: workspace:*

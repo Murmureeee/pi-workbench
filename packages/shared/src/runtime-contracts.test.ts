@@ -108,12 +108,15 @@ describe('CORE-05 authoritative observation contract', () => {
       type: 'hello' as const,
       daemonId,
       protocolVersion: 1,
-      capabilities: ['snapshots', 'replay', 'tool-observation'],
+      capabilities: ['snapshots', 'replay', 'tool-observation', 'redacted-observation'],
       mutations: false,
       realProviderEnabled: false,
     }
     expect(compatibleRuntime(hello)).toBe(true)
     expect(compatibleRuntime({ ...hello, protocolVersion: 2 })).toBe(false)
     expect(compatibleRuntime({ ...hello, capabilities: ['snapshots'] })).toBe(false)
+    expect(
+      compatibleRuntime({ ...hello, capabilities: ['snapshots', 'replay', 'tool-observation'] }),
+    ).toBe(false)
   })
 })

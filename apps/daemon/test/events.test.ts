@@ -13,6 +13,7 @@ import { applyRuntimeEvent, runtimeFrameSchema, runtimeSnapshotSchema } from '@p
 import { createApp } from '../dist/bootstrap/app.js'
 import { EventService } from '../dist/modules/events/event.service.js'
 import { KernelService } from '../dist/modules/kernels/kernel.service.js'
+import { authorizedHeaders } from './helpers/access.js'
 
 function request(snapshot: RuntimeSnapshot) {
   return {
@@ -122,15 +123,19 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
     const sockets: WebSocket[] = []
     try {
       await app.listen(port, '127.0.0.1')
+      const headers = await authorizedHeaders(app, port)
       const kernels = app.get(KernelService),
         events = app.get(EventService)
       const sessionId = randomUUID()
       await kernels.open(sessionId, directory)
-      const response = await fetch(`http://127.0.0.1:${port}/api/sessions/${sessionId}/snapshot`)
+      const response = await fetch(`http://127.0.0.1:${port}/api/sessions/${sessionId}/snapshot`, {
+        headers,
+      })
       const initial = runtimeSnapshotSchema.parse(await response.json())
       expect(response.headers.get('cache-control')).toBe('no-store')
       const connect = async (snapshot: RuntimeSnapshot) => {
         const socket = new WebSocket(`ws://127.0.0.1:${port}/api/events`, {
+          headers,
           origin: 'http://127.0.0.1:5173',
         })
         sockets.push(socket)
@@ -154,10 +159,12 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
       }
       const first = await connect(initial),
         second = await connect(initial)
-      await kernels.prompt(sessionId, directory, {
-        turnId: randomUUID(),
-        text: 'local streamed reply',
-      })
+      expect(
+        await kernels.prompt(sessionId, directory, {
+          turnId: randomUUID(),
+          text: 'local streamed reply',
+        }),
+      ).toMatchObject({ outcome: 'completed', localRequests: 1, blockedNetworkAttempts: 0 })
       await expect.poll(() => first.value().turns[0]?.phase).toBe('completed')
       await expect.poll(() => second.value()).toEqual(events.snapshot(sessionId))
       expect(first.value().turns[0]?.text).toBe('OFFLINE_OK')
@@ -171,7 +178,8 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
         text: 'abort fixture',
         fixture: 'hold',
       })
-      await expect.poll(() => first.value().turns.at(-1)?.text).toBe('OFFLINE_')
+      await expect.poll(() => events.snapshot(sessionId)?.turns.at(-1)?.text).toBe('OFFLINE_')
+      await expect.poll(() => first.value()).toEqual(events.visibleSnapshot(sessionId))
       await kernels.abort(sessionId, turnId)
       expect(await run).toMatchObject({ outcome: 'aborted' })
       const reconnected = await connect(cursor)
@@ -216,6 +224,7 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
     const app = await createApp({ dataDir: directory, port: 4317, development: true })
     const server = app.getHttpAdapter().getInstance()
     try {
+      const headers = await authorizedHeaders(app, 4317)
       const events = app.get(EventService),
         sessionId = randomUUID(),
         epoch = randomUUID()
@@ -229,8 +238,10 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
           { host: '127.0.0.1:4317' },
           { host: '127.0.0.1:4317', origin: 'https://evil.example' },
           { host: 'evil.example', origin: 'http://127.0.0.1:5173' },
-        ].map(async (headers) => {
-          await expect(server.injectWS('/api/events', { headers })).rejects.toThrow(/403/)
+        ].map(async (invalidHeaders) => {
+          await expect(server.injectWS('/api/events', { headers: invalidHeaders })).rejects.toThrow(
+            /403/,
+          )
         }),
       )
       await Promise.all(
@@ -240,7 +251,7 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
           { type: 'prompt', text: 'must-not-run' },
         ].map(async (input) => {
           const socket = await server.injectWS('/api/events', {
-            headers: { host: '127.0.0.1:4317', origin: 'http://127.0.0.1:5173' },
+            headers: { ...headers, origin: 'http://127.0.0.1:5173' },
           })
           const frames: RuntimeFrame[] = []
           socket.on('message', (raw) => {

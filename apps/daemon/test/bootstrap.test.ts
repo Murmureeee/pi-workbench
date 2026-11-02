@@ -13,22 +13,26 @@ import { WorkspaceDatabase } from '../dist/infrastructure/database/database.js'
 describe('OPS-01 service and native SQLite baseline', () => {
   it('applies reviewed migrations once and reopens persisted metadata', () => {
     const directory = mkdtempSync(join(tmpdir(), 'piw-db-test-'))
+    let database: WorkspaceDatabase | undefined
     try {
       const first = new WorkspaceDatabase(directory)
+      database = first
       expect(first.sqlite.pragma('journal_mode', { simple: true })).toBe('wal')
       first.sqlite
         .prepare('INSERT INTO workspace_meta (key, value) VALUES (?, ?)')
         .run('test-marker', 'preserved')
       first.close()
       const second = new WorkspaceDatabase(directory)
+      database = second
       expect(
         second.sqlite.prepare('SELECT value FROM workspace_meta WHERE key = ?').get('test-marker'),
       ).toEqual({ value: 'preserved' })
       expect(second.sqlite.prepare('SELECT count(*) AS n FROM __drizzle_migrations').get()).toEqual(
-        { n: 2 },
+        { n: 4 },
       )
       second.close()
     } finally {
+      database?.close()
       rmSync(directory, { recursive: true, force: true })
     }
   })
@@ -93,7 +97,7 @@ describe('OPS-01 service and native SQLite baseline', () => {
             headers: { host: '127.0.0.1:4317' },
           })
         ).statusCode,
-      ).toBe(404)
+      ).toBe(403)
     } finally {
       await app.close()
       rmSync(directory, { recursive: true, force: true })

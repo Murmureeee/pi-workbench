@@ -82,7 +82,11 @@ function contentText(content: string | unknown[]): string {
  * Never calls SessionManager.open (which can migrate/rewrite). Bad lines stay on disk; an
  * incomplete tail is diagnosed and ignored until refresh. Only the latest leaf's branch is shown.
  */
-export function readNativeHistory(path: string, nativeSessionId: string): NativeHistory {
+export function readNativeHistory(
+  path: string,
+  nativeSessionId: string,
+  expectedCwd?: string,
+): NativeHistory {
   const result: NativeHistory = { records: [], diagnostics: [], size: 0 }
   let fd: number
   try {
@@ -115,6 +119,9 @@ export function readNativeHistory(path: string, nativeSessionId: string): Native
           const header = headerSchema.parse(value)
           if (header.id !== nativeSessionId) {
             throw new Error('Native session identity mismatch')
+          }
+          if (expectedCwd !== undefined && header.cwd !== expectedCwd) {
+            throw new Error('Native session cwd mismatch')
           }
           headerValid = true
           return

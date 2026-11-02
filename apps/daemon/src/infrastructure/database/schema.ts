@@ -6,6 +6,14 @@ export const workspaceMeta = sqliteTable('workspace_meta', {
   version: integer('version').notNull().default(1),
 })
 
+// Directory registry only: opening a workspace never creates a session or loads project code.
+export const workspaces = sqliteTable('workspaces', {
+  id: text('id').primaryKey(),
+  directoryKey: text('directory_key').notNull().unique(),
+  canonicalPath: text('canonical_path').notNull(),
+  name: text('name').notNull(),
+})
+
 export const sessions = sqliteTable('sessions', {
   id: text('id').primaryKey(),
   cwd: text('cwd').notNull(),
@@ -56,5 +64,11 @@ export const sessionChanges = sqliteTable('session_changes', {
   sessionId: text('session_id')
     .notNull()
     .references(() => sessions.id),
+  data: text('data').notNull(),
+})
+
+// Resource consent is content-bound metadata, never an executable tool authorization.
+export const resourceTrust = sqliteTable('resource_trust', {
+  id: text('id').primaryKey(),
   data: text('data').notNull(),
 })

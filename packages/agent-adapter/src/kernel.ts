@@ -1,4 +1,5 @@
 import type { KernelCommand, KernelIdentity, KernelMessage } from './kernel-protocol.js'
+import type { TrustedContext } from '@pi-workbench/shared'
 
 import { fork } from 'node:child_process'
 import { realpathSync } from 'node:fs'
@@ -44,6 +45,7 @@ export class SessionKernel {
   private readonly child
   private readonly identity: KernelIdentity
   private readonly runtimeDir: string
+  private readonly resume: { sessionFile: string; nativeSessionId: string } | undefined
   private readonly timeoutMs: number
   private snapshotValue: KernelSnapshot
   private readonly readyPromise: Promise<void>
@@ -66,6 +68,7 @@ export class SessionKernel {
       runtimeDir: string
       timeoutMs?: number
       childEntry?: URL
+      resume?: { sessionFile: string; nativeSessionId: string }
     },
   ) {
     this.identity = kernelIdentitySchema.parse({
@@ -74,6 +77,7 @@ export class SessionKernel {
       epoch: options.epoch,
     })
     this.runtimeDir = resolve(options.runtimeDir)
+    this.resume = options.resume
     this.timeoutMs = options.timeoutMs ?? 15000
     const cwd = realpathSync(options.cwd)
     this.snapshotValue = {
@@ -132,7 +136,13 @@ export class SessionKernel {
       }
     })
     this.child.on('message', (value: unknown) => this.receive(value))
-    this.send({ ...this.identity, type: 'init', cwd, runtimeDir: this.runtimeDir })
+    this.send({
+      ...this.identity,
+      type: 'init',
+      cwd,
+      runtimeDir: this.runtimeDir,
+      ...(this.resume ? { resume: this.resume } : {}),
+    })
   }
 
   get snapshot(): KernelSnapshot {
@@ -155,9 +165,12 @@ export class SessionKernel {
   async prompt(input: {
     turnId: string
     text: string
-    fixture?: 'reply' | 'hold' | 'error' | 'unknown-tool'
+    fixture?: 'reply' | 'hold' | 'error' | 'unknown-tool' | 'context' | 'trust-context'
+    trustedContext?: TrustedContext[]
   }) {
-    await this.readyPromise
+    if (this.snapshotValue.state === 'starting') {
+      await this.readyPromise
+    }
     if (
       !['ready', 'stopped'].includes(this.snapshotValue.state) ||
       this.active ||
@@ -307,9 +320,10 @@ export class SessionKernel {
         message.turnId !== null ||
         message.pid !== this.child.pid ||
         message.cwd !== this.snapshotValue.cwd ||
-        path.startsWith('..') ||
-        isAbsolute(path) ||
-        !path.endsWith('.jsonl')
+        (this.resume
+          ? resolve(message.sessionFile) !== resolve(this.resume.sessionFile) ||
+            message.nativeSessionId !== this.resume.nativeSessionId
+          : path.startsWith('..') || isAbsolute(path) || !path.endsWith('.jsonl'))
       ) {
         this.fail(new Error('Kernel ready binding mismatch'))
         return
@@ -345,12 +359,9 @@ export class SessionKernel {
     for (const listener of this.listeners) {
       try {
         listener(message)
-      } catch (error) {
+      } catch {
         // A view observer has no authority to change the SDK execution state.
-        console.error(
-          'Kernel observer failed',
-          error instanceof Error ? error.message : 'unknown observer error',
-        )
+        console.error('Kernel observer failed', 'Observer diagnostic details withheld')
       }
     }
   }

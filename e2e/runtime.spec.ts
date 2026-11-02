@@ -10,6 +10,7 @@ import { expect, test } from '@playwright/test'
 import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
 import { EventService } from '../apps/daemon/dist/modules/events/event.service.js'
 import { KernelService } from '../apps/daemon/dist/modules/kernels/kernel.service.js'
+import { authorizePage } from './helpers/access.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 const port = 4318
@@ -51,6 +52,7 @@ test('CORE-05 real local SDK: two browser clients reconnect to the same complete
   const second = await context.newPage()
   try {
     await app.listen(port, '127.0.0.1')
+    await authorizePage(page, app)
     const kernels = app.get(KernelService),
       sessionId = randomUUID()
     await kernels.open(sessionId, directory)
@@ -115,6 +117,7 @@ test('CORE-05 synthetic observations: buffer exhaustion and live gap resync comp
   const app = await createApp({ dataDir: directory, port, development: true })
   try {
     await app.listen(port, '127.0.0.1')
+    await authorizePage(page, app)
     const events = app.get(EventService),
       sessionId = randomUUID(),
       epoch = randomUUID(),
@@ -187,6 +190,7 @@ test('CORE-05 incompatible version/capabilities blocks observation changes and k
   const app = await createApp({ dataDir: directory, port, development: true })
   try {
     await app.listen(port, '127.0.0.1')
+    await authorizePage(page, app)
     const events = app.get(EventService),
       sessionId = randomUUID(),
       epoch = randomUUID()
@@ -228,6 +232,7 @@ test('CORE-05 synthetic observations: a late snapshot cannot replace a newer req
   })
   try {
     await app.listen(port, '127.0.0.1')
+    await authorizePage(page, app)
     const events = app.get(EventService),
       sessionId = randomUUID(),
       epoch = randomUUID(),

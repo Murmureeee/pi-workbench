@@ -55,7 +55,7 @@ async function handle(command: KernelCommand) {
     }
     identity = { protocol: 1, sessionId: command.sessionId, epoch: command.epoch }
     const { createOfflineRuntime: create } = await import('./sdk-runtime.js')
-    runtime = await create(command.cwd, command.runtimeDir)
+    runtime = await create(command.cwd, command.runtimeDir, command.resume)
     if (closing || !process.connected) {
       // Parent disappeared during initialization; this process must not become an orphan.
       runtime.session.dispose()
@@ -137,6 +137,7 @@ async function handle(command: KernelCommand) {
     ) {
       throw new Error('Execution guard changed')
     }
+    activeRuntime.setTrustedContext(command.trustedContext)
     activeRuntime.provider.prepare(command.fixture)
     // SDK-owned metadata binds native entries to the workbench turn without entering model context.
     activeRuntime.session.sessionManager.appendCustomEntry('pi-workbench.turn.v1', {

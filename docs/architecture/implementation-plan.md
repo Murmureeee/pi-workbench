@@ -110,10 +110,10 @@ R6 生命周期：Electron × 默认收到托盘，保持任务 / 审批；自�
 | 2. 会话子进程 | CORE-04 | 单 SDK 子进程 ready / prompt / abort / dispose、守卫握手、异常隔离；先 fake kernel，再真实 SDK 离线，无付费请求 |
 | 3. 契约门禁 | OPS-08 | M1 基线已交付：14 份固定录制、重复 / 缺口 / 迟到终态 / IPC 断开 / 审批取消、实际 UI 故障回归；随各阶段继续补齐真实产品验收 |
 | 4. 状态与恢复 | CORE-05 / 06 | CORE-05 已验收：真实 SDK 本地事件、REST 快照、WS 双客户端重放 / 重同步；CORE-06 已验收 pi JSONL 索引、inflight / 队列 / 审批恢复记录 |
-| 5. 有界资源 | CORE-07 | 3 内核 / 1 模型任务 / 6 终端配置、FIFO 与取消、不可回收待审批，完成 M1 阶段门 |
+| 5. 有界资源 | CORE-07 | 已验收 3 内核 / 1 模型任务、6 终端预算、FIFO / 取消、空闲回收和受管冷恢复；M1 技术阶段门复核见下方 |
 | 6. 可日常试用的对话 | M2 现有功能 | 真实新会话到中止、审批、查找、改名及跨端同步；不以静态壳代替产品完成 |
 
-工作包是功能的实施细分，不新增完成率分母，不承诺未经估算的日期。当前为 **7 / 133 已验收**（CORE-01–06、OPS-01，M1 阶段门尚未完成），146 个全量功能 ID、M0–M8 范围及负责人保持不变。前两个工作包及 CORE-05 / 06 已验收，OPS-08 的 M1 契约基线已交付、整体继续进行中；下一项产品工作为 CORE-07。Q01 / Q02 已有 M0 证据；选定的后续默认值只表示方案决定，不表示产品实现通过。
+工作包是功能的实施细分，不新增完成率分母，不承诺未经估算的日期。当前为 **12 / 133 已验收**（CORE-01–07、OPS-01、SEC-06 / 07 / 08、WS-01；M1 技术阶段门已复核，OPS-08 跨阶段进度单列），146 个全量功能 ID、M0–M8 范围及负责人保持不变。OPS-08 的 M1 契约基线已交付、整体继续进行中；M2 已交付安全基础与桌面工作区，下一项建议 MODEL-01 模型发现，再接 SESSION-01 真实会话。WS-02 最近 / 重命名继续保留，不因持久目录身份提前验收。Q01 / Q02 已有 M0 证据；选定的后续默认值只表示方案决定，不表示产品实现通过。
 
 ### CORE-04 已交付边界
 
@@ -121,7 +121,7 @@ daemon 的 `KernelService` 是唯一会话进程注册表，同时请求同一�
 
 当前执行能力固定为 **deny-all**：工具 / MCP / 扩展 / 技能均禁用，SDK 创建后及每轮前检查可执行工具为空。模型运行时使用独立空认证与本机 SSE 夹具，传输只允许该夹具 URL，禁止重定向与自动重试；不读取现有 pi 认证或改变配置。`real-sdk/local-fixture` 表示真实 SDK 配合本地模拟模型；`synthetic-ipc-fixture` 仅用于握手 / 断线 / 乱序 / 超时等故障注入。允许受限读取、生产审批的最终参数包装和真实模型预算守卫仍按后续 SEC / MODEL 功能验收。
 
-浏览器与 Electron 继续连接同一 daemon；`GET /api/kernels` 仅只读诊断，两个观察者读取同一注册表，断开查看不销毁进程。UI 仍为 fake kernel 样本，没有 prompt / 审批写 API。这里的本地运行态与 SDK JSONL 不等于 CORE-05 的客户端重放或 CORE-06 的索引 / inflight 恢复；资源配额仍属 CORE-07。
+浏览器与 Electron 继续连接同一 daemon；`GET /api/kernels` 仅只读诊断，两个观察者读取同一注册表，断开查看不销毁进程。UI 仍为 fake kernel 样本，没有 prompt / 审批写 API。这里的本地运行态与 SDK JSONL 不等于 CORE-05 的客户端重放或 CORE-06 的索引 / inflight 恢复；资源配额与受管冷恢复现已由 CORE-07 补齐，见下方边界。
 
 验证：本轮新增 24 项 adapter / daemon 测试，完整 Vitest 36 项和浏览器 / Electron E2E 6 项通过；真实 SDK 本地流式、错误、未知工具拒绝、中止、运行中销毁、真实子进程硬杀隔离与宿主丢失清理均实际运行。`pnpm fix`、`pnpm run ci`、`pnpm verify:clean` 退出 0，干净目录 frozen 安装 / 构建 / 测试 / 冒烟 / 启停与锁文件 SHA-256 一致，新增真实提供商请求为 0。实现与可复验场景见 `packages/agent-adapter/src/kernel*.ts`、`sdk-child.ts`、`sdk-runtime.ts` 和 `apps/daemon/test/kernels.test.ts`；原始结果保留于 [CI 输出](../validation/core-04-evidence/ci.log)、[干净目录结果](../validation/core-04-evidence/clean-workspace.json)、[干净目录命令输出](../validation/core-04-evidence/clean-commands.json)。历史 M0 / OPS-01 证据不改写。
 
@@ -133,7 +133,7 @@ M1 契约基线通过。测试只读重放 14 份 CORE-01 / 02 历史录制，�
 
 `pnpm test:contracts` 提供定向入口；完整 test / CI 已包含同一批测试。OPS-08 首次基线的完整 CI 为 **85 项 Vitest + 12 项浏览器 / Electron E2E**，`pnpm fix`、`pnpm run ci`、`pnpm verify:clean` 退出 0，干净目录安装 / 构建 / 启停通过且锁文件一致，新增真实提供商请求 0。验收范围、逐阶段矩阵与截图见[工具规范](../development/tooling.md#ops-08-契约回归门禁)；原始 [CI](../validation/ops-08-evidence/ci.log)、[干净目录结果](../validation/ops-08-evidence/clean-workspace.json)与[命令输出](../validation/ops-08-evidence/clean-commands.json)独立归档。
 
-OPS-08 第一条验收通过，第二条仍未通过，整体保持 `in_progress`。CORE-05 的双客户端握手 / 重放已绑定同一门禁，CORE-06 恢复也已绑定，接着补 CORE-07 资源门禁；M2 的真实 IME / 草稿 / 切换 / 改名 / 审批 / 双端重连、M3 回滚及后续平台验收随产品实现纳入。离线 UI 及程序合成 IME 用例不能替代这些真实产品验收，不将 OPS-08 整体提前记为已验收。
+OPS-08 第一条验收通过，第二条仍未通过，整体保持 `in_progress`。CORE-05 的双客户端握手 / 重放已绑定同一门禁，CORE-06 恢复也已绑定，CORE-07 资源门禁也已接入；M2 的真实 IME / 草稿 / 切换 / 改名 / 审批 / 双端重连、M3 回滚及后续平台验收随产品实现纳入。离线 UI 及程序合成 IME 用例不能替代这些真实产品验收，不将 OPS-08 整体提前记为已验收。
 
 ### CORE-05 已交付边界
 
@@ -150,7 +150,7 @@ daemon 的 `EventService` 保存每会话的完整内存观察快照和有界重
 
 快照捕获与游标在同一同步边界，重放到实时监听的交接不经过 await。默认重放保留最近 **1024 条 / 2 MiB**，任一超限淘汰最旧记录；仅日志淘汰，不截断完整快照或写回 SDK JSONL。游标过旧 / 超前、代际或服务不匹配均返回 `resync-required`。客户端遇到序号缺口停止增量拼接，校验并替换完整快照，再从新游标订阅；请求代际与 AbortController 拦住迟到快照，服务 / 内核重建不混入旧内容。
 
-连接关闭只停止观察，任务继续；自动重连按 1 / 2 / 4 秒递增到最多 30 秒，只发送游标，不重发 prompt、审批或工具。HTTP 等待最多 5 秒；WS 在 10 秒内要求 subscribe，15 秒 ping / 下一周期无 pong 终止；入站订阅帧上限 16 KiB，出站积压超过 2 MiB 断开慢观察者。继承已有 Host / Origin 校验，WS 还拒绝缺失 Origin；这是当前只读通道边界，**不等于 SEC-08 配对、Cookie 身份或写权限服务已实现**。不兼容时保留内容，提示匹配版本 / 重启后再同步，变更入口保持禁用。
+连接关闭只停止观察，任务继续；自动重连按 1 / 2 / 4 秒递增到最多 30 秒，只发送游标，不重发 prompt、审批或工具。HTTP 等待最多 5 秒；WS 在 10 秒内要求 subscribe，15 秒 ping / 下一周期无 pong 终止；入站订阅帧上限 16 KiB，出站积压超过 2 MiB 断开慢观察者。继承已有 Host / Origin 校验，WS 还拒绝缺失 Origin；SEC-08 现已在该通道叠加配对与 Cookie 身份；生产写权限仍按后续 SEC 功能验收。不兼容时保留内容，提示匹配版本 / 重启后再同步，变更入口保持禁用。
 
 验证：新增 5 项共享契约、4 项服务 / 原生 TCP WebSocket 测试、4 项浏览器实际组件测试；完整 **94 项 Vitest / 16 项浏览器与 Electron E2E** 通过。两条 TCP 观察连接和两个浏览器客户端验证真实 SDK 本地流式、中止、未知工具拒绝、错误与补发；缓冲 / 丢帧 / 迟到快照 / 代际替换 / 版本能力异常为明确标注的合成观察或网络故障。浏览器测试仅将 REST 代理和原生 WS URL 指到隔离 daemon，不替换客户端 reducer 或制造正常 SDK 帧。`pnpm fix`、`pnpm run ci`、`pnpm verify:clean` 退出 0；全新目录安装 / 检查 / 构建 / 测试 / SDK 冒烟 / 启停通过，锁文件 SHA-256 一致，新增真实提供商请求 0，预算账本与历史证据未改。
 
@@ -160,7 +160,7 @@ daemon 的 `EventService` 保存每会话的完整内存观察快照和有界重
 
 SessionStore 是 daemon 唯一持久索引与恢复记录服务。显式 Drizzle 迁移新增 sessions、session_runtimes、session_turns、session_queue、session_approvals、session_changes；SQLite 使用 WAL、synchronous FULL 与外键。数据根的 PID / token 租约拒绝同一目录的第二个活跃 daemon，死进程租约可替换，损坏 / 无法确认的租约保留并拒绝启动。退出由 KernelService 等待 SDK 终态及实际进程退出，然后关闭事件观察、冲刷检查点、关闭 SQLite 与释放租约，避免 Nest 并发销毁使终态丢失。
 
-正文仍只由 SDK 写入原生 v3 JSONL。每轮 prompt 前通过 SDK SessionManager.appendCustomEntry 写入 pi-workbench.turn.v1 元数据，绑定 sessionId / epoch / turnId / messageId；它不参与模型上下文。读取器不调用会迁移 / 重写的 SessionManager.open，按原生 id / parentId 读取当前分支，识别系统元数据，校验 UTF-8、版本与身份。损坏 / 重复 / 缺父记录、未完整末行、缺失源和索引 / 检查点损坏均保留原件并报告，受损会话阻止新任务；其他会话可继续读取。每条诊断可导出对应原始字节，缺失文件没有可导出的字节。完整正文与展示截断结果不写回 JSONL / 模型上下文。
+正文仍只由 SDK 写入原生 v3 JSONL。每轮 prompt 前通过 SDK SessionManager.appendCustomEntry 写入 pi-workbench.turn.v1 元数据，绑定 sessionId / epoch / turnId / messageId；它不参与模型上下文。读取器不调用会迁移 / 重写的 SessionManager.open，按原生 id / parentId 读取当前分支，识别系统元数据，校验 UTF-8、版本与身份。损坏 / 重复 / 缺父记录、未完整末行、缺失源和索引 / 检查点损坏均保留原件并报告，受损会话阻止新任务；其他会话可继续读取。诊断可按记录导出；当前出口已由下方 SEC-06 统一过滤，无敏感内容保留原字节，有敏感内容导出脱敏副本，无法安全解析时拒绝导出。缺失文件没有可导出的字节。完整正文与展示截断结果不写回 JSONL / 模型上下文。
 
 | 入口 | 当前行为 |
 | --- | --- |
@@ -174,11 +174,121 @@ SessionStore 是 daemon 唯一持久索引与恢复记录服务。显式 Drizzle
 
 恢复按 sessionId / epoch / turnId / messageId / seq 校验，迟到旧 seq 不覆盖新检查点。SDK 终态原文存在时替代旧部分回复；不存在时仅展示“已中断的部分回复”，未确认送达的输入单独标记，均不伪造 SDK 记录。CORE-05 恢复最新轮次观察、换用新 daemonId 并将 seq 归零，旧游标重新同步；更早正文走分页读取。重启不创建 SDK 进程、不自动重发队列 / 工具或恢复旧授权：queued 变 held，pending 审批变 invalidated，已有 allowed / denied 只保留审计且 executable=false，变更引用仅只读保存。
 
-边界：当前是受管本地 SDK 历史与恢复底座，普通工作台仍使用离线样本，没有真实发送 / 续聊 / 审批写 API。队列、审批和变更引用用明确标注 synthetic-fixture 的持久记录验证，不代表其 M2 / M3 业务服务或可回滚快照已实现。SDK 在新代际显式创建的会话不会自动把展示历史当成模型上下文；CORE-07 冷恢复、SESSION-06 接管 / 续聊仍须分别实现。现有 CLI 历史发现属 M2，数据目录迁移 / 备份和数据库页损坏恢复属 OPS-04 / 05。分页限制响应与展示载荷；当前仍扫描 JSONL 校验分支，不承诺超大历史 IO 或性能指标。
+边界：当前是受管本地 SDK 历史与恢复底座，普通工作台仍使用离线样本，没有真实发送 / 续聊 / 审批写 API。队列、审批和变更引用用明确标注 synthetic-fixture 的持久记录验证，不代表其 M2 / M3 业务服务或可回滚快照已实现。SDK 在新代际显式创建的会话不会自动把展示历史当成模型上下文；受管原生上下文冷恢复现已由 CORE-07 补齐；旧 CLI 历史接管 / 续聊仍属 SESSION-06。现有 CLI 历史发现属 M2，数据目录迁移 / 备份和数据库页损坏恢复属 OPS-04 / 05。分页限制响应与展示载荷；当前仍扫描 JSONL 校验分支，不承诺超大历史 IO 或性能指标。
 
 验收：新增 **12 项 Vitest + 3 项浏览器流程**，完整 **106 项单元 / 集成、19 项浏览器与 Electron E2E**、SDK 冒烟通过；pnpm fix、pnpm run ci、pnpm verify:clean 退出 0。真实 SDK + 本地 HTTP 模型夹具实际完成正常 / 中止 / 错误、相同正文不同轮次，以及 SDK / daemon 同 tick SIGKILL 后的持久恢复；正常读历史和恢复均不修改 SDK 原件。分支 / 未来版本 / 损坏 / 分页 / 长 Unicode、旧检查点身份 / seq / 终态去重及工作台记录是明确标注的合成样本；检查点写失败使用真实文件系统阻断。浏览器用实际组件与隔离 daemon 验证分页、全文、部分回复、诊断原始下载、明暗 / 390px 与键盘刷新，不替换存储或生成正常 SDK 帧。全新目录 frozen 安装、检查、构建、106 项测试、冒烟和服务启停通过，锁文件 SHA-256 一致，真实提供商新增请求 0，真实预算与历史证据未改。
 
-实现为 packages/shared/src/history-contracts.ts、packages/agent-adapter/src/native-history.ts / sdk-child.ts、apps/daemon/src/modules/sessions 及数据库迁移、events / kernels / bootstrap 接线、apps/web/src/features/conversation/session-history.tsx；原生读取、存储和真实硬杀已加入 pnpm test:contracts。原始 [CI](../validation/core-06-evidence/ci.log)、[干净目录结果](../validation/core-06-evidence/clean-workspace.json)、[命令输出](../validation/core-06-evidence/clean-commands.json)，以及复核的 [原生历史](../validation/core-06-evidence/history-native.png)、[深色窄窗](../validation/core-06-evidence/history-dark-390.png)、[中断恢复](../validation/core-06-evidence/history-interrupted.png)、[诊断与导出](../validation/core-06-evidence/history-diagnostic.png)独立保留。CORE-06 两条验收通过；下一项 CORE-07，M1 阶段门仍未完成。
+实现为 packages/shared/src/history-contracts.ts、packages/agent-adapter/src/native-history.ts / sdk-child.ts、apps/daemon/src/modules/sessions 及数据库迁移、events / kernels / bootstrap 接线、apps/web/src/features/conversation/session-history.tsx；原生读取、存储和真实硬杀已加入 pnpm test:contracts。原始 [CI](../validation/core-06-evidence/ci.log)、[干净目录结果](../validation/core-06-evidence/clean-workspace.json)、[命令输出](../validation/core-06-evidence/clean-commands.json)，以及复核的 [原生历史](../validation/core-06-evidence/history-native.png)、[深色窄窗](../validation/core-06-evidence/history-dark-390.png)、[中断恢复](../validation/core-06-evidence/history-interrupted.png)、[诊断与导出](../validation/core-06-evidence/history-diagnostic.png)独立保留。CORE-06 两条验收通过；CORE-07、SEC-06 和 M1 技术阶段门复核见下方。
+
+### CORE-07 已交付边界
+
+daemon 的 KernelPool 统一分配内核名额，KernelService 统一分配模型任务名额。默认 **3 个活跃内核、1 个模型任务、6 个终端预算**；启动中和回收中的进程仍占内核名额，确认实际退出后才释放。内核与模型各自 FIFO，队列位置分别计数；复用已有内核不消耗新名额，不会被其他会话的新建请求阻塞。每种等待队列最多 256 个请求，超限明确拒绝，不创建进程或发送输入。一个会话同时仅接受一个受管任务；M2 的 steer / follow-up 是后续独立业务队列。
+
+排队任务可以按会话 / turnId 取消，内核等待也接受 AbortSignal。取消一个共享启动的等待者不会取消另一个调用者；已取消输入不进入 SDK。运行中的取消必须等 SDK 终态才释放模型名额，进程异常等待实际回收；本地错误不自动重试。退出先拒绝等待、停止并回收所有子进程、等待任务收尾，最后关闭事件、持久化和数据库。资源等待只存在本次 daemon 内存中，不冒充 M2 已持久接受的用户消息；重启不会重发。
+
+压力下优先回收最近最少使用的空闲内核；默认空闲 **300 秒**后自动回收，运行中、已被任务预留和待审批内核不回收。审批观察变化立即唤醒队列，不等待定时扫描。受管历史不随回收删除；下一次显式打开使用新 epoch / PID 和原生会话身份，先校验来源、路径、cwd、v3 版本与历史完整性，再由 SDK 打开原文件恢复上下文，不复制整份历史，也不把 inflight 部分回复导入模型。多代际共享同一文件时，消息身份保持稳定且只展示一次；旧中断检查点仍留在原轮次位置。损坏 / 不支持来源阻止冷恢复，保留原件并释放未用名额。旧 CLI 会话接管仍属 SESSION-06。
+
+| 入口 / 配置 | 当前行为 |
+| --- | --- |
+| GET /api/kernels/resources | Zod 校验的只读占用、限额、队列原因 / 顺序及内核状态；no-store，沿用 Host / Origin 校验 |
+| http://127.0.0.1:5173/?resources | 实际 React 资源观察页，复用 shadcn Alert / Badge / Button；每秒读取，失败保留上次结果并明确失去同步，支持键盘刷新与系统明暗 |
+| PIW_MAX_KERNELS / PIW_MAX_MODEL_TASKS | 启动时配置，范围分别 1–32 / 1–16，默认 3 / 1 |
+| PIW_MAX_TERMINALS / PIW_KERNEL_IDLE_MS | 终端预算范围 1–64，默认 6；空闲时间范围 1–86400000 ms，默认 300000；无效配置在打开数据库前拒绝 |
+
+模型占用包含已获得名额、正在等待内核的任务；启动和回收状态可见。网页仍只读，取消通过已验证的内部任务入口，SEC-08 配对见下方，客户端发送 / 取消业务接口继续按 M2 验收。终端仅预留预算，真实 PTY 在 M4 验收；浏览器会话视图缓存与进程池分别管理，不能据此宣称视图保留策略已实现。配置上限只是初始策略，不是内存 / CPU 性能保证。
+
+验收新增 **12 项服务集成 + 2 项浏览器流程**。真实 SDK + 本地 HTTP 夹具验证 3 内核启动计数、模型限额 / FIFO、等待取消、共享启动取消、256 请求背压、错误与 SIGKILL 后名额释放、真实流式不中途回收、自动空闲回收、原生上下文冷恢复、损坏文件拒绝和关闭清理。待审批保留使用明确标注的合成观察，M2 生产审批尚未实现；中断检查点归位 / 不注入上下文也使用明确标注的合成检查点，正常前后轮次经真实 SDK。排序回归已先在旧逻辑复现失败、再修复通过。浏览器只代理到隔离 daemon；503 / 不兼容为 HTTP 故障注入，实际组件验证队列、取消后的顺序、离开页面不停止任务、1080p / 深色 390px、键盘刷新与错误恢复。
+
+完整 **118 项 Vitest / 21 项浏览器与 Electron E2E**、SDK 冒烟、pnpm fix、pnpm run ci 与 pnpm verify:clean 全部通过；新目录 frozen 安装 / 检查 / 构建 / 测试 / 启停与锁文件哈希一致。daemon 仅新增声明已有 catalog 中的 Zod 直接依赖，无新版本或第二套校验库。原始 [CI](../validation/core-07-evidence/ci.log)、[干净目录结果](../validation/core-07-evidence/clean-workspace.json)、[命令输出](../validation/core-07-evidence/clean-commands.json)、[FIFO 状态](../validation/core-07-evidence/resources-fifo.png)、[深色窄窗](../validation/core-07-evidence/resources-dark-390.png)和[失去同步](../validation/core-07-evidence/resources-unavailable.png)独立保留。新增真实提供商请求 0，原预算和历史证据未改；未归档重复截图、测试目录和运行数据不入库。
+
+M1 的三个技术阶段门分别由 CORE-05 的双端顺序 / 重放、CORE-06 的硬杀 / 中断恢复及本次 CI 中的协议 / SQLite 迁移 / 假内核契约复核，运行底座具备进入 M2 的条件。OPS-08 是跨阶段功能，整体继续 in_progress，不将其后续真实交互、回滚和平台门禁提前验收，因此 M1 条目统计仍非全数 verified。M2 的 SEC-06 / 07 / 08 与 WS-01 已在下方验收；下一步建议 MODEL-01 模型发现，再衔接 SESSION-01 真实会话。
+
+### SEC-06 已交付边界
+
+SecurityService 沿用现有 pi 的 auth.json / models.json，不建立第二套凭证库，不复制配置密钥到 SQLite、renderer 或 SDK IPC。默认离线开发不读取真实凭证；显式 PIW_PI_AGENT_DIR 指定现有配置目录后，宿主只返回提供商 ID、来源、认证种类及缺失 / 已配置但未联网验证 / 过期 / 命令未执行 / 无效状态。静态值解析遵循已安装 pi 1.4.0 的 $ENV / ${ENV}、$$ 与 $! 规则，仅读取明确引用的环境变量；不运行 ! 命令、不刷新 OAuth、不联网校验，也不改选现有模型。模型发现及真实传输仍由 MODEL-01 等条目验收。
+
+宿主内部 saveApiKey 只更新明确指定的原生 API key，保留其他提供商、自定义字段及 models / settings；拒绝把 OAuth 隐式改成 API key。通过 SHA-256 revision、兼容 pi 的 auth.json.lock 目录锁、锁内重读和提交前冲突检查保护并发，不抢已有锁、不覆盖损坏文件或符号链接。先把原文件 POSIX mode / Windows DACL 应用到空的兄弟临时文件，再写入并 fsync，最后原子替换；失败保住原配置并返回 save-failed / conflict / locked 等诊断。Windows ACL 命令使用固定脚本、最小环境和超时，无凭证参数或输出。原生 pi 文件的保存方式仍由 pi 所有，不宣称文件已加密或已接入 Electron safeStorage。浏览器凭证写请求为 403；配对已由 SEC-08 接入，配置修改 UI 留待 MODEL-02。
+
+同一 shared Redactor 覆盖结构化敏感字段、*_KEY / *_TOKEN、Authorization / Cookie、Bearer / Basic、URL 认证、命令参数、常见 token / PEM 及宿主已读取的原生凭证值，包含 URI / JSON 转义形式；旋转后保留旧值注册以保护迟到输出。HTTP 统一出口、异常诊断、审批摘要、REST 快照、WS 实时 / 重放、历史预览 / 全文和损坏记录导出都走同一策略。响应 no-store / nosniff，关闭原始请求日志；未知服务异常只返回通用消息，宿主诊断也先脱敏。此内容过滤不能识别所有未知、编码或混淆的秘密；未来通知 / 搜索 / 扩展等新出口必须继续接入并验收。
+
+执行参数、SDK JSONL 和独立检查点仍为原始权威内容，脱敏只发生在展示 / 输出边界，不改写模型上下文或审批执行快照。EventService 按累计原文处理流式分片，暂存可能构成密钥的未完整后缀，正常中文及无空格内容继续流式；中止 / 错误终态、崩溃恢复以及历史预览 / 全文仍保护未完整后缀，不在停止时将其重新放出。安全增量无法追加时使用 message.replaced，turn.finished 可带终态安全全文；新必需能力 redacted-observation 阻止旧服务被误当作安全通道。visibleSnapshot / visible subscription 与原始持久快照分开，原始及可见重放共同计入有界字节预算；重连不改事件身份或重发任务。
+
+损坏记录导出先验证 UTF-8。没有命中敏感内容时保留原字节；有敏感内容时只生成脱敏副本，标记 x-piw-redacted: true，文件名为 piw-redacted-record.txt；无效 UTF-8 / 无法安全解析的二进制返回 422，原始文件保留。历史页按钮改为“导出记录（先脱敏）”，失败显示明确反馈。完整原件只留本机，不再通过浏览器出口绕过过滤。
+
+实际 React 的 http://127.0.0.1:5173/?credentials 从顶部“凭证与隐私”进入，只显示元数据，无明文输入 / 回显 / reveal，不写浏览器持久存储。复用现有 shadcn Alert / Badge / Button，支持刷新、加载 / 空状态、失败保留旧值并标明过期、键盘、系统明暗和 1920×1080 / 390px；没有引入新的组件基础或依赖。
+
+验收新增 **9 项 Vitest（3 项共享脱敏 + 6 项服务）及 2 项实际浏览器流程**。合成凭证验证缺失 / 过期 / 环境引用 / 命令拒绝、原子保存、锁 / 冲突、真实文件写失败和实际 Windows ACL 保留；真实 SDK + 本地 HTTP 夹具验证含敏感内容的原始历史保持、REST / 全文 / 导出过滤和二进制拒绝。合成审批与分片观察经实际原生 TCP WS、React 页面和重载验证，合成原生中止记录验证全文出口；密钥前缀在中止终态重新出现的问题已先复现失败、再修复通过。HTTP 503 是故障注入；不等于生产审批、配对或真实提供商验收。正常流式、硬杀恢复及既有 CORE-05–07 回归继续通过。
+
+pnpm fix、完整 pnpm run ci 和 pnpm verify:clean 均退出 0；**127 项单元 / 集成、23 项浏览器与 Electron E2E**、SDK 本地冒烟及新目录 frozen 安装 / 构建 / 服务启停通过，锁文件 SHA-256 一致。新增真实提供商请求 **0**，真实预算账本和固定 SDK 录制未改。实现位于 packages/shared/src/redaction.ts / security-contracts.ts、apps/daemon/src/modules/security、bootstrap / events / sessions 出口及 apps/web/src/features/settings/credential-status.tsx；安全测试已纳入 pnpm test:contracts 和完整 CI。原始 [CI](../validation/sec-06-evidence/ci.log)、[干净目录结果](../validation/sec-06-evidence/clean-workspace.json)、[命令输出](../validation/sec-06-evidence/clean-commands.json)，以及目视复核的 [凭证状态明色](../validation/sec-06-evidence/credentials-light.png)、[深色 390px](../validation/sec-06-evidence/credentials-dark-390.png)、[脱敏审批摘要](../validation/sec-06-evidence/redacted-approval.png)独立归档，其余重复截图和临时工作区不入库。SEC-06 两条验收通过，OPS-08 整体仍进行中；SEC-08 的后续交付见下方客户端授权边界。
+
+### SEC-08 本机客户端授权边界
+
+宿主 AccessService 签发 256 bit 随机票据（64 位十六进制），120 秒有效，同步原子消费后即失效；HTTP 仅能兑换，不能生成票据。最多 4 个未消费票据、32 个有效客户端，每 daemon 每分钟最多允许 10 次失败兑换。票据和客户端 bearer 的查找表只存 SHA-256；SEC-06 内存脱敏注册表也登记原值以过滤意外输出，不落 SQLite、JSONL 或日志。客户端名称只作展示，不产生权限。
+
+桌面由受管 launcher 的父子进程私有 IPC 获取 desktop 票据，main 经 HTTP 兑换并写入隔离 renderer 的 HttpOnly Cookie，无 renderer 特权桥。原生“工作台”及托盘菜单生成 browser 票据并只打开固定回环工作台链接。网页开发在拥有宿主的交互 TTY 输入 `pair`，显式显示一次性链接；非 TTY 不显示票据。独立 `pnpm start` 仅提供 API，TTY 只输出短期票据，不冒充已托管前端。票据通过 URL fragment 交给页面，加载时及同页 hashchange 后立即移除，仅留内存待明确提交，不写 localStorage / sessionStorage，不进入 query / referrer；有效票据仍是短期能力，链接不应分享。
+
+每次配对生成独立 UUID 与 256 bit bearer。会话 Cookie 为 `piw_client_<port>`，`Path=/api; HttpOnly; SameSite=Strict`，无持久过期时间；当前 HTTP 回环入口不能冒充 HTTPS Secure Cookie。授权采用 8 小时绝对期限，不靠活动续期；关页不撤销，清 Cookie 后须重新配对，旧身份可由其他已配对客户端撤销。服务重启丢弃全部票据、客户端和 CSRF；即使 Cookie 仍在，也须全新配对，不从数据恢复或自动续权。
+
+| 入口 | 访问与裁决 |
+| --- | --- |
+| `GET /api/health`、`/api/protocol`、`/api/access`、明确 `/api/lab/scenes/:scene` | 仅公开健康、协议、当前认证状态或 fake 样本；不返回其他客户端、会话正文、凭证或 bearer |
+| `POST /api/access/pair` | 精确 Host / Origin、JSON 和单次有效票据；不能由请求指定 desktop 身份 |
+| `GET /api/access/clients` | 有效 Cookie；仅返回 ID、名称、类型、创建 / 到期时间，无 bearer / 票据 / CSRF 列表 |
+| `POST /api/access/clients/:id/revoke` | 有效 Cookie + 所属客户端 CSRF；可撤销浏览器，包括自身；桌面身份由宿主管理 |
+| 会话 / 历史 / 全文 / 导出 / 内核 / 资源 / 凭证 REST、`WS /api/events` | 默认须认证；WS 还需显式允许的 Origin，撤销 / 到期立即关闭所属 socket（1008） |
+| 其他现有及未来写入口 | 默认须认证、精确 Origin、JSON 和所属 CSRF；不能通过未知路径、代理头或方法绕过 |
+
+Host 必须等于 `127.0.0.1:<daemonPort>`。允许同 daemon Origin，开发入口另允许精确 `http://127.0.0.1:5173`；`null`、localhost 别名、其他端口和外部 Origin 均拒绝，代理头不授予身份。Vite 只作固定目标代理，不能以放开 Host / Origin 修复联调。拒绝未认证升级发生在 WebSocket 插件标记 request.ws 前，因此出口显式释放原始 socket，避免 daemon 退出挂起。公开读取与配对也受 Host / Origin 规则约束。
+
+`?clients` 提供身份列表、刷新、两步撤销和重配表单，实际数据入口共同经过 ClientAccess。身份改变时卸载旧视图并清除私有请求缓存；WS 授权失效停止重连并切回配对。撤销只停止观察，daemon 中的 SDK 任务继续；不恢复旧工具审批，也不授予执行权限。普通明确标注的离线样本保持公开。MODEL-02 凭证修改、生产审批和真实提供商传输仍未开放。
+
+测试入口为 `apps/daemon/test/access.test.ts`、`e2e/access.spec.ts` 和 `e2e/desktop.spec.ts`；已有 CORE / SEC-06 测试先通过真实票据兑换建立独立夹具身份。服务集成覆盖单次 / 到期 / 并发兑换、限额、CSRF、错误 Host / Origin、默认拒绝、重启及原生 TCP WS；实际 SDK + 本地模型夹具验证撤销不断任务。过期时钟仅在独立授权服务中注入，真实 HTTP / WS 不用假响应。Electron 测试导入真实 main，通过真实父子 IPC / Cookie / 原生菜单运行；仅拦截操作系统外部浏览器启动，核对链接及一次性兑换，不自动打开用户浏览器。IME 为程序合成事件，仍不代表真实 Windows 输入法人工验收。完整回归及证据以本条最终验收记录为准。
+
+SEC-08 两条验收通过，新增 **7 项单元 / 服务测试与 3 项浏览器 / Electron 流程**。`pnpm fix`、完整 `pnpm run ci` 及 `pnpm verify:clean` 退出 0，**134 项 Vitest、26 项浏览器 / Electron E2E**、真实 SDK 本地冒烟、新目录 frozen 安装 / 构建 / 运行 / 退出均通过，原目录与新目录锁文件 SHA-256 一致；新增真实提供商请求 **0**，真实预算和固定录制未改。首次原生 WS 拒绝后退出挂起已复现，补早期拒绝 socket 清理后通过；同页打开新链接也有实际浏览器回归。SEC-08 TCP 测试使用 24348，与现有 4328 和本机低位动态端口分开，未停止无关程序。
+
+独立保留 [CI 原始输出](../validation/sec-08-evidence/ci.log)、[干净目录结果](../validation/sec-08-evidence/clean-workspace.json)、[命令输出](../validation/sec-08-evidence/clean-commands.json)，以及目视复核后的 [1080p 客户端](../validation/sec-08-evidence/clients-light.png)、[390px 深色配对失败](../validation/sec-08-evidence/pairing-dark-390.png)、[实际 Electron 身份](../validation/sec-08-evidence/clients-desktop.png)。不归档依赖、运行库、临时驱动或重复截图。OPS-08 整体仍 `in_progress`；SEC-07 的后续交付见下方资源信任边界。
+
+### SEC-07 已交付边界
+
+TrustService 区分项目、显式用户目录及第三方声明，展示资源来源、影响、SHA-256 指纹、预览、信任与实际能力。项目目录由用户明确输入并按 realpath 规范化，不向上继承祖先指令；用户资源只在宿主明确设置 PIW_PI_AGENT_DIR 后发现，默认不读取真实 pi 配置。覆盖当前目录的 AGENTS / CLAUDE 指令、.pi 的 SYSTEM / APPEND 文本、扩展 / 技能 / 提示 / 主题 / scripts、settings 中的声明与 package.json scripts。第三方包仅展示来源声明，不解析、下载、安装或 import；未知设置不合并到宿主权限。
+
+按用户确认，信任绑定实际目录、单项资源来源和内容指纹，存入 daemon 独占 SQLite 的 resource_trust 表，重启后复用完全匹配的版本。只保存元数据、确认客户端 / 时间及撤销时间，不复制正文。确认前服务端重新检查资源，旧预览不能批准新字节；写库失败、损坏记录、越界、链接 / Windows junction、硬链接、二进制上下文及不可完整检查来源均不获得加载许可。单文件最多 64 KiB；目录树最多 2 MiB / 512 项 / 8 层；一次发现最多 2048 项 / 8 MiB、256 资源；每轮文本最多 512 KiB / 128 项。记录最多 5000 条，不自动清理历史。
+
+KernelService 在内核 / 模型排队结束后逐轮重新检查，将已确认的上下文文本快照通过私有 IPC 送给 SDK；SDK 不按外部路径重新读取。读取前后检查文件身份，实际已检查字节作为本轮不可变快照；每轮替换系统上下文，包括空快照。撤销从下一轮生效，不停止当前任务、不删除资源或改写原生历史；旧模型回复仍可能包含此前文本。冷恢复重新核验，不将历史信任当作执行审批。此策略不是同一系统用户下的 OS 沙箱，也不承诺防止其他进程任意篡改宿主。
+
+SDK 使用显式、无资源 IO 的 ResourceLoader，避免 DefaultResourceLoader 在过滤扩展前先解析包来源。扩展、技能、提示模板、主题、脚本、安装动作及外部设置合并全部禁用，即使已保存对应信任；当前仅加载已确认的上下文文本。工具仍 deny-all，真实提供商仍关闭，外部文本不能增加工具、修改最终参数守卫或伪造信任记录。后续 EXT / EXEC 等条目接入执行资源时，须同时验证信任、实际能力和最终执行守卫；不以本次验收声称已支持扩展执行。
+
+| 入口 | 当前行为 |
+| --- | --- |
+| 侧栏设置区“资源信任”、`http://127.0.0.1:5173/?trust` | 配对后检查明确目录、逐项预览 / 确认、查看记录及单项撤销；显示当前轮次使用的资源与下一轮生效说明 |
+| `GET /api/trust` | 返回信任记录与当前活动轮次快照，无资源正文或执行接口 |
+| `POST /api/trust/inspect`、`/grant`、`/revoke` | 受 SEC-08 身份、精确 Host / Origin、JSON 和客户端 CSRF 保护；严格 schema，确认绑定当前指纹 |
+
+实际 React 页面复用已有官方 Field / Input / Alert / Badge / Button / Separator，无新 primitive 或第三方依赖。失败保留旧信息并禁用决定；预览绑定原版本，跨目录迟到响应不替换当前对象；每 5 秒刷新不改变已打开的确认内容。预览最多 12000 字符，明确指纹覆盖完整已检查内容；纯文本显示恶意 SVG。确认区键盘聚焦、取消返回触发按钮、结果聚焦状态，长列表可滚动。侧栏底部入口避免在窄窗挤占工作台顶部；明暗、1920×1080 / 390px 及真实 Electron 入口均已验证。
+
+新增 **7 项服务集成测试与 2 项浏览器流程**，扩充既有真实 Electron 主进程测试。真实 SDK + 本地 HTTP 夹具逐轮检查系统提示中的未信任、已信任、变化、撤销和冷恢复；另验证 FIFO 等待后重查、活动快照、持久复用、来源 / 链接 / 超限拒绝、带副作用扩展和脚本不执行、未知工具拒绝、数据库损坏 / 写入失败及从旧 schema 迁移保留历史。HTTP 身份 / CSRF 与旧预览冲突使用真实 daemon；503 与迟到结果是明确注入的网络故障。UI 用实际组件验证确认 / 撤销、滚动、焦点与安全文本，不以模拟审批或原型代替执行证据。迁移数量变化及窄窗横向溢出均先复现后修复。
+
+`pnpm fix`、完整 `pnpm run ci`、`pnpm verify:clean` 均退出 0；**141 项 Vitest、28 项浏览器 / Electron E2E**、真实 SDK 本地冒烟与新目录 frozen 安装 / 构建 / 服务启停通过，锁文件 SHA-256 一致。clean 工具沿用 OPS-01 报告标识，验证的是本轮源码副本；E2E 在主工作区完整 CI 执行。新增真实提供商请求 **0**，现有提供商 / 模型配置、预算账本和固定录制未改。SEC-07 两条验收通过，OPS-08 整体继续 `in_progress`，其余真实会话 / 审批、人工 Windows IME、M3 回滚和后续平台门禁仍待各阶段验收。
+
+独立保留 [CI 原始输出](../validation/sec-07-evidence/ci.log)、[干净目录结果](../validation/sec-07-evidence/clean-workspace.json)、[命令输出](../validation/sec-07-evidence/clean-commands.json)，以及目视复核的 [1080p 资源信任](../validation/sec-07-evidence/trust-light.png)、[390px 深色撤销记录](../validation/sec-07-evidence/trust-dark-390.png)、[实际 Electron 入口](../validation/sec-07-evidence/trust-desktop.png)。不归档依赖、运行数据库、临时测试工作区或重复截图。WS-01 的后续交付见下方。
+
+### WS-01 已交付边界
+
+2026-11-02 完成 Electron 优先的目录选择、规范化物理身份、重复打开复用、本窗口切换，以及目录 / 权限 / 连接失效诊断。侧栏“打开工作区”、原生菜单或 Ctrl+O 进入 `?workspaces`；原生选择器的取消不改当前选择，手动输入仅接受完整绝对路径。未授权不能挂载私有页面或登记目录；网页独立工作区操作暂缓，共享 daemon 保留相同契约。本次没有安装包或发布产物。
+
+daemon 的 WorkspaceService 先 realpath，再用平台 / 设备 / inode / 创建时间生成物理指纹；不盲目将路径转为小写，Windows 大小写别名与 junction 指向同一目录时复用身份。不能取得可靠物理身份时拒绝。目录需存在且可列出，并能独占创建 / 写入 / 删除一个 4 字节探针，UI 提前说明这项检查。探针清理失败不登记；前后检查身份与链接目标，旧路径替换为其他目录时拒绝旧身份的切换，需显式重新打开。校验反映当时状态，实际发送 / 写入仍须在对应边界重新检查。
+
+迁移 `0003_workspace_identity.sql` 新建独立 `workspaces` 表，只存身份、路径与目录显示名；物理指纹唯一索引与同步事务使并发别名收敛。失败不产生部分登记、不创建 SessionStore / SDK 会话、不改原生历史或信任。当前活动选择和已打开列表属于客户端视图，迟到请求不能覆盖较新选择；切换与连接中断不调用内核中止或销毁。重启后重新打开能复用登记身份；最近列表、用户重命名、移除 / 重新定位仍由 WS-02 验收。
+
+Electron 的 sandbox CJS preload 仅暴露 `selectDirectory()`；main 对发送窗口、主 frame、Origin 和额外参数校验，只允许一个固定的系统目录对话框，不接受 renderer 提供通用 IPC / 文件操作。路径通过 SEC-08 的已配对 HTTP / CSRF 边界交由 daemon 校验。打开目录不检查或授予资源信任、不运行项目资源；“查看资源信任”只带入当前规范化目录，继续走 SEC-07 的单项来源 / 指纹流程。现有工具、扩展、脚本及真实提供商仍禁用。
+
+`apps/daemon/test/workspaces.test.ts` 的 5 项集成实际覆盖并发、点路径 / 大小写 / junction、重启复用、无效 / 消失 / 替换目录、SQLite 保存失败与迁移、未认证 / Host / Origin / CSRF 拦截；实际 Windows `icacls` 分别拒绝列目录和创建文件，再恢复权限核对可恢复，没有用合成 EACCES 代替。已有会话、SDK v3 JSONL 和资源信任在迁移后保持。`e2e/workspaces.spec.ts` 的 2 项真实 Electron 流程覆盖选择 / 取消、切换、焦点、迟到响应、断线与恢复、明暗 / 1920×1080 / 800px 无横向溢出。后台实际 SDK + 本地 HTTP hold 请求在切换后 PID 与 running 状态不变，随后显式中止；扩展副作用标记始终未出现。
+
+CI 中仅 OS 对话框的返回值是确定性夹具，main / preload、父子授权 IPC、Cookie、React 页面、daemon、文件系统和 SQLite 均真实运行；迟到响应 / 断线是网络故障注入，中文 IME 仅程序合成事件，不声称物理输入法手动验收。另通过 Windows 原生操作验证实际开发启动器可见窗口、Ctrl+O、未拦截的系统选择器打开中文目录，以及再次取消保持原身份；关闭服务后只读核对 1 个工作区、0 会话、0 信任记录、无残留探针。实际启动发现并修复 GUI 被 `windowsHide:true` 隐藏的问题，后台 SDK / helper 仍保持隐藏。
+
+`pnpm fix`、完整 `pnpm run ci` 和 `pnpm verify:clean` 均退出 0：**146 项 Vitest、30 项浏览器 / Electron E2E**、SDK 本地冒烟与新目录 frozen 安装 / 构建 / 服务启停通过；锁文件 SHA-256 一致，无新增依赖、预算变更或真实提供商请求。clean 工具沿用 OPS-01 报告标识，验证本轮源码副本，E2E 在主工作区完整 CI 执行。后续进度 / PRD / 说明回填另执行文档生成与完整 `pnpm check`，不把文档更新称为再次运行产品 CI。WS-01 两项验收通过，OPS-08 整体仍进行中。
+
+归档仅保留 [CI](../validation/ws-01-evidence/ci.log)、[干净目录结果](../validation/ws-01-evidence/clean-workspace.json)、[命令输出](../validation/ws-01-evidence/clean-commands.json)、[原生流程记录](../validation/ws-01-evidence/native-validation.json)，以及目视复核的 [1080p 浅色诊断](../validation/ws-01-evidence/workspaces-light.png)、[800px 深色](../validation/ws-01-evidence/workspaces-dark-800.png)、[真实系统选择 / 取消后的 Electron](../validation/ws-01-evidence/native-workspace.jpg)。不保留运行数据库、临时测试工作区或其余重复截图。下一项建议依赖已满足的 **MODEL-01：发现模型与已有提供商**，为 SESSION-01 补齐模型前置。
 
 ## 评估证据
 

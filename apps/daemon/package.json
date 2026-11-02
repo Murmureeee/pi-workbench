@@ -19,7 +19,8 @@
     "drizzle-orm": "catalog:prod",
     "fastify": "catalog:prod",
     "reflect-metadata": "catalog:prod",
-    "rxjs": "catalog:prod"
+    "rxjs": "catalog:prod",
+    "zod": "catalog:prod"
   },
   "devDependencies": {
     "@pi-workbench/config": "workspace:*",

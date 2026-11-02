@@ -19,7 +19,15 @@ CORE-04 的实现边界与验收说明合并在[实施方案](architecture/imple
 
 OPS-08 的 M1 契约基线、来源说明、命令与后续阶段矩阵见[工具规范](development/tooling.md#ops-08-契约回归门禁)，本次 [CI 输出](validation/ops-08-evidence/ci.log)与[干净目录结果](validation/ops-08-evidence/clean-workspace.json)独立归档。整体仍为进行中，真实 M2 交互与后续回滚验收未完成。
 
-CORE-05 的协议、只读观察入口、身份 / 游标 / 重同步及验收边界见[实施方案](architecture/implementation-plan.md#core-05-已交付边界)，[CI 输出](validation/core-05-evidence/ci.log)与[干净目录结果](validation/core-05-evidence/clean-workspace.json)独立归档；内存重放已验收。CORE-06 的 JSONL 分页 / 全文 / 原始导出、持久记录、独立检查点与实际硬杀恢复也已验收；[实现边界](architecture/implementation-plan.md#core-06-已交付边界)、[CI 输出](validation/core-06-evidence/ci.log)和[干净目录结果](validation/core-06-evidence/clean-workspace.json)独立保留，下一项 CORE-07。
+CORE-05 的协议、只读观察入口、身份 / 游标 / 重同步及验收边界见[实施方案](architecture/implementation-plan.md#core-05-已交付边界)，[CI 输出](validation/core-05-evidence/ci.log)与[干净目录结果](validation/core-05-evidence/clean-workspace.json)独立归档；内存重放已验收。CORE-06 的 JSONL 分页 / 全文 / 记录导出、持久记录、独立检查点与实际硬杀恢复也已验收；[实现边界](architecture/implementation-plan.md#core-06-已交付边界)、[CI 输出](validation/core-06-evidence/ci.log)和[干净目录结果](validation/core-06-evidence/clean-workspace.json)独立保留。CORE-07 的配额、FIFO / 取消、空闲回收及原生上下文冷恢复也已验收；[边界](architecture/implementation-plan.md#core-07-已交付边界)、[CI](validation/core-07-evidence/ci.log)和[干净目录结果](validation/core-07-evidence/clean-workspace.json)独立保留。下一阶段为 M2。
+
+M2 的 SEC-06 原生凭证边界、统一脱敏、流式分片保护及安全导出已验收，状态页为 `http://127.0.0.1:5173/?credentials`；[实现、来源与限制](architecture/implementation-plan.md#sec-06-已交付边界)、[CI](validation/sec-06-evidence/ci.log)和[干净目录结果](validation/sec-06-evidence/clean-workspace.json)独立归档。真实提供商仍关闭；客户端配对现已由 SEC-08 接入，浏览器凭证修改留待 MODEL-02。
+
+SEC-08 的一次性配对、客户端身份 / 撤销、Host / Origin / CSRF 以及重启授权规则见[实施方案](architecture/implementation-plan.md#sec-08-本机客户端授权边界)。入口为 `http://127.0.0.1:5173/?clients`，完整离线 [CI](validation/sec-08-evidence/ci.log)、[干净目录结果](validation/sec-08-evidence/clean-workspace.json)与三张实际页面截图独立归档；新增真实提供商请求 0。
+
+SEC-07 已验收，配对后从侧栏下方“资源信任”或 `http://127.0.0.1:5173/?trust` 检查来源、逐项确认和撤销。信任按目录 / 来源 / 指纹跨重启保存，仅已确认文本可加载，扩展 / 脚本执行仍禁用；[实现与边界](architecture/implementation-plan.md#sec-07-已交付边界)、[CI](validation/sec-07-evidence/ci.log)、[干净目录结果](validation/sec-07-evidence/clean-workspace.json)和三张实际页面截图独立归档。该次完整 141 项单元 / 集成、28 项浏览器 / Electron E2E 通过，新增真实提供商请求 0。
+
+WS-01 已验收：Electron 从侧栏或 Ctrl+O 打开目录，规范化物理身份复用，切换不停止后台任务；目录 / 权限失败可诊断恢复，不创建空会话或自动信任资源。[实现与来源](architecture/implementation-plan.md#ws-01-已交付边界)、[CI](validation/ws-01-evidence/ci.log)、[干净目录结果](validation/ws-01-evidence/clean-workspace.json)、[真实 Windows 选择器流程](validation/ws-01-evidence/native-validation.json)与三张实际页面截图独立归档。当前完整 146 项单元 / 集成、30 项浏览器 / Electron E2E、SDK 冒烟和干净目录复现通过，新增真实提供商请求 0。本轮未制作安装包，网页独立操作暂缓；下一项建议 MODEL-01 模型发现，再衔接 SESSION-01。
 
 本次目录整理的迁移清单、完整性核对与离线验证见 [整理验收记录](validation/structure-acceptance.md)。
 

@@ -3,6 +3,8 @@ import type { FixtureMode } from './kernel-protocol.js'
 import { createServer } from 'node:http'
 import { setTimeout as delay } from 'node:timers/promises'
 
+import { z } from 'zod'
+
 function frame(delta: unknown, finishReason: string | null = null) {
   return `data: ${JSON.stringify({ id: 'piw-offline', object: 'chat.completion.chunk', created: 0, model: 'fixture', choices: [{ index: 0, delta, finish_reason: finishReason }] })}\n\n`
 }
@@ -12,11 +14,46 @@ export async function createOfflineProvider() {
   let mode: FixtureMode = 'reply'
   let requests = 0
   let blockedNetworkAttempts = 0
-  const server = createServer((_request, response) => {
+  const server = createServer((request, response) => {
     requests += 1
     if (mode === 'error' || requests > requestLimit) {
       response.writeHead(503, { 'content-type': 'application/json' })
       response.end(JSON.stringify({ error: { message: 'Offline fixture error; no retry' } }))
+      return
+    }
+    if (mode === 'context' || mode === 'trust-context') {
+      // Explicit test fixture: echo the actual SDK request context, not a synthetic SDK event.
+      let body = ''
+      request.setEncoding('utf8')
+      request.on('data', (chunk: string) => {
+        body += chunk
+      })
+      request.on('end', () => {
+        try {
+          const context = z
+            .object({ messages: z.array(z.object({ role: z.string(), content: z.unknown() })) })
+            .parse(JSON.parse(body))
+          const content = JSON.stringify(
+            context.messages.filter((message) =>
+              mode === 'trust-context'
+                ? message.role === 'system'
+                : ['user', 'assistant'].includes(message.role),
+            ),
+          )
+          response.writeHead(200, {
+            'content-type': 'text/event-stream',
+            'cache-control': 'no-cache',
+          })
+          response.end(
+            frame({ role: 'assistant', content: content.slice(0, 8192) }) +
+              frame({}, 'stop') +
+              'data: [DONE]\n\n',
+          )
+        } catch {
+          response.writeHead(400)
+          response.end('Invalid context fixture request')
+        }
+      })
       return
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })

@@ -1,6 +1,11 @@
 import { z } from 'zod'
 
-export const runtimeCapabilities = ['snapshots', 'replay', 'tool-observation'] as const
+export const runtimeCapabilities = [
+  'snapshots',
+  'replay',
+  'tool-observation',
+  'redacted-observation',
+] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),
   protocolVersion: z.number().int(),
@@ -71,6 +76,11 @@ export const runtimeEventSchema = z
         messageId: z.string().min(1),
       }),
       z.strictObject({ type: z.literal('message.delta'), messageId: z.string(), text: z.string() }),
+      z.strictObject({
+        type: z.literal('message.replaced'),
+        messageId: z.string(),
+        text: z.string(),
+      }),
       z.strictObject({ type: z.literal('tool.updated'), tool: toolSchema }),
       z.strictObject({ type: z.literal('approval.requested'), approval: approvalSchema }),
       z.strictObject({ type: z.literal('approval.resolved'), approvalId: z.string() }),
@@ -79,6 +89,7 @@ export const runtimeEventSchema = z
         type: z.literal('turn.finished'),
         outcome: outcomeSchema,
         error: z.string().optional(),
+        text: z.string().optional(),
       }),
     ]),
   })
@@ -176,10 +187,11 @@ export function applyRuntimeEvent(state: RuntimeSnapshot, event: RuntimeEvent): 
   let turn = { ...active }
   switch (payload.type) {
     case 'message.delta':
+    case 'message.replaced':
       if (payload.messageId !== active.messageId) {
         throw new Error('Message identity mismatch')
       }
-      turn.text += payload.text
+      turn.text = payload.type === 'message.delta' ? turn.text + payload.text : payload.text
       break
     case 'tool.updated': {
       const prior = turn.tools.find((tool) => tool.id === payload.tool.id)
@@ -203,7 +215,13 @@ export function applyRuntimeEvent(state: RuntimeSnapshot, event: RuntimeEvent): 
       turn.phase = 'stopping'
       break
     case 'turn.finished':
-      turn = { ...turn, phase: payload.outcome, error: payload.error ?? null, approval: null }
+      turn = {
+        ...turn,
+        text: payload.text ?? turn.text,
+        phase: payload.outcome,
+        error: payload.error ?? null,
+        approval: null,
+      }
       break
   }
   return { ...next, turns: [...state.turns.slice(0, -1), turn] }

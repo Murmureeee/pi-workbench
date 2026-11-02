@@ -13,7 +13,7 @@ import { useEffect } from 'react'
 
 import { sceneSchema } from '@pi-workbench/shared'
 import { Badge } from '@pi-workbench/ui/components/badge'
-import { Button } from '@pi-workbench/ui/components/button'
+import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
 
 import { ChangesPanel } from '../features/changes/changes-panel.js'
 import { Composer } from '../features/composer/composer.js'
@@ -67,6 +67,15 @@ export function Workbench() {
         <Badge variant="outline">OPS-01 离线基础壳</Badge>
         <span className="development-note">假内核样本，不调用提供商</span>
         <div className="development-controls">
+          <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?clients">
+            客户端连接
+          </a>
+          <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?credentials">
+            凭证与隐私
+          </a>
+          <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?resources">
+            资源状态
+          </a>
           <label>
             <span className="sr-only">离线状态样本</span>
             <select
@@ -112,6 +121,10 @@ export function Workbench() {
             </Button>
           </div>
           <nav className="sidebar-actions">
+            <a className={buttonVariants({ variant: 'ghost' })} href="/?workspaces">
+              <FolderIcon data-icon="inline-start" />
+              打开工作区
+            </a>
             <Button variant="ghost" onClick={() => setScene('new')}>
               <MessageSquarePlusIcon data-icon="inline-start" />
               新会话
@@ -141,6 +154,9 @@ export function Workbench() {
             </Button>
           </div>
           <div className="sidebar-footer">
+            <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?trust">
+              资源信任
+            </a>
             <Button variant="ghost" disabled title="完整设置按 M4 / M5 接入，上方可切换主题">
               <SettingsIcon data-icon="inline-start" />
               设置

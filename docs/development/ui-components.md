@@ -28,7 +28,17 @@ shadcn/ui 按源码分发：通过官方 CLI 将组件加入项目，由项目�
 
 CORE-05 的 `?observe=<sessionId>` 是独立只读观察页，复用现有 Alert / Button / Bubble，展示实际 REST / WS 投影；工具结果暂用安全纯文本 `pre`，没有另造基础组件。普通 Conversation 的 Trace 仍为离线样本；完整 OBS 工具组合、历史滚动 / 分页与正式会话 UI 继续按各自功能验收，不能因观察通道完成提前勾选。
 
-CORE-06 的 `?history=<sessionId>` 复用 MessageScroller / Message / Bubble、Alert、Badge 与 Button；导航链接复用官方 buttonVariants。分页、按需全文和原始二进制下载均调用 daemon，只读读取 SDK 原件；合成队列 / 审批 / 引用记录明确标注，按钮安装和此读取页不代表 M2 真实会话或审批执行已验收。
+CORE-06 的 `?history=<sessionId>` 复用 MessageScroller / Message / Bubble、Alert、Badge 与 Button；导航链接复用官方 buttonVariants。分页、按需全文和记录导出均调用 daemon，只读读取 SDK 原件；SEC-06 已为展示与下载加入统一脱敏，无法安全解析的内容拒绝导出且保留原件。合成队列 / 审批 / 引用记录明确标注，按钮安装和此读取页不代表 M2 真实会话或审批执行已验收。
+
+CORE-07 的 `?resources` 复用 Alert / Badge / Button / buttonVariants，显示 daemon 返回的限额、占用、队列顺序和原因。失败保留旧数据并标明不同步，支持键盘刷新、系统明暗与窄窗；没有新增基础 primitive。该页只读，取消通过内部任务入口验证；M2 业务入口、真实审批和 M4 PTY 不因资源页通过而提前验收。
+
+SEC-06 的 `?credentials` 复用 Alert / Badge / Button / buttonVariants，读取经 Zod 校验的提供商凭证元数据；无明文密钥输入、回显或持久浏览器存储。加载、空态、读取失败保留旧值、键盘刷新、明暗与 390px 均由实际页面验证。没有新增基础 primitive，凭证修改 UI 留待配对 / 配置功能；审批展示脱敏不改变宿主执行参数。
+
+SEC-08 的 `?clients` 及 ClientAccess 复用官方 Field / FieldLabel、Input、Alert、Badge 和 Button。Field（及所依赖的 Label / Separator）由当前 Base UI / base-nova 官方 CLI 加入，复用已有 cn、相对 ESM 导入；Label 显式传递 htmlFor，Field 不附加冗余 group role，错误列表按去重消息作 key，无新增第三方运行依赖。配对与客户端裁决均来自 daemon；fragment 仅在内存，授权失效卸载私有视图。明暗、1080p / 390px、键盘和程序 IME 防误提交在真实页面检验；Electron 保留隔离、托盘和宿主授权，不用示例 AI transport。
+
+SEC-07 的 `?trust` 从侧栏设置区进入，复用既有官方 Field / FieldLabel、Input、Alert、Badge、Button 和 Separator，没有新 primitive 或依赖。资源来源、影响、指纹、不可执行状态和逐项预览 / 确认 / 撤销由业务 feature 组合；同一 daemon 决定实际加载。确认面板保留打开时的版本，旧预览不能确认新内容；请求失败保留旧数据并禁用决定，跨目录迟到结果不串页。实际 Chrome / Electron 检查明暗、1080p / 390px、纯文本预览、键盘焦点恢复及长列表滚动。保存信任不表示扩展、脚本或生产审批已开放。
+
+WS-01 的 Electron 工作区页复用上述 Field / FieldLabel、Input、Alert、Badge、Button、Separator 和既有 Lucide 图标，没有增加自制 primitive 或依赖。目录输入、可取消的原生选择器、本窗口切换、诊断与信任入口属于 feature 组合；规范化和身份去重由 daemon 决定。工作区模块按需加载，不加重初始离线对话包；迟到请求按视图版本隔离。原生选择器经固定 preload 桥调用，独立网页显示桌面入口提示并禁用操作。
 
 ## AI Elements 如何接入
 

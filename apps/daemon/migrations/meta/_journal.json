@@ -15,6 +15,20 @@
       "when": 1793524818512,
       "tag": "0001_white_maverick",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1793604179859,
+      "tag": "0002_curious_winter_soldier",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1793609651034,
+      "tag": "0003_workspace_identity",
+      "breakpoints": true
     }
   ]
 }

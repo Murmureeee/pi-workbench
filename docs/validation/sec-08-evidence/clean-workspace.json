@@ -1,0 +1,43 @@
+{
+  "feature": "OPS-01",
+  "verifiedAt": "2026-11-02T06:58:15.064Z",
+  "node": "v24.22.2",
+  "destination": "D:\\Project\\.piw-clean-t8vAmq",
+  "commands": [
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm smoke:sdk",
+      "exitCode": 0
+    }
+  ],
+  "lockSha256": "87f09786a55d3118684db1e3116390ee7556ee02a61cd6602254edcecb07cbf4",
+  "cleanLockSha256": "87f09786a55d3118684db1e3116390ee7556ee02a61cd6602254edcecb07cbf4",
+  "health": {
+    "status": "ok",
+    "kernel": "fake",
+    "protocolVersion": 1,
+    "node": "v24.22.2",
+    "storage": "sqlite",
+    "realProviderEnabled": false
+  },
+  "uiStatus": 200,
+  "uiModuleStatus": 200,
+  "gracefulShutdown": true,
+  "serverOutput": "Pi Workbench http://127.0.0.1:5173; offline fake kernel; no model calls\n",
+  "providerRequests": 0
+}

@@ -131,7 +131,7 @@
     {
       "files": [
         "apps/daemon/**/*.ts",
-        "apps/desktop/**/*.ts",
+        "apps/desktop/**/*.{ts,cts}",
         "packages/agent-adapter/**/*.ts",
         "scripts/**/*.mjs",
         "e2e/*.ts",

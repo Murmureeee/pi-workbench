@@ -1,0 +1,32 @@
+{
+  "feature": "WS-01",
+  "verifiedAt": "2026-11-02T09:27:04.377Z",
+  "source": "Actual Electron development launcher + real Windows directory picker; no dialog interception",
+  "command": "PIW_DATA_DIR=.workbench/ws-01-native/data pnpm exec node scripts/dev.mjs --desktop",
+  "steps": [
+    "Electron GUI is visible after launch (windowsHide:false).",
+    "Ctrl+O opens workspace management.",
+    "Choose directory opens the actual Windows native folder picker.",
+    "Navigate to isolated Chinese-named test directory via the address bar and confirm Open Workspace.",
+    "Renderer displays the normalized directory, stable workspace ID and last verified readable/writable state.",
+    "Open the actual picker again and cancel; current workspace ID and directory remain unchanged."
+  ],
+  "counts": {
+    "workspaces": 1,
+    "sessions": 0,
+    "trust": 0
+  },
+  "workspace": {
+    "id": "4f81d133-c2bc-4020-a017-acd541886d76",
+    "name": "示例项目",
+    "canonical_path": "D:\\Project\\pi-workbench\\.workbench\\ws-01-native\\示例项目"
+  },
+  "probeFilesRemaining": [],
+  "providerRequests": 0,
+  "screenshot": "native-workspace.jpg",
+  "limitations": [
+    "Native keyboard automation uses type_text; physical Chinese IME composition is not manually verified.",
+    "CI Electron uses a deterministic fixture for the OS dialog return value; main/preload/auth/daemon are real.",
+    "No installer is built; browser standalone workspace actions remain deferred."
+  ]
+}

@@ -78,7 +78,7 @@ function HistoryEntry({ sessionId, message }: { sessionId: string; message: Hist
   )
 }
 
-/** Fetches exact binary bytes before download so HTTP failures remain visible. Leaving the
+/** Fetches the server-scanned copy before download so HTTP failures remain visible. Leaving the
  * session aborts stale exports and revokes the component-owned blob URL.
  */
 function DiagnosticExport({
@@ -113,7 +113,11 @@ function DiagnosticExport({
         { signal: controller.signal, cache: 'no-store' },
       )
       if (!response.ok) {
-        throw new Error('原始记录导出失败，请刷新后重试。')
+        throw new Error(
+          response.status === 422
+            ? '该记录无法安全解析，原件保留，请在本机检查。'
+            : '记录导出失败，请刷新后重试。',
+        )
       }
       const blob = await response.blob()
       if (controller.signal.aborted) {
@@ -126,7 +130,10 @@ function DiagnosticExport({
       download.current = url
       const anchor = document.createElement('a')
       anchor.href = url
-      anchor.download = 'piw-original-record.bin'
+      anchor.download =
+        response.headers.get('x-piw-redacted') === 'true'
+          ? 'piw-redacted-record.txt'
+          : 'piw-original-record.bin'
       anchor.click()
       setTimeout(() => {
         URL.revokeObjectURL(url)
@@ -153,7 +160,7 @@ function DiagnosticExport({
           void exportRecord()
         }}
       >
-        导出原始记录
+        导出记录（先脱敏）
       </Button>
       {error ? <p role="alert">{error}</p> : null}
     </div>

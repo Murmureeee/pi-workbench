@@ -9,6 +9,9 @@ import { createServer } from 'vite'
 
 import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
 import { readOptions } from '../apps/daemon/dist/bootstrap/options.js'
+import { AccessService } from '../apps/daemon/dist/modules/security/access.service.js'
+import { pairingConsole } from '../apps/daemon/dist/modules/security/host-access.js'
+import { hostAccessRequestSchema } from '../packages/shared/dist/index.js'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
 const options = readOptions({
@@ -22,11 +25,13 @@ let server
 let desktop
 /** @type {Promise<void> | undefined} */
 let closing
+const closeConsole = pairingConsole(daemon.get(AccessService))
 async function close() {
   if (closing) {
     return closing
   }
   closing = (async () => {
+    closeConsole()
     desktop?.kill()
     await server?.close()
     await daemon.close()
@@ -67,9 +72,28 @@ try {
     const desktopEnvironment = { ...process.env }
     delete desktopEnvironment.ELECTRON_RUN_AS_NODE
     desktop = spawn(electronPath, [resolve(root, 'apps/desktop')], {
-      stdio: 'inherit',
-      windowsHide: true,
+      stdio: ['inherit', 'inherit', 'inherit', 'ipc'],
+      // Electron is the visible product window; hiding its startup window suppresses the
+      // native UI on Windows. Background SDK/helper processes remain hidden separately.
+      windowsHide: false,
       env: desktopEnvironment,
+    })
+    desktop.on('message', (message) => {
+      const parsed = hostAccessRequestSchema.safeParse(message)
+      if (!parsed.success || !desktop?.connected) {
+        return
+      }
+      try {
+        desktop.send({
+          type: 'host-access-result',
+          id: parsed.data.id,
+          apiOrigin: `http://127.0.0.1:${options.port}`,
+          ticket: daemon.get(AccessService).issueTicket(parsed.data.operation),
+        })
+      } catch {
+        // No raw native IPC payload or ticket is ever written to diagnostic output.
+        process.stderr.write('Host client authorization unavailable\n')
+      }
     })
     desktop.once('error', () => {
       process.exitCode = 1

@@ -18,6 +18,7 @@ import { expect, test } from '@playwright/test'
 import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
 import { KernelService } from '../apps/daemon/dist/modules/kernels/kernel.service.js'
 import { SessionStore } from '../apps/daemon/dist/modules/sessions/session.store.js'
+import { authorizePage } from './helpers/access.js'
 
 const port = 4318,
   evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
@@ -54,6 +55,7 @@ test('CORE-06 real local SDK: restart reads exact native history and expands ful
     await app.close()
     app = await createApp({ dataDir: directory, port, development: true })
     await app.listen(port, '127.0.0.1')
+    await authorizePage(page, app)
     await routeHistory(page)
     await page.goto(`/?history=${sessionId}`)
     await expect(page.getByLabel('历史载入状态')).toHaveText('本页 2 条消息')
@@ -113,6 +115,7 @@ test('CORE-06 actual hard crash: partial text stays interrupted, records cannot 
     await exit
     app = await createApp({ dataDir: directory, port, development: true })
     await app.listen(port, '127.0.0.1')
+    await authorizePage(page, app)
     await routeHistory(page)
     await page.goto(`/?history=${ready.sessionId}`)
     await expect(page.getByText('已中断的部分回复 · 未自动继续', { exact: false })).toBeVisible()
@@ -129,7 +132,7 @@ test('CORE-06 actual hard crash: partial text stays interrupted, records cannot 
     await page.getByRole('button', { name: '刷新最新历史' }).click()
     await expect(page.getByText('记录诊断 · invalid-record')).toBeVisible()
     const downloadEvent = page.waitForEvent('download')
-    await page.getByRole('button', { name: '导出原始记录' }).click()
+    await page.getByRole('button', { name: '导出记录（先脱敏）' }).click()
     const download = await downloadEvent,
       path = await download.path()
     expect(readFileSync(path)).toEqual(corrupt)
@@ -180,6 +183,7 @@ test('CORE-06 synthetic file fixture: newest 100 messages and earlier page have 
     ]
     writeFileSync(path, records.map((record) => JSON.stringify(record)).join('\n') + '\n')
     await app.listen(port, '127.0.0.1')
+    await authorizePage(page, app)
     await routeHistory(page)
     await page.goto(`/?history=${sessionId}`)
     await expect(page.getByLabel('历史载入状态')).toHaveText('本页 100 条消息')

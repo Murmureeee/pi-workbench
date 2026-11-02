@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { trustedContextSchema } from '@pi-workbench/shared'
+
 const identity = {
   protocol: z.literal(1),
   sessionId: z.uuid(),
@@ -7,7 +9,18 @@ const identity = {
 }
 
 export const kernelIdentitySchema = z.object(identity)
-const fixtureModeSchema = z.enum(['reply', 'hold', 'error', 'unknown-tool'])
+const fixtureModeSchema = z.enum([
+  'reply',
+  'hold',
+  'error',
+  'unknown-tool',
+  'context',
+  'trust-context',
+])
+const resumeSchema = z.strictObject({
+  sessionFile: z.string().min(1),
+  nativeSessionId: z.string().min(1),
+})
 
 /** Private daemon ↔ child IPC. This is not the client replay protocol (CORE-05). */
 export const kernelCommandSchema = z.discriminatedUnion('type', [
@@ -16,6 +29,7 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
     type: z.literal('init'),
     cwd: z.string().min(1),
     runtimeDir: z.string().min(1),
+    resume: resumeSchema.optional(),
   }),
   z.strictObject({
     ...identity,
@@ -23,6 +37,7 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
     turnId: z.uuid(),
     text: z.string().min(1).max(65536),
     fixture: fixtureModeSchema,
+    trustedContext: z.array(trustedContextSchema).max(128).default([]),
   }),
   z.strictObject({ ...identity, type: z.literal('abort'), turnId: z.uuid() }),
   z.strictObject({ ...identity, type: z.literal('dispose'), turnId: z.uuid().nullable() }),

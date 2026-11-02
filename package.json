@@ -24,7 +24,7 @@
     "smoke:sdk": "pnpm --filter @pi-workbench/agent-adapter smoke",
     "start": "node apps/daemon/dist/bootstrap/main.js",
     "test": "pnpm build:server && vitest run",
-    "test:contracts": "pnpm build:server && vitest run packages/shared/src/reducer.test.ts packages/shared/src/runtime-contracts.test.ts packages/agent-adapter/src/contracts.test.ts packages/agent-adapter/src/kernel.test.ts packages/agent-adapter/src/native-history.test.ts apps/daemon/test/kernels.test.ts apps/daemon/test/events.test.ts apps/daemon/test/sessions.test.ts",
+    "test:contracts": "pnpm build:server && vitest run packages/shared/src/reducer.test.ts packages/shared/src/runtime-contracts.test.ts packages/shared/src/redaction.test.ts packages/agent-adapter/src/contracts.test.ts packages/agent-adapter/src/kernel.test.ts packages/agent-adapter/src/native-history.test.ts apps/daemon/test/kernels.test.ts apps/daemon/test/events.test.ts apps/daemon/test/sessions.test.ts apps/daemon/test/resources.test.ts apps/daemon/test/security.test.ts apps/daemon/test/access.test.ts apps/daemon/test/trust.test.ts apps/daemon/test/workspaces.test.ts",
     "test:e2e": "pnpm build && playwright test",
     "typecheck": "pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json",
     "verify:clean": "pnpm build:packages && node scripts/verify-clean.mjs"

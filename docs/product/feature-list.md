@@ -1,8 +1,8 @@
 # Pi Workbench 全量功能清单
 
-基线：2026-11-01 · 146 项功能 · 19 个模块 · M0–M8
+基线：2026-11-02 · 146 项功能 · 19 个模块 · M0–M8
 
-完整本地产品 M0–M7：7/133 已验收；M8 候选扩展 13 项单列。已有详细设计 54 项；文档不计作产品实现。
+完整本地产品 M0–M7：12/133 已验收；M8 候选扩展 13 项单列。已有详细设计 55 项；文档不计作产品实现。
 
 > 本文件由 `node scripts/planning/build-roadmap.mjs` 生成。请维护 backlog JSON，不要手工改本表。
 
@@ -13,8 +13,8 @@
 | 阶段 | 结果 | 功能数 | 已验收 |
 | --- | --- | ---: | ---: |
 | M0 可行性验证 | 验证真实 pi 接入、审批覆盖和文件快照，消除核心技术不确定性。 | 3 | 3 |
-| M1 运行与数据底座 | 可恢复的本地服务、会话运行内核、事件契约和持久化。 | 6 | 4 |
-| M2 双端对话与审批 | 桌面与本机浏览器可直接输入创建项目或无项目会话，自动命名、搜索并观察和控制真实任务。 | 32 | 0 |
+| M1 运行与数据底座 | 可恢复的本地服务、会话运行内核、事件契约和持久化。 | 6 | 5 |
+| M2 双端对话与审批 | 桌面与本机浏览器可直接输入创建项目或无项目会话，自动命名、搜索并观察和控制真实任务。 | 32 | 4 |
 | M3 变更审查闭环 | 形成可日常试用的观察、审批、审查与文件回滚闭环。 | 9 | 0 |
 | M4 日常开发能力 | 补齐上下文、终端、命令任务、配置和文件阅读。 | 29 | 0 |
 | M5 稳定桌面版 | 建立可分发、可恢复、有权限边界的 Windows 稳定版。 | 10 | 0 |
@@ -34,7 +34,7 @@
 | [CORE-04](roadmap.html#feature=CORE-04) | 会话内核与守护进程 | M1 | P0 | 已有详细设计，待校正 | 已验收 | CORE-01, CORE-02, OPS-01 |
 | [CORE-05](roadmap.html#feature=CORE-05) | 事件契约、快照与断线重放 | M1 | P0 | 已有详细设计，待校正 | 已验收 | CORE-04 |
 | [CORE-06](roadmap.html#feature=CORE-06) | 会话持久化与故障恢复 | M1 | P0 | 已有详细设计，待校正 | 已验收 | CORE-04 |
-| [CORE-07](roadmap.html#feature=CORE-07) | 进程池与资源排队 | M1 | P0 | 已有详细设计，待校正 | 未开始 | CORE-04, CORE-06 |
+| [CORE-07](roadmap.html#feature=CORE-07) | 进程池与资源排队 | M1 | P0 | 已有详细设计，待校正 | 已验收 | CORE-04, CORE-06 |
 | [CORE-08](roadmap.html#feature=CORE-08) | 运行时兼容与升级诊断 | M5 | P1 | 已有详细设计，待校正 | 未开始 | CORE-02, CORE-05, OPS-08 |
 
 ### CORE-01 验证 SDK 核心生命周期
@@ -121,8 +121,12 @@
 
 实现来源：pi 已有接口，待集成验证。负责人：未分配；目标日期：未估算。
 
-- [ ] M1 验证最多 3 个活跃内核、1 个模型任务，超限 FIFO 显示原因和顺序，可取消且不回收运行 / 待审批内核；终端预算预留 6，真实 PTY 在 M4 接入验收。
-- [ ] 空闲内核回收后可冷恢复；限额可配置、可核对，视图保留上限与内核池独立管理；资源负载待实测，不把初始值当性能保证。
+- [x] M1 验证最多 3 个活跃内核、1 个模型任务，超限 FIFO 显示原因和顺序，可取消且不回收运行 / 待审批内核；终端预算预留 6，真实 PTY 在 M4 接入验收。
+- [x] 空闲内核回收后可冷恢复；限额可配置、可核对，视图保留上限与内核池独立管理；资源负载待实测，不把初始值当性能保证。
+
+进展 / 阻塞：daemon 统一分配默认 3 个内核 / 1 个模型任务，6 个终端仅预留预算；启动 / 回收占名额，实际退出才释放。内核和模型各自 FIFO，显示原因 / 顺序，256 等待背压，按身份取消，不自动重试或重发。空闲 LRU 与 300 秒自动回收保护运行 / 预留 / 待审批内核；受管 v3 JSONL 用新代际冷恢复，验证实际 SDK 请求包含原生上下文且不包含 inflight，稳定消息不重复，旧中断仍在原位置。12 项新增服务集成与 2 项浏览器流程、完整 118 项 Vitest / 21 项浏览器与 Electron E2E、SDK 冒烟和干净目录验证通过。审批保留 / 部分检查点为明确标注的合成观察，网页资源页只读；M2 发送 / 审批 / 配对、旧 CLI 接管、M4 PTY 与完整视图缓存另行验收。新增真实提供商请求 0。
+
+验证证据：docs/architecture/implementation-plan.md#core-07-已交付边界；apps/daemon/src/modules/kernels/kernel-pool.ts、kernel.service.ts；packages/shared/src/resource-contracts.ts；packages/agent-adapter/src/sdk-runtime.ts / kernel.ts；apps/daemon/src/modules/sessions/session.store.ts；apps/daemon/test/resources.test.ts、e2e/resources.spec.ts；docs/validation/core-07-evidence/ci.log、clean-workspace.json、clean-commands.json 及 3 份资源 UI 截图。
 
 ### CORE-08 运行时兼容与升级诊断
 
@@ -139,7 +143,7 @@
 
 | ID | 功能 | 阶段 | 优先级 | 设计 | 实现 | 依赖 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [WS-01](roadmap.html#feature=WS-01) | 打开、切换与校验工作区 | M2 | P0 | 已有详细设计，待校正 | 未开始 | CORE-05, CORE-06, SEC-07 |
+| [WS-01](roadmap.html#feature=WS-01) | 打开、切换与校验工作区 | M2 | P0 | 已有详细设计，待校正 | 已验收 | CORE-05, CORE-06, SEC-07 |
 | [WS-02](roadmap.html#feature=WS-02) | 最近工作区与重命名 | M2 | P0 | 已有详细设计，待校正 | 未开始 | WS-01 |
 | [WS-03](roadmap.html#feature=WS-03) | 工作区与 Git 环境标识 | M2 | P0 | 已有详细设计，待校正 | 未开始 | WS-01 |
 | [WS-04](roadmap.html#feature=WS-04) | 同目录写入互斥与外部改动 | M3 | P0 | 已列范围，待细化 | 未开始 | CORE-03, WS-01 |
@@ -153,8 +157,12 @@
 
 实现来源：工作台自行实现。负责人：未分配；目标日期：未估算。
 
-- [ ] 重复打开同一路径进入既有工作区，路径大小写和符号链接按平台规范处理。
-- [ ] 路径不存在、不可读写或未授权时不创建误导性的空会话，并显示可恢复原因。
+- [x] 重复打开同一路径进入既有工作区，路径大小写和符号链接按平台规范处理。
+- [x] 路径不存在、不可读写或未授权时不创建误导性的空会话，并显示可恢复原因。
+
+进展 / 阻塞：完成 Electron 原生目录选择 / 取消、绝对路径输入、realpath 与平台物理目录指纹、并发 / 大小写 / junction 别名去重、重启后重新打开复用、本窗口切换及重新校验。实际列目录与 4 字节独占探针验证读写 / 清理，目录消失、替换、权限拒绝、保存失败和连接失效均给出恢复原因；保留旧记录，不创建空会话。切换保持实际 SDK 本地后台请求的 PID 与运行状态，不自动信任 / 执行项目资源。5 项服务集成（含实际 Windows ACL）和 2 项真实 Electron 流程进入门禁；另验证未拦截的 Windows 选择器打开中文目录及取消。完整 146 项 Vitest / 30 项浏览器与 Electron E2E、SDK 冒烟和干净目录复现通过。最近 / 重命名等仍属 WS-02，网页独立操作暂缓，本次不制作安装包；新增真实提供商请求 0。
+
+验证证据：packages/shared/src/workspace-contracts.ts；apps/daemon/src/modules/workspaces/workspace.service.ts / workspace.transport.ts、infrastructure/database/schema.ts 与 migrations/0003_workspace_identity.sql；apps/desktop/src/directory-picker.ts / preload.cts / main.ts、scripts/dev.mjs；apps/web/src/features/workspaces/workspace-manager.tsx、services/workspace-client.ts、app/app.tsx；apps/daemon/test/workspaces.test.ts、e2e/workspaces.spec.ts / helpers/desktop.ts / desktop.spec.ts。pnpm fix、pnpm run ci、pnpm verify:clean 均退出 0；docs/architecture/implementation-plan.md#ws-01-已交付边界；docs/validation/ws-01-evidence（ci.log、clean-workspace.json、clean-commands.json、native-validation.json 与 3 张实际页面截图）。CI 的 OS 选择结果为夹具，原生选择器另有真实操作证据；真实 SDK 使用本地 HTTP 夹具，断线 / 迟到为网络故障注入。用户提供商 / 模型配置、预算账本、锁文件和固定录制本轮未改。
 
 ### WS-02 最近工作区与重命名
 
@@ -541,9 +549,9 @@
 | [SEC-03](roadmap.html#feature=SEC-03) | 会话授权查看与撤销 | M2 | P0 | 已列范围，待细化 | 未开始 | SEC-02 |
 | [SEC-04](roadmap.html#feature=SEC-04) | 权限配置与任务模式 | M4 | P1 | 已列范围，待细化 | 未开始 | SEC-01, SEC-03, MODEL-04 |
 | [SEC-05](roadmap.html#feature=SEC-05) | 操作系统级执行隔离 | M5 | P0 | 已列范围，待细化 | 未开始 | SEC-04, SEC-10 |
-| [SEC-06](roadmap.html#feature=SEC-06) | 密钥存储与输出脱敏 | M2 | P0 | 已有详细设计，待校正 | 未开始 | CORE-04 |
-| [SEC-07](roadmap.html#feature=SEC-07) | 项目、扩展和脚本信任 | M2 | P0 | 已列范围，待细化 | 未开始 | CORE-04 |
-| [SEC-08](roadmap.html#feature=SEC-08) | 本机浏览器配对与客户端撤销 | M2 | P0 | 已有详细设计，待校正 | 未开始 | CORE-05, SEC-06 |
+| [SEC-06](roadmap.html#feature=SEC-06) | 密钥存储与输出脱敏 | M2 | P0 | 已有详细设计，待校正 | 已验收 | CORE-04 |
+| [SEC-07](roadmap.html#feature=SEC-07) | 项目、扩展和脚本信任 | M2 | P0 | 已有详细设计，待校正 | 已验收 | CORE-04 |
+| [SEC-08](roadmap.html#feature=SEC-08) | 本机浏览器配对与客户端撤销 | M2 | P0 | 已有详细设计，待校正 | 已验收 | CORE-05, SEC-06 |
 | [SEC-09](roadmap.html#feature=SEC-09) | 审批与操作审计 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SEC-02, SEC-06 |
 | [SEC-10](roadmap.html#feature=SEC-10) | 目录与网络访问规则 | M2 | P0 | 已列范围，待细化 | 未开始 | SEC-01 |
 
@@ -598,8 +606,12 @@
 
 实现来源：工作台自行实现。负责人：未分配；目标日期：未估算。
 
-- [ ] 界面不回显明文密钥，日志、审批摘要和导出使用同一脱敏规则。
-- [ ] 密钥缺失、过期或保存失败时可诊断，更新不覆盖其他有效配置。
+- [x] 界面不回显明文密钥，日志、审批摘要和导出使用同一脱敏规则。
+- [x] 密钥缺失、过期或保存失败时可诊断，更新不覆盖其他有效配置。
+
+进展 / 阻塞：沿用现有 pi auth.json / models.json，仅宿主读取凭证并返回来源、缺失 / 过期 / 命令未执行等元数据，默认离线不读真实配置。内部 API key 更新具备原生锁、revision、原子替换、写入前应用原访问权限和失败诊断，不覆盖其他有效配置。日志、审批摘要、HTTP / WS 累计流式与重放、历史展示和安全导出共用脱敏策略，原始执行 / JSONL / 检查点不改；中止 / 错误 / 恢复及历史全文不释放未完整密钥前缀，无法安全解析的二进制拒绝导出。真实 SDK 本地夹具、合成凭证 / 审批 / 分片与实际 Windows ACL、HTTP / TCP WS、浏览器流程验证通过。完整 127 项 Vitest / 23 项浏览器与 Electron E2E、SDK 冒烟及干净目录验证通过，新增真实提供商请求 0。浏览器修改留待 SEC-08 / MODEL-02；不宣称 pi 原生文件加密，也不承诺过滤所有未知 / 混淆秘密。
+
+验证证据：docs/architecture/implementation-plan.md#sec-06-已交付边界；packages/shared/src/redaction.ts、security-contracts.ts、redaction.test.ts；apps/daemon/src/modules/security/security.service.ts、bootstrap/app.ts、modules/events/event.service.ts / event.transport.ts、modules/sessions/session.transport.ts；apps/daemon/test/security.test.ts；apps/web/src/features/settings/credential-status.tsx、features/conversation/session-history.tsx；e2e/security.spec.ts。pnpm fix、pnpm run ci、pnpm verify:clean 均退出 0（127 项 Vitest / 23 项 E2E，锁文件 SHA-256 一致，服务优雅退出，0 真实提供商请求）。原始输出与截图 docs/validation/sec-06-evidence/ci.log、clean-workspace.json、clean-commands.json、credentials-light.png、credentials-dark-390.png、redacted-approval.png；预算账本和固定录制未改。
 
 ### SEC-07 项目、扩展和脚本信任
 
@@ -607,8 +619,12 @@
 
 实现来源：工作台自行实现。负责人：未分配；目标日期：未估算。
 
-- [ ] 首次加载项目执行资源前显示来源和影响，未信任时不自动运行。
-- [ ] 外部内容中的指令不扩大工具权限，信任记录可查看和撤销。
+- [x] 首次加载项目执行资源前显示来源和影响，未信任时不自动运行。
+- [x] 外部内容中的指令不扩大工具权限，信任记录可查看和撤销。
+
+进展 / 阻塞：完成项目 / 显式用户目录 / 第三方声明的来源与影响检查、逐项预览确认、按实际目录 / 来源 / SHA-256 指纹持久复用、变化重确认及记录查看 / 撤销。KernelService 在 FIFO 排队后逐轮重查，已检查文本快照经私有 IPC 加载；旧预览、越界、链接 / junction、超限、损坏记录和保存失败不获许可。撤销下一轮生效，当前快照与历史保留。SDK 仅加载已确认上下文文本，原生扩展 / 技能 / 脚本 / 包安装 / 设置合并及工具继续禁用，不凭信任扩大权限。7 项服务集成与 2 项浏览器流程、扩充真实 Electron；完整 141 项 Vitest / 28 项浏览器与 Electron E2E、SDK 冒烟及干净目录复现通过，新增真实提供商请求 0。
+
+验证证据：packages/shared/src/trust-contracts.ts；apps/daemon/src/modules/security/trust-discovery.ts / trust.service.ts / trust.transport.ts、modules/kernels/kernel.service.ts 与 migrations/0002_curious_winter_soldier.sql；packages/agent-adapter/src/sdk-runtime.ts / kernel-protocol.ts；apps/web/src/features/settings/resource-trust.tsx、services/trust-client.ts；apps/daemon/test/trust.test.ts、e2e/trust.spec.ts / desktop.spec.ts。pnpm fix、pnpm run ci、pnpm verify:clean 退出 0；docs/architecture/implementation-plan.md#sec-07-已交付边界；docs/validation/sec-07-evidence（ci.log、clean-workspace.json、clean-commands.json、3 张实际页面截图）。真实 SDK + 本地 HTTP 夹具与合成资源 / 故障来源已标明，用户真实配置、预算账本和固定录制未改。
 
 ### SEC-08 本机浏览器配对与客户端撤销
 
@@ -616,8 +632,12 @@
 
 实现来源：工作台自行实现。负责人：未分配；目标日期：未估算。
 
-- [ ] 配对令牌有一次性与过期约束，错误 Origin、Host 或未认证写请求被拒绝。
-- [ ] 可列出和撤销浏览器会话；重新启动服务后按规则重新授权。
+- [x] 配对令牌有一次性与过期约束，错误 Origin、Host 或未认证写请求被拒绝。
+- [x] 可列出和撤销浏览器会话；重新启动服务后按规则重新授权。
+
+进展 / 阻塞：宿主签发 256 bit 随机一次性票据（120 秒），HttpOnly / SameSite=Strict 会话 Cookie、独立客户端身份与 8 小时绝对有效期；精确 Host / Origin、JSON / CSRF 和未认证默认拒绝覆盖现有及未来写请求，REST / WS 实际数据均需配对。客户端列表、撤销 / 自撤销、到期关闭 WS，后台 SDK 任务继续；服务重启全部重新配对。真实 SDK + 本地模型夹具、原生 HTTP / TCP WS、两个独立 Chromium 客户端及 Electron 私有父子 IPC / Cookie / 原生菜单通过；OS 外部浏览器启动为测试拦截，IME 为合成事件。新增 7 项安全测试及 3 项浏览器 / Electron 流程，完整 134 项 Vitest / 26 项 E2E、SDK 冒烟、干净目录 frozen 安装 / 构建 / 启停与锁文件一致性通过。真实提供商新增 0，配置未改；MODEL-02 凭证写入与生产工具审批仍关闭。
+
+验证证据：packages/shared/src/access-contracts.ts；apps/daemon/src/modules/security/access.service.ts / access.transport.ts / host-access.ts；apps/desktop/src/main.ts、scripts/dev.mjs；apps/web/src/features/settings/client-access.tsx；apps/daemon/test/access.test.ts、e2e/access.spec.ts、e2e/desktop.spec.ts。pnpm fix、pnpm run ci、pnpm verify:clean 退出 0；docs/architecture/implementation-plan.md#sec-08-本机客户端授权边界；docs/validation/sec-08-evidence（ci.log、clean-workspace.json、clean-commands.json、3 张实际页面截图）。
 
 ### SEC-09 审批与操作审计
 
@@ -1518,9 +1538,9 @@
 - [x] 契约样本覆盖顺序、重复、缺口重同步、迟到终态、断线、错误、拒绝和中断；真实 SDK 样本和本地模拟来源分开标注，失败给出可定位差异。
 - [ ] 每阶段绑定真实验收；随功能阶段扩充复用实际组件的离线场景，包含迟到响应、状态去重、未知工具 / 长输出及渲染失败，明确样本来源且不触发真实工具 / 提供商。M2 Chromium / Electron 检验 IME 发送、草稿、切换回看、改名、审批和双端重连，后续加入回滚与平台门禁，不以源码字符串断言替代用户交互。
 
-进展 / 阻塞：M1 契约基线、CORE-05 双客户端重放和 CORE-06 持久恢复已接入同一离线 CI。14 份固定 SDK 历史录制、纯投影 / IPC 故障及实际 UI 组合来源分别标明；真实 SDK + 本地夹具验证正常 / 中止 / 错误、daemon / SDK 硬杀、重启只恢复记录，合成 v3 文件 / 队列 / 审批 / 引用记录验证分页、损坏原始导出及旧授权失效。当前完整 106 项 Vitest / 19 项浏览器与 Electron E2E、SDK 冒烟和干净目录验证通过，新增真实提供商请求 0。第一条保持通过，第二条仍待 CORE-07 配额 / 冷恢复、M2 真实 IME / 会话 / 审批 / 双端重连、M3 回滚及后续平台门禁，整体仍 in_progress。
+进展 / 阻塞：M1 契约基线、CORE-05–07、SEC-06 凭证 / 脱敏、SEC-07 资源来源 / 指纹 / 撤销及 SEC-08 配对 / 撤销均接入同一离线 CI。固定 SDK 录制、真实 SDK + 本地模型夹具、合成资源 / IPC / 审批 / 检查点 / 凭证及 HTTP 故障分别标明；本轮新增 7 项信任服务集成、2 项浏览器流程，并扩充真实 Electron 主进程测试。完整 141 项 Vitest / 28 项浏览器与 Electron E2E、SDK 冒烟和干净目录验证通过，新增真实提供商请求 0。第一条保持通过，第二条仍待其余 M2 真实 IME / 会话 / 审批 / 双端业务重连、M3 回滚及后续平台门禁，整体保持 in_progress。
 
-验证证据：docs/development/tooling.md 的 OPS-08 契约回归门禁（来源、阶段矩阵及限制）；packages/agent-adapter/test/contracts/recordings.json、src/contracts.test.ts、src/kernel.test.ts；packages/shared/src/reducer.ts、reducer.test.ts；e2e/contracts.spec.ts；apps/web/src/app/scene-content.tsx、workbench.tsx、services/api.ts。pnpm fix、pnpm run ci、pnpm verify:clean 退出 0，完整 85 项 Vitest / 12 项浏览器与 Electron E2E、SDK 本地流式 / 中止 / dispose、干净目录 frozen 安装 / 构建 / 启停通过且锁文件 SHA-256 一致。原始输出及复核截图 docs/validation/ops-08-evidence（ci.log、clean-workspace.json、clean-commands.json、contract-*.png）。真实预算账本与历史证据未改。；CORE-05 后续扩充见 docs/architecture/implementation-plan.md 的 CORE-05 已交付边界、docs/validation/core-05-evidence、packages/shared/src/runtime-contracts.test.ts、apps/daemon/test/events.test.ts、e2e/runtime.spec.ts。；CORE-06 扩充见 docs/architecture/implementation-plan.md 的 CORE-06 已交付边界、docs/validation/core-06-evidence、packages/agent-adapter/src/native-history.test.ts、apps/daemon/test/sessions.test.ts、e2e/history.spec.ts。
+验证证据：docs/development/tooling.md 的 OPS-08 契约回归门禁（来源、阶段矩阵及限制）；packages/agent-adapter/test/contracts/recordings.json、src/contracts.test.ts、src/kernel.test.ts；packages/shared/src/reducer.ts、reducer.test.ts；e2e/contracts.spec.ts；apps/web/src/app/scene-content.tsx、workbench.tsx、services/api.ts。pnpm fix、pnpm run ci、pnpm verify:clean 退出 0，完整 85 项 Vitest / 12 项浏览器与 Electron E2E、SDK 本地流式 / 中止 / dispose、干净目录 frozen 安装 / 构建 / 启停通过且锁文件 SHA-256 一致。原始输出及复核截图 docs/validation/ops-08-evidence（ci.log、clean-workspace.json、clean-commands.json、contract-*.png）。真实预算账本与历史证据未改。；CORE-05 后续扩充见 docs/architecture/implementation-plan.md 的 CORE-05 已交付边界、docs/validation/core-05-evidence、packages/shared/src/runtime-contracts.test.ts、apps/daemon/test/events.test.ts、e2e/runtime.spec.ts。；CORE-06 扩充见 docs/architecture/implementation-plan.md 的 CORE-06 已交付边界、docs/validation/core-06-evidence、packages/agent-adapter/src/native-history.test.ts、apps/daemon/test/sessions.test.ts、e2e/history.spec.ts。；CORE-07：apps/daemon/test/resources.test.ts、e2e/resources.spec.ts、docs/architecture/implementation-plan.md#core-07-已交付边界、docs/validation/core-07-evidence/ci.log 与 clean-workspace.json。；SEC-06：packages/shared/src/redaction.test.ts、apps/daemon/test/security.test.ts、e2e/security.spec.ts、docs/architecture/implementation-plan.md#sec-06-已交付边界与 docs/validation/sec-06-evidence（CI / clean / 实际页面截图）。；SEC-08：apps/daemon/test/access.test.ts、e2e/access.spec.ts / desktop.spec.ts、docs/architecture/implementation-plan.md#sec-08-本机客户端授权边界及 docs/validation/sec-08-evidence（CI / clean / 实际页面截图）。；SEC-07：apps/daemon/test/trust.test.ts、e2e/trust.spec.ts / desktop.spec.ts、docs/architecture/implementation-plan.md#sec-07-已交付边界及 docs/validation/sec-07-evidence（CI / clean / 实际页面截图）。
 
 ## REMOTE 远程与协作扩展
 
@@ -1658,7 +1678,7 @@
 
 ## 进度说明
 
-CORE-01–03 的 M0 技术验证、OPS-01 工程 / 离线 UI 基线、CORE-04 受管 SDK 内核、CORE-05 事件 / 快照 / WS 重放及 CORE-06 持久化 / 故障恢复已验收。OPS-08 已绑定 M1 契约基线与 CORE-05 / 06 回归，整体仍进行中，CORE-07 资源门禁、M2 真实业务及后续回滚 / 平台门禁未验收。普通页面为假内核样本，另有只读实时观察与历史 / 中断恢复；SDK 使用本地夹具，工具与真实提供商固定禁用。合成队列 / 审批 / 引用的存储验证不等于 M2 / M3 执行业务完成，各来源与功能独立记录并验收。
+CORE-01–03 的 M0 技术验证、OPS-01 工程 / 离线 UI 基线、CORE-04 受管 SDK 内核、CORE-05 事件 / 快照 / WS 重放、CORE-06 持久化 / 故障恢复、CORE-07 进程池 / 资源排队、SEC-06 原生凭证边界 / 统一脱敏、SEC-07 资源来源 / 指纹信任、SEC-08 本机客户端配对 / 撤销及 WS-01 桌面工作区打开 / 校验 / 切换已验收。OPS-08 已绑定 M1 基线与 CORE-05–07 / SEC-06 / 07 / 08 / WS-01 回归，整体随其余 M2 真实业务及后续回滚 / 平台门禁继续进行。普通页面为假内核样本，另有只读实时观察、历史 / 中断恢复、资源与凭证状态、配对及资源信任管理页；SDK 使用本地夹具，工具与真实提供商禁用。资源信任跨重启保存，变化后重新确认，仅已确认文本可加载，原生扩展 / 脚本 / 安装仍禁用。合成审批 / 分片 / 检查点及工作台记录不等于生产审批完成；浏览器凭证写入仍关闭，终端仅预留预算，真实 PTY 在 M4 验收。 WS-01 以实际物理目录身份去重，目录失效 / 权限不足不创建空会话；切换不停止后台任务，也不自动信任或执行项目资源。已核对真实 Windows 目录选择器；最近 / 重命名留待 WS-02，网页独立工作区操作暂缓，尚无安装包。
 
 只有依赖已验收、全部验收项勾选且有非空验证证据的功能，才能标记 verified。M8 不计入本地完整版完成率；完成率按条目计数，不是工时或发布承诺。
 

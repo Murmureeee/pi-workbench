@@ -1,162 +1,386 @@
 import type { EventService } from '../events/event.service.js'
+import type { TrustService } from '../security/trust.service.js'
 import type { SessionStore } from '../sessions/session.store.js'
+import type { KernelSnapshot } from '@pi-workbench/agent-adapter'
+import type { ResourceLimits, ResourceSnapshot } from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
 import { realpathSync } from 'node:fs'
 import { join } from 'node:path'
 
-import { SessionKernel } from '@pi-workbench/agent-adapter'
+import { z } from 'zod'
 
-/** Daemon-owned registry shared by all clients. View disconnect never disposes a kernel.
- * Reopening a failed generation requires explicit destruction first; no side-effect replay.
+import { SessionKernel } from '@pi-workbench/agent-adapter'
+import { resourceLimitsSchema, resourceSnapshotSchema } from '@pi-workbench/shared'
+
+import { KernelPool } from './kernel-pool.js'
+
+const promptSchema = z.strictObject({
+  turnId: z.uuid(),
+  text: z.string().min(1).max(65536),
+  fixture: z
+    .enum(['reply', 'hold', 'error', 'unknown-tool', 'context', 'trust-context'])
+    .optional(),
+})
+type Prompt = z.infer<typeof promptSchema>
+type Result = Awaited<ReturnType<SessionKernel['prompt']>>
+interface Task {
+  sessionId: string
+  cwd: string
+  input: Prompt
+  stage: 'queued' | 'acquiring-kernel' | 'running'
+  controller: AbortController
+  kernel?: SessionKernel
+  resolve: (result: Result) => void
+  reject: (error: unknown) => void
+  promise: Promise<Result>
+  cancellation?: Promise<void>
+}
+/** Observation-only application handle. All model work enters KernelService.prompt() so a caller
+ * cannot bypass admission by retaining an earlier raw SessionKernel.
+ */
+export type ManagedKernelView = Pick<SessionKernel, 'snapshot' | 'ready' | 'subscribe'>
+
+/** Single daemon authority for bounded kernels/model tasks. Each resource has its own FIFO.
+ * Queued inputs never pin idle processes or enter model context before admission.
  */
 export class KernelService {
-  private readonly kernels = new Map<string, SessionKernel>()
+  private readonly pool: KernelPool
+  private readonly limits: ResourceLimits
+  private readonly tasks = new Map<string, Task>()
+  private readonly modelQueue: Task[] = []
+  private readonly handles = new WeakMap<SessionKernel, ManagedKernelView>()
   private closing = false
+  private disposal: Promise<void> | undefined
+  private readonly unsubscribeResources: () => void
 
   constructor(
     private readonly dataDir: string,
     private readonly events: EventService,
     private readonly store: SessionStore,
-  ) {}
+    limits: Partial<ResourceLimits> = {},
+    private readonly trust?: TrustService,
+  ) {
+    this.limits = resourceLimitsSchema.parse(limits)
+    this.pool = new KernelPool(
+      this.limits,
+      (sessionId, cwd) => this.create(sessionId, cwd),
+      (sessionId) =>
+        Boolean(this.events.snapshot(sessionId)?.turns.at(-1)?.approval) ||
+        this.store.hasPendingApproval(sessionId),
+    )
+    this.unsubscribeResources = this.events.onChange(() => this.pool.changed())
+  }
 
-  async open(sessionId: string, cwd: string): Promise<SessionKernel> {
+  private create(sessionId: string, cwd: string) {
+    const epoch = randomUUID()
+    const resume = this.store.resumeRuntime(sessionId, cwd)
+    const kernel = new SessionKernel({
+      protocol: 1,
+      sessionId,
+      epoch,
+      cwd,
+      runtimeDir: join(this.dataDir, 'kernels', sessionId, epoch),
+      ...(resume ? { resume } : {}),
+    })
+    this.events.attach(sessionId, epoch, kernel.snapshot.source)
+    kernel.subscribe((message) => {
+      if (!message.turnId) {
+        return
+      }
+      if (message.type === 'delta') {
+        this.events.publish(sessionId, epoch, message.turnId, {
+          type: 'message.delta',
+          messageId: `${message.turnId}:assistant`,
+          text: message.text,
+        })
+      }
+      if (message.type === 'tool') {
+        this.events.publish(sessionId, epoch, message.turnId, {
+          type: 'tool.updated',
+          tool: {
+            id: message.toolId,
+            name: message.name,
+            status: message.status,
+            summary: message.summary,
+          },
+        })
+      }
+      if (message.type === 'finished') {
+        this.events.publish(sessionId, epoch, message.turnId, {
+          type: 'turn.finished',
+          outcome: message.outcome,
+          ...(message.error ? { error: message.error } : {}),
+        })
+      }
+    })
+    const ready = kernel.ready().then(() => {
+      const binding = kernel.snapshot
+      if (!binding.sessionFile || !binding.nativeSessionId) {
+        throw new Error('Native history binding missing')
+      }
+      this.store.registerRuntime({
+        sessionId,
+        epoch,
+        cwd,
+        sessionFile: binding.sessionFile,
+        nativeSessionId: binding.nativeSessionId,
+        source: binding.source,
+      })
+      return undefined
+    })
+    return { kernel, ready }
+  }
+
+  async open(
+    sessionId: string,
+    cwd: string,
+    options: { signal?: AbortSignal } = {},
+  ): Promise<ManagedKernelView> {
     if (this.closing) {
       throw new Error('Daemon is shutting down')
     }
-    const canonicalCwd = realpathSync(cwd)
+    z.uuid().parse(sessionId)
     this.store.assertWritable(sessionId)
-    let kernel = this.kernels.get(sessionId)
-    if (kernel && kernel.snapshot.cwd !== canonicalCwd) {
-      throw new Error('Session cwd cannot change within a generation')
+    const lease = await this.pool.acquire(sessionId, realpathSync(cwd), false, options.signal)
+    try {
+      const kernel = lease.kernel
+      if (!['ready', 'stopped', 'running', 'stopping'].includes(kernel.snapshot.state)) {
+        throw new Error('Destroy the previous runtime before reopening this session')
+      }
+      let handle = this.handles.get(kernel)
+      if (!handle) {
+        handle = Object.freeze({
+          get snapshot(): KernelSnapshot {
+            return kernel.snapshot
+          },
+          ready: () => kernel.ready(),
+          subscribe: (listener: Parameters<SessionKernel['subscribe']>[0]) =>
+            kernel.subscribe(listener),
+        })
+        this.handles.set(kernel, handle)
+      }
+      return handle
+    } finally {
+      lease.release()
     }
-    if (!kernel) {
-      const epoch = randomUUID()
-      kernel = new SessionKernel({
-        protocol: 1,
-        sessionId,
-        epoch,
-        cwd: canonicalCwd,
-        runtimeDir: join(this.dataDir, 'kernels', sessionId, epoch),
-      })
-      this.kernels.set(sessionId, kernel)
-      this.events.attach(sessionId, epoch, kernel.snapshot.source)
-      kernel.subscribe((message) => {
-        if (!message.turnId) {
-          return
-        }
-        if (message.type === 'delta') {
-          this.events.publish(sessionId, epoch, message.turnId, {
-            type: 'message.delta',
-            messageId: `${message.turnId}:assistant`,
-            text: message.text,
-          })
-        }
-        if (message.type === 'tool') {
-          this.events.publish(sessionId, epoch, message.turnId, {
-            type: 'tool.updated',
-            tool: {
-              id: message.toolId,
-              name: message.name,
-              status: message.status,
-              summary: message.summary,
-            },
-          })
-        }
-        if (message.type === 'finished') {
-          this.events.publish(sessionId, epoch, message.turnId, {
-            type: 'turn.finished',
-            outcome: message.outcome,
-            ...(message.error ? { error: message.error } : {}),
-          })
-        }
-      })
-    }
-    await kernel.ready()
-    const ready = kernel.snapshot
-    if (!ready.sessionFile || !ready.nativeSessionId) {
-      throw new Error('Native history binding missing')
-    }
-    this.store.registerRuntime({
-      sessionId,
-      epoch: ready.epoch,
-      cwd: canonicalCwd,
-      sessionFile: ready.sessionFile,
-      nativeSessionId: ready.nativeSessionId,
-      source: ready.source,
-    })
-    if (
-      kernel.snapshot.state === 'failed' ||
-      kernel.snapshot.state === 'disposed' ||
-      kernel.snapshot.state === 'disposing'
-    ) {
-      throw new Error('Destroy the previous runtime before reopening this session')
-    }
-    return kernel
   }
 
   list() {
-    return [...this.kernels.values()].map((kernel) => kernel.snapshot)
+    return this.pool.list()
   }
 
-  /** Internal application entry, not an HTTP command. Publishes start before SDK deltas and
-   * terminal before resolving. Failures are observed once, never automatically retried.
-   */
-  async prompt(sessionId: string, cwd: string, input: Parameters<SessionKernel['prompt']>[0]) {
-    const kernel = await this.open(sessionId, cwd)
-    if (!['ready', 'stopped'].includes(kernel.snapshot.state)) {
-      throw new Error('Kernel is busy')
-    }
-    const epoch = kernel.snapshot.epoch
-    this.events.publish(sessionId, epoch, input.turnId, {
-      type: 'turn.started',
-      prompt: input.text,
-      messageId: `${input.turnId}:assistant`,
+  /** Read-only diagnostics. Positions are per resource queue, never a claimed finish time. */
+  resources(): ResourceSnapshot {
+    const pool = this.pool.snapshot()
+    const modelTasks = [...this.tasks.values()].filter((task) => task.stage !== 'queued').length
+    return resourceSnapshotSchema.parse({
+      version: 1,
+      source: 'real-sdk/local-fixture',
+      realProviderEnabled: false,
+      limits: this.limits,
+      modelTasks,
+      terminalEnforcement: 'reserved-until-M4',
+      viewCacheIndependent: true,
+      kernels: pool.kernels.map(
+        ({ sessionId, epoch, state, pid, pins, lastUsedAt, waitingApproval, retiring }) => ({
+          sessionId,
+          epoch,
+          state,
+          pid,
+          pins,
+          lastUsedAt,
+          waitingApproval,
+          retiring,
+        }),
+      ),
+      queue: [
+        ...pool.queue,
+        ...[...this.tasks.values()].map((task) => ({
+          id: task.input.turnId,
+          sessionId: task.sessionId,
+          kind: 'model',
+          stage: task.stage,
+          position: task.stage === 'queued' ? this.modelQueue.indexOf(task) + 1 : 0,
+          reason:
+            task.stage === 'queued'
+              ? 'model-limit'
+              : task.stage === 'running'
+                ? 'running'
+                : 'starting-kernel',
+          cancellable: true,
+        })),
+      ],
     })
+  }
+
+  /** Internal application command, not a public HTTP mutation. One accepted task per session;
+   * M2 steer/follow-up are separate business queues. Validate before any resource use.
+   */
+  prompt(sessionId: string, cwd: string, input: Prompt): Promise<Result> {
     try {
-      return await kernel.prompt(input)
-    } catch (error) {
-      this.events.publish(sessionId, epoch, input.turnId, {
-        type: 'turn.finished',
-        outcome: 'error',
-        error: error instanceof Error ? error.message : 'Kernel failed',
+      if (this.closing) {
+        throw new Error('Daemon is shutting down')
+      }
+      z.uuid().parse(sessionId)
+      const parsed = promptSchema.parse(input)
+      this.store.assertWritable(sessionId)
+      if (this.tasks.has(sessionId)) {
+        throw new Error('Kernel is busy or already queued')
+      }
+      if ([...this.tasks.values()].some((task) => task.input.turnId === parsed.turnId)) {
+        throw new Error('Duplicate turn ID')
+      }
+      if (this.modelQueue.length >= 256) {
+        throw new Error('Model admission queue is full (256)')
+      }
+      const canonicalCwd = realpathSync(cwd)
+      let resolve!: Task['resolve'], reject!: Task['reject']
+      const promise = new Promise<Result>((ok, fail) => {
+        resolve = ok
+        reject = fail
       })
-      throw error
+      void promise.catch(() => undefined)
+      const task: Task = {
+        sessionId,
+        cwd: canonicalCwd,
+        input: parsed,
+        stage: 'queued',
+        controller: new AbortController(),
+        resolve,
+        reject,
+        promise,
+      }
+      this.tasks.set(sessionId, task)
+      this.modelQueue.push(task)
+      this.drainModels()
+      return promise
+    } catch (error) {
+      return Promise.reject(error)
     }
   }
 
+  private drainModels(): void {
+    if (this.closing) {
+      return
+    }
+    let count = [...this.tasks.values()].filter((task) => task.stage !== 'queued').length
+    while (count < this.limits.modelTasks && this.modelQueue.length) {
+      const task = this.modelQueue.shift()!
+      task.stage = 'acquiring-kernel'
+      count += 1
+      void this.run(task).then(task.resolve, task.reject)
+    }
+  }
+
+  private async run(task: Task): Promise<Result> {
+    let release: (() => void) | undefined
+    let kernel: SessionKernel | undefined
+    let started = false
+    try {
+      const lease = await this.pool.acquire(task.sessionId, task.cwd, true, task.controller.signal)
+      release = lease.release
+      kernel = lease.kernel
+      if (this.closing || task.controller.signal.aborted) {
+        throw new DOMException('Task cancelled', 'AbortError')
+      }
+      this.store.assertWritable(task.sessionId)
+      if (!['ready', 'stopped'].includes(kernel.snapshot.state)) {
+        throw new Error('Kernel is busy or unavailable')
+      }
+      this.events.publish(task.sessionId, kernel.snapshot.epoch, task.input.turnId, {
+        type: 'turn.started',
+        prompt: task.input.text,
+        messageId: `${task.input.turnId}:assistant`,
+      })
+      started = true
+      if (task.controller.signal.aborted) {
+        throw new DOMException('Task cancelled', 'AbortError')
+      }
+      task.kernel = kernel
+      task.stage = 'running'
+      const trustedContext =
+        this.trust?.beginTurn(task.cwd, task.sessionId, task.input.turnId) ?? []
+      return await kernel.prompt({ ...task.input, trustedContext })
+    } catch (error) {
+      if (started && kernel) {
+        this.events.publish(task.sessionId, kernel.snapshot.epoch, task.input.turnId, {
+          type: 'turn.finished',
+          outcome: task.controller.signal.aborted ? 'aborted' : 'error',
+          error: error instanceof Error ? error.message : 'Kernel failed',
+        })
+      }
+      if (kernel?.snapshot.state === 'failed') {
+        await this.pool.destroy(task.sessionId)
+      }
+      throw error
+    } finally {
+      this.trust?.endTurn(task.input.turnId)
+      release?.()
+      this.tasks.delete(task.sessionId)
+      this.drainModels()
+    }
+  }
+
+  /** Cancel by task identity, including admission waits. Running slots remain held until SDK
+   * termination; a cancelled queued task never creates a prompt or automatically retries.
+   */
   async abort(sessionId: string, turnId: string): Promise<void> {
-    const kernel = this.kernels.get(sessionId)
-    if (!kernel || kernel.snapshot.turnId !== turnId) {
+    const task = this.tasks.get(sessionId)
+    if (!task || task.input.turnId !== turnId) {
       throw new Error('Unknown active turn')
     }
-    this.events.publish(sessionId, kernel.snapshot.epoch, turnId, { type: 'turn.stopping' })
-    await kernel.abort(turnId)
+    task.controller.abort()
+    if (task.stage === 'queued') {
+      this.modelQueue.splice(this.modelQueue.indexOf(task), 1)
+      this.tasks.delete(sessionId)
+      task.reject(new DOMException('Queued task cancelled', 'AbortError'))
+      this.drainModels()
+    } else if (task.stage === 'running' && task.kernel) {
+      const kernel = task.kernel
+      task.cancellation ??= (async () => {
+        this.events.publish(sessionId, kernel.snapshot.epoch, turnId, { type: 'turn.stopping' })
+        await kernel.abort(turnId)
+      })()
+      await task.cancellation
+    } else {
+      await task.promise.catch(() => undefined)
+    }
   }
 
   async destroy(sessionId: string): Promise<void> {
-    const kernel = this.kernels.get(sessionId)
-    if (kernel) {
-      await kernel.dispose()
-      this.kernels.delete(sessionId)
-      this.events.remove(sessionId)
+    const task = this.tasks.get(sessionId)
+    if (task) {
+      await this.abort(sessionId, task.input.turnId)
     }
+    await this.pool.destroy(sessionId)
+    this.events.remove(sessionId)
   }
 
-  /** Nest waits for every owned process even when one disposal fails. */
-  async onModuleDestroy(): Promise<void> {
+  /** Stop/reap children and settle admission before closing event/store/database resources. */
+  onModuleDestroy(): Promise<void> {
+    this.disposal ??= this.close()
+    return this.disposal
+  }
+
+  private async close(): Promise<void> {
     this.closing = true
-    const results = await Promise.allSettled(
-      [...this.kernels.values()].map((kernel) => kernel.dispose()),
-    )
-    this.kernels.clear()
+    this.unsubscribeResources()
+    for (const task of this.modelQueue.splice(0)) {
+      this.tasks.delete(task.sessionId)
+      task.reject(new Error('Daemon is shutting down'))
+    }
+    for (const task of this.tasks.values()) {
+      task.controller.abort()
+    }
+    const result = await Promise.allSettled([
+      this.pool.close(),
+      ...[...this.tasks.values()].map((task) => task.promise),
+    ])
     this.events.close()
     this.store.close()
-    const errors = results
-      .filter((result) => result.status === 'rejected')
-      .map((result): unknown => result.reason)
-    if (errors.length) {
-      throw new AggregateError(errors, 'Some kernels required forced termination')
+    if (result[0]?.status === 'rejected') {
+      throw result[0].reason
     }
   }
 }

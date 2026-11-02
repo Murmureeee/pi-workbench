@@ -1,10 +1,23 @@
+import type { SecurityService } from '../security/security.service.js'
 import type { SessionStore } from './session.store.js'
+import type { HistoryMessage } from '@pi-workbench/shared'
 import type { FastifyInstance } from 'fastify'
+
+function incomplete(message: Pick<HistoryMessage, 'origin' | 'outcome'>): boolean {
+  return (
+    message.origin === 'interrupted-checkpoint' ||
+    ['aborted', 'error', 'interrupted'].includes(message.outcome ?? '')
+  )
+}
 
 /** Read-only managed history. All paths resolve from validated database identities; no source
  * path is accepted from HTTP. Same Host/Origin boundary as events; no write/continuation API.
  */
-export function registerSessionTransport(server: FastifyInstance, store: SessionStore): void {
+export function registerSessionTransport(
+  server: FastifyInstance,
+  store: SessionStore,
+  security: SecurityService,
+): void {
   server.get('/api/sessions', (_request, reply) =>
     reply.header('cache-control', 'no-store').send({ sessions: store.list(), canResume: false }),
   )
@@ -17,6 +30,12 @@ export function registerSessionTransport(server: FastifyInstance, store: Session
           request.query.cursor,
           request.query.limit === undefined ? undefined : Number(request.query.limit),
         )
+        if (page) {
+          page.messages = page.messages.map((message) => ({
+            ...message,
+            text: security.redactor.text(message.text, message.truncated || incomplete(message)),
+          }))
+        }
         return reply
           .header('cache-control', 'no-store')
           .code(page ? 200 : 404)
@@ -37,7 +56,9 @@ export function registerSessionTransport(server: FastifyInstance, store: Session
         .header('x-content-type-options', 'nosniff')
         .type('text/plain; charset=utf-8')
         .code(content === undefined ? 404 : 200)
-        .send(content ?? 'Unknown message')
+        .send(
+          content ? security.redactor.text(content.text, incomplete(content)) : 'Unknown message',
+        )
     },
   )
   server.get<{ Params: { sessionId: string; diagnosticId: string } }>(

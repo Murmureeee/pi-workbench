@@ -87,7 +87,18 @@ export class SessionStore {
     this.assertWritable(input.sessionId)
     const path = resolve(input.sessionFile)
     const boundary = relative(resolve(this.dataDir, 'kernels', input.sessionId, input.epoch), path)
-    if (boundary.startsWith('..') || isAbsolute(boundary)) {
+    const prior = this.database.db
+      .select()
+      .from(sessionRuntimes)
+      .where(eq(sessionRuntimes.sessionId, input.sessionId))
+      .all()
+    const managedResume = prior.some(
+      (runtime) =>
+        runtime.sessionFile === path &&
+        runtime.nativeSessionId === input.nativeSessionId &&
+        runtime.source === input.source,
+    )
+    if ((boundary.startsWith('..') || isAbsolute(boundary)) && !managedResume) {
       throw new Error('Native history is outside its managed runtime')
     }
     this.database.db.transaction((tx) => {
@@ -106,11 +117,70 @@ export class SessionStore {
           nativeSessionId: input.nativeSessionId,
           sessionFile: path,
           source: input.source,
-          createdAt: Date.now(),
+          createdAt: Math.max(Date.now(), ...prior.map((runtime) => runtime.createdAt + 1)),
         })
         .onConflictDoNothing()
         .run()
     })
+  }
+
+  /** Only an explicit daemon request can reopen its own validated native session. The directory
+   * lease excludes another daemon; old CLI histories and display checkpoints are never adopted.
+   */
+  resumeRuntime(
+    sessionId: string,
+    cwd: string,
+  ): { sessionFile: string; nativeSessionId: string } | undefined {
+    this.assertWritable(sessionId)
+    const session = this.list().find((item) => item.id === sessionId)
+    if (!session) {
+      return undefined
+    }
+    if (session.cwd !== cwd) {
+      throw new Error('Persisted session cwd cannot change')
+    }
+    const runtime = this.database.db
+      .select()
+      .from(sessionRuntimes)
+      .where(eq(sessionRuntimes.sessionId, sessionId))
+      .orderBy(asc(sessionRuntimes.createdAt), asc(sessionRuntimes.epoch))
+      .all()
+      .at(-1)
+    if (!runtime) {
+      return undefined
+    }
+    if (runtime.source !== 'real-sdk/local-fixture') {
+      throw new Error('Only managed real SDK history can cold restore')
+    }
+    if (!existsSync(runtime.sessionFile)) {
+      // SDK does not create a JSONL file until it has committed a message.
+      if (
+        this.database.db
+          .select()
+          .from(sessionTurns)
+          .where(eq(sessionTurns.epoch, runtime.epoch))
+          .get()
+      ) {
+        throw new Error('Managed native history is missing')
+      }
+      return undefined
+    }
+    if (this.native(runtime).diagnostics.length) {
+      throw new Error('Managed history requires diagnosis before cold restore')
+    }
+    return { sessionFile: runtime.sessionFile, nativeSessionId: runtime.nativeSessionId }
+  }
+
+  hasPendingApproval(sessionId: string): boolean {
+    return this.database.db
+      .select()
+      .from(sessionApprovals)
+      .where(eq(sessionApprovals.sessionId, sessionId))
+      .all()
+      .some((row) => {
+        const record = approvalRecordSchema.safeParse(this.parse(row.data))
+        return record.success && record.data.decision === 'pending'
+      })
   }
 
   assertWritable(sessionId: string): void {
@@ -381,7 +451,7 @@ export class SessionStore {
   private native(runtime: RuntimeRow) {
     // A tampered derived index cannot turn read-only history/export into an arbitrary file read.
     const path = resolve(runtime.sessionFile)
-    const base = resolve(this.dataDir, 'kernels', runtime.sessionId, runtime.epoch)
+    const base = resolve(this.dataDir, 'kernels', runtime.sessionId)
     const inside = (candidate: string) => {
       const rel = relative(base, candidate)
       return !rel.startsWith('..') && !isAbsolute(rel)
@@ -400,6 +470,8 @@ export class SessionStore {
       .where(eq(sessionRuntimes.sessionId, sessionId))
       .orderBy(asc(sessionRuntimes.createdAt), asc(sessionRuntimes.epoch))
       .all()
+    const seenNative = new Set<string>()
+    const finalTurns = new Set<string>()
     for (const runtime of runtimes) {
       let history: ReturnType<SessionStore['native']>
       try {
@@ -415,7 +487,9 @@ export class SessionStore {
         })
         continue
       }
-      for (const diagnostic of history.diagnostics) {
+      const alreadyRead = seenNative.has(runtime.sessionFile)
+      seenNative.add(runtime.sessionFile)
+      for (const diagnostic of alreadyRead ? [] : history.diagnostics) {
         const id = `${runtime.epoch}-${diagnostic.offset}`
         const missingCommittedHistory =
           diagnostic.code === 'unavailable' &&
@@ -438,13 +512,24 @@ export class SessionStore {
           )
         }
       }
-      const finalTurns = new Set<string>()
       for (const entry of history.records) {
         if (!entry.message) {
           continue
         }
         const binding = entry.binding
-        if (binding && (binding.sessionId !== sessionId || binding.epoch !== runtime.epoch)) {
+        if (
+          binding &&
+          (binding.sessionId !== sessionId ||
+            !runtimes.some(
+              (owner) =>
+                owner.epoch === binding.epoch &&
+                owner.sessionFile === runtime.sessionFile &&
+                owner.nativeSessionId === runtime.nativeSessionId,
+            ))
+        ) {
+          if (alreadyRead) {
+            continue
+          }
           result.diagnostics.push({
             id: `binding-${entry.id}`,
             source: 'sdk-jsonl',
@@ -458,9 +543,14 @@ export class SessionStore {
           )
           continue
         }
+        // A retained native file can span cold generations. Keep each generation's native
+        // records next to its interrupted checkpoints, instead of moving old partials last.
+        if (binding ? binding.epoch !== runtime.epoch : alreadyRead) {
+          continue
+        }
         const message: HistoryMessage = {
-          id: `${runtime.epoch}:${entry.id}`,
-          epoch: runtime.epoch,
+          id: `${binding?.epoch ?? runtime.epoch}:${entry.id}`,
+          epoch: binding?.epoch ?? runtime.epoch,
           nativeEntryId: entry.id,
           turnId: binding?.turnId ?? null,
           role: entry.message.role,
@@ -675,10 +765,17 @@ export class SessionStore {
     })
   }
 
-  content(sessionId: string, messageId: string): string | undefined {
-    return this.load(sessionId)
-      .messages.find((item) => item.message.id === messageId)
-      ?.text()
+  /** Full original content plus termination metadata, so presentation can protect unfinished
+   * credential fragments. The source is read-only; callers must filter at the output boundary.
+   */
+  content(
+    sessionId: string,
+    messageId: string,
+  ): (Pick<HistoryMessage, 'origin' | 'outcome'> & { text: string }) | undefined {
+    const loaded = this.load(sessionId).messages.find((item) => item.message.id === messageId)
+    return loaded
+      ? { text: loaded.text(), origin: loaded.message.origin, outcome: loaded.message.outcome }
+      : undefined
   }
   raw(sessionId: string, diagnosticId: string): Buffer | undefined {
     const raw = this.load(sessionId).exports.get(diagnosticId)

@@ -66,6 +66,9 @@ export function RuntimeObserver({ sessionId }: { sessionId: string }) {
           重新连接
         </Button>
         <Button disabled>发送任务（尚未开放）</Button>
+        <a className={buttonVariants({ variant: 'outline' })} href="/?resources">
+          资源状态
+        </a>
         <a
           className={buttonVariants({ variant: 'outline' })}
           href={`/?history=${encodeURIComponent(sessionId)}`}
