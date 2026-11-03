@@ -3,7 +3,7 @@ import type { HistoryMessage } from '@pi-workbench/shared'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 
-import { historyPageSchema } from '@pi-workbench/shared'
+import { historyPageSchema, sessionTitleListSchema } from '@pi-workbench/shared'
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
 import { Badge } from '@pi-workbench/ui/components/badge'
 import { Bubble, BubbleContent } from '@pi-workbench/ui/components/bubble'
@@ -14,14 +14,27 @@ import {
   MessageScrollerContent,
   MessageScrollerItem,
   MessageScrollerProvider,
-  MessageScrollerViewport,
 } from '@pi-workbench/ui/components/message-scroller'
 
+import { sessionJson } from '../../services/session-client.js'
+import { mergeTitles } from '../../services/session-title-cache.js'
+import { sessionView, useSessionViews } from '../../stores/session-views.js'
+import { RememberedViewport } from './remembered-viewport.js'
+
 function HistoryEntry({ sessionId, message }: { sessionId: string; message: HistoryMessage }) {
-  const [expanded, setExpanded] = useState(false)
+  const expanded = useSessionViews(
+    (state) => state.views[sessionId]?.expanded.includes(message.id) ?? false,
+  )
+  const setExpanded = () => {
+    const prior = sessionView(sessionId).expanded
+    useSessionViews.getState().update(sessionId, {
+      expanded: expanded ? prior.filter((id) => id !== message.id) : [...prior, message.id],
+    })
+  }
   const full = useQuery({
     queryKey: ['native-message', sessionId, message.id],
     enabled: expanded,
+    gcTime: 0,
     queryFn: async ({ signal }) => {
       const response = await fetch(
         `/api/sessions/${encodeURIComponent(sessionId)}/messages/${encodeURIComponent(message.id)}/content`,
@@ -58,11 +71,7 @@ function HistoryEntry({ sessionId, message }: { sessionId: string; message: Hist
         {message.truncated ? (
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="outline">预览 64 KiB / 原文 {message.bytes} 字节</Badge>
-            <Button
-              variant="outline"
-              disabled={full.isFetching}
-              onClick={() => setExpanded((value) => !value)}
-            >
+            <Button variant="outline" disabled={full.isFetching} onClick={setExpanded}>
               {expanded ? '收起完整内容' : '读取完整内容'}
             </Button>
           </div>
@@ -170,8 +179,25 @@ function DiagnosticExport({
 /** CORE-06 read-only recovery reader; query identity and AbortSignal isolate late responses.
  * Pagination/expansion never writes displayed previews back to pi history or model context.
  */
-export function SessionHistory({ sessionId }: { sessionId: string }) {
-  const [cursor, setCursor] = useState<string | null>(null)
+export function SessionHistory({
+  sessionId,
+  embedded = false,
+  active = true,
+}: {
+  sessionId: string
+  embedded?: boolean
+  active?: boolean
+}) {
+  const view = useSessionViews((state) => state.views[sessionId])
+  const titles = useQuery({
+    queryKey: ['session-titles'],
+    structuralSharing: mergeTitles,
+    queryFn: async ({ signal }) =>
+      sessionTitleListSchema.parse(await sessionJson('/api/session-titles', signal)),
+  })
+  const cursor = view?.cursor ?? null
+  const setCursor = (value: string | null) =>
+    useSessionViews.getState().update(sessionId, { cursor: value })
   const history = useQuery({
     queryKey: ['session-history', sessionId, cursor],
     queryFn: async ({ signal }) => {
@@ -185,11 +211,20 @@ export function SessionHistory({ sessionId }: { sessionId: string }) {
       }
       return historyPageSchema.parse(await response.json())
     },
+    gcTime: 0,
   })
   const page = history.data
   return (
-    <main className="mx-auto flex h-full max-w-4xl flex-col gap-4 p-4 sm:p-6">
+    <section
+      aria-label="会话历史与恢复"
+      className={`mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col gap-3 p-4 ${embedded ? 'embedded-history' : 'h-full sm:p-6'}`}
+    >
       <h1>会话历史与恢复 · 只读</h1>
+      {titles.data?.titles.find((row) => row.sessionId === sessionId) ? (
+        <p aria-label="会话标题">
+          {titles.data.titles.find((row) => row.sessionId === sessionId)?.title}
+        </p>
+      ) : null}
       <p>
         {page
           ? page.source === 'synthetic-ipc-fixture'
@@ -242,7 +277,13 @@ export function SessionHistory({ sessionId }: { sessionId: string }) {
       ) : null}
       <MessageScrollerProvider key={cursor ?? 'latest'} autoScroll={false}>
         <MessageScroller>
-          <MessageScrollerViewport aria-label="持久化历史">
+          <RememberedViewport
+            aria-label="持久化历史"
+            sessionId={sessionId}
+            surface={`history:${cursor ?? 'latest'}`}
+            active={active}
+            ready={history.isSuccess}
+          >
             <MessageScrollerContent>
               {page?.diagnostics.map((diagnostic) => (
                 <MessageScrollerItem key={diagnostic.id} messageId={`diagnostic:${diagnostic.id}`}>
@@ -260,7 +301,11 @@ export function SessionHistory({ sessionId }: { sessionId: string }) {
                 </MessageScrollerItem>
               ))}
               {page?.messages.map((message) => (
-                <MessageScrollerItem key={message.id} messageId={message.id}>
+                <MessageScrollerItem
+                  key={message.id}
+                  messageId={message.id}
+                  data-reading-id={message.id}
+                >
                   <HistoryEntry sessionId={sessionId} message={message} />
                 </MessageScrollerItem>
               ))}
@@ -290,18 +335,36 @@ export function SessionHistory({ sessionId }: { sessionId: string }) {
                         {page.changes.map((record) => (
                           <li key={record.id}>
                             {record.source === 'synthetic-fixture' ? '合成记录 · ' : ''}
-                            {record.reference}
+                            <Button
+                              variant="ghost"
+                              aria-pressed={view?.selectedReference === record.id}
+                              onClick={() =>
+                                useSessionViews
+                                  .getState()
+                                  .update(sessionId, { selectedReference: record.id })
+                              }
+                            >
+                              {record.reference}
+                            </Button>
                           </li>
                         ))}
                       </ul>
+                      {view?.selectedReference ? (
+                        <p aria-label="当前变更引用">
+                          只读引用：
+                          {page.changes.find((item) => item.id === view.selectedReference)
+                            ?.reference ?? '来源暂不可用'}{' '}
+                          · 文件与 Diff 执行入口尚未开放
+                        </p>
+                      ) : null}
                     </AlertDescription>
                   </Alert>
                 </MessageScrollerItem>
               ) : null}
             </MessageScrollerContent>
-          </MessageScrollerViewport>
+          </RememberedViewport>
         </MessageScroller>
       </MessageScrollerProvider>
-    </main>
+    </section>
   )
 }

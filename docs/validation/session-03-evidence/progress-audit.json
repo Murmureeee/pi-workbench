@@ -1,0 +1,18 @@
+{
+  "source": "SESSION-03 开始时 canonical 快照与收尾 canonical 比对",
+  "changedFeatures": [
+    "SESSION-03",
+    "OPS-08"
+  ],
+  "definitionsUnchanged": true,
+  "ownerAndDatesPreserved": true,
+  "local": {
+    "verified": 16,
+    "total": 133
+  },
+  "session03": [
+    true,
+    true
+  ],
+  "ops08": "in_progress"
+}

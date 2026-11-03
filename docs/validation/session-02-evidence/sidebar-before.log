@@ -1,0 +1,45 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:43384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:13380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\session-switching.spec.ts:231:1 › SESSION-02 Electron keeps a real SDK task/PID across eviction, socket reconnect and renderer reload; only explicit stop aborts (16.1s)
+
+
+  1) e2e\session-switching.spec.ts:231:1 › SESSION-02 Electron keeps a real SDK task/PID across eviction, socket reconnect and renderer reload; only explicit stop aborts 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      270 |           }),
+      271 |       )
+    > 272 |       .toBe(true)
+          |        ^
+      273 |     await page.screenshot({
+      274 |       path: `${evidence}/session-background-sidebar.png`,
+      275 |       animations: 'disabled',
+        at D:\Project\pi-workbench\e2e\session-switching.spec.ts:272:8
+
+    Error Context: test-results\session-switching-SESSION--88831-d-only-explicit-stop-aborts\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-switching-SESSION--88831-d-only-explicit-stop-aborts\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\session-switching-SESSION--88831-d-only-explicit-stop-aborts\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\session-switching.spec.ts:231:1 › SESSION-02 Electron keeps a real SDK task/PID across eviction, socket reconnect and renderer reload; only explicit stop aborts 

@@ -1,0 +1,22 @@
+{
+  "at": "2026-11-03T07:15:42.012Z",
+  "comparedProductFiles": 230,
+  "changedProductFiles": [],
+  "cleanDestination": "D:\\Project\\.piw-clean-eb7L6v",
+  "hashes": {
+    "pnpm-lock.yaml": "d9d46d301907ef4d86e5c53de3eca57433f5978ebf1e6547f8d094f50a60b40a",
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+  },
+  "progress": {
+    "status": "in_progress",
+    "acceptanceChecked": [
+      true,
+      true,
+      false
+    ],
+    "verified": 16,
+    "total": 133
+  },
+  "mouseAndKeyboardControl": "paused_by_user",
+  "providerRequests": 0
+}

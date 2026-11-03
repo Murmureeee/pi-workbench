@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { workspaceNameSchema } from './workspace-contracts.js'
+
 export const sessionModelSchema = z.discriminatedUnion('kind', [
   z.strictObject({
     kind: z.literal('local-fixture'),
@@ -14,13 +16,37 @@ export const sessionModelSchema = z.discriminatedUnion('kind', [
 ])
 export const projectSchema = z.strictObject({
   id: z.uuid(),
-  name: z.string().min(1).max(80),
+  name: workspaceNameSchema,
   workspaceId: z.uuid().nullable(),
   directory: z.string().nullable(),
+  pinned: z.boolean(),
+  position: z.number().int().nonnegative(),
+  revision: z.number().int().positive(),
 })
-export const projectCreateSchema = projectSchema
-  .omit({ id: true, directory: true })
-  .extend({ requestId: z.uuid(), name: z.string().trim().min(1).max(80) })
+export const projectCreateSchema = z.strictObject({
+  requestId: z.uuid(),
+  name: workspaceNameSchema,
+  workspaceId: z.uuid().nullable(),
+})
+const projectEdit = z.strictObject({
+  expectedRevision: z
+    .number()
+    .int()
+    .positive()
+    .max(Number.MAX_SAFE_INTEGER - 1),
+})
+/** Project metadata never carries an existing session's execution environment. */
+export const projectCommandSchema = z.discriminatedUnion('action', [
+  projectEdit.extend({
+    action: z.literal('edit'),
+    name: workspaceNameSchema,
+    workspaceId: z.uuid().nullable(),
+  }),
+  projectEdit.extend({ action: z.literal('pin'), pinned: z.boolean() }),
+  projectEdit.extend({ action: z.literal('move'), direction: z.enum(['up', 'down']) }),
+  projectEdit.extend({ action: z.literal('remove') }),
+])
+export type ProjectCommand = z.infer<typeof projectCommandSchema>
 export const sessionConfigurationSchema = z.strictObject({
   projectId: z.uuid().nullable(),
   workspaceId: z.uuid().nullable(),
@@ -51,8 +77,8 @@ export const submissionSchema = z.strictObject({
 export const managedSessionSchema = z.strictObject({
   id: z.uuid(),
   title: z.string(),
-  titleSource: z.literal('local'),
-  titleVersion: z.literal(1),
+  titleSource: z.enum(['local', 'user']),
+  titleVersion: z.number().int().positive(),
   creationRequestId: z.uuid(),
   configuration: sessionConfigurationSchema,
   workspaceId: z.uuid(),
@@ -91,3 +117,30 @@ export const sessionDraftSchema = z.strictObject({
 })
 export const sessionDraftCollectionSchema = z.record(z.string(), sessionDraftSchema)
 export type SessionDraft = z.infer<typeof sessionDraftSchema>
+
+const readingPositionSchema = z.strictObject({
+  anchor: z.string().nullable(),
+  offset: z.number().finite(),
+  top: z.number().nonnegative(),
+  follow: z.boolean(),
+})
+/** Window-owned presentation state, never execution state or restored authorization. */
+export const sessionViewSchema = z.strictObject({
+  panel: z.enum(['conversation', 'history', 'records']).default('conversation'),
+  cursor: z.string().nullable().default(null),
+  expanded: z.array(z.string()).default([]),
+  selectedReference: z.string().nullable().default(null),
+  reading: z.record(z.string(), readingPositionSchema).default({}),
+})
+export const sessionViewsSchema = z.record(z.string(), sessionViewSchema)
+export const sessionActivitySchema = z.object({
+  sessions: z.array(
+    z.strictObject({
+      id: z.uuid(),
+      running: z.boolean(),
+      approvals: z.number().int().nonnegative(),
+      held: z.number().int().nonnegative(),
+    }),
+  ),
+})
+export type SessionView = z.infer<typeof sessionViewSchema>

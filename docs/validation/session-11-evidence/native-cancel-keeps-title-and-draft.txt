@@ -1,0 +1,88 @@
+Window: "甲 原生重命名验收 · Pi Workbench", App: electron.exe.
+	0 窗口 甲 原生重命名验收 · Pi Workbench Secondary Actions: Raise
+		1 窗格 (disabled)
+		2 区域 甲 原生重命名验收 · Pi Workbench
+			3 区域
+				4 区域
+					5 区域
+						6 按钮 最小化
+						753 按钮 恢复
+						8 按钮 关闭
+					9 区域
+						10 区域
+							11 区域
+								12 区域
+									13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea
+										754 组
+											14 组 ID: root
+												771 标题 桌面控制栏
+													772 按钮 后退
+													773 按钮 (disabled) 前进
+													774 导航 应用菜单
+														775 按钮 文件
+														776 按钮 编辑
+														777 按钮 视图
+														778 按钮 帮助
+													779 文本 Pi Workbench
+												780 导航 工作台导航
+													781 链接 打开工作台 Description: 工作台 Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930
+													782 链接 打开设置 Description: 设置 Value: http://127.0.0.1:5173/?settings=appearance
+												783 补充 项目与会话
+													784 文本 π
+													785 文本 Pi Workbench
+													786 按钮 收起导航
+													787 导航
+														788 按钮 新会话
+														789 链接 打开工作区 Value: http://127.0.0.1:5173/?workspaces
+													790 文本 会话
+													791 切换按钮 已归档
+													792 文本 项目
+													793 按钮 新建项目
+													794 区域 最近无项目会话
+														795 文本 最近 · 无项目
+														796 按钮 甲 原生重命名验收 Description: 甲 原生重命名验收
+														797 按钮 会话菜单：甲 原生重命名验收 ID: base-ui-_r_1f_
+														798 按钮 乙 原生重命名验收 Description: 乙 原生重命名验收
+														799 按钮 会话菜单：乙 原生重命名验收 ID: base-ui-_r_1k_
+													800 链接 旧 pi 历史 · 只读 Value: http://127.0.0.1:5173/?legacy
+													801 链接 模型与提供商 Value: http://127.0.0.1:5173/?models
+													802 链接 设置 Value: http://127.0.0.1:5173/?settings=appearance
+													803 链接 离线状态样本 Value: http://127.0.0.1:5173/?samples
+												720 主要
+													804 章节标题
+														805 按钮 标题菜单：甲 原生重命名验收 ID: base-ui-_r_q_
+															806 文本 甲 原生重命名验收
+														807 文本 无项目 · D:\Project\pi-workbench\.workbench\session-11-native-32QyCq\data\standalone\8f143d55-cb28-4fbf-863a-85536b8d3930
+														808 按钮 历史记录
+													809 区域 受管会话消息
+														810 日志
+															811 文本 真实 pi SDK + 本地 HTTP 夹具；回复为验收样本，不调用真实提供商，工具与扩展关闭。
+															812 状态 会话同步状态
+																813 文本 已同步
+															814 文本 你
+															815 文本 甲 原生重命名验收
+															816 文本 Pi · 本地夹具
+															817 文本 OFFLINE_OK
+															818 状态 任务状态
+																819 文本 本轮已结束
+													737 组
+													820 文本 项目
+													821 组合框 (disabled) 项目 Value: 无项目 ID: session-project
+													822 文本 模型
+													823 组合框 (disabled) 模型 Value: 离线验收模型 · pi SDK 本地夹具 ID: session-model
+													824 文本 离线验收：固定样本回复，思考关闭，不执行工具或扩展。
+													825 组
+														826 编辑 (settable, string) 任务内容 Description: 继续当前会话… Value: SESSION-11 原生草稿：保留，不发送。
+														827 组
+															828 文本 当前会话
+															829 按钮 发送任务
+													830 文本 Enter 发送 · Shift+Enter 换行
+													831 文本 费用未知 · 未调用真实提供商
+													832 章节页脚
+														833 文本 桌面已授权
+														834 文本 真实传输关闭
+								75 区域
+
+Document text: ```
+SESSION-11 原生草稿：保留，不发送。
+```

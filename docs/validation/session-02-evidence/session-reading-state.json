@@ -1,0 +1,16 @@
+{
+  "before": "{\"06ef6483-5010-4e68-b00a-44e8743d3d06\":{\"panel\":\"conversation\",\"cursor\":null,\"expanded\":[],\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"2772f180-9ace-4a1e-8031-8d3b087c80ef\",\"offset\":-816.8125,\"top\":900,\"follow\":false}}}}",
+  "after": "{\"06ef6483-5010-4e68-b00a-44e8743d3d06\":{\"panel\":\"conversation\",\"cursor\":null,\"expanded\":[],\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"2772f180-9ace-4a1e-8031-8d3b087c80ef\",\"offset\":-816.8125,\"top\":900,\"follow\":false}}},\"adc14d58-353c-4009-aebc-b754de9e9e64\":{\"panel\":\"conversation\",\"cursor\":null,\"expanded\":[],\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"7b65d8df-f2eb-4551-92ed-6b0ed22d4b25\",\"offset\":-1874.8125,\"top\":1958,\"follow\":true}}},\"32481759-713c-4655-9510-f2a401e6a132\":{\"panel\":\"conversation\",\"cursor\":null,\"expanded\":[],\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"980b1885-13d6-4a20-8e42-81b7814458cb\",\"offset\":-1874.8125,\"top\":1958,\"follow\":true}}},\"a4ac1a30-0493-4a2d-9445-497631b1e70d\":{\"panel\":\"conversation\",\"cursor\":null,\"expanded\":[],\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"39b58621-82f0-4b99-8910-9f0996c05e0c\",\"offset\":-1874.8125,\"top\":1958,\"follow\":true}}}}",
+  "geometry": {
+    "top": 900,
+    "height": 503,
+    "scrollHeight": 2461,
+    "anchors": [
+      {
+        "id": "2772f180-9ace-4a1e-8031-8d3b087c80ef",
+        "top": -704.234375,
+        "height": 2348
+      }
+    ]
+  }
+}

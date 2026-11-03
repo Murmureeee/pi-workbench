@@ -1,0 +1,32 @@
+$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2614 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               0.62 kB │ gzip:   0.34 kB
+dist/assets/session-workbench-N8aQNQR_.css    3.97 kB │ gzip:   1.21 kB
+dist/assets/index-JIO8LImP.css               82.10 kB │ gzip:  14.31 kB
+dist/assets/refresh-cw-CA6Xq83G.js            0.36 kB │ gzip:   0.25 kB
+dist/assets/rolldown-runtime-WkwZ5CU-.js      0.59 kB │ gzip:   0.36 kB
+dist/assets/model-client-DL8vpFaM.js          0.60 kB │ gzip:   0.49 kB
+dist/assets/legacy-history-CP312rkh.js        5.50 kB │ gzip:   2.42 kB
+dist/assets/model-discovery-CLjg3P8-.js       9.34 kB │ gzip:   3.77 kB
+dist/assets/workspace-manager-C_yn85lK.js    15.68 kB │ gzip:   5.95 kB
+dist/assets/session-workbench-BvsrC-Dr.js    35.01 kB │ gzip:  11.99 kB
+dist/assets/dialog-BlyAsIgT.js              137.11 kB │ gzip:  46.07 kB
+dist/assets/createLucideIcon-Gefz6PA3.js    185.13 kB │ gzip:  56.24 kB
+dist/assets/index-D2iJDBRr.js               343.37 kB │ gzip: 107.29 kB
+
+✓ built in 278ms
+$ tsc -p tsconfig.json

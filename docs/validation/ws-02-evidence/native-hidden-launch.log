@@ -1,0 +1,8 @@
+{"directory":"D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4","pid":32960,"desktopPid":47968,"ready":true}
+19:18:33 [vite] ws proxy error:
+Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:221:20)
+19:18:33 [vite] ws proxy socket error:
+Error: read ECONNRESET
+    at TCP.onStreamRead (node:internal/stream_base_commons:221:20)
+NATIVE_CLOSED_OK

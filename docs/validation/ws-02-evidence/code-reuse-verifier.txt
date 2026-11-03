@@ -1,0 +1,44 @@
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+
+const clean = JSON.parse(readFileSync('docs/validation/ws-02-evidence/clean-workspace.json', 'utf8'))
+const files = []
+function collect(directory) {
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    if (['node_modules', 'dist'].includes(entry.name)) continue
+    const file = `${directory}/${entry.name}`
+    if (file === 'scripts/planning' || file === 'scripts/docs') continue
+    if (entry.isDirectory()) collect(file)
+    else files.push(file)
+  }
+}
+for (const directory of ['apps', 'packages', 'e2e', 'scripts']) collect(directory)
+files.push('package.json','pnpm-workspace.yaml','pnpm-lock.yaml','.oxlintrc.json',
+  '.oxfmtrc.json','.editorconfig','.gitignore','.gitattributes','knip.json',
+  'vitest.config.ts','playwright.config.ts','tsconfig.tools.json')
+const hash = (file) => createHash('sha256').update(readFileSync(file)).digest('hex')
+const mismatches = []
+const matched = []
+for (const file of files.sort()) {
+  const counterpart = join(clean.destination, file)
+  const sourceHash = hash(file)
+  if (!existsSync(counterpart) || sourceHash !== hash(counterpart)) mismatches.push(file)
+  else matched.push(`${file}:${sourceHash}`)
+}
+assert.deepEqual(mismatches, [], 'Product/test/config must remain identical to passing clean')
+const lockSha256 = hash('pnpm-lock.yaml')
+const budgetSha256 = hash('docs/validation/live-validation-budget.json')
+assert.equal(lockSha256, 'd9d46d301907ef4d86e5c53de3eca57433f5978ebf1e6547f8d094f50a60b40a')
+assert.equal(budgetSha256, 'cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251')
+const report = {
+  feature:'WS-02', at:new Date().toISOString(), passed:true,
+  comparison:clean.destination, filesChecked:files.length, mismatches,
+  scope:'All files under apps/packages/e2e/scripts excluding node_modules/dist and documentation scripts (planning/docs), plus 12 root runtime/build/lint/test/config/lock inputs',
+  matchedInputsSha256:createHash('sha256').update(matched.join('\n')).digest('hex'),
+  lockSha256,budgetSha256,
+  reused:'This task passing complete CI (192 Vitest / 57 E2E / SDK smoke) and frozen clean; subsequent changes are native evidence, documentation/PRD and progress only',
+}
+writeFileSync('docs/validation/ws-02-evidence/native-code-reuse-audit.json',JSON.stringify(report,null,2)+'\n')
+console.log(JSON.stringify(report,null,2))

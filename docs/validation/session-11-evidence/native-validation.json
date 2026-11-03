@@ -1,0 +1,95 @@
+{
+  "feature": "SESSION-11",
+  "status": "passed",
+  "verifiedAt": "2026-11-03T07:58:11.454Z",
+  "source": "Actual Windows Electron 45.2.1 main/preload/renderer and real Microsoft Pinyin via @oai/sky SendInput; isolated daemon/SQLite and previously seeded pi SDK/local HTTP fixture. No DOM composition synthesis or route interception in this native run.",
+  "userAuthorization": "继续完成 SESSION-11 原生 Electron 验收：现在可以控制电脑",
+  "steps": [
+    "native-resume-settings",
+    "native-prefill",
+    "native-ime-candidate-n",
+    "native-ime-ni-before-enter",
+    "native-ime-enter-not-saved",
+    "native-ime-before-escape",
+    "native-ime-escape-keeps-dialog",
+    "native-cancel-keeps-title-and-draft",
+    "native-ime-before-select",
+    "native-ime-selected-not-saved",
+    "native-explicit-save-synced",
+    "native-save-failure-retains-edit",
+    "native-save-recovered",
+    "native-history-title-synced",
+    "native-exit-menu",
+    "native-restart-list",
+    "native-restarted-session"
+  ],
+  "checks": {
+    "headerAndSidebarPrefillSelected": true,
+    "realIMEEnterDoesNotSave": true,
+    "realIMEEscapeKeepsDialog": true,
+    "realChineseCandidateSelectionDoesNotSave": true,
+    "nonComposingEscapeCancels": true,
+    "explicitEnterSaves": true,
+    "failedWriteRetainsOriginalAndEdit": true,
+    "explicitSaveAfterRecovery": true,
+    "headerSidebarAndReadonlyHistoryTitleMatch": true,
+    "restartTitleSourceAndVersionPersist": true,
+    "historyBytesUnchanged": true,
+    "restartDoesNotStartKernelOrResend": true,
+    "gracefulExitTwice": true
+  },
+  "inputMethodDetails": [
+    "Physical n/i displayed the real OS Pinyin candidate panel. Candidate-state Return committed literal ni and kept the dialog; saved title remained local/version 1. Return is not claimed to have selected Chinese.",
+    "With ni committed, n opened another real candidate panel; Escape removed only the composing n and kept the dialog/ni. A subsequent non-composing Escape closed the dialog without saving.",
+    "A separate n plus Space selected Chinese 你 without saving; later explicit non-composing Return saved user/version 2.",
+    "Recovery title 你 · 原生恢复验收 🧪 was entered with literal type_text; that step is not counted as real IME."
+  ],
+  "faultInjection": "Task-owned harness used an explicit SQLite BEFORE UPDATE OF title trigger. HTTP failure displayed 保存结果待核对 and retained the edit; database remained 你/user/version 2. Trigger removal did not submit anything; an explicit native click saved user/version 3.",
+  "restart": {
+    "sameDataAndProfile": true,
+    "directory": "D:\\Project\\pi-workbench\\.workbench\\session-11-native-32QyCq",
+    "firstHostPid": 9748,
+    "firstDesktopPid": 37560,
+    "restartedHostPid": 48136,
+    "restartedDesktopPid": 34712,
+    "persisted": {
+      "id": "8f143d55-cb28-4fbf-863a-85536b8d3930",
+      "title": "你 · 原生恢复验收 🧪",
+      "titleSource": "user",
+      "titleVersion": 3
+    },
+    "kernelsOnRestart": 0,
+    "historyFileCount": 2
+  },
+  "reuse": {
+    "productFilesCompared": 230,
+    "changed": [],
+    "vitest": 185,
+    "e2e": 53,
+    "ci": "ci-complete.log",
+    "clean": "clean-workspace.json",
+    "nativeMultiClientScope": "This native run checked one Electron title/sidebar/history and restart. Two independent Electron clients plus readonly browser, CAS conflict and reconnect remain covered by the previously passed actual Electron E2E and TCP tests."
+  },
+  "configUnchanged": true,
+  "budgetUnchanged": true,
+  "providerRequests": 0,
+  "nativeModelSubmissions": 0,
+  "limits": [
+    "Native OS input was driven by keyboard/mouse automation, not a human typing walkthrough.",
+    "Maximum native work area was 1920x1032; full 1920x1080, dark and 860px narrow screenshots retain the earlier actual Electron E2E evidence."
+  ],
+  "logNotes": [
+    "native.log retains prior build-triggered Vite Fast Refresh invalidation / WS ECONNABORTED entries and the intentionally injected SQLite failure; native-restart.log exited 0 with NATIVE_CLOSED_OK."
+  ],
+  "evidence": [
+    "native-steps.json",
+    "native-first-closed.json",
+    "native-final-closed.json",
+    "native-restarted-audit.json",
+    "native-history-hashes-before.json",
+    "native-history-hashes-after.json",
+    "native-code-reuse-audit.json",
+    "native.log",
+    "native-restart.log"
+  ]
+}

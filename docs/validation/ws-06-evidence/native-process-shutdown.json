@@ -1,0 +1,14 @@
+{
+  "feature": "WS-06",
+  "at": "2026-11-03T14:41:03.5668054Z",
+  "ownedProcessIds": [
+    30972,
+    18880,
+    21960,
+    32732,
+    41908
+  ],
+  "remainingOwnedProcesses": [],
+  "applicationListeners": [],
+  "passed": true
+}

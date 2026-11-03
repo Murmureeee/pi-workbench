@@ -1,0 +1,99 @@
+{
+  "feature": "SESSION-03",
+  "date": "2026-11-03",
+  "source": "Windows 原生 Electron main/preload/renderer + 实际 daemon/SQLite + pi SDK 子进程/本地 HTTP 夹具；工具和扩展禁用",
+  "method": "通过 @oai/sky 原生鼠标、键盘和 UIA 观察操作产品；未使用 CDP、HTTP/WS 拦截或对话框替身。宿主仅预置三条本地夹具长历史，并将两条明确的验收输入绑定本地 hold。",
+  "isolation": ".workbench/session-03-native-623YHh 内独立 data、profile、pi 配置；未读取用户真实凭证",
+  "launchCommands": [
+    "pnpm exec node .workbench/session-03-native.mjs",
+    "pnpm exec node .workbench/session-03-native.mjs --directory=D:/Project/pi-workbench/.workbench/session-03-native-623YHh"
+  ],
+  "hostExitCodes": [
+    0,
+    0
+  ],
+  "steps": [
+    {
+      "action": "甲置顶、手动未读、归档后，经产品文件菜单正常退出；用同一隔离数据目录和 profile 重启",
+      "result": "甲 pinned/archived/manualUnread/unread 均保持 true，revision 6 不变；无新提交，kernels 为空",
+      "evidence": [
+        "native-before-restart",
+        "native-after-restart",
+        "native-first-closed.json"
+      ]
+    },
+    {
+      "action": "从已归档菜单明确恢复，再返回普通列表并打开甲",
+      "result": "恢复后仍置顶/未读，未启动内核或恢复授权；原历史可读，显示最新后清除未读",
+      "evidence": [
+        "native-restored-no-kernel",
+        "native-restored-pinned",
+        "native-restored-readable"
+      ]
+    },
+    {
+      "action": "甲滚至历史中段，手动标记未读，切到乙后返回甲，最后滚至最新",
+      "result": "中段及切换返回时 unread=true/revision=9；滚至最新才变为 unread=false/revision=10",
+      "evidence": [
+        "native-mid-history-unread",
+        "native-returned-mid-unread",
+        "native-latest-read"
+      ]
+    },
+    {
+      "action": "乙原生输入本地 hold，切到丙；请求归档并取消",
+      "result": "侧栏显示后台运行；归档说明须先停止且确认归档禁用；取消后 PID 39844、epoch ecdf3834-d533-477e-8a44-ad8121b96714、running 状态全部保持",
+      "evidence": [
+        "native-background-running",
+        "native-running-archive-blocked",
+        "native-cancel-keeps-running"
+      ]
+    },
+    {
+      "action": "再次请求归档乙，单独停止，等待 daemon settled 后再次单独确认归档",
+      "result": "停止完成时 status=aborted、running=false、archived=false；再次确认后 archived=true，未读保留",
+      "evidence": [
+        "native-stopped-before-archive",
+        "native-background-archived"
+      ]
+    },
+    {
+      "action": "修正停止成功后仍显示等待的提示语；丙再提交本地 hold，切甲后单独停止并归档丙",
+      "result": "服务确认后显示“服务已确认任务结束；确认归档需再次点击。”；确认前 archived=false，确认后乙/丙在归档列表且均未读",
+      "evidence": [
+        "native-stopped-confirmed-copy",
+        "native-final-archives"
+      ]
+    },
+    {
+      "action": "点击原生最大化按钮，再从文件菜单退出应用",
+      "result": "1920×1032 Windows 工作区布局可用；宿主退出 0、closed=true、ownedProcessesExited=true",
+      "evidence": [
+        "native-maximized-final",
+        "native-final-closed.json",
+        "native-restart-host.log"
+      ]
+    }
+  ],
+  "evidenceConvention": "步骤中的无扩展名证据对应同名 .jpg、-uia.txt 和 -audit.json；图像按宿主返回的 JPEG 字节原样保存，扩展名已校正，未重新编码。关闭审计、日志按完整文件名引用。",
+  "realProviderRequests": 0,
+  "budgetSha256BeforeAndAfter": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "fixtureConfigUnchanged": true,
+  "finalAudit": "native-final-audit.json",
+  "limitations": [
+    "本轮 sky.type_text 是中文直接文本输入，不是真实 IME；composer 未修改，复用 SESSION-01 的微软拼音原生证据，合成 composition 仍由完整 CI 回归。",
+    "本轮原生为亮色普通窗口截图 1442×961 及最大化 1920×1032；1920×1080、深色、800px 窄窗、Enter/Escape 和隐藏弹窗由实际 Electron E2E 覆盖。",
+    "待审批和 held 队列阻挡归档由明确的合成服务记录测试，不代表生产审批能力已实现。",
+    "三个初始会话由本地夹具预置，两次原生发送只访问回环夹具；固定回复不证明真实提供商或工具执行。"
+  ],
+  "nativeScreenshotDimensions": {
+    "ordinary": {
+      "width": 1442,
+      "height": 961
+    },
+    "maximized": {
+      "width": 1920,
+      "height": 1032
+    }
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "feature": "SESSION-02",
+  "date": "2026-11-03",
+  "source": "real pi SDK/local HTTP fixture; external history is synthetic JSONL",
+  "dataDirectory": "D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq",
+  "method": "Windows native UI via Sky UIA / screenshots / scroll and keyboard; actual Electron main/preload/host pairing, no HTTP/WS interception",
+  "results": [
+    "甲乙各自未发送中文草稿；甲滚动 900px 中段后经乙→丙→丁淘汰再打开，草稿 / 阅读锚点与偏移一致。",
+    "设置深色、返回原会话；最大化后原阅读位置 / 草稿保留，乙的独立草稿未被替换。",
+    "在丙显式发送本地 hold，切换并淘汰后再打开，PID 31852 / epoch a7fb662b-606d-407e-b142-a8b748361636 与 nativeSubmissions=1 保持不变；显式停止后才 aborted / stopped。",
+    "旧历史真实文件 v3、来源 / cwd / 时间 / 只读、禁用续聊、半行第108行诊断；最新100→更早6→刷新100，源 SHA-256 不变。",
+    "应用菜单退出，宿主 / Electron / SDK 自有进程和活动端口连接全部释放。"
+  ],
+  "realIme": "未新验真实输入法；本次为 UIA 字面 set_value，组合态逻辑未变，复用 SESSION-01 的真实微软拼音证据。",
+  "automatedOnly": [
+    "TCP WS reconnect",
+    "renderer reload",
+    "A-B-A delayed HTTP isolation",
+    "tool/approval/change synthetic context",
+    "final long-title sidebar layout regression",
+    "evicted draft directory response cannot overwrite the newly opened draft selection"
+  ],
+  "viewports": {
+    "native": [
+      "1440x960",
+      "1920px maximized workspace (capture 1920x1032)"
+    ],
+    "electronE2E": [
+      "1920x1080",
+      "800px narrow"
+    ],
+    "themes": [
+      "light",
+      "dark"
+    ]
+  },
+  "seededManagedSessions": 4,
+  "seededCompletedSubmissions": 4,
+  "nativeSubmissions": 1,
+  "finalNativeSubmissionStatus": "aborted",
+  "legacy": {
+    "path": "D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq\\pi\\sessions\\--native-old--\\native-old.jsonl",
+    "originalHash": "8f65839963c880711d8ea2bd329efd16a497144adc7ccd1e23ba5c1792965e8f",
+    "currentHash": "8f65839963c880711d8ea2bd329efd16a497144adc7ccd1e23ba5c1792965e8f"
+  },
+  "realProviderRequests": 0,
+  "piConfigModified": false,
+  "canonicalBudgetModified": false,
+  "installerBuilt": false,
+  "shutdown": {
+    "harnessExitCode": 1,
+    "desktopExitCode": null,
+    "harnessError": "Temporary harness called audit after await app.close(), reading closed SQLite. Product exit had already completed; pre-close final audit retained. Not recorded as harness success.",
+    "ownedPids": [
+      32468,
+      6968,
+      31852
+    ],
+    "ownedProcessesExited": true,
+    "activeProductPortConnectionsAfterExit": 0,
+    "independentGracefulShutdownEvidence": [
+      "ci.log",
+      "ci-final.log",
+      "clean-workspace.json"
+    ]
+  },
+  "screenshots": [
+    "native-reading-before.jpg",
+    "native-reading-restored.jpg",
+    "native-settings-return-dark.jpg",
+    "native-background-recovered.jpg",
+    "native-legacy-readonly.jpg",
+    "native-legacy-earlier.jpg"
+  ],
+  "rawEvidence": [
+    "native-running-before.json",
+    "native-running-evicted.json",
+    "native-running-reopened.json",
+    "native-final-audit.json",
+    "native-host.log"
+  ]
+}

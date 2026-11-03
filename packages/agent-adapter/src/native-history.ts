@@ -81,16 +81,17 @@ function contentText(content: string | unknown[]): string {
 /** Read-only v3 JSONL scan, using a fixed descriptor size and byte offsets for exact raw export.
  * Never calls SessionManager.open (which can migrate/rewrite). Bad lines stay on disk; an
  * incomplete tail is diagnosed and ignored until refresh. Only the latest leaf's branch is shown.
+ * A caller-provided bounded Buffer parses an already version-checked external read snapshot.
  */
 export function readNativeHistory(
-  path: string,
+  path: string | Buffer,
   nativeSessionId: string,
   expectedCwd?: string,
 ): NativeHistory {
   const result: NativeHistory = { records: [], diagnostics: [], size: 0 }
-  let fd: number
+  let fd: number | undefined
   try {
-    fd = openSync(path, 'r')
+    fd = typeof path === 'string' ? openSync(path, 'r') : undefined
   } catch (error) {
     result.diagnostics.push({
       code: 'unavailable',
@@ -102,7 +103,7 @@ export function readNativeHistory(
     return result
   }
   try {
-    const size = fstatSync(fd).size
+    const size = typeof path === 'string' ? fstatSync(fd!).size : path.length
     result.size = size
     const entries = new Map<string, NativeRecord>()
     let offset = 0,
@@ -194,7 +195,10 @@ export function readNativeHistory(
     const buffer = Buffer.alloc(64 * 1024)
     let position = 0
     while (position < size) {
-      const count = readSync(fd, buffer, 0, Math.min(buffer.length, size - position), position)
+      const count =
+        typeof path === 'string'
+          ? readSync(fd!, buffer, 0, Math.min(buffer.length, size - position), position)
+          : path.copy(buffer, 0, position, Math.min(size, position + buffer.length))
       if (!count) {
         break
       }
@@ -227,7 +231,19 @@ export function readNativeHistory(
     }
     const leaf = [...entries.values()].at(-1)
     let record = leaf
+    const visited = new Set<string>()
     while (record) {
+      if (visited.has(record.id)) {
+        result.diagnostics.push({
+          code: 'cyclic-parent',
+          message: '历史父引用形成循环；仅展示可读记录，原件保留。',
+          offset: record.offset,
+          length: record.length,
+          line: record.line,
+        })
+        break
+      }
+      visited.add(record.id)
       result.records.push(record)
       record = record.parentId ? entries.get(record.parentId) : undefined
     }
@@ -235,7 +251,7 @@ export function readNativeHistory(
     if (result.diagnostics.some((diagnostic) => diagnostic.code === 'missing-parent')) {
       result.records = [...entries.values()]
     }
-    if (fstatSync(fd).size !== size) {
+    if (fd !== undefined && fstatSync(fd).size !== size) {
       result.diagnostics.push({
         code: 'changed-during-read',
         message: '读取期间历史发生变化，请刷新。',
@@ -246,7 +262,9 @@ export function readNativeHistory(
     }
     return result
   } finally {
-    closeSync(fd)
+    if (fd !== undefined) {
+      closeSync(fd)
+    }
   }
 }
 
@@ -265,10 +283,12 @@ export function readNativeRange(path: string, offset: number, length: number): B
   }
 }
 
-export function readNativeMessage(path: string, record: NativeRecord): string {
-  const value: unknown = JSON.parse(
-    readNativeRange(path, record.offset, record.length).toString('utf8'),
-  )
+export function readNativeMessage(path: string | Buffer, record: NativeRecord): string {
+  const bytes =
+    typeof path === 'string'
+      ? readNativeRange(path, record.offset, record.length)
+      : path.subarray(record.offset, record.offset + record.length)
+  const value: unknown = JSON.parse(bytes.toString('utf8'))
   const entry = entrySchema.parse(value)
   if (entry.id !== record.id) {
     throw new Error('History identity changed')

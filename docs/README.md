@@ -33,7 +33,11 @@ MODEL-01 已验收：Electron 侧栏或原生“工作台”菜单进入模型�
 
 Electron 顶部控制栏与统一设置已参照用户的 Codex 截图调整；[PRD 原型](product/prd.html)与[核心页面规格](design/core-spec.md#electron-控制栏与统一设置--2026-11-02)同步布局。后续完整 **155 项 Vitest / 35 项浏览器与 Electron E2E**、SDK 冒烟和干净目录复现通过，真实调用 0；[验收说明与人工缺口](validation/ui-shell-evidence/acceptance.md)、[CI](validation/ui-shell-evidence/ci.log)、[原生窗口记录](validation/ui-shell-evidence/native-validation.json)独立保留。UX-03 / UX-05 仍为部分实现，已验收数不因原型更新增加。
 
-SESSION-01 已验收：Electron 实际 daemon / SQLite / SDK 本地夹具首发、幂等、明确模型 / cwd、草稿、失败恢复及真实 Windows 微软拼音均通过；原生首发 / 同会话续发、设置返回、实际目录选择与明暗窄窗已补证。修复同项目草稿重入丢失目录后完整 **164 项 Vitest / 40 项 E2E** 及 SDK 冒烟重新通过；修复前 frozen clean 仅复用未变基础设施，真实请求 0。[逐项说明](validation/session-01-evidence/acceptance.md)、[最终 CI](validation/session-01-evidence/ci-native-followup.log)、[原 clean](validation/session-01-evidence/clean-workspace.json)、[原生记录](validation/session-01-evidence/native-validation.json)和[最终审计](validation/session-01-evidence/native-final-audit.json)独立归档。OPS-08 继续进行中；下一项建议 SESSION-02，完整视图恢复与旧 pi 历史仍按其验收。
+SESSION-01 已验收：Electron 实际 daemon / SQLite / SDK 本地夹具首发、幂等、明确模型 / cwd、草稿、失败恢复及真实 Windows 微软拼音均通过；原生首发 / 同会话续发、设置返回、实际目录选择与明暗窄窗已补证。修复同项目草稿重入丢失目录后完整 **164 项 Vitest / 40 项 E2E** 及 SDK 冒烟重新通过；修复前 frozen clean 仅复用未变基础设施，真实请求 0。[逐项说明](validation/session-01-evidence/acceptance.md)、[最终 CI](validation/session-01-evidence/ci-native-followup.log)、[原 clean](validation/session-01-evidence/clean-workspace.json)、[原生记录](validation/session-01-evidence/native-validation.json)和[最终审计](validation/session-01-evidence/native-final-audit.json)独立归档。OPS-08 继续进行中；SESSION-02 后续交付见下文。
+
+SESSION-02 已验收：Electron 最多 3 个视图、独立草稿 / 阅读锚点与偏移 / 工具展开 / 面板恢复、后台同 PID / 淘汰 / 重连 / 刷新不重发、迟到隔离，以及显式 pi 旧历史只读发现 / 版本分页 / 同写与损坏诊断。最终完整 **170 项 Vitest / 44 项 E2E** 与 SDK 冒烟通过，本次 frozen clean 通过，收尾标题布局与草稿回执隔离修改复用未变基础设施。实际 Windows 草稿 / 阅读恢复 / 设置主题 / 后台 PID / 旧历史分页有独立证据；宿主脚本退出后读已关闭 SQLite 而退出 1 的限制如实记录，正常启停另有 CI / clean 证明。真实请求 0，配置 / 预算未改，无安装包；[逐项说明](validation/session-02-evidence/acceptance.md)、[最终 CI](validation/session-02-evidence/ci-final.log)、[clean](validation/session-02-evidence/clean-workspace.json)、[原生记录](validation/session-02-evidence/native-validation.json)及[审计](validation/session-02-evidence/native-final-audit.json)。OPS-08 继续进行中；SESSION-03 后续交付见下文。
+
+SESSION-03 已验收：Electron 置顶 / 未读 / 归档由 daemon SQLite 持久保存，恢复不启动内核或旧授权；新完成 / 失败 / 中断结果标未读，仅活动窗口实际展示并读到最新才清除，支持手动标记。后台真实状态独立于视图，运行中归档先明确停止，等待服务确认后再次单独确认；取消归档保持同 SDK PID 继续运行。新增 7 项服务 / 5 项 Electron 流程，完整 179 项 Vitest / 49 项浏览器与 Electron E2E、SDK 冒烟通过；本次 frozen clean 通过，最后提示文案仅复用未变基础设施，完整 CI 已补跑。原生 Windows 重启持久 / 恢复 / 中段未读 / 后台停止归档及两次正常退出通过；真实请求 0，配置 / 预算未改，无安装包。[逐项验收](validation/session-03-evidence/acceptance.md)、[最终 CI](validation/session-03-evidence/ci-native-followup.log)、[clean](validation/session-03-evidence/clean-workspace.json)、[原生步骤](validation/session-03-evidence/native-validation.json)与[正常退出审计](validation/session-03-evidence/native-final-closed.json)独立保留。当前完整进度见下方 WS-06 记录，OPS-08 继续进行。
 
 本次目录整理的迁移清单、完整性核对与离线验证见 [整理验收记录](validation/structure-acceptance.md)。
 
@@ -79,3 +83,13 @@ pnpm docs:check
 - 开发验证默认写入 `.workbench/evidence/latest`。需要长期保留时选择新的 `docs/validation/<topic>-evidence/` 并配验收说明，避免覆盖之前的证据。
 - 缓存、日志、临时服务数据放 `.workbench/`；依赖和构建产物保留工具默认位置并忽略，不搬进 docs。
 - 不因目录整理创建空业务包、不改变功能 ID 或验收状态。组件与后端权责继续遵循 [UI 组件规则](development/ui-components.md)及[项目结构](architecture/project-structure.md)。
+
+SESSION-11 已验收 Electron 重命名 / Unicode 校验 / CAS 冲突 / 多端标题同步 / 人工保护，完整 **185 项 Vitest / 53 项 E2E**、SDK 冒烟和 frozen clean 通过。真实微软拼音 Enter / Escape / 选词、原生失败恢复 / 标题同步和重启持久化已补证，三项均勾选；230 个产品 / 测试 / 根配置文件与 clean 一致，本轮复用已通过门禁。该次完成数为 **17 / 133**，OPS-08 继续进行，WS-02 后续验收见下文。见[逐项结果与下一步提示词](validation/session-11-evidence/acceptance.md)、[最终 CI](validation/session-11-evidence/ci-complete.log)、[clean](validation/session-11-evidence/clean-workspace.json)及[原生结果](validation/session-11-evidence/native-validation.json)。
+
+WS-02 两项验收已通过：Electron 最近列表 / 自定义名 / 明示排序持久、失效诊断、仅隐藏移除及同物理目录明确重新定位，不改既有会话 cwd 或停止后台任务。完整 **192 项 Vitest / 57 项 E2E**、SDK 冒烟、本次 frozen clean 与 25 步真实 Windows IME / 原生选择器 / 失败恢复 / 后台同 PID / 重启及两次正常菜单退出通过；产品代码之后未改，文档与 PRD 同源重建并执行完整 check。该次 **18 / 133**；后续 WS-06 验收见下文，OPS-08 继续进行。真实请求 0、配置 / 预算不变、无安装包；[逐项验收与下一步提示词](validation/ws-02-evidence/acceptance.md)、[CI](validation/ws-02-evidence/ci.log)、[clean](validation/ws-02-evidence/clean-workspace.json)、[原生汇总](validation/ws-02-evidence/native-validation.json)和[重启关闭审计](validation/ws-02-evidence/native-final-closed.json)。
+
+## WS-06 项目组织验收
+
+WS-06 四项已验收：项目创建 / 改名 / 置顶 / 组内顺序跨重启持久，侧栏展开与名称 / 路径检索、同名区分、项目新建预选 / 全局无项目、单默认目录与独立空间均通过。默认仅影响未来会话；明确移除解散归无项目，原子回滚失败，保留文件 / 会话 / cwd / 模型 / 历史 / 权限及已运行任务。完整 **201 项 Vitest / 63 项 E2E**、SDK 冒烟与本次 frozen clean 通过；40 步原生 Windows IME / 真实选择器 / 失败恢复 / 同 PID 后台 / 重启及两次正常退出已补证。249 个产品 / 测试 / 配置文件与 clean 一致，后续仅回填文档与进度并重建 PRD。当前 **19 / 133**，OPS-08 继续进行，下一项 SESSION-12。
+
+真实提供商请求 0、pi 配置 / canonical 预算不变、无安装包，网页版独立功能暂缓。[逐项验收与下一步提示词](validation/ws-06-evidence/acceptance.md)、[CI](validation/ws-06-evidence/ci.log)、[clean](validation/ws-06-evidence/clean-workspace.json)、[原生汇总](validation/ws-06-evidence/native-validation.json)、[重启关闭审计](validation/ws-06-evidence/native-final-closed.json)及[代码复用审计](validation/ws-06-evidence/native-code-reuse-audit.json)。

@@ -1,0 +1,17 @@
+{"directory":"D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq","pid":32468,"desktopPid":6968,"ready":true}
+D:\Project\pi-workbench\node_modules\.pnpm\better-sqlite3@13.0.3\node_modules\better-sqlite3\lib\methods\wrappers.js:5
+	return this[cppdb].prepare(sql, this, false, false);
+	                   ^
+
+TypeError: The database connection is not open
+    at Database.prepare (D:\Project\pi-workbench\node_modules\.pnpm\better-sqlite3@13.0.3\node_modules\better-sqlite3\lib\methods\wrappers.js:5:21)
+    at BetterSQLiteSession.prepareQuery (file:///D:/Project/pi-workbench/node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30)
+    at BetterSQLiteSession.prepareOneTimeQuery (file:///D:/Project/pi-workbench/node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17)
+    at SQLiteSelectBase._prepare (file:///D:/Project/pi-workbench/node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/query-builders/select.js:615:88)
+    at SQLiteSelectBase.all (file:///D:/Project/pi-workbench/node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/query-builders/select.js:641:17)
+    at SessionStore.managedSessions (file:///D:/Project/pi-workbench/apps/daemon/dist/modules/sessions/session.store.js:56:14)
+    at audit (file:///D:/Project/pi-workbench/.workbench/session-02-native.mjs:42:185)
+    at file:///D:/Project/pi-workbench/.workbench/session-02-native.mjs:48:135
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.22.2

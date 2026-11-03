@@ -21,6 +21,13 @@ export function registerSessionTransport(
   server.get('/api/sessions', (_request, reply) =>
     reply.header('cache-control', 'no-store').send({ sessions: store.list(), canResume: false }),
   )
+  server.get<{ Querystring: { q?: string } }>('/api/session-titles', (request, reply) => {
+    const query = request.query.q ?? ''
+    if (typeof query !== 'string' || Array.from(query).length > 80) {
+      return reply.code(400).send({ message: '标题查询最多 80 个 Unicode 字符。' })
+    }
+    return reply.header('cache-control', 'no-store').send({ titles: store.titles(query) })
+  })
   server.get<{ Params: { sessionId: string }; Querystring: { cursor?: string; limit?: string } }>(
     '/api/sessions/:sessionId/history',
     (request, reply) => {

@@ -1,0 +1,42 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ [WebServer] tsc -p tsconfig.json
+[WebServer] (node:48980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:16632) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\workspace-recents.spec.ts:77:1 › WS-02 actual Electron persists recent order/custom names across full app restart, with prefill/cancel and light/dark/narrow layouts (3.4s)
+
+
+  1) e2e\workspace-recents.spec.ts:77:1 › WS-02 actual Electron persists recent order/custom names across full app restart, with prefill/cancel and light/dark/narrow layouts 
+
+    Error: expect(received).toBeLessThanOrEqual(expected)
+
+    Expected: <= 504.609375
+    Received:    641.640625
+
+      134 |     const recentBounds = await f.page.getByRole('heading', { name: '最近工作区', exact: true }).boundingBox()
+      135 |     assert(currentBounds && recentBounds)
+    > 136 |     expect(currentBounds.y + currentBounds.height).toBeLessThanOrEqual(recentBounds.y)
+          |                                                    ^
+      137 |     await f.page.getByRole('heading', { name: '最近工作区', exact: true }).scrollIntoViewIfNeeded()
+      138 |     await f.page.screenshot({
+      139 |       path: `${evidence}/workspace-recents-dark-800.png`,
+        at D:\Project\pi-workbench\e2e\workspace-recents.spec.ts:136:52
+
+    Error Context: test-results\workspace-recents-WS-02-ac-cd338-d-light-dark-narrow-layouts\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workspace-recents-WS-02-ac-cd338-d-light-dark-narrow-layouts\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\workspace-recents-WS-02-ac-cd338-d-light-dark-narrow-layouts\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\workspace-recents.spec.ts:77:1 › WS-02 actual Electron persists recent order/custom names across full app restart, with prefill/cancel and light/dark/narrow layouts 

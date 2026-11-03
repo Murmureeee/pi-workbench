@@ -1,0 +1,53 @@
+$ pnpm build && playwright test e2e/session-library.spec.ts
+$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2603 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               0.70 kB │ gzip:   0.36 kB
+dist/assets/session-workbench-DpPHtkAS.css    3.79 kB │ gzip:   1.17 kB
+dist/assets/index-Dor9G0DG.css               81.89 kB │ gzip:  14.26 kB
+dist/assets/refresh-cw-CKOu3nsb.js            0.36 kB │ gzip:   0.25 kB
+dist/assets/rolldown-runtime-WkwZ5CU-.js      0.59 kB │ gzip:   0.36 kB
+dist/assets/model-client-JFqpnqUG.js          0.60 kB │ gzip:   0.49 kB
+dist/assets/workspace-client-BR3aueSo.js      0.65 kB │ gzip:   0.55 kB
+dist/assets/session-client-aE31W9T7.js        2.21 kB │ gzip:   1.19 kB
+dist/assets/legacy-history-Bf0MIzzP.js        5.57 kB │ gzip:   2.45 kB
+dist/assets/workspace-manager-J4NyiCGC.js     6.62 kB │ gzip:   3.01 kB
+dist/assets/model-discovery-BEn53rZR.js       9.37 kB │ gzip:   3.79 kB
+dist/assets/useQuery-CByQRAse.js             22.45 kB │ gzip:   7.45 kB
+dist/assets/createLucideIcon-Cwh4U-A1.js    161.31 kB │ gzip:  48.71 kB
+dist/assets/session-workbench-Dlg_ojgV.js   164.81 kB │ gzip:  56.39 kB
+dist/assets/index-3bYqAFvP.js               338.00 kB │ gzip: 105.60 kB
+
+✓ built in 231ms
+$ tsc -p tsconfig.json
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:8640) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:28232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\session-library.spec.ts:108:1 › SESSION-03 Electron pin/unread/archive survive real daemon and Electron restart; restore keeps content and does not start kernels (11.4s)
+  ok 2 e2e\session-library.spec.ts:149:1 › SESSION-03 Electron unread stays at the saved middle; latest and explicit read clear it, manual unread survives polling (13.4s)
+  ok 3 e2e\session-library.spec.ts:223:1 › SESSION-03 Electron running archive cancel leaves the same SDK PID; explicit stop settles before separate confirmation (8.6s)
+{"event":"session-organization-failed","detail":{"name":"SqliteError","message":"offline test write failure"}}
+  ok 4 e2e\session-library.spec.ts:271:1 › SESSION-03 Electron failed saves stay honest; delayed lists cannot undo a saved pin and hidden view portals close (9.3s)
+
+  4 passed (55.9s)

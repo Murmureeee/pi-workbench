@@ -192,6 +192,9 @@ test('CORE-06 synthetic file fixture: newest 100 messages and earlier page have 
     await expect(page.getByLabel('历史载入状态')).toHaveText('本页 6 条消息')
     await expect(page.getByText('合成消息 0', { exact: true })).toHaveCount(1)
     await expect(page.getByText('合成消息 6', { exact: true })).toHaveCount(0)
+    await page.reload()
+    await expect(page.getByLabel('历史载入状态')).toHaveText('本页 6 条消息')
+    await expect(page.getByText('合成消息 0', { exact: true })).toHaveCount(1)
     await page.getByRole('button', { name: '刷新最新历史' }).click()
     await expect(page.getByLabel('历史载入状态')).toHaveText('本页 100 条消息')
   } finally {

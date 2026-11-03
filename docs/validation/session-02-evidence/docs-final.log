@@ -1,0 +1,178 @@
+$ node scripts/planning/build-roadmap.mjs && node scripts/planning/build-prd.mjs
+{"validated":true,"revision":"e02f541bd6b7","total":146,"core":133,"optional":13,"verified":15,"percent":11,"active":7,"blocked":0,"detailed":55,"generated":["docs/product/roadmap.html","docs/product/feature-list.md"],"imported":false}
+{"generated":"docs/product/prd.html","revision":"b121286a5030","selfContained":true,"featureSections":11,"journeys":16,"modules":19,"mappedFeatures":146,"verified":15}
+$ node scripts/planning/verify-roadmap.mjs && node scripts/docs/verify.mjs
+PASS current backlog definitions, dependencies and progress are valid
+PASS design coverage does not count as implementation
+PASS cannot mark done without acceptance or evidence
+PASS unmet prerequisites prevent false completion
+PASS batch import checks the whole resulting graph, regardless of row order
+PASS failed import is atomic and cannot corrupt existing definitions
+PASS unknown IDs and changed acceptance definitions are rejected
+PASS blocked status requires a cause and invalid dates are rejected
+PASS cycles and dependencies in later stages are detected
+PASS downgrading a prerequisite cannot leave dependent completion valid
+PASS generated HTML embeds exactly the canonical scope and compiles
+PASS generated Markdown includes every stable feature and acceptance criterion
+Verified 12 checks. Product progress unchanged.
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: Broken documentation links:
+docs\architecture\implementation-plan.md -> ../validation/session-02-evidence/ci-final.log
+docs\development\tooling.md -> ../validation/session-02-evidence/ci-final.log
+docs\README.md -> validation/session-02-evidence/ci-final.log
++ actual - expected
+
++ [
++   'docs\\architecture\\implementation-plan.md -> ../validation/session-02-evidence/ci-final.log',
++   'docs\\development\\tooling.md -> ../validation/session-02-evidence/ci-final.log',
++   'docs\\README.md -> validation/session-02-evidence/ci-final.log'
++ ]
+- []
+
+    at file:///D:/Project/pi-workbench/scripts/docs/verify.mjs:73:8
+    at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+    at async node:internal/modules/esm/loader:647:26
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: [
+    'docs\\architecture\\implementation-plan.md -> ../validation/session-02-evidence/ci-final.log',
+    'docs\\development\\tooling.md -> ../validation/session-02-evidence/ci-final.log',
+    'docs\\README.md -> validation/session-02-evidence/ci-final.log'
+  ],
+  expected: [],
+  operator: 'deepStrictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+[ELIFECYCLE] Command failed with exit code 1.
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ oxfmt --write .
+Finished in 440ms on 199 files using 20 threads.
+$ node scripts/planning/build-roadmap.mjs && node scripts/planning/build-prd.mjs
+{"validated":true,"revision":"18d5e7f89a0f","total":146,"core":133,"optional":13,"verified":15,"percent":11,"active":7,"blocked":0,"detailed":55,"generated":["docs/product/roadmap.html","docs/product/feature-list.md"],"imported":false}
+{"generated":"docs/product/prd.html","revision":"c9314774a36e","selfContained":true,"featureSections":11,"journeys":16,"modules":19,"mappedFeatures":146,"verified":15}
+$ node scripts/planning/verify-roadmap.mjs && node scripts/docs/verify.mjs
+PASS current backlog definitions, dependencies and progress are valid
+PASS design coverage does not count as implementation
+PASS cannot mark done without acceptance or evidence
+PASS unmet prerequisites prevent false completion
+PASS batch import checks the whole resulting graph, regardless of row order
+PASS failed import is atomic and cannot corrupt existing definitions
+PASS unknown IDs and changed acceptance definitions are rejected
+PASS blocked status requires a cause and invalid dates are rejected
+PASS cycles and dependencies in later stages are detected
+PASS downgrading a prerequisite cannot leave dependent completion valid
+PASS generated HTML embeds exactly the canonical scope and compiles
+PASS generated Markdown includes every stable feature and acceptance criterion
+Verified 12 checks. Product progress unchanged.
+PASS documentation structure: 29 documents, 738 local links, legacy redirects and PRD data
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+e2e/session-switching.spec.ts:366:7: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/session-switching.spec.ts:341:49: error typescript(no-unsafe-member-access): Unsafe member access .path on an `any` value.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ oxfmt --write .
+Finished in 442ms on 199 files using 20 threads.
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ oxfmt --write .
+Finished in 309ms on 199 files using 20 threads.
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 380ms on 199 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+$ knip
+$ node scripts/planning/verify-roadmap.mjs && node scripts/docs/verify.mjs
+PASS current backlog definitions, dependencies and progress are valid
+PASS design coverage does not count as implementation
+PASS cannot mark done without acceptance or evidence
+PASS unmet prerequisites prevent false completion
+PASS batch import checks the whole resulting graph, regardless of row order
+PASS failed import is atomic and cannot corrupt existing definitions
+PASS unknown IDs and changed acceptance definitions are rejected
+PASS blocked status requires a cause and invalid dates are rejected
+PASS cycles and dependencies in later stages are detected
+PASS downgrading a prerequisite cannot leave dependent completion valid
+PASS generated HTML embeds exactly the canonical scope and compiles
+PASS generated Markdown includes every stable feature and acceptance criterion
+Verified 12 checks. Product progress unchanged.
+PASS documentation structure: 29 documents, 738 local links, legacy redirects and PRD data

@@ -67,11 +67,28 @@ export type {
 } from './trust-contracts.js'
 export {
   directorySelectionSchema,
+  workspaceEditSchema,
+  workspaceMetadataResultSchema,
+  workspaceNameSchema,
   workspaceOpenSchema,
+  workspaceRecentSchema,
+  workspaceRecordSchema,
+  workspaceRelocateSchema,
+  workspaceRenameSchema,
   workspaceResultSchema,
   workspaceValidateSchema,
 } from './workspace-contracts.js'
-export type { DirectorySelection, Workspace, WorkspaceResult } from './workspace-contracts.js'
+export type {
+  DirectorySelection,
+  Workspace,
+  WorkspaceEdit,
+  WorkspaceMetadataResult,
+  WorkspaceRecent,
+  WorkspaceRecord,
+  WorkspaceRelocate,
+  WorkspaceRename,
+  WorkspaceResult,
+} from './workspace-contracts.js'
 export { modelCatalogSchema, modelFileStateSchema } from './model-contracts.js'
 export type { ModelCatalog, ModelProvider } from './model-contracts.js'
 export { desktopMenuSchema, desktopPageSchema, desktopThemeSchema } from './desktop-contracts.js'
@@ -79,6 +96,7 @@ export type { DesktopBridge, DesktopPage, DesktopTheme } from './desktop-contrac
 export {
   managedSessionSchema,
   projectCreateSchema,
+  projectCommandSchema,
   projectSchema,
   sessionConfigurationSchema,
   sessionListSchema,
@@ -92,6 +110,7 @@ export {
 export type {
   ManagedSession,
   Project,
+  ProjectCommand,
   SessionConfiguration,
   SessionModel,
   SessionOptions,
@@ -101,3 +120,29 @@ export type {
 } from './session-contracts.js'
 export { sessionDraftSchema, sessionDraftCollectionSchema } from './session-contracts.js'
 export type { SessionDraft } from './session-contracts.js'
+export {
+  sessionActivitySchema,
+  sessionViewSchema,
+  sessionViewsSchema,
+} from './session-contracts.js'
+export type { SessionView } from './session-contracts.js'
+export {
+  legacyCatalogSchema,
+  legacyPageSchema,
+  legacyReadSchema,
+} from './legacy-history-contracts.js'
+export type { LegacySource } from './legacy-history-contracts.js'
+export {
+  sessionOrganizationListSchema,
+  sessionOrganizationSchema,
+  sessionOrganizeSchema,
+} from './session-organization.js'
+export type { SessionOrganization, SessionOrganize } from './session-organization.js'
+export {
+  sessionRenameSchema,
+  sessionTitleSchema,
+  sessionTitleListSchema,
+  sessionTitleSubscribeSchema,
+  sessionTitleFrameSchema,
+} from './session-titles.js'
+export type { SessionRename, SessionTitle, SessionTitleFrame } from './session-titles.js'

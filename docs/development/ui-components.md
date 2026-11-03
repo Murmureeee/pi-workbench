@@ -42,9 +42,15 @@ SEC-07 的 `?trust` 从侧栏设置区进入，复用既有官方 Field / FieldL
 
 WS-01 的 Electron 工作区页复用上述 Field / FieldLabel、Input、Alert、Badge、Button、Separator 和既有 Lucide 图标，没有增加自制 primitive 或依赖。目录输入、可取消的原生选择器、本窗口切换、诊断与信任入口属于 feature 组合；规范化和身份去重由 daemon 决定。工作区模块按需加载，不加重初始离线对话包；迟到请求按视图版本隔离。原生选择器经固定 preload 桥调用，独立网页显示桌面入口提示并禁用操作。
 
+WS-02 的最近工作区复用既有官方 DropdownMenu、Dialog、AlertDialog、Field、Input、Alert、Badge 和 Button，业务组合放在 workspaces feature；无新增 primitive、运行依赖或锁文件变更。重命名与重新定位共享固定对象 / revision 的编辑框，错误和冲突保留输入；原生选择器只填路径，不代替保存。移除使用明确确认框，仅隐藏最近记录。实际 Electron 浅色 1080p、深色 800px、键盘 / 合成 IME 和真实微软拼音分别验证，窄窗以可滚动内容保留完整详情与列表。
+
 MODEL-01 的 Electron `?models` 页复用现有 Field / FieldGroup / FieldLabel、Input、Alert、Badge、Button / buttonVariants、Separator 和 Lucide，未新增 primitive 或 UI 依赖。已通过官方 CLI 查询并读取 Base UI 的上述组件文档，沿用本地 base-nova 源码与语义 tokens。来源 / 本地认证 / 未联网验证分开展示；SDK 能力和诊断由 daemon 提供，不接入示例 AI transport。本地搜索、单个“仅看已有配置”切换、提供商及模型分批展开属于 feature 组合；刷新失败保留旧值并标明失效。实际 Electron 验证明暗、1920×1080 / 800px、键盘焦点、长列表与迟到响应，原生菜单另经 Windows 实际操作。模型选择与会话发送仍由对应功能接入，网页独立功能暂缓。
 
 ## AI Elements 如何接入
+
+SESSION-03 的列表业务组合位于 `features/conversation/session-library.tsx`，复用 Button / Badge / Alert 与现有 MessageScroller。DropdownMenu、AlertDialog 通过官方 shadcn CLI 的 base-nova 注册表预览取得完整源码；审查后只新增这两个组件，将 cn / Button 接到既有相对 ESM 导入。保留原 Button，不引入注册表预览建议的额外 cn 包，无依赖或锁文件升级。会话主按钮与菜单按钮互为兄弟节点，不嵌套按钮；菜单分组、对话框标题 / 描述 / 取消和焦点由 Base UI 管理。
+
+自动已读借用 MessageScroller 的可滚动状态与现有书签视口的实际底部几何，不另造滚动控制器或 ResizeObserver；隐藏缓存不提交已读，切出页面关闭其菜单 / 对话框。归档是明确确认流程，运行时停止按钮和确认归档按钮分别操作；未确认服务终态前禁用归档。列表保存失败不显示成功，未读 / 运行 / 待审批 / 待处理均包含文字。
 
 以用户提供的 [AI Elements 官方文档](https://ui.shadcn.com/docs/ai-elements) 为准：当前 AI Elements 是组合模式，可以把组合源码放进项目；没有必须安装的独立 AI Elements 包。
 
@@ -59,6 +65,8 @@ MODEL-01 的 Electron `?models` 页复用现有 Field / FieldGroup / FieldLabel�
 
 ## 后续实现约束
 
+SESSION-11 重命名使用官方 shadcn Base UI / base-nova `Dialog`，通过 CLI docs / view / dry-run 取得并审查源码；保留已有 Button，`cn` 接回已有工具函数，图标使用 Lucide，未引入 CLI 预览中的重复 `cn` 依赖。业务编辑 / CAS 冲突 / IME 处理放在 conversation feature，列表和标题菜单共享该组合；标题同步保留 daemon / pi 传输，不采用示例 AI transport。
+
 1. 新界面先查官方组件与 AI Elements 模式；已有组件能满足需求时优先组合。只有业务状态和领域交互需要额外封装；新增基础交互要说明官方组件的不足。
 2. 公共组件集中在 `packages/ui`，项目 / 会话 / 审批等业务组合放在前端 feature 目录。主题通过语义 tokens 与 variants 配置，布局样式表达工作台结构和响应关系。
 3. 增加组件通过官方 shadcn CLI；预览依赖和源码变化，保留 named catalogs、ESM 相对导入及现有组件适配。升级不直接覆盖本地修改。
@@ -66,3 +74,9 @@ MODEL-01 的 Electron `?models` 页复用现有 Field / FieldGroup / FieldLabel�
 5. `8765` 服务展示的 PRD / 方向稿是静态 HTML 原型；`5173` 是 React 运行壳。原型用于设计评审，组件复用与行为验收在实际应用代码中核对。
 
 官方参考：[组件目录](https://ui.shadcn.com/docs/components)、[AI Elements](https://ui.shadcn.com/docs/ai-elements)。
+
+## WS-06 项目组合
+
+project-groups / project-editor 位于 workspaces feature，复用既有官方 shadcn Base UI / base-nova 的 DropdownMenu、Dialog、AlertDialog、Field / FieldGroup、Input、Alert、Button 与 Lucide，没有新增 primitive、运行依赖或锁变更。已核对组件注册表和本地源码；项目展开主按钮、新会话按钮与菜单为兄弟节点，焦点 / 对话框和菜单由 Base UI 管理，不自制弹层。项目业务版本、幂等、错误恢复与 IME 放 feature，SQLite / 目录权威保持 daemon。
+
+组 / 项目名搜索 / 同名路径与短 ID、置顶 / 手动顺序、目录仅未来生效及明确解散保留后台任务是业务组合，不采用示例 AI transport。整个 FieldGroup 捕获 composition，名称和路径均保护 Enter / Escape；未知保存 / CAS 保留输入并要求明确恢复。实际 Electron 1920×1080 / 800px 明暗与键盘检查、真实微软拼音、未拦截选择器、原生约 800px 导航和编辑均有独立证据，[验收说明](../validation/ws-06-evidence/acceptance.md)。

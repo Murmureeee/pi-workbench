@@ -1,0 +1,296 @@
+[
+  {
+    "name": "native-resume-settings",
+    "at": "2026-11-03T07:36:29.608Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "Pi Workbench"
+    },
+    "focus": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "nativeInputsBeforeResume": 0,
+    "screenshots": [
+      "native-resume-settings.jpg"
+    ]
+  },
+  {
+    "name": "native-prefill",
+    "at": "2026-11-03T07:42:15.017Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "selectedText": "甲 原生重命名验收",
+    "expectedSelection": "甲 原生重命名验收",
+    "selectionMatched": true,
+    "screenshots": [
+      "native-prefill.jpg"
+    ]
+  },
+  {
+    "name": "native-ime-candidate-n",
+    "at": "2026-11-03T07:42:49.321Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "input": "press_key n",
+    "osCandidatePanelVisible": true,
+    "screenshots": [
+      "native-ime-candidate-n.jpg"
+    ]
+  },
+  {
+    "name": "native-ime-ni-before-enter",
+    "at": "2026-11-03T07:43:02.279Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "osCandidatePanelVisible": true,
+    "screenshots": [
+      "native-ime-ni-before-enter.jpg"
+    ]
+  },
+  {
+    "name": "native-ime-enter-not-saved",
+    "at": "2026-11-03T07:43:22.203Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "committedText": "ni",
+    "dialogRemains": true,
+    "savedTitle": "甲 原生重命名验收",
+    "titleVersion": 1,
+    "screenshots": [
+      "native-ime-enter-not-saved.jpg"
+    ]
+  },
+  {
+    "name": "native-ime-before-escape",
+    "at": "2026-11-03T07:43:40.216Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "osCandidatePanelVisible": true,
+    "screenshots": [
+      "native-ime-before-escape.jpg"
+    ]
+  },
+  {
+    "name": "native-ime-escape-keeps-dialog",
+    "at": "2026-11-03T07:43:57.537Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "compositionCanceled": true,
+    "dialogRemains": true,
+    "editedValue": "ni",
+    "screenshots": [
+      "native-ime-escape-keeps-dialog.jpg"
+    ]
+  },
+  {
+    "name": "native-cancel-keeps-title-and-draft",
+    "at": "2026-11-03T07:44:53.791Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "dialogClosed": true,
+    "titleUnchanged": true,
+    "draftVisible": true,
+    "screenshots": [
+      "native-cancel-keeps-title-and-draft.jpg"
+    ]
+  },
+  {
+    "name": "native-ime-before-select",
+    "at": "2026-11-03T07:46:53.191Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "osCandidatePanelVisible": true,
+    "firstCandidate": "你",
+    "screenshots": [
+      "native-ime-before-select.jpg"
+    ]
+  },
+  {
+    "name": "native-ime-selected-not-saved",
+    "at": "2026-11-03T07:47:16.374Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "甲 原生重命名验收 · Pi Workbench"
+    },
+    "focus": "13 文档 甲 原生重命名验收 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "selectedChinese": "你",
+    "dialogRemains": true,
+    "savedTitleVersion": 1,
+    "screenshots": [
+      "native-ime-selected-not-saved.jpg"
+    ]
+  },
+  {
+    "name": "native-explicit-save-synced",
+    "at": "2026-11-03T07:47:52.492Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "你 · Pi Workbench"
+    },
+    "focus": "13 文档 你 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "saved": {
+      "id": "8f143d55-cb28-4fbf-863a-85536b8d3930",
+      "title": "你",
+      "titleSource": "user",
+      "titleVersion": 2,
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-11-native-32QyCq\\data\\standalone\\8f143d55-cb28-4fbf-863a-85536b8d3930",
+      "submissions": [
+        {
+          "id": "6b0154c4-4fc6-451c-9654-eae19d764c5f",
+          "status": "completed",
+          "text": "甲 原生重命名验收"
+        }
+      ]
+    },
+    "nativeSubmissions": 0,
+    "screenshots": [
+      "native-explicit-save-synced.jpg"
+    ]
+  },
+  {
+    "name": "native-save-failure-retains-edit",
+    "at": "2026-11-03T07:49:55.300Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "你 · Pi Workbench"
+    },
+    "focus": "13 文档 你 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "oldTitle": "你",
+    "titleVersion": 2,
+    "editedValue": "你 · 原生恢复验收 🧪",
+    "fault": "explicit test SQLite trigger",
+    "nativeSubmissions": 0,
+    "screenshots": [
+      "native-save-failure-retains-edit.jpg"
+    ]
+  },
+  {
+    "name": "native-save-recovered",
+    "at": "2026-11-03T07:50:49.995Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "你 · 原生恢复验收 🧪 · Pi Workbench"
+    },
+    "focus": "13 文档 你 · 原生恢复验收 🧪 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "headerAndSidebarMatch": true,
+    "draftPreserved": true,
+    "explicitSave": true,
+    "screenshots": [
+      "native-save-recovered.jpg"
+    ]
+  },
+  {
+    "name": "native-history-title-synced",
+    "at": "2026-11-03T07:51:09.227Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "你 · 原生恢复验收 🧪 · Pi Workbench"
+    },
+    "focus": "13 文档 你 · 原生恢复验收 🧪 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "historyTitleMatches": true,
+    "originalMessage": "甲 原生重命名验收",
+    "reply": "OFFLINE_OK",
+    "draftPreserved": true,
+    "screenshots": [
+      "native-history-title-synced.jpg"
+    ]
+  },
+  {
+    "name": "native-exit-menu",
+    "at": "2026-11-03T07:51:41.919Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 57999480,
+      "title": "你 · 原生恢复验收 🧪 · Pi Workbench"
+    },
+    "focus": "13 文档 你 · 原生恢复验收 🧪 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "normalQuitSelectedNext": true,
+    "screenshots": [
+      "native-exit-menu.jpg",
+      "native-exit-menu-1.jpg"
+    ]
+  },
+  {
+    "name": "native-restart-list",
+    "at": "2026-11-03T07:54:17.536Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 153552292,
+      "title": "Pi Workbench"
+    },
+    "focus": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/ ID: RootWebArea",
+    "savedTitle": {
+      "id": "8f143d55-cb28-4fbf-863a-85536b8d3930",
+      "title": "你 · 原生恢复验收 🧪",
+      "titleSource": "user",
+      "titleVersion": 3,
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-11-native-32QyCq\\data\\standalone\\8f143d55-cb28-4fbf-863a-85536b8d3930",
+      "submissions": [
+        {
+          "id": "6b0154c4-4fc6-451c-9654-eae19d764c5f",
+          "status": "completed",
+          "text": "甲 原生重命名验收"
+        }
+      ]
+    },
+    "kernels": [],
+    "nativeSubmissions": 0,
+    "screenshots": [
+      "native-restart-list.jpg"
+    ]
+  },
+  {
+    "name": "native-restarted-session",
+    "at": "2026-11-03T07:54:57.664Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 153552292,
+      "title": "你 · 原生恢复验收 🧪 · Pi Workbench"
+    },
+    "focus": "13 文档 你 · 原生恢复验收 🧪 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea",
+    "historyBytesUnchanged": true,
+    "sameSessionId": true,
+    "restoredTitle": "你 · 原生恢复验收 🧪",
+    "titleSource": "user",
+    "titleVersion": 3,
+    "screenshots": [
+      "native-restarted-session.jpg"
+    ]
+  }
+]

@@ -1,0 +1,135 @@
+{
+  "source": "Actual native Electron, daemon SQLite and pi SDK/local HTTP fixtures; no route interception",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4",
+  "first": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4\\甲工作区",
+  "second": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4\\乙工作区",
+  "moved": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4\\乙工作区已移动",
+  "restored": true,
+  "recent": {
+    "entries": [
+      {
+        "id": "166435f2-7e94-4856-b021-8c9c036198b0",
+        "name": "乙工作区",
+        "canonicalPath": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4\\乙工作区",
+        "defaultName": "乙工作区",
+        "customName": null,
+        "lastOpenedAt": 1793704610188,
+        "revision": 1
+      }
+    ],
+    "total": 1,
+    "limit": 100,
+    "order": "last-opened-desc-id-asc"
+  },
+  "registry": [
+    {
+      "id": "6c29c258-3ca6-4412-8751-853028900cc9",
+      "canonical_path": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4\\甲工作区",
+      "name": "甲工作区",
+      "custom_name": "你 · 原生工作区 🧪",
+      "last_opened_at": null,
+      "revision": 4
+    },
+    {
+      "id": "166435f2-7e94-4856-b021-8c9c036198b0",
+      "canonical_path": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4\\乙工作区",
+      "name": "乙工作区",
+      "custom_name": null,
+      "last_opened_at": 1793704610188,
+      "revision": 1
+    }
+  ],
+  "projects": [
+    {
+      "id": "1a8fddc9-496c-4938-a7d9-8cd2ca96f421",
+      "name": "验收项目（保持不变）",
+      "workspaceId": "6c29c258-3ca6-4412-8751-853028900cc9",
+      "directory": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4\\甲工作区"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "006d99de-45d7-4642-895a-741a68db8ead",
+      "title": "WS-02 原生保留会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "091405dd-e04d-4a16-bb27-cb8e23dc18e9",
+      "configuration": {
+        "projectId": "1a8fddc9-496c-4938-a7d9-8cd2ca96f421",
+        "workspaceId": "6c29c258-3ca6-4412-8751-853028900cc9",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "6c29c258-3ca6-4412-8751-853028900cc9",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws-02-native-YZU7K4\\甲工作区",
+      "createdAt": 1793704610197
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "091405dd-e04d-4a16-bb27-cb8e23dc18e9",
+      "status": "completed",
+      "turnId": "364e30a8-1b1c-4bce-bd1e-a7e8cc79cd86"
+    },
+    {
+      "requestId": "b79f9871-2b10-4aa5-89ef-ca328ed0d334",
+      "status": "failed",
+      "turnId": "49c0cdd6-d2b0-4d15-a311-e3ffe76d076c"
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 1,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "006d99de-45d7-4642-895a-741a68db8ead",
+        "epoch": "7137267e-6274-47c5-9b2a-411e6cdf3097",
+        "state": "ready",
+        "pid": 15848,
+        "pins": 0,
+        "lastUsedAt": 1793705649852,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "historyHashes": {
+    "006d99de-45d7-4642-895a-741a68db8ead\\cfeeb7f8-8e8d-47f8-a45e-8d0e88cccd2c\\sessions\\2026-11-03T11-16-51-168Z_01a1a120-4d60-72d9-a1db-9cc67f2cf1a7.jsonl": "71406068cabb7bf1a778b9b5a89df63fbf0f1cde02251eb690d612f1f4acd1e4"
+  },
+  "files": {
+    "first": true,
+    "second": false,
+    "moved": true
+  },
+  "seedPrompts": 0,
+  "fixturePrompts": 1,
+  "uiPrompts": 0,
+  "configBefore": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "8fb3d513dcb99a71f67fe91781100e64a4b332cc32c3a4ddcf8c30a067ae9058",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "configAfter": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "8fb3d513dcb99a71f67fe91781100e64a4b332cc32c3a4ddcf8c30a067ae9058",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "budgetBefore": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "budgetAfter": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "realProviderRequests": 0
+}

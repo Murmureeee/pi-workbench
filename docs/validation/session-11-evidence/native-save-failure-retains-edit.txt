@@ -1,0 +1,38 @@
+Window: "你 · Pi Workbench", App: electron.exe.
+	0 窗口 你 · Pi Workbench Secondary Actions: Raise
+		1 窗格 (disabled)
+		2 区域 你 · Pi Workbench
+			3 区域
+				4 区域
+					5 区域
+						6 按钮 最小化
+						753 按钮 恢复
+						8 按钮 关闭
+					9 区域
+						10 区域
+							11 区域
+								12 区域
+									13 文档 你 · Pi Workbench Value: http://127.0.0.1:5173/?session=8f143d55-cb28-4fbf-863a-85536b8d3930 ID: RootWebArea
+										754 组
+											14 组 ID: root
+												720 主要
+													737 组
+											925 组
+												926 对话框 重命名会话 Secondary Actions: Raise
+													927 标题 重命名会话 ID: base-ui-_r_3a_
+													928 文本 修改列表和窗口标题；会话历史、目录与任务保持原样。
+													929 文本 会话名称
+													930 编辑 (settable, string) 会话名称 Value: 你 · 原生恢复验收 🧪
+													931 文本 去首尾空白后 1–80 个 Unicode 字符 ·
+													932 文本 12
+													933 文本 /80
+													936 警报
+														937 文本 保存结果待核对
+														938 文本 保存结果待核对，编辑内容已保留。请检查最新标题；不会自动重试。
+													934 按钮 取消
+													935 按钮 保存名称
+								75 区域
+
+Document text: ```
+你 · 原生恢复验收 🧪
+```

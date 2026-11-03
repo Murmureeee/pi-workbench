@@ -1,0 +1,20 @@
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+apps/daemon/test/workspace-recents.test.ts:59:3: error vitest(no-standalone-expect): `expect` must be inside of a test block. help: Did you forget to wrap `expect` in a `test` or `it` block?
+apps/daemon/test/workspace-recents.test.ts:57:37: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+apps/daemon/test/workspace-recents.test.ts:182:15: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+apps/daemon/test/workspace-recents.test.ts:193:15: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+apps/web/src/features/workspaces/workspace-record-dialog.tsx:127:32: error eslint(curly): Expected { after 'if' condition. help: Replace `details.cancel()` with `{details.cancel()}`.
+apps/web/src/features/workspaces/workspace-record-dialog.tsx:128:21: error eslint(curly): Expected { after 'if' condition. help: Replace `close()` with `{close()}`.
+apps/daemon/test/workspace-recents.test.ts:92:48: error typescript(no-unsafe-assignment): Unsafe assignment of an any value. help: Assigned value has type `any`; the target has type `any`. Use a safely typed value or `unknown`, and narrow it before use.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

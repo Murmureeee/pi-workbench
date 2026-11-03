@@ -7,6 +7,24 @@ import { describe, expect, it } from 'vitest'
 import { readNativeHistory, readNativeMessage, readNativeRange } from './native-history.js'
 
 describe('CORE-06 read-only native v3 history parser (synthetic file fixtures)', () => {
+  it('bounds traversal of corrupt cyclic parents in an external read snapshot', () => {
+    const bytes = Buffer.from(
+      [
+        { type: 'session', version: 3, id: 'native', cwd: 'unused' },
+        {
+          type: 'message',
+          id: 'self',
+          parentId: 'self',
+          message: { role: 'user', content: '可读原文' },
+        },
+      ]
+        .map((record) => JSON.stringify(record))
+        .join('\n') + '\n',
+    )
+    const result = readNativeHistory(bytes, 'native')
+    expect(result.diagnostics.some((item) => item.code === 'cyclic-parent')).toBe(true)
+    expect(result.records[0]?.message?.text).toBe('可读原文')
+  })
   it('follows native parent IDs rather than file order and ignores system metadata in displayed messages', () => {
     const directory = mkdtempSync(join(tmpdir(), 'piw-native-branch-')),
       path = join(directory, 'session.jsonl')

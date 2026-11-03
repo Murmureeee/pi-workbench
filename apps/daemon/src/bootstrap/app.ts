@@ -7,7 +7,7 @@ import { HttpException, Module } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
 
-import { resourceLimitsSchema } from '@pi-workbench/shared'
+import { legacyReadSchema, resourceLimitsSchema } from '@pi-workbench/shared'
 
 import { WorkspaceDatabase } from '../infrastructure/database/database.js'
 import { EventService } from '../modules/events/event.service.js'
@@ -22,6 +22,7 @@ import { registerAccessTransport } from '../modules/security/access.transport.js
 import { SecurityService } from '../modules/security/security.service.js'
 import { TrustService } from '../modules/security/trust.service.js'
 import { registerTrustTransport } from '../modules/security/trust.transport.js'
+import { LegacyHistoryService } from '../modules/sessions/legacy-history.service.js'
 import { registerSessionCommands } from '../modules/sessions/session-command.transport.js'
 import { SessionService } from '../modules/sessions/session.service.js'
 import { SessionStore } from '../modules/sessions/session.store.js'
@@ -61,6 +62,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const trust = new TrustService(database, options.piAgentDir)
   const workspaces = new WorkspaceService(database)
   const models = new ModelService(security)
+  const legacy = new LegacyHistoryService(options.piAgentDir)
   const projects = new ProjectService(database, workspaces)
   const kernels = new KernelService(options.dataDir, events, store, resourceLimits, trust)
   const sessionService = new SessionService(
@@ -72,6 +74,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     projects,
     models,
     security,
+    events,
   )
   @Module({
     imports: [HealthModule, LabModule],
@@ -94,6 +97,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: ModelService, useValue: models },
       { provide: ProjectService, useValue: projects },
       { provide: SessionService, useValue: sessionService },
+      { provide: LegacyHistoryService, useValue: legacy },
     ],
   })
   class AppModule {}
@@ -128,7 +132,52 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   })
   registerAccessTransport(adapter.getInstance(), access, options.port, Boolean(options.development))
   registerTrustTransport(adapter.getInstance(), trust, access)
-  registerWorkspaceTransport(adapter.getInstance(), workspaces)
+  registerWorkspaceTransport(adapter.getInstance(), workspaces, access)
+  adapter.getInstance().addHook('preHandler', async (request, reply) => {
+    if (
+      request.url.startsWith('/api/legacy-history') &&
+      access.authenticate(request.headers.cookie)?.info.kind !== 'desktop'
+    ) {
+      await reply.code(403).send({ message: '旧 pi 历史发现目前仅向 Electron 开放。' })
+    }
+  })
+  adapter.getInstance().get('/api/legacy-history', () => legacy.discover())
+  adapter
+    .getInstance()
+    .get<{ Params: { id: string; messageId: string } }>(
+      '/api/legacy-history/:id/messages/:messageId',
+      (request, reply) => {
+        const query = legacyReadSchema.safeParse(request.query)
+        if (!query.success || !query.data.version || query.data.cursor) {
+          return reply.code(400).send({ message: '读取全文需要原历史版本。' })
+        }
+        const content = legacy.content(
+          request.params.id,
+          request.params.messageId,
+          query.data.version,
+        )
+        return reply
+          .type('text/plain; charset=utf-8')
+          .send(security.redactor.text(content.text, content.incomplete))
+      },
+    )
+  adapter
+    .getInstance()
+    .get<{ Params: { id: string } }>('/api/legacy-history/:id', (request, reply) => {
+      const query = legacyReadSchema.safeParse(request.query)
+      if (!query.success) {
+        return reply.code(400).send({ message: '历史读取参数无效。' })
+      }
+      const page = legacy.read(request.params.id, query.data.version, query.data.cursor)
+      return {
+        ...page,
+        messages: page.messages.map((message) =>
+          Object.assign({}, message, {
+            text: security.redactor.text(message.text, message.truncated || message.incomplete),
+          }),
+        ),
+      }
+    })
   adapter.getInstance().get('/api/models', (request, reply) => {
     if (access.authenticate(request.headers.cookie)?.info.kind !== 'desktop') {
       return reply
@@ -149,7 +198,15 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   })
   await registerEventTransport(adapter.getInstance(), events, access)
   registerSessionTransport(adapter.getInstance(), store, security)
-  registerSessionCommands(adapter.getInstance(), sessionService, store, projects, kernels, access)
+  registerSessionCommands(
+    adapter.getInstance(),
+    sessionService,
+    store,
+    projects,
+    kernels,
+    access,
+    events,
+  )
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter, {
     logger: false,
   })

@@ -1,0 +1,18 @@
+{
+  "feature": "SESSION-11",
+  "status": "pending_user_availability",
+  "at": "2026-11-03T07:02:23.098Z",
+  "userDecision": "稍后再控制，先完成文档",
+  "observed": "Selected the unique task-owned Pi Workbench window and read its UIA tree. The screenshot was occluded by another foreground fullscreen app; no native input was issued and that unrelated screenshot was not archived.",
+  "nativeInputs": 0,
+  "realChineseIMEVerified": false,
+  "restartVerifiedNatively": false,
+  "automatedElectron": "4 SESSION-11 tests and full 53 E2E passed; composition events are synthetic, not real Windows IME.",
+  "preparedEnvironment": {
+    "directory": "D:\\Project\\pi-workbench\\.workbench\\session-11-native-32QyCq",
+    "pid": 9748,
+    "desktopPid": 37560
+  },
+  "source": "real pi SDK/local HTTP fixture; no route interception in the prepared native harness; provider transport disabled",
+  "providerRequests": 0
+}

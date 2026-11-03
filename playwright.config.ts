@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto'
+
 import { defineConfig } from '@playwright/test'
 
 export default defineConfig({
@@ -15,6 +17,8 @@ export default defineConfig({
     url: 'http://127.0.0.1:5173',
     reuseExistingServer: false,
     timeout: 120000,
-    env: { PIW_DATA_DIR: '.workbench/e2e' },
+    // Each run owns fresh daemon data; a prior hard-ended runner must not leave a live-PID
+    // lease collision in a later run. Product data/lease recovery rules remain authoritative.
+    env: { PIW_DATA_DIR: `.workbench/e2e-${randomUUID()}` },
   },
 })

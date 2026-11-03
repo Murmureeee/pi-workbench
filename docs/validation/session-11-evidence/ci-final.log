@@ -1,0 +1,137 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 364ms on 215 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+$ knip
+$ node scripts/planning/verify-roadmap.mjs && node scripts/docs/verify.mjs
+PASS current backlog definitions, dependencies and progress are valid
+PASS design coverage does not count as implementation
+PASS cannot mark done without acceptance or evidence
+PASS unmet prerequisites prevent false completion
+PASS batch import checks the whole resulting graph, regardless of row order
+PASS failed import is atomic and cannot corrupt existing definitions
+PASS unknown IDs and changed acceptance definitions are rejected
+PASS blocked status requires a cause and invalid dates are rejected
+PASS cycles and dependencies in later stages are detected
+PASS downgrading a prerequisite cannot leave dependent completion valid
+PASS generated HTML embeds exactly the canonical scope and compiles
+PASS generated Markdown includes every stable feature and acceptance criterion
+Verified 12 checks. Product progress unchanged.
+PASS documentation structure: 29 documents, 755 local links, legacy redirects and PRD data
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+
+ Test Files  22 passed (22)
+      Tests  185 passed (185)
+   Start at  14:45:25
+   Duration  35.94s (tests 74%, import 26%)
+
+$ pnpm --filter @pi-workbench/agent-adapter smoke
+$ node dist/smoke.js
+{"feature":"CORE-04","source":"real-sdk/local-fixture","sdk":"1.4.0","node":"v24.22.2","pid":27388,"guard":"deny-all","reply":"completed","abort":"aborted","disposed":true,"localRequests":2,"providerRequests":0,"blockedNetworkAttempts":0}
+$ pnpm build && playwright test
+$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2613 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               0.70 kB │ gzip:   0.36 kB
+dist/assets/session-workbench-N8aQNQR_.css    3.97 kB │ gzip:   1.21 kB
+dist/assets/index-Cm0CCsR6.css               82.00 kB │ gzip:  14.29 kB
+dist/assets/refresh-cw-C--0J-QD.js            0.36 kB │ gzip:   0.25 kB
+dist/assets/rolldown-runtime-WkwZ5CU-.js      0.59 kB │ gzip:   0.36 kB
+dist/assets/model-client-C3fRjOC7.js          0.60 kB │ gzip:   0.49 kB
+dist/assets/workspace-client-CviCD-F1.js      0.65 kB │ gzip:   0.55 kB
+dist/assets/legacy-history-TiQ9WMb-.js        5.53 kB │ gzip:   2.43 kB
+dist/assets/workspace-manager-BkuxdX0k.js     6.62 kB │ gzip:   3.00 kB
+dist/assets/model-discovery-CvRRowcK.js       9.37 kB │ gzip:   3.79 kB
+dist/assets/useQuery-BXIkyquu.js             22.45 kB │ gzip:   7.45 kB
+dist/assets/createLucideIcon-D-__095e.js    161.85 kB │ gzip:  48.94 kB
+dist/assets/session-workbench-C0flA2I2.js   171.10 kB │ gzip:  57.19 kB
+dist/assets/index-DCooCLRd.js               343.44 kB │ gzip: 107.35 kB
+
+✓ built in 321ms
+$ tsc -p tsconfig.json
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:24972) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] file:///D:/Project/pi-workbench/apps/daemon/dist/infrastructure/database/data-lease.js:34
+[WebServer]             throw new Error('Data directory already owned by a running daemon');
+[WebServer]                   ^
+[WebServer] 
+[WebServer] Error: Data directory already owned by a running daemon
+[WebServer]     at acquireDataLease (file:///D:/Project/pi-workbench/apps/daemon/dist/infrastructure/database/data-lease.js:34:19)
+[WebServer]     at new WorkspaceDatabase (file:///D:/Project/pi-workbench/apps/daemon/dist/infrastructure/database/database.js:17:29)
+[WebServer]     at createApp (file:///D:/Project/pi-workbench/apps/daemon/dist/bootstrap/app.js:52:22)
+[WebServer]     at file:///D:/Project/pi-workbench/scripts/dev.mjs:21:22
+[WebServer]     at ModuleJob.run (node:internal/modules/esm/module_job:561:25)
+[WebServer]     at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+[WebServer]     at async node:internal/modules/esm/loader:647:26
+[WebServer]     at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:101:5)
+[WebServer] 
+[WebServer] Node.js v24.22.2
+[WebServer] [ELIFECYCLE] Command failed with exit code 1.
+Error: Process from config.webServer was not able to start. Exit code: 1
+
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

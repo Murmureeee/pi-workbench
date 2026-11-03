@@ -1,0 +1,78 @@
+{
+  "source": "real pi SDK/local HTTP fixture; external history is synthetic JSONL",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq",
+  "sessions": [
+    {
+      "id": "a2eb7f25-bfbf-4adf-b8e6-a323efb319e7",
+      "title": "甲 原生切换验收 甲 第 0 段：切换会话保留阅读位置。 甲 第 1 段：切换会",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq\\data\\standalone\\a2eb7f25-bfbf-4adf-b8e6-a323efb319e7",
+      "submissions": [
+        {
+          "id": "9de20819-35da-4df1-a691-6714935a6be5",
+          "status": "completed",
+          "text": "甲 原生切换验收\n甲 第 0 段：切换会话保留阅读位置。\n甲 第 1 段：切换会话保留阅读位置。\n甲"
+        }
+      ]
+    },
+    {
+      "id": "99f410fd-3c30-4f69-8014-0fdb3aefda03",
+      "title": "丙 原生切换验收 丙 第 0 段：切换会话保留阅读位置。 丙 第 1 段：切换会",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq\\data\\standalone\\99f410fd-3c30-4f69-8014-0fdb3aefda03",
+      "submissions": [
+        {
+          "id": "0e36ce89-1923-49e6-a523-13520162cbed",
+          "status": "completed",
+          "text": "丙 原生切换验收\n丙 第 0 段：切换会话保留阅读位置。\n丙 第 1 段：切换会话保留阅读位置。\n丙"
+        },
+        {
+          "id": "4806e0b6-49d9-44dc-89f7-9ae0bb958d04",
+          "status": "aborted",
+          "text": "后台验收：切换会话不停止这个本地任务"
+        }
+      ]
+    },
+    {
+      "id": "01682a78-acb6-44eb-ad29-3deff57f3822",
+      "title": "丁 原生切换验收 丁 第 0 段：切换会话保留阅读位置。 丁 第 1 段：切换会",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq\\data\\standalone\\01682a78-acb6-44eb-ad29-3deff57f3822",
+      "submissions": [
+        {
+          "id": "b467e3f6-a215-40b4-950e-dad6c27414bf",
+          "status": "completed",
+          "text": "丁 原生切换验收\n丁 第 0 段：切换会话保留阅读位置。\n丁 第 1 段：切换会话保留阅读位置。\n丁"
+        }
+      ]
+    },
+    {
+      "id": "7f8c6ee0-187e-4579-8ced-5cef7f387f58",
+      "title": "乙 原生切换验收 乙 第 0 段：切换会话保留阅读位置。 乙 第 1 段：切换会",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq\\data\\standalone\\7f8c6ee0-187e-4579-8ced-5cef7f387f58",
+      "submissions": [
+        {
+          "id": "a3a1bf02-02e9-4bc3-9e5a-48bac5bfac3b",
+          "status": "completed",
+          "text": "乙 原生切换验收\n乙 第 0 段：切换会话保留阅读位置。\n乙 第 1 段：切换会话保留阅读位置。\n乙"
+        }
+      ]
+    }
+  ],
+  "nativeSubmissions": 1,
+  "kernels": [
+    {
+      "sessionId": "99f410fd-3c30-4f69-8014-0fdb3aefda03",
+      "epoch": "a7fb662b-606d-407e-b142-a8b748361636",
+      "state": "stopped",
+      "pid": 31852,
+      "pins": 0,
+      "lastUsedAt": 1793671144836,
+      "waitingApproval": false,
+      "retiring": false
+    }
+  ],
+  "legacy": {
+    "path": "D:\\Project\\pi-workbench\\.workbench\\session-02-native-UpEXWq\\pi\\sessions\\--native-old--\\native-old.jsonl",
+    "originalHash": "8f65839963c880711d8ea2bd329efd16a497144adc7ccd1e23ba5c1792965e8f",
+    "currentHash": "8f65839963c880711d8ea2bd329efd16a497144adc7ccd1e23ba5c1792965e8f"
+  },
+  "realProviderRequests": 0
+}

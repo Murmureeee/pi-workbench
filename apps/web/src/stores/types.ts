@@ -9,6 +9,12 @@ export interface WorkbenchStore {
   theme: Theme
   navOpen: boolean
   changesOpen: boolean
+  sessionListFilter: 'active' | 'archived'
+  projectQuery: string
+  collapsedProjects: Record<string, boolean>
+  setProjectQuery: (query: string) => void
+  toggleProject: (id: string) => void
+  setSessionListFilter: (filter: 'active' | 'archived') => void
   setScene: (scene: Scene) => void
   setDraft: (draft: string) => void
   send: () => void

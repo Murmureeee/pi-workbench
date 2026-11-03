@@ -1,5 +1,6 @@
 import type { FixtureMode } from './kernel-protocol.js'
 
+import { randomInt } from 'node:crypto'
 import { createServer } from 'node:http'
 import { setTimeout as delay } from 'node:timers/promises'
 
@@ -90,10 +91,31 @@ export async function createOfflineProvider() {
     })
   })
   let requestLimit = 0
-  await new Promise<void>((resolve, reject) => {
-    server.once('error', reject)
-    server.listen(0, '127.0.0.1', resolve)
-  })
+  // Some Windows hosts configure low ephemeral ports, including fetch-forbidden 6000.
+  // Bind in the high range; only address collisions retry, before any model request exists.
+  const bind = (attempt: number): Promise<void> =>
+    new Promise<void>((resolve, reject) => {
+      const ready = () => {
+        server.off('error', failed)
+        resolve()
+      }
+      const failed = (error: Error) => {
+        server.off('listening', ready)
+        reject(error)
+      }
+      server.once('error', failed)
+      server.once('listening', ready)
+      server.listen(randomInt(49152, 65536), '127.0.0.1')
+    }).catch((error: unknown) => {
+      if (
+        !(error instanceof Error && 'code' in error && error.code === 'EADDRINUSE') ||
+        attempt === 15
+      ) {
+        throw error
+      }
+      return bind(attempt + 1)
+    })
+  await bind(0)
   const address = server.address()
   if (!address || typeof address === 'string') {
     throw new Error('Offline provider failed to bind loopback')

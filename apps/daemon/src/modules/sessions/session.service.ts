@@ -1,10 +1,18 @@
+import type { EventService } from '../events/event.service.js'
 import type { KernelService } from '../kernels/kernel.service.js'
 import type { ModelService } from '../models/model.service.js'
 import type { SecurityService } from '../security/security.service.js'
 import type { ProjectService } from '../workspaces/project.service.js'
 import type { WorkspaceService } from '../workspaces/workspace.service.js'
 import type { SessionStore } from './session.store.js'
-import type { ManagedSession, SessionReceipt, SessionSubmit } from '@pi-workbench/shared'
+import type {
+  ManagedSession,
+  ProjectCommand,
+  SessionOrganize,
+  SessionReceipt,
+  SessionRename,
+  SessionSubmit,
+} from '@pi-workbench/shared'
 
 import { createHash, randomUUID } from 'node:crypto'
 import { lstat, mkdir, realpath, rmdir } from 'node:fs/promises'
@@ -12,7 +20,10 @@ import { join, relative } from 'node:path'
 
 import { HttpException } from '@nestjs/common'
 
+import { sessionRenameSchema } from '@pi-workbench/shared'
+
 import { KernelExecutionUncertain } from '../kernels/kernel.service.js'
+import { SessionOrganizationConflict, SessionTitleConflict } from './session.store.js'
 
 /** Desktop first-send authority. Persists immutable input before admission, reconciles
  * request IDs before checking mutable resources, and never retries background work.
@@ -32,6 +43,7 @@ export class SessionService {
     private readonly projects: ProjectService,
     private readonly models: ModelService,
     private readonly security: SecurityService,
+    private readonly events: EventService,
   ) {}
 
   options() {
@@ -40,6 +52,86 @@ export class SessionService {
       realProviderEnabled: false,
       localFixtureEnabled: this.development,
       projects: this.projects.list(),
+    }
+  }
+
+  /** Organizing a project never changes execution. Removal only releases attribution,
+   * using the two owners' public APIs in one daemon-owned SQLite transaction. */
+  organizeProject(id: string, input: Exclude<ProjectCommand, { action: 'edit' }>) {
+    return this.projects.organize(id, input, () => this.store.detachProject(id))
+  }
+
+  /** Persist first, then notify metadata observers. No model requests or automatic retries.
+   * The optional local binding protects future delayed local summaries from manual titles. */
+  rename(sessionId: string, input: SessionRename, localRequestId?: string) {
+    const parsed = sessionRenameSchema.safeParse(input)
+    if (!parsed.success) {
+      throw new HttpException('标题或保存版本无效。', 400)
+    }
+    if (!this.store.titles().some((row) => row.sessionId === sessionId)) {
+      throw new HttpException('会话不存在，旧 pi 历史仅供只读。', 404)
+    }
+    try {
+      const title = this.store.rename(
+        sessionId,
+        {
+          ...parsed.data,
+          title: this.security.redactor.text(parsed.data.title),
+        },
+        localRequestId,
+      )
+      this.events.publishTitle(title)
+      return title
+    } catch (error) {
+      if (error instanceof SessionTitleConflict) {
+        throw new HttpException(error.message, 409)
+      }
+      this.security.log('session-rename-failed', error)
+      throw new HttpException('标题未能保存，请核对最新标题后重试；编辑内容保留。', 503)
+    }
+  }
+
+  /** Reports daemon task/queue ownership even if the client view has been evicted. */
+  activity() {
+    const resources = this.kernels.resources()
+    return this.store.activity().map((item) => {
+      const kernel = resources.kernels.find((row) => row.sessionId === item.id)
+      return Object.assign({}, item, {
+        running:
+          item.running ||
+          resources.queue.some((row) => row.sessionId === item.id) ||
+          Boolean(
+            kernel &&
+            (kernel.pins > 0 || ['starting', 'running', 'stopping'].includes(kernel.state)),
+          ),
+        approvals: Math.max(item.approvals, kernel?.waitingApproval ? 1 : 0),
+      })
+    })
+  }
+
+  /** No await between live checks and SQLite CAS: accepted activity cannot slip through.
+   * Archive is organization only; stopping is a separate explicit kernel command. */
+  organize(sessionId: string, input: SessionOrganize) {
+    if (!this.store.managedSessions().some((item) => item.id === sessionId)) {
+      throw new HttpException('会话不存在，请刷新列表。', 404)
+    }
+    if (input.action === 'archive' && input.archived) {
+      const activity = this.activity().find((item) => item.id === sessionId)
+      if (activity?.running || activity?.approvals || activity?.held) {
+        throw new HttpException(
+          '会话仍有运行、待审批或待处理任务；请先停止或处理，再确认归档。',
+          409,
+        )
+      }
+    }
+    try {
+      return this.store.organize(sessionId, input)
+    } catch (error) {
+      if (error instanceof SessionOrganizationConflict) {
+        throw new HttpException(error.message, 409)
+      }
+      this.security.log('session-organization-failed', error)
+      throw new HttpException('整理状态未能保存，请刷新核对；历史和草稿保留。', 503)
     }
   }
 
@@ -112,14 +204,8 @@ export class SessionService {
       }
       input = { ...input, text: failed.submission.text }
     }
-    const project = input.configuration.projectId
-      ? this.projects.list().find((item) => item.id === input.configuration.projectId)
-      : undefined
-    if (input.configuration.projectId && !project) {
-      throw new HttpException('项目不存在，请重新选择。', 409)
-    }
-    if (project && project.workspaceId !== input.configuration.workspaceId) {
-      throw new HttpException('项目默认目录已变化，请重新选择项目。', 409)
+    if (!existing) {
+      this.projects.assertDefault(input.configuration.projectId, input.configuration.workspaceId)
     }
     const sessionId = existing?.id ?? randomUUID()
     const standalone =
@@ -145,7 +231,7 @@ export class SessionService {
         ? await this.workspaces.validate(existing.workspaceId)
         : input.configuration.workspaceId
           ? await this.workspaces.validate(input.configuration.workspaceId)
-          : await this.workspaces.open(standalone!)
+          : await this.workspaces.open(standalone!, { remember: false })
       if (!workspace.ok) {
         throw new HttpException(workspace, 409)
       }
@@ -172,6 +258,15 @@ export class SessionService {
         titleSource: 'local',
         titleVersion: 1,
       }
+      if (!existing) {
+        this.projects.assertDefault(input.configuration.projectId, input.configuration.workspaceId)
+      } else if (
+        JSON.stringify(
+          this.store.managedSessions().find((row) => row.id === existing.id)?.configuration,
+        ) !== JSON.stringify(input.configuration)
+      ) {
+        throw new HttpException('会话归属已变化，请刷新核对；原执行目录保留。', 409)
+      }
       saved = this.store.acceptSubmission(input, digest, prepared)
       const receipt = this.store.receipt(input.requestId)!
       if (saved) {
@@ -188,6 +283,9 @@ export class SessionService {
       }
       return receipt
     } catch (error) {
+      if (error instanceof SessionOrganizationConflict) {
+        throw new HttpException(error.message, 409)
+      }
       if (error instanceof HttpException) {
         throw error
       }

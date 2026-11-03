@@ -1,0 +1,137 @@
+{
+  "source": "real pi SDK/local HTTP fixture; native Electron input; no route interception",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\session-03-native-623YHh",
+  "restored": true,
+  "sessions": [
+    {
+      "id": "5051d542-8350-4aba-a6ba-e05fe8375644",
+      "title": "甲 原生列表验收 甲 第 0 段：阅读位置和结果状态。 甲 第 1 段：阅读位置",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-03-native-623YHh\\data\\standalone\\5051d542-8350-4aba-a6ba-e05fe8375644",
+      "submissions": [
+        {
+          "id": "a608b6ec-684f-4dd4-ba07-7c9b05475c00",
+          "status": "completed",
+          "text": "甲 原生列表验收\n甲 第 0 段：阅读位置和结果状态。\n甲 第 1 段：阅读位置和结果状态"
+        }
+      ]
+    },
+    {
+      "id": "73f2e59a-b148-41ca-b32d-d746aa9b789f",
+      "title": "丙 原生列表验收 丙 第 0 段：阅读位置和结果状态。 丙 第 1 段：阅读位置",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-03-native-623YHh\\data\\standalone\\73f2e59a-b148-41ca-b32d-d746aa9b789f",
+      "submissions": [
+        {
+          "id": "8aaea702-b5db-410d-b905-a4d7bf739902",
+          "status": "completed",
+          "text": "丙 原生列表验收\n丙 第 0 段：阅读位置和结果状态。\n丙 第 1 段：阅读位置和结果状态"
+        },
+        {
+          "id": "563ebca3-b8b2-460f-84b0-496185a82ee1",
+          "status": "aborted",
+          "text": "后台归档验收 文案补验"
+        }
+      ]
+    },
+    {
+      "id": "a6c49079-b6bb-4d06-923e-c9ea80799ab8",
+      "title": "乙 原生列表验收 乙 第 0 段：阅读位置和结果状态。 乙 第 1 段：阅读位置",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-03-native-623YHh\\data\\standalone\\a6c49079-b6bb-4d06-923e-c9ea80799ab8",
+      "submissions": [
+        {
+          "id": "0192b7f1-e456-47a3-aac0-7852c298ca90",
+          "status": "completed",
+          "text": "乙 原生列表验收\n乙 第 0 段：阅读位置和结果状态。\n乙 第 1 段：阅读位置和结果状态"
+        },
+        {
+          "id": "1f7102b2-1d2c-4d71-b5be-9392e522dffa",
+          "status": "aborted",
+          "text": "后台归档验收"
+        }
+      ]
+    }
+  ],
+  "organizations": [
+    {
+      "sessionId": "5051d542-8350-4aba-a6ba-e05fe8375644",
+      "pinned": true,
+      "archived": false,
+      "manualUnread": false,
+      "unread": false,
+      "resultVersion": 1,
+      "readVersion": 1,
+      "resultRequestId": "a608b6ec-684f-4dd4-ba07-7c9b05475c00",
+      "revision": 10,
+      "updatedAt": 1793678116705
+    },
+    {
+      "sessionId": "73f2e59a-b148-41ca-b32d-d746aa9b789f",
+      "pinned": false,
+      "archived": true,
+      "manualUnread": false,
+      "unread": true,
+      "resultVersion": 2,
+      "readVersion": 1,
+      "resultRequestId": "563ebca3-b8b2-460f-84b0-496185a82ee1",
+      "revision": 6,
+      "updatedAt": 1793679647646
+    },
+    {
+      "sessionId": "a6c49079-b6bb-4d06-923e-c9ea80799ab8",
+      "pinned": false,
+      "archived": true,
+      "manualUnread": false,
+      "unread": true,
+      "resultVersion": 2,
+      "readVersion": 1,
+      "resultRequestId": "1f7102b2-1d2c-4d71-b5be-9392e522dffa",
+      "revision": 6,
+      "updatedAt": 1793679310496
+    }
+  ],
+  "activity": [
+    {
+      "id": "5051d542-8350-4aba-a6ba-e05fe8375644",
+      "running": false,
+      "approvals": 0,
+      "held": 0
+    },
+    {
+      "id": "73f2e59a-b148-41ca-b32d-d746aa9b789f",
+      "running": false,
+      "approvals": 0,
+      "held": 0
+    },
+    {
+      "id": "a6c49079-b6bb-4d06-923e-c9ea80799ab8",
+      "running": false,
+      "approvals": 0,
+      "held": 0
+    }
+  ],
+  "nativeSubmissions": 2,
+  "kernels": [
+    {
+      "sessionId": "73f2e59a-b148-41ca-b32d-d746aa9b789f",
+      "epoch": "e136ef61-fbdc-43f6-8769-b9c6ccd1365f",
+      "state": "stopped",
+      "pid": 3748,
+      "pins": 0,
+      "lastUsedAt": 1793679647642,
+      "waitingApproval": false,
+      "retiring": false
+    }
+  ],
+  "configBefore": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "8fb3d513dcb99a71f67fe91781100e64a4b332cc32c3a4ddcf8c30a067ae9058",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "configAfter": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "8fb3d513dcb99a71f67fe91781100e64a4b332cc32c3a4ddcf8c30a067ae9058",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "budgetBefore": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "budgetAfter": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "realProviderRequests": 0
+}

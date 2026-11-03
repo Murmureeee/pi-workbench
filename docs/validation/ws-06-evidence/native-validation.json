@@ -1,0 +1,72 @@
+{
+  "feature": "WS-06",
+  "at": "2026-11-03T14:31:49.591Z",
+  "passed": true,
+  "source": "Windows native Electron / SendInput / real Microsoft Pinyin, actual SQLite and SDK + local HTTP fixtures",
+  "nativeSteps": 40,
+  "window": {
+    "display": "1920x1080 / 100%",
+    "maximizedCapture": "1920x1032 work area",
+    "narrowCapture": "802x962 including native frame; approximately 800px content"
+  },
+  "checks": {
+    "realIme": "Physical n candidate list, Return commits without save, Escape cancels composition without closing, n+Space selects 你; literal suffix 的项目🧪 via type_text is separately identified. Name and default path composition tested.",
+    "editor": "Name prefilled and selected, Escape cancellation, actual SQLite trigger save failure retains input, explicit recovery/save succeeds; invalid path diagnosed and retained.",
+    "groups": "Native create at unpinned end, manual up, pin, expand/collapse, name/path search, same-name path/short-ID disambiguation.",
+    "attribution": "Project new preselects project/default; global new unassigned. Two unbound-project sessions opened with separate persistent standalone cwd.",
+    "nativePicker": "Unintercepted Windows folder picker cancellation and Beta selection; only fills editor, explicit save required.",
+    "defaultChange": "Saved Beta only for new sessions; existing session kept original 甲目录 cwd and live SDK PID.",
+    "removal": {
+      "samePid": 21960,
+      "sameEpoch": "c97c8663-5f12-4e16-bfdd-a81af3dd9b04",
+      "sameTurn": "985d839d-e12b-405d-b984-0efc3d44f62f",
+      "state": "running before and after",
+      "sessionUnassigned": true,
+      "originalCwdPreserved": true,
+      "filesAndJsonlUnchanged": true,
+      "trustUnchanged": true
+    },
+    "explicitStop": "Product 停止本轮 produced daemon-confirmed aborted state; not caused by project organization.",
+    "restart": {
+      "projectMetadataAndTombstonesUnchanged": true,
+      "sessionsAndCwdUnchanged": true,
+      "filesAndJsonlUnchanged": true,
+      "noKernelOrReplay": true,
+      "darkPreferencePreserved": true,
+      "projectNewStillPreselected": true
+    },
+    "normalExits": 2
+  },
+  "localRequests": {
+    "firstRun": {
+      "seed": 3,
+      "background": 2,
+      "ui": 0
+    },
+    "restart": {
+      "seed": 0,
+      "background": 0,
+      "ui": 0
+    }
+  },
+  "realProviderRequests": 0,
+  "canonicalBudgetUnchanged": true,
+  "isolatedPiMetadataUnchanged": true,
+  "limitations": [
+    "First hold ended around 300s with terminated. Removal used a separately submitted local hold; only its identical turn/PID before and after prove continuity. The second round was explicitly stopped in product UI.",
+    "Directory picker stale-element and native select overlay target errors were automation targeting errors; refreshed state and keyboard selection recovered. They are not product pass/fail evidence.",
+    "Synthetic composition/Playwright E2E and real OS IME are distinct. Fixture outputs are not real provider success. No package or independent browser functionality delivered.",
+    "The transient maximize animation capture was removed; stable maximized capture is retained."
+  ],
+  "evidence": [
+    "native-steps.json",
+    "native-remove-before.json",
+    "native-remove-after.json",
+    "native-after-stop.json",
+    "native-first-closed.json",
+    "native-restarted-audit.json",
+    "native-final-closed.json",
+    "native.log",
+    "native-restart.log"
+  ]
+}

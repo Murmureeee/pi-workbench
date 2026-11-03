@@ -1,18 +1,34 @@
 import type { WorkspaceDatabase } from '../../infrastructure/database/database.js'
-import type { WorkspaceResult } from '@pi-workbench/shared'
+import type {
+  WorkspaceEdit,
+  WorkspaceMetadataResult,
+  WorkspaceRecent,
+  WorkspaceRecord,
+  WorkspaceRelocate,
+  WorkspaceRename,
+  WorkspaceResult,
+} from '@pi-workbench/shared'
 
 import { createHash, randomUUID } from 'node:crypto'
 import { open, opendir, realpath, stat, unlink } from 'node:fs/promises'
 import { basename, isAbsolute, join, parse, resolve } from 'node:path'
 import process from 'node:process'
 
-import { eq } from 'drizzle-orm'
+import { asc, count, desc, eq, isNotNull, max } from 'drizzle-orm'
 
-import { workspaceResultSchema } from '@pi-workbench/shared'
+import {
+  workspaceNameSchema,
+  workspaceRecentSchema,
+  workspaceRecordSchema,
+  workspaceResultSchema,
+} from '@pi-workbench/shared'
 
 import { workspaces } from '../../infrastructure/database/schema.js'
 
 type FailureCode = Extract<WorkspaceResult, { ok: false }>['code']
+type Failure = Extract<WorkspaceResult, { ok: false }>
+type WorkspaceRow = typeof workspaces.$inferSelect
+type DirectoryInspection = { ok: true; canonicalPath: string; directoryKey: string } | Failure
 const diagnostics: Record<FailureCode, [string, string]> = {
   invalid_path: ['目录路径无效。', '请输入完整的本机绝对路径，或重新选择文件夹。'],
   not_found: ['目录不存在或已被移动。', '恢复原目录后重试，或选择其他目录；原记录与会话保留。'],
@@ -39,6 +55,15 @@ const diagnostics: Record<FailureCode, [string, string]> = {
     '检查目录中的 .pi-workbench-check- 文件及删除权限，处理后重试。',
   ],
   unavailable: ['目录暂时无法访问。', '检查磁盘、网络位置或链接目标后重试，也可以选择其他目录。'],
+  invalid_name: [
+    '显示名称无效。',
+    '请输入 1–80 个 Unicode 字符，不含控制字符；不会修改文件夹名称。',
+  ],
+  conflict: ['工作区记录已更新。', '编辑内容保留，请核对最新记录后明确继续；不会自动覆盖。'],
+  relocation_required: [
+    '同一目录已登记在其他路径。',
+    '请在最近工作区中明确重新定位；既有会话仍保留原执行目录。',
+  ],
 }
 function failed(code: FailureCode): Extract<WorkspaceResult, { ok: false }> {
   const [message, recovery] = diagnostics[code]
@@ -49,7 +74,7 @@ function errorCode(error: unknown): string {
     ? error.code
     : ''
 }
-function classify(error: unknown, stage: 'resolve' | 'read' | 'write'): WorkspaceResult {
+function classify(error: unknown, stage: 'resolve' | 'read' | 'write'): Failure {
   const code = errorCode(error)
   if (code === 'ENOENT') {
     return failed('not_found')
@@ -76,15 +101,109 @@ export class WorkspaceService {
 
   /** Display metadata only; callers must validate identity/access before execution. */
   lookup(id: string) {
-    const row = this.database.db.select().from(workspaces).where(eq(workspaces.id, id)).get()
-    return row ? { id: row.id, canonicalPath: row.canonicalPath, name: row.name } : undefined
+    const row = this.row(id)
+    return row ? this.display(row) : undefined
   }
 
-  /** Failed validation never changes the registry. No global active workspace is stored:
-   * selection belongs to each client view and cannot interrupt another view's running task.
+  /** Persisted recent metadata only: listing never probes directories or starts a task.
+   * Removed and pre-upgrade records remain registered but have no recent timestamp. */
+  recent(): WorkspaceRecent {
+    const rows = this.database.db
+      .select()
+      .from(workspaces)
+      .where(isNotNull(workspaces.lastOpenedAt))
+      .orderBy(desc(workspaces.lastOpenedAt), asc(workspaces.id))
+      .limit(100)
+      .all()
+    const total = this.database.db
+      .select({ value: count() })
+      .from(workspaces)
+      .where(isNotNull(workspaces.lastOpenedAt))
+      .get()!.value
+    return workspaceRecentSchema.parse({
+      entries: rows.map((row) => this.record(row)),
+      total,
+      limit: 100,
+      order: 'last-opened-desc-id-asc',
+    })
+  }
+
+  private row(id: string) {
+    return this.database.db.select().from(workspaces).where(eq(workspaces.id, id)).get()
+  }
+
+  private display(row: WorkspaceRow) {
+    return { id: row.id, canonicalPath: row.canonicalPath, name: row.customName ?? row.name }
+  }
+
+  private record(row: WorkspaceRow): WorkspaceRecord {
+    return workspaceRecordSchema.parse({
+      ...this.display(row),
+      defaultName: row.name,
+      customName: row.customName,
+      lastOpenedAt: row.lastOpenedAt,
+      revision: row.revision,
+    })
+  }
+
+  private metadataFailure(code: FailureCode, row?: WorkspaceRow): WorkspaceMetadataResult {
+    return { ...failed(code), current: row ? this.record(row) : null }
+  }
+
+  /** Failed validation never changes the registry; aliases retain custom names. Successful
+   * explicit opens update recency, while internal standalone registration opts out with
+   * remember:false. No global active selection is stored and no background task is changed.
    */
-  async open(path: string): Promise<WorkspaceResult> {
-    return this.check(path)
+  async open(path: string, options: { remember?: boolean } = {}): Promise<WorkspaceResult> {
+    const checked = await this.inspect(path)
+    if (!checked.ok) {
+      return checked
+    }
+    try {
+      return this.database.db.transaction((tx) => {
+        const existing = tx
+          .select()
+          .from(workspaces)
+          .where(eq(workspaces.directoryKey, checked.directoryKey))
+          .get()
+        if (existing && existing.canonicalPath !== checked.canonicalPath) {
+          return failed('relocation_required')
+        }
+        const latest = tx
+          .select({ value: max(workspaces.lastOpenedAt) })
+          .from(workspaces)
+          .get()
+        const lastOpenedAt =
+          options.remember === false
+            ? (existing?.lastOpenedAt ?? null)
+            : Math.max(Date.now(), (latest?.value ?? 0) + 1)
+        const values = {
+          id: existing?.id ?? randomUUID(),
+          directoryKey: checked.directoryKey,
+          canonicalPath: checked.canonicalPath,
+          name:
+            existing?.name ??
+            (basename(checked.canonicalPath) || parse(checked.canonicalPath).root),
+          lastOpenedAt,
+        }
+        if (!existing) {
+          tx.insert(workspaces).values(values).run()
+        } else if (options.remember !== false) {
+          tx.update(workspaces)
+            .set({ lastOpenedAt, revision: existing.revision + 1 })
+            .where(eq(workspaces.id, existing.id))
+            .run()
+        }
+        const row = tx.select().from(workspaces).where(eq(workspaces.id, values.id)).get()!
+        return workspaceResultSchema.parse({
+          ok: true,
+          workspace: this.display(row),
+          reused: Boolean(existing),
+        })
+      })
+    } catch {
+      return failed('storage_failed')
+    }
   }
 
   /** Recheck identity as well as access before switching. A replacement at the old path must
@@ -92,16 +211,144 @@ export class WorkspaceService {
    */
   async validate(id: string): Promise<WorkspaceResult> {
     try {
-      const row = this.database.db.select().from(workspaces).where(eq(workspaces.id, id)).get()
-      return row
-        ? await this.check(row.canonicalPath, row.directoryKey)
-        : failed('unknown_workspace')
+      const row = this.row(id)
+      if (!row) {
+        return failed('unknown_workspace')
+      }
+      const checked = await this.inspect(row.canonicalPath, row.directoryKey)
+      if (!checked.ok) {
+        return checked
+      }
+      const current = this.row(id)
+      if (
+        !current ||
+        current.canonicalPath !== row.canonicalPath ||
+        current.directoryKey !== row.directoryKey
+      ) {
+        return failed('directory_changed')
+      }
+      return { ok: true, workspace: this.display(current), reused: true }
     } catch {
       return failed('storage_failed')
     }
   }
 
-  private async check(path: string, expectedKey?: string): Promise<WorkspaceResult> {
+  /** Explicit UI switching updates recency after validation. Revision checking prevents
+   * an in-flight check from reviving a record removed or relocated by another client. */
+  async activate(id: string): Promise<WorkspaceResult> {
+    try {
+      const row = this.row(id)
+      if (!row) {
+        return failed('unknown_workspace')
+      }
+      const checked = await this.inspect(row.canonicalPath, row.directoryKey)
+      if (!checked.ok) {
+        return checked
+      }
+      return this.database.db.transaction((tx) => {
+        const current = tx.select().from(workspaces).where(eq(workspaces.id, id)).get()
+        if (!current || current.revision !== row.revision) {
+          return failed('conflict')
+        }
+        const latest = tx
+          .select({ value: max(workspaces.lastOpenedAt) })
+          .from(workspaces)
+          .get()
+        tx.update(workspaces)
+          .set({
+            lastOpenedAt: Math.max(Date.now(), (latest?.value ?? 0) + 1),
+            revision: current.revision + 1,
+          })
+          .where(eq(workspaces.id, id))
+          .run()
+        return { ok: true as const, workspace: this.display(current), reused: true }
+      })
+    } catch {
+      return failed('storage_failed')
+    }
+  }
+
+  /** CAS edits touch display metadata only. Null restores the directory-derived default;
+   * rename never accesses the directory, changes recency, or updates project/session cwd. */
+  rename(input: WorkspaceRename): WorkspaceMetadataResult {
+    if (input.name !== null && !workspaceNameSchema.safeParse(input.name).success) {
+      return this.metadataFailure('invalid_name')
+    }
+    return this.edit(input, { customName: input.name === null ? null : input.name.trim() })
+  }
+
+  /** Hides a recent entry, retaining its identity, custom name, directory and every reference.
+   * Explicitly opening it again restores the same identity to the recent list. */
+  remove(input: WorkspaceEdit): WorkspaceMetadataResult {
+    return this.edit(input, { lastOpenedAt: null })
+  }
+
+  private edit(
+    input: WorkspaceEdit,
+    changes: { customName: string | null } | { lastOpenedAt: null },
+  ): WorkspaceMetadataResult {
+    try {
+      return this.database.db.transaction((tx) => {
+        const row = tx.select().from(workspaces).where(eq(workspaces.id, input.id)).get()
+        if (!row) {
+          return this.metadataFailure('unknown_workspace')
+        }
+        if (row.revision !== input.expectedRevision) {
+          return this.metadataFailure('conflict', row)
+        }
+        const updated = tx
+          .update(workspaces)
+          .set({ ...changes, revision: row.revision + 1 })
+          .where(eq(workspaces.id, row.id))
+          .returning()
+          .get()
+        return { ok: true, record: this.record(updated) }
+      })
+    } catch {
+      return this.metadataFailure('storage_failed')
+    }
+  }
+
+  /** Explicit relocation accepts only the same physical directory. Validation occurs before
+   * a revision-checked SQLite commit; failures keep the old mapping. Existing sessions keep
+   * their immutable cwd and are rejected on a later send if it no longer matches. No task,
+   * resource trust, file, project or history is moved or rebound by this operation. */
+  async relocate(input: WorkspaceRelocate): Promise<WorkspaceMetadataResult> {
+    try {
+      const row = this.row(input.id)
+      if (!row) {
+        return this.metadataFailure('unknown_workspace')
+      }
+      if (row.revision !== input.expectedRevision) {
+        return this.metadataFailure('conflict', row)
+      }
+      const checked = await this.inspect(input.path, row.directoryKey)
+      if (!checked.ok) {
+        return { ...checked, current: this.record(row) }
+      }
+      return this.database.db.transaction((tx) => {
+        const current = tx.select().from(workspaces).where(eq(workspaces.id, row.id)).get()
+        if (!current || current.revision !== row.revision) {
+          return this.metadataFailure('conflict', current)
+        }
+        const updated = tx
+          .update(workspaces)
+          .set({
+            canonicalPath: checked.canonicalPath,
+            name: basename(checked.canonicalPath) || parse(checked.canonicalPath).root,
+            revision: current.revision + 1,
+          })
+          .where(eq(workspaces.id, row.id))
+          .returning()
+          .get()
+        return { ok: true, record: this.record(updated) }
+      })
+    } catch {
+      return this.metadataFailure('storage_failed')
+    }
+  }
+
+  private async inspect(path: string, expectedKey?: string): Promise<DirectoryInspection> {
     // Win32 device namespaces can address devices rather than ordinary directory paths.
     if (
       !path ||
@@ -178,31 +425,6 @@ export class WorkspaceService {
     } catch (error) {
       return classify(error, stage)
     }
-    try {
-      // Synchronous SQLite transaction follows async filesystem validation: concurrent opens
-      // of aliases converge on one unique identity without an await inside the transaction.
-      return this.database.db.transaction((tx) => {
-        const existing = tx
-          .select()
-          .from(workspaces)
-          .where(eq(workspaces.directoryKey, directoryKey))
-          .get()
-        const workspace = {
-          id: existing?.id ?? randomUUID(),
-          canonicalPath,
-          name: basename(canonicalPath) || parse(canonicalPath).root,
-        }
-        tx.insert(workspaces)
-          .values({ ...workspace, directoryKey })
-          .onConflictDoUpdate({
-            target: workspaces.directoryKey,
-            set: { canonicalPath, name: workspace.name },
-          })
-          .run()
-        return workspaceResultSchema.parse({ ok: true, workspace, reused: Boolean(existing) })
-      })
-    } catch {
-      return failed('storage_failed')
-    }
+    return { ok: true, canonicalPath, directoryKey }
   }
 }

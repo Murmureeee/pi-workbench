@@ -1,10 +1,16 @@
-import { workspaceResultSchema } from '@pi-workbench/shared'
+import {
+  workspaceMetadataResultSchema,
+  workspaceRecentSchema,
+  workspaceResultSchema,
+} from '@pi-workbench/shared'
+
+import { sessionJson } from './session-client.js'
 
 /** Selection is local to the view. An interrupted fetch never aborts a daemon task or
  * claims that registration failed: retries are safe because the host deduplicates identity.
  */
 export async function workspaceCommand(
-  operation: 'open' | 'validate',
+  operation: 'open' | 'validate' | 'activate',
   body: unknown,
   csrf: string,
 ) {
@@ -28,4 +34,20 @@ export async function workspaceCommand(
   }
   const value: unknown = await response.json()
   return workspaceResultSchema.parse(value)
+}
+
+/** Metadata reads have no directory probes. Query cancellation releases only this fetch. */
+export async function readRecentWorkspaces(signal: AbortSignal) {
+  return workspaceRecentSchema.parse(await sessionJson('/api/workspaces/recent', signal))
+}
+
+/** Explicit, versioned metadata edits; an uncertain receipt is never automatically retried. */
+export async function editWorkspace(
+  operation: 'rename' | 'remove' | 'relocate',
+  body: unknown,
+  csrf: string,
+) {
+  return workspaceMetadataResultSchema.parse(
+    await sessionJson(`/api/workspaces/${operation}`, undefined, body, csrf),
+  )
 }

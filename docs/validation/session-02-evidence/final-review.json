@@ -1,0 +1,37 @@
+{
+  "verifiedAt": "2026-11-03T02:32:27.594Z",
+  "changedFeatureProgress": [
+    "SESSION-02",
+    "OPS-08"
+  ],
+  "featureDefinitionsUnchanged": true,
+  "ownersAndTargetDatesUnchanged": true,
+  "localVerified": 15,
+  "localTotal": 133,
+  "ops08": {
+    "status": "in_progress",
+    "acceptanceChecked": [
+      true,
+      false
+    ]
+  },
+  "nativeBackground": {
+    "pid": 31852,
+    "epoch": "a7fb662b-606d-407e-b142-a8b748361636",
+    "phases": [
+      "before",
+      "evicted",
+      "reopened"
+    ],
+    "promptCount": 1
+  },
+  "nativeFinalStatuses": {
+    "completed": 4,
+    "aborted": 1
+  },
+  "legacySourceUnchanged": true,
+  "canonicalBudgetUnchanged": true,
+  "lockUnchanged": true,
+  "lockSha256": "d9d46d301907ef4d86e5c53de3eca57433f5978ebf1e6547f8d094f50a60b40a",
+  "realProviderRequests": 0
+}

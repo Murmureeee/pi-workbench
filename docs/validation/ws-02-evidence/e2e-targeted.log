@@ -1,0 +1,50 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:35020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:36812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\workspace-recents.spec.ts:77:1 › WS-02 actual Electron persists recent order/custom names across full app restart, with prefill/cancel and light/dark/narrow layouts (6.5s)
+  ok 2 e2e\workspace-recents.spec.ts:158:1 › WS-02 Electron retains failed rename and conflicts, validates Unicode and does not save or cancel during synthetic IME (4.2s)
+  ok 3 e2e\workspace-recents.spec.ts:213:1 › WS-02 Electron diagnoses moved directories, rejects a different identity, explicitly saves picker relocation and hides/restores recent records without deleting files (4.2s)
+  x  4 e2e\workspace-recents.spec.ts:269:1 › WS-02 Electron remove/rename/switch and disconnected recent reads preserve a real background SDK task and its cwd (4.9s)
+(node:48888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 5 e2e\workspaces.spec.ts:65:1 › WS-01 real Electron picker bridge opens/deduplicates/switches; cancellation and invalid paths preserve current view and running SDK task (5.0s)
+  ok 6 e2e\workspaces.spec.ts:148:1 › WS-01 Electron ignores stale responses, preserves selection on disconnect, and recovers a missing directory without phantom sessions (3.3s)
+
+
+  1) e2e\workspace-recents.spec.ts:269:1 › WS-02 Electron remove/rename/switch and disconnected recent reads preserve a real background SDK task and its cwd 
+
+    Error: Unknown active turn
+
+       at ..\apps\daemon\src\modules\kernels\kernel.service.ts:357
+
+      355 |     const task = this.tasks.get(sessionId)
+      356 |     if (!task || task.input.turnId !== turnId) {
+    > 357 |       throw new Error('Unknown active turn')
+          |             ^
+      358 |     }
+      359 |     task.controller.abort()
+      360 |     if (task.stage === 'queued') {
+        at KernelService.abort (D:\Project\pi-workbench\apps\daemon\src\modules\kernels\kernel.service.ts:357:13)
+        at D:\Project\pi-workbench\e2e\workspace-recents.spec.ts:312:19
+
+    Error Context: test-results\workspace-recents-WS-02-El-9f3d9-ground-SDK-task-and-its-cwd\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workspace-recents-WS-02-El-9f3d9-ground-SDK-task-and-its-cwd\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\workspace-recents-WS-02-El-9f3d9-ground-SDK-task-and-its-cwd\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\workspace-recents.spec.ts:269:1 › WS-02 Electron remove/rename/switch and disconnected recent reads preserve a real background SDK task and its cwd 
+  5 passed (44.2s)

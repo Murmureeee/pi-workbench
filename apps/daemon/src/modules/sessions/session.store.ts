@@ -4,8 +4,12 @@ import type {
   HistoryMessage,
   ManagedSession,
   RuntimeSnapshot,
+  SessionOrganization,
+  SessionOrganize,
+  SessionRename,
   SessionSubmission,
   SessionSubmit,
+  SessionTitle,
 } from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
@@ -23,7 +27,7 @@ import {
 } from 'node:fs'
 import { isAbsolute, join, relative, resolve } from 'node:path'
 
-import { and, asc, eq } from 'drizzle-orm'
+import { and, asc, eq, sql } from 'drizzle-orm'
 
 import {
   previewText,
@@ -40,6 +44,7 @@ import {
   managedSessionSchema,
   queueRecordSchema,
   runtimeSnapshotSchema,
+  sessionOrganizationSchema,
   submissionSchema,
 } from '@pi-workbench/shared'
 
@@ -47,6 +52,7 @@ import {
   sessionApprovals,
   sessionChanges,
   sessionConfigurations,
+  sessionOrganization,
   sessionQueue,
   sessionRuntimes,
   sessions,
@@ -65,6 +71,12 @@ interface LoadedHistory {
   diagnostics: HistoryDiagnostic[]
   exports: Map<string, () => Buffer>
 }
+
+/** A stale view or unsafe archive must be refreshed; it never partially saves metadata. */
+export class SessionOrganizationConflict extends Error {}
+
+/** A lost CAS never overwrites a title, including late background naming candidates. */
+export class SessionTitleConflict extends Error {}
 
 /** Daemon-owned index and recovery records. SDK JSONL remains the only committed message source.
  * Checkpoints contain a single inflight turn and are never imported into SDK history/context.
@@ -88,6 +100,32 @@ export class SessionStore {
     return this.database.db.select().from(sessions).orderBy(asc(sessions.createdAt)).all()
   }
 
+  /** Lightweight index-only badges remain discoverable even when no view/SDK is mounted.
+   * They grant no approval authority and never scan message bodies or admit a kernel. */
+  activity() {
+    return this.list().map((session) => ({
+      id: session.id,
+      running: this.database.db
+        .select()
+        .from(sessionSubmissions)
+        .where(eq(sessionSubmissions.sessionId, session.id))
+        .all()
+        .some((row) => row.status === 'pending' || row.status === 'executing'),
+      approvals: this.hasPendingApproval(session.id) ? 1 : 0,
+      held: this.database.db
+        .select()
+        .from(sessionQueue)
+        .where(eq(sessionQueue.sessionId, session.id))
+        .all()
+        .filter((row) => {
+          const parsed = queueRecordSchema.safeParse(this.parse(row.data))
+          return (
+            parsed.success && (parsed.data.status === 'held' || parsed.data.status === 'queued')
+          )
+        }).length,
+    }))
+  }
+
   managedSessions(): ManagedSession[] {
     return this.database.db
       .select()
@@ -107,13 +145,131 @@ export class SessionStore {
           cwd: session.cwd,
           createdAt: session.createdAt,
           title: row.title,
-          titleSource: 'local',
-          titleVersion: 1,
+          titleSource: row.titleSource,
+          titleVersion: row.titleVersion,
           creationRequestId: row.creationRequestId,
           workspaceId: row.workspaceId,
           configuration: this.parse(row.configuration),
         })
       })
+  }
+
+  organizations(): SessionOrganization[] {
+    return this.database.db
+      .select()
+      .from(sessionOrganization)
+      .all()
+      .map((row) =>
+        sessionOrganizationSchema.parse({
+          ...row,
+          unread: row.manualUnread || row.resultVersion > row.readVersion,
+        }),
+      )
+  }
+
+  /** Canonical title index. SDK message bodies and legacy CLI histories are never rewritten.
+   * Optional literal matching is only a title index lookup, not SESSION-12 full-text search. */
+  titles(query = ''): SessionTitle[] {
+    return this.database.db
+      .select({
+        sessionId: sessionConfigurations.sessionId,
+        title: sessionConfigurations.title,
+        titleSource: sessionConfigurations.titleSource,
+        titleVersion: sessionConfigurations.titleVersion,
+      })
+      .from(sessionConfigurations)
+      .where(query ? sql`instr(${sessionConfigurations.title}, ${query}) > 0` : undefined)
+      .all()
+  }
+
+  /** Synchronous SQLite CAS is the only title writer. Automatic candidates additionally bind
+   * their creation request and local source; once user-owned, a title cannot revert to local.
+   * Failure leaves the previous title/version intact; no SDK admission or JSONL write occurs. */
+  rename(sessionId: string, input: SessionRename, localRequestId?: string): SessionTitle {
+    if (this.closed) {
+      throw new Error('Session store is closed')
+    }
+    const row = this.database.db
+      .update(sessionConfigurations)
+      .set({
+        title: input.title,
+        titleSource: localRequestId ? 'local' : 'user',
+        titleVersion: input.expectedVersion + 1,
+      })
+      .where(
+        and(
+          eq(sessionConfigurations.sessionId, sessionId),
+          eq(sessionConfigurations.titleVersion, input.expectedVersion),
+          localRequestId
+            ? and(
+                eq(sessionConfigurations.creationRequestId, localRequestId),
+                eq(sessionConfigurations.titleSource, 'local'),
+              )
+            : undefined,
+        ),
+      )
+      .returning()
+      .get()
+    if (!row) {
+      throw new SessionTitleConflict('标题已被其他客户端更新，请核对最新版本后再保存。')
+    }
+    return {
+      sessionId,
+      title: row.title,
+      titleSource: row.titleSource,
+      titleVersion: row.titleVersion,
+    }
+  }
+
+  /** Compare-and-set personal metadata. Read receipts cover only displayed results; a
+   * stale receipt cannot clear a later result or manual unread action. Archive checks
+   * durable activity inside this transaction; it neither stops tasks nor restores grants.
+   */
+  organize(sessionId: string, input: SessionOrganize): SessionOrganization {
+    if (this.closed) {
+      throw new Error('Session store is closed')
+    }
+    return this.database.db.transaction((tx) => {
+      const prior = tx
+        .select()
+        .from(sessionOrganization)
+        .where(eq(sessionOrganization.sessionId, sessionId))
+        .get()
+      if (!prior || prior.revision !== input.expectedRevision) {
+        throw new SessionOrganizationConflict('会话整理状态已变化，请刷新后重试。')
+      }
+      if (input.action === 'archive' && input.archived) {
+        const activity = this.activity().find((item) => item.id === sessionId)
+        if (activity?.running || activity?.approvals || activity?.held) {
+          throw new SessionOrganizationConflict(
+            '会话仍有运行、待审批或待处理任务；请先停止或处理，再确认归档。',
+          )
+        }
+      }
+      if (input.action === 'read' && input.throughVersion > prior.resultVersion) {
+        throw new SessionOrganizationConflict('阅读版本无效，请刷新内容。')
+      }
+      const patch =
+        input.action === 'pin'
+          ? { pinned: input.pinned }
+          : input.action === 'archive'
+            ? { archived: input.archived }
+            : input.action === 'unread'
+              ? { manualUnread: true }
+              : {
+                  manualUnread: false,
+                  readVersion: Math.max(prior.readVersion, input.throughVersion),
+                }
+      const row = { ...prior, ...patch, revision: prior.revision + 1 }
+      tx.update(sessionOrganization)
+        .set(row)
+        .where(eq(sessionOrganization.sessionId, sessionId))
+        .run()
+      return sessionOrganizationSchema.parse({
+        ...row,
+        unread: row.manualUnread || row.resultVersion > row.readVersion,
+      })
+    })
   }
 
   submission(requestId: string) {
@@ -160,6 +316,31 @@ export class SessionStore {
     return { session, submission }
   }
 
+  /** Metadata-only detach, synchronously called inside the project removal transaction.
+   * Preserves workspace/model/cwd, accepted input digests, runtime state and SDK history.
+   * A concurrent admission rechecks current attribution before accepting new input. */
+  detachProject(projectId: string): void {
+    this.database.db.transaction((tx) => {
+      const rows = tx
+        .select()
+        .from(sessionConfigurations)
+        .where(eq(sessionConfigurations.projectId, projectId))
+        .all()
+      for (const row of rows) {
+        const configuration = managedSessionSchema.shape.configuration.parse(
+          JSON.parse(row.configuration),
+        )
+        tx.update(sessionConfigurations)
+          .set({
+            projectId: null,
+            configuration: JSON.stringify({ ...configuration, projectId: null }),
+          })
+          .where(eq(sessionConfigurations.sessionId, row.sessionId))
+          .run()
+      }
+    })
+  }
+
   /** Stable index, configuration and first input commit in one FULL SQLite transaction,
    * before any SDK startup. A reused request with changed input is never accepted.
    * Pending text is an outbox, retired only after a matching native user entry is readable.
@@ -177,6 +358,15 @@ export class SessionStore {
           throw new Error('Request ID is already bound to different input')
         }
         return false
+      }
+      if (
+        tx
+          .select()
+          .from(sessionOrganization)
+          .where(eq(sessionOrganization.sessionId, prepared.id))
+          .get()?.archived
+      ) {
+        throw new SessionOrganizationConflict('会话已归档，请先恢复后再发送。草稿仍保留。')
       }
       if (
         tx
@@ -202,6 +392,9 @@ export class SessionStore {
             title: prepared.title,
           })
           .run()
+        tx.insert(sessionOrganization)
+          .values({ sessionId: prepared.id, updatedAt: prepared.createdAt })
+          .run()
       }
       tx.insert(sessionSubmissions)
         .values({
@@ -215,6 +408,15 @@ export class SessionStore {
           status: 'pending',
           createdAt: Date.now(),
         })
+        .run()
+      const organization = tx
+        .select()
+        .from(sessionOrganization)
+        .where(eq(sessionOrganization.sessionId, prepared.id))
+        .get()
+      tx.update(sessionOrganization)
+        .set({ updatedAt: Date.now(), revision: (organization?.revision ?? 0) + 1 })
+        .where(eq(sessionOrganization.sessionId, prepared.id))
         .run()
       return true
     })
@@ -235,15 +437,40 @@ export class SessionStore {
     if (!row) {
       throw new Error('Unknown accepted submission')
     }
+    if (!['pending', 'executing'].includes(row.status)) {
+      return
+    }
     const committed = this.load(row.sessionId).messages.some(
       ({ message }) =>
         message.turnId === row.turnId && message.role === 'user' && message.origin === 'sdk-jsonl',
     )
-    this.database.db
-      .update(sessionSubmissions)
-      .set({ status, error, ...(committed ? { text: null } : {}) })
-      .where(eq(sessionSubmissions.requestId, requestId))
-      .run()
+    this.database.db.transaction((tx) => {
+      tx.update(sessionSubmissions)
+        .set({ status, error, ...(committed ? { text: null } : {}) })
+        .where(eq(sessionSubmissions.requestId, requestId))
+        .run()
+      if (
+        ['pending', 'executing'].includes(row.status) &&
+        !['pending', 'executing'].includes(status)
+      ) {
+        const prior = tx
+          .select()
+          .from(sessionOrganization)
+          .where(eq(sessionOrganization.sessionId, row.sessionId))
+          .get()
+        if (prior) {
+          tx.update(sessionOrganization)
+            .set({
+              resultVersion: prior.resultVersion + 1,
+              resultRequestId: requestId,
+              revision: prior.revision + 1,
+              updatedAt: Date.now(),
+            })
+            .where(eq(sessionOrganization.sessionId, row.sessionId))
+            .run()
+        }
+      }
+    })
   }
 
   private recoverSubmissions(): void {

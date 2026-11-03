@@ -1,0 +1,13 @@
+{
+  "feature": "WS-06",
+  "at": "2026-11-03T14:38:56.162Z",
+  "passed": true,
+  "comparison": "D:\\Project\\.piw-clean-STDNaT",
+  "filesChecked": 249,
+  "mismatches": [],
+  "scope": "All files under apps/packages/e2e/scripts excluding node_modules/dist and documentation scripts (planning/docs), plus 12 root runtime/build/lint/test/config/lock inputs",
+  "matchedInputsSha256": "eb13018405bb4ddfede779c8038fef6b87358dce7e9943e4d04467a642ae1319",
+  "lockSha256": "d9d46d301907ef4d86e5c53de3eca57433f5978ebf1e6547f8d094f50a60b40a",
+  "budgetSha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "reused": "This task passing complete CI (201 Vitest / 63 E2E / SDK smoke) and frozen clean; subsequent changes are native evidence, documentation/PRD and progress only"
+}

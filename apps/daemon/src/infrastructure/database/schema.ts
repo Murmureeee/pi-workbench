@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 export const workspaceMeta = sqliteTable('workspace_meta', {
   key: text('key').primaryKey(),
@@ -7,12 +7,19 @@ export const workspaceMeta = sqliteTable('workspace_meta', {
 })
 
 // Directory registry only: opening a workspace never creates a session or loads project code.
-export const workspaces = sqliteTable('workspaces', {
-  id: text('id').primaryKey(),
-  directoryKey: text('directory_key').notNull().unique(),
-  canonicalPath: text('canonical_path').notNull(),
-  name: text('name').notNull(),
-})
+export const workspaces = sqliteTable(
+  'workspaces',
+  {
+    id: text('id').primaryKey(),
+    directoryKey: text('directory_key').notNull().unique(),
+    canonicalPath: text('canonical_path').notNull(),
+    name: text('name').notNull(),
+    customName: text('custom_name'),
+    lastOpenedAt: integer('last_opened_at'),
+    revision: integer('revision').notNull().default(1),
+  },
+  (table) => [index('workspaces_recent_order').on(table.lastOpenedAt)],
+)
 
 export const sessions = sqliteTable('sessions', {
   id: text('id').primaryKey(),
@@ -73,12 +80,17 @@ export const resourceTrust = sqliteTable('resource_trust', {
   data: text('data').notNull(),
 })
 
-// Minimal project identity/binding for first-send selection; organization follows WS-06.
+// Organization metadata. Bindings are defaults for new sessions, never live cwd authority.
 export const projects = sqliteTable('projects', {
   id: text('id').primaryKey(),
   requestId: text('request_id').notNull().unique(),
   name: text('name').notNull(),
   workspaceId: text('workspace_id').references(() => workspaces.id),
+  pinned: integer('pinned', { mode: 'boolean' }).notNull().default(false),
+  position: integer('position').notNull().default(0),
+  revision: integer('revision').notNull().default(1),
+  removed: integer('removed', { mode: 'boolean' }).notNull().default(false),
+  creationInput: text('creation_input'),
 })
 export const sessionConfigurations = sqliteTable('session_configurations', {
   sessionId: text('session_id')
@@ -91,6 +103,10 @@ export const sessionConfigurations = sqliteTable('session_configurations', {
     .references(() => workspaces.id),
   configuration: text('configuration').notNull(),
   title: text('title').notNull(),
+  titleSource: text('title_source', { enum: ['local', 'user'] })
+    .notNull()
+    .default('local'),
+  titleVersion: integer('title_version').notNull().default(1),
 })
 // An outbox of accepted input, not a second committed message store. Text is cleared once
 // the corresponding SDK user message has committed; its stable identity and digest remain.
@@ -109,4 +125,19 @@ export const sessionSubmissions = sqliteTable('session_submissions', {
   retryOf: text('retry_of'),
   error: text('error'),
   createdAt: integer('created_at').notNull(),
+})
+
+// Personal library metadata only; it never grants execution permission or copies messages.
+export const sessionOrganization = sqliteTable('session_organization', {
+  sessionId: text('session_id')
+    .primaryKey()
+    .references(() => sessions.id),
+  pinned: integer('pinned', { mode: 'boolean' }).notNull().default(false),
+  archived: integer('archived', { mode: 'boolean' }).notNull().default(false),
+  manualUnread: integer('manual_unread', { mode: 'boolean' }).notNull().default(false),
+  resultVersion: integer('result_version').notNull().default(0),
+  readVersion: integer('read_version').notNull().default(0),
+  resultRequestId: text('result_request_id'),
+  revision: integer('revision').notNull().default(0),
+  updatedAt: integer('updated_at').notNull(),
 })

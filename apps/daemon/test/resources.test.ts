@@ -316,7 +316,9 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
         throw new Error('Expected SDK crash failure')
       }
       expect(failure.message).toMatch(/Kernel/)
-      expect(await last).toMatchObject({ outcome: 'completed' })
+      const afterCrash = await last
+      expect(afterCrash.error).toBeUndefined()
+      expect(afterCrash).toMatchObject({ outcome: 'completed' })
       expect(() => process.kill(pid, 0)).toThrow(/ESRCH/)
       expect(f.kernels.list().find((kernel) => kernel.sessionId === ids[1])?.state).toBe('running')
       await f.kernels.abort(ids[1], turns[1])

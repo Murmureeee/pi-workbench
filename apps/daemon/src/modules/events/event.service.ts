@@ -3,6 +3,8 @@ import type {
   RuntimeFrame,
   RuntimeSnapshot,
   RuntimeSubscribe,
+  SessionTitle,
+  SessionTitleFrame,
 } from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
@@ -32,6 +34,7 @@ export class EventService {
   readonly daemonId = randomUUID()
   private readonly journals = new Map<string, Journal>()
   private readonly changeListeners = new Set<() => void>()
+  private readonly titleListeners = new Set<(frame: SessionTitleFrame) => void>()
   private persistence: ((snapshot: RuntimeSnapshot, immediate: boolean) => void) | undefined
   constructor(
     private readonly maxEvents = 1024,
@@ -50,6 +53,27 @@ export class EventService {
     this.changeListeners.add(listener)
     return () => {
       this.changeListeners.delete(listener)
+    }
+  }
+
+  /** Independent, read-only metadata channel. Register before acknowledging so the client
+   * can fetch a fresh index without a notification gap; titles use the common redactor. */
+  subscribeTitles(send: (frame: SessionTitleFrame) => void): () => void {
+    this.titleListeners.add(send)
+    send({ type: 'titles-subscribed', daemonId: this.daemonId })
+    return () => {
+      this.titleListeners.delete(send)
+    }
+  }
+
+  publishTitle(title: SessionTitle): void {
+    const frame: SessionTitleFrame = {
+      type: 'title.updated',
+      daemonId: this.daemonId,
+      title: { ...title, title: this.redactor.text(title.title) },
+    }
+    for (const send of this.titleListeners) {
+      send(frame)
     }
   }
 
@@ -243,6 +267,7 @@ export class EventService {
 
   close(): void {
     this.changeListeners.clear()
+    this.titleListeners.clear()
     for (const sessionId of this.journals.keys()) {
       this.remove(sessionId)
     }

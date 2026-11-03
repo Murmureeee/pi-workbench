@@ -1,0 +1,77 @@
+Window: "Pi Workbench", App: electron.exe.
+	0 窗口 Pi Workbench Secondary Actions: Raise
+		1 窗格 (disabled)
+		2 区域 Pi Workbench
+			3 区域
+				4 区域
+					5 区域
+						6 按钮 最小化
+						7 按钮 最大化
+						8 按钮 关闭
+					9 区域
+						10 区域
+							11 区域
+								12 区域
+									13 文档 Pi Workbench Value: http://127.0.0.1:5173/ ID: RootWebArea
+										80 组
+											14 组 ID: root
+												98 标题 桌面控制栏
+													99 按钮 (disabled) 后退
+													100 按钮 (disabled) 前进
+													101 导航 应用菜单
+														102 按钮 文件
+														103 按钮 编辑
+														104 按钮 视图
+														105 按钮 帮助
+													106 文本 Pi Workbench
+												107 导航 工作台导航
+													108 链接 打开工作台 Description: 工作台 Value: http://127.0.0.1:5173/
+													109 链接 打开设置 Description: 设置 Value: http://127.0.0.1:5173/?settings=appearance
+												110 补充 项目与会话
+													111 文本 π
+													112 文本 Pi Workbench
+													113 按钮 收起导航
+													114 导航
+														115 按钮 新会话
+														116 链接 打开工作区 Value: http://127.0.0.1:5173/?workspaces
+													117 文本 会话
+													118 切换按钮 返回会话
+													119 区域 已归档会话
+														120 文本 已归档 · 可恢复
+														121 文本 没有已归档会话。
+													122 链接 旧 pi 历史 · 只读 Value: http://127.0.0.1:5173/?legacy
+													123 链接 模型与提供商 Value: http://127.0.0.1:5173/?models
+													124 链接 设置 Value: http://127.0.0.1:5173/?settings=appearance
+													125 链接 离线状态样本 Value: http://127.0.0.1:5173/?samples
+												48 主要
+													126 章节标题
+														127 文本 新会话
+														128 文本 无项目 · 独立目录（首次发送时创建）
+													129 标题 今天想完成什么？
+													130 文本 先描述任务，项目可选。首次发送后才保存会话。
+													131 文本 默认离线 · 真实模型传输关闭
+													55 组
+													132 文本 项目
+													133 组合框 (settable, string) 项目 Value: 无项目 ID: session-project
+													134 文本 模型
+													135 组合框 (settable, string) 模型 Value: 离线验收模型 · pi SDK 本地夹具 ID: session-model
+													136 详细信息
+														137 开合三角标记 执行目录：独立目录
+															138 文本 执行目录：
+															139 文本 独立目录
+													140 文本 离线验收：固定样本回复，思考关闭，不执行工具或扩展。
+													141 组
+														142 编辑 (settable, string) 任务内容 Description: 描述任务，或提出一个问题…
+														143 组
+															144 文本 无项目
+															145 按钮 (disabled) 发送任务
+													146 文本 Enter 发送 · Shift+Enter 换行
+													147 文本 费用未知 · 未调用真实提供商
+													148 章节页脚
+														149 文本 桌面已授权
+														150 文本 真实传输关闭
+								75 区域
+
+Document text: ```
+任务内容
+```

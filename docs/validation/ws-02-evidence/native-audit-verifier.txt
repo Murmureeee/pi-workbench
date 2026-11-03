@@ -1,0 +1,114 @@
+import assert from 'node:assert/strict'
+import { createHash } from 'node:crypto'
+import { readFileSync, writeFileSync } from 'node:fs'
+import { join } from 'node:path'
+
+const directory = 'docs/validation/ws-02-evidence'
+const read = (name) => JSON.parse(readFileSync(join(directory, name), 'utf8'))
+const audit = (name) => read(`${name}-audit.json`)
+const steps = read('native-steps.json')
+const baseline = audit('native-recent-baseline')
+const firstId = baseline.registry.find((row) => row.name === '甲工作区').id
+const secondId = baseline.registry.find((row) => row.name === '乙工作区').id
+const row = (snapshot, id) => snapshot.registry.find((entry) => entry.id === id)
+const order = (snapshot) => snapshot.recent.entries.map((entry) => entry.id)
+const named = audit('native-save-recovered')
+const opened = audit('native-open-updates-order')
+const beforeRemove = audit('native-validation-background')
+const removed = audit('native-remove-background-kept')
+const missing = audit('native-missing-directory')
+const selected = audit('native-picker-not-saved')
+const relocated = audit('native-relocate-saved')
+const switched = audit('native-open-relocated-background-kept')
+const firstClosed = read('native-first-closed.json')
+const restarted = audit('native-restart-recents')
+const reopened = audit('native-reopen-hidden-record')
+const finalClosed = read('native-final-closed.json')
+
+assert.deepEqual(order(baseline), [secondId, firstId])
+for (const name of ['native-ime-enter-not-saved', 'native-ime-escape-keeps-dialog',
+  'native-cancel-keeps-name', 'native-ime-selection-not-saved', 'native-save-failure']) {
+  assert.deepEqual(row(audit(name), firstId), row(baseline, firstId), name)
+}
+assert.equal(row(named, firstId).custom_name, '你 · 原生工作区 🧪')
+assert.equal(row(named, firstId).revision, row(baseline, firstId).revision + 1)
+assert.equal(row(named, firstId).last_opened_at, row(baseline, firstId).last_opened_at)
+assert.deepEqual(order(named), order(baseline))
+assert.deepEqual(order(opened), [firstId, secondId])
+assert(row(opened, firstId).last_opened_at > row(named, firstId).last_opened_at)
+assert.equal(row(beforeRemove, firstId).last_opened_at, row(opened, firstId).last_opened_at)
+assert.deepEqual(order(removed), [secondId])
+assert.equal(row(removed, firstId).last_opened_at, null)
+assert.equal(row(removed, firstId).custom_name, row(named, firstId).custom_name)
+for (const snapshot of [removed, missing, relocated, switched]) {
+  assert.equal(snapshot.resources.modelTasks, 1)
+  assert.equal(snapshot.resources.kernels[0].state, 'running')
+  assert.equal(snapshot.resources.kernels[0].pid, beforeRemove.resources.kernels[0].pid)
+}
+assert.equal(missing.files.second, false)
+assert.equal(missing.files.moved, true)
+assert.deepEqual(row(selected, secondId), row(missing, secondId))
+assert.equal(row(relocated, secondId).canonical_path, relocated.moved)
+assert.equal(row(relocated, secondId).last_opened_at, row(missing, secondId).last_opened_at)
+assert.equal(row(relocated, secondId).revision, row(missing, secondId).revision + 1)
+assert(row(switched, secondId).last_opened_at > row(relocated, secondId).last_opened_at)
+assert.deepEqual(restarted.recent, firstClosed.recent)
+assert.deepEqual(restarted.registry, firstClosed.registry)
+assert.deepEqual(restarted.historyHashes, firstClosed.historyHashes)
+assert.deepEqual(order(reopened), [firstId, secondId])
+assert.equal(row(reopened, firstId).custom_name, row(named, firstId).custom_name)
+assert.equal(row(reopened, firstId).canonical_path, baseline.first)
+assert.deepEqual(reopened.historyHashes, firstClosed.historyHashes)
+assert.deepEqual(finalClosed.historyHashes, firstClosed.historyHashes)
+for (const snapshot of [restarted, reopened, finalClosed]) {
+  assert.equal(snapshot.resources.kernels.length, 0)
+  assert.equal(snapshot.resources.modelTasks, 0)
+  assert.equal(snapshot.seedPrompts + snapshot.fixturePrompts + snapshot.uiPrompts, 0)
+}
+for (const name of steps.map((step) => step.name)) {
+  const snapshot = audit(name)
+  assert.deepEqual(snapshot.projects, baseline.projects, name)
+  assert.deepEqual(snapshot.sessions, baseline.sessions, name)
+  assert.equal(snapshot.uiPrompts, 0, name)
+  assert.equal(snapshot.realProviderRequests, 0, name)
+  assert.equal(snapshot.resources.realProviderEnabled, false, name)
+  assert.deepEqual(snapshot.configBefore, snapshot.configAfter, name)
+  assert.equal(snapshot.budgetBefore, snapshot.budgetAfter, name)
+  assert(snapshot.files.first && (snapshot.files.second || snapshot.files.moved), name)
+}
+for (const snapshot of [firstClosed, finalClosed]) {
+  assert(snapshot.closed && snapshot.ownedProcessesExited)
+  assert.equal(snapshot.realProviderRequests, 0)
+}
+const hash = (file) => createHash('sha256').update(readFileSync(file)).digest('hex')
+const result = {
+  feature: 'WS-02', at: new Date().toISOString(), passed: true,
+  source: 'Actual native Electron + Microsoft Pinyin SendInput; actual daemon SQLite, filesystem and pi SDK/local HTTP fixtures; no route interception or provider requests',
+  steps: steps.length, firstId, secondId,
+  checked: ['recent explicit-open order', 'rename and validation do not reorder',
+    'prefill/cancel and real IME Enter/Escape/Space', 'actual SQLite failure retains edits',
+    'remove retains file/session/project/name/current view/background PID',
+    'missing path diagnostic', 'unintercepted Windows folder picker only fills input',
+    'explicit same-identity relocation keeps recency and existing cwd',
+    'explicit view switch preserves background task', 'full restart persistence',
+    'hidden record reopens with same identity/custom name', 'restart no kernels/no replay',
+    'post-stop SDK history unchanged through restart', 'two normal menu exits',
+    'configuration and canonical budget unchanged'],
+  backgroundPid: beforeRemove.resources.kernels[0].pid,
+  normalRuns: [{log:'native.log',exitCode:0,seedPrompts:firstClosed.seedPrompts,
+    fixturePrompts:firstClosed.fixturePrompts,uiPrompts:firstClosed.uiPrompts},
+    {log:'native-restart.log',exitCode:0,seedPrompts:finalClosed.seedPrompts,
+      fixturePrompts:finalClosed.fixturePrompts,uiPrompts:finalClosed.uiPrompts}],
+  preservedHistoryHashes: finalClosed.historyHashes,
+  budgetSha256: hash('docs/validation/live-validation-budget.json'),
+  lockSha256: hash('pnpm-lock.yaml'),
+  realProviderRequests: 0,
+  limitations: [
+    'n + Return committed literal n; Space selected Chinese 你. Literal suffix was entered with type_text, not IME.',
+    'First hold returned terminated after about 300 seconds during the long native run. Later local fixture starts were explicit, the final hold was explicitly aborted before exit; evidence does not claim one continuous task across all steps.',
+    'Initial windowsHide launch had no targetable visible window and was closed as an owned harness process, not counted as a normal menu exit. Its seed prompt was local; subsequent normal runs reused its data without reseeding.',
+    'CI folder-picker return values use fixtures; native workflow used the real Windows picker. Desktop packaging and independent web workspace controls remain deferred.'
+  ]
+}
+writeFileSync(join(directory,'native-validation.json'), JSON.stringify(result,null,2)+'\n')
+console.log(JSON.stringify(result,null,2))

@@ -3,6 +3,7 @@ import { lazy, Suspense, useState } from 'react'
 import { ResourceObserver } from '../features/conversation/resource-observer.js'
 import { RuntimeObserver } from '../features/conversation/runtime-observer.js'
 import { SessionHistory } from '../features/conversation/session-history.js'
+import { SessionTitleSync } from '../features/conversation/session-title-sync.js'
 import { AppearanceSettings } from '../features/settings/appearance.js'
 import { ClientAccess, ClientSettings } from '../features/settings/client-access.js'
 import { CredentialStatus } from '../features/settings/credential-status.js'
@@ -25,6 +26,10 @@ const SessionWorkbench = lazy(async () => {
   const module = await import('../features/conversation/session-workbench.js')
   return { default: module.SessionWorkbench }
 })
+const LegacyHistory = lazy(async () => {
+  const module = await import('../features/conversation/legacy-history.js')
+  return { default: module.LegacyHistory }
+})
 
 /** Private views mount only after SEC-08 pairing. Workspace code is loaded on demand so
  * its desktop picker UI does not add to the initial offline conversation bundle.
@@ -41,6 +46,7 @@ export function App() {
     trustView = query.has('trust'),
     workspaceView = query.has('workspaces'),
     modelsView = query.has('models')
+  const legacyView = query.has('legacy')
   const settingsSection = modelsView
     ? 'models'
     : trustView
@@ -62,8 +68,19 @@ export function App() {
     credentialsView ||
     resourcesView ||
     Boolean(historySession) ||
-    Boolean(observedSession)
-  const content = modelsView ? (
+    Boolean(observedSession) ||
+    legacyView
+  const content = legacyView ? (
+    <Suspense
+      fallback={
+        <main className="p-6">
+          <output>正在加载旧历史…</output>
+        </main>
+      }
+    >
+      <LegacyHistory />
+    </Suspense>
+  ) : modelsView ? (
     <Suspense
       fallback={
         <main className="p-6">
@@ -98,7 +115,8 @@ export function App() {
   ) : (
     <AppearanceSettings />
   )
-  const hasView = settingsSection || workspaceView || historySession || observedSession
+  const hasView =
+    settingsSection || workspaceView || historySession || observedSession || legacyView
   const protectedContent = sensitive ? (
     <ClientAccess initialCode={initialCode}>{content}</ClientAccess>
   ) : (
@@ -106,6 +124,7 @@ export function App() {
   )
   return (
     <AppFrame settings={Boolean(settingsSection)}>
+      <SessionTitleSync />
       <div className="retained-workbench" hidden={Boolean(hasView)}>
         {window.piWorkbench && !query.has('samples') ? (
           <Suspense

@@ -1,0 +1,49 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:43556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:28676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\session-switching.spec.ts:311:1 › SESSION-02 Electron isolates evicted draft-directory and A-B-A history responses, restoring synthetic tool/reference context (14.4s)
+
+
+  1) e2e\session-switching.spec.ts:311:1 › SESSION-02 Electron isolates evicted draft-directory and A-B-A history responses, restoring synthetic tool/reference context 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.retained-session:not([hidden])').getByText('执行目录：C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-switch-ui-IZShud\\new-directory', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.retained-session:not([hidden])').getByText('执行目录：C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-switch-ui-IZShud\\new-directory', { exact: true }) with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').getByText('执行目录：C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-switch-ui-IZShud\\new-directory', { exact: true })
+
+
+      378 |       () => new Promise((done) => requestAnimationFrame(() => requestAnimationFrame(done))),
+      379 |     )
+    > 380 |     await expect(pane.getByText(`执行目录：${newDirectory}`, { exact: true })).toBeVisible()
+          |                                                                           ^
+      381 |     await pane.getByTitle(a.title, { exact: true }).click()
+      382 |     await pane.getByRole('button', { name: '历史记录', exact: true }).click()
+      383 |     await expect.poll(() => waiting).toBe(true)
+        at D:\Project\pi-workbench\e2e\session-switching.spec.ts:380:75
+
+    Error Context: test-results\session-switching-SESSION--159c6-etic-tool-reference-context\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-switching-SESSION--159c6-etic-tool-reference-context\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\session-switching-SESSION--159c6-etic-tool-reference-context\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\session-switching.spec.ts:311:1 › SESSION-02 Electron isolates evicted draft-directory and A-B-A history responses, restoring synthetic tool/reference context 

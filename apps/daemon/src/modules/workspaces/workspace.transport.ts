@@ -1,12 +1,94 @@
+import type { AccessService } from '../security/access.service.js'
 import type { WorkspaceService } from './workspace.service.js'
 import type { FastifyInstance } from 'fastify'
 
-import { workspaceOpenSchema, workspaceValidateSchema } from '@pi-workbench/shared'
+import {
+  workspaceEditSchema,
+  workspaceOpenSchema,
+  workspaceRelocateSchema,
+  workspaceRenameSchema,
+  workspaceValidateSchema,
+} from '@pi-workbench/shared'
 
 /** Both commands use the existing SEC-08 Host/Origin/JSON/CSRF client gate. Opening a
  * directory is metadata registration, never resource trust, session creation or execution.
  */
-export function registerWorkspaceTransport(server: FastifyInstance, workspaces: WorkspaceService) {
+export function registerWorkspaceTransport(
+  server: FastifyInstance,
+  workspaces: WorkspaceService,
+  access: AccessService,
+) {
+  const desktopPaths = new Set(
+    ['recent', 'activate', 'rename', 'remove', 'relocate'].map(
+      (operation) => `/api/workspaces/${operation}`,
+    ),
+  )
+  server.addHook('preHandler', async (request, reply) => {
+    if (
+      desktopPaths.has(request.url.split('?')[0]!) &&
+      access.authenticate(request.headers.cookie)?.info.kind !== 'desktop'
+    ) {
+      await reply.code(403).send({ message: '最近工作区与整理目前仅向 Electron 开放。' })
+    }
+  })
+  server.get('/api/workspaces/recent', (_request, reply) => {
+    try {
+      return reply.header('cache-control', 'no-store').send(workspaces.recent())
+    } catch {
+      return reply.code(503).send({ message: '最近列表读取失败，已有目录与会话保留。' })
+    }
+  })
+  server.post('/api/workspaces/activate', async (request, reply) => {
+    const parsed = workspaceValidateSchema.safeParse(request.body)
+    if (!parsed.success) {
+      return reply.code(400).send({
+        ok: false,
+        code: 'unknown_workspace',
+        message: '工作区身份无效。',
+        recovery: '请刷新列表后重新打开。',
+      })
+    }
+    return workspaces.activate(parsed.data.id)
+  })
+  server.post('/api/workspaces/rename', (request, reply) => {
+    const parsed = workspaceRenameSchema.safeParse(request.body)
+    if (!parsed.success) {
+      return reply.code(400).send({
+        ok: false,
+        code: 'invalid_name',
+        current: null,
+        message: '名称或工作区版本无效。',
+        recovery: '请输入 1–80 个 Unicode 字符并核对最新记录。',
+      })
+    }
+    return workspaces.rename(parsed.data)
+  })
+  server.post('/api/workspaces/remove', (request, reply) => {
+    const parsed = workspaceEditSchema.safeParse(request.body)
+    if (!parsed.success) {
+      return reply.code(400).send({
+        ok: false,
+        code: 'unknown_workspace',
+        current: null,
+        message: '工作区身份或版本无效。',
+        recovery: '请刷新列表后重试；目录和会话保留。',
+      })
+    }
+    return workspaces.remove(parsed.data)
+  })
+  server.post('/api/workspaces/relocate', async (request, reply) => {
+    const parsed = workspaceRelocateSchema.safeParse(request.body)
+    if (!parsed.success) {
+      return reply.code(400).send({
+        ok: false,
+        code: 'invalid_path',
+        current: null,
+        message: '路径或工作区版本无效。',
+        recovery: '请输入完整绝对路径并核对最新记录。',
+      })
+    }
+    return workspaces.relocate(parsed.data)
+  })
   server.post('/api/workspaces/open', async (request, reply) => {
     const parsed = workspaceOpenSchema.safeParse(request.body)
     if (!parsed.success) {

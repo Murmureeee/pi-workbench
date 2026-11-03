@@ -1,11 +1,11 @@
 import type { AccessService } from '../security/access.service.js'
 import type { EventService } from './event.service.js'
-import type { RuntimeFrame } from '@pi-workbench/shared'
+import type { RuntimeFrame, SessionTitleFrame } from '@pi-workbench/shared'
 import type { FastifyInstance } from 'fastify'
 
 import websocket from '@fastify/websocket'
 
-import { runtimeSubscribeSchema } from '@pi-workbench/shared'
+import { runtimeSubscribeSchema, sessionTitleSubscribeSchema } from '@pi-workbench/shared'
 
 /** Registers read-only REST/WS on the existing Fastify adapter, under its Host/Origin hook.
  * SEC-08 authenticates the upgrade and revokes live observers. Upgrade requires an explicit allowed
@@ -49,7 +49,7 @@ export async function registerEventTransport(
         return
       }
       let unsubscribe: (() => void) | undefined
-      const send = (frame: RuntimeFrame) => {
+      const send = (frame: RuntimeFrame | SessionTitleFrame) => {
         if (socket.readyState !== socket.OPEN) {
           return
         }
@@ -74,9 +74,15 @@ export async function registerEventTransport(
       })
       socket.on('message', (bytes, binary) => {
         try {
-          const parsed = runtimeSubscribeSchema.safeParse(
-            binary || !Buffer.isBuffer(bytes) ? null : JSON.parse(bytes.toString('utf8')),
-          )
+          const value: unknown =
+            binary || !Buffer.isBuffer(bytes) ? null : JSON.parse(bytes.toString('utf8'))
+          const titleSubscription = sessionTitleSubscribeSchema.safeParse(value)
+          if (titleSubscription.success && !unsubscribe) {
+            clearTimeout(timer)
+            unsubscribe = events.subscribeTitles(send)
+            return
+          }
+          const parsed = runtimeSubscribeSchema.safeParse(value)
           if (
             !parsed.success ||
             unsubscribe ||

@@ -1,21 +1,28 @@
-import type { SessionReceipt, SessionSubmission, SessionSubmit } from '@pi-workbench/shared'
+import type {
+  ManagedSession,
+  SessionReceipt,
+  SessionSubmission,
+  SessionSubmit,
+} from '@pi-workbench/shared'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import {
   ArrowUpIcon,
+  ChevronDownIcon,
   FolderIcon,
   MessageSquarePlusIcon,
   PanelLeftIcon,
+  PencilIcon,
   RefreshCwIcon,
   SettingsIcon,
   SquareIcon,
 } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import {
   accessSnapshotSchema,
   directorySelectionSchema,
-  projectSchema,
+  sessionActivitySchema,
   sessionListSchema,
   sessionModelSchema,
   sessionOptionsSchema,
@@ -24,6 +31,13 @@ import {
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
 import { Badge } from '@pi-workbench/ui/components/badge'
 import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@pi-workbench/ui/components/dropdown-menu'
 import { Field, FieldGroup, FieldLabel } from '@pi-workbench/ui/components/field'
 import { Input } from '@pi-workbench/ui/components/input'
 import {
@@ -40,10 +54,16 @@ import {
   SessionRequestError,
   submitSession,
 } from '../../services/session-client.js'
+import { mergeSessions } from '../../services/session-title-cache.js'
 import { workspaceCommand } from '../../services/workspace-client.js'
 import { sessionDraft, useSessionDrafts } from '../../stores/session-drafts.js'
+import { retainSessionView, useSessionViews } from '../../stores/session-views.js'
 import { useWorkbench } from '../../stores/workbench.js'
 import { ManagedThread } from './managed-thread.js'
+import { SessionHistory } from './session-history.js'
+import { SessionLibrary } from './session-library.js'
+import { SessionRenameDialog } from './session-rename-dialog.js'
+import { useSessionOrganization } from './use-session-organization.js'
 import './session-workbench.css'
 
 /** Real first-send UI, independent of the public offline scene viewer. Drafts and pending
@@ -55,17 +75,44 @@ export function SessionWorkbench() {
   const primaryView = search === '' || query.has('session'),
     routeSession = query.get('session')
   const rememberedSession = useRef(routeSession)
-  const sessionId = primaryView ? routeSession : rememberedSession.current,
-    key = sessionId ?? 'new'
+  const sessionId = primaryView ? routeSession : rememberedSession.current
+  const [retained, setRetained] = useState<string[]>([])
+  const selected = sessionId ?? 'new'
+  const ids = retainSessionView(retained, selected)
   useEffect(() => {
     if (primaryView) {
       rememberedSession.current = routeSession
     }
   }, [primaryView, routeSession])
+  useEffect(() => {
+    setRetained((prior) => retainSessionView(prior, selected))
+  }, [selected])
+  return ids.map((id) => (
+    <div className="retained-session" key={id} data-session-view={id} hidden={id !== selected}>
+      <SessionPane sessionId={id === 'new' ? null : id} active={id === selected && primaryView} />
+    </div>
+  ))
+}
+
+/** Each cached pane owns its transient errors, request locks and observers. Eviction only
+ * disposes presentation; accepted tasks and pending request identities remain untouched. */
+function SessionPane({ sessionId, active }: { sessionId: string | null; active: boolean }) {
+  const key = sessionId ?? 'new'
+  const activeView = useRef(active)
+  activeView.current = active
+  useEffect(() => {
+    activeView.current = active
+    return () => {
+      activeView.current = false
+    }
+  }, [active])
   const cache = useQueryClient()
   const drafts = useSessionDrafts((state) => state.drafts),
     update = useSessionDrafts((state) => state.update)
   const storageFailed = useSessionDrafts((state) => state.storageFailed)
+  const view = useSessionViews((state) => state.views[key])
+  const viewStorageFailed = useSessionViews((state) => state.storageFailed)
+  const updateView = useSessionViews((state) => state.update)
   const draft = drafts[key] ?? sessionDraft(key)
   const navOpen = useWorkbench((state) => state.navOpen),
     toggleNav = useWorkbench((state) => state.toggleNav)
@@ -73,17 +120,29 @@ export function SessionWorkbench() {
     composing = useRef(false),
     busy = useRef(false)
   const activeKey = useRef(key)
-  activeKey.current = key
+  useLayoutEffect(() => {
+    activeKey.current = key
+    return () => {
+      // Eviction invalidates presentation requests even if a new pane reuses this draft key.
+      activeKey.current = ''
+    }
+  }, [key])
   const [pending, setPending] = useState(false),
     [error, setError] = useState(''),
     [notice, setNotice] = useState('')
   const [stopping, setStopping] = useState<string | null>(null)
+  const [renaming, setRenaming] = useState<{ session: ManagedSession; token: string } | null>(null)
+  const beginRenaming = (session: ManagedSession) =>
+    setRenaming({ session, token: crypto.randomUUID() })
+  const [titleMenuOpen, setTitleMenuOpen] = useState(false)
+  useEffect(() => {
+    if (!active) {
+      setRenaming(null)
+      setTitleMenuOpen(false)
+    }
+  }, [active])
   const [directoryPath, setDirectoryPath] = useState(''),
     [directoryPending, setDirectoryPending] = useState(false)
-  const [projectName, setProjectName] = useState(''),
-    [projectOpen, setProjectOpen] = useState(false),
-    [projectPending, setProjectPending] = useState(false)
-  const projectRequest = useRef<string | null>(null)
   const access = useQuery({
     queryKey: ['client-access'],
     queryFn: async ({ signal }) =>
@@ -98,11 +157,14 @@ export function SessionWorkbench() {
     queryFn: async ({ signal }) =>
       sessionOptionsSchema.parse(await sessionJson('/api/chat/options', signal)),
     enabled: Boolean(authorized),
+    refetchInterval: 2000,
   })
   const sessions = useQuery({
     queryKey: ['chat-sessions'],
     queryFn: async ({ signal }) =>
       sessionListSchema.parse(await sessionJson('/api/chat/sessions', signal)),
+    structuralSharing: (old, next) =>
+      mergeSessions(old, next, cache.getQueryData(['session-titles'])),
     enabled: Boolean(authorized),
     refetchInterval: 2000,
   })
@@ -111,6 +173,17 @@ export function SessionWorkbench() {
     queryFn: ({ signal }) => getModelCatalog(signal),
     enabled: Boolean(authorized),
   })
+  const activity = useQuery({
+    queryKey: ['chat-activity'],
+    queryFn: async ({ signal }) =>
+      sessionActivitySchema.parse(await sessionJson('/api/chat/activity', signal)),
+    enabled: Boolean(authorized),
+    refetchInterval: 1000,
+  })
+  const organization = useSessionOrganization(Boolean(authorized), csrf)
+  const currentOrganization = organization.data?.organizations.find(
+    (item) => item.sessionId === sessionId,
+  )
   const current = authorized
     ? sessions.data?.sessions.find((item) => item.id === sessionId)
     : undefined
@@ -125,6 +198,7 @@ export function SessionWorkbench() {
       ),
     enabled: Boolean(authorized && sessionId),
     refetchInterval: 700,
+    gcTime: 0,
   })
   const activeSubmission = submissions.data?.submissions.findLast((item) =>
     ['pending', 'executing'].includes(item.status),
@@ -137,22 +211,27 @@ export function SessionWorkbench() {
     thinking: 'off' as const,
   }
   const locked = Boolean(
+    currentOrganization?.archived ||
+    organization.isError ||
+    (sessionId && !currentOrganization) ||
     draft.pending ||
     pending ||
     activeSubmission ||
     directoryPending ||
     !authorized ||
     !options.isSuccess ||
+    options.isError ||
+    (!sessionId && Boolean(draft.projectId) && !project) ||
     (sessionId && (!current || !submissions.isSuccess)),
   )
   const providerBlocked = configuration.model.kind === 'provider'
   const sendBlocked = providerBlocked || !options.data?.localFixtureEnabled
   const refetchAccess = access.refetch
   useEffect(() => {
-    if (primaryView) {
+    if (active) {
       textarea.current?.focus()
     }
-  }, [key, primaryView])
+  }, [key, active])
   useEffect(() => {
     const refresh = () => {
       void refetchAccess()
@@ -178,17 +257,33 @@ export function SessionWorkbench() {
     await cache.cancelQueries({ queryKey: ['chat-sessions'] })
     cache.setQueryData(['chat-sessions'], (old: unknown) => {
       const parsed = sessionListSchema.safeParse(old)
-      return {
-        sessions: [
-          ...(parsed.success
-            ? parsed.data.sessions.filter((item) => item.id !== receipt.session.id)
-            : []),
-          receipt.session,
-        ],
-      }
+      const known = parsed.success
+        ? parsed.data.sessions.find((item) => item.id === receipt.session.id)
+        : undefined
+      return mergeSessions(
+        old,
+        {
+          sessions: [
+            ...(parsed.success
+              ? parsed.data.sessions.filter((item) => item.id !== receipt.session.id)
+              : []),
+            // An accepted input receipt may predate project removal. Existing index
+            // metadata owns attribution; reconciling that input must not restore it.
+            known
+              ? {
+                  ...receipt.session,
+                  configuration: known.configuration,
+                  workspaceId: known.workspaceId,
+                  cwd: known.cwd,
+                }
+              : receipt.session,
+          ],
+        },
+        cache.getQueryData(['session-titles']),
+      )
     })
     void cache.invalidateQueries({ queryKey: ['chat-submissions', receipt.session.id] })
-    if (activeKey.current === originKey && location.search === originSearch) {
+    if (activeView.current && activeKey.current === originKey && location.search === originSearch) {
       setNotice('任务已保存，运行状态由本地服务确认。')
       setError('')
       if (!input.sessionId) {
@@ -288,7 +383,12 @@ export function SessionWorkbench() {
       if (!result.ok) {
         throw new Error(`${result.message} ${result.recovery}`)
       }
-      if (activeKey.current === originKey && !sessionDraft(originKey).pending) {
+      const latest = sessionDraft(originKey)
+      if (
+        activeKey.current === originKey &&
+        latest.projectId === draft.projectId &&
+        !latest.pending
+      ) {
         update(originKey, { workspace: result.workspace })
       }
     } catch (cause) {
@@ -297,39 +397,6 @@ export function SessionWorkbench() {
       }
     } finally {
       setDirectoryPending(false)
-    }
-  }
-  const createProject = async () => {
-    if (projectPending || !projectName.trim()) {
-      return
-    }
-    setProjectPending(true)
-    setError('')
-    projectRequest.current ??= crypto.randomUUID()
-    try {
-      const result = projectSchema.parse(
-        await sessionJson(
-          '/api/chat/projects',
-          undefined,
-          {
-            requestId: projectRequest.current,
-            name: projectName.trim(),
-            workspaceId: draft.workspace?.id ?? null,
-          },
-          csrf,
-        ),
-      )
-      await options.refetch()
-      setProjectOpen(false)
-      setProjectName('')
-      projectRequest.current = null
-      if (key === 'new' && !sessionDraft('new').pending) {
-        update('new', { projectId: result.id, workspace: null })
-      }
-    } catch (cause) {
-      setError(cause instanceof Error ? cause.message : '项目未能保存。')
-    } finally {
-      setProjectPending(false)
     }
   }
   const newSession = (projectId: string | null = null) => {
@@ -381,97 +448,53 @@ export function SessionWorkbench() {
             </a>
           </nav>
           <div className="sidebar-list">
-            <p className="sidebar-label">项目</p>
-            {authorized
-              ? options.data?.projects.map((item) => (
-                  <div key={item.id}>
-                    <Button
-                      variant="ghost"
-                      title={`${item.name} · ${item.directory ?? '独立目录'} · ${item.id}`}
-                      onClick={() => newSession(item.id)}
-                    >
-                      {item.name}
-                      <MessageSquarePlusIcon data-icon="inline-end" />
-                    </Button>
-                    {sessions.data?.sessions
-                      .filter((session) => session.configuration.projectId === item.id)
-                      .map((session) => (
-                        <Button
-                          key={session.id}
-                          variant="ghost"
-                          className="session-item"
-                          aria-current={session.id === sessionId ? 'page' : undefined}
-                          onClick={() => {
-                            navigate(`/?session=${session.id}`)
-                            if (navOpen) {
-                              toggleNav()
-                            }
-                          }}
-                        >
-                          {session.title}
-                        </Button>
-                      ))}
-                  </div>
-                ))
-              : null}
-            <Button
-              variant="ghost"
-              disabled={!authorized || Boolean(draft.pending)}
-              onClick={() => setProjectOpen(!projectOpen)}
-            >
-              新建项目
-            </Button>
-            {projectOpen ? (
-              <div className="project-create">
-                <FieldGroup>
-                  <Field>
-                    <FieldLabel htmlFor="project-name">项目名称</FieldLabel>
-                    <Input
-                      id="project-name"
-                      value={projectName}
-                      disabled={projectPending}
-                      maxLength={80}
-                      onChange={(event) => {
-                        setProjectName(event.target.value)
-                        projectRequest.current = null
-                      }}
-                    />
-                  </Field>
-                </FieldGroup>
-                <p>默认目录：{draft.workspace?.canonicalPath ?? '独立目录'}</p>
-                <Button
-                  size="sm"
-                  disabled={projectPending || !projectName.trim()}
-                  onClick={() => void createProject()}
-                >
-                  {projectPending ? '正在保存…' : '保存项目'}
-                </Button>
-              </div>
-            ) : null}
-            <p className="sidebar-label">最近 · 无项目</p>
-            {authorized
-              ? sessions.data?.sessions
-                  .filter((item) => !item.configuration.projectId)
-                  .toReversed()
-                  .map((session) => (
-                    <Button
-                      key={session.id}
-                      variant="ghost"
-                      title={session.title}
-                      aria-current={session.id === sessionId ? 'page' : undefined}
-                      onClick={() => {
-                        navigate(`/?session=${session.id}`)
-                        if (navOpen) {
-                          toggleNav()
-                        }
-                      }}
-                    >
-                      {session.title}
-                    </Button>
-                  ))
-              : null}
+            <SessionLibrary
+              sessions={authorized ? (sessions.data?.sessions ?? []) : []}
+              organizations={organization.data?.organizations ?? []}
+              projects={authorized ? (options.data?.projects ?? []) : []}
+              activity={activity.data?.sessions ?? []}
+              currentId={sessionId}
+              active={active}
+              available={Boolean(
+                authorized &&
+                options.isSuccess &&
+                !options.isError &&
+                sessions.isSuccess &&
+                !sessions.isError &&
+                organization.isSuccess &&
+                !organization.isError &&
+                activity.isSuccess &&
+                !activity.isError,
+              )}
+              change={organization.change}
+              rename={beginRenaming}
+              csrf={csrf}
+              initialWorkspace={draft.workspace}
+              createdProject={(result) => {
+                const latest = sessionDraft('new')
+                if (
+                  activeKey.current === 'new' &&
+                  activeView.current &&
+                  latest.projectId === draft.projectId &&
+                  latest.workspace?.id === draft.workspace?.id &&
+                  !latest.pending
+                ) {
+                  update('new', { projectId: result.id, workspace: null })
+                }
+              }}
+              newSession={(id) => newSession(id)}
+              select={(id) => {
+                navigate(`/?session=${id}`)
+                if (navOpen) {
+                  toggleNav()
+                }
+              }}
+            />
           </div>
           <div className="sidebar-footer">
+            <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?legacy">
+              旧 pi 历史 · 只读
+            </a>
             <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?models">
               模型与提供商
             </a>
@@ -503,7 +526,32 @@ export function SessionWorkbench() {
               <PanelLeftIcon />
             </Button>
             <div className="thread-identity">
-              <strong>{current?.title ?? '新会话'}</strong>
+              {current ? (
+                <DropdownMenu open={titleMenuOpen && active} onOpenChange={setTitleMenuOpen}>
+                  <DropdownMenuTrigger
+                    render={
+                      <Button
+                        variant="ghost"
+                        className="thread-title-menu"
+                        aria-label={`标题菜单：${current.title}`}
+                      />
+                    }
+                  >
+                    <strong>{current.title}</strong>
+                    <ChevronDownIcon data-icon="inline-end" />
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="start">
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem onClick={() => beginRenaming(current)}>
+                        <PencilIcon />
+                        重命名会话
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              ) : (
+                <strong>新会话</strong>
+              )}
               <span>
                 {current
                   ? `${options.data?.projects.find((item) => item.id === current.configuration.projectId)?.name ?? '无项目'} · ${current.cwd}`
@@ -511,23 +559,32 @@ export function SessionWorkbench() {
               </span>
             </div>
             {current ? (
-              <a
-                className={buttonVariants({ variant: 'ghost', size: 'sm' })}
-                href={`/?history=${current.id}`}
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={() =>
+                  updateView(key, { panel: view?.panel === 'history' ? 'conversation' : 'history' })
+                }
               >
-                历史记录
-              </a>
+                {view?.panel === 'history' ? '返回对话' : '历史记录'}
+              </Button>
             ) : null}
           </header>
           <div className="conversation-workspace">
             <div className="conversation-column">
-              {current && authorized ? (
+              {current && authorized && view?.panel === 'history' ? (
+                <SessionHistory sessionId={current.id} embedded active={active} />
+              ) : current && authorized ? (
                 <ManagedThread
                   key={current.id}
                   sessionId={current.id}
                   submissions={submissions.data?.submissions ?? []}
                   retry={(submission) => void send(submission)}
                   retryDisabled={locked || submissions.isError}
+                  active={active}
+                  organization={currentOrganization}
+                  changeOrganization={organization.change}
+                  organizationAvailable={authorized && !organization.isError}
                 />
               ) : (
                 <div className="new-conversation new-session">
@@ -540,7 +597,11 @@ export function SessionWorkbench() {
                 {!authorized ? (
                   <p>正在确认桌面授权；如未连接，请通过受管桌面入口启动。草稿可继续编辑。</p>
                 ) : null}
-                {sessions.isError || options.isError || submissions.isError ? (
+                {sessions.isError ||
+                options.isError ||
+                submissions.isError ||
+                organization.isError ||
+                activity.isError ? (
                   <Alert>
                     <AlertTitle>本地状态未同步</AlertTitle>
                     <AlertDescription>
@@ -550,6 +611,8 @@ export function SessionWorkbench() {
                         onClick={() => {
                           void sessions.refetch()
                           void options.refetch()
+                          void organization.refetch()
+                          void activity.refetch()
                           if (sessionId) {
                             void submissions.refetch()
                           }
@@ -561,6 +624,14 @@ export function SessionWorkbench() {
                     </AlertDescription>
                   </Alert>
                 ) : null}
+                {currentOrganization?.archived ? (
+                  <Alert>
+                    <AlertTitle>此会话已归档</AlertTitle>
+                    <AlertDescription>
+                      历史和草稿保留；请从已归档列表恢复后继续发送。
+                    </AlertDescription>
+                  </Alert>
+                ) : null}
                 {error ? (
                   <Alert variant="destructive">
                     <AlertTitle>任务尚未完成</AlertTitle>
@@ -568,7 +639,9 @@ export function SessionWorkbench() {
                   </Alert>
                 ) : null}
                 {notice ? <output aria-label="发送反馈">{notice}</output> : null}
-                {storageFailed ? <p>草稿存储不可用，目前仅保留在此窗口中。</p> : null}
+                {storageFailed || viewStorageFailed ? (
+                  <p>草稿或阅读位置存储不可用，目前仅保留在此窗口中。</p>
+                ) : null}
                 {draft.pending ? (
                   <div className="pending-request">
                     <p>原提交待核对，正文和配置暂时锁定。不会自动重发。</p>
@@ -594,6 +667,14 @@ export function SessionWorkbench() {
                       }
                     >
                       <option value="">无项目</option>
+                      {configuration.projectId &&
+                      !options.data?.projects.some(
+                        (item) => item.id === configuration.projectId,
+                      ) ? (
+                        <option value={configuration.projectId}>
+                          项目已移除或未同步 · 请重新选择
+                        </option>
+                      ) : null}
                       {options.data?.projects.map((item) => (
                         <option key={item.id} value={item.id}>
                           {item.name} · {item.directory ?? '独立目录'} · {item.id.slice(0, 8)}
@@ -794,6 +875,15 @@ export function SessionWorkbench() {
           </footer>
         </main>
       </div>
+      {renaming && active ? (
+        <SessionRenameDialog
+          key={renaming.token}
+          session={renaming.session}
+          latest={sessions.data?.sessions.find((row) => row.id === renaming.session.id)}
+          csrf={csrf}
+          close={() => setRenaming((row) => (row?.token === renaming.token ? null : row))}
+        />
+      ) : null}
     </div>
   )
 }

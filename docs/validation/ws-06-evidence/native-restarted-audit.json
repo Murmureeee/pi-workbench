@@ -1,0 +1,208 @@
+{
+  "source": "Actual native Electron, daemon SQLite and SDK/local HTTP fixtures, no route interception",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\ws-06-native-lx3FxR",
+  "first": "D:\\Project\\pi-workbench\\.workbench\\ws-06-native-lx3FxR\\甲目录",
+  "second": "D:\\Project\\pi-workbench\\.workbench\\ws-06-native-lx3FxR\\Beta",
+  "restored": true,
+  "projects": [
+    {
+      "id": "cbcbd4d7-b6db-4d66-84ea-a8d68cdc6b0e",
+      "name": "恢复后的项目🧪",
+      "workspaceId": "49263966-1d56-41c0-9158-5c3c9ff2b07c",
+      "directory": "D:\\Project\\pi-workbench\\.workbench\\ws-06-native-lx3FxR\\Beta",
+      "pinned": true,
+      "position": 0,
+      "revision": 5
+    },
+    {
+      "id": "602f3d96-b884-4b01-86cc-897b09158fc5",
+      "name": "同名项目",
+      "workspaceId": null,
+      "directory": null,
+      "pinned": false,
+      "position": 2,
+      "revision": 2
+    }
+  ],
+  "projectRecords": [
+    {
+      "id": "cbcbd4d7-b6db-4d66-84ea-a8d68cdc6b0e",
+      "name": "恢复后的项目🧪",
+      "workspace_id": "49263966-1d56-41c0-9158-5c3c9ff2b07c",
+      "pinned": 1,
+      "position": 0,
+      "revision": 5,
+      "removed": 0
+    },
+    {
+      "id": "58291259-5433-40c4-8e97-1fd942fd6d0c",
+      "name": "同名项目",
+      "workspace_id": "49263966-1d56-41c0-9158-5c3c9ff2b07c",
+      "pinned": 0,
+      "position": 0,
+      "revision": 3,
+      "removed": 1
+    },
+    {
+      "id": "602f3d96-b884-4b01-86cc-897b09158fc5",
+      "name": "同名项目",
+      "workspace_id": null,
+      "pinned": 0,
+      "position": 2,
+      "revision": 2,
+      "removed": 0
+    }
+  ],
+  "recent": {
+    "entries": [
+      {
+        "id": "71493210-76e5-4048-a6f2-de4315d96a8e",
+        "name": "甲目录",
+        "canonicalPath": "D:\\Project\\pi-workbench\\.workbench\\ws-06-native-lx3FxR\\甲目录",
+        "defaultName": "甲目录",
+        "customName": null,
+        "lastOpenedAt": 1793714104015,
+        "revision": 1
+      }
+    ],
+    "total": 1,
+    "limit": 100,
+    "order": "last-opened-desc-id-asc"
+  },
+  "sessions": [
+    {
+      "id": "52464638-6b4d-4c3e-a040-ab346c7702a4",
+      "title": "目录项目的保留会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "b4ee68fa-e7b1-4d94-a3d5-a9db98d50f40",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": "71493210-76e5-4048-a6f2-de4315d96a8e",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "71493210-76e5-4048-a6f2-de4315d96a8e",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws-06-native-lx3FxR\\甲目录",
+      "createdAt": 1793714104036
+    },
+    {
+      "id": "dd289a94-a1b8-4a9a-bbfc-c6cf5e98ac1e",
+      "title": "独立空间甲",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "e30a4694-6226-4ffa-a8d7-a38dba60d34c",
+      "configuration": {
+        "projectId": "602f3d96-b884-4b01-86cc-897b09158fc5",
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "51d08f09-ba02-4ccc-ba6c-304bc275213c",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws-06-native-lx3FxR\\data\\standalone\\dd289a94-a1b8-4a9a-bbfc-c6cf5e98ac1e",
+      "createdAt": 1793714105252
+    },
+    {
+      "id": "14a08000-7c89-4f46-857f-1aee91a42663",
+      "title": "独立空间乙",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "2de1b23e-20d2-45de-b1b9-203d40c9e9ef",
+      "configuration": {
+        "projectId": "602f3d96-b884-4b01-86cc-897b09158fc5",
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "3c6bffee-4530-4e06-92bb-6a9ebcfe3db6",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws-06-native-lx3FxR\\data\\standalone\\14a08000-7c89-4f46-857f-1aee91a42663",
+      "createdAt": 1793714106369
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "b4ee68fa-e7b1-4d94-a3d5-a9db98d50f40",
+      "sessionId": "52464638-6b4d-4c3e-a040-ab346c7702a4",
+      "status": "completed",
+      "turnId": "6e9027a6-cc2b-421e-8055-13b65b1a1195"
+    },
+    {
+      "requestId": "31ed0509-e813-42fe-b9b2-448c80399a69",
+      "sessionId": "52464638-6b4d-4c3e-a040-ab346c7702a4",
+      "status": "failed",
+      "turnId": "e8127d44-d6b8-4ce6-907b-27a8072c677f"
+    },
+    {
+      "requestId": "ffea6c62-8e83-4527-a9ee-504c8a00f5a4",
+      "sessionId": "52464638-6b4d-4c3e-a040-ab346c7702a4",
+      "status": "aborted",
+      "turnId": "985d839d-e12b-405d-b984-0efc3d44f62f"
+    },
+    {
+      "requestId": "e30a4694-6226-4ffa-a8d7-a38dba60d34c",
+      "sessionId": "dd289a94-a1b8-4a9a-bbfc-c6cf5e98ac1e",
+      "status": "completed",
+      "turnId": "8b039df1-168e-474a-8633-e840dd237d77"
+    },
+    {
+      "requestId": "2de1b23e-20d2-45de-b1b9-203d40c9e9ef",
+      "sessionId": "14a08000-7c89-4f46-857f-1aee91a42663",
+      "status": "completed",
+      "turnId": "58173d9a-1f6f-41d1-87cc-64dd3f0d4db2"
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 1,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "trustRecords": 0,
+  "historyHashes": {
+    "14a08000-7c89-4f46-857f-1aee91a42663\\9a94887c-6ac2-4e71-9e2d-fe7f9748974b\\sessions\\2026-11-03T13-55-07-307Z_01a1a1b1-33ab-75ca-9140-9144e1606284.jsonl": "a875e30b29a1b2a05828704b542c29843ca514af3b47c7b10b503c64ad627931",
+    "52464638-6b4d-4c3e-a040-ab346c7702a4\\39659580-3134-4e21-a513-15689243c266\\sessions\\2026-11-03T13-55-04-990Z_01a1a1b1-2a9d-7786-b0b0-cc459955b9ed.jsonl": "504a19e75f01af0d78d62ecd98e92bed3bd886ab0f7df8e7939296cde4c5dbfa",
+    "dd289a94-a1b8-4a9a-bbfc-c6cf5e98ac1e\\2bd27622-32ff-4ad8-9245-580198bedd5c\\sessions\\2026-11-03T13-55-06-189Z_01a1a1b1-2f4c-719b-b51d-d81317ec0cdd.jsonl": "96bf212bdcc2a99a2aea033c37cb8b2ec503438bb5bc6cd28c3941fc97f0c077"
+  },
+  "files": {
+    "first": "b5081ead8f51539e29f70942b0ced91b2b076b220e2cb1cbe437cdf443f5ee4e",
+    "second": "b5081ead8f51539e29f70942b0ced91b2b076b220e2cb1cbe437cdf443f5ee4e"
+  },
+  "seedPrompts": 0,
+  "fixturePrompts": 0,
+  "uiPrompts": 0,
+  "configBefore": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "8fb3d513dcb99a71f67fe91781100e64a4b332cc32c3a4ddcf8c30a067ae9058",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "configAfter": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "8fb3d513dcb99a71f67fe91781100e64a4b332cc32c3a4ddcf8c30a067ae9058",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "budgetBefore": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "budgetAfter": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "realProviderRequests": 0
+}

@@ -14,6 +14,15 @@ export const useWorkbench = create<WorkbenchStore>((set, get) => ({
   theme: readTheme(),
   navOpen: false,
   changesOpen: false,
+  sessionListFilter: 'active',
+  projectQuery: '',
+  collapsedProjects: {},
+  setProjectQuery: (projectQuery) => set({ projectQuery }),
+  toggleProject: (id) =>
+    set((state) => ({
+      collapsedProjects: { ...state.collapsedProjects, [id]: !state.collapsedProjects[id] },
+    })),
+  setSessionListFilter: (sessionListFilter) => set({ sessionListFilter }),
   setScene: (scene) =>
     set({
       scene,

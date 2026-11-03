@@ -1,0 +1,81 @@
+Window: "Pi Workbench", App: electron.exe.
+	0 窗口 Pi Workbench Secondary Actions: Raise
+		1 窗格 (disabled)
+		2 区域 Pi Workbench
+			3 区域
+				4 区域
+					5 区域
+						6 按钮 最小化
+						7 按钮 最大化
+						8 按钮 关闭
+					9 区域
+						10 区域
+							11 区域
+								12 区域
+									13 文档 Pi Workbench Value: http://127.0.0.1:5173/ ID: RootWebArea
+										14 组 ID: root
+											15 标题 桌面控制栏
+												16 按钮 (disabled) 后退
+												17 按钮 (disabled) 前进
+												18 导航 应用菜单
+													19 按钮 文件
+													20 按钮 编辑
+													21 按钮 视图
+													22 按钮 帮助
+												23 文本 Pi Workbench
+											24 导航 工作台导航
+												25 链接 打开工作台 Description: 工作台 Value: http://127.0.0.1:5173/
+												26 链接 打开设置 Description: 设置 Value: http://127.0.0.1:5173/?settings=appearance
+											31 补充 项目与会话
+												32 文本 π
+												33 文本 Pi Workbench
+												34 按钮 收起导航
+												35 导航
+													36 按钮 新会话
+													37 链接 打开工作区 Value: http://127.0.0.1:5173/?workspaces
+												38 文本 会话
+												39 切换按钮 已归档
+												42 文本 项目
+												43 按钮 新建项目
+												44 区域 最近无项目会话
+													45 文本 最近 · 无项目
+													78 按钮 你 · 原生恢复验收 🧪 Description: 你 · 原生恢复验收 🧪
+													79 按钮 会话菜单：你 · 原生恢复验收 🧪 ID: base-ui-_r_7_
+													80 按钮 乙 原生重命名验收 Description: 乙 原生重命名验收
+													81 按钮 会话菜单：乙 原生重命名验收 ID: base-ui-_r_c_
+												47 链接 旧 pi 历史 · 只读 Value: http://127.0.0.1:5173/?legacy
+												48 链接 模型与提供商 Value: http://127.0.0.1:5173/?models
+												49 链接 设置 Value: http://127.0.0.1:5173/?settings=appearance
+												50 链接 离线状态样本 Value: http://127.0.0.1:5173/?samples
+											51 主要
+												52 章节标题
+													53 文本 新会话
+													54 文本 无项目 · 独立目录（首次发送时创建）
+												55 标题 今天想完成什么？
+												56 文本 先描述任务，项目可选。首次发送后才保存会话。
+												57 文本 默认离线 · 真实模型传输关闭
+												58 组
+												59 文本 项目
+												60 组合框 (settable, string) 项目 Value: 无项目 ID: session-project
+												61 文本 模型
+												62 组合框 (settable, string) 模型 Value: 离线验收模型 · pi SDK 本地夹具 ID: session-model
+												63 详细信息
+													64 开合三角标记 执行目录：独立目录
+														65 文本 执行目录：
+														66 文本 独立目录
+												67 文本 离线验收：固定样本回复，思考关闭，不执行工具或扩展。
+												68 组
+													69 编辑 (settable, string) 任务内容 Description: 描述任务，或提出一个问题…
+													70 组
+														71 文本 无项目
+														72 按钮 (disabled) 发送任务
+												73 文本 Enter 发送 · Shift+Enter 换行
+												74 文本 费用未知 · 未调用真实提供商
+												75 章节页脚
+													76 文本 桌面已授权
+													77 文本 真实传输关闭
+								30 区域
+
+Document text: ```
+任务内容
+```

@@ -1,0 +1,55 @@
+{
+  "feature": "WS-02",
+  "at": "2026-11-03T11:53:18.337Z",
+  "passed": true,
+  "source": "Actual native Electron + Microsoft Pinyin SendInput; actual daemon SQLite, filesystem and pi SDK/local HTTP fixtures; no route interception or provider requests",
+  "steps": 25,
+  "firstId": "6c29c258-3ca6-4412-8751-853028900cc9",
+  "secondId": "166435f2-7e94-4856-b021-8c9c036198b0",
+  "checked": [
+    "recent explicit-open order",
+    "rename and validation do not reorder",
+    "prefill/cancel and real IME Enter/Escape/Space",
+    "actual SQLite failure retains edits",
+    "remove retains file/session/project/name/current view/background PID",
+    "missing path diagnostic",
+    "unintercepted Windows folder picker only fills input",
+    "explicit same-identity relocation keeps recency and existing cwd",
+    "explicit view switch preserves background task",
+    "full restart persistence",
+    "hidden record reopens with same identity/custom name",
+    "restart no kernels/no replay",
+    "post-stop SDK history unchanged through restart",
+    "two normal menu exits",
+    "configuration and canonical budget unchanged"
+  ],
+  "backgroundPid": 15848,
+  "normalRuns": [
+    {
+      "log": "native.log",
+      "exitCode": 0,
+      "seedPrompts": 0,
+      "fixturePrompts": 3,
+      "uiPrompts": 0
+    },
+    {
+      "log": "native-restart.log",
+      "exitCode": 0,
+      "seedPrompts": 0,
+      "fixturePrompts": 0,
+      "uiPrompts": 0
+    }
+  ],
+  "preservedHistoryHashes": {
+    "006d99de-45d7-4642-895a-741a68db8ead\\cfeeb7f8-8e8d-47f8-a45e-8d0e88cccd2c\\sessions\\2026-11-03T11-16-51-168Z_01a1a120-4d60-72d9-a1db-9cc67f2cf1a7.jsonl": "021f51e44385824d27469b32d27c25e78338a8e4dc7282cfb8ee5e2ba1f07c57"
+  },
+  "budgetSha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "lockSha256": "d9d46d301907ef4d86e5c53de3eca57433f5978ebf1e6547f8d094f50a60b40a",
+  "realProviderRequests": 0,
+  "limitations": [
+    "n + Return committed literal n; Space selected Chinese 你. Literal suffix was entered with type_text, not IME.",
+    "First hold returned terminated after about 300 seconds during the long native run. Later local fixture starts were explicit, the final hold was explicitly aborted before exit; evidence does not claim one continuous task across all steps.",
+    "Initial windowsHide launch had no targetable visible window and was closed as an owned harness process, not counted as a normal menu exit. Its seed prompt was local; subsequent normal runs reused its data without reseeding.",
+    "CI folder-picker return values use fixtures; native workflow used the real Windows picker. Desktop packaging and independent web workspace controls remain deferred."
+  ]
+}
