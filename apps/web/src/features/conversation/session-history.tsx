@@ -186,16 +186,9 @@ export function SessionHistory({ sessionId }: { sessionId: string }) {
       return historyPageSchema.parse(await response.json())
     },
   })
-  useEffect(() => {
-    const system = matchMedia('(prefers-color-scheme: dark)')
-    const apply = () => document.documentElement.classList.toggle('dark', system.matches)
-    apply()
-    system.addEventListener('change', apply)
-    return () => system.removeEventListener('change', apply)
-  }, [])
   const page = history.data
   return (
-    <main className="mx-auto flex h-dvh max-w-4xl flex-col gap-4 p-4 sm:p-6">
+    <main className="mx-auto flex h-full max-w-4xl flex-col gap-4 p-4 sm:p-6">
       <h1>会话历史与恢复 · 只读</h1>
       <p>
         {page

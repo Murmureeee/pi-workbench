@@ -29,6 +29,13 @@
       "when": 1793609651034,
       "tag": "0003_workspace_identity",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1793636376769,
+      "tag": "0004_session_creation",
+      "breakpoints": true
     }
   ]
 }

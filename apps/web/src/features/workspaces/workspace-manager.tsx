@@ -14,12 +14,6 @@ import { Separator } from '@pi-workbench/ui/components/separator'
 
 import { workspaceCommand } from '../../services/workspace-client.js'
 
-declare global {
-  interface Window {
-    piWorkbench?: { selectDirectory: () => Promise<unknown> }
-  }
-}
-
 /** Real desktop workspace selection, separate from OPS-01 sample conversations. Each request
  * owns a view generation: late results can register metadata but cannot replace a newer view.
  * Unmounting or switching never sends abort/dispose and never creates an SDK session.
@@ -132,7 +126,7 @@ export function WorkspaceManager() {
     }
   }
   return (
-    <main className="mx-auto flex h-dvh max-w-6xl flex-col gap-5 overflow-y-auto p-5 sm:p-8">
+    <main className="mx-auto flex h-full max-w-6xl flex-col gap-5 overflow-y-auto p-5 sm:p-8">
       <header className="flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-col gap-1">
           <h1 className="text-xl font-semibold">工作区</h1>

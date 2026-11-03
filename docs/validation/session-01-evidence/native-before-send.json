@@ -1,0 +1,12 @@
+{
+  "stage": "before-first-send-after-ime",
+  "sessions": {
+    "count": 0
+  },
+  "submissions": {
+    "count": 0
+  },
+  "runtimes": {
+    "count": 0
+  }
+}

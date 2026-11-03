@@ -11,7 +11,8 @@ import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
 import { AccessService } from '../apps/daemon/dist/modules/security/access.service.js'
 import { hostAccessRequestSchema } from '../packages/shared/dist/index.js'
 
-test('Electron isolates the renderer and close hides the window until explicit quit', async () => {
+test('Electron native chrome, settings navigation, theme and isolated renderer retain tray lifecycle', async () => {
+  const directory = mkdtempSync(join(tmpdir(), 'piw-desktop-chrome-'))
   const requireDesktop = createRequire(resolve('apps/desktop/package.json'))
   const electronPath: unknown = requireDesktop('electron')
   if (typeof electronPath !== 'string') {
@@ -25,7 +26,7 @@ test('Electron isolates the renderer and close hides the window until explicit q
   delete environment.ELECTRON_RUN_AS_NODE
   const desktop = await electron.launch({
     executablePath: electronPath,
-    args: [resolve('apps/desktop')],
+    args: [resolve('apps/desktop'), `--user-data-dir=${join(directory, 'profile')}`],
     env: environment,
   })
   try {
@@ -45,6 +46,118 @@ test('Electron isolates the renderer and close hides the window until explicit q
       return app.getAppMetrics().find((metric) => metric.pid === pid)
     })
     expect(renderer?.sandboxed).toBe(true)
+    const errors: string[] = []
+    page.on('pageerror', (error) => errors.push(error.message))
+    await expect(page.getByRole('banner', { name: '桌面控制栏' })).toBeVisible()
+    await page.getByRole('textbox', { name: '任务内容' }).fill('原生菜单导航保留草稿')
+    // CDP keyboard input does not dispatch Windows menu accelerators. Invoke the installed
+    // native command here; the actual Ctrl+, shortcut is checked with Windows input separately.
+    await desktop.evaluate(({ Menu }) => {
+      const item = Menu.getApplicationMenu()?.getMenuItemById('open-settings')
+      if (!item) {
+        throw new Error('Missing native settings command')
+      }
+      Reflect.apply(item.click, item, [])
+    })
+    await expect(page.getByRole('heading', { name: '外观', exact: true })).toBeVisible()
+    await page.getByLabel('外观主题').selectOption('system')
+    await page.emulateMedia({ colorScheme: null })
+    // Emulate the app's native system-theme signal without changing Windows settings.
+    await desktop.evaluate(({ nativeTheme }) => {
+      nativeTheme.themeSource = 'light'
+    })
+    await expect(page.locator('html')).not.toHaveClass(/dark/)
+    await desktop.evaluate(({ nativeTheme }) => {
+      nativeTheme.themeSource = 'dark'
+    })
+    await expect(page.locator('html')).toHaveClass(/dark/)
+    await expect
+      .poll(() =>
+        desktop.evaluate(({ BrowserWindow }) =>
+          BrowserWindow.getAllWindows()[0]?.getBackgroundColor(),
+        ),
+      )
+      .toBe('#202020')
+    await desktop.evaluate(({ nativeTheme }) => {
+      nativeTheme.themeSource = 'system'
+    })
+    await page.getByLabel('外观主题').selectOption('light')
+    await expect
+      .poll(() =>
+        desktop.evaluate(({ BrowserWindow }) =>
+          BrowserWindow.getAllWindows()[0]?.getBackgroundColor(),
+        ),
+      )
+      .toBe('#F3F4F5')
+    await desktop.evaluate(({ BrowserWindow }) =>
+      BrowserWindow.getAllWindows()[0]?.setSize(1920, 1080),
+    )
+    await page.screenshot({
+      path: `${process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'}/settings-electron-light.png`,
+      animations: 'disabled',
+    })
+    await page.getByRole('button', { name: '后退', exact: true }).click()
+    await expect(page.getByRole('textbox', { name: '任务内容' })).toHaveValue(
+      '原生菜单导航保留草稿',
+    )
+    await page.getByRole('button', { name: '前进', exact: true }).click()
+    await expect(page.getByRole('heading', { name: '外观', exact: true })).toBeVisible()
+    await page.getByLabel('外观主题').selectOption('dark')
+    await expect
+      .poll(() =>
+        desktop.evaluate(({ BrowserWindow }) =>
+          BrowserWindow.getAllWindows()[0]?.getBackgroundColor(),
+        ),
+      )
+      .toBe('#202020')
+    await desktop.evaluate(({ BrowserWindow }) =>
+      BrowserWindow.getAllWindows()[0]?.setSize(800, 720),
+    )
+    await page.screenshot({
+      path: `${process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'}/settings-electron-dark-800.png`,
+      animations: 'disabled',
+    })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    expect(
+      await page.evaluate(async () => {
+        const bridge: unknown = Reflect.get(window, 'piWorkbench')
+        const setTheme: unknown =
+          bridge && typeof bridge === 'object' ? Reflect.get(bridge, 'setTheme') : null
+        if (typeof setTheme !== 'function') {
+          throw new Error('Missing fixed theme bridge')
+        }
+        const result: unknown = await Reflect.apply(setTheme, undefined, ['arbitrary-color'])
+        return result
+      }),
+    ).toBe(false)
+    // A second sandboxed window cannot control the original window, even at the same URL.
+    expect(
+      await desktop.evaluate(async ({ BrowserWindow }, preload) => {
+        const original = BrowserWindow.getAllWindows()[0]
+        if (!original) {
+          throw new Error('Missing original window')
+        }
+        const other = new BrowserWindow({
+          show: false,
+          webPreferences: {
+            preload,
+            sandbox: true,
+            contextIsolation: true,
+            nodeIntegration: false,
+          },
+        })
+        try {
+          await other.loadURL('http://127.0.0.1:5173')
+          const result: unknown = await other.webContents.executeJavaScript(
+            'window.piWorkbench.setTheme("light")',
+          )
+          return result
+        } finally {
+          other.destroy()
+        }
+      }, resolve('apps/desktop/dist/preload.cjs')),
+    ).toBe(false)
+    expect(errors).toEqual([])
     await desktop.evaluate(({ BrowserWindow }) => {
       const window = BrowserWindow.getAllWindows()[0]
       if (!window) {
@@ -65,6 +178,7 @@ test('Electron isolates the renderer and close hides the window until explicit q
     })
   } finally {
     await desktop.close()
+    rmSync(directory, { recursive: true, force: true })
   }
 })
 
@@ -177,6 +291,7 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
       animations: 'disabled',
     })
     await page.goto('http://127.0.0.1:5173/')
+    await page.getByRole('link', { name: '设置', exact: true }).click()
     await page.getByRole('link', { name: '资源信任', exact: true }).click()
     await expect(page.getByRole('heading', { name: '项目与资源信任' })).toBeVisible()
     await expect(page.getByLabel('信任记录')).toContainText('尚无信任记录')

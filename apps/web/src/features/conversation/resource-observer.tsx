@@ -1,10 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
 
 import { resourceSnapshotSchema } from '@pi-workbench/shared'
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
 import { Badge } from '@pi-workbench/ui/components/badge'
-import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
+import { Button } from '@pi-workbench/ui/components/button'
 
 const reasons = {
   'kernel-limit': '内核名额已满，等待空闲内核释放',
@@ -48,23 +47,13 @@ export function ResourceObserver() {
     retry: false,
     refetchInterval: 1000,
   })
-  useEffect(() => {
-    const media = matchMedia('(prefers-color-scheme: dark)')
-    const apply = () => document.documentElement.classList.toggle('dark', media.matches)
-    apply()
-    media.addEventListener('change', apply)
-    return () => media.removeEventListener('change', apply)
-  }, [])
   const data = resources.data
   const queued = data?.queue.filter((item) => item.stage === 'queued') ?? []
   return (
-    <main className="mx-auto flex min-h-dvh max-w-4xl flex-col gap-4 p-6">
+    <main className="settings-page">
       <h1>资源运行状态 · 只读</h1>
       <p>真实 SDK + 本地模型夹具；真实提供商与工具执行禁用。</p>
       <div className="flex flex-wrap gap-2">
-        <a className={buttonVariants({ variant: 'outline' })} href="/">
-          返回工作台
-        </a>
         <Button
           variant="outline"
           disabled={resources.isFetching}

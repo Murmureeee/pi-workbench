@@ -1,0 +1,49 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:31028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:22556) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\session-creation.spec.ts:84:1 › SESSION-01 Electron drafts, composition Enter, durable first send and continuing the same session (10.9s)
+
+
+  1) e2e\session-creation.spec.ts:84:1 › SESSION-01 Electron drafts, composition Enter, durable first send and continuing the same session 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('执行目录：C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-ui-cuLHam\\draft-directory', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('执行目录：C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-ui-cuLHam\\draft-directory', { exact: true }) with timeout 5000ms
+      - waiting for getByText('执行目录：C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-ui-cuLHam\\draft-directory', { exact: true })
+
+
+      138 |     await page.getByRole('button', { name: '新会话', exact: true }).click()
+      139 |     await expect(box).toHaveValue('新会话独立草稿')
+    > 140 |     await expect(page.getByText(`执行目录：${draftDirectory}`, { exact: true })).toBeVisible()
+          |                                                                             ^
+      141 |     await page.reload()
+      142 |     await expect(box).toHaveValue('新会话独立草稿')
+      143 |     await expect(page.getByText(`执行目录：${draftDirectory}`, { exact: true })).toBeVisible()
+        at D:\Project\pi-workbench\e2e\session-creation.spec.ts:140:77
+
+    Error Context: test-results\session-creation-SESSION-0-0e5c9-continuing-the-same-session\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-creation-SESSION-0-0e5c9-continuing-the-same-session\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\session-creation-SESSION-0-0e5c9-continuing-the-same-session\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\session-creation.spec.ts:84:1 › SESSION-01 Electron drafts, composition Enter, durable first send and continuing the same session 

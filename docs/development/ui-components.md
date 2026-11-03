@@ -24,6 +24,8 @@ shadcn/ui 按源码分发：通过官方 CLI 将组件加入项目，由项目�
 | 新会话空状态、加载状态   | 页面 HTML 和布局样式                                  | 正式实现优先使用 Empty / Spinner / Skeleton，按真实状态选择                                                    |
 | 命令与 Diff 样本         | 自定义 pre                                            | 应复用 CodeBlock；正式 Diff 的比较、定位和交互按 CHANGE 功能评估专用渲染器                                     |
 
+2026-11-02 的 Electron 控制栏与统一设置复用现有 Button / buttonVariants、Field / FieldContent / FieldDescription、Input、Separator、Alert 与 Badge，未增加依赖或自制公共 primitive。设置分类是业务导航的普通链接，窄窗使用横向滚动；菜单使用 Electron 原生 Menu，窗口按钮由 Windows 原生 overlay 提供。外观主题沿用原生 select；后续按上表统一采用官方选择组件。布局与中性灰通过现有 tokens / 应用 CSS 调整，主题展示小图只作预览，不是可交互控件。设置仍调用原 daemon 服务，不接入示例 AI transport。
+
 这些组件的存在或 UI 结构的调整不代表真实会话、权限、工具、快照或回滚已经完成。当前产品进度以 backlog 为准。
 
 CORE-05 的 `?observe=<sessionId>` 是独立只读观察页，复用现有 Alert / Button / Bubble，展示实际 REST / WS 投影；工具结果暂用安全纯文本 `pre`，没有另造基础组件。普通 Conversation 的 Trace 仍为离线样本；完整 OBS 工具组合、历史滚动 / 分页与正式会话 UI 继续按各自功能验收，不能因观察通道完成提前勾选。
@@ -39,6 +41,8 @@ SEC-08 的 `?clients` 及 ClientAccess 复用官方 Field / FieldLabel、Input�
 SEC-07 的 `?trust` 从侧栏设置区进入，复用既有官方 Field / FieldLabel、Input、Alert、Badge、Button 和 Separator，没有新 primitive 或依赖。资源来源、影响、指纹、不可执行状态和逐项预览 / 确认 / 撤销由业务 feature 组合；同一 daemon 决定实际加载。确认面板保留打开时的版本，旧预览不能确认新内容；请求失败保留旧数据并禁用决定，跨目录迟到结果不串页。实际 Chrome / Electron 检查明暗、1080p / 390px、纯文本预览、键盘焦点恢复及长列表滚动。保存信任不表示扩展、脚本或生产审批已开放。
 
 WS-01 的 Electron 工作区页复用上述 Field / FieldLabel、Input、Alert、Badge、Button、Separator 和既有 Lucide 图标，没有增加自制 primitive 或依赖。目录输入、可取消的原生选择器、本窗口切换、诊断与信任入口属于 feature 组合；规范化和身份去重由 daemon 决定。工作区模块按需加载，不加重初始离线对话包；迟到请求按视图版本隔离。原生选择器经固定 preload 桥调用，独立网页显示桌面入口提示并禁用操作。
+
+MODEL-01 的 Electron `?models` 页复用现有 Field / FieldGroup / FieldLabel、Input、Alert、Badge、Button / buttonVariants、Separator 和 Lucide，未新增 primitive 或 UI 依赖。已通过官方 CLI 查询并读取 Base UI 的上述组件文档，沿用本地 base-nova 源码与语义 tokens。来源 / 本地认证 / 未联网验证分开展示；SDK 能力和诊断由 daemon 提供，不接入示例 AI transport。本地搜索、单个“仅看已有配置”切换、提供商及模型分批展开属于 feature 组合；刷新失败保留旧值并标明失效。实际 Electron 验证明暗、1920×1080 / 800px、键盘焦点、长列表与迟到响应，原生菜单另经 Windows 实际操作。模型选择与会话发送仍由对应功能接入，网页独立功能暂缓。
 
 ## AI Elements 如何接入
 

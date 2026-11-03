@@ -74,6 +74,12 @@ function classify(error: unknown, stage: 'resolve' | 'read' | 'write'): Workspac
 export class WorkspaceService {
   constructor(private readonly database: WorkspaceDatabase) {}
 
+  /** Display metadata only; callers must validate identity/access before execution. */
+  lookup(id: string) {
+    const row = this.database.db.select().from(workspaces).where(eq(workspaces.id, id)).get()
+    return row ? { id: row.id, canonicalPath: row.canonicalPath, name: row.name } : undefined
+  }
+
   /** Failed validation never changes the registry. No global active workspace is stored:
    * selection belongs to each client view and cannot interrupt another view's running task.
    */

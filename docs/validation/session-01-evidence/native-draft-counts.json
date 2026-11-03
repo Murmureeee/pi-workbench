@@ -1,0 +1,19 @@
+{
+  "stage": "after-new-draft-and-settings-return",
+  "note": "The attempted Ctrl+R did not establish reload because this app does not register it. Actual reload coverage is recorded in Electron E2E, not this native count.",
+  "sessions": {
+    "count": 1
+  },
+  "submissions": [
+    {
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "status": "completed",
+      "text": null
+    },
+    {
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "status": "completed",
+      "text": null
+    }
+  ]
+}

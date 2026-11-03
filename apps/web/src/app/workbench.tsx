@@ -50,32 +50,12 @@ export function Workbench() {
       applyFixture(fixture.data)
     }
   }, [fixture.data, applyFixture])
-  useEffect(() => {
-    const system = matchMedia('(prefers-color-scheme: dark)')
-    const apply = () =>
-      document.documentElement.classList.toggle(
-        'dark',
-        theme === 'dark' || (theme === 'system' && system.matches),
-      )
-    apply()
-    system.addEventListener('change', apply)
-    return () => system.removeEventListener('change', apply)
-  }, [theme])
   return (
     <div className="workbench-root">
       <div className="development-bar">
         <Badge variant="outline">OPS-01 离线基础壳</Badge>
         <span className="development-note">假内核样本，不调用提供商</span>
         <div className="development-controls">
-          <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?clients">
-            客户端连接
-          </a>
-          <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?credentials">
-            凭证与隐私
-          </a>
-          <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?resources">
-            资源状态
-          </a>
           <label>
             <span className="sr-only">离线状态样本</span>
             <select
@@ -154,13 +134,22 @@ export function Workbench() {
             </Button>
           </div>
           <div className="sidebar-footer">
+            {window.piWorkbench ? (
+              <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?models">
+                模型与提供商
+              </a>
+            ) : null}
             <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?trust">
               资源信任
             </a>
-            <Button variant="ghost" disabled title="完整设置按 M4 / M5 接入，上方可切换主题">
+            <a
+              className={buttonVariants({ variant: 'ghost' })}
+              href="/?settings=appearance"
+              data-settings-trigger
+            >
               <SettingsIcon data-icon="inline-start" />
               设置
-            </Button>
+            </a>
             <span>本地工作台</span>
           </div>
         </aside>

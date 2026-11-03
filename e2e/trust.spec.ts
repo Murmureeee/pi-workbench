@@ -81,7 +81,9 @@ test('SEC-07 actual UI reviews sources, confirms per version, persists across re
     await page.getByRole('button', { name: '确认信任此版本', exact: true }).click()
     await expect(page.getByLabel('信任记录')).toContainText('已记录 · 每轮核验')
     await expect(page.getByLabel('发现的资源')).toContainText('下轮可加载')
-    await page.getByRole('main').evaluate((element) => element.scrollTo(0, 0))
+    await page
+      .getByRole('region', { name: '设置内容', exact: true })
+      .evaluate((element) => element.scrollTo(0, 0))
     await page.screenshot({
       path: `${evidence}/trust-light.png`,
       animations: 'disabled',
@@ -98,8 +100,9 @@ test('SEC-07 actual UI reviews sources, confirms per version, persists across re
     await page.getByRole('button', { name: '展开导航', exact: true }).click()
     await page.getByRole('link', { name: '资源信任', exact: true }).click()
     await expect(page.getByLabel('信任记录')).toContainText('已撤销')
-    await page.getByRole('main').evaluate((element) => element.scrollBy(0, 10000))
-    expect(await page.getByRole('main').evaluate((element) => element.scrollTop)).toBeGreaterThan(0)
+    const settingsContent = page.getByRole('region', { name: '设置内容', exact: true })
+    await settingsContent.evaluate((element) => element.scrollBy(0, 10000))
+    expect(await settingsContent.evaluate((element) => element.scrollTop)).toBeGreaterThan(0)
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await page.screenshot({ path: `${evidence}/trust-dark-390.png`, animations: 'disabled' })
     expect(errors).toEqual([])

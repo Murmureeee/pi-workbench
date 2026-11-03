@@ -23,15 +23,8 @@ export function RuntimeObserver({ sessionId }: { sessionId: string }) {
     observer.connect()
     return () => observer.disconnect()
   }, [sessionId])
-  useEffect(() => {
-    const media = matchMedia('(prefers-color-scheme: dark)')
-    const apply = () => document.documentElement.classList.toggle('dark', media.matches)
-    apply()
-    media.addEventListener('change', apply)
-    return () => media.removeEventListener('change', apply)
-  }, [])
   return (
-    <main className="mx-auto flex h-dvh max-w-4xl flex-col gap-4 overflow-auto p-6">
+    <main className="mx-auto flex h-full max-w-4xl flex-col gap-4 overflow-auto p-6">
       <h1>会话实时观察 · 只读</h1>
       <p>
         {view.snapshot?.source === 'synthetic-ipc-fixture'

@@ -54,6 +54,10 @@ pi-workbench/
 
 上述顶层目录已经建立；app 内部的 app / features / services / stores 和 infrastructure 等仍是逐步实现的职责分区，不表示所有模块已有实现。实际已建立三个应用及 shared / agent-adapter / ui / config；`packages/ledger` 在 M3 随账本生产化创建，公共 `fixtures` 仅在有跨包样本复用时建立。终端在 M4，desktop 的完整产品行为按 UX-05 在 M2 验收，不建立空实现冒充完成。
 
+MODEL-01 已落在 `apps/daemon/src/modules/models`：通过公开 SecurityService 元数据和 agent-adapter 的 SDK 目录读取组合结果，不直接操作凭证文件或其他模块私有存储。纯 Zod 契约在 shared，SDK 公共 API 隔离在 `packages/agent-adapter/src/model-discovery.ts`，Electron / web 共享展示在 `apps/web/src/features/settings/model-discovery.tsx`，请求在 services；桌面仅增加原生菜单导航。此边界不表示已支持模型配置写入、真实提供商请求或独立网页流程。
+
+SESSION-01 的 `SessionService` / `session-command.transport` 归 daemon sessions 模块；最小 `ProjectService` 归 workspaces，通过 WorkspaceService 复核目录，不能直接使用其他模块私有表。SessionStore 独占创建索引、配置和提交 outbox，SDK JSONL 保持已提交正文真源，调度 / 中止仍经 KernelService。共享会话契约放 `packages/shared/src/session-contracts.ts`；Electron 默认复用 web 的 `SessionWorkbench` / `ManagedThread`，客户端请求在 services、每窗口草稿在 stores。renderer 不持有 SDK、数据库或目录 IO；desktop 继续只负责原生壳和最小桥接。公开浏览器和桌面 `?samples` 使用原离线样本；会话写入口只授权 desktop。
+
 规划文档归入 docs，生成器归入 scripts/planning，设计稿资源与截图分别归入 docs/design/assets 和 screenshots。M0 必要验收报告 / 原预算归入 docs/validation/m0-evidence，固定回归录制归入 packages/agent-adapter/test/contracts/recordings；本机原始 spikes 整个目录不提交，也不作为运行 / 构建 / 测试 / 文档预览的前置。根目录仅保留入口和工程配置，完整索引及生成 / 预览规则见 [docs/README.md](../README.md)。整理不改变验收状态或原始证据字节。
 
 agent-adapter 包集中维护内部执行守卫及动态工具包装入口；实现时保持 CORE-02 的真实约束，不因把代码称为 extension 就依赖普通 tool_call 顺序。对外导出宿主接口，子进程入口独立构建，不引入 NestJS。

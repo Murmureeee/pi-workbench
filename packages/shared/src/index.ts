@@ -72,3 +72,32 @@ export {
   workspaceValidateSchema,
 } from './workspace-contracts.js'
 export type { DirectorySelection, Workspace, WorkspaceResult } from './workspace-contracts.js'
+export { modelCatalogSchema, modelFileStateSchema } from './model-contracts.js'
+export type { ModelCatalog, ModelProvider } from './model-contracts.js'
+export { desktopMenuSchema, desktopPageSchema, desktopThemeSchema } from './desktop-contracts.js'
+export type { DesktopBridge, DesktopPage, DesktopTheme } from './desktop-contracts.js'
+export {
+  managedSessionSchema,
+  projectCreateSchema,
+  projectSchema,
+  sessionConfigurationSchema,
+  sessionListSchema,
+  sessionModelSchema,
+  sessionOptionsSchema,
+  sessionReceiptSchema,
+  sessionSubmitSchema,
+  submissionListSchema,
+  submissionSchema,
+} from './session-contracts.js'
+export type {
+  ManagedSession,
+  Project,
+  SessionConfiguration,
+  SessionModel,
+  SessionOptions,
+  SessionReceipt,
+  SessionSubmission,
+  SessionSubmit,
+} from './session-contracts.js'
+export { sessionDraftSchema, sessionDraftCollectionSchema } from './session-contracts.js'
+export type { SessionDraft } from './session-contracts.js'

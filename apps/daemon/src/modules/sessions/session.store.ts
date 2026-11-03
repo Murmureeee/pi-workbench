@@ -1,6 +1,14 @@
 import type { WorkspaceDatabase } from '../../infrastructure/database/database.js'
-import type { HistoryDiagnostic, HistoryMessage, RuntimeSnapshot } from '@pi-workbench/shared'
+import type {
+  HistoryDiagnostic,
+  HistoryMessage,
+  ManagedSession,
+  RuntimeSnapshot,
+  SessionSubmission,
+  SessionSubmit,
+} from '@pi-workbench/shared'
 
+import { randomUUID } from 'node:crypto'
 import {
   closeSync,
   existsSync,
@@ -29,16 +37,20 @@ import {
   historyPageSchema,
   historyPageSize,
   historyPreviewBytes,
+  managedSessionSchema,
   queueRecordSchema,
   runtimeSnapshotSchema,
+  submissionSchema,
 } from '@pi-workbench/shared'
 
 import {
   sessionApprovals,
   sessionChanges,
+  sessionConfigurations,
   sessionQueue,
   sessionRuntimes,
   sessions,
+  sessionSubmissions,
   sessionTurns,
 } from '../../infrastructure/database/schema.js'
 
@@ -69,10 +81,199 @@ export class SessionStore {
     private readonly dataDir: string,
   ) {
     this.recoverRecords()
+    this.recoverSubmissions()
   }
 
   list() {
     return this.database.db.select().from(sessions).orderBy(asc(sessions.createdAt)).all()
+  }
+
+  managedSessions(): ManagedSession[] {
+    return this.database.db
+      .select()
+      .from(sessionConfigurations)
+      .all()
+      .map((row) => {
+        const session = this.database.db
+          .select()
+          .from(sessions)
+          .where(eq(sessions.id, row.sessionId))
+          .get()
+        if (!session) {
+          throw new Error('Session configuration lost its index')
+        }
+        return managedSessionSchema.parse({
+          id: session.id,
+          cwd: session.cwd,
+          createdAt: session.createdAt,
+          title: row.title,
+          titleSource: 'local',
+          titleVersion: 1,
+          creationRequestId: row.creationRequestId,
+          workspaceId: row.workspaceId,
+          configuration: this.parse(row.configuration),
+        })
+      })
+  }
+
+  submission(requestId: string) {
+    return this.database.db
+      .select()
+      .from(sessionSubmissions)
+      .where(eq(sessionSubmissions.requestId, requestId))
+      .get()
+  }
+
+  submissions(sessionId: string): SessionSubmission[] {
+    const history = this.load(sessionId)
+    return this.database.db
+      .select()
+      .from(sessionSubmissions)
+      .where(eq(sessionSubmissions.sessionId, sessionId))
+      .orderBy(asc(sessionSubmissions.createdAt), asc(sessionSubmissions.requestId))
+      .all()
+      .map((row) => {
+        const native = history.messages.find(
+          ({ message }) =>
+            message.turnId === row.turnId &&
+            message.role === 'user' &&
+            message.origin === 'sdk-jsonl',
+        )
+        const { digest: _digest, ...visible } = row
+        return submissionSchema.parse({
+          ...visible,
+          text: row.text ?? native?.text() ?? '原生输入暂不可读，请检查历史诊断。',
+        })
+      })
+  }
+
+  receipt(requestId: string) {
+    const row = this.submission(requestId)
+    if (!row) {
+      return undefined
+    }
+    const session = this.managedSessions().find((item) => item.id === row.sessionId)
+    const submission = this.submissions(row.sessionId).find((item) => item.requestId === requestId)
+    if (!session || !submission) {
+      throw new Error('Accepted submission lost its session')
+    }
+    return { session, submission }
+  }
+
+  /** Stable index, configuration and first input commit in one FULL SQLite transaction,
+   * before any SDK startup. A reused request with changed input is never accepted.
+   * Pending text is an outbox, retired only after a matching native user entry is readable.
+   */
+  acceptSubmission(input: SessionSubmit, digest: string, prepared: ManagedSession) {
+    this.assertWritable(prepared.id)
+    return this.database.db.transaction((tx) => {
+      const duplicate = tx
+        .select()
+        .from(sessionSubmissions)
+        .where(eq(sessionSubmissions.requestId, input.requestId))
+        .get()
+      if (duplicate) {
+        if (duplicate.digest !== digest) {
+          throw new Error('Request ID is already bound to different input')
+        }
+        return false
+      }
+      if (
+        tx
+          .select()
+          .from(sessionSubmissions)
+          .where(eq(sessionSubmissions.sessionId, prepared.id))
+          .all()
+          .some((row) => row.status === 'pending' || row.status === 'executing')
+      ) {
+        throw new Error('Session already has an accepted task')
+      }
+      if (!input.sessionId) {
+        tx.insert(sessions)
+          .values({ id: prepared.id, cwd: prepared.cwd, createdAt: prepared.createdAt })
+          .run()
+        tx.insert(sessionConfigurations)
+          .values({
+            sessionId: prepared.id,
+            creationRequestId: input.requestId,
+            projectId: prepared.configuration.projectId,
+            workspaceId: prepared.workspaceId,
+            configuration: JSON.stringify(prepared.configuration),
+            title: prepared.title,
+          })
+          .run()
+      }
+      tx.insert(sessionSubmissions)
+        .values({
+          requestId: input.requestId,
+          sessionId: prepared.id,
+          messageId: randomUUID(),
+          turnId: randomUUID(),
+          digest,
+          text: input.text,
+          retryOf: input.retryOf,
+          status: 'pending',
+          createdAt: Date.now(),
+        })
+        .run()
+      return true
+    })
+  }
+
+  /** Updates an accepted command only. Shutdown may have already closed the store; its
+   * durable active record is then recovered as interrupted, never automatically replayed.
+   */
+  settleSubmission(
+    requestId: string,
+    status: SessionSubmission['status'],
+    error: string | null = null,
+  ): void {
+    if (this.closed) {
+      return
+    }
+    const row = this.submission(requestId)
+    if (!row) {
+      throw new Error('Unknown accepted submission')
+    }
+    const committed = this.load(row.sessionId).messages.some(
+      ({ message }) =>
+        message.turnId === row.turnId && message.role === 'user' && message.origin === 'sdk-jsonl',
+    )
+    this.database.db
+      .update(sessionSubmissions)
+      .set({ status, error, ...(committed ? { text: null } : {}) })
+      .where(eq(sessionSubmissions.requestId, requestId))
+      .run()
+  }
+
+  private recoverSubmissions(): void {
+    for (const row of this.database.db.select().from(sessionSubmissions).all()) {
+      if (!['pending', 'executing'].includes(row.status)) {
+        continue
+      }
+      const native = this.load(row.sessionId).messages.find(
+        ({ message }) =>
+          message.turnId === row.turnId &&
+          message.role === 'assistant' &&
+          message.origin === 'sdk-jsonl' &&
+          ['stop', 'length', 'error', 'aborted'].includes(message.outcome ?? ''),
+      )
+      const status =
+        native?.message.outcome === 'error'
+          ? 'failed'
+          : native?.message.outcome === 'aborted'
+            ? 'aborted'
+            : native
+              ? 'completed'
+              : 'interrupted'
+      this.settleSubmission(
+        row.requestId,
+        status,
+        status === 'interrupted'
+          ? '服务已重启；任务结果待确认，未自动重发。'
+          : (native?.message.error ?? null),
+      )
+    }
   }
 
   /** Register a validated ready handshake before accepting any task. It never loads/resumes SDK. */

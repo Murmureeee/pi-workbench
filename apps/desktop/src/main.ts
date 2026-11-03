@@ -1,14 +1,17 @@
 // @env node
+import type { DesktopPage } from '@pi-workbench/shared'
+
 import { randomUUID } from 'node:crypto'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
-import { app, BrowserWindow, Menu, shell, Tray } from 'electron'
+import { app, BrowserWindow, Menu, nativeTheme, shell, Tray } from 'electron'
 
 import { hostAccessResultSchema } from '@pi-workbench/shared'
 
 import { registerDirectoryPicker } from './directory-picker.js'
 import { trayIcon } from './tray-icon.js'
+import { registerWindowChrome } from './window-chrome.js'
 
 const workbenchUrl = 'http://127.0.0.1:5173'
 let exiting = false
@@ -63,7 +66,14 @@ async function createDesktop() {
     minHeight: 600,
     show: false,
     title: 'Pi Workbench',
-    backgroundColor: '#202020',
+    backgroundColor: nativeTheme.shouldUseDarkColors ? '#202020' : '#f3f4f5',
+    titleBarStyle: 'hidden',
+    titleBarOverlay: {
+      height: 40,
+      color: nativeTheme.shouldUseDarkColors ? '#202020' : '#f3f4f5',
+      symbolColor: nativeTheme.shouldUseDarkColors ? '#ededed' : '#262626',
+    },
+    autoHideMenuBar: true,
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
@@ -88,29 +98,81 @@ async function createDesktop() {
       void openBrowser().catch(() => console.error('Unable to authorize local browser'))
     },
   }
-  Menu.setApplicationMenu(
-    Menu.buildFromTemplate([
-      {
-        label: '工作台',
-        submenu: [
-          browserItem,
-          {
-            label: '打开工作区…',
-            accelerator: 'CmdOrCtrl+O',
-            click: () => {
-              void window.loadURL(`${workbenchUrl}/?workspaces`)
-            },
+  const navigate = (page: DesktopPage) => window.webContents.send('piw:navigate', page)
+  const menu = Menu.buildFromTemplate([
+    {
+      id: 'workbench',
+      label: '文件',
+      submenu: [
+        browserItem,
+        {
+          label: '打开工作区…',
+          accelerator: 'CmdOrCtrl+O',
+          click: () => {
+            navigate('workspaces')
           },
-          {
-            label: '客户端管理',
-            click: () => {
-              void window.loadURL(`${workbenchUrl}/?clients`)
-            },
+        },
+        {
+          label: '客户端管理',
+          click: () => {
+            navigate('clients')
           },
-        ],
-      },
-    ]),
-  )
+        },
+        {
+          label: '模型与提供商',
+          click: () => {
+            navigate('models')
+          },
+        },
+        { type: 'separator' },
+        {
+          id: 'open-settings',
+          label: '设置…',
+          accelerator: 'CmdOrCtrl+,',
+          click: () => navigate('settings'),
+        },
+        { type: 'separator' },
+        { label: '退出应用', click: () => app.quit() },
+      ],
+    },
+    {
+      id: 'edit',
+      label: '编辑',
+      submenu: [
+        { role: 'undo', label: '撤销' },
+        { role: 'redo', label: '重做' },
+        { type: 'separator' },
+        { role: 'cut', label: '剪切' },
+        { role: 'copy', label: '复制' },
+        { role: 'paste', label: '粘贴' },
+        { role: 'selectAll', label: '全选' },
+      ],
+    },
+    {
+      id: 'view',
+      label: '视图',
+      submenu: [
+        { label: '返回工作台', click: () => navigate('workbench') },
+        { label: '设置', click: () => navigate('settings') },
+        { type: 'separator' },
+        { role: 'resetZoom', label: '实际大小' },
+        { role: 'zoomIn', label: '放大' },
+        { role: 'zoomOut', label: '缩小' },
+        { role: 'togglefullscreen', label: '切换全屏' },
+      ],
+    },
+    {
+      id: 'help',
+      label: '帮助',
+      submenu: [
+        { label: 'Pi Workbench · 本地优先工作台', enabled: false },
+        { label: '当前为离线开发预览', enabled: false },
+      ],
+    },
+  ])
+  Menu.setApplicationMenu(menu)
+  window.setMenuBarVisibility(false)
+  registerWindowChrome(window, workbenchUrl, menu)
 
   // The development launcher owns the daemon and stops it after Electron exits.
   try {

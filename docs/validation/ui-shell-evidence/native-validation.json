@@ -1,0 +1,39 @@
+{
+  "date": "2026-11-02",
+  "source": "Actual Windows Electron 45.2.1 development window; Sky native input; fixed preload, private host pairing and local daemon HTTP; PIW_PI_AGENT_DIR unset",
+  "entry": "pnpm dev:desktop; second lifecycle run used pnpm exec node scripts/dev.mjs --desktop with the same built artifacts",
+  "dataDirectory": ".workbench/native-ui-layout",
+  "operations": [
+    "Observed actual light settings window with native minimize/maximize/close caption buttons",
+    "Returned to workbench; native Ctrl+, opened appearance settings",
+    "Clicked native maximize and restore buttons; blank titlebar double-click also maximized",
+    "Opened File native submenu and selected Models and providers; observed unconnected configuration and network-unverified status",
+    "Native Ctrl+, returned from Models to appearance settings",
+    "Selected dark theme through the real combobox using keyboard; renderer, titlebar and native caption symbols updated",
+    "Clicked native minimize; Sky explicitly reported the window was minimized; activate_window restored it",
+    "Clicked native close X; Pi Workbench disappeared from visible windows while launcher 15056 still owned both local service ports and health reported fake kernel / realProviderEnabled false",
+    "Hidden-window activation and system tray targeting were unavailable in Sky; stopped only task-owned Electron child 33596, whose development launcher then exited 0",
+    "Started a fresh task-owned launcher; selected native File > Exit application; launcher 42908 exited 0, both 5173 and 4317 stopped listening, unrelated documentation service 8765 / PID 28820 remained"
+  ],
+  "screenshots": ["native-settings-maximized.jpg", "native-settings-dark.jpg"],
+  "dragObservation": {
+    "method": "Sky drag over blank titlebar on restored window; two observed attempts",
+    "before": { "x": 239, "y": 36 },
+    "after": { "x": 239, "y": 36 },
+    "result": "No position change observed; do not count as passed. Native blank-titlebar double-click did maximize. Actual drag remains for manual confirmation."
+  },
+  "limitations": [
+    "Actual system tray menu recovery was not manually verified; no targetable tray window was returned. Electron E2E separately covers close/hide and app activate recovery.",
+    "No real Chinese IME manual test; automated composition events remain distinct.",
+    "System theme signals were tested inside Electron / browser; Windows system settings were not changed.",
+    "No real session / approval / terminal lifecycle, multi-window product behavior or deep-link acceptance is claimed."
+  ],
+  "afterCloseHealth": { "status": "ok", "kernel": "fake", "storage": "sqlite", "realProviderEnabled": false },
+  "finalLauncherExitCode": 0,
+  "finalProductPortsListening": [],
+  "unrelatedDocsServicePreserved": true,
+  "realProviderRequests": 0,
+  "piConfigurationRead": false,
+  "piConfigurationWritten": false,
+  "packagerRun": false
+}

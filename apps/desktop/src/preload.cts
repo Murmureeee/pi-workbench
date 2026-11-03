@@ -1,4 +1,5 @@
 import electron = require('electron')
+import type { DesktopBridge, DesktopPage } from '@pi-workbench/shared'
 
 const { contextBridge, ipcRenderer } = electron
 
@@ -11,5 +12,20 @@ contextBridge.exposeInMainWorld(
       const result: unknown = await ipcRenderer.invoke('piw:select-directory')
       return result
     },
-  }),
+    openMenu: async (menu): Promise<boolean> => {
+      const result: unknown = await ipcRenderer.invoke('piw:open-menu', menu)
+      return result === true
+    },
+    setTheme: async (theme): Promise<boolean> => {
+      const result: unknown = await ipcRenderer.invoke('piw:theme', theme)
+      return result === true
+    },
+    onNavigate: (receive) => {
+      const listener = (_event: unknown, page: DesktopPage) => receive(page)
+      ipcRenderer.on('piw:navigate', listener)
+      return () => {
+        ipcRenderer.removeListener('piw:navigate', listener)
+      }
+    },
+  } satisfies DesktopBridge),
 )

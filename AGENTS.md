@@ -7,8 +7,9 @@
 - 产品是基于 pi agent 的个人、本地优先编码工作台，Windows 桌面优先，保留共享服务与数据的本机网页入口。参考 Codex、Claude Code、PI-Desktop 的交互与规格，采用独立实现。
 - 首个重点交付目标是 M3：对话、审批、修改审查与回滚闭环。完整本地范围为 M0–M7；M8 是可选候选池，不计入本地完成率。保留所有既有功能与里程碑 ID。
 - **已确认方案、设计覆盖、依赖已安装、实现候选、实际验收是不同状态。** 静态原型、fake kernel、示例数据、SDK API 存在及参考产品源码，都不能证明本产品功能完成。
-- 当前工程具有离线基础壳、CORE-04 受管 SDK 子进程、CORE-05 REST / WS 只读观察 / 重放、CORE-06 原生历史索引 / 检查点恢复、CORE-07 有界资源 / 受管冷恢复、SEC-06 原生凭证边界 / 统一输出脱敏、SEC-07 资源信任及 SEC-08 客户端配对；SDK 使用本地 HTTP 夹具，工具 / 扩展全部禁用，真实提供商仍关闭。`?observe=<sessionId>` 可观察受管运行时或重启后的最新轮次，`?history=<sessionId>` 可只读分页查看历史、恢复记录与诊断，`?resources` 可只读核对资源限额和排队，`?credentials` 仅展示凭证状态，`?clients` 管理本机客户端，侧栏设置区或 `?trust` 检查和管理资源信任；这些实际数据入口须先配对。WS-01 的 Electron 侧栏“打开工作区”或 Ctrl+O 进入 `?workspaces`，原生选择器 / 绝对路径经 daemon 校验，按物理目录复用身份，支持本窗口切换和诊断；不创建会话或自动信任资源。普通工作台尚未接入真实发送。真实产品能力以 backlog 各条验收为准。开发场景中的审批按钮、Diff、工具过程不自动代表真实执行。不要为了演示效果接入绕过 daemon 的模型请求。
-- OPS-08 的 M1 契约基线、CORE-05 双客户端重放及 CORE-06 真实 SDK 本地硬杀 / 持久恢复已接入离线 CI；整体仍为进行中，CORE-07 配额 / 排队 / 取消 / 冷恢复及 SEC-06 凭证 / 分片脱敏、SEC-07 来源 / 指纹 / 撤销、SEC-08 配对 / 撤销、WS-01 目录身份 / Windows ACL / Electron 切换也已接入，M2 真实会话交互与 M3 以后验收须随实现补齐。来源、阶段矩阵及证据见 [工具规范](docs/development/tooling.md)，不能用本地样本通过提前验收对应功能。
+- 当前工程具有离线基础壳、CORE-04 受管 SDK 子进程、CORE-05 REST / WS 只读观察 / 重放、CORE-06 原生历史索引 / 检查点恢复、CORE-07 有界资源 / 受管冷恢复、SEC-06 原生凭证边界 / 统一输出脱敏、SEC-07 资源信任及 SEC-08 客户端配对；SDK 使用本地 HTTP 夹具，工具 / 扩展全部禁用，真实提供商仍关闭。`?observe=<sessionId>` 可观察受管运行时或重启后的最新轮次，`?history=<sessionId>` 可只读分页查看历史、恢复记录与诊断，`?resources` 可只读核对资源限额和排队，`?credentials` 仅展示凭证状态，`?clients` 管理本机客户端，侧栏设置区或 `?trust` 检查和管理资源信任；这些实际数据入口须先配对。WS-01 的 Electron 侧栏“打开工作区”或 Ctrl+O 进入 `?workspaces`，原生选择器 / 绝对路径经 daemon 校验，按物理目录复用身份，支持本窗口切换和诊断；不创建会话或自动信任资源。Electron 默认由 SESSION-01 接入真实 daemon / SDK 的本地夹具发送；浏览器首页及桌面 `?samples` 仍为带来源标记的假内核样本。真实产品能力以 backlog 各条验收为准。开发场景中的审批按钮、Diff、工具过程不自动代表真实执行。不要为了演示效果接入绕过 daemon 的模型请求。
+- OPS-08 的 M1 契约基线、CORE-05 双客户端重放及 CORE-06 真实 SDK 本地硬杀 / 持久恢复已接入离线 CI；整体仍为进行中，CORE-07 配额 / 排队 / 取消 / 冷恢复及 SEC-06 凭证 / 分片脱敏、SEC-07 来源 / 指纹 / 撤销、SEC-08 配对 / 撤销、WS-01 目录身份 / Windows ACL / Electron 切换也已接入。SESSION-01 原子首发 / 幂等 / 失败恢复、真实 Windows 微软拼音及原生 Electron 草稿 / 设置返回 / 目录 / 主题已补证；其余 M2 会话恢复 / 改名 / 业务审批 / 双端重连与 M3 以后验收须随实现补齐。来源、阶段矩阵及证据见 [工具规范](docs/development/tooling.md)，不能用本地样本通过提前验收对应功能。
+- MODEL-01 已接入 Electron 侧栏设置区 / 原生菜单的 `?models`：只读展示安装 SDK 静态目录、显式 PIW_PI_AGENT_DIR 的 auth / models / settings 元数据、模型能力 / 来源 / 默认匹配及本地认证状态，统一脱敏。已配置与未联网验证分开，工作台真实传输仍关闭；不改配置、不执行认证 / 请求头命令、不刷新 OAuth、不恢复动态目录缓存、不加载扩展，也不因其他产品账号推断权益。`GET /api/models` 仅向已配对 desktop 身份开放，网页版独立功能暂缓。模型发现的实际 SDK / HTTP / SQLite 及 Electron / 原生菜单验证已纳入 OPS-08，同一门禁继续保持进行中。
 - 进度从 `docs/product/backlog.json` 的 `features[].progress` 及依赖计算；不要沿用聊天、旧报告或正文中的完成数，也不要发明工时百分比、目标日期或已通过的证据。
 
 ## 2. 开始任务：先定位，再修改
@@ -92,6 +93,10 @@ SEC-08 的 AccessService 仅在宿主内存保存票据 / 客户端哈希映射�
 
 WS-01 的 WorkspaceService 独占目录登记，使用 realpath 和平台 / 设备 / inode / 创建时间校验物理身份，不能简单小写路径。打开 / 切换先检查存在、列目录及独占创建 / 删除 4 字节探针；失败保留旧记录，不创建会话。SQLite 的 workspaces 表只存身份 / 路径 / 显示名，活动选择和本窗口列表属于客户端视图，切换不调用 KernelService.abort / dispose；WS-02 的最近列表 / 自定义名 / 重新定位后续独立验收。sandbox CJS preload 只暴露固定目录选择器，main 核对发送窗口、主 frame 与 Origin；路径仍经已配对的 daemon HTTP 校验。目录可用不等于资源可信、执行权限或以后持续可写，后续实际发送 / 写入须再次检查。网页独立工作区操作暂缓，不以放开 bridge 或 Origin 实现。
 
+MODEL-01 的 ModelService 只通过 SecurityService 读取各自有界、独立的来源元数据，通过 agent-adapter 的公共 ModelRuntime 目录 getter 获取实际能力；源文件读取前后摘要改变则拒绝该次发现。显式无凭证存储、拒绝持久化模型缓存和关闭初始刷新阻止 SDK 默认 auth / 缓存路径；不得用 getAvailable / checkAuth / auth resolver 代替目录读取。auth.json 优先且只检查明确环境引用，其他环境 / 平台认证标为未检查。请求头按 SDK 覆盖顺序检查命令 / 缺失状态，不返回原值。SDK 内置、models.json 定义及 auth.json 状态须分辨，目录存在不代表真实模型授权。SESSION-01 选择 / 发送继续经内核，真实提供商守卫保持关闭，不能绕过费用限制。
+
+SESSION-01 的 `/api/chat` 仅开放已配对 desktop 身份，写请求继续核对 Host / Origin / JSON / CSRF 与协议能力。SessionService 在同一 SQLite 事务中保存稳定 session / request / message / turn、配置和待发送输入，再经 KernelService.prompt 调度；相同 requestId 必须匹配同一不可变输入，先核对已保存结果再检查可变目录。每轮在资源准入前后重新校验工作区，独立目录持久保存且拒绝 standalone 基目录链接逃逸。已提交正文回源 SDK JSONL，SQLite outbox 在匹配 native user entry 后清空。重启 / 结果未知不自动重放，已知失败明确重试生成新请求 / 轮次并关联原任务。桌面 per-window sessionStorage 保留新 / 旧会话各自草稿及未确认请求，同项目新草稿重入保留显式目录，变更项目入口才重置目录覆盖；设置返回记住当前会话，迟到回执不抢页面。当前只有 development 的显式本地夹具可执行；选择现有提供商只保留配置，真实传输继续关闭，不把它静默替换为夹具。项目仅最小创建 / 归属，完整 WS-06、SESSION-02 / 07 / 10 等按各自验收。
+
 ## 5. 不得破坏的产品与运行边界
 
 - **共用权威状态：** 桌面与浏览器连接同一 daemon；UI 展示投影，不自行执行工具或裁决审批。事件身份、会话 / 轮次 / 运行时代际、顺序、重复、缺口重同步、迟到终态与断线恢复按 CORE 验收；不以乐观 UI 当作执行成功。
@@ -135,7 +140,7 @@ WS-01 的 WorkspaceService 独占目录登记，使用 realpath 和平台 / 设�
 | `pnpm fix` | Oxlint 安全修复、import 成员排序、Oxfmt 格式化与配置的排序 |
 | `pnpm check` | 格式、类型感知 lint、tsc、Knip、文档检查；交付前必跑 |
 | `pnpm test` | Vitest 单元 / 服务集成；可用 `pnpm exec vitest run <path>` 定位测试，注意服务测试依赖先构建 |
-| `pnpm test:contracts` | 定向运行纯投影、固定 SDK 录制、IPC、daemon 内核、CORE-05 快照 / 原生 TCP WS、CORE-06 JSONL / 检查点 / 硬杀恢复、CORE-07 资源、SEC-06 凭证 / 脱敏及 SEC-08 配对 / 撤销契约；已包含在完整 test / CI，不新增提供商调用 |
+| `pnpm test:contracts` | 定向运行纯投影、固定 SDK 录制、IPC、daemon 内核、CORE-05 快照 / 原生 TCP WS、CORE-06 JSONL / 检查点 / 硬杀恢复、CORE-07 资源、SEC-06 凭证 / 脱敏、SEC-08 配对 / 撤销、MODEL-01 模型发现及 SESSION-01 原子首发 / 幂等 / 中断契约；已包含在完整 test / CI，不新增提供商调用 |
 | `pnpm smoke:sdk` | 真实 SDK 子进程握手 / 本地夹具 prompt / abort / dispose，无真实提供商请求 |
 | `pnpm test:e2e` | 先构建，再运行本机 Chrome / Electron 用户流程；测试自行启动开发服务 |
 | `pnpm run ci` | 完整离线门禁：check → test → SDK 冒烟 → E2E（含构建） |

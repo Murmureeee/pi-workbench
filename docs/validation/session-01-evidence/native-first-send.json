@@ -1,0 +1,28 @@
+{
+  "stage": "after-first-send",
+  "sessions": [
+    {
+      "id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-01-native\\standalone\\49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "created_at": 1793639073378
+    }
+  ],
+  "submissions": [
+    {
+      "request_id": "200b416e-e367-43ce-ac06-6206fdf9c9aa",
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "message_id": "346a30f2-5f69-4bcf-a830-8ceaf22f3133",
+      "turn_id": "983974ad-6445-44ee-9c8a-f3b1b4d9b810",
+      "status": "completed",
+      "text": null,
+      "retry_of": null
+    }
+  ],
+  "runtimes": [
+    {
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "native_session_id": "01a19d38-4a33-749c-b13d-9f2db5df3019",
+      "source": "real-sdk/local-fixture"
+    }
+  ]
+}

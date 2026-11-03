@@ -6,7 +6,7 @@ import { useEffect, useRef, useState } from 'react'
 import { accessSnapshotSchema } from '@pi-workbench/shared'
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
 import { Badge } from '@pi-workbench/ui/components/badge'
-import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
+import { Button } from '@pi-workbench/ui/components/button'
 import { Field, FieldDescription, FieldGroup, FieldLabel } from '@pi-workbench/ui/components/field'
 import { Input } from '@pi-workbench/ui/components/input'
 import { Separator } from '@pi-workbench/ui/components/separator'
@@ -66,16 +66,12 @@ export function ResourceTrust() {
       reviewPanel.current?.focus()
     }
   }, [resource])
-  useEffect(() => {
-    const media = matchMedia('(prefers-color-scheme: dark)')
-    const apply = () => document.documentElement.classList.toggle('dark', media.matches)
-    apply()
-    media.addEventListener('change', apply)
-    return () => {
-      media.removeEventListener('change', apply)
+  useEffect(
+    () => () => {
       generation.current += 1
-    }
-  }, [])
+    },
+    [],
+  )
   const data = trust.data
   const canDecide = !pending && !trust.isFetching && !trust.isError
   const matchesPreview =
@@ -116,15 +112,12 @@ export function ResourceTrust() {
     }
   }
   return (
-    <main className="mx-auto flex h-dvh max-w-5xl flex-col gap-6 overflow-y-auto p-6">
+    <main className="settings-page">
       <header className="flex flex-col gap-2">
         <h1 className="text-xl font-semibold">项目与资源信任</h1>
         <p className="text-muted-foreground">先看清来源和影响，再决定是否信任这一份内容。</p>
       </header>
       <div className="flex flex-wrap gap-2">
-        <a className={buttonVariants({ variant: 'outline' })} href="/">
-          返回工作台
-        </a>
         <Button
           variant="outline"
           disabled={pending || trust.isFetching}

@@ -14,7 +14,7 @@
     folder:'<path d="M3 7V5a1 1 0 0 1 1-1h5l2 3h9a1 1 0 0 1 1 1v11H3V7Z"/>',
     chevron:'<path d="m7 10 5 5 5-5"/>', more:'<circle cx="5" cy="12" r="1"/><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/>',
     settings:'<path d="m9 3-1 3-3 1-2 3 2 2-1 3 3 3 3-1 2 2 3-2v-3l3-2-1-4-3-1-1-3H9Z"/><circle cx="11" cy="11" r="3"/>',
-    'arrow-up':'<path d="M12 19V5m-6 6 6-6 6 6"/>', stop:'<rect x="6" y="6" width="12" height="12" rx="2"/>',
+    'arrow-up':'<path d="M12 19V5m-6 6 6-6 6 6"/>', 'arrow-left':'<path d="M19 12H5m6-6-6 6 6 6"/>', stop:'<rect x="6" y="6" width="12" height="12" rx="2"/>',
     file:'<path d="M5 3h9l5 5v13H5V3Zm9 0v6h5M8 13h8M8 17h6"/>',
     changes:'<path d="M8 3v10a4 4 0 0 0 4 4h4M5 6l3-3 3 3m2 8 3 3-3 3"/><circle cx="18" cy="6" r="3"/>',
     terminal:'<rect x="3" y="4" width="18" height="16" rx="2"/><path d="m6 9 3 3-3 3m6 0h5"/>',
@@ -52,6 +52,14 @@
   catch { state = seed(); }
   state.sessions.forEach(s => {if (busy(s)) {s.status='interrupted';s.grants=[];s.messages.push({id:uid('m'),role:'system',text:'原型已重新打开，未完成运行标记为已中断；不会自动重放工具或队列。'});}});
   let view='prototype', specTab='overview', dialogSubmit=null, dialogOrigin=null, searchTimer, toastTimer, saveTimer, composing=false, autoFollow=true, composerError='', selectedFile=0, selectedCode='src/auth/redirect.ts', settingsTab='appearance', activeSearch=0, searchMatches=[];
+  let settingsOpen=false, settingsOrigin=null, settingsPosition=null;
+  const settingsSections=[
+    {id:'appearance',title:'外观与操作',group:'工作台',symbol:'settings',keywords:'主题 浅色 深色 系统 字号 密度 快捷键',description:'选择适合日常工作的外观。字号与密度是后续产品能力的演示。'},
+    {id:'models',title:'模型与提供商',group:'模型与连接',symbol:'agent',keywords:'pi 配置 来源 认证 凭证 默认 模型',description:'分辨模型目录、本地配置和联网验证，保留配置的原始来源。'},
+    {id:'capabilities',title:'技能与连接',group:'模型与连接',symbol:'branch',keywords:'技能 MCP 扩展 连接 加载',description:'分别查看已安装、已配置与已加载的能力。'},
+    {id:'permissions',title:'权限',group:'安全与运行',symbol:'shield',keywords:'安全 审批 资源 信任 授权',description:'任务模式与执行权限分别表达，授权绑定实际调用。'},
+    {id:'data',title:'数据与诊断',group:'安全与运行',symbol:'usage',keywords:'数据 资源 备份 诊断 恢复',description:'查看数据归属、诊断及恢复设计。'},
+  ];
   const runTimers = new Map();
   const panelScroll = new Map();
   const viewportScroll = new Map();
@@ -128,10 +136,11 @@
     $('panelResizer').setAttribute('aria-valuenow',state.layout.panelWidth);
     $('workbench').classList.toggle('sidebar-collapsed',state.layout.sidebarCollapsed);
     $('workspace').classList.toggle('panel-open',!!state.layout.panel);
-    renderNav();renderHeader();renderThread();renderComposer();renderPanel();renderBottom();renderStatus();
+    renderNav();renderHeader();renderComposer();renderStatus();
+    if(!settingsOpen){renderThread();renderPanel();renderBottom();}
   }
-  function newSession(projectId=null) {rememberView();state.activeId=null;state.newDraft.projectId=projectId;state.layout.panel=null;state.layout.bottom=null;composerError='';autoFollow=true;closeSidebar();save();render();$('composerInput').focus();}
-  function openSession(id,messageId) {rememberView();const s=state.sessions.find(x=>x.id===id);if(!s)return;state.activeId=id;composerError='';closeSidebar();const prior=viewportScroll.get(id);autoFollow=prior?.follow??true;render();if(prior)$('threadViewport').scrollTop=prior.top;else $('threadViewport').scrollTop=$('threadViewport').scrollHeight;if(messageId){const n=$(`message-${messageId}`);n?.scrollIntoView({block:'center'});highlight(n);autoFollow=false;}save();}
+  function newSession(projectId=null) {closeSettings(false);rememberView();state.activeId=null;state.newDraft.projectId=projectId;state.layout.panel=null;state.layout.bottom=null;composerError='';autoFollow=true;closeSidebar();save();render();$('composerInput').focus();}
+  function openSession(id,messageId) {closeSettings(false);rememberView();const s=state.sessions.find(x=>x.id===id);if(!s)return;state.activeId=id;composerError='';closeSidebar();const prior=viewportScroll.get(id);autoFollow=prior?.follow??true;render();if(prior)$('threadViewport').scrollTop=prior.top;else $('threadViewport').scrollTop=$('threadViewport').scrollHeight;if(messageId){const n=$(`message-${messageId}`);n?.scrollIntoView({block:'center'});highlight(n);autoFollow=false;}save();}
   function togglePanel(name) {rememberPanel();state.layout.panel=state.layout.panel===name?null:name;closeSidebar();renderHeader();$('workspace').classList.toggle('panel-open',!!state.layout.panel);renderPanel();save();}
   function showPanel(name) {if(state.layout.panel!==name)togglePanel(name);else renderPanel();}
   function closeSidebar() {$('workbench').classList.remove('sidebar-open');}
@@ -181,7 +190,7 @@
     dialogSubmit=submit;dialog.showModal();
     const target=dialog.querySelector('[autofocus]')||dialog.querySelector('input:not([type=checkbox]):not([type=radio]),textarea,select');target?.focus();
   }
-  function closeDialog() {const d=$('workbenchDialog');if(!d.open)return;d.close();dialogSubmit=null;if(dialogOrigin?.isConnected)dialogOrigin.focus();else $('composerInput').focus();}
+  function closeDialog() {const d=$('workbenchDialog');if(!d.open)return;d.close();dialogSubmit=null;if(dialogOrigin?.isConnected&&dialogOrigin.getClientRects().length)dialogOrigin.focus();else (settingsOpen?$('settingsTitle'):$('composerInput')).focus({preventScroll:true});}
   const cancelButton=()=>actionButton('close-dialog','取消');
   const submitButton=label=>`<button type="submit" class="button primary">${esc(label)}</button>`;
   function renameSession(id) {const s=state.sessions.find(x=>x.id===id)||active();if(!s)return;modal('重命名会话',`<label class="field"><span>会话名称</span><input name="title" aria-label="会话名称" value="${esc(s.title)}" autofocus><small>1–80 字符，允许同名；人工标题优先于自动命名。</small></label>`,cancelButton()+submitButton('保存名称'),form=>{const title=new FormData(form).get('title').trim();if([...title].length<1||[...title].length>80)return $('dialogError').textContent='请输入 1–80 个字符。';s.title=title;s.titleSource='manual';s.titleVersion++;save();closeDialog();renderNav();renderHeader();toast('会话名称已保存。');});}
@@ -242,15 +251,49 @@
   }
   function compact() {const s=active();if(!s)return toast('先发送任务创建会话，再管理上下文。');if(busy(s))return toast('先等待或停止当前运行，再压缩上下文。');modal('压缩上下文',`<p>将生成后续模型调用使用的摘要，保留原消息、审批、审查与执行证据。</p><p>原型只演示状态转换，不调用模型或删除历史。</p>`,cancelButton()+submitButton('开始压缩'),()=>{closeDialog();s.status='compacting';s.runVersion++;updateRunView(s);later(s,900,()=>{s.status='idle';addMessage(s,'system','上下文摘要已模拟生成，原始历史与证据保留。');updateRunView(s);});});}
   function settings(tab='appearance') {
+    closeDialog();setView('prototype');
+    const section=settingsSections.find(item=>item.id===tab)||settingsSections[0];
+    tab=section.id;
+    if(!settingsOpen){
+      settingsOrigin=document.activeElement;
+      rememberView();closeSidebar();
+      settingsPosition={top:$('threadViewport').scrollTop,follow:autoFollow,panelTop:$('contextPanel').querySelector('.context-body')?.scrollTop||0};
+      settingsOpen=true;$('workbench').hidden=true;$('settingsView').hidden=false;
+      $('previewBack').disabled=false;$('workbenchRail').removeAttribute('aria-current');$('settingsRail').setAttribute('aria-current','page');
+      $('settingsSearch').value='';
+      $('settingsNavigation').innerHTML=[...new Set(settingsSections.map(item=>item.group))].map(group=>`<div class="settings-group"><h3>${esc(group)}</h3>${settingsSections.filter(item=>item.group===group).map(item=>`<button type="button" data-action="settings-tab" data-tab="${item.id}" data-settings-keywords="${esc(item.title+' '+item.keywords)}">${icon(item.symbol)}<span>${esc(item.title)}</span></button>`).join('')}</div>`).join('');
+    }
     settingsTab=tab;
-    const tabs=[['appearance','外观与操作'],['models','模型与提供商'],['permissions','权限'],['capabilities','技能与连接'],['data','数据与诊断']];
     let body='';
     if(tab==='appearance')body=`<div class="setting-row"><div><strong>主题</strong><small>仅作用于此原型。</small></div><select id="settingTheme" aria-label="主题"><option value="system"${state.settings.theme==='system'?' selected':''}>跟随系统</option><option value="dark"${state.settings.theme==='dark'?' selected':''}>深色</option><option value="light"${state.settings.theme==='light'?' selected':''}>浅色</option></select></div><div class="setting-row"><div><strong>字号</strong><small>正文与输入字号；布局保留窄屏适配。</small></div><select id="settingFont" aria-label="字号"><option value="14"${state.settings.font===14?' selected':''}>标准</option><option value="16"${state.settings.font===16?' selected':''}>较大</option></select></div><div class="setting-row"><div><strong>密度</strong><small>调整导航与工具行间距。</small></div><select id="settingDensity" aria-label="界面密度"><option value="comfortable"${state.settings.density==='comfortable'?' selected':''}>舒适</option><option value="compact"${state.settings.density==='compact'?' selected':''}>紧凑</option></select></div><label class="checkbox-field"><input type="checkbox" id="settingAutoName"${state.settings.autoName?' checked':''}><span>自动生成新会话名称<small>先生成本地摘要，后模拟异步优化；不覆盖人工名称。</small></span></label><h3>快捷键</h3><div class="dialog-summary">Ctrl N · 新会话<br>Ctrl K · 搜索会话<br>Ctrl Shift P · 命令面板<br>Ctrl + 反引号 · 终端<br>Enter / Shift Enter · 发送 / 换行<br>Escape · 关闭模态或抽屉</div>`;
-    if(tab==='models')body=`<p>模型列表来自实际提供商能力。下列都是展示用配置，原型不会发送密钥或调用 API。</p><div class="setting-row"><div><strong>Claude Sonnet · 示例提供商</strong><small>全局配置 → 会话选择 · 连接尚未接入</small></div><span class="status-chip">示例</span></div><div class="setting-row"><div><strong>GPT · 示例提供商</strong><small>自定义端点、模型能力与凭证由实际 SDK 验证</small></div><span class="status-chip">示例</span></div><div class="setting-row"><div><strong>本地模型</strong><small>支持情况与视觉、工具能力需要单独探测</small></div><span class="status-chip">待配置</span></div><h3>生效来源</h3><div class="dialog-summary">全局默认 → 项目覆盖 → 会话覆盖<br>当前模型：${esc(draft().model)}<br>思考级别：${esc(draft().thinking)}<br>更改作用于下一次安全调用，正在运行请求保持原配置。</div>${actionButton('provider-design','查看提供商配置流程')}`;
+    if(tab==='models')body=`<div class="settings-notice"><strong>只读发现 · 未联网验证</strong><p>以下是静态演示数据。实际 MODEL-01 读取已安装 SDK 目录及显式 pi 目录元数据，分别展示配置与认证状态；不会探测模型、刷新 OAuth 或自动改写配置。</p></div><div class="setting-row"><div><strong>Claude Sonnet · 示例提供商</strong><small>目录：SDK 内置 · 本地认证：示例已配置<br>联网状态：未验证 · 工作台真实传输关闭</small></div><span class="status-chip">已配置 · 示例</span></div><div class="setting-row"><div><strong>GPT · 示例提供商</strong><small>目录：models.json 示例定义 · 本地认证：未配置<br>能力信息来自目录，目录存在不代表已获授权</small></div><span class="status-chip">未配置 · 示例</span></div><div class="setting-row"><div><strong>本地模型 · 示例</strong><small>目录：models.json 示例定义 · 环境认证：未检查<br>联网状态：未验证</small></div><span class="status-chip">未检查 · 示例</span></div><h3>配置来源</h3><div class="dialog-summary">auth.json：本地认证状态，不展示密钥<br>models.json：模型定义、能力与请求头状态，不执行命令<br>settings.json：默认模型匹配，不代表运行请求已生效<br>原型当前选择：${esc(draft().model)} · ${esc(draft().thinking)}</div><h3>后续配置设计</h3><p>模型选择、凭证修改和真实发送分别验收。后续更改只作用于下一次安全调用，正在运行请求保留原配置。</p>${actionButton('provider-design','查看提供商配置流程')}`;
     if(tab==='permissions')body=`<p>任务模式与执行权限独立。新会话默认仅经验证的受限读取自动；写文件与命令先审批。任意 Shell 命令不凭只读声明放行；显式会话授权限其范围，L3 始终单次。</p><div class="dialog-summary">执行目录：${esc(cwd())}<br>网络：无真实调用<br>系统级隔离：未接入 / 未验证<br>当前策略：按最终参数审批</div>${actionButton('grants','查看会话授权')}<h3>策略变化</h3><p>收紧立即作用于后续调用；放宽要展示工具、目录与网络影响并明确确认。待审批 / 显示失败不会自动放行，项目指令不构成授权。</p>${actionButton('approval-example','查看审批示例')}`;
     if(tab==='capabilities')body=`<p>已安装、已配置、已加载分别显示。当前会话由固定能力快照运行。</p>${[['技能 · review-code','项目 / .pi/skills/review-code','已加载 · 示例','只读审查说明，不额外授予权限。'],['MCP · project-docs','用户级 stdio 连接','连接失败 · 示例','未加载工具。SDK 模式需要显式装载扩展；认证与嵌套工具仍受裁决。'],['扩展 · workflow-tools','本地包 / 版本示例','已保存 · 下个会话生效','不会热替换运行中的工具。'],['工作流包','Pi Workbench 包规范','待细化','不承诺兼容其他产品的私有运行环境。']].map(([name,source,status,description])=>`<div class="capability-row"><header><span>${name}</span><span class="status-chip">${status}</span></header><p>${source}<br>${description}</p></div>`).join('')}<div class="card-actions">${actionButton('capability-diagnostics','连接诊断')}${actionButton('reload-capabilities','预览重载')}${actionButton('capability-import','查看添加流程')}</div>`;
     if(tab==='data')body=`<p>工作台数据默认 %LOCALAPPDATA%\\PiWorkbench，后续支持受控迁移；项目代码与 pi 模型配置保留原来源。原型存储与需求进度分开。</p><div class="dialog-summary">原型只保存当前浏览器的演示会话、草稿与布局。<br>需求基线：${esc(backlog.version)} · ${backlog.features.length} 项<br>实现进度：来自 backlog，本原型不修改。</div><div class="card-actions">${actionButton('diagnostics','诊断预览')}${actionButton('backup-design','备份与恢复流程')}${actionButton('recovery','窗口与服务生命周期')}${actionButton('reset-demo','重置演示数据')}</div><h3>保留规则</h3><p>审计、消息、快照与密钥分别管理；未审查所需快照不静默回收。升级前保护活动工作，失败有备份和回退。</p>`;
-    modal('设置与能力',`<div class="dialog-tabs" role="group" aria-label="设置分类">${tabs.map(([id,title])=>`<button type="button" class="${id===tab?'active':''}" data-action="settings-tab" data-tab="${id}">${title}</button>`).join('')}</div>${body}<p class="settings-footnote">设置演示只影响原型；对应真实功能分 M2 / M4 / M5 / M6 验收。</p>`,actionButton('close-dialog','完成'),null,true);
+    if(tab==='appearance')body=`<div class="theme-previews" aria-hidden="true"><div class="theme-preview light"><i></i><span>浅色</span></div><div class="theme-preview dark"><i></i><span>深色</span></div><div class="theme-preview system"><i></i><span>跟随系统</span></div></div>`+body;
+    $('settingsTitle').textContent=section.title;$('settingsDescription').textContent=section.description;$('settingsBody').innerHTML=body;
+    $('settingsNavigation').querySelectorAll('[data-tab]').forEach(button=>{if(button.dataset.tab===tab)button.setAttribute('aria-current','page');else button.removeAttribute('aria-current');});
+    filterSettings();$('settingsMain').scrollTop=0;$('settingsTitle').focus({preventScroll:true});
+    $('settingsNavigation').querySelector('[aria-current]')?.scrollIntoView({block:'nearest',inline:'nearest'});
+  }
+  /** Hide the settings view without replacing the retained task DOM or draft. */
+  function closeSettings(restoreFocus=true) {
+    if(!settingsOpen)return;
+    settingsOpen=false;$('settingsView').hidden=true;$('workbench').hidden=false;
+    $('previewBack').disabled=true;$('settingsRail').removeAttribute('aria-current');$('workbenchRail').setAttribute('aria-current','page');
+    render();
+    if(settingsPosition){autoFollow=settingsPosition.follow;$('threadViewport').scrollTop=autoFollow?$('threadViewport').scrollHeight:settingsPosition.top;const panel=$('contextPanel').querySelector('.context-body');if(panel)panel.scrollTop=settingsPosition.panelTop;}
+    if(restoreFocus)(settingsOrigin?.isConnected&&settingsOrigin.getClientRects().length?settingsOrigin:$('composerInput')).focus({preventScroll:true});
+  }
+  function filterSettings() {
+    const query=$('settingsSearch').value.trim().toLocaleLowerCase();let count=0;
+    $('settingsNavigation').querySelectorAll('[data-settings-keywords]').forEach(button=>{button.hidden=!button.dataset.settingsKeywords.toLocaleLowerCase().includes(query);if(!button.hidden)count++;});
+    $('settingsNavigation').querySelectorAll('.settings-group').forEach(group=>group.hidden=![...group.querySelectorAll('button')].some(button=>!button.hidden));
+    $('settingsEmpty').hidden=count>0;
+  }
+  function desktopMenu(name) {
+    const menus={file:['文件',actionButton('new-session','新会话')+actionButton('settings','设置… · Ctrl ,')],edit:['编辑',`<p>输入区支持系统文本编辑快捷键。菜单仅演示工作台操作。</p>${actionButton('commands','命令面板')}`],view:['视图',actionButton('return-workbench','工作台')+actionButton('settings','外观与设置')],help:['帮助',`<p>此处是独立实现的交互原型。窗口按钮仅作外观示意，不控制浏览器或系统。</p>${actionButton('prototype-help','原型说明')}`]};
+    const item=menus[name];if(item)modal(item[0],`<div class="preview-menu-actions">${item[1]}</div>`);
   }
   function attach() {modal('添加上下文',`<p>选择示例引用。产品支持 @ 文件与行范围、技能、图片和文档，实际支持按模型与扩展能力显示。</p><div class="menu-actions"><button data-action="attach-example" data-kind="file">${icon('file')}src/auth/redirect.ts : 12–18<small>7 行 · 示例</small></button><button data-action="attach-example" data-kind="instruction">${icon('plan')}项目指令与优先级<small>只作上下文</small></button><button data-action="attach-example" data-kind="skill">${icon('agent')}/review-code 技能<small>项目来源 · 示例</small></button><button data-action="attachment-design">${icon('plus')}图片 / 文档附件<small>M6 支持边界</small></button></div>`);}
   function appendContext(label,text) {draft().contexts ||= [];draft().contexts.push({label,text});save();renderComposer();toast('已附加到草稿，尚未发送。');}
@@ -277,7 +320,7 @@
     const s=session(id,title,'p-workbench',messages,files);const index=state.sessions.findIndex(x=>x.id===id);if(index<0)state.sessions.unshift(s);else state.sessions[index]=s;state.activeId=id;autoFollow=true;selectedFile=0;state.layout.panel=null;state.layout.bottom=null;render();save();return s;
   }
   function scene(name) {
-    closeDialog();setView('prototype');$('demoScene').value=name;composerError='';
+    closeDialog();closeSettings(false);setView('prototype');$('demoScene').value=name;composerError='';
     if(name==='new'){newSession();return;}
     if(name==='search'){searchDialog();return;}
     if(name==='onboarding')return onboarding();
@@ -307,7 +350,7 @@
   function setSpecTab(name) {if(!$(`panel-${name}`))return;specTab=name;document.querySelectorAll('#docTabs [data-tab]').forEach(n=>{n.classList.toggle('active',n.dataset.tab===name);n.setAttribute('aria-current',n.dataset.tab===name?'page':'false');});document.querySelectorAll('.docCol>.tabPanel').forEach(n=>n.classList.toggle('hidden',n.id!==`panel-${name}`));$('docCol').scrollTop=0;if(name==='coverage')filterCoverage();}
   function jumpSpec(id) {setView(view==='compare'?'compare':'spec');const target=$(id);if(!target)return;const panel=target.closest('.tabPanel');if(panel)setSpecTab(panel.id.replace('panel-',''));if(target.tagName==='DETAILS')target.open=true;target.scrollIntoView({block:'start'});highlight(target);history.replaceState(null,'',`${location.pathname}${location.search}#${id}`);}
   function showRequirement(id) {$('coverageSearch').value='';$('coverageModule').value='';$('coverageMilestone').value='';filterCoverage();jumpSpec(`req-${id}`);}
-  function prototypeFeature(id) {setView('prototype');if(id==='feature-workspace'){showSidebar();highlight($('sidebar'));environment();}else if(id==='feature-session'){showSidebar();highlight($('sessionNavigation'));}else if(id==='feature-compose'){highlight($('composerArea'));$('composerInput').focus();}else if(id==='feature-approval')scene('approval');else if(id==='feature-diff')scene('review');else if(id==='feature-terminal') {state.layout.bottom='terminal';renderBottom();highlight($('bottomPanel'));}else if(id==='feature-tasks'){state.layout.bottom='tasks';renderBottom();highlight($('bottomPanel'));}else if(id==='feature-config')settings('capabilities');else if(id==='feature-usage')showPanel('usage');else scene('running');}
+  function prototypeFeature(id) {closeSettings(false);setView('prototype');if(id==='feature-workspace'){showSidebar();highlight($('sidebar'));environment();}else if(id==='feature-session'){showSidebar();highlight($('sessionNavigation'));}else if(id==='feature-compose'){highlight($('composerArea'));$('composerInput').focus();}else if(id==='feature-approval')scene('approval');else if(id==='feature-diff')scene('review');else if(id==='feature-terminal') {state.layout.bottom='terminal';renderBottom();highlight($('bottomPanel'));}else if(id==='feature-tasks'){state.layout.bottom='tasks';renderBottom();highlight($('bottomPanel'));}else if(id==='feature-config')settings('capabilities');else if(id==='feature-usage')showPanel('usage');else scene('running');}
   function filterCoverage() {const q=$('coverageSearch').value.trim().toLocaleLowerCase(),module=$('coverageModule').value,milestone=$('coverageMilestone').value;let count=0;$('panel-coverage').querySelectorAll('.requirement').forEach(node=>{const yes=(!module||node.dataset.module===module)&&(!milestone||node.dataset.milestone===milestone)&&(!q||node.textContent.toLocaleLowerCase().includes(q));node.hidden=!yes;if(yes)count++;});document.querySelectorAll('.coverage-module').forEach(n=>n.hidden=![...n.querySelectorAll('.requirement')].some(n=>!n.hidden));$('coverageCount').textContent=`显示 ${count} / ${backlog.features.length} 项 · 进度为生成时的 backlog 基线`;$('coverageEmpty').hidden=count>0;}
   const handlers = {
     suggest:el=>{draft().mode=el.dataset.kind;draft().text=el.dataset.kind==='plan'?'先分析当前项目，给出改动步骤、风险与验收条件，暂时不要修改文件。':'解释这个项目的入口、主要模块和运行方式。';save();renderComposer();$('composerInput').focus();},
@@ -341,7 +384,8 @@
     'open-code':el=>{selectedCode=el.dataset.path;renderPanel();},'attach-code':()=>appendContext(`${selectedCode} · 示例行范围`,codeFor(selectedCode)),
     'edit-code':()=>modal('轻量编辑 · M6',`<p>这是模拟编辑，不写入本机文件；产品保存必须校验磁盘版本。</p><label class="field"><span>${esc(selectedCode)}</span><textarea name="code" aria-label="示例代码" rows="9">${esc(codeFor(selectedCode))}</textarea></label>`,cancelButton()+submitButton('演示保存冲突'),()=>modal('文件在磁盘上已变化',`<p>编辑期间另一个进程修改了此文件。当前内容未被覆盖。</p><p>产品应展示双方差异，再由用户决定保留、重新载入或明确覆盖。</p>`,actionButton('close-dialog','保留并取消保存')+actionButton('files','查看当前文件'))),
     preview:()=>modal('产物与网页预览 · M6',`<h3>README.md · 示例文档</h3><p>文件产物保留来源和版本。网页预览显示明确的开发服务器地址与状态。</p><div class="dialog-summary">开发服务器：未启动<br>地址：无<br>预览权限：与宿主工具隔离<br>不自动启动命令、不开放外部网络</div>`,actionButton('close-dialog','关闭')+actionButton('add-task','配置开发服务器命令')),
-    settings:()=>{closeDialog();settings();},'settings-tab':el=>settings(el.dataset.tab),'settings-models':()=>settings('models'),environment,grants:el=>grants(el.dataset.id),
+    settings:()=>settings(),'settings-tab':el=>settings(el.dataset.tab),'settings-models':()=>settings('models'),
+    'return-workbench':()=>{closeDialog();setView('prototype');if(settingsOpen)closeSettings();else $('composerInput').focus();},'desktop-menu':el=>desktopMenu(el.dataset.menu),environment,grants:el=>grants(el.dataset.id),
     'revoke-grant':el=>{active()?.grants.splice(Number(el.dataset.index),1);save();grants();},compact,
     'context-sources':()=>modal('上下文来源',`<div class="dialog-summary">全局指令 → 项目 AGENTS / 配置 → 当前会话<br>引用：${esc((draft().contexts||[]).map(c=>c.label).join('、')||'暂无草稿引用')}<br>能力快照：示例版本 v1</div><p>来源可解释上下文优先级，但不能授予额外权限。压缩摘要与原始历史独立保留。</p>`,actionButton('close-dialog','关闭')),
     'execute-plan':()=>{const s=active();if(!s||busy(s)||s.messages.some(m=>m.role==='question'&&!m.answer))return;modal('转为执行',`<p>按计划修改认证回调与测试，写入和命令仍按最终参数审批。计划模式不会自行触发执行。</p>`,cancelButton()+submitButton('确认开始模拟执行'),()=>{if(busy(s))return;s.draft.mode='execute';s.status='idle';addMessage(s,'user','按已审阅的计划执行，保留审批与验证证据。');closeDialog();startRun(s,'按计划执行');});},
@@ -399,6 +443,7 @@
     if(target.id==='composerInput'){draft().text=target.value;composerError='';$('sendButton').disabled=!target.value.trim()||!state.connection;saveSoon();}
     if(target.id==='sessionSearch'){clearTimeout(searchTimer);activeSearch=0;searchTimer=setTimeout(renderSearch,200);}
     if(target.id==='coverageSearch')filterCoverage();
+    if(target.id==='settingsSearch')filterSettings();
     if(target.id==='commandQuery')document.querySelectorAll('[data-command-name]').forEach(n=>n.hidden=!n.dataset.commandName.includes(target.value.trim()));
   });
   document.addEventListener('change',event=>{
@@ -423,6 +468,7 @@
     if(event.isComposing||composing||event.keyCode===229)return;
     if(event.key==='Escape'){
       if($('workbenchDialog').open)return;
+      if(settingsOpen){event.preventDefault();closeSettings();return;}
       if($('workbench').classList.contains('sidebar-open')){closeSidebar();return;}
       if(state.layout.panel&&innerWidth<=1180){handlers['close-panel']();$('threadHeader').querySelector('button')?.focus();return;}
     }
@@ -431,10 +477,11 @@
     }
     if(event.target.id==='composerInput'&&event.key==='Enter'&&!event.shiftKey){event.preventDefault();send();return;}
     if($('workbenchDialog').open)return;
-    if((event.ctrlKey||event.metaKey)&&event.shiftKey&&event.key.toLowerCase()==='p'){event.preventDefault();commands();}
+    if((event.ctrlKey||event.metaKey)&&event.key===','){event.preventDefault();settings();}
+    else if((event.ctrlKey||event.metaKey)&&event.shiftKey&&event.key.toLowerCase()==='p'){event.preventDefault();commands();}
     else if((event.ctrlKey||event.metaKey)&&!event.shiftKey&&event.key.toLowerCase()==='n'){event.preventDefault();setView('prototype');newSession();}
     else if((event.ctrlKey||event.metaKey)&&event.key.toLowerCase()==='k'){event.preventDefault();searchDialog();}
-    else if(event.ctrlKey&&event.code==='Backquote'){event.preventDefault();bottom('terminal');}
+    else if(event.ctrlKey&&event.code==='Backquote'){event.preventDefault();closeSettings(false);bottom('terminal');}
   });
   $('workbenchDialog').addEventListener('cancel',event=>{event.preventDefault();closeDialog();});
   $('threadViewport').addEventListener('scroll',()=>{const n=$('threadViewport');autoFollow=n.scrollHeight-n.scrollTop-n.clientHeight<90;$('returnLatest').hidden=!active()||autoFollow;});

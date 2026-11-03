@@ -1,0 +1,46 @@
+{
+  "feature": "MODEL-01",
+  "source": "Windows Electron with installed pi 1.4.0; synthetic auth/models/settings; real private host IPC, cookie, preload and daemon HTTP; no intercepted model response",
+  "code": 0,
+  "sourceUnchanged": true,
+  "before": {
+    "auth.json": "3751110c0db9a93472e84a3040710b75e75d767acba4ff12a9104f7e36239c02",
+    "models.json": "48140dee2be5a960499078dc06c42120076a558767fcfa5ff71ffc5c0aea82f7",
+    "settings.json": "a2f8ca5f273ac7b832019b610d5bc53d63a15897c9c6480f9ed2ff6c579e5c0d"
+  },
+  "after": {
+    "auth.json": "3751110c0db9a93472e84a3040710b75e75d767acba4ff12a9104f7e36239c02",
+    "models.json": "48140dee2be5a960499078dc06c42120076a558767fcfa5ff71ffc5c0aea82f7",
+    "settings.json": "a2f8ca5f273ac7b832019b610d5bc53d63a15897c9c6480f9ed2ff6c579e5c0d"
+  },
+  "stoppedAt": "2026-11-02T12:58:31.802Z",
+  "entry": "pnpm dev:desktop (built artifacts; actual scripts/dev.mjs --desktop launch)",
+  "operations": [
+    "Clicked native Workbench menu -> Models and providers",
+    "Observed explicit source directory, three file states and configured default model",
+    "Observed local configured but network-unverified provider and expired OAuth status",
+    "Typed fixture-code into the actual search field; provider list narrowed from two to one",
+    "Clicked refresh; synchronization recovered and search remained",
+    "Graceful private-IPC shutdown; developer launcher exited 0"
+  ],
+  "screenshot": "native-models.jpg",
+  "sourceEntries": [
+    "auth.json",
+    "models.json",
+    "settings.json"
+  ],
+  "databaseCounts": {
+    "sessions": 0,
+    "session_runtimes": 0,
+    "resource_trust": 0,
+    "workspaces": 0
+  },
+  "databaseAudit": "Readonly, after shutdown; no sessions, runtimes, trust grants or workspace registration",
+  "providerRequests": 0,
+  "limitations": [
+    "No real user credentials read or provider contacted; account rights and network connectivity remain unverified",
+    "Light 1920x1080 and dark 800x720 coverage comes from actual Electron E2E; native-menu screenshot uses the actual window size",
+    "Automated native keyboard input does not represent manual Windows Chinese IME acceptance",
+    "No installer; independent browser model-discovery workflow deferred"
+  ]
+}

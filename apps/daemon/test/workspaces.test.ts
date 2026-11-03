@@ -214,7 +214,7 @@ describe('WS-01 actual directory identity, SQLite and SDK isolation (no provider
         code: 'storage_failed',
       })
       database.sqlite.exec(
-        'DROP TRIGGER deny_workspace; DROP TABLE workspaces; DELETE FROM __drizzle_migrations WHERE created_at = (SELECT MAX(created_at) FROM __drizzle_migrations)',
+        'DROP TRIGGER deny_workspace; DROP TABLE session_submissions; DROP TABLE session_configurations; DROP TABLE projects; DROP TABLE workspaces; DELETE FROM __drizzle_migrations WHERE created_at >= 1793609651034',
       )
       await app.close()
       app = await createApp({ dataDir: f.dataDir, port: 4339 })

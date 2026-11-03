@@ -1,10 +1,9 @@
 import { useQuery } from '@tanstack/react-query'
-import { useEffect } from 'react'
 
 import { securitySnapshotSchema } from '@pi-workbench/shared'
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
 import { Badge } from '@pi-workbench/ui/components/badge'
-import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
+import { Button } from '@pi-workbench/ui/components/button'
 
 const status = {
   configured: '已配置 · 未联网验证',
@@ -25,7 +24,7 @@ const diagnostics = {
 }
 
 /** Reads credential metadata only. No secret input, reveal control, persistent client storage,
- * or write API is available before paired commands are introduced by SEC-08.
+ * or write API is available before MODEL-02 configuration is implemented.
  */
 export function CredentialStatus() {
   const credentials = useQuery({
@@ -47,24 +46,14 @@ export function CredentialStatus() {
     },
     retry: false,
   })
-  useEffect(() => {
-    const media = matchMedia('(prefers-color-scheme: dark)')
-    const apply = () => document.documentElement.classList.toggle('dark', media.matches)
-    apply()
-    media.addEventListener('change', apply)
-    return () => media.removeEventListener('change', apply)
-  }, [])
   const data = credentials.data
   return (
-    <main className="mx-auto flex min-h-dvh max-w-4xl flex-col gap-6 p-6">
+    <main className="settings-page">
       <header className="flex flex-col gap-2">
         <h1>凭证与隐私</h1>
         <p className="text-muted-foreground">沿用 pi 配置，仅显示凭证状态。</p>
       </header>
       <div className="flex flex-wrap gap-2">
-        <a className={buttonVariants({ variant: 'outline' })} href="/">
-          返回工作台
-        </a>
         <Button
           variant="outline"
           disabled={credentials.isFetching}
@@ -122,7 +111,7 @@ export function CredentialStatus() {
             <p>
               诊断、审批摘要、历史展示与下载共用脱敏规则；下载只生成副本，不修改原件。无法安全解析的二进制内容不导出。
             </p>
-            <p>浏览器凭证修改等待本机配对；当前不会发起真实模型请求。</p>
+            <p>工作台内凭证修改与连接诊断暂未开放；当前不会发起真实模型请求。</p>
           </section>
         </>
       ) : null}

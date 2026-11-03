@@ -1,5 +1,5 @@
 // @env node
-import type { SecuritySnapshot } from '@pi-workbench/shared'
+import type { ModelCatalog, SecuritySnapshot } from '@pi-workbench/shared'
 
 import { spawnSync } from 'node:child_process'
 import { createHash, randomUUID } from 'node:crypto'
@@ -21,10 +21,14 @@ import {
 import { join } from 'node:path'
 import process from 'node:process'
 
+import stripJsonComments from 'strip-json-comments'
+
 import { Redactor, securitySnapshotSchema } from '@pi-workbench/shared'
 
 type Diagnostic = SecuritySnapshot['diagnostic']
 type Provider = SecuritySnapshot['providers'][number]
+type ConfigState = ModelCatalog['files'][number]['state']
+type Parameters = ModelCatalog['providers'][number]['models'][number]['parameters']
 
 function object(value: unknown): Record<string, unknown> | undefined {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -72,7 +76,7 @@ function preserveAccess(source: string, target: string): void {
 /** Native pi remains the credential owner. Reads never create auth.json, invoke config commands,
  * refresh OAuth or contact a provider. Credential configuration is never copied to SQLite/IPC
  * or public results; user-authored sensitive session content remains owned by native history.
- * This service is host-only; browser mutation awaits SEC-08 pairing.
+ * This service is host-only; paired configuration UI still awaits MODEL-02.
  */
 export class SecurityService {
   readonly redactor = new Redactor()
@@ -86,26 +90,51 @@ export class SecurityService {
     this.refresh()
   }
 
-  private read(name: string): Record<string, unknown> {
-    const path = join(this.agentDir!, name)
-    if (!existsSync(path)) {
-      return {}
+  private configuration(name: string): {
+    state: ConfigState
+    data: Record<string, unknown>
+    digest: string
+  } {
+    if (!this.agentDir) {
+      return { state: 'disabled', data: {}, digest: 'disabled' }
     }
-    if (!statSync(path).isFile() || statSync(path).size > 4 * 1024 * 1024) {
-      throw new Error('invalid')
-    }
-    const text = readFileSync(path, 'utf8').replace(/^\uFEFF/, '')
-    let data: unknown
     try {
-      data = JSON.parse(text)
+      const path = join(this.agentDir, name)
+      if (!existsSync(path)) {
+        return { state: 'missing', data: {}, digest: 'missing' }
+      }
+      const stat = statSync(path)
+      if (!stat.isFile()) {
+        return { state: 'invalid', data: {}, digest: 'invalid' }
+      }
+      if (stat.size > 4 * 1024 * 1024) {
+        return { state: 'too-large', data: {}, digest: 'too-large' }
+      }
+      const content = readFileSync(path)
+      const digest = createHash('sha256').update(content).digest('hex')
+      if (content.byteLength > 4 * 1024 * 1024) {
+        return { state: 'too-large', data: {}, digest }
+      }
+      const text = new TextDecoder('utf-8', { fatal: true }).decode(content).replace(/^\uFEFF/, '')
+      let value: unknown
+      try {
+        value = JSON.parse(name === 'auth.json' ? text : stripJsonComments(text))
+      } catch {
+        return { state: 'invalid', data: {}, digest }
+      }
+      const data = object(value)
+      return { state: data ? 'ok' : 'invalid', data: data ?? {}, digest }
     } catch {
-      throw new Error('invalid')
+      return { state: 'unreadable', data: {}, digest: 'unreadable' }
     }
-    const parsed = object(data)
-    if (!parsed) {
-      throw new Error('invalid')
+  }
+
+  private read(name: string): Record<string, unknown> {
+    const result = this.configuration(name)
+    if (!['ok', 'missing', 'disabled'].includes(result.state)) {
+      throw new Error(result.state === 'unreadable' ? 'unreadable' : 'invalid')
     }
-    return parsed
+    return result.data
   }
 
   /** Static config-value resolution follows pi's $ENV / ${ENV}, $$ and $! semantics. Leading !
@@ -239,6 +268,111 @@ export class SecurityService {
     })
   }
 
+  /** Host-only metadata projection for MODEL-01. Reads each source independently so broken
+   * settings do not hide valid auth/catalog entries. Registers secrets before exposing any
+   * labels. Digests only detect concurrent edits; neither digests nor raw configuration are
+   * sent to the renderer, SQLite or SDK IPC. Ambient credentials are not resolved here.
+   */
+  modelSources() {
+    const names = ['auth.json', 'models.json', 'settings.json'] as const
+    const sources = names.map((name) => Object.assign({ name }, this.configuration(name)))
+    const auth = sources[0]!,
+      models = sources[1]!,
+      settings = sources[2]!
+    this.scan(auth.data)
+    this.scan(models.data)
+    const parameters = (value: unknown, variables?: Record<string, unknown>): Parameters => {
+      const headers = object(value)
+      const states = Object.values(headers ?? {}).map((entry) => this.config(entry, variables))
+      return states.includes('command-disabled')
+        ? 'command-disabled'
+        : states.some((state) => state !== 'configured')
+          ? 'missing'
+          : 'ok'
+    }
+    const providers = Object.entries(object(models.data.providers) ?? {}).map(([id, entry]) => {
+      const value = object(entry)
+      const entries = Array.isArray(value?.models) ? value.models : []
+      const overrides = object(value?.modelOverrides) ?? {}
+      const variables = object(object(auth.data[id])?.env)
+      const providerParameters = parameters(value?.headers, variables)
+      const definitions = new Map(
+        entries.flatMap((model: unknown) => {
+          const definition = object(model)
+          return typeof definition?.id === 'string' ? [[definition.id, definition] as const] : []
+        }),
+      )
+      return {
+        id,
+        definedModels: entries.flatMap((model: unknown) => {
+          const definition = object(model)
+          return typeof definition?.id === 'string' ? [definition.id] : []
+        }),
+        overriddenModels: Object.keys(overrides),
+        parameters: providerParameters,
+        modelParameters: new Map(
+          [...new Set([...definitions.keys(), ...Object.keys(overrides)])].map((modelId) => {
+            // SDK resolves provider headers first, then merges chat overrides before definitions.
+            // Only literal/env metadata is checked here; commands stay disabled at either layer.
+            const headers = {
+              ...object(object(overrides[modelId])?.headers),
+              ...object(definitions.get(modelId)?.headers),
+            }
+            const state = parameters(headers, variables)
+            const effective =
+              state === 'command-disabled' || providerParameters === 'command-disabled'
+                ? 'command-disabled'
+                : providerParameters === 'ok'
+                  ? state
+                  : providerParameters
+            return [modelId, effective] as const
+          }),
+        ),
+        credential: this.config(value?.apiKey, object(value?.env)),
+      }
+    })
+    // Build auth metadata independently of models.json parsing failures.
+    const credentials = Object.entries(auth.data).map(([id, entry]) => {
+      const value = object(entry)
+      const kind: Provider['kind'] =
+        value?.type === 'api_key' || value?.type === 'oauth' ? value.type : 'unknown'
+      const status: Provider['status'] =
+        kind === 'api_key'
+          ? this.config(value?.key, object(value?.env))
+          : kind === 'oauth' &&
+              typeof value?.expires === 'number' &&
+              Number.isFinite(value.expires) &&
+              typeof value.access === 'string' &&
+              typeof value.refresh === 'string'
+            ? value.expires <= Date.now()
+              ? 'expired'
+              : value.access
+                ? 'configured'
+                : 'missing'
+            : 'invalid'
+      return { id, kind, status }
+    })
+    const provider = settings.data.defaultProvider,
+      model = settings.data.defaultModel
+    if (
+      (provider !== undefined && typeof provider !== 'string') ||
+      (model !== undefined && typeof model !== 'string')
+    ) {
+      settings.state = 'invalid'
+    }
+    return {
+      directory: this.agentDir ?? null,
+      modelsPath:
+        this.agentDir && models.state === 'ok' ? join(this.agentDir, 'models.json') : undefined,
+      files: sources.map(({ name, state }) => ({ name, state })),
+      revision: sources.map(({ digest }) => digest).join(':'),
+      providers,
+      credentials,
+      defaultModel:
+        typeof provider === 'string' && typeof model === 'string' ? { provider, model } : null,
+    }
+  }
+
   /** Host-only optimistic revision; never contains credential values or leaves the host. */
   revision(): string {
     if (!this.agentDir) {
@@ -253,7 +387,7 @@ export class SecurityService {
   /** Explicit host command. Re-reads under the same auth.json.lock directory protocol used by pi.
    * Never steals an existing lock, overwrites corrupt config, changes OAuth type, or writes
    * models/settings. A sibling temp file is flushed then renamed; failures retain the old file.
-   * No browser endpoint exposes this operation before pairing is implemented.
+   * No browser endpoint exposes this operation before MODEL-02 configuration is implemented.
    */
   saveApiKey(providerId: string, key: string, revision: string): { ok: boolean; code: Diagnostic } {
     this.redactor.remember(key)

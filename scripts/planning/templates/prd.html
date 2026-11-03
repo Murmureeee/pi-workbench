@@ -24,6 +24,15 @@
 <div class="review-layout">
   <main class="prototype" id="prototype" aria-label="Pi Workbench 可交互原型">
     <div class="prototype-note"><span class="prototype-dot" aria-hidden="true"></span><span>交互原型</span><span class="note-detail">模拟消息、审批和文件变更；未连接模型或执行系统命令。</span><button type="button" data-action="prototype-help" aria-label="查看原型说明">说明</button></div>
+    <div class="desktop-preview">
+      <header class="preview-titlebar" aria-label="桌面控制栏示意">
+        <button type="button" id="previewBack" class="icon-button" data-action="return-workbench" aria-label="返回工作台" title="返回工作台" disabled><span data-icon="arrow-left"></span></button>
+        <nav class="preview-menus" aria-label="桌面菜单示意"><button type="button" data-action="desktop-menu" data-menu="file">文件</button><button type="button" data-action="desktop-menu" data-menu="edit">编辑</button><button type="button" data-action="desktop-menu" data-menu="view">视图</button><button type="button" data-action="desktop-menu" data-menu="help">帮助</button></nav>
+        <span class="preview-title">Pi Workbench</span><span class="preview-caption" role="img" aria-label="最小化、最大化、关闭：仅窗口外观示意" title="窗口控件仅作外观示意"><span>−</span><span>□</span><span>×</span></span>
+      </header>
+      <div class="preview-body">
+        <nav class="preview-rail" aria-label="全局导航"><button type="button" class="icon-button" id="workbenchRail" data-action="return-workbench" aria-label="工作台" title="工作台" aria-current="page"><span data-icon="compose"></span></button><button type="button" class="icon-button" id="settingsRail" data-action="settings" aria-label="设置" title="设置"><span data-icon="settings"></span></button></nav>
+        <div class="preview-surface">
     <div class="workbench" id="workbench">
       <button class="drawer-scrim" id="sidebarScrim" type="button" data-action="close-sidebar" aria-label="关闭导航"></button>
       <aside class="sidebar" id="sidebar" aria-label="项目与会话导航">
@@ -69,6 +78,22 @@
         <section class="bottom-panel" id="bottomPanel" aria-label="终端与后台任务" hidden></section>
         <footer class="status-bar" id="statusBar"></footer>
       </section>
+    </div>
+    <section class="settings-view" id="settingsView" aria-label="设置" hidden>
+      <aside class="settings-nav">
+        <button type="button" class="settings-return" data-action="return-workbench"><span data-icon="arrow-left"></span>返回工作台</button>
+        <h2>设置</h2>
+        <label class="settings-search"><span data-icon="search"></span><span class="sr-only">搜索设置</span><input type="search" id="settingsSearch" placeholder="搜索设置" autocomplete="off"></label>
+        <nav id="settingsNavigation" aria-label="设置分类"></nav>
+        <p class="settings-empty" id="settingsEmpty" role="status" hidden>未找到设置分类</p>
+        <p class="settings-nav-note">交互原型 · 本地演示</p>
+      </aside>
+      <section class="settings-main" id="settingsMain" aria-label="设置内容" tabindex="-1">
+        <div class="settings-page"><header class="settings-heading"><p>工作台设置</p><h1 id="settingsTitle" tabindex="-1"></h1><p id="settingsDescription"></p></header><div id="settingsBody"></div><p class="settings-footnote">设置演示只影响原型。已实现能力与后续设计按需求进度分别验收，不连接模型或执行命令。</p></div>
+      </section>
+    </section>
+        </div>
+      </div>
     </div>
   </main>
   __PRD_DOCUMENT__

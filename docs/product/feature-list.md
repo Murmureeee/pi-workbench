@@ -1,8 +1,8 @@
 # Pi Workbench 全量功能清单
 
-基线：2026-11-02 · 146 项功能 · 19 个模块 · M0–M8
+基线：2026-11-03 · 146 项功能 · 19 个模块 · M0–M8
 
-完整本地产品 M0–M7：12/133 已验收；M8 候选扩展 13 项单列。已有详细设计 55 项；文档不计作产品实现。
+完整本地产品 M0–M7：14/133 已验收；M8 候选扩展 13 项单列。已有详细设计 55 项；文档不计作产品实现。
 
 > 本文件由 `node scripts/planning/build-roadmap.mjs` 生成。请维护 backlog JSON，不要手工改本表。
 
@@ -14,7 +14,7 @@
 | --- | --- | ---: | ---: |
 | M0 可行性验证 | 验证真实 pi 接入、审批覆盖和文件快照，消除核心技术不确定性。 | 3 | 3 |
 | M1 运行与数据底座 | 可恢复的本地服务、会话运行内核、事件契约和持久化。 | 6 | 5 |
-| M2 双端对话与审批 | 桌面与本机浏览器可直接输入创建项目或无项目会话，自动命名、搜索并观察和控制真实任务。 | 32 | 4 |
+| M2 双端对话与审批 | 桌面与本机浏览器可直接输入创建项目或无项目会话，自动命名、搜索并观察和控制真实任务。 | 32 | 6 |
 | M3 变更审查闭环 | 形成可日常试用的观察、审批、审查与文件回滚闭环。 | 9 | 0 |
 | M4 日常开发能力 | 补齐上下文、终端、命令任务、配置和文件阅读。 | 29 | 0 |
 | M5 稳定桌面版 | 建立可分发、可恢复、有权限边界的 Windows 稳定版。 | 10 | 0 |
@@ -148,7 +148,7 @@
 | [WS-03](roadmap.html#feature=WS-03) | 工作区与 Git 环境标识 | M2 | P0 | 已有详细设计，待校正 | 未开始 | WS-01 |
 | [WS-04](roadmap.html#feature=WS-04) | 同目录写入互斥与外部改动 | M3 | P0 | 已列范围，待细化 | 未开始 | CORE-03, WS-01 |
 | [WS-05](roadmap.html#feature=WS-05) | 多根目录与多仓库项目 | M6 | P1 | 已列范围，待细化 | 未开始 | WS-01, SEC-10 |
-| [WS-06](roadmap.html#feature=WS-06) | 项目管理、分组与侧栏组织 | M2 | P0 | 已有详细设计，待校正 | 未开始 | WS-02, CORE-06 |
+| [WS-06](roadmap.html#feature=WS-06) | 项目管理、分组与侧栏组织 | M2 | P0 | 已有详细设计，待校正 | 进行中 | WS-02, CORE-06 |
 | [WS-07](roadmap.html#feature=WS-07) | 工作区信任与不可用恢复 | M2 | P0 | 已列范围，待细化 | 未开始 | WS-01, SEC-07 |
 
 ### WS-01 打开、切换与校验工作区
@@ -211,6 +211,10 @@
 - [ ] 项目默认目录经过工作区校验；未绑定目录的项目会话使用独立执行空间，多根目录留给 WS-05。
 - [ ] 整理、重命名或移除项目不隐式移动文件、删除会话、切换执行目录或授予文件权限。
 
+进展 / 阻塞：SESSION-01 支撑范围已实现最小项目创建 / 列表、稳定 ID、归属选择与可选单目录绑定，全局 / 项目入口及物理目录由服务和 Electron E2E 验证。不含重命名、置顶、排序、检索、移除和完整组织能力；WS-02 前置未验收，不整条勾选。
+
+验证证据：docs/validation/session-01-evidence/acceptance.md、ci.log、clean-workspace.json、clean-commands.json；apps/daemon/test/session-creation.test.ts；e2e/session-creation.spec.ts。完整 164 项 Vitest / 40 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 干净目录复现通过，锁哈希一致，真实提供商请求 0。
+
 ### WS-07 工作区信任与不可用恢复
 
 让用户知道项目资源何时加载以及目录消失后如何恢复。
@@ -226,16 +230,16 @@
 
 | ID | 功能 | 阶段 | 优先级 | 设计 | 实现 | 依赖 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [SESSION-01](roadmap.html#feature=SESSION-01) | 首次发送创建会话与配置 | M2 | P0 | 已有详细设计，待校正 | 未开始 | WS-01, MODEL-01, CORE-06 |
+| [SESSION-01](roadmap.html#feature=SESSION-01) | 首次发送创建会话与配置 | M2 | P0 | 已有详细设计，待校正 | 已验收 | WS-01, MODEL-01, CORE-06 |
 | [SESSION-02](roadmap.html#feature=SESSION-02) | 恢复与切换会话 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SESSION-01, CORE-06 |
 | [SESSION-03](roadmap.html#feature=SESSION-03) | 会话列表、置顶、未读与归档 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SESSION-02 |
 | [SESSION-04](roadmap.html#feature=SESSION-04) | 高级历史检索与跨对象定位 | M6 | P1 | 已列范围，待细化 | 未开始 | SESSION-12, SEC-06 |
 | [SESSION-05](roadmap.html#feature=SESSION-05) | 历史树与消息分叉 | M4 | P1 | 已有详细设计，待校正 | 未开始 | SESSION-02, CHANGE-07 |
 | [SESSION-06](roadmap.html#feature=SESSION-06) | 会话导入与脱敏导出 | M4 | P1 | 已列范围，待细化 | 未开始 | SESSION-02, SEC-06, SEC-09 |
-| [SESSION-07](roadmap.html#feature=SESSION-07) | 无项目会话与独立执行空间 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SESSION-01, SEC-07 |
+| [SESSION-07](roadmap.html#feature=SESSION-07) | 无项目会话与独立执行空间 | M2 | P0 | 已有详细设计，待校正 | 进行中 | SESSION-01, SEC-07 |
 | [SESSION-08](roadmap.html#feature=SESSION-08) | 产物、PR 与任务关联 | M4 | P1 | 已列范围，待细化 | 未开始 | SESSION-02, CHANGE-03 |
 | [SESSION-09](roadmap.html#feature=SESSION-09) | 会话删除与数据保留 | M5 | P1 | 已列范围，待细化 | 未开始 | SESSION-03, OPS-05 |
-| [SESSION-10](roadmap.html#feature=SESSION-10) | 自动生成会话名称 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SESSION-01, SEC-06 |
+| [SESSION-10](roadmap.html#feature=SESSION-10) | 自动生成会话名称 | M2 | P0 | 已有详细设计，待校正 | 进行中 | SESSION-01, SEC-06 |
 | [SESSION-11](roadmap.html#feature=SESSION-11) | 会话重命名与多端同步 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SESSION-01, CORE-06 |
 | [SESSION-12](roadmap.html#feature=SESSION-12) | 基础会话搜索与项目筛选 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SESSION-02, WS-06, SEC-06 |
 | [SESSION-13](roadmap.html#feature=SESSION-13) | 会话项目归属与环境迁移 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SESSION-07, WS-06, SESSION-02, SEC-03 |
@@ -246,10 +250,14 @@
 
 实现来源：工作台自行实现。负责人：未分配；目标日期：未估算。
 
-- [ ] 全局新会话默认无项目，项目入口预选项目；未发送离开不产生永久空会话，已有会话发送不会意外创建另一会话。
-- [ ] 首次发送持久化稳定会话 ID 与首条消息后出现在侧栏；连续双击或同一创建请求断线重试只产生同一会话与同一首条消息。
-- [ ] 落库前失败保留草稿，落库后模型或内核失败保留原会话并提供明确重试；不静默重放执行结果不确定的副作用。
-- [ ] 无需先填名称或选择项目即可发送；创建中有反馈，命名任务不阻塞主响应，中文输入法选词不会误发送。
+- [x] 全局新会话默认无项目，项目入口预选项目；未发送离开不产生永久空会话，已有会话发送不会意外创建另一会话。
+- [x] 首次发送持久化稳定会话 ID 与首条消息后出现在侧栏；连续双击或同一创建请求断线重试只产生同一会话与同一首条消息。
+- [x] 落库前失败保留草稿，落库后模型或内核失败保留原会话并提供明确重试；不静默重放执行结果不确定的副作用。
+- [x] 无需先填名称或选择项目即可发送；创建中有反馈，命名任务不阻塞主响应，中文输入法选词不会误发送。
+
+进展 / 阻塞：Electron 默认工作台通过实际 daemon / SQLite / pi SDK 本地夹具首发与续发；先保存稳定会话 / 首消息 / 配置再调度，同 requestId 与双击去重。落库失败保留草稿和原请求，已知运行失败明确重试，SDK SIGKILL / 重启后结果未知不重放；准入前后重查目录，standalone 拒绝链接逃逸。项目可选，模型 / cwd 明确，新旧草稿独立，刷新 / 设置返回和迟到回执均受保护。本轮真实 Windows 微软拼音候选态 Enter 提交及 Space 选出中文不发送，Shift+Enter 换行、普通 Enter 首发、同 ID 续发、原生目录选择 / 明暗 / 窄窗与退出均通过。补验发现并修复同项目新草稿重新进入丢失显式目录，修复前失败 / 修复后通过，最终完整离线 CI 再次通过；复用修复前 clean 的未变基础设施证据。本地摘要命名不额外调用模型，不改 pi 配置，已有提供商真实传输禁发。无安装包，网页独立发送暂缓。
+
+验证证据：docs/validation/session-01-evidence/acceptance.md、ci.log、ci-native-followup.log、directory-regression-before.log、directory-regression-after.log、native-validation.json、native-before-send.json、native-first-run-audit.json、native-final-audit.json 及原生截图；apps/daemon/test/session-creation.test.ts；e2e/session-creation.spec.ts。目录修复后完整 164 项 Vitest / 40 项浏览器与 Electron E2E、SDK 本地冒烟退出 0；clean-workspace.json / clean-commands.json 是修复前 frozen 干净目录复现，依赖 / 原生模块 / 服务 / 构建配置未变而复用，锁哈希一致。原生最终只读审计为 2 会话 / 3 完成提交 / 3 完成轮次，指定 cwd 正确、SQLite 哈希未变，真实提供商请求 0。
 
 ### SESSION-02 恢复与切换会话
 
@@ -306,6 +314,10 @@
 - [ ] 界面显示无项目及实际独立目录；只加载明确启用的全局或会话能力，不因无项目扩大目录权限，已有外部权限显示来源。
 - [ ] 无项目会话的产物不在退出时自动删除，后续关联项目不搬移产物或丢失原始来源。
 
+进展 / 阻塞：SESSION-01 已实现无项目首发、持久 standalone 专属目录、全局不继承项目 cwd、明确显示实际执行路径和链接逃逸拒绝。原会话 / 输入在重启后可查询，工具 / 扩展仍禁用。真实产物生命周期、后续关联项目保留来源及完整权限展示未交付；SESSION-01 原生首发与目录已验收，本条其余范围保持部分实现。
+
+验证证据：docs/validation/session-01-evidence/acceptance.md、ci.log、clean-workspace.json、clean-commands.json；apps/daemon/test/session-creation.test.ts；e2e/session-creation.spec.ts。完整 164 项 Vitest / 40 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 干净目录复现通过，锁哈希一致，真实提供商请求 0。
+
 ### SESSION-08 产物、PR 与任务关联
 
 将文件结果、变更、任务和 PR 关联到产生它们的会话。
@@ -333,6 +345,10 @@
 - [ ] 首条消息持久化后立即有最多 40 个 Unicode 字符的本地标题；默认无额外模型请求。显式启用模型润色后只用现有配置、一次请求、10 秒超时回退。
 - [ ] 可选命名请求不调用工具、不读取文件、不写入主会话历史；用量单独追踪，标题为脱敏纯文本，离线或失败不阻塞主任务。
 - [ ] 标题写入校验来源、版本与请求 ID；人工改名后迟到结果不得覆盖，后续消息不反复改名；显式重新自动命名先确认是否调用模型。
+
+进展 / 阻塞：SESSION-01 已实现最多 40 Unicode 字符的脱敏纯文本本地标题、local 来源和版本 1，不新增命名请求、不阻塞主任务；原生执行输入保持原文。可选模型润色 / 用量 / 超时、显式重新命名及人工改名后的 CAS 防覆盖未交付，不整条验收。
+
+验证证据：docs/validation/session-01-evidence/acceptance.md、ci.log、clean-workspace.json、clean-commands.json；apps/daemon/test/session-creation.test.ts；e2e/session-creation.spec.ts。完整 164 项 Vitest / 40 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 干净目录复现通过，锁哈希一致，真实提供商请求 0。
 
 ### SESSION-11 会话重命名与多端同步
 
@@ -370,7 +386,7 @@
 
 | ID | 功能 | 阶段 | 优先级 | 设计 | 实现 | 依赖 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [INPUT-01](roadmap.html#feature=INPUT-01) | 文本输入、中文输入法与草稿 | M2 | P0 | 已有详细设计，待校正 | 未开始 | SESSION-01 |
+| [INPUT-01](roadmap.html#feature=INPUT-01) | 文本输入、中文输入法与草稿 | M2 | P0 | 已有详细设计，待校正 | 进行中 | SESSION-01 |
 | [INPUT-02](roadmap.html#feature=INPUT-02) | 斜杠命令与技能选择 | M4 | P1 | 已有详细设计，待校正 | 未开始 | INPUT-01, EXT-01 |
 | [INPUT-03](roadmap.html#feature=INPUT-03) | 文件、目录与代码范围引用 | M4 | P1 | 已列范围，待细化 | 未开始 | INPUT-01, FILE-02, SEC-10 |
 | [INPUT-04](roadmap.html#feature=INPUT-04) | 图片与截图附件 | M6 | P1 | 已列范围，待细化 | 未开始 | INPUT-01, MODEL-03 |
@@ -389,6 +405,10 @@
 
 - [ ] Enter 发送、Shift+Enter 换行与中文输入法组合态不冲突，纯空白输入不发送。
 - [ ] 未发送的新会话草稿与已有会话草稿分开保存，切换或刷新可恢复正文、已选项目和模型；不会把草稿误发到另一会话。
+
+进展 / 阻塞：SESSION-01 已实现 Enter / Shift+Enter / 组合态 / keyCode 229、空白拒绝、每窗口新 / 旧会话独立草稿与配置、切换 / 刷新 / 设置返回；实际 Electron E2E 及真实 Windows 微软拼音候选态 Enter 提交 / Space 中文选词、Shift+Enter 和普通 Enter 发送均通过，来源分开记录。该支撑验收不代表 INPUT-01 的全部输入能力，本条其余范围保持部分实现。
+
+验证证据：docs/validation/session-01-evidence/acceptance.md、ci.log、clean-workspace.json、clean-commands.json；apps/daemon/test/session-creation.test.ts；e2e/session-creation.spec.ts。完整 164 项 Vitest / 40 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 干净目录复现通过，锁哈希一致，真实提供商请求 0。
 
 ### INPUT-02 斜杠命令与技能选择
 
@@ -1021,7 +1041,7 @@
 
 | ID | 功能 | 阶段 | 优先级 | 设计 | 实现 | 依赖 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [MODEL-01](roadmap.html#feature=MODEL-01) | 发现模型与已有提供商 | M2 | P0 | 已有详细设计，待校正 | 未开始 | CORE-04 |
+| [MODEL-01](roadmap.html#feature=MODEL-01) | 发现模型与已有提供商 | M2 | P0 | 已有详细设计，待校正 | 已验收 | CORE-04 |
 | [MODEL-02](roadmap.html#feature=MODEL-02) | 提供商、端点与凭证配置 | M4 | P1 | 已列范围，待细化 | 未开始 | MODEL-01, SEC-06 |
 | [MODEL-03](roadmap.html#feature=MODEL-03) | 模型与思考级别切换 | M2 | P0 | 已有详细设计，待校正 | 未开始 | MODEL-01 |
 | [MODEL-04](roadmap.html#feature=MODEL-04) | 全局、项目与会话配置 | M4 | P1 | 已有详细设计，待校正 | 未开始 | MODEL-01, SEC-03 |
@@ -1035,8 +1055,12 @@
 
 实现来源：pi 已有接口，待集成验证。负责人：未分配；目标日期：未估算。
 
-- [ ] 列表反映实际运行时能力，模型不可用时说明原因和配置入口。
-- [ ] 不把其他产品账号权益当成 pi 自动获得的 API 或订阅权限。
+- [x] 列表反映实际运行时能力，模型不可用时说明原因和配置入口。
+- [x] 不把其他产品账号权益当成 pi 自动获得的 API 或订阅权限。
+
+进展 / 阻塞：Electron 侧栏 / 原生菜单只读发现安装的 pi 1.4.0 目录与显式 PIW_PI_AGENT_DIR 配置，展示提供商、模型能力、文件来源 / 状态、默认模型匹配、本地认证与不可用原因。已配置与未联网验证分开，其他产品账号不推断为 pi 权益；真实传输关闭，不改配置、不执行认证 / 请求头命令或刷新 OAuth、不恢复动态缓存 / 加载扩展。网页独立流程暂缓，无安装包。实际 SDK / 文件 / HTTP / SQLite 及 Electron 来源、搜索 / 分批 / 明暗 / 键盘 / 断线恢复 / 迟到结果验证通过，原生菜单与刷新实际操作、三文件字节不变及无会话 / 运行时 / 信任 / 工作区记录已审计。完整 155 项 Vitest / 33 项浏览器与 Electron E2E、SDK 本地冒烟和新目录 frozen 复现通过，新增真实提供商请求 0。
+
+验证证据：packages/shared/src/model-contracts.ts；packages/agent-adapter/src/model-discovery.ts；apps/daemon/src/modules/models/model.service.ts、modules/security/security.service.ts、bootstrap/app.ts；apps/web/src/features/settings/model-discovery.tsx、services/model-client.ts；apps/desktop/src/main.ts。apps/daemon/test/models.test.ts 9 项（含修复前失败 / 修复后通过的模型覆盖请求头回归），e2e/models.spec.ts 3 项；已纳入 test:contracts 与完整 CI。pnpm fix、pnpm run ci、pnpm verify:clean 均退出 0；frozen 安装 / 原生模块 / 构建 / 155 项测试 / SDK 冒烟 / 服务正常退出与锁 SHA-256 一致。docs/architecture/implementation-plan.md#model-01-已交付边界；docs/validation/model-01-evidence/ci.log、clean-workspace.json、clean-commands.json、native-validation.json、models-light.png、models-dark-800.png、native-models.jpg。模型 / 凭证为合成来源，HTTP 故障明确标注，账号与网络授权未验证；自动输入不作为人工 Windows IME 验收。历史预算与固定录制不变。
 
 ### MODEL-02 提供商、端点与凭证配置
 
@@ -1388,9 +1412,9 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | [UX-01](roadmap.html#feature=UX-01) | 面板、分屏与布局恢复 | M4 | P1 | 已列范围，待细化 | 未开始 | OBS-01, FILE-02, EXEC-01 |
 | [UX-02](roadmap.html#feature=UX-02) | 命令面板与键盘操作 | M4 | P1 | 已列范围，待细化 | 未开始 | SESSION-03, OBS-02 |
-| [UX-03](roadmap.html#feature=UX-03) | 主题、字号、密度与中文体验 | M4 | P1 | 已列范围，待细化 | 未开始 | OBS-01 |
+| [UX-03](roadmap.html#feature=UX-03) | 主题、字号、密度与中文体验 | M4 | P1 | 已列范围，待细化 | 进行中 | OBS-01 |
 | [UX-04](roadmap.html#feature=UX-04) | 无障碍与减弱动效 | M5 | P1 | 已列范围，待细化 | 未开始 | UX-02, SEC-02, CHANGE-05 |
-| [UX-05](roadmap.html#feature=UX-05) | 桌面外壳、窗口与生命周期 | M2 | P0 | 已有详细设计，待校正 | 未开始 | CORE-05, CORE-06 |
+| [UX-05](roadmap.html#feature=UX-05) | 桌面外壳、窗口与生命周期 | M2 | P0 | 已有详细设计，待校正 | 进行中 | CORE-05, CORE-06 |
 | [UX-06](roadmap.html#feature=UX-06) | 完成、失败与待决定通知 | M5 | P1 | 已列范围，待细化 | 未开始 | OBS-02, SEC-02, SESSION-03 |
 
 ### UX-01 面板、分屏与布局恢复
@@ -1420,6 +1444,10 @@
 - [ ] 默认跟随系统且实时响应系统主题变化，也可显式选择明暗主题；明暗两套同等设计，主题、字号和密度设置持久保存，文字和状态有可读对比；冷启动 / 重启首帧不闪错主题，Electron 可控底色与应用主题协调。初始字号采用用户确认的界面 14 px / 消息 15 px / 辅助 12 px 基线，字号与缩放设置后续按 UX 验收。
 - [ ] 中等密度为用户确认基线；在 1920×1080 @100% 主稿及窄窗口 / 放大场景下，中文、长路径、长工具名和大代码块不截断关键决定信息，代码区内部滚动而整页不横向溢出；1080 100% 的宽高解释保留为设计假设。
 
+进展 / 阻塞：部分实现：统一外观 / 模型 / 凭证 / 客户端 / 信任 / 资源设置布局，主题跟随系统或显式明暗并持久化非敏感偏好，跨页与 Electron 窗口颜色同步；中性灰和 14 / 15 / 12 px 基线保留。1920×1080、800 px 桌面与 390 px 布局纳入离线 E2E。完整字号 / 密度可配置、真实会话和全部放大 / 中文场景未验收，依赖 OBS-01 尚未完成，两项验收继续不勾选。 PRD 可点击原型同步顶部栏、轨道、全页设置与窄窗导航；保留全部原型分类，设计不增加已验收数。Windows 原生菜单、Ctrl+逗号、明暗、最大化 / 还原、最小化恢复和 × 后服务保持已核对；空白区双击可最大化，自动拖动未观察到位移，真实拖动和托盘菜单恢复仍待人工确认。
+
+验证证据：docs/design/core-spec.md 的 Electron 控制栏与统一设置；docs/architecture/implementation-plan.md#electron-控制栏与统一设置；apps/desktop/src/window-chrome.ts、apps/web/src/app/app-frame.tsx、features/settings/settings-shell.tsx / appearance.tsx；e2e/settings.spec.ts、e2e/desktop.spec.ts。；docs/validation/ui-shell-evidence（ci.log、clean-workspace.json、clean-commands.json、native-validation.json、prd-layout.json、实际应用与 PRD 截图）；完整 155 项 Vitest / 35 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 新目录复现通过；真实提供商请求 0。
+
 ### UX-04 无障碍与减弱动效
 
 让辅助技术和放大场景也能完成核心旅程。
@@ -1437,6 +1465,10 @@
 
 - [ ] 打开同一服务的新窗口共享权威状态，窗口身份和当前目录可确认；在 Electron 单独验证窗口按钮 / 焦点，若采用自绘标题栏，拖拽区域中的交互控件须排除拖拽命中，不能以网页检查代替桌面验证。
 - [ ] 桌面 × 默认到托盘并保持任务 / 待审批；自启默认关。退出应用保存记录、取消待审批 / 排队，确认受管服务、Agent、命令及已接入终端停止后才完成，失败展示未停止对象；不误停独立 serve / CLI。浏览器关闭仅断开查看，独立服务显式退出；重启恢复记录但不自动重放队列 / 副作用或旧授权。
+
+进展 / 阻塞：部分实现：40 px 桌面控制栏、Windows 原生窗口按钮、固定枚举菜单 / 主题桥、设置导航和返回保留上下文；原有 × 到托盘与显式退出保留。新增跨窗口身份 / 参数拒绝、主题和导航回归。完整多窗口共享业务、深链接、真实会话 / 审批 / 终端退出与异常对象提示尚未验收，两项验收继续不勾选。 PRD 可点击原型同步顶部栏、轨道、全页设置与窄窗导航；保留全部原型分类，设计不增加已验收数。Windows 原生菜单、Ctrl+逗号、明暗、最大化 / 还原、最小化恢复和 × 后服务保持已核对；空白区双击可最大化，自动拖动未观察到位移，真实拖动和托盘菜单恢复仍待人工确认。
+
+验证证据：docs/design/core-spec.md 的 Electron 控制栏与统一设置；docs/architecture/implementation-plan.md#electron-控制栏与统一设置；apps/desktop/src/window-chrome.ts、apps/web/src/app/app-frame.tsx、features/settings/settings-shell.tsx / appearance.tsx；e2e/settings.spec.ts、e2e/desktop.spec.ts。；docs/validation/ui-shell-evidence（ci.log、clean-workspace.json、clean-commands.json、native-validation.json、prd-layout.json、实际应用与 PRD 截图）；完整 155 项 Vitest / 35 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 新目录复现通过；真实提供商请求 0。
 
 ### UX-06 完成、失败与待决定通知
 
@@ -1538,9 +1570,9 @@
 - [x] 契约样本覆盖顺序、重复、缺口重同步、迟到终态、断线、错误、拒绝和中断；真实 SDK 样本和本地模拟来源分开标注，失败给出可定位差异。
 - [ ] 每阶段绑定真实验收；随功能阶段扩充复用实际组件的离线场景，包含迟到响应、状态去重、未知工具 / 长输出及渲染失败，明确样本来源且不触发真实工具 / 提供商。M2 Chromium / Electron 检验 IME 发送、草稿、切换回看、改名、审批和双端重连，后续加入回滚与平台门禁，不以源码字符串断言替代用户交互。
 
-进展 / 阻塞：M1 契约基线、CORE-05–07、SEC-06 凭证 / 脱敏、SEC-07 资源来源 / 指纹 / 撤销及 SEC-08 配对 / 撤销均接入同一离线 CI。固定 SDK 录制、真实 SDK + 本地模型夹具、合成资源 / IPC / 审批 / 检查点 / 凭证及 HTTP 故障分别标明；本轮新增 7 项信任服务集成、2 项浏览器流程，并扩充真实 Electron 主进程测试。完整 141 项 Vitest / 28 项浏览器与 Electron E2E、SDK 冒烟和干净目录验证通过，新增真实提供商请求 0。第一条保持通过，第二条仍待其余 M2 真实 IME / 会话 / 审批 / 双端业务重连、M3 回滚及后续平台门禁，整体保持 in_progress。
+进展 / 阻塞：M1 契约基线、CORE-05–07、SEC-06 / 07 / 08、WS-01、MODEL-01 与 SESSION-01 均接入同一离线 CI。固定 SDK 录制、真实 SDK + 本地 HTTP / SQLite / Electron、合成 IPC / 审批 / 检查点 / 凭证 / 模型来源和故障注入分别记录。SESSION-01 的 9 项会话服务 / 5 项实际 Electron 流程覆盖原子首发、幂等、草稿 / 设置返回、提交失败 / 回执丢失、SDK error / SIGKILL / 重启不重放、排队目录复核与配置守卫。本轮补齐真实 Windows 微软拼音、原生首发 / 同会话续发 / 草稿 / 目录 / 明暗窄窗；修复目录保留回归后完整 164 项 Vitest / 40 项 E2E、SDK 冒烟退出 0。复用修复前 clean 中未变依赖 / 原生模块 / 构建 / 启停证据，锁哈希一致，真实提供商请求 0。第一条保持通过，第二条仍待完整会话视图恢复 / 旧历史、改名、业务审批 / 双端重连、M3 回滚和后续平台门禁，整体保持 in_progress；UX-03 / UX-05 仅部分实现。
 
-验证证据：docs/development/tooling.md 的 OPS-08 契约回归门禁（来源、阶段矩阵及限制）；packages/agent-adapter/test/contracts/recordings.json、src/contracts.test.ts、src/kernel.test.ts；packages/shared/src/reducer.ts、reducer.test.ts；e2e/contracts.spec.ts；apps/web/src/app/scene-content.tsx、workbench.tsx、services/api.ts。pnpm fix、pnpm run ci、pnpm verify:clean 退出 0，完整 85 项 Vitest / 12 项浏览器与 Electron E2E、SDK 本地流式 / 中止 / dispose、干净目录 frozen 安装 / 构建 / 启停通过且锁文件 SHA-256 一致。原始输出及复核截图 docs/validation/ops-08-evidence（ci.log、clean-workspace.json、clean-commands.json、contract-*.png）。真实预算账本与历史证据未改。；CORE-05 后续扩充见 docs/architecture/implementation-plan.md 的 CORE-05 已交付边界、docs/validation/core-05-evidence、packages/shared/src/runtime-contracts.test.ts、apps/daemon/test/events.test.ts、e2e/runtime.spec.ts。；CORE-06 扩充见 docs/architecture/implementation-plan.md 的 CORE-06 已交付边界、docs/validation/core-06-evidence、packages/agent-adapter/src/native-history.test.ts、apps/daemon/test/sessions.test.ts、e2e/history.spec.ts。；CORE-07：apps/daemon/test/resources.test.ts、e2e/resources.spec.ts、docs/architecture/implementation-plan.md#core-07-已交付边界、docs/validation/core-07-evidence/ci.log 与 clean-workspace.json。；SEC-06：packages/shared/src/redaction.test.ts、apps/daemon/test/security.test.ts、e2e/security.spec.ts、docs/architecture/implementation-plan.md#sec-06-已交付边界与 docs/validation/sec-06-evidence（CI / clean / 实际页面截图）。；SEC-08：apps/daemon/test/access.test.ts、e2e/access.spec.ts / desktop.spec.ts、docs/architecture/implementation-plan.md#sec-08-本机客户端授权边界及 docs/validation/sec-08-evidence（CI / clean / 实际页面截图）。；SEC-07：apps/daemon/test/trust.test.ts、e2e/trust.spec.ts / desktop.spec.ts、docs/architecture/implementation-plan.md#sec-07-已交付边界及 docs/validation/sec-07-evidence（CI / clean / 实际页面截图）。
+验证证据：docs/development/tooling.md 的 OPS-08 契约回归门禁（来源、阶段矩阵及限制）；packages/agent-adapter/test/contracts/recordings.json、src/contracts.test.ts、src/kernel.test.ts；packages/shared/src/reducer.ts、reducer.test.ts；e2e/contracts.spec.ts；apps/web/src/app/scene-content.tsx、workbench.tsx、services/api.ts。pnpm fix、pnpm run ci、pnpm verify:clean 退出 0，完整 85 项 Vitest / 12 项浏览器与 Electron E2E、SDK 本地流式 / 中止 / dispose、干净目录 frozen 安装 / 构建 / 启停通过且锁文件 SHA-256 一致。原始输出及复核截图 docs/validation/ops-08-evidence（ci.log、clean-workspace.json、clean-commands.json、contract-*.png）。真实预算账本与历史证据未改。；CORE-05 后续扩充见 docs/architecture/implementation-plan.md 的 CORE-05 已交付边界、docs/validation/core-05-evidence、packages/shared/src/runtime-contracts.test.ts、apps/daemon/test/events.test.ts、e2e/runtime.spec.ts。；CORE-06 扩充见 docs/architecture/implementation-plan.md 的 CORE-06 已交付边界、docs/validation/core-06-evidence、packages/agent-adapter/src/native-history.test.ts、apps/daemon/test/sessions.test.ts、e2e/history.spec.ts。；CORE-07：apps/daemon/test/resources.test.ts、e2e/resources.spec.ts、docs/architecture/implementation-plan.md#core-07-已交付边界、docs/validation/core-07-evidence/ci.log 与 clean-workspace.json。；SEC-06：packages/shared/src/redaction.test.ts、apps/daemon/test/security.test.ts、e2e/security.spec.ts、docs/architecture/implementation-plan.md#sec-06-已交付边界与 docs/validation/sec-06-evidence（CI / clean / 实际页面截图）。；SEC-08：apps/daemon/test/access.test.ts、e2e/access.spec.ts / desktop.spec.ts、docs/architecture/implementation-plan.md#sec-08-本机客户端授权边界及 docs/validation/sec-08-evidence（CI / clean / 实际页面截图）。；SEC-07：apps/daemon/test/trust.test.ts、e2e/trust.spec.ts / desktop.spec.ts、docs/architecture/implementation-plan.md#sec-07-已交付边界及 docs/validation/sec-07-evidence（CI / clean / 实际页面截图）。；WS-01：apps/daemon/test/workspaces.test.ts、e2e/workspaces.spec.ts、docs/architecture/implementation-plan.md#ws-01-已交付边界及 docs/validation/ws-01-evidence。；MODEL-01：apps/daemon/test/models.test.ts、e2e/models.spec.ts、docs/architecture/implementation-plan.md#model-01-已交付边界及 docs/validation/model-01-evidence（CI / clean / 原生审计 / 实际 Electron 截图）；155 项 Vitest / 33 项 E2E，真实请求 0。；桌面布局与 PRD 同步：docs/validation/ui-shell-evidence（ci.log、clean-workspace.json、clean-commands.json、native-validation.json、prd-layout.json、实际应用与 PRD 截图）；完整 155 项 Vitest / 35 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 新目录复现通过；真实提供商请求 0。；SESSION-01 候选：docs/validation/session-01-evidence/acceptance.md、ci.log、clean-workspace.json、clean-commands.json；apps/daemon/test/session-creation.test.ts；e2e/session-creation.spec.ts。完整 164 项 Vitest / 40 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 干净目录复现通过，锁哈希一致，真实提供商请求 0。；SESSION-01 原生补验与目录修复：docs/validation/session-01-evidence/native-validation.json、native-final-audit.json、ci-native-followup.log、directory-regression-before.log、directory-regression-after.log；原生微软拼音与合成 composition 分开记录，最终 CI 164 / 40、SDK 冒烟通过，clean 仅复用未变基础设施，真实请求 0。
 
 ## REMOTE 远程与协作扩展
 
@@ -1678,7 +1710,7 @@
 
 ## 进度说明
 
-CORE-01–03 的 M0 技术验证、OPS-01 工程 / 离线 UI 基线、CORE-04 受管 SDK 内核、CORE-05 事件 / 快照 / WS 重放、CORE-06 持久化 / 故障恢复、CORE-07 进程池 / 资源排队、SEC-06 原生凭证边界 / 统一脱敏、SEC-07 资源来源 / 指纹信任、SEC-08 本机客户端配对 / 撤销及 WS-01 桌面工作区打开 / 校验 / 切换已验收。OPS-08 已绑定 M1 基线与 CORE-05–07 / SEC-06 / 07 / 08 / WS-01 回归，整体随其余 M2 真实业务及后续回滚 / 平台门禁继续进行。普通页面为假内核样本，另有只读实时观察、历史 / 中断恢复、资源与凭证状态、配对及资源信任管理页；SDK 使用本地夹具，工具与真实提供商禁用。资源信任跨重启保存，变化后重新确认，仅已确认文本可加载，原生扩展 / 脚本 / 安装仍禁用。合成审批 / 分片 / 检查点及工作台记录不等于生产审批完成；浏览器凭证写入仍关闭，终端仅预留预算，真实 PTY 在 M4 验收。 WS-01 以实际物理目录身份去重，目录失效 / 权限不足不创建空会话；切换不停止后台任务，也不自动信任或执行项目资源。已核对真实 Windows 目录选择器；最近 / 重命名留待 WS-02，网页独立工作区操作暂缓，尚无安装包。
+CORE-01–03 的 M0 技术验证、OPS-01 工程 / 离线 UI 基线、CORE-04 受管 SDK 内核、CORE-05 事件 / 快照 / WS 重放、CORE-06 持久化 / 故障恢复、CORE-07 进程池 / 资源排队、SEC-06 原生凭证边界 / 统一脱敏、SEC-07 资源来源 / 指纹信任、SEC-08 本机客户端配对 / 撤销及 WS-01 桌面工作区打开 / 校验 / 切换已验收。OPS-08 已绑定 M1 基线与 CORE-05–07 / SEC-06 / 07 / 08 / WS-01 回归，整体随其余 M2 真实业务及后续回滚 / 平台门禁继续进行。浏览器首页及 Electron ?samples 为假内核样本，另有只读实时观察、历史 / 中断恢复、资源与凭证状态、配对及资源信任管理页；SDK 使用本地夹具，工具与真实提供商禁用。资源信任跨重启保存，变化后重新确认，仅已确认文本可加载，原生扩展 / 脚本 / 安装仍禁用。合成审批 / 分片 / 检查点及工作台记录不等于生产审批完成；浏览器凭证写入仍关闭，终端仅预留预算，真实 PTY 在 M4 验收。 WS-01 以实际物理目录身份去重，目录失效 / 权限不足不创建空会话；切换不停止后台任务，也不自动信任或执行项目资源。已核对真实 Windows 目录选择器；最近 / 重命名留待 WS-02，网页独立工作区操作暂缓，尚无安装包。 MODEL-01 已验收：Electron 只读展示安装 SDK 及显式 pi 配置的模型 / 提供商 / 能力 / 来源和默认模型匹配，已配置与未联网验证分开，不推断其他产品账号权益；真实传输关闭，不改配置、不执行认证命令 / OAuth 刷新或额外调用模型。实际 SDK / 原生文件 / HTTP 与 Electron / Windows 原生菜单审计通过，配置字节不变，不创建会话、授信或登记工作区。动态模型缓存和外部扩展不加载，网页独立模型流程暂缓；OPS-08 随其余真实会话及后续门禁继续进行，SESSION-01 的后续验收见本次记录。 2026-11-02 按用户提供的 Codex 截图优化 Electron 控制栏与统一设置，关联 UX-03 / UX-05 部分实现；保留原生窗口按钮、离线样本来源、配对和真实传输限制，尚未验收完整字号 / 密度、多窗口 / 深链接及真实业务生命周期，已验收功能数不变。 2026-11-03 SESSION-01 已验收：SQLite 原子首发 / 幂等、明确模型与 cwd、草稿 / 刷新 / 设置返回、已知失败明确重试及未知中断不重放进入真实 SDK + 本地 HTTP / SQLite / Electron 回归；本轮补齐真实 Windows 微软拼音、原生首发 / 同会话续发、草稿 / 设置返回、目录 / 明暗 / 窄窗。修复同项目新草稿重入丢失所选目录，回归修复前失败 / 修复后通过，完整 164 项 Vitest / 40 项 E2E 与 SDK 冒烟重新通过；原 clean 复用未变的依赖 / 原生模块 / 构建与启停证据，锁哈希一致。四项验收全部勾选，真实提供商新增请求 0，pi 配置未改。WS-06 / SESSION-07 / 10 / INPUT-01 仅记录相关部分实现；OPS-08 整体继续 in_progress，下一项建议 SESSION-02。
 
 只有依赖已验收、全部验收项勾选且有非空验证证据的功能，才能标记 verified。M8 不计入本地完整版完成率；完成率按条目计数，不是工时或发布承诺。
 

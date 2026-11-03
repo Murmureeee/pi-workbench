@@ -113,7 +113,7 @@ R6 生命周期：Electron × 默认收到托盘，保持任务 / 审批；自�
 | 5. 有界资源 | CORE-07 | 已验收 3 内核 / 1 模型任务、6 终端预算、FIFO / 取消、空闲回收和受管冷恢复；M1 技术阶段门复核见下方 |
 | 6. 可日常试用的对话 | M2 现有功能 | 真实新会话到中止、审批、查找、改名及跨端同步；不以静态壳代替产品完成 |
 
-工作包是功能的实施细分，不新增完成率分母，不承诺未经估算的日期。当前为 **12 / 133 已验收**（CORE-01–07、OPS-01、SEC-06 / 07 / 08、WS-01；M1 技术阶段门已复核，OPS-08 跨阶段进度单列），146 个全量功能 ID、M0–M8 范围及负责人保持不变。OPS-08 的 M1 契约基线已交付、整体继续进行中；M2 已交付安全基础与桌面工作区，下一项建议 MODEL-01 模型发现，再接 SESSION-01 真实会话。WS-02 最近 / 重命名继续保留，不因持久目录身份提前验收。Q01 / Q02 已有 M0 证据；选定的后续默认值只表示方案决定，不表示产品实现通过。
+工作包是功能的实施细分，不新增完成率分母，不承诺未经估算的日期。依据 canonical backlog 当前为 **14 / 133 已验收**（CORE-01–07、OPS-01、SEC-06 / 07 / 08、WS-01、MODEL-01、SESSION-01；M1 技术阶段门已复核，OPS-08 跨阶段进度单列），146 个全量功能 ID、M0–M8 范围及负责人保持不变。SESSION-01 的自动门禁与真实 Windows IME / Electron 原生操作已通过。OPS-08 的 M1 基线已交付、整体继续进行中；WS-02 最近 / 重命名继续保留，不因持久目录身份提前验收。Q01 / Q02 已有 M0 证据；选定默认值只表示方案决定，不表示产品实现通过。
 
 ### CORE-04 已交付边界
 
@@ -133,7 +133,7 @@ M1 契约基线通过。测试只读重放 14 份 CORE-01 / 02 历史录制，�
 
 `pnpm test:contracts` 提供定向入口；完整 test / CI 已包含同一批测试。OPS-08 首次基线的完整 CI 为 **85 项 Vitest + 12 项浏览器 / Electron E2E**，`pnpm fix`、`pnpm run ci`、`pnpm verify:clean` 退出 0，干净目录安装 / 构建 / 启停通过且锁文件一致，新增真实提供商请求 0。验收范围、逐阶段矩阵与截图见[工具规范](../development/tooling.md#ops-08-契约回归门禁)；原始 [CI](../validation/ops-08-evidence/ci.log)、[干净目录结果](../validation/ops-08-evidence/clean-workspace.json)与[命令输出](../validation/ops-08-evidence/clean-commands.json)独立归档。
 
-OPS-08 第一条验收通过，第二条仍未通过，整体保持 `in_progress`。CORE-05 的双客户端握手 / 重放已绑定同一门禁，CORE-06 恢复也已绑定，CORE-07 资源门禁也已接入；M2 的真实 IME / 草稿 / 切换 / 改名 / 审批 / 双端重连、M3 回滚及后续平台验收随产品实现纳入。离线 UI 及程序合成 IME 用例不能替代这些真实产品验收，不将 OPS-08 整体提前记为已验收。
+OPS-08 第一条验收通过，第二条仍未通过，整体保持 `in_progress`。CORE-05–07 及 M2 已验收功能均绑定同一门禁；SESSION-01 已补真实 Windows IME、首发 / 续发、草稿 / 设置返回与目录 / 主题。其余完整会话视图恢复 / 旧 pi 历史、改名、业务审批 / 双端重连、M3 回滚及后续平台验收随产品实现纳入。程序合成事件、离线样本与真实系统输入法来源分别记录，不将 OPS-08 整体提前记为已验收。
 
 ### CORE-05 已交付边界
 
@@ -201,7 +201,7 @@ daemon 的 KernelPool 统一分配内核名额，KernelService 统一分配模�
 
 完整 **118 项 Vitest / 21 项浏览器与 Electron E2E**、SDK 冒烟、pnpm fix、pnpm run ci 与 pnpm verify:clean 全部通过；新目录 frozen 安装 / 检查 / 构建 / 测试 / 启停与锁文件哈希一致。daemon 仅新增声明已有 catalog 中的 Zod 直接依赖，无新版本或第二套校验库。原始 [CI](../validation/core-07-evidence/ci.log)、[干净目录结果](../validation/core-07-evidence/clean-workspace.json)、[命令输出](../validation/core-07-evidence/clean-commands.json)、[FIFO 状态](../validation/core-07-evidence/resources-fifo.png)、[深色窄窗](../validation/core-07-evidence/resources-dark-390.png)和[失去同步](../validation/core-07-evidence/resources-unavailable.png)独立保留。新增真实提供商请求 0，原预算和历史证据未改；未归档重复截图、测试目录和运行数据不入库。
 
-M1 的三个技术阶段门分别由 CORE-05 的双端顺序 / 重放、CORE-06 的硬杀 / 中断恢复及本次 CI 中的协议 / SQLite 迁移 / 假内核契约复核，运行底座具备进入 M2 的条件。OPS-08 是跨阶段功能，整体继续 in_progress，不将其后续真实交互、回滚和平台门禁提前验收，因此 M1 条目统计仍非全数 verified。M2 的 SEC-06 / 07 / 08 与 WS-01 已在下方验收；下一步建议 MODEL-01 模型发现，再衔接 SESSION-01 真实会话。
+M1 的三个技术阶段门分别由 CORE-05 的双端顺序 / 重放、CORE-06 的硬杀 / 中断恢复及本次 CI 中的协议 / SQLite 迁移 / 假内核契约复核，运行底座具备进入 M2 的条件。OPS-08 是跨阶段功能，整体继续 in_progress，不将其后续真实交互、回滚和平台门禁提前验收，因此 M1 条目统计仍非全数 verified。M2 的 SEC-06 / 07 / 08、WS-01、MODEL-01 与 SESSION-01 已在下方逐项验收，整体 M2 阶段门仍待其余功能。
 
 ### SEC-06 已交付边界
 
@@ -288,7 +288,35 @@ CI 中仅 OS 对话框的返回值是确定性夹具，main / preload、父子�
 
 `pnpm fix`、完整 `pnpm run ci` 和 `pnpm verify:clean` 均退出 0：**146 项 Vitest、30 项浏览器 / Electron E2E**、SDK 本地冒烟与新目录 frozen 安装 / 构建 / 服务启停通过；锁文件 SHA-256 一致，无新增依赖、预算变更或真实提供商请求。clean 工具沿用 OPS-01 报告标识，验证本轮源码副本，E2E 在主工作区完整 CI 执行。后续进度 / PRD / 说明回填另执行文档生成与完整 `pnpm check`，不把文档更新称为再次运行产品 CI。WS-01 两项验收通过，OPS-08 整体仍进行中。
 
-归档仅保留 [CI](../validation/ws-01-evidence/ci.log)、[干净目录结果](../validation/ws-01-evidence/clean-workspace.json)、[命令输出](../validation/ws-01-evidence/clean-commands.json)、[原生流程记录](../validation/ws-01-evidence/native-validation.json)，以及目视复核的 [1080p 浅色诊断](../validation/ws-01-evidence/workspaces-light.png)、[800px 深色](../validation/ws-01-evidence/workspaces-dark-800.png)、[真实系统选择 / 取消后的 Electron](../validation/ws-01-evidence/native-workspace.jpg)。不保留运行数据库、临时测试工作区或其余重复截图。下一项建议依赖已满足的 **MODEL-01：发现模型与已有提供商**，为 SESSION-01 补齐模型前置。
+归档仅保留 [CI](../validation/ws-01-evidence/ci.log)、[干净目录结果](../validation/ws-01-evidence/clean-workspace.json)、[命令输出](../validation/ws-01-evidence/clean-commands.json)、[原生流程记录](../validation/ws-01-evidence/native-validation.json)，以及目视复核的 [1080p 浅色诊断](../validation/ws-01-evidence/workspaces-light.png)、[800px 深色](../validation/ws-01-evidence/workspaces-dark-800.png)、[真实系统选择 / 取消后的 Electron](../validation/ws-01-evidence/native-workspace.jpg)。不保留运行数据库、临时测试工作区或其余重复截图。MODEL-01 的后续交付见下方。
+
+### MODEL-01 已交付边界
+
+2026-11-02 实现 Electron 优先的只读模型与提供商发现。侧栏设置区或原生“工作台 → 模型与提供商”进入 `?models`，查看安装的 SDK 版本、提供商 / 模型来源、输入类型 / 推理 / 上下文 / 输出限制、SDK API 实现、本地认证状态及 pi 默认模型匹配。所有项明确标注未联网验证和真实传输未开放；本地凭证存在不代表连接、模型授权或订阅可用，其他产品账号权益不自动转为 pi 的 API 权限。
+
+来源沿用 SEC-06：未设置 `PIW_PI_AGENT_DIR` 时不读用户目录，只提供 SDK 静态目录；显式设置后独立检查该目录的 auth.json、models.json 和 settings.json，单文件上限 4 MiB、严格 UTF-8，后两者兼容 pi 的 JSONC 注释。损坏、非文件、超限和不可读分别提示，不修复或写回。发现前后对照来源摘要，改变则拒绝本次读取。pi 默认模型仅匹配，不自动改选；动态 models-store 缓存和外部资源设置不是本页来源。
+
+agent-adapter 使用已安装 pi 1.4.0 公共 `ModelRuntime.create` 及同步目录 getter 合并内置模型、显式定义和 modelOverrides；独立无凭证存储与拒绝持久化的模型缓存、`refreshOnCreate: false`、`allowModelNetwork: false` 阻止默认认证 / 缓存 / 刷新路径。不调用 getAvailable / checkAuth / auth resolver，不创建 AgentSession、不加载扩展，不执行凭证或请求头命令、不刷新 OAuth、不发提供商请求。API 实现依据配套 pi-ai 的公共注册能力，而非参考产品或账号名称推测。
+
+SecurityService 保留原生凭证所有权，ModelService 只组合白名单元数据。auth.json 优先，缺失、过期、格式错误、显式环境引用缺失及命令禁用分别说明；未主动探测环境 / 平台认证时使用“未检查”。模型级请求头按 SDK 的 override / definition 顺序检查，提供商头也独立检查，只在宿主解析明确引用的环境值。端点、密钥、headers、原配置和 SDK 原始错误不返回页面；统一脱敏后再经 Zod 校验，不写入 SQLite、原生历史或 SDK IPC。
+
+`GET /api/models` 先经过 SEC-08 的 Host / Origin / 身份边界，再核对 desktop 身份；未配对为 401，browser 身份为 403，无写入或连接测试端点。网页独立功能暂缓；Electron 继续复用同一 daemon，未增加 renderer 特权。页面按需加载，复用现有 shadcn 组件；本地筛选默认只看已有配置，可切换全部 SDK 目录，初始 10 个提供商 / 每个 10 个模型，逐批展开。请求有 10 秒超时与取消、无自动重试；刷新失败保留旧目录并标明失效，退出视图的迟到响应不改变当前工作台，也不停后台任务。
+
+依赖仅将既有传递依赖显式纳入 named prod catalog：daemon 的 `strip-json-comments@5.0.3` 负责与 pi 一致的注释解析，adapter 的 `@earendil-works/pi-ai@1.4.0` 负责公共 API / 内置目录能力检查；未升级版本或增加新的提供商 SDK。原生模块和 peer 由 frozen 安装与实际运行核对。
+
+验收覆盖 `apps/daemon/test/models.test.ts` 的 9 项实际 SDK / 文件 / HTTP / SQLite 测试，已纳入 `pnpm test:contracts`；`e2e/models.spec.ts` 的 3 项实际 Electron 流程覆盖来源 / 能力 / 过期 / 命令拒绝、搜索和长目录、键盘、明暗 / 1920×1080 / 800px、未连接配置、断线恢复、无效配置及离开后的迟到响应。模型配置与凭证均为合成样本；503 和延迟为明确 HTTP 故障注入，其余使用实际服务和组件。另通过真实开发启动器、私有宿主 IPC / Cookie / preload / HTTP 操作 Windows Electron 原生菜单、搜索和刷新，未拦截响应；三文件 SHA-256 前后一致，退出后只读核对会话 / 运行时 / 信任 / 工作区均为 0。不将自动输入算作人工中文 IME 验收。
+
+最终产品代码的 `pnpm fix`、完整 `pnpm run ci` 与 `pnpm verify:clean` 退出 0：**155 项 Vitest、33 项浏览器 / Electron E2E**、真实 SDK 本地冒烟及新目录 frozen 安装 / 原生模块 / 构建 / 服务启停通过，锁文件 SHA-256 一致；新增真实提供商请求 **0**，预算账本与固定录制未改。clean 工具沿用 OPS-01 报告标识，验证本轮源码副本，E2E 在主工作区完整 CI 执行。证据独立保留 [CI](../validation/model-01-evidence/ci.log)、[干净目录结果](../validation/model-01-evidence/clean-workspace.json)、[命令输出](../validation/model-01-evidence/clean-commands.json)、[原生流程 / 只读数据库审计](../validation/model-01-evidence/native-validation.json)，以及目视复核的 [1080p 明色](../validation/model-01-evidence/models-light.png)、[800px 深色](../validation/model-01-evidence/models-dark-800.png)、[Windows 原生菜单入口](../validation/model-01-evidence/native-models.jpg)。进度和说明回填后另运行文档生成与完整 check，不将文档更新称为再次执行产品 CI。
+
+没有安装包、配置写入或真实提供商授权验证。SESSION-01 的后续交付与验收边界见下方，其 WS-01 / MODEL-01 / CORE-06 前置均已验收；OPS-08 整体继续进行中。
+
+### SESSION-01 已交付边界
+
+Electron 默认工作台已接入 desktop-only `/api/chat`。SessionService 在 SQLite FULL 事务中先保存稳定 session / request / message / turn 身份、首条输入与配置，再调用 KernelService；并发 / 双击 / HTTP 丢失后相同请求返回原结果。WorkspaceService 在首次提交及资源准入前后复核实际目录；无目录时建立受管持久 standalone，拒绝基目录链接逃逸，不继承前项目。最小 ProjectService 提供创建 / 列表 / 归属，不提前交付完整 WS-06。
+
+已知失败明确重试使用新请求和轮次，原任务保留；SDK 硬杀 / 重启或结果未知只标记中断，不重放旧输入。SQLite outbox 在匹配 native user entry 后清空，已提交正文仍只读回源 SDK JSONL。每窗口草稿与待核对请求保存在 sessionStorage，新 / 旧会话分离，刷新 / 设置返回可恢复；同项目入口保留显式目录，变更项目才清除覆盖，迟到回执不抢页面。现有提供商选择可保留但真实传输禁发，不改 pi 配置；development 才可使用明确标注的真实 SDK + 本地 HTTP 固定夹具，工具 / 扩展关闭，本地脱敏标题不新增命名调用。
+
+新增 **9 项服务集成 / 5 项 Electron E2E**。原实现完整 CI 与 frozen 新目录复现通过；本轮原生补验修复同项目草稿重入丢失目录后，完整 **164 项 Vitest / 40 项浏览器与 Electron E2E** 和 SDK 冒烟再次通过，目录回归修复前失败 / 修复后通过。依赖、原生模块、服务与构建配置未变，复用修复前 clean 的基础设施证据，不将其当作本次修复后的源码副本；锁文件 SHA-256 一致。实际 SDK error / SIGKILL、SQL 提交失败、目录排队后失效、junction、回执丢失与来源变化分别记录。实际 Windows 微软拼音候选态 Enter 提交 / Space 中文选词不发送、Shift+Enter 换行、普通 Enter 首发、同 ID 续发、独立草稿 / 设置返回、原生目录选择 / 明暗窄窗 / 最大化与正常退出均通过。最终只读审计为 2 会话 / 3 完成提交 / 3 完成轮次，指定 cwd 正确，真实提供商请求 0。SESSION-01 四项验收均勾选，状态 **verified**；[逐项验收](../validation/session-01-evidence/acceptance.md)、[最终 CI](../validation/session-01-evidence/ci-native-followup.log)、[原 clean](../validation/session-01-evidence/clean-workspace.json)、[原生记录](../validation/session-01-evidence/native-validation.json)和[最终审计](../validation/session-01-evidence/native-final-audit.json)保留来源及限制。Ctrl+R 不计为原生重载，实际重载由 Electron E2E 覆盖。完整视图缓存 / 旧 pi 历史、自动命名其余能力、项目整理及独立网页功能仍按对应条目验收。
 
 ## 评估证据
 
@@ -296,6 +324,18 @@ CI 中仅 OS 对话框的返回值是确定性夹具，main / preload、父子�
 - [固定仓库提交](https://github.com/vastsa/PI-Desktop/tree/a21527e5c9ca272bb5e6714038c2d22a61fef68e)，含英文 ADR 和关键源码。在线技术栈仍写 pi 0.86.1，而该提交 agent-runtime 实际依赖 1.4.0；权限页面仍写 120 秒，ADR 0310 已改为本地无倒计时。因此以具体 ADR / 源码交叉核对，不能把 spec 汇总页面当作最新实现证明。
 - [原始评估与源码定位](../decisions/pi-desktop-review.md)、[在线抽查清单](../decisions/pi-desktop-spec-audit.json)。未安装或运行 PI-Desktop，未验收它的功能。
 - 本项目运行边界来自 [M0 综合验收](../validation/m0-acceptance.md)，生产实现仍逐项验收。
+
+### Electron 控制栏与统一设置
+
+2026-11-02 根据用户的 Codex 截图优化实际 Electron：40 px 顶部栏、48 px 导航轨道、原生 Window Controls Overlay 与统一设置。`window-chrome.ts` 只接受经过 shared Zod 校验的固定菜单 / 主题枚举，核对发送窗口、主 frame、精确 Origin 与参数数量；无通用 IPC、URL 或窗口控制接口。菜单导航仅发送固定页面 ID，renderer 再校验并作同文档切换；既有 sandbox / contextIsolation / nodeIntegration 及 SEC-08 不变。
+
+`AppFrame` 统一主题和桌面订阅生命周期，`SettingsShell` 组合已有页面，不预取私有配置；旧查询入口继续工作。设置有外观、模型、凭证、客户端、资源信任和资源状态；模型仍仅向已配对 desktop 开放。外观只持久化非敏感主题枚举，存储受限时保留本窗口偏好；不写 daemon / pi 配置。进入设置时保留工作台挂载，草稿、阅读位置与审查面板不因返回而重建，不触发内核 / 真实模型操作。加载、空态、断线保留旧数据与原有请求取消边界继续由各功能负责。
+
+本次关联 UX-03 / UX-05 的部分实现；两条均保持验收项未勾选，完整字号 / 密度、真实多窗口 / 深链接和业务退出生命周期未提前验收。新增 `e2e/settings.spec.ts` 覆盖导航保留、主题持久、搜索空态与 390 px；`e2e/desktop.spec.ts` 扩充原生菜单命令、800 px / 1080p、系统主题信号 / 窗口底色、无效枚举及同 Origin 的其他窗口拒绝。最终产品代码的 `pnpm fix`、完整 `pnpm run ci` 和 `pnpm verify:clean` 均退出 0：**155 项 Vitest、35 项浏览器 / Electron E2E**、真实 SDK 本地夹具冒烟及 frozen 新目录安装 / 原生模块 / 构建 / 启停通过；锁哈希一致，真实提供商请求 0，预算和录制未改。原始 [CI](../validation/ui-shell-evidence/ci.log)、[clean 结果](../validation/ui-shell-evidence/clean-workspace.json)及[命令输出](../validation/ui-shell-evidence/clean-commands.json)独立归档，保留上一轮 MODEL-01 的 33 项 E2E 历史证据。
+
+Windows 实际开发入口另通过 Sky 操作原生文件菜单进入模型页、Ctrl+逗号进入设置、明暗切换、最大化 / 还原、标题栏空白双击、最小化 / 恢复以及 × 隐藏后服务保持。标题栏菜单可点击，原生按钮与明暗同步；[实际明色最大化](../validation/ui-shell-evidence/native-settings-maximized.jpg)、[实际深色](../validation/ui-shell-evidence/native-settings-dark.jpg)和[操作记录 / 限制](../validation/ui-shell-evidence/native-validation.json)保留原生窗口外框。自动拖动未观察到位置变化；真实拖动与托盘菜单恢复仍待人工确认，不以 CSS 或模拟事件当作通过。恢复流程另有 Electron E2E 覆盖。人工真实中文 IME 及 Windows 系统设置切换未执行；合成 composition 与 Electron 主题信号分别记录。
+
+PRD 同步修改 `scripts/planning` 模板 / CSS / 交互，重新生成可点击 [PRD](../product/prd.html)。40 px 桌面栏、48 px 轨道、全页左分类 / 右正文、搜索空态、窄窗横向导航及保留工作台 DOM 与产品布局对应，原有五类功能设计全部保留。窗口控件仅为示意；模型示例分别表达来源、已配置与未联网验证。浏览器独立检查分类 / 子对话框、草稿 / 阅读 / 工具 / 审查保持、键盘、系统明暗、390 px 与原型 / 规格 / 对照，无页面错误或外部请求，见 [PRD 检查](../validation/ui-shell-evidence/prd-layout.json)和[1080p 原型](../validation/ui-shell-evidence/prd-settings-light.png)。PRD / 文档最终回填后再执行生成、fix 和完整 check，不称为再次执行产品 CI；已验收数仍按 canonical backlog 计算。
 
 ## R7 / R8 已确认默认值
 

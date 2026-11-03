@@ -15,6 +15,7 @@
     "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "dependencies": {
+    "@earendil-works/pi-ai": "catalog:prod",
     "@earendil-works/pi-coding-agent": "catalog:prod",
     "@pi-workbench/shared": "workspace:*",
     "zod": "catalog:prod"

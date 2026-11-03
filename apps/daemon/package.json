@@ -20,6 +20,7 @@
     "fastify": "catalog:prod",
     "reflect-metadata": "catalog:prod",
     "rxjs": "catalog:prod",
+    "strip-json-comments": "catalog:prod",
     "zod": "catalog:prod"
   },
   "devDependencies": {

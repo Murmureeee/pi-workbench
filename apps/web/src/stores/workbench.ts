@@ -4,12 +4,14 @@ import { create } from 'zustand'
 
 import { emptyProjection, reduceEvent } from '@pi-workbench/shared'
 
+import { readTheme, saveTheme } from '../services/theme.js'
+
 export const useWorkbench = create<WorkbenchStore>((set, get) => ({
   scene: 'new',
   projection: emptyProjection(),
   draft: '',
   submitted: '',
-  theme: 'system',
+  theme: readTheme(),
   navOpen: false,
   changesOpen: false,
   setScene: (scene) =>
@@ -49,7 +51,10 @@ export const useWorkbench = create<WorkbenchStore>((set, get) => ({
       },
     })
   },
-  setTheme: (theme) => set({ theme }),
+  setTheme: (theme) => {
+    saveTheme(theme)
+    set({ theme })
+  },
   toggleNav: () => set((state) => ({ navOpen: !state.navOpen })),
   toggleChanges: () => set((state) => ({ changesOpen: !state.changesOpen })),
 }))

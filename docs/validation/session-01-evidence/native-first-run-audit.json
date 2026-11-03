@@ -1,0 +1,138 @@
+{
+  "stage": "after-two-native-sends-and-menu-exit",
+  "sessions": [
+    {
+      "id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-01-native\\standalone\\49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "created_at": 1793639073378
+    }
+  ],
+  "configurations": [
+    {
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "creation_request_id": "200b416e-e367-43ce-ac06-6206fdf9c9aa",
+      "project_id": null,
+      "workspace_id": "228c3930-4bc5-4bb1-b967-4d834b9e0a22",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "title": "你 SESSION-01 原生首发离线验收"
+    }
+  ],
+  "submissions": [
+    {
+      "request_id": "200b416e-e367-43ce-ac06-6206fdf9c9aa",
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "message_id": "346a30f2-5f69-4bcf-a830-8ceaf22f3133",
+      "turn_id": "983974ad-6445-44ee-9c8a-f3b1b4d9b810",
+      "digest": "fe438dbb1c04a95873f15ef0ab7b8621473d2f46c2c817aadbdf0a9b3b30dd95",
+      "text": null,
+      "status": "completed",
+      "retry_of": null,
+      "error": null,
+      "created_at": 1793639073379
+    },
+    {
+      "request_id": "a5edc488-e3a9-4daf-95a2-3afd08096586",
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "message_id": "810ab81e-3e17-4b70-a4a1-1de8f1878fc4",
+      "turn_id": "ca1548cc-6915-4047-a126-c403ff2da0bd",
+      "digest": "790d7bbb4475bb5d1f0b53999aaac49df94e6398a2c48a4464694fe117d376f4",
+      "text": null,
+      "status": "completed",
+      "retry_of": null,
+      "error": null,
+      "created_at": 1793639114898
+    }
+  ],
+  "turns": [
+    {
+      "id": "983974ad-6445-44ee-9c8a-f3b1b4d9b810",
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "epoch": "7c5daa1c-2f9a-4eb3-b1ab-dce7f9871a61",
+      "message_id": "983974ad-6445-44ee-9c8a-f3b1b4d9b810:assistant",
+      "phase": "completed",
+      "tools": "[]",
+      "created_at": 1793639074371
+    },
+    {
+      "id": "ca1548cc-6915-4047-a126-c403ff2da0bd",
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "epoch": "7c5daa1c-2f9a-4eb3-b1ab-dce7f9871a61",
+      "message_id": "ca1548cc-6915-4047-a126-c403ff2da0bd:assistant",
+      "phase": "completed",
+      "tools": "[]",
+      "created_at": 1793639114916
+    }
+  ],
+  "runtimes": [
+    {
+      "epoch": "7c5daa1c-2f9a-4eb3-b1ab-dce7f9871a61",
+      "session_id": "49fdca3a-98fa-41f7-9231-00ffb591774b",
+      "native_session_id": "01a19d38-4a33-749c-b13d-9f2db5df3019",
+      "session_file": "D:\\Project\\pi-workbench\\.workbench\\session-01-native\\kernels\\49fdca3a-98fa-41f7-9231-00ffb591774b\\7c5daa1c-2f9a-4eb3-b1ab-dce7f9871a61\\sessions\\2026-11-02T17-04-34-356Z_01a19d38-4a33-749c-b13d-9f2db5df3019.jsonl",
+      "source": "real-sdk/local-fixture",
+      "created_at": 1793639074365,
+      "nativeRecords": [
+        {
+          "id": "cdfae0f4",
+          "role": "system",
+          "content": ""
+        },
+        {
+          "id": "bf804868",
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "你\nSESSION-01 原生首发离线验收"
+            }
+          ]
+        },
+        {
+          "id": "2ce60b38",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "OFFLINE_OK"
+            }
+          ],
+          "model": "fixture",
+          "provider": "piw-offline",
+          "stopReason": "stop"
+        },
+        {
+          "id": "5283c65c",
+          "role": "user",
+          "content": [
+            {
+              "type": "text",
+              "text": "SESSION-01 原生续发：保持同一会话与目录"
+            }
+          ]
+        },
+        {
+          "id": "6236e4c0",
+          "role": "assistant",
+          "content": [
+            {
+              "type": "text",
+              "text": "OFFLINE_OK"
+            }
+          ],
+          "model": "fixture",
+          "provider": "piw-offline",
+          "stopReason": "stop"
+        }
+      ]
+    }
+  ]
+}

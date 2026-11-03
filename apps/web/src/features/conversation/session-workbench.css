@@ -1,0 +1,121 @@
+.session-workbench .new-session {
+  flex: 1;
+  text-align: center;
+}
+.session-workbench .new-session [data-slot='badge'] {
+  margin-top: 14px;
+}
+.session-workbench .conversation-column {
+  min-height: 0;
+}
+.session-options {
+  display: grid;
+  grid-template-columns: minmax(130px, 0.7fr) minmax(200px, 1.3fr);
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.session-options select {
+  width: 100%;
+  min-width: 0;
+  border: 1px solid var(--border);
+  background: var(--background);
+  color: var(--foreground);
+  border-radius: 8px;
+  padding: 7px 10px;
+  text-overflow: ellipsis;
+  font: inherit;
+}
+.session-options select:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.session-options select:disabled {
+  opacity: 0.6;
+}
+.session-feedback {
+  width: 100%;
+  max-width: 828px;
+  margin: 0 auto;
+  padding: 0 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 12px;
+}
+.session-workbench .phase-note {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  padding: 4px 0;
+}
+.session-workbench .thread-identity span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.session-workbench .thread-identity {
+  min-width: 0;
+}
+.session-workbench .conversation-content {
+  gap: 20px;
+}
+.session-workbench [data-slot='message'] {
+  margin-bottom: 16px;
+}
+.session-workbench [aria-current='page'] {
+  background: var(--accent);
+  color: var(--accent-foreground);
+}
+.directory-options {
+  margin-bottom: 8px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+  overflow-wrap: anywhere;
+}
+.directory-options summary {
+  cursor: pointer;
+  padding: 6px 0;
+}
+.directory-options > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px 0;
+}
+.directory-buttons,
+.pending-request {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.pending-request > p {
+  flex-basis: 100%;
+}
+.project-create {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 10px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.sample-link {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  padding: 0 10px;
+}
+@media (max-width: 600px) {
+  .session-options {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 8px;
+  }
+  .session-feedback {
+    padding: 0 16px;
+  }
+  .session-workbench .composer-area {
+    padding: 8px 16px 12px;
+  }
+  .session-workbench .new-session {
+    padding: 20px;
+  }
+}

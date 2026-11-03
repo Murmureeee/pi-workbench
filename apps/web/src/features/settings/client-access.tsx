@@ -83,20 +83,17 @@ export function ClientAccess({
     window.addEventListener('piw-auth-required', refresh)
     return () => window.removeEventListener('piw-auth-required', refresh)
   }, [refetch])
-  useEffect(() => {
-    const media = matchMedia('(prefers-color-scheme: dark)')
-    const apply = () => document.documentElement.classList.toggle('dark', media.matches)
-    apply()
-    media.addEventListener('change', apply)
-    return () => media.removeEventListener('change', apply)
-  }, [])
   if (access.data?.authenticated && !access.isError) {
-    return <div key={clientId}>{children}</div>
+    return (
+      <div className="authorized-view" key={clientId}>
+        {children}
+      </div>
+    )
   }
   return (
-    <main className="mx-auto flex min-h-dvh max-w-2xl flex-col gap-6 p-6">
+    <main className="access-page mx-auto flex min-h-full max-w-2xl flex-col gap-6 p-6">
       <h1 className="text-xl font-semibold">连接本机工作台</h1>
-      <p>在桌面“工作台”或托盘菜单选择“连接本机浏览器”；网页开发时在宿主终端输入 pair。</p>
+      <p>在桌面“文件”或托盘菜单选择“连接本机浏览器”；网页开发时在宿主终端输入 pair。</p>
       <Alert>
         <AlertTitle>一次授权，仅限本机</AlertTitle>
         <AlertDescription>
@@ -200,12 +197,9 @@ export function ClientSettings() {
     refetchInterval: 2000,
   })
   return (
-    <main className="mx-auto flex min-h-dvh max-w-4xl flex-col gap-6 p-6">
+    <main className="settings-page">
       <h1 className="text-xl font-semibold">已连接的客户端</h1>
       <p>当前客户端：{access.data?.client?.label}。服务重启后全部重新授权；本次授权最长八小时。</p>
-      <a className={buttonVariants({ variant: 'outline' })} href="/">
-        返回工作台
-      </a>
       <Button
         variant="outline"
         disabled={clients.isFetching}

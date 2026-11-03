@@ -35,11 +35,17 @@ interface Task {
   reject: (error: unknown) => void
   promise: Promise<Result>
   cancellation?: Promise<void>
+  preflight?: () => Promise<void>
 }
 /** Observation-only application handle. All model work enters KernelService.prompt() so a caller
  * cannot bypass admission by retaining an earlier raw SessionKernel.
  */
 export type ManagedKernelView = Pick<SessionKernel, 'snapshot' | 'ready' | 'subscribe'>
+
+/** An IPC/child failure after dispatch cannot prove whether a task reached the provider.
+ * Business callers must retain it as interrupted instead of offering an automatic replay.
+ */
+export class KernelExecutionUncertain extends Error {}
 
 /** Single daemon authority for bounded kernels/model tasks. Each resource has its own FIFO.
  * Queued inputs never pin idle processes or enter model context before admission.
@@ -217,7 +223,12 @@ export class KernelService {
   /** Internal application command, not a public HTTP mutation. One accepted task per session;
    * M2 steer/follow-up are separate business queues. Validate before any resource use.
    */
-  prompt(sessionId: string, cwd: string, input: Prompt): Promise<Result> {
+  prompt(
+    sessionId: string,
+    cwd: string,
+    input: Prompt,
+    options: { preflight?: () => Promise<void> } = {},
+  ): Promise<Result> {
     try {
       if (this.closing) {
         throw new Error('Daemon is shutting down')
@@ -250,6 +261,7 @@ export class KernelService {
         resolve,
         reject,
         promise,
+        ...(options.preflight ? { preflight: options.preflight } : {}),
       }
       this.tasks.set(sessionId, task)
       this.modelQueue.push(task)
@@ -277,7 +289,11 @@ export class KernelService {
     let release: (() => void) | undefined
     let kernel: SessionKernel | undefined
     let started = false
+    let dispatched = false
     try {
+      if (task.preflight) {
+        await task.preflight()
+      }
       const lease = await this.pool.acquire(task.sessionId, task.cwd, true, task.controller.signal)
       release = lease.release
       kernel = lease.kernel
@@ -285,6 +301,9 @@ export class KernelService {
         throw new DOMException('Task cancelled', 'AbortError')
       }
       this.store.assertWritable(task.sessionId)
+      if (task.preflight) {
+        await task.preflight()
+      }
       if (!['ready', 'stopped'].includes(kernel.snapshot.state)) {
         throw new Error('Kernel is busy or unavailable')
       }
@@ -301,6 +320,7 @@ export class KernelService {
       task.stage = 'running'
       const trustedContext =
         this.trust?.beginTurn(task.cwd, task.sessionId, task.input.turnId) ?? []
+      dispatched = true
       return await kernel.prompt({ ...task.input, trustedContext })
     } catch (error) {
       if (started && kernel) {
@@ -312,6 +332,12 @@ export class KernelService {
       }
       if (kernel?.snapshot.state === 'failed') {
         await this.pool.destroy(task.sessionId)
+      }
+      if (dispatched) {
+        throw new KernelExecutionUncertain(
+          error instanceof Error ? error.message : 'Kernel execution result is unknown',
+          { cause: error },
+        )
       }
       throw error
     } finally {

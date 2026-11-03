@@ -1,0 +1,16 @@
+{
+  "source": "PRD 静态模拟原型 + 本机 Chrome / Playwright",
+  "url": "http://127.0.0.1:8765/product/prd.html",
+  "revision": "24c151fc242d",
+  "checks": [
+    "全页设置、五类导航、搜索与空态、子对话框、草稿与入口焦点保持",
+    "设置切换主题后保留工具展开、阅读位置、草稿和审查面板",
+    "390px 明暗与系统主题、分类横向可达、独立滚动、键盘分类切换",
+    "原型 / 规格 / 对照视图及桌面菜单入口正常",
+    "合成 composition Enter 未发送；不代替真实中文输入法手动验收"
+  ],
+  "pageErrors": [],
+  "externalRequests": [],
+  "realProviderRequests": 0,
+  "result": "passed"
+}

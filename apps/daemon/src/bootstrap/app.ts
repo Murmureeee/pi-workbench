@@ -16,13 +16,17 @@ import { HealthController } from '../modules/health/health.controller.js'
 import { KernelController } from '../modules/kernels/kernel.controller.js'
 import { KernelService } from '../modules/kernels/kernel.service.js'
 import { LabController } from '../modules/lab/lab.controller.js'
+import { ModelService } from '../modules/models/model.service.js'
 import { AccessService } from '../modules/security/access.service.js'
 import { registerAccessTransport } from '../modules/security/access.transport.js'
 import { SecurityService } from '../modules/security/security.service.js'
 import { TrustService } from '../modules/security/trust.service.js'
 import { registerTrustTransport } from '../modules/security/trust.transport.js'
+import { registerSessionCommands } from '../modules/sessions/session-command.transport.js'
+import { SessionService } from '../modules/sessions/session.service.js'
 import { SessionStore } from '../modules/sessions/session.store.js'
 import { registerSessionTransport } from '../modules/sessions/session.transport.js'
+import { ProjectService } from '../modules/workspaces/project.service.js'
 import { WorkspaceService } from '../modules/workspaces/workspace.service.js'
 import { registerWorkspaceTransport } from '../modules/workspaces/workspace.transport.js'
 // @env node
@@ -56,6 +60,19 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const access = new AccessService(options.port, security.redactor)
   const trust = new TrustService(database, options.piAgentDir)
   const workspaces = new WorkspaceService(database)
+  const models = new ModelService(security)
+  const projects = new ProjectService(database, workspaces)
+  const kernels = new KernelService(options.dataDir, events, store, resourceLimits, trust)
+  const sessionService = new SessionService(
+    options.dataDir,
+    Boolean(options.development),
+    store,
+    kernels,
+    workspaces,
+    projects,
+    models,
+    security,
+  )
   @Module({
     imports: [HealthModule, LabModule],
     controllers: [KernelController],
@@ -63,7 +80,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: EventService, useValue: events },
       {
         provide: KernelService,
-        useFactory: () => new KernelService(options.dataDir, events, store, resourceLimits, trust),
+        useValue: kernels,
       },
       {
         provide: WorkspaceDatabase,
@@ -74,6 +91,9 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: AccessService, useValue: access },
       { provide: TrustService, useValue: trust },
       { provide: WorkspaceService, useValue: workspaces },
+      { provide: ModelService, useValue: models },
+      { provide: ProjectService, useValue: projects },
+      { provide: SessionService, useValue: sessionService },
     ],
   })
   class AppModule {}
@@ -109,6 +129,14 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   registerAccessTransport(adapter.getInstance(), access, options.port, Boolean(options.development))
   registerTrustTransport(adapter.getInstance(), trust, access)
   registerWorkspaceTransport(adapter.getInstance(), workspaces)
+  adapter.getInstance().get('/api/models', (request, reply) => {
+    if (access.authenticate(request.headers.cookie)?.info.kind !== 'desktop') {
+      return reply
+        .code(403)
+        .send({ message: 'Model discovery is currently available in Electron only' })
+    }
+    return models.discover()
+  })
   adapter
     .getInstance()
     .get('/api/security/credentials', (_request, reply) =>
@@ -121,6 +149,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   })
   await registerEventTransport(adapter.getInstance(), events, access)
   registerSessionTransport(adapter.getInstance(), store, security)
+  registerSessionCommands(adapter.getInstance(), sessionService, store, projects, kernels, access)
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter, {
     logger: false,
   })

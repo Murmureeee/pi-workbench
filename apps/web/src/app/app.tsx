@@ -3,15 +3,27 @@ import { lazy, Suspense, useState } from 'react'
 import { ResourceObserver } from '../features/conversation/resource-observer.js'
 import { RuntimeObserver } from '../features/conversation/runtime-observer.js'
 import { SessionHistory } from '../features/conversation/session-history.js'
+import { AppearanceSettings } from '../features/settings/appearance.js'
 import { ClientAccess, ClientSettings } from '../features/settings/client-access.js'
 import { CredentialStatus } from '../features/settings/credential-status.js'
 import { ResourceTrust } from '../features/settings/resource-trust.js'
+import { SettingsShell } from '../features/settings/settings-shell.js'
 import { readPairingFragment } from '../services/client-access.js'
+import { useNavigation } from '../services/navigation.js'
+import { AppFrame } from './app-frame.js'
 import { Workbench } from './workbench.js'
 
 const WorkspaceManager = lazy(async () => {
   const module = await import('../features/workspaces/workspace-manager.js')
   return { default: module.WorkspaceManager }
+})
+const ModelDiscovery = lazy(async () => {
+  const module = await import('../features/settings/model-discovery.js')
+  return { default: module.ModelDiscovery }
+})
+const SessionWorkbench = lazy(async () => {
+  const module = await import('../features/conversation/session-workbench.js')
+  return { default: module.SessionWorkbench }
 })
 
 /** Private views mount only after SEC-08 pairing. Workspace code is loaded on demand so
@@ -19,23 +31,49 @@ const WorkspaceManager = lazy(async () => {
  */
 export function App() {
   const [initialCode] = useState(readPairingFragment)
-  const query = new URLSearchParams(location.search)
+  const { search } = useNavigation()
+  const query = new URLSearchParams(search)
   const observedSession = query.get('observe'),
     historySession = query.get('history')
   const resourcesView = query.has('resources'),
     credentialsView = query.has('credentials')
   const clientsView = query.has('clients'),
     trustView = query.has('trust'),
-    workspaceView = query.has('workspaces')
+    workspaceView = query.has('workspaces'),
+    modelsView = query.has('models')
+  const settingsSection = modelsView
+    ? 'models'
+    : trustView
+      ? 'trust'
+      : clientsView
+        ? 'clients'
+        : credentialsView
+          ? 'credentials'
+          : resourcesView
+            ? 'resources'
+            : query.has('settings')
+              ? 'appearance'
+              : null
   const sensitive =
     clientsView ||
+    modelsView ||
     workspaceView ||
     trustView ||
     credentialsView ||
     resourcesView ||
     Boolean(historySession) ||
     Boolean(observedSession)
-  const content = workspaceView ? (
+  const content = modelsView ? (
+    <Suspense
+      fallback={
+        <main className="p-6">
+          <output>正在加载模型目录…</output>
+        </main>
+      }
+    >
+      <ModelDiscovery />
+    </Suspense>
+  ) : workspaceView ? (
     <Suspense
       fallback={
         <main className="p-6">
@@ -58,7 +96,38 @@ export function App() {
   ) : observedSession ? (
     <RuntimeObserver key={observedSession} sessionId={observedSession} />
   ) : (
-    <Workbench />
+    <AppearanceSettings />
   )
-  return sensitive ? <ClientAccess initialCode={initialCode}>{content}</ClientAccess> : content
+  const hasView = settingsSection || workspaceView || historySession || observedSession
+  const protectedContent = sensitive ? (
+    <ClientAccess initialCode={initialCode}>{content}</ClientAccess>
+  ) : (
+    content
+  )
+  return (
+    <AppFrame settings={Boolean(settingsSection)}>
+      <div className="retained-workbench" hidden={Boolean(hasView)}>
+        {window.piWorkbench && !query.has('samples') ? (
+          <Suspense
+            fallback={
+              <main className="p-6">
+                <output>正在加载会话工作台…</output>
+              </main>
+            }
+          >
+            <SessionWorkbench />
+          </Suspense>
+        ) : (
+          <Workbench />
+        )}
+      </div>
+      {hasView ? (
+        settingsSection ? (
+          <SettingsShell section={settingsSection}>{protectedContent}</SettingsShell>
+        ) : (
+          <div className="standalone-view">{protectedContent}</div>
+        )
+      ) : null}
+    </AppFrame>
+  )
 }
