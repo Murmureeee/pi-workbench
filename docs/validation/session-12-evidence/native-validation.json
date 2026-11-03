@@ -1,0 +1,97 @@
+{
+  "feature": "SESSION-12",
+  "status": "verified",
+  "at": "2026-11-03T16:33:36.866Z",
+  "source": "Actual native Windows Electron / production main and preload / real Vite, daemon and SQLite; @oai/sky SendInput and UIA, no CDP or route interception.",
+  "historySource": "24 explicitly synthetic v3 JSONL histories, including 132-message Chinese history; 1 real SDK + local HTTP seeded session. No real provider traffic.",
+  "controlResumedByUser": "控制吧",
+  "observations": "native-observations.json",
+  "observationCount": 41,
+  "validScreenshotCount": 41,
+  "checks": {
+    "microsoftPinyinEnterEscapeNumericAndSpaceSelection": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "titleUserAssistantAndOriginalMessageLocation": [
+      11,
+      12,
+      13,
+      14,
+      15,
+      16
+    ],
+    "paginationProjectArchiveDateAndClear": [
+      17,
+      18,
+      19,
+      20,
+      21
+    ],
+    "fullTextRedactionFailureNoAutomaticRetryAndRecovery": [
+      22,
+      23,
+      24,
+      25
+    ],
+    "renamedTitleIndexRefresh": [
+      26,
+      27
+    ],
+    "draftSettingsThemeAndNative800Width": [
+      28,
+      29,
+      30,
+      31,
+      32
+    ],
+    "realLocalBackgroundAndExplicitStop": [
+      33,
+      34,
+      35,
+      36
+    ],
+    "menuExitRestartAndIndexRebuild": [
+      37,
+      38,
+      39,
+      40,
+      41
+    ]
+  },
+  "background": {
+    "source": "Real SDK / local HTTP hold",
+    "pid": 38028,
+    "epoch": "cc0694dd-a252-45d4-84af-54028541e4f5",
+    "fixturePrompts": 1,
+    "uiPrompts": 0,
+    "explicitlyStoppedThroughProduct": true
+  },
+  "histories": {
+    "unchangedSyntheticHistories": 24,
+    "changedOnlyByExplicitLocalSdkTurn": [
+      "58568f11-804f-4ff8-84c7-145795709df6\\f245f0ff-d430-467b-8804-45d7a12afc77\\sessions\\2026-11-03T15-40-17-506Z_01a1a211-7ce2-716b-8960-daed67d1638e.jsonl"
+    ],
+    "restartSearchOnlyAllHistoryHashesUnchanged": true
+  },
+  "lifecycle": {
+    "first": "native-first-menu-closed.json",
+    "final": "native-final-closed.json",
+    "bothClosedAndOwnedProcessesExited": true,
+    "activePortsAndOwnedProcessesReleased": true
+  },
+  "limitations": [
+    "Microsoft Pinyin candidate Enter committed literal ni; numeric selection committed 中 and Space selection committed 你. This is separate from synthetic composition in automatic E2E.",
+    "Native 1920×1032 maximized work area and 802×961 outer window (800px client width) were inspected; automatic Electron captures cover 1920×1080 and 800px.",
+    "New-session draft survives search / switching / settings in the current window. Existing sessionStorage contract does not retain unsent drafts across full application restart.",
+    "Future move/delete product entries are not implemented; explicit SQLite fixtures validate search projection consumption only.",
+    "Initial activation failures and user pause are historical attempts; forced fixture cleanup was not a menu exit. One occluded screenshot was discarded."
+  ],
+  "realProviderRequests": 0,
+  "piConfigHashesUnchanged": true,
+  "canonicalBudgetHashUnchanged": true
+}

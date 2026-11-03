@@ -1,6 +1,6 @@
 # Pi Workbench 全量产品规划
 
-版本：1.14 · 基线日期：2026-11-03 · 状态：范围与实施路线已定，按阶段细化与实现
+版本：1.15 · 基线日期：2026-11-04 · 状态：范围与实施路线已定，按阶段细化与实现
 
 ## 产品目标与可行性
 
@@ -93,7 +93,7 @@ M2 补齐基础项目管理、无项目会话、自动命名、重命名及标�
 
 ## 进度计算与完成定义
 
-当前工作区包含产品规划、需求数据、交互原型、M0 验证工程、OPS-01 离线基础壳、CORE-04–07 运行底座、SEC-06 / 07 / 08、WS-01 / 02 / 06、MODEL-01 与 SESSION-01 / 02 / 03 / 11。[CORE-01](../validation/m0-acceptance.md#core-01)、[CORE-02 / 03](../validation/m0-acceptance.md) 的原始验证与阶段门保持有效；各条验收见[实施方案](../architecture/implementation-plan.md)。依据 canonical backlog 当前为 **19 / 133 已验收**。SESSION-01 的首发 / 幂等 / 失败恢复及真实 Windows 微软拼音，SESSION-02 的 3 视图 / 草稿 / 阅读 / 后台恢复与旧历史只读，SESSION-03 的持久整理 / 最新已读 / 明确停止归档均通过。SESSION-11 的重命名 / 多端同步、WS-02 最近整理及 WS-06 项目组织均完成自动门禁与原生补验。当前完整 **201 项单元 / 集成、63 项浏览器 / Electron E2E**、SDK 冒烟和本次 frozen clean 通过；来源、复用与范围限制见[WS-06 逐项记录](../validation/ws-06-evidence/acceptance.md)。SDK 继续使用本地 HTTP 夹具，工具 / 扩展和真实提供商禁用；浏览器首页及桌面 ?samples 仍为 fake kernel 样本。OPS-08 跨阶段门继续进行，规划看板和 PRD 不代表产品全部实现。
+当前工作区包含产品规划、需求数据、交互原型、M0 验证工程、OPS-01 离线基础壳、CORE-04–07 运行底座、SEC-06 / 07 / 08、WS-01 / 02 / 06、MODEL-01 与 SESSION-01 / 02 / 03 / 11 / 12。[CORE-01](../validation/m0-acceptance.md#core-01)、[CORE-02 / 03](../validation/m0-acceptance.md) 的原始验证与阶段门保持有效；各条验收见[实施方案](../architecture/implementation-plan.md)。依据 canonical backlog 当前为 **20 / 133 已验收**。SESSION-01 的首发 / 幂等 / 失败恢复及真实 Windows 微软拼音，SESSION-02 的 3 视图 / 草稿 / 阅读 / 后台恢复与旧历史只读，SESSION-03 的持久整理 / 最新已读 / 明确停止归档均通过。SESSION-11 的重命名 / 多端同步、WS-02 最近整理及 WS-06 项目组织均完成自动门禁与原生补验。SESSION-12 基础搜索 / 项目筛选 / 消息定位 / 脱敏索引更新也已完成真实 IME 与原生重启补验。当前完整 **209 项单元 / 集成、67 项浏览器 / Electron E2E**、SDK 冒烟和本次 frozen clean 通过；来源、复用与范围限制见[SESSION-12 逐项记录](../validation/session-12-evidence/acceptance.md)。SDK 继续使用本地 HTTP 夹具，工具 / 扩展和真实提供商禁用；浏览器首页及桌面 ?samples 仍为 fake kernel 样本。OPS-08 跨阶段门继续进行，规划看板和 PRD 不代表产品全部实现。
 
 OPS-08 首次基线通过 14 份来源标明的历史 SDK 样本只读重放、投影 / IPC 故障与实际 UI 组合回归；当时完整 85 项 Vitest、12 项浏览器 / Electron 测试和干净目录验证通过，新增真实提供商请求 0。第一条契约验收已勾选；后续 SESSION-01 / 02 / 03 / 11 已补齐输入、恢复、整理、改名及标题多端同步 / 重连，当前完整门禁见上文。生产业务审批 / 双端交互、后续回滚及平台门禁仍待各阶段补齐，第二条不勾选；[阶段矩阵与证据](../development/tooling.md#ops-08-契约回归门禁)记录边界，不增加已验收数。
 
@@ -111,7 +111,7 @@ WS-01 已验收：Electron 原生选择器 / 绝对路径、规范化物理目�
 
 WS-02 已验收：最近记录和自定义名跨重启保存，成功显式打开 / 切换优先，同毫秒顺延；重命名 / 校验 / 刷新 / 重新定位不改排序。移除只隐藏最近，目录 / 会话 / 名称 / 当前窗口和后台任务保留；重新定位只接受同一物理目录，明确保存，不自动改已有会话 cwd。该次完整 192 项 Vitest / 57 项 E2E、SDK 冒烟、frozen clean 与 25 步实际 Windows Electron / IME / 原生选择器及两次正常退出通过，真实请求 0。两项均勾选，该次本地 18 / 133；后续 WS-06 验收见下文。见[逐项结果与限制](../validation/ws-02-evidence/acceptance.md)。
 
-WS-06 四项已验收：项目名称、默认目录、置顶与组内手动顺序跨重启持久；侧栏分组展开 / 名称路径检索 / 同名 ID 区分、全局无项目和项目新建预选、单目录校验及无目录项目的独立会话空间均通过。修改默认只影响新会话，移除明确解散归无项目；同事务失败回滚，文件 / cwd / 模型 / JSONL / 权限及已运行任务保留。新增 9 项实际服务与 6 项 Electron 流程，完整 201 项 Vitest / 63 项 E2E、SDK 冒烟、frozen clean、40 步真实 Windows IME / 选择器 / 失败恢复 / 同 PID / 重启和两次正常退出通过。249 个产品 / 测试 / 配置文件与 clean 一致，文档进度回填复用门禁。真实请求 0、配置与预算不变，无安装包，网页独立功能暂缓；[逐项结果与下一步提示词](../validation/ws-06-evidence/acceptance.md)。OPS-08 继续进行，下一项 SESSION-12。
+WS-06 四项已验收：项目名称、默认目录、置顶与组内手动顺序跨重启持久；侧栏分组展开 / 名称路径检索 / 同名 ID 区分、全局无项目和项目新建预选、单目录校验及无目录项目的独立会话空间均通过。修改默认只影响新会话，移除明确解散归无项目；同事务失败回滚，文件 / cwd / 模型 / JSONL / 权限及已运行任务保留。新增 9 项实际服务与 6 项 Electron 流程，完整 201 项 Vitest / 63 项 E2E、SDK 冒烟、frozen clean、40 步真实 Windows IME / 选择器 / 失败恢复 / 同 PID / 重启和两次正常退出通过。249 个产品 / 测试 / 配置文件与 clean 一致，文档进度回填复用门禁。真实请求 0、配置与预算不变，无安装包，网页独立功能暂缓；[逐项结果与下一步提示词](../validation/ws-06-evidence/acceptance.md)。OPS-08 继续进行；后续 SESSION-12 验收见当前进度与独立记录。
 
 MODEL-01 已验收：Electron 侧栏或原生菜单展示实际 SDK / 显式 pi 配置的提供商、模型、能力、来源与默认模型匹配，区分本地已配置、缺失 / 过期 / 命令禁用和未联网验证；不推断其他产品账号权益。只读发现不改配置、不加载扩展、不执行认证命令或调用模型，真实传输仍关闭，网页版独立流程暂缓且未制作安装包。完整 **155 项 Vitest / 33 项浏览器与 Electron E2E**、SDK 本地冒烟、干净目录 frozen 复现及原生 Electron 菜单 / 搜索 / 刷新通过，新增真实提供商请求 0。[实现与限制](../architecture/implementation-plan.md#model-01-已交付边界)、[CI](../validation/model-01-evidence/ci.log)、[clean](../validation/model-01-evidence/clean-workspace.json)与[原生审计](../validation/model-01-evidence/native-validation.json)独立归档。
 

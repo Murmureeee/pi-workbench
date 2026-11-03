@@ -28,32 +28,39 @@ export function registerSessionTransport(
     }
     return reply.header('cache-control', 'no-store').send({ titles: store.titles(query) })
   })
-  server.get<{ Params: { sessionId: string }; Querystring: { cursor?: string; limit?: string } }>(
-    '/api/sessions/:sessionId/history',
-    (request, reply) => {
-      try {
-        const page = store.history(
-          request.params.sessionId,
-          request.query.cursor,
-          request.query.limit === undefined ? undefined : Number(request.query.limit),
-        )
-        if (page) {
-          page.messages = page.messages.map((message) => ({
-            ...message,
-            text: security.redactor.text(message.text, message.truncated || incomplete(message)),
-          }))
-        }
-        return reply
-          .header('cache-control', 'no-store')
-          .code(page ? 200 : 404)
-          .send(page ?? { message: 'Unknown session' })
-      } catch (error) {
-        return reply
-          .code(409)
-          .send({ message: error instanceof Error ? error.message : 'Refresh history' })
+  server.get<{
+    Params: { sessionId: string }
+    Querystring: { cursor?: string; limit?: string; around?: string }
+  }>('/api/sessions/:sessionId/history', (request, reply) => {
+    try {
+      if (
+        (request.query.around && request.query.cursor) ||
+        (request.query.around?.length ?? 0) > 512
+      ) {
+        return reply.code(400).send({ message: '消息定位不能与分页游标同时使用。' })
       }
-    },
-  )
+      const page = store.history(
+        request.params.sessionId,
+        request.query.cursor,
+        request.query.limit === undefined ? undefined : Number(request.query.limit),
+        request.query.around,
+      )
+      if (page) {
+        page.messages = page.messages.map((message) => ({
+          ...message,
+          text: security.redactor.text(message.text, message.truncated || incomplete(message)),
+        }))
+      }
+      return reply
+        .header('cache-control', 'no-store')
+        .code(page ? 200 : 404)
+        .send(page ?? { message: 'Unknown session' })
+    } catch (error) {
+      return reply
+        .code(409)
+        .send({ message: error instanceof Error ? error.message : 'Refresh history' })
+    }
+  })
   server.get<{ Params: { sessionId: string; messageId: string } }>(
     '/api/sessions/:sessionId/messages/:messageId/content',
     (request, reply) => {

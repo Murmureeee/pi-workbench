@@ -1,0 +1,50 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 387ms on 228 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+apps/daemon/test/helpers/search.ts(44,76): error TS2322: Type '{ projectId: string | null; workspaceId: null; model: { kind: "local-fixture"; provider: string; model: string; }; thinking: "off"; }' is not assignable to type '{ projectId: string | null; workspaceId: string | null; model: { kind: "local-fixture"; provider: "piw-offline"; model: "fixture"; } | { kind: "provider"; provider: string; model: string; }; thinking: "off"; }'.
+  Types of property 'model' are incompatible.
+    Type '{ kind: "local-fixture"; provider: string; model: string; }' is not assignable to type '{ kind: "local-fixture"; provider: "piw-offline"; model: "fixture"; } | { kind: "provider"; provider: string; model: string; }'.
+      Type '{ kind: "local-fixture"; provider: string; model: string; }' is not assignable to type '{ kind: "local-fixture"; provider: "piw-offline"; model: "fixture"; }'.
+        Types of property 'provider' are incompatible.
+          Type 'string' is not assignable to type '"piw-offline"'.
+e2e/session-search.spec.ts(321,5): error TS2349: This expression is not callable.
+  Type 'never' has no call signatures.
+[ELIFECYCLE] Command failed with exit code 2.
+[ELIFECYCLE] Command failed with exit code 2.
+[ELIFECYCLE] Command failed with exit code 2.

@@ -1,0 +1,31 @@
+{
+  "feature": "SESSION-12",
+  "status": "native_pending_user_pause",
+  "at": "2026-11-03T15:45:57.236Z",
+  "userInstruction": "等下再控制，天天控制啥啊你",
+  "controlStopped": true,
+  "attempts": [
+    {
+      "action": "Activate selected Pi Workbench window",
+      "result": "failed to activate captured window"
+    },
+    {
+      "action": "Refresh returned window and retry activation once",
+      "result": "failed to activate captured window"
+    }
+  ],
+  "completedNativeInputActions": 0,
+  "completedNativeAssertions": 0,
+  "manualImeVerified": false,
+  "manualRestartVerified": false,
+  "note": "Only window selection/activation was attempted. No successful screenshot or input evidence was obtained. The user explicitly paused computer control; do not resume until explicitly requested. The task-owned fixture Electron was stopped via its verified PID, and the host released services. This is not a normal menu-exit acceptance.",
+  "pending": [
+    "真实微软拼音 Enter / Escape / 选词",
+    "原生键盘 / 焦点与草稿",
+    "原生筛选 / 分页 / 脱敏片段 / 旧消息定位",
+    "原生失败恢复及索引更新",
+    "原生明暗 / 800px / 首帧",
+    "同 data/profile 重启与正常菜单退出"
+  ],
+  "realProviderRequests": 0
+}

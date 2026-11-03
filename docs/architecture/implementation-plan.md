@@ -113,7 +113,7 @@ R6 生命周期：Electron × 默认收到托盘，保持任务 / 审批；自�
 | 5. 有界资源 | CORE-07 | 已验收 3 内核 / 1 模型任务、6 终端预算、FIFO / 取消、空闲回收和受管冷恢复；M1 技术阶段门复核见下方 |
 | 6. 可日常试用的对话 | M2 现有功能 | 真实新会话到中止、审批、查找、改名及跨端同步；不以静态壳代替产品完成 |
 
-工作包是功能的实施细分，不新增完成率分母，不承诺未经估算的日期。依据 canonical backlog 当前为 **19 / 133 已验收**（CORE-01–07、OPS-01、SEC-06 / 07 / 08、WS-01 / 02 / 06、MODEL-01、SESSION-01 / 02 / 03 / 11；M1 技术阶段门已复核，OPS-08 跨阶段进度单列），146 个全量功能 ID、M0–M8 范围及负责人保持不变。SESSION-01 的自动门禁与真实 Windows IME / Electron 原生操作已通过；SESSION-02 的 3 视图 / 阅读与草稿 / 后台恢复及旧历史只读发现已验收。OPS-08 的 M1 基线已交付、整体继续进行中；WS-02 最近整理和 WS-06 项目组织 / 默认目录 / 原生重启已独立验收，下一项为 SESSION-12。Q01 / Q02 已有 M0 证据；选定默认值只表示方案决定，不表示产品实现通过。
+工作包是功能的实施细分，不新增完成率分母，不承诺未经估算的日期。依据 canonical backlog 当前为 **20 / 133 已验收**（CORE-01–07、OPS-01、SEC-06 / 07 / 08、WS-01 / 02 / 06、MODEL-01、SESSION-01 / 02 / 03 / 11 / 12；M1 技术阶段门已复核，OPS-08 跨阶段进度单列），146 个全量功能 ID、M0–M8 范围及负责人保持不变。SESSION-01 的自动门禁与真实 Windows IME / Electron 原生操作已通过；SESSION-02 的 3 视图 / 阅读与草稿 / 后台恢复及旧历史只读发现已验收。OPS-08 的 M1 基线已交付、整体继续进行中；WS-02 最近整理和 WS-06 项目组织 / 默认目录 / 原生重启已独立验收，SESSION-12 的搜索 / 筛选 / 脱敏索引 / 定位已完成离线门禁与真实 Windows IME / 原生重启验收，三项 verified。Q01 / Q02 已有 M0 证据；选定默认值只表示方案决定，不表示产品实现通过。
 
 ### CORE-04 已交付边界
 
@@ -365,7 +365,7 @@ SESSION-03 两项验收均通过；新增 7 项服务 / 5 项 Electron 流程，
 
 ### SESSION-11 实现与验收边界
 
-Electron 已接入共用重命名 Dialog、Unicode 码点校验、固定编辑版本与显式冲突处理。0006 将标题来源 / 版本加入 daemon 独占 SQLite，用户保存 CAS 后转 user；后台本地候选须匹配创建请求 / 版本且保持 local。标题索引与独立只读 WS 经过统一脱敏，重连读取最新索引，客户端按版本合并列表 / 回执；不改模型运行游标、SDK JSONL、cwd、组织或授权。现有浏览器历史只读同步，完整搜索留 SESSION-12，网页独立写入暂缓。
+Electron 已接入共用重命名 Dialog、Unicode 码点校验、固定编辑版本与显式冲突处理。0006 将标题来源 / 版本加入 daemon 独占 SQLite，用户保存 CAS 后转 user；后台本地候选须匹配创建请求 / 版本且保持 local。标题索引与独立只读 WS 经过统一脱敏，重连读取最新索引，客户端按版本合并列表 / 回执；不改模型运行游标、SDK JSONL、cwd、组织或授权。现有浏览器历史只读同步，Electron 基础搜索见 SESSION-12，网页独立写入暂缓。
 
 实际 SQLite / SDK 本地 HTTP / 双 TCP 与两独立 Electron + 只读浏览器验证通过。完整 185 项 Vitest / 53 项 E2E、SDK 冒烟与 frozen clean 通过；真实微软拼音候选 Enter / Escape / Space 选词、原生预填 / 取消 / 写失败恢复 / 标题同步及同 data / profile 重启持久已补证。两次正常退出、重启无内核 / 无重发、两个 SDK JSONL 字节不变均通过；230 个产品 / 测试 / 根配置文件与 clean 一致，本轮按用户要求复用门禁。SESSION-11 三项均勾选并标 verified，该次本地 17 / 133，OPS-08 继续进行；[逐项证据与下一步提示词](../validation/session-11-evidence/acceptance.md)。
 
@@ -385,6 +385,15 @@ ProjectService 独占项目名称、单默认工作区、pinned / position / rev
 
 项目目录复用 WorkspaceService 校验但不记最近；选择器仅填值、保存独立。目录 IO 后重查项目版本及发送准入时默认 / 归属，避免迟到操作落库。项目默认仅用于未来会话，无目录项目的会话各有独立持久 cwd。SessionService 通过 SessionStore 公开 detach 边界，在同一 SQLite 事务内解散分组并归无项目；写失败整体回滚。已有任务、文件、实际 cwd、模型、JSONL、信任与权限保留，不自动停止、搬移或授权。
 
-React feature 复用既有官方 Dialog / AlertDialog / DropdownMenu / Field / Input / Button，无新 primitive 或依赖。失败 / CAS 冲突保留输入，未知创建核对原 request，移除墓碑避免复活；迟到保存不切换新草稿。组展开 / 本地项目检索仅改变视图，完整会话搜索和主动归属迁移仍为 SESSION-12 / 13。
+React feature 复用既有官方 Dialog / AlertDialog / DropdownMenu / Field / Input / Button，无新 primitive 或依赖。失败 / CAS 冲突保留输入，未知创建核对原 request，移除墓碑避免复活；迟到保存不切换新草稿。组展开 / 本地项目检索仅改变视图；基础会话搜索见 SESSION-12，主动归属迁移仍为 SESSION-13。
 
 新增 9 项实际服务及 6 项 Electron 流程；完整 201 项 Vitest / 63 项 E2E、SDK 冒烟、frozen clean 退出 0。40 步实际 Windows 微软拼音、未拦截选择器、失败恢复、同 PID / cwd 的运行中移除、同 data/profile 重启及两次正常菜单退出通过。249 个产品 / 测试 / 配置文件与 clean 一致，后续文档进度回填复用该门禁；四项已勾选、本地 19 / 133，OPS-08 继续进行。首段 hold 到时终止与新本地轮次分别记录；真实请求 0、配置 / 预算未改、无安装包，网页独立功能暂缓。[逐项结果、原始证据及限制](../validation/ws-06-evidence/acceptance.md)。
+
+## SESSION-12 基础搜索边界
+
+Electron 搜索 feature 复用官方 Dialog / Field / Input / Button / Badge，向已配对桌面 `/api/chat/search` 请求；200ms 防抖、条件 / 页码 query key 与 AbortSignal 隔离迟到结果，组合输入与键盘动作分开。前端不直接读取历史文件或数据库，无新依赖。正文结果通过历史 `around` 原消息 ID 读取所在页，再由既有 MessageScroller 定位，保留后台运行和草稿。
+
+daemon SearchService 使用 0009 的可重建 SQLite 脱敏索引，SessionStore 提供只读原始正文和变化摘要；完整脱敏后才匹配、分页和截片。状态来自内核 / 审批 / 队列 / 最近提交，归属和标题从权威元数据读取。重启重建、读取竞争拒绝混合版本、损坏历史清理旧片段；不写回 SDK 或模型上下文，不索引工具 / 文件 / 旧 CLI 历史。实现、自动门禁和原生证据见 [SESSION-12 验收](../validation/session-12-evidence/acceptance.md)；主动迁移 / 删除产品入口继续按后续功能验收。
+
+
+新增 8 项实际服务与 4 项 Electron 自动流程；完整 209 项 Vitest / 67 项 E2E、SDK 冒烟及本次 frozen clean 通过。真实 Windows 微软拼音、原生筛选 / 定位 / 失败恢复 / 改名索引 / 后台同 PID / 明暗窄窗 / 重启和两次正常退出补证；270 文件与 clean 一致，原生后复用门禁。三项 verified、本地 20 / 133，OPS-08 继续进行；真实提供商请求 0，配置 / 预算未改，无安装包，网页独立功能暂缓。

@@ -21,7 +21,15 @@ import { mergeTitles } from '../../services/session-title-cache.js'
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { RememberedViewport } from './remembered-viewport.js'
 
-function HistoryEntry({ sessionId, message }: { sessionId: string; message: HistoryMessage }) {
+function HistoryEntry({
+  sessionId,
+  message,
+  located = false,
+}: {
+  sessionId: string
+  message: HistoryMessage
+  located?: boolean
+}) {
   const expanded = useSessionViews(
     (state) => state.views[sessionId]?.expanded.includes(message.id) ?? false,
   )
@@ -33,7 +41,7 @@ function HistoryEntry({ sessionId, message }: { sessionId: string; message: Hist
   }
   const full = useQuery({
     queryKey: ['native-message', sessionId, message.id],
-    enabled: expanded,
+    enabled: expanded || (located && message.truncated),
     gcTime: 0,
     queryFn: async ({ signal }) => {
       const response = await fetch(
@@ -59,7 +67,7 @@ function HistoryEntry({ sessionId, message }: { sessionId: string; message: Hist
         </MessageHeader>
         <Bubble variant={message.role === 'user' ? 'muted' : 'ghost'}>
           <BubbleContent className="whitespace-pre-wrap">
-            {expanded && full.data !== undefined ? full.data : message.text}
+            {(expanded || located) && full.data !== undefined ? full.data : message.text}
           </BubbleContent>
         </Bubble>
         {message.error ? (
@@ -183,10 +191,12 @@ export function SessionHistory({
   sessionId,
   embedded = false,
   active = true,
+  targetMessage = null,
 }: {
   sessionId: string
   embedded?: boolean
   active?: boolean
+  targetMessage?: string | null
 }) {
   const view = useSessionViews((state) => state.views[sessionId])
   const titles = useQuery({
@@ -196,18 +206,28 @@ export function SessionHistory({
       sessionTitleListSchema.parse(await sessionJson('/api/session-titles', signal)),
   })
   const cursor = view?.cursor ?? null
+  const [locationDismissed, setLocationDismissed] = useState<string | null>(null)
+  const around = cursor || locationDismissed === targetMessage ? null : targetMessage
   const setCursor = (value: string | null) =>
     useSessionViews.getState().update(sessionId, { cursor: value })
   const history = useQuery({
-    queryKey: ['session-history', sessionId, cursor],
+    queryKey: ['session-history', sessionId, cursor, around],
     queryFn: async ({ signal }) => {
-      const params = new URLSearchParams({ limit: '100', ...(cursor ? { cursor } : {}) })
+      const params = new URLSearchParams({
+        limit: '100',
+        ...(cursor ? { cursor } : {}),
+        ...(around ? { around } : {}),
+      })
       const response = await fetch(
         `/api/sessions/${encodeURIComponent(sessionId)}/history?${params}`,
         { signal, cache: 'no-store' },
       )
       if (!response.ok) {
-        throw new Error('历史暂不可用，请确认会话或刷新后重试。')
+        throw new Error(
+          around
+            ? '目标消息暂不可用，请刷新搜索或历史；未定位到其他消息。'
+            : '历史暂不可用，请确认会话或刷新后重试。',
+        )
       }
       return historyPageSchema.parse(await response.json())
     },
@@ -244,6 +264,7 @@ export function SessionHistory({
           variant="outline"
           disabled={history.isFetching}
           onClick={() => {
+            setLocationDismissed(targetMessage)
             if (cursor) {
               setCursor(null)
             } else {
@@ -269,20 +290,28 @@ export function SessionHistory({
             ? '历史读取失败'
             : `本页 ${page?.messages.length ?? 0} 条消息`}
       </output>
+      {around && history.isSuccess ? (
+        <output>已定位搜索命中消息 · 可阅读前后文或刷新最新历史</output>
+      ) : null}
       {history.isError ? (
         <Alert variant="destructive">
           <AlertTitle>历史读取失败</AlertTitle>
           <AlertDescription>{history.error.message}</AlertDescription>
         </Alert>
       ) : null}
-      <MessageScrollerProvider key={cursor ?? 'latest'} autoScroll={false}>
+      <MessageScrollerProvider
+        key={around ?? cursor ?? 'latest'}
+        autoScroll={false}
+        defaultScrollPosition={around ? 'start' : 'end'}
+      >
         <MessageScroller>
           <RememberedViewport
             aria-label="持久化历史"
             sessionId={sessionId}
-            surface={`history:${cursor ?? 'latest'}`}
+            surface={`history:${around ?? cursor ?? 'latest'}`}
             active={active}
             ready={history.isSuccess}
+            locateMessage={around}
           >
             <MessageScrollerContent>
               {page?.diagnostics.map((diagnostic) => (
@@ -305,8 +334,13 @@ export function SessionHistory({
                   key={message.id}
                   messageId={message.id}
                   data-reading-id={message.id}
+                  data-search-located={around === message.id || undefined}
                 >
-                  <HistoryEntry sessionId={sessionId} message={message} />
+                  <HistoryEntry
+                    sessionId={sessionId}
+                    message={message}
+                    located={around === message.id}
+                  />
                 </MessageScrollerItem>
               ))}
               {page &&

@@ -14,6 +14,7 @@ import {
   PanelLeftIcon,
   PencilIcon,
   RefreshCwIcon,
+  SearchIcon,
   SettingsIcon,
   SquareIcon,
 } from 'lucide-react'
@@ -57,12 +58,13 @@ import {
 import { mergeSessions } from '../../services/session-title-cache.js'
 import { workspaceCommand } from '../../services/workspace-client.js'
 import { sessionDraft, useSessionDrafts } from '../../stores/session-drafts.js'
-import { retainSessionView, useSessionViews } from '../../stores/session-views.js'
+import { retainSessionView, sessionView, useSessionViews } from '../../stores/session-views.js'
 import { useWorkbench } from '../../stores/workbench.js'
 import { ManagedThread } from './managed-thread.js'
 import { SessionHistory } from './session-history.js'
 import { SessionLibrary } from './session-library.js'
 import { SessionRenameDialog } from './session-rename-dialog.js'
+import { SessionSearchDialog } from './session-search-dialog.js'
 import { useSessionOrganization } from './use-session-organization.js'
 import './session-workbench.css'
 
@@ -89,14 +91,26 @@ export function SessionWorkbench() {
   }, [selected])
   return ids.map((id) => (
     <div className="retained-session" key={id} data-session-view={id} hidden={id !== selected}>
-      <SessionPane sessionId={id === 'new' ? null : id} active={id === selected && primaryView} />
+      <SessionPane
+        sessionId={id === 'new' ? null : id}
+        active={id === selected && primaryView}
+        targetMessage={id === selected ? query.get('message') : null}
+      />
     </div>
   ))
 }
 
 /** Each cached pane owns its transient errors, request locks and observers. Eviction only
  * disposes presentation; accepted tasks and pending request identities remain untouched. */
-function SessionPane({ sessionId, active }: { sessionId: string | null; active: boolean }) {
+function SessionPane({
+  sessionId,
+  active,
+  targetMessage,
+}: {
+  sessionId: string | null
+  active: boolean
+  targetMessage: string | null
+}) {
   const key = sessionId ?? 'new'
   const activeView = useRef(active)
   activeView.current = active
@@ -111,6 +125,7 @@ function SessionPane({ sessionId, active }: { sessionId: string | null; active: 
     update = useSessionDrafts((state) => state.update)
   const storageFailed = useSessionDrafts((state) => state.storageFailed)
   const view = useSessionViews((state) => state.views[key])
+  const historyVisible = view?.panel === 'history' || Boolean(targetMessage)
   const viewStorageFailed = useSessionViews((state) => state.storageFailed)
   const updateView = useSessionViews((state) => state.update)
   const draft = drafts[key] ?? sessionDraft(key)
@@ -135,8 +150,27 @@ function SessionPane({ sessionId, active }: { sessionId: string | null; active: 
   const beginRenaming = (session: ManagedSession) =>
     setRenaming({ session, token: crypto.randomUUID() })
   const [titleMenuOpen, setTitleMenuOpen] = useState(false)
+  const [searchOpen, setSearchOpen] = useState(false)
   useEffect(() => {
     if (!active) {
+      return undefined
+    }
+    const openSearch = (event: KeyboardEvent) => {
+      if (
+        (event.ctrlKey || event.metaKey) &&
+        event.key.toLowerCase() === 'k' &&
+        !event.isComposing
+      ) {
+        event.preventDefault()
+        setSearchOpen(true)
+      }
+    }
+    window.addEventListener('keydown', openSearch)
+    return () => window.removeEventListener('keydown', openSearch)
+  }, [active])
+  useEffect(() => {
+    if (!active) {
+      setSearchOpen(false)
       setRenaming(null)
       setTitleMenuOpen(false)
     }
@@ -442,6 +476,10 @@ function SessionPane({ sessionId, active }: { sessionId: string | null; active: 
               <MessageSquarePlusIcon data-icon="inline-start" />
               新会话
             </Button>
+            <Button variant="ghost" disabled={!authorized} onClick={() => setSearchOpen(true)}>
+              <SearchIcon data-icon="inline-start" />
+              搜索会话<span className="ml-auto text-xs text-muted-foreground">Ctrl+K</span>
+            </Button>
             <a className={buttonVariants({ variant: 'ghost' })} href="/?workspaces">
               <FolderIcon data-icon="inline-start" />
               打开工作区
@@ -562,18 +600,26 @@ function SessionPane({ sessionId, active }: { sessionId: string | null; active: 
               <Button
                 variant="ghost"
                 size="sm"
-                onClick={() =>
-                  updateView(key, { panel: view?.panel === 'history' ? 'conversation' : 'history' })
-                }
+                onClick={() => {
+                  updateView(key, { panel: historyVisible ? 'conversation' : 'history' })
+                  if (targetMessage) {
+                    navigate(`/?session=${encodeURIComponent(key)}`)
+                  }
+                }}
               >
-                {view?.panel === 'history' ? '返回对话' : '历史记录'}
+                {historyVisible ? '返回对话' : '历史记录'}
               </Button>
             ) : null}
           </header>
           <div className="conversation-workspace">
             <div className="conversation-column">
-              {current && authorized && view?.panel === 'history' ? (
-                <SessionHistory sessionId={current.id} embedded active={active} />
+              {current && authorized && historyVisible ? (
+                <SessionHistory
+                  sessionId={current.id}
+                  embedded
+                  active={active}
+                  targetMessage={targetMessage}
+                />
               ) : current && authorized ? (
                 <ManagedThread
                   key={current.id}
@@ -882,6 +928,32 @@ function SessionPane({ sessionId, active }: { sessionId: string | null; active: 
           latest={sessions.data?.sessions.find((row) => row.id === renaming.session.id)}
           csrf={csrf}
           close={() => setRenaming((row) => (row?.token === renaming.token ? null : row))}
+        />
+      ) : null}
+      {searchOpen && active && authorized ? (
+        <SessionSearchDialog
+          projects={options.data?.projects ?? []}
+          close={() => setSearchOpen(false)}
+          select={(result) => {
+            const prior = sessionView(result.sessionId)
+            updateView(result.sessionId, {
+              panel: result.messageId ? 'history' : 'conversation',
+              cursor: null,
+              reading: result.messageId
+                ? prior.reading
+                : {
+                    ...prior.reading,
+                    conversation: { anchor: null, offset: 0, top: 0, follow: true },
+                  },
+            })
+            setSearchOpen(false)
+            navigate(
+              `/?session=${encodeURIComponent(result.sessionId)}${result.messageId ? `&message=${encodeURIComponent(result.messageId)}` : ''}`,
+            )
+            if (navOpen) {
+              toggleNav()
+            }
+          }}
         />
       ) : null}
     </div>

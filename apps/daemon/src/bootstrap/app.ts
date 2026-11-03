@@ -7,7 +7,11 @@ import { HttpException, Module } from '@nestjs/common'
 import { NestFactory } from '@nestjs/core'
 import { FastifyAdapter } from '@nestjs/platform-fastify'
 
-import { legacyReadSchema, resourceLimitsSchema } from '@pi-workbench/shared'
+import {
+  legacyReadSchema,
+  resourceLimitsSchema,
+  sessionSearchQuerySchema,
+} from '@pi-workbench/shared'
 
 import { WorkspaceDatabase } from '../infrastructure/database/database.js'
 import { EventService } from '../modules/events/event.service.js'
@@ -17,6 +21,7 @@ import { KernelController } from '../modules/kernels/kernel.controller.js'
 import { KernelService } from '../modules/kernels/kernel.service.js'
 import { LabController } from '../modules/lab/lab.controller.js'
 import { ModelService } from '../modules/models/model.service.js'
+import { SearchService } from '../modules/search/search.service.js'
 import { AccessService } from '../modules/security/access.service.js'
 import { registerAccessTransport } from '../modules/security/access.transport.js'
 import { SecurityService } from '../modules/security/security.service.js'
@@ -76,6 +81,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     security,
     events,
   )
+  const search = new SearchService(database, store, sessionService, projects, security)
   @Module({
     imports: [HealthModule, LabModule],
     controllers: [KernelController],
@@ -98,6 +104,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: ProjectService, useValue: projects },
       { provide: SessionService, useValue: sessionService },
       { provide: LegacyHistoryService, useValue: legacy },
+      { provide: SearchService, useValue: search },
     ],
   })
   class AppModule {}
@@ -207,6 +214,15 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     access,
     events,
   )
+  adapter.getInstance().get('/api/chat/search', (request, reply) => {
+    const query = sessionSearchQuerySchema.safeParse(request.query)
+    if (!query.success) {
+      return reply
+        .code(400)
+        .send({ message: '搜索条件无效：最多 160 个 Unicode 字符，日期范围须有序，分页上限 50。' })
+    }
+    return search.search(query.data)
+  })
   const app = await NestFactory.create<NestFastifyApplication>(AppModule, adapter, {
     logger: false,
   })

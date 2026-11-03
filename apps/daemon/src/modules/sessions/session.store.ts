@@ -12,7 +12,7 @@ import type {
   SessionTitle,
 } from '@pi-workbench/shared'
 
-import { randomUUID } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import {
   closeSync,
   existsSync,
@@ -22,12 +22,13 @@ import {
   readFileSync,
   realpathSync,
   renameSync,
+  statSync,
   unlinkSync,
   writeFileSync,
 } from 'node:fs'
 import { isAbsolute, join, relative, resolve } from 'node:path'
 
-import { and, asc, eq, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, sql } from 'drizzle-orm'
 
 import {
   previewText,
@@ -70,6 +71,15 @@ interface LoadedHistory {
   messages: LoadedMessage[]
   diagnostics: HistoryDiagnostic[]
   exports: Map<string, () => Buffer>
+}
+
+function searchFileStamp(path: string): string[] {
+  try {
+    const stat = statSync(path, { bigint: true })
+    return [stat.dev, stat.ino, stat.size, stat.mtimeNs, stat.ctimeNs].map(String)
+  } catch {
+    return ['unavailable']
+  }
 }
 
 /** A stale view or unsafe archive must be refreshed; it never partially saves metadata. */
@@ -876,7 +886,7 @@ export class SessionStore {
     }
   }
 
-  private native(runtime: RuntimeRow) {
+  private nativePath(runtime: RuntimeRow) {
     // A tampered derived index cannot turn read-only history/export into an arbitrary file read.
     const path = resolve(runtime.sessionFile)
     const base = resolve(this.dataDir, 'kernels', runtime.sessionId)
@@ -887,7 +897,77 @@ export class SessionStore {
     if (!inside(path) || (existsSync(path) && !inside(realpathSync(path)))) {
       throw new Error('Unsafe managed history path')
     }
-    return readNativeHistory(path, runtime.nativeSessionId)
+    return path
+  }
+
+  private native(runtime: RuntimeRow) {
+    return readNativeHistory(this.nativePath(runtime), runtime.nativeSessionId)
+  }
+
+  /** Host-only change token for rebuilding search. Filesystem identities and nanosecond
+   * modification/change times detect SDK appends/replacements; no caller path is accepted.
+   * Checkpoints are included, but active deltas remain outside persisted search results. */
+  searchStamp(sessionId: string): string {
+    const runtimes = this.database.db
+      .select()
+      .from(sessionRuntimes)
+      .where(eq(sessionRuntimes.sessionId, sessionId))
+      .all()
+    const turns = this.database.db
+      .select()
+      .from(sessionTurns)
+      .where(eq(sessionTurns.sessionId, sessionId))
+      .all()
+    const native = runtimes.map((row) => {
+      try {
+        return [row.epoch, row.nativeSessionId, searchFileStamp(this.nativePath(row))]
+      } catch {
+        return [row.epoch, 'unsafe']
+      }
+    })
+    return createHash('sha256')
+      .update(
+        JSON.stringify([
+          native,
+          turns.map((row) => [row.id, row.phase, searchFileStamp(this.checkpointPath(row))]),
+        ]),
+      )
+      .digest('hex')
+  }
+
+  /** Read-only index source, owned by Sessions. Full original user/assistant text is returned
+   * only inside the host; Search must redact before persisting or producing snippets.
+   * Stable message IDs allow history to resolve the original even outside its latest page. */
+  searchSource(sessionId: string) {
+    const loaded = this.load(sessionId)
+    return {
+      incomplete: loaded.diagnostics.length > 0,
+      messages: loaded.messages.flatMap(({ message, text }, position) =>
+        message.role === 'user' || message.role === 'assistant'
+          ? [
+              {
+                id: message.id,
+                role: message.role,
+                position,
+                text: text(),
+                incomplete:
+                  message.origin === 'interrupted-checkpoint' ||
+                  ['aborted', 'error', 'interrupted'].includes(message.outcome ?? ''),
+              },
+            ]
+          : [],
+      ),
+    }
+  }
+
+  /** Search reads only outbox metadata; it must not hydrate submitted/native message bodies. */
+  searchActivity(sessionId: string) {
+    return this.database.db
+      .select({ status: sessionSubmissions.status, createdAt: sessionSubmissions.createdAt })
+      .from(sessionSubmissions)
+      .where(eq(sessionSubmissions.sessionId, sessionId))
+      .orderBy(desc(sessionSubmissions.createdAt), desc(sessionSubmissions.requestId))
+      .get()
   }
 
   private load(sessionId: string): LoadedHistory {
@@ -1114,7 +1194,7 @@ export class SessionStore {
   /** Newest page by default, at most 100 messages, 64 KiB UTF-8 preview each. Stable IDs anchor
    * earlier pages. A vanished cursor is an explicit refresh error, never a silent history splice.
    */
-  history(sessionId: string, cursor?: string, limit = historyPageSize) {
+  history(sessionId: string, cursor?: string, limit = historyPageSize, around?: string) {
     if (!this.list().some((session) => session.id === sessionId)) {
       return undefined
     }
@@ -1122,9 +1202,15 @@ export class SessionStore {
       throw new Error('History limit must be 1..100')
     }
     const loaded = this.load(sessionId)
-    const end = cursor
-      ? loaded.messages.findIndex((item) => item.message.id === cursor)
-      : loaded.messages.length
+    const target = around ? loaded.messages.findIndex((item) => item.message.id === around) : -1
+    if (around && target < 0) {
+      throw new Error('目标消息已不可用，请刷新搜索；未切换到其他消息。')
+    }
+    const end = around
+      ? Math.min(loaded.messages.length, target + Math.ceil(limit / 2))
+      : cursor
+        ? loaded.messages.findIndex((item) => item.message.id === cursor)
+        : loaded.messages.length
     if (end < 0) {
       throw new Error('History cursor expired; refresh')
     }

@@ -155,3 +155,11 @@ SESSION-11 已补齐真实微软拼音候选 Enter / Escape / Space 选词、原
 pnpm fix / 完整 pnpm run ci / pnpm verify:clean 均退出 0：**24 文件 / 201 项 Vitest、63 项浏览器 / Electron E2E**、SDK 冒烟、frozen 安装 / build / 原生模块 / HTTP 健康及正常退出。clean 不另跑 E2E，主 CI 已跑完整；初轮 bootstrap 旧迁移数失败（8→9）与最终通过日志分别保留。原生补验后 249 个产品 / 测试 / 配置文件与通过 clean 一致，复用该 CI / clean；文档及进度回填后运行 docs:build / fix / 完整 check。
 
 40 步真实 Windows Electron / SendInput 微软拼音、预填 / 取消 / SQLite 写失败恢复、未拦截选择器、默认变更 / 运行中移除同 PID 与 cwd、明暗 / 窄窗、同 data/profile 重启及两次菜单正常退出均归档；合成 composition 与真实 OS IME 分开。第一段 hold 约 300 秒 terminated，解散验证另起本地轮次并采样相同 turn/PID，最后经产品明确停止，不冒充全程同一轮。真实请求 0，pi 配置与 canonical 预算未改，无安装包，网页版独立功能暂缓。WS-06 四项标 verified；OPS-08 第一项保持通过、第二项仍待生产业务审批 / 双端审批、M3 回滚及平台门禁，整体继续 in_progress。[验收、日志、审计和下一步提示词](../validation/ws-06-evidence/acceptance.md)。
+
+## SESSION-12 搜索门禁与原生验收
+
+新增 8 项实际 SQLite / v3 JSONL / HTTP / SDK 本地夹具服务测试及 4 项实际 Electron 自动流程，已纳入 test:contracts / 完整离线 CI。覆盖中文标题 / 用户 / 助手、工具排除、长正文和超过 100 条历史页的定位、项目 / 状态 / 时间边界 / 归档、脱敏先索引再截片、新凭证更新、迁移 / 索引事务失败 / 源文件竞争、首发 / 续发 / 同 PID 后台、分页 / 200ms / A→B→A / 关闭迟到 / 合成 IME / 失败停止轮询与显式恢复。主动项目迁移 / 删除产品入口未交付，使用明确 SQLite 夹具验证搜索消费边界。
+
+完整 pnpm run ci 退出 0：**25 文件 / 209 项 Vitest、67 项浏览器 / Electron E2E**及 SDK 冒烟通过；pnpm verify:clean 的 frozen 安装 / check / build / test / SDK / HTTP 健康 / 正常服务退出通过。初轮工具类型检查、旧迁移数 9→10 的失败日志及最终通过日志分别保留。历史定位修前加载正确页但滚到最新，实际消息 viewport 断言失败；修后通过。270 个产品 / 测试 / 脚本 / 根配置文件与 clean 一致；文档和进度回填后独立运行 docs:build / fix / check，复用本次 CI / clean。
+
+用户恢复控制后完成 41 条原生观察（首条遮挡截图弃用）：真实微软拼音 Enter / Escape / 数字及 Space 选词、中文标题 / 双角色正文 / 原消息定位、项目 / 状态 / 日期 / 归档 / 分页、脱敏 / 失败停止轮询及明确重试、改名索引刷新、草稿 / 设置返回、明暗 / 800px 与最大化、真实 SDK 本地后台同 PID / 代际与产品显式停止、同 data/profile 重启及两次正常菜单退出。恢复前两次激活失败和强制夹具清理仍作为历史尝试保留，不计正常退出；合成 composition 与 OS IME 分开。原生后产品代码未改，复用通过的 CI / clean，文档生成后另跑完整 check。三项 verified、本地 20 / 133；OPS-08 仍待生产业务审批 / 双端审批、M3 回滚及平台门禁，继续 in_progress。真实提供商请求 0、配置 / canonical 预算未改，无安装包，网页独立功能暂缓；[逐项来源与证据](../validation/session-12-evidence/acceptance.md)。

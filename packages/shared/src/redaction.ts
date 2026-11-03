@@ -14,6 +14,10 @@ function secretName(name: string): boolean {
  */
 export class Redactor {
   private readonly secrets = new Set<string>()
+  /** Host-only invalidation token for derived presentation indexes; contains no credential. */
+  get revision(): number {
+    return this.secrets.size
+  }
 
   remember(value: string): void {
     if (value && value !== redacted) {

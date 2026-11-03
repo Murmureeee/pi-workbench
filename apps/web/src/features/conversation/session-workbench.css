@@ -294,3 +294,115 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.session-search-dialog {
+  width: min(760px, calc(100vw - 32px));
+  max-width: min(760px, calc(100vw - 32px));
+  max-height: calc(100dvh - 80px);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  gap: 16px;
+}
+.search-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+.search-filter-grid select {
+  min-width: 0;
+  width: 100%;
+  background: var(--background);
+  color: var(--foreground);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 6px 8px;
+  font: inherit;
+}
+.search-filter-grid select:focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 2px;
+}
+.search-summary,
+.search-pagination,
+.search-result-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.search-summary {
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.session-search-results {
+  flex: 1;
+  min-height: 140px;
+  max-height: 42dvh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.session-search-result {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+  height: auto;
+  padding: 12px;
+  text-align: left;
+  white-space: normal;
+  gap: 6px;
+}
+.session-search-result[data-selected] {
+  background: var(--accent);
+  color: var(--accent-foreground);
+  outline: 1px solid var(--border);
+  outline-offset: -1px;
+}
+.search-result-heading strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.search-result-heading [data-slot='badge'] {
+  flex: none;
+}
+.search-result-meta {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+.search-result-snippet {
+  overflow-wrap: anywhere;
+  font-weight: 400;
+}
+.search-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 28px 12px;
+  color: var(--muted-foreground);
+}
+[data-search-located] {
+  outline: 2px solid var(--ring);
+  outline-offset: -2px;
+  border-radius: 10px;
+  content-visibility: visible;
+}
+@media (max-width: 600px) {
+  .search-filter-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .search-filter-grid > :first-child {
+    grid-column: 1 / -1;
+  }
+  .session-search-dialog {
+    max-height: calc(100dvh - 32px);
+  }
+  .search-result-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+    gap: 4px;
+  }
+}

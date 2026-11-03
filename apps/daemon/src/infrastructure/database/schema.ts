@@ -141,3 +141,21 @@ export const sessionOrganization = sqliteTable('session_organization', {
   revision: integer('revision').notNull().default(0),
   updatedAt: integer('updated_at').notNull(),
 })
+
+// Rebuildable presentation index only. Redaction precedes persistence; native IDs resolve
+// through SessionStore, never through a caller-provided filesystem path.
+export const sessionSearchDocuments = sqliteTable(
+  'session_search_documents',
+  {
+    id: text('id').primaryKey(),
+    sessionId: text('session_id')
+      .notNull()
+      .references(() => sessions.id, { onDelete: 'cascade' }),
+    messageId: text('message_id').notNull(),
+    role: text('role', { enum: ['user', 'assistant'] }).notNull(),
+    position: integer('position').notNull(),
+    body: text('body').notNull(),
+    folded: text('folded').notNull(),
+  },
+  (table) => [index('session_search_owner').on(table.sessionId)],
+)

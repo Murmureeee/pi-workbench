@@ -48,7 +48,13 @@ WS-06 的 `0008_project_organization.sql` 显式迁移在 `projects` 增加 `pin
 
 SESSION-11 在 `session_configurations` 增加 `title_source` 与 `title_version`，0006 显式迁移将既有标题保留为 local / 1。人工改名以 `sessionId + expectedVersion` 执行 SQLite 单语句 CAS，成功转为 user 并递增版本；本地后台候选还必须匹配 `creationRequestId` 且当前来源仍为 local，不能覆盖任何人工标题。保存失败不推进版本，改名不改会话身份、cwd、组织 / 未读状态或原生 JSONL。
 
-标题索引直接读取该权威表并统一脱敏，不另建可倒退的缓存表。已提交后发送独立标题通知，客户端以版本合并列表、编辑回执和首发 / 续发回执；断线补读 SQLite 最新索引，不重放改名命令。旧 CLI 历史继续只读，不创建标题记录或改写源文件；后续完整搜索仍按 SESSION-12 接入。
+标题索引直接读取该权威表并统一脱敏，不另建可倒退的缓存表。已提交后发送独立标题通知，客户端以版本合并列表、编辑回执和首发 / 续发回执；断线补读 SQLite 最新索引，不重放改名命令。旧 CLI 历史继续只读，不创建标题记录或改写源文件；SESSION-12 基础搜索仅覆盖受管会话。
+
+### SESSION-12 派生搜索索引
+
+0009 创建 `session_search_documents`，daemon SearchService 独占写入已脱敏的用户 / 助手全文、字面匹配字段与原消息 ID；标题、项目、归档和运行状态仍从各自权威服务读取。每次搜索核对原生文件身份 / 纳秒时间、轮次 / 检查点及脱敏规则 revision；变化时重建该会话，读取前后来源不一致则拒绝混合版本。重启首次搜索重新验证并重建，不启动 SDK。会话从受管索引移除后清理派生记录；丢失 / 损坏历史清掉旧正文并返回不完整诊断，原件保留。
+
+该表可丢弃重建，不写回 JSONL、检查点或模型上下文。搜索词仅在当前 Dialog 内存和请求中存在，不落普通日志或浏览器存储。正文按原消息 ID 读取所在历史页，过期目标显式报错，不静默定位另一消息。主动项目迁移 / 删除产品入口尚未交付，索引边界由明确 SQLite 夹具验证，不代表 SESSION-13 已验收。
 
 SESSION-03 的 `session_organization` 独立保存 pinned / archived / manualUnread、resultVersion / readVersion、对应终态请求及 revision。它属于 daemon 的个人列表元数据，既不是消息副本，也不是执行或审批权威。0005 迁移保留既有提交与 JSONL，将迁移前已有终态的结果 / 阅读游标对齐；新中断恢复在同一事务中推进结果版本，重复终态不重复产生未读。
 

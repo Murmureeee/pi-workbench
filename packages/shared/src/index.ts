@@ -146,3 +146,14 @@ export {
   sessionTitleFrameSchema,
 } from './session-titles.js'
 export type { SessionRename, SessionTitle, SessionTitleFrame } from './session-titles.js'
+export {
+  sessionSearchStates,
+  sessionSearchQuerySchema,
+  sessionSearchResultSchema,
+  sessionSearchPageSchema,
+} from './session-search.js'
+export type {
+  SessionSearchQuery,
+  SessionSearchResult,
+  SessionSearchPage,
+} from './session-search.js'

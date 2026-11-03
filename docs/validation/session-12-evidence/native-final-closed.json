@@ -1,0 +1,1424 @@
+{
+  "source": "Actual native Electron + production main/preload; synthetic v3 history and real SDK/local HTTP fixture; no route interception",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj",
+  "restored": true,
+  "seeds": {
+    "first": "94f31b20-5df5-4e52-8fbe-57e99498c749",
+    "second": "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510",
+    "third": "1bc0497d-1fbb-47bc-8c32-320d0b6608be",
+    "real": "58568f11-804f-4ff8-84c7-145795709df6",
+    "projectA": "26418a68-0428-4991-b27e-c744ee1cbc8b",
+    "projectB": "83d65c7f-b3f6-4532-96a2-4a80a69f9e2b"
+  },
+  "projects": [
+    {
+      "id": "26418a68-0428-4991-b27e-c744ee1cbc8b",
+      "name": "同名项目",
+      "workspaceId": "988ae635-e858-4d3d-9ca9-2b8531967175",
+      "directory": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\中文项目目录",
+      "pinned": false,
+      "position": 0,
+      "revision": 1
+    },
+    {
+      "id": "83d65c7f-b3f6-4532-96a2-4a80a69f9e2b",
+      "name": "同名项目",
+      "workspaceId": null,
+      "directory": null,
+      "pinned": false,
+      "position": 1,
+      "revision": 1
+    }
+  ],
+  "sessions": [
+    {
+      "id": "94f31b20-5df5-4e52-8fbe-57e99498c749",
+      "title": "索引更新后的中文标题",
+      "titleSource": "user",
+      "titleVersion": 2,
+      "creationRequestId": "1f86603f-2edb-4e34-9b13-b05430a47b06",
+      "configuration": {
+        "projectId": "26418a68-0428-4991-b27e-c744ee1cbc8b",
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720415968
+    },
+    {
+      "id": "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510",
+      "title": "中文标题乙",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "3710537b-c463-4e40-8810-43ae39a184c7",
+      "configuration": {
+        "projectId": "83d65c7f-b3f6-4532-96a2-4a80a69f9e2b",
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720415995
+    },
+    {
+      "id": "1bc0497d-1fbb-47bc-8c32-320d0b6608be",
+      "title": "无项目备忘",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "53b00596-0806-4d46-95eb-29056196ec05",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416010
+    },
+    {
+      "id": "2b587f6a-a345-48be-8f5c-be969de4bb3f",
+      "title": "分页最近 01",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "5a94a8a4-5dea-485c-a551-38adc7a454de",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416031
+    },
+    {
+      "id": "7c8249c2-5aaf-4f54-8cae-2dab88076080",
+      "title": "分页最近 02",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "a37f32a0-134b-49a4-b4fb-a31b1b7b2034",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416046
+    },
+    {
+      "id": "f58ebca9-51df-40dc-b666-d425ecd14219",
+      "title": "分页最近 03",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "7574c4cc-2171-4f2d-a097-6f679dd99c37",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416060
+    },
+    {
+      "id": "d35b64a4-cba0-4946-a20c-2b48917f4ba2",
+      "title": "分页最近 04",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "38163fc9-b788-452d-9dfb-34f8c8d404ac",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416075
+    },
+    {
+      "id": "e8f1374e-3e2a-4067-8565-3c2b7a2944cf",
+      "title": "分页最近 05",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "c11c004e-998f-4d28-938c-bf9ff3bd2c70",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416090
+    },
+    {
+      "id": "0939e721-4dd1-42b2-9f1f-d1d63a3b2636",
+      "title": "分页最近 06",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "c7211901-d419-402f-9189-411676019204",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416106
+    },
+    {
+      "id": "a66b583d-dc12-44f3-b059-8661a9fb3bba",
+      "title": "分页最近 07",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "010a122a-4e07-44be-9562-5bb4ebb33d3f",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416125
+    },
+    {
+      "id": "15f58146-5871-47c8-a15b-e604751025e9",
+      "title": "分页最近 08",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "28a7e1a6-27fd-478e-a51c-c6ef82666ea1",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416140
+    },
+    {
+      "id": "304e650c-feeb-403b-a12d-4788eaa96738",
+      "title": "分页最近 09",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "bd634e54-9e26-4a0b-911d-948e7cf40efe",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416156
+    },
+    {
+      "id": "b397e2b3-4dd7-4ab1-a8b4-6a2018349624",
+      "title": "分页最近 10",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "e1041f09-8cd5-487d-8239-bcada348b122",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416170
+    },
+    {
+      "id": "d4e28dd2-08ad-4f3d-8737-55660751d8cd",
+      "title": "分页最近 11",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "d4cdaef5-56b4-4f5a-84d1-262531ff8c15",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416186
+    },
+    {
+      "id": "51cec280-17c4-4001-bfe2-fb31c37592f2",
+      "title": "分页最近 12",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "f24cb74e-0add-49d4-8c35-c73c1566e5e7",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416200
+    },
+    {
+      "id": "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38",
+      "title": "分页最近 13",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "9d586bc0-07a6-4143-88e4-96ecda9b1cc4",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416216
+    },
+    {
+      "id": "2c517924-d1ed-46bd-b338-8d4da1fb9b8f",
+      "title": "分页最近 14",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "c1ec5764-49ce-40b6-8a0e-58db3c7bba32",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416230
+    },
+    {
+      "id": "7f149709-3c98-46a8-ade2-9f37ad303364",
+      "title": "分页最近 15",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "ad7a3978-2fae-4156-a366-bfa950a7e655",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416246
+    },
+    {
+      "id": "59021d83-696e-43ff-bc98-fe40599d2218",
+      "title": "分页最近 16",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "65904952-d7fd-4baf-82ab-9d9a60340022",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416262
+    },
+    {
+      "id": "88dc34da-fb76-413a-8bc4-bea5ee297d08",
+      "title": "分页最近 17",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "1b103220-75b1-4bca-8782-7c0223b496bb",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416278
+    },
+    {
+      "id": "9c07013d-804b-4ea1-b6f1-b67add2516ca",
+      "title": "分页最近 18",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "ee76aff9-6707-4736-87dc-21d107e39c99",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416294
+    },
+    {
+      "id": "602b9b85-3854-4302-8ba1-bf592161bd4e",
+      "title": "分页最近 19",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "c772d138-0162-4dc8-99e5-397f663f350c",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416310
+    },
+    {
+      "id": "6a4247c5-6e09-4911-be05-1eeeceb81bf8",
+      "title": "分页最近 20",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "cfa3ad5e-14c9-4a4a-9b00-6a8bc55c5289",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416326
+    },
+    {
+      "id": "05df95fc-d3ff-4f18-a024-cf3f0405fa40",
+      "title": "分页最近 21",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "48ebf7d0-2382-4607-a4ba-b0e8fec5b742",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a1ed5925-740c-47cd-9a27-b946282e989d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data",
+      "createdAt": 1793720416342
+    },
+    {
+      "id": "58568f11-804f-4ff8-84c7-145795709df6",
+      "title": "离线 SDK 留档",
+      "titleSource": "user",
+      "titleVersion": 2,
+      "creationRequestId": "00111f0b-722d-4802-b1a0-9814ca694d82",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "edf82309-9339-49b5-927b-29688486fdb5",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\session-12-native-VDzNSj\\data\\standalone\\58568f11-804f-4ff8-84c7-145795709df6",
+      "createdAt": 1793720416359
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "1f86603f-2edb-4e34-9b13-b05430a47b06",
+      "sessionId": "94f31b20-5df5-4e52-8fbe-57e99498c749",
+      "status": "completed",
+      "turnId": "e608613c-59c9-437d-92c3-ce9640f57291"
+    },
+    {
+      "requestId": "3710537b-c463-4e40-8810-43ae39a184c7",
+      "sessionId": "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510",
+      "status": "completed",
+      "turnId": "72961230-4e57-4d34-8155-9b4167723b03"
+    },
+    {
+      "requestId": "53b00596-0806-4d46-95eb-29056196ec05",
+      "sessionId": "1bc0497d-1fbb-47bc-8c32-320d0b6608be",
+      "status": "completed",
+      "turnId": "a1de2023-e02a-484c-9eb9-b2efbd47df0a"
+    },
+    {
+      "requestId": "5a94a8a4-5dea-485c-a551-38adc7a454de",
+      "sessionId": "2b587f6a-a345-48be-8f5c-be969de4bb3f",
+      "status": "completed",
+      "turnId": "3cdfbecb-8fa6-4c75-b71d-25cd79b7efa2"
+    },
+    {
+      "requestId": "a37f32a0-134b-49a4-b4fb-a31b1b7b2034",
+      "sessionId": "7c8249c2-5aaf-4f54-8cae-2dab88076080",
+      "status": "completed",
+      "turnId": "9531e264-fcc2-4a91-95de-d9d67c8d905f"
+    },
+    {
+      "requestId": "7574c4cc-2171-4f2d-a097-6f679dd99c37",
+      "sessionId": "f58ebca9-51df-40dc-b666-d425ecd14219",
+      "status": "completed",
+      "turnId": "46877a52-3b3c-47ad-8f86-5cbed1ea1fe1"
+    },
+    {
+      "requestId": "38163fc9-b788-452d-9dfb-34f8c8d404ac",
+      "sessionId": "d35b64a4-cba0-4946-a20c-2b48917f4ba2",
+      "status": "completed",
+      "turnId": "6beef8d6-9a14-4e2c-afce-4f450586b6db"
+    },
+    {
+      "requestId": "c11c004e-998f-4d28-938c-bf9ff3bd2c70",
+      "sessionId": "e8f1374e-3e2a-4067-8565-3c2b7a2944cf",
+      "status": "completed",
+      "turnId": "61abe4c3-efc6-49a5-9486-9189cae6e8c5"
+    },
+    {
+      "requestId": "c7211901-d419-402f-9189-411676019204",
+      "sessionId": "0939e721-4dd1-42b2-9f1f-d1d63a3b2636",
+      "status": "completed",
+      "turnId": "1689f984-df0d-4e8f-bf69-568a4b599216"
+    },
+    {
+      "requestId": "010a122a-4e07-44be-9562-5bb4ebb33d3f",
+      "sessionId": "a66b583d-dc12-44f3-b059-8661a9fb3bba",
+      "status": "completed",
+      "turnId": "5b2d77d9-0b3d-4232-bb71-ab2a0c082c4d"
+    },
+    {
+      "requestId": "28a7e1a6-27fd-478e-a51c-c6ef82666ea1",
+      "sessionId": "15f58146-5871-47c8-a15b-e604751025e9",
+      "status": "completed",
+      "turnId": "7b3da6b1-a2e2-4e16-924e-bde8fb248e6d"
+    },
+    {
+      "requestId": "bd634e54-9e26-4a0b-911d-948e7cf40efe",
+      "sessionId": "304e650c-feeb-403b-a12d-4788eaa96738",
+      "status": "completed",
+      "turnId": "b585f2d7-a6ae-4533-b963-d0449910b860"
+    },
+    {
+      "requestId": "e1041f09-8cd5-487d-8239-bcada348b122",
+      "sessionId": "b397e2b3-4dd7-4ab1-a8b4-6a2018349624",
+      "status": "completed",
+      "turnId": "2b93a7fe-78d0-409a-8459-c074507e7307"
+    },
+    {
+      "requestId": "d4cdaef5-56b4-4f5a-84d1-262531ff8c15",
+      "sessionId": "d4e28dd2-08ad-4f3d-8737-55660751d8cd",
+      "status": "completed",
+      "turnId": "01a038eb-43d8-4689-8442-4ae0ae7fe535"
+    },
+    {
+      "requestId": "f24cb74e-0add-49d4-8c35-c73c1566e5e7",
+      "sessionId": "51cec280-17c4-4001-bfe2-fb31c37592f2",
+      "status": "completed",
+      "turnId": "54a62be6-13fc-4bfc-a8ab-dfa63d2f91a3"
+    },
+    {
+      "requestId": "9d586bc0-07a6-4143-88e4-96ecda9b1cc4",
+      "sessionId": "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38",
+      "status": "completed",
+      "turnId": "d64e73ca-2555-48a4-a5ff-b7473dbb154b"
+    },
+    {
+      "requestId": "c1ec5764-49ce-40b6-8a0e-58db3c7bba32",
+      "sessionId": "2c517924-d1ed-46bd-b338-8d4da1fb9b8f",
+      "status": "completed",
+      "turnId": "43ddb502-a4e3-4433-a969-72be45c28234"
+    },
+    {
+      "requestId": "ad7a3978-2fae-4156-a366-bfa950a7e655",
+      "sessionId": "7f149709-3c98-46a8-ade2-9f37ad303364",
+      "status": "completed",
+      "turnId": "d8c48779-23ff-4e48-bae8-9f788964b863"
+    },
+    {
+      "requestId": "65904952-d7fd-4baf-82ab-9d9a60340022",
+      "sessionId": "59021d83-696e-43ff-bc98-fe40599d2218",
+      "status": "completed",
+      "turnId": "1534f7ad-1016-4cf5-979c-216f6b45d24d"
+    },
+    {
+      "requestId": "1b103220-75b1-4bca-8782-7c0223b496bb",
+      "sessionId": "88dc34da-fb76-413a-8bc4-bea5ee297d08",
+      "status": "completed",
+      "turnId": "25b1c94f-b1a4-4ca4-bed1-48fa5200dd82"
+    },
+    {
+      "requestId": "ee76aff9-6707-4736-87dc-21d107e39c99",
+      "sessionId": "9c07013d-804b-4ea1-b6f1-b67add2516ca",
+      "status": "completed",
+      "turnId": "cf88a50b-22b1-4e46-84d6-28f82d7b7ab1"
+    },
+    {
+      "requestId": "c772d138-0162-4dc8-99e5-397f663f350c",
+      "sessionId": "602b9b85-3854-4302-8ba1-bf592161bd4e",
+      "status": "completed",
+      "turnId": "7fa2fdb3-e5a9-451e-b620-1c8aec64cc2d"
+    },
+    {
+      "requestId": "cfa3ad5e-14c9-4a4a-9b00-6a8bc55c5289",
+      "sessionId": "6a4247c5-6e09-4911-be05-1eeeceb81bf8",
+      "status": "completed",
+      "turnId": "adf89e07-a1c8-4d5e-86a7-8f14ef064aea"
+    },
+    {
+      "requestId": "48ebf7d0-2382-4607-a4ba-b0e8fec5b742",
+      "sessionId": "05df95fc-d3ff-4f18-a024-cf3f0405fa40",
+      "status": "completed",
+      "turnId": "fd67f564-656b-400c-af05-73f1d1747c20"
+    },
+    {
+      "requestId": "00111f0b-722d-4802-b1a0-9814ca694d82",
+      "sessionId": "58568f11-804f-4ff8-84c7-145795709df6",
+      "status": "completed",
+      "turnId": "d600a138-13d1-4b97-a381-80b23286bb94"
+    },
+    {
+      "requestId": "305d7a92-0b9e-4882-acc2-16ae4c148b10",
+      "sessionId": "58568f11-804f-4ff8-84c7-145795709df6",
+      "status": "aborted",
+      "turnId": "c98bec5e-f265-40c5-b811-66666f3a274c"
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 1,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "indexDocuments": {
+    "count": 182
+  },
+  "searchCalls": [
+    {
+      "at": 1793723115836,
+      "querySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "queryCodepoints": 0,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 24,
+      "sessionIds": [
+        "58568f11-804f-4ff8-84c7-145795709df6",
+        "05df95fc-d3ff-4f18-a024-cf3f0405fa40",
+        "6a4247c5-6e09-4911-be05-1eeeceb81bf8",
+        "602b9b85-3854-4302-8ba1-bf592161bd4e",
+        "9c07013d-804b-4ea1-b6f1-b67add2516ca",
+        "88dc34da-fb76-413a-8bc4-bea5ee297d08",
+        "59021d83-696e-43ff-bc98-fe40599d2218",
+        "7f149709-3c98-46a8-ade2-9f37ad303364",
+        "2c517924-d1ed-46bd-b338-8d4da1fb9b8f",
+        "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38",
+        "51cec280-17c4-4001-bfe2-fb31c37592f2",
+        "d4e28dd2-08ad-4f3d-8737-55660751d8cd",
+        "b397e2b3-4dd7-4ab1-a8b4-6a2018349624",
+        "304e650c-feeb-403b-a12d-4788eaa96738",
+        "15f58146-5871-47c8-a15b-e604751025e9",
+        "a66b583d-dc12-44f3-b059-8661a9fb3bba",
+        "0939e721-4dd1-42b2-9f1f-d1d63a3b2636",
+        "e8f1374e-3e2a-4067-8565-3c2b7a2944cf",
+        "d35b64a4-cba0-4946-a20c-2b48917f4ba2",
+        "f58ebca9-51df-40dc-b666-d425ecd14219"
+      ],
+      "matches": [
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent"
+      ]
+    },
+    {
+      "at": 1793723117985,
+      "querySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "queryCodepoints": 0,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 24,
+      "sessionIds": [
+        "58568f11-804f-4ff8-84c7-145795709df6",
+        "05df95fc-d3ff-4f18-a024-cf3f0405fa40",
+        "6a4247c5-6e09-4911-be05-1eeeceb81bf8",
+        "602b9b85-3854-4302-8ba1-bf592161bd4e",
+        "9c07013d-804b-4ea1-b6f1-b67add2516ca",
+        "88dc34da-fb76-413a-8bc4-bea5ee297d08",
+        "59021d83-696e-43ff-bc98-fe40599d2218",
+        "7f149709-3c98-46a8-ade2-9f37ad303364",
+        "2c517924-d1ed-46bd-b338-8d4da1fb9b8f",
+        "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38",
+        "51cec280-17c4-4001-bfe2-fb31c37592f2",
+        "d4e28dd2-08ad-4f3d-8737-55660751d8cd",
+        "b397e2b3-4dd7-4ab1-a8b4-6a2018349624",
+        "304e650c-feeb-403b-a12d-4788eaa96738",
+        "15f58146-5871-47c8-a15b-e604751025e9",
+        "a66b583d-dc12-44f3-b059-8661a9fb3bba",
+        "0939e721-4dd1-42b2-9f1f-d1d63a3b2636",
+        "e8f1374e-3e2a-4067-8565-3c2b7a2944cf",
+        "d35b64a4-cba0-4946-a20c-2b48917f4ba2",
+        "f58ebca9-51df-40dc-b666-d425ecd14219"
+      ],
+      "matches": [
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent"
+      ]
+    },
+    {
+      "at": 1793723120005,
+      "querySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "queryCodepoints": 0,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 24,
+      "sessionIds": [
+        "58568f11-804f-4ff8-84c7-145795709df6",
+        "05df95fc-d3ff-4f18-a024-cf3f0405fa40",
+        "6a4247c5-6e09-4911-be05-1eeeceb81bf8",
+        "602b9b85-3854-4302-8ba1-bf592161bd4e",
+        "9c07013d-804b-4ea1-b6f1-b67add2516ca",
+        "88dc34da-fb76-413a-8bc4-bea5ee297d08",
+        "59021d83-696e-43ff-bc98-fe40599d2218",
+        "7f149709-3c98-46a8-ade2-9f37ad303364",
+        "2c517924-d1ed-46bd-b338-8d4da1fb9b8f",
+        "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38",
+        "51cec280-17c4-4001-bfe2-fb31c37592f2",
+        "d4e28dd2-08ad-4f3d-8737-55660751d8cd",
+        "b397e2b3-4dd7-4ab1-a8b4-6a2018349624",
+        "304e650c-feeb-403b-a12d-4788eaa96738",
+        "15f58146-5871-47c8-a15b-e604751025e9",
+        "a66b583d-dc12-44f3-b059-8661a9fb3bba",
+        "0939e721-4dd1-42b2-9f1f-d1d63a3b2636",
+        "e8f1374e-3e2a-4067-8565-3c2b7a2944cf",
+        "d35b64a4-cba0-4946-a20c-2b48917f4ba2",
+        "f58ebca9-51df-40dc-b666-d425ecd14219"
+      ],
+      "matches": [
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent"
+      ]
+    },
+    {
+      "at": 1793723122026,
+      "querySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "queryCodepoints": 0,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 24,
+      "sessionIds": [
+        "58568f11-804f-4ff8-84c7-145795709df6",
+        "05df95fc-d3ff-4f18-a024-cf3f0405fa40",
+        "6a4247c5-6e09-4911-be05-1eeeceb81bf8",
+        "602b9b85-3854-4302-8ba1-bf592161bd4e",
+        "9c07013d-804b-4ea1-b6f1-b67add2516ca",
+        "88dc34da-fb76-413a-8bc4-bea5ee297d08",
+        "59021d83-696e-43ff-bc98-fe40599d2218",
+        "7f149709-3c98-46a8-ade2-9f37ad303364",
+        "2c517924-d1ed-46bd-b338-8d4da1fb9b8f",
+        "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38",
+        "51cec280-17c4-4001-bfe2-fb31c37592f2",
+        "d4e28dd2-08ad-4f3d-8737-55660751d8cd",
+        "b397e2b3-4dd7-4ab1-a8b4-6a2018349624",
+        "304e650c-feeb-403b-a12d-4788eaa96738",
+        "15f58146-5871-47c8-a15b-e604751025e9",
+        "a66b583d-dc12-44f3-b059-8661a9fb3bba",
+        "0939e721-4dd1-42b2-9f1f-d1d63a3b2636",
+        "e8f1374e-3e2a-4067-8565-3c2b7a2944cf",
+        "d35b64a4-cba0-4946-a20c-2b48917f4ba2",
+        "f58ebca9-51df-40dc-b666-d425ecd14219"
+      ],
+      "matches": [
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent"
+      ]
+    },
+    {
+      "at": 1793723124046,
+      "querySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "queryCodepoints": 0,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 24,
+      "sessionIds": [
+        "58568f11-804f-4ff8-84c7-145795709df6",
+        "05df95fc-d3ff-4f18-a024-cf3f0405fa40",
+        "6a4247c5-6e09-4911-be05-1eeeceb81bf8",
+        "602b9b85-3854-4302-8ba1-bf592161bd4e",
+        "9c07013d-804b-4ea1-b6f1-b67add2516ca",
+        "88dc34da-fb76-413a-8bc4-bea5ee297d08",
+        "59021d83-696e-43ff-bc98-fe40599d2218",
+        "7f149709-3c98-46a8-ade2-9f37ad303364",
+        "2c517924-d1ed-46bd-b338-8d4da1fb9b8f",
+        "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38",
+        "51cec280-17c4-4001-bfe2-fb31c37592f2",
+        "d4e28dd2-08ad-4f3d-8737-55660751d8cd",
+        "b397e2b3-4dd7-4ab1-a8b4-6a2018349624",
+        "304e650c-feeb-403b-a12d-4788eaa96738",
+        "15f58146-5871-47c8-a15b-e604751025e9",
+        "a66b583d-dc12-44f3-b059-8661a9fb3bba",
+        "0939e721-4dd1-42b2-9f1f-d1d63a3b2636",
+        "e8f1374e-3e2a-4067-8565-3c2b7a2944cf",
+        "d35b64a4-cba0-4946-a20c-2b48917f4ba2",
+        "f58ebca9-51df-40dc-b666-d425ecd14219"
+      ],
+      "matches": [
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent",
+        "recent"
+      ]
+    },
+    {
+      "at": 1793723125646,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723127668,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723129685,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723131704,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723133726,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723135746,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723137762,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723139782,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723141803,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723143831,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723145851,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723147870,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723149888,
+      "querySha256": "d8cede5d5af53c7c5634f43c5d136ad574b35361e97426b84caaa863613b8624",
+      "queryCodepoints": 10,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "94f31b20-5df5-4e52-8fbe-57e99498c749"
+      ],
+      "matches": [
+        "title"
+      ]
+    },
+    {
+      "at": 1793723150783,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723152806,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723154834,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723156853,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723158872,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723160903,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723162921,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723164950,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723166968,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    },
+    {
+      "at": 1793723168994,
+      "querySha256": "73ab3f94f9c1fa2718b308cb7534521c29bdb1f04b001ee91df140f7d94fc808",
+      "queryCodepoints": 6,
+      "project": "all",
+      "state": "all",
+      "archive": "active",
+      "page": 1,
+      "total": 1,
+      "sessionIds": [
+        "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510"
+      ],
+      "matches": [
+        "assistant"
+      ]
+    }
+  ],
+  "seedPrompts": 0,
+  "fixturePrompts": 0,
+  "uiPrompts": 0,
+  "historyBefore": {
+    "05df95fc-d3ff-4f18-a024-cf3f0405fa40\\988bf505-ee83-4cce-b5d2-590b153d8eea\\sessions\\search-fixture.jsonl": "6dc129dda78c01d4e3a705b335bf11597b639e39a558bba4081b2480c42bad48",
+    "0939e721-4dd1-42b2-9f1f-d1d63a3b2636\\ea33bb5c-3d61-47aa-9817-957262e7eb78\\sessions\\search-fixture.jsonl": "4e461d6e311eb8ea2cfa911f95fdb7553cc155a7e555886bf5fd79cca38ee438",
+    "15f58146-5871-47c8-a15b-e604751025e9\\dffa0e05-2863-4504-b84f-3c1dafeeb1f9\\sessions\\search-fixture.jsonl": "6c31f411bf533797be6b41c3544c5d1b3243f01528c57fd5936d11838305f912",
+    "1bc0497d-1fbb-47bc-8c32-320d0b6608be\\1c3b9c77-32b3-40cd-a7de-da08145f61f5\\sessions\\search-fixture.jsonl": "a283302b5d049d5d5bc4aad1363bf09afae4fd1a78c35bcee32c31d5fb11ced9",
+    "2b587f6a-a345-48be-8f5c-be969de4bb3f\\d271a992-eb7a-4126-b4ea-4a70675949a5\\sessions\\search-fixture.jsonl": "22bc7787e274fb125a2f9196b6f19a3543d6d4077fa6edec702e61692d8614b4",
+    "2c517924-d1ed-46bd-b338-8d4da1fb9b8f\\cd3ffa29-490d-41c8-9660-cfe32b5e1c5c\\sessions\\search-fixture.jsonl": "c65b21ba6f918982167925230a58ab3a8d73f02c942a9e850b87ace9aacd811c",
+    "304e650c-feeb-403b-a12d-4788eaa96738\\8eed455b-7652-42a5-b99c-b12451a39d9e\\sessions\\search-fixture.jsonl": "0b6bffdd79375b5312a7a35a265eceea245523d2f75edd9b9adec9c688834992",
+    "51cec280-17c4-4001-bfe2-fb31c37592f2\\9d8df251-c982-40aa-ae6e-1084e09f2bff\\sessions\\search-fixture.jsonl": "74199b64fd56fc88e5c91adaaa14b496149457b604322e009a613751ddc6df9a",
+    "58568f11-804f-4ff8-84c7-145795709df6\\f245f0ff-d430-467b-8804-45d7a12afc77\\sessions\\2026-11-03T15-40-17-506Z_01a1a211-7ce2-716b-8960-daed67d1638e.jsonl": "02c78ecdbea35b9c1840ff9d4594efdd95a942492fcc87376f7c6a817d17c96d",
+    "59021d83-696e-43ff-bc98-fe40599d2218\\74ee2f3d-af4e-4a06-8c35-a2dea9ff4ac7\\sessions\\search-fixture.jsonl": "391349432d29293eaa0c399af184949f917ed1922f1695850e58acd27abcf365",
+    "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38\\ec0889d4-f360-4eed-a661-cae51585d03e\\sessions\\search-fixture.jsonl": "32361ae1fd4205edb5b2c254e9a481b30ed2ef62839d2144b6d1822db38296f4",
+    "602b9b85-3854-4302-8ba1-bf592161bd4e\\24fb97d9-99b8-4f39-b9f5-4d097fef0476\\sessions\\search-fixture.jsonl": "98be227650f47e99875e01e77d377516490de621b278c0b64969c9ba363d1c6e",
+    "6a4247c5-6e09-4911-be05-1eeeceb81bf8\\bb3ec96a-d2c1-4611-8b25-adef0001d48f\\sessions\\search-fixture.jsonl": "38b40e41c04dee0ebdef26046eba59e6f079101e999455421818aebfbb54c1d4",
+    "7c8249c2-5aaf-4f54-8cae-2dab88076080\\75f1263b-2cf7-43f7-8a7e-ba096efa46a2\\sessions\\search-fixture.jsonl": "76ccf0ac906a52f3a9dba13fdd2990699822a81681e7668f9ba67588030171d5",
+    "7f149709-3c98-46a8-ade2-9f37ad303364\\1ec4f62a-040a-412a-a1fa-1fb852820010\\sessions\\search-fixture.jsonl": "fe3f247d328e5cc9d4c061d21666d888e5b1f269271cb68256cf80c6859c8370",
+    "88dc34da-fb76-413a-8bc4-bea5ee297d08\\c9ada82c-c68c-4c43-9c88-1608fe163072\\sessions\\search-fixture.jsonl": "2a0b05723a81bbdb5d618b73be7c737378f1e08d1a9ef6c30567761d6d1893bf",
+    "94f31b20-5df5-4e52-8fbe-57e99498c749\\4ef69fdd-03ce-4bb7-9b37-1c0474bbdd90\\sessions\\search-fixture.jsonl": "04069c1c6919da12f9c016abbfb9b030c07b4b3b2fe4999a70a52873798333e2",
+    "9c07013d-804b-4ea1-b6f1-b67add2516ca\\617a6067-2703-452d-b312-ea66b478fa1e\\sessions\\search-fixture.jsonl": "bfebd30d0bac616270c07492ceafdff09a5153c89735ff2ae9e2894ff27ac4d4",
+    "a66b583d-dc12-44f3-b059-8661a9fb3bba\\c076a6e7-6673-4e91-be74-c7bfe9a5e248\\sessions\\search-fixture.jsonl": "8d8646bdf63bcff5595fcccf963fc7dd9666eadcd66e770155c59faae8d72df2",
+    "b397e2b3-4dd7-4ab1-a8b4-6a2018349624\\e7837305-b27e-455e-8269-ff4e3f9fd1ea\\sessions\\search-fixture.jsonl": "163722f90c076eeddc13a4530e79b4e5598ed954ac715900cd52be42adf5303a",
+    "d35b64a4-cba0-4946-a20c-2b48917f4ba2\\16a901be-bf24-4134-9b59-833f4832651c\\sessions\\search-fixture.jsonl": "29c82a0da9d2b4fc0caf2ad67b0113200cf0675c50aa685c24115dad4640a7a3",
+    "d4e28dd2-08ad-4f3d-8737-55660751d8cd\\e3ae214f-5883-4057-92ea-3deebe605502\\sessions\\search-fixture.jsonl": "d0d76933783e23905f84b1608b39824285ee8dcaa5659d6848a28efcf1ff4754",
+    "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510\\c9116372-7596-4bd1-b58e-04a67895f288\\sessions\\search-fixture.jsonl": "1ea335d7a7d8f566c32ba80852a2012d4c78898f364ed81d706a619f3d4e10cc",
+    "e8f1374e-3e2a-4067-8565-3c2b7a2944cf\\f7ca230a-f439-4dff-bbd7-08b4c4520499\\sessions\\search-fixture.jsonl": "2f376cbb88ba4167e053ef22f3e31014282db0faf35b258aad2a3c11f1784c85",
+    "f58ebca9-51df-40dc-b666-d425ecd14219\\76ec43c6-4287-4cbc-9b6f-c99e941df3fa\\sessions\\search-fixture.jsonl": "38092cb31e489d1fa871b7c141c8c698513cdc7bd6478edbec6aad0694a8cee1"
+  },
+  "historyAfter": {
+    "05df95fc-d3ff-4f18-a024-cf3f0405fa40\\988bf505-ee83-4cce-b5d2-590b153d8eea\\sessions\\search-fixture.jsonl": "6dc129dda78c01d4e3a705b335bf11597b639e39a558bba4081b2480c42bad48",
+    "0939e721-4dd1-42b2-9f1f-d1d63a3b2636\\ea33bb5c-3d61-47aa-9817-957262e7eb78\\sessions\\search-fixture.jsonl": "4e461d6e311eb8ea2cfa911f95fdb7553cc155a7e555886bf5fd79cca38ee438",
+    "15f58146-5871-47c8-a15b-e604751025e9\\dffa0e05-2863-4504-b84f-3c1dafeeb1f9\\sessions\\search-fixture.jsonl": "6c31f411bf533797be6b41c3544c5d1b3243f01528c57fd5936d11838305f912",
+    "1bc0497d-1fbb-47bc-8c32-320d0b6608be\\1c3b9c77-32b3-40cd-a7de-da08145f61f5\\sessions\\search-fixture.jsonl": "a283302b5d049d5d5bc4aad1363bf09afae4fd1a78c35bcee32c31d5fb11ced9",
+    "2b587f6a-a345-48be-8f5c-be969de4bb3f\\d271a992-eb7a-4126-b4ea-4a70675949a5\\sessions\\search-fixture.jsonl": "22bc7787e274fb125a2f9196b6f19a3543d6d4077fa6edec702e61692d8614b4",
+    "2c517924-d1ed-46bd-b338-8d4da1fb9b8f\\cd3ffa29-490d-41c8-9660-cfe32b5e1c5c\\sessions\\search-fixture.jsonl": "c65b21ba6f918982167925230a58ab3a8d73f02c942a9e850b87ace9aacd811c",
+    "304e650c-feeb-403b-a12d-4788eaa96738\\8eed455b-7652-42a5-b99c-b12451a39d9e\\sessions\\search-fixture.jsonl": "0b6bffdd79375b5312a7a35a265eceea245523d2f75edd9b9adec9c688834992",
+    "51cec280-17c4-4001-bfe2-fb31c37592f2\\9d8df251-c982-40aa-ae6e-1084e09f2bff\\sessions\\search-fixture.jsonl": "74199b64fd56fc88e5c91adaaa14b496149457b604322e009a613751ddc6df9a",
+    "58568f11-804f-4ff8-84c7-145795709df6\\f245f0ff-d430-467b-8804-45d7a12afc77\\sessions\\2026-11-03T15-40-17-506Z_01a1a211-7ce2-716b-8960-daed67d1638e.jsonl": "02c78ecdbea35b9c1840ff9d4594efdd95a942492fcc87376f7c6a817d17c96d",
+    "59021d83-696e-43ff-bc98-fe40599d2218\\74ee2f3d-af4e-4a06-8c35-a2dea9ff4ac7\\sessions\\search-fixture.jsonl": "391349432d29293eaa0c399af184949f917ed1922f1695850e58acd27abcf365",
+    "5f0cbcc5-2c4f-4e5f-b7d0-af9fe82d6a38\\ec0889d4-f360-4eed-a661-cae51585d03e\\sessions\\search-fixture.jsonl": "32361ae1fd4205edb5b2c254e9a481b30ed2ef62839d2144b6d1822db38296f4",
+    "602b9b85-3854-4302-8ba1-bf592161bd4e\\24fb97d9-99b8-4f39-b9f5-4d097fef0476\\sessions\\search-fixture.jsonl": "98be227650f47e99875e01e77d377516490de621b278c0b64969c9ba363d1c6e",
+    "6a4247c5-6e09-4911-be05-1eeeceb81bf8\\bb3ec96a-d2c1-4611-8b25-adef0001d48f\\sessions\\search-fixture.jsonl": "38b40e41c04dee0ebdef26046eba59e6f079101e999455421818aebfbb54c1d4",
+    "7c8249c2-5aaf-4f54-8cae-2dab88076080\\75f1263b-2cf7-43f7-8a7e-ba096efa46a2\\sessions\\search-fixture.jsonl": "76ccf0ac906a52f3a9dba13fdd2990699822a81681e7668f9ba67588030171d5",
+    "7f149709-3c98-46a8-ade2-9f37ad303364\\1ec4f62a-040a-412a-a1fa-1fb852820010\\sessions\\search-fixture.jsonl": "fe3f247d328e5cc9d4c061d21666d888e5b1f269271cb68256cf80c6859c8370",
+    "88dc34da-fb76-413a-8bc4-bea5ee297d08\\c9ada82c-c68c-4c43-9c88-1608fe163072\\sessions\\search-fixture.jsonl": "2a0b05723a81bbdb5d618b73be7c737378f1e08d1a9ef6c30567761d6d1893bf",
+    "94f31b20-5df5-4e52-8fbe-57e99498c749\\4ef69fdd-03ce-4bb7-9b37-1c0474bbdd90\\sessions\\search-fixture.jsonl": "04069c1c6919da12f9c016abbfb9b030c07b4b3b2fe4999a70a52873798333e2",
+    "9c07013d-804b-4ea1-b6f1-b67add2516ca\\617a6067-2703-452d-b312-ea66b478fa1e\\sessions\\search-fixture.jsonl": "bfebd30d0bac616270c07492ceafdff09a5153c89735ff2ae9e2894ff27ac4d4",
+    "a66b583d-dc12-44f3-b059-8661a9fb3bba\\c076a6e7-6673-4e91-be74-c7bfe9a5e248\\sessions\\search-fixture.jsonl": "8d8646bdf63bcff5595fcccf963fc7dd9666eadcd66e770155c59faae8d72df2",
+    "b397e2b3-4dd7-4ab1-a8b4-6a2018349624\\e7837305-b27e-455e-8269-ff4e3f9fd1ea\\sessions\\search-fixture.jsonl": "163722f90c076eeddc13a4530e79b4e5598ed954ac715900cd52be42adf5303a",
+    "d35b64a4-cba0-4946-a20c-2b48917f4ba2\\16a901be-bf24-4134-9b59-833f4832651c\\sessions\\search-fixture.jsonl": "29c82a0da9d2b4fc0caf2ad67b0113200cf0675c50aa685c24115dad4640a7a3",
+    "d4e28dd2-08ad-4f3d-8737-55660751d8cd\\e3ae214f-5883-4057-92ea-3deebe605502\\sessions\\search-fixture.jsonl": "d0d76933783e23905f84b1608b39824285ee8dcaa5659d6848a28efcf1ff4754",
+    "e2b5d03f-3bbf-4e46-8533-1dfcd5d0d510\\c9116372-7596-4bd1-b58e-04a67895f288\\sessions\\search-fixture.jsonl": "1ea335d7a7d8f566c32ba80852a2012d4c78898f364ed81d706a619f3d4e10cc",
+    "e8f1374e-3e2a-4067-8565-3c2b7a2944cf\\f7ca230a-f439-4dff-bbd7-08b4c4520499\\sessions\\search-fixture.jsonl": "2f376cbb88ba4167e053ef22f3e31014282db0faf35b258aad2a3c11f1784c85",
+    "f58ebca9-51df-40dc-b666-d425ecd14219\\76ec43c6-4287-4cbc-9b6f-c99e941df3fa\\sessions\\search-fixture.jsonl": "38092cb31e489d1fa871b7c141c8c698513cdc7bd6478edbec6aad0694a8cee1"
+  },
+  "configBefore": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "8fb3d513dcb99a71f67fe91781100e64a4b332cc32c3a4ddcf8c30a067ae9058",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "configAfter": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "8fb3d513dcb99a71f67fe91781100e64a4b332cc32c3a4ddcf8c30a067ae9058",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356"
+  },
+  "budgetBefore": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "budgetAfter": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "realProviderRequests": 0,
+  "closed": true,
+  "ownedProcessesExited": true
+}

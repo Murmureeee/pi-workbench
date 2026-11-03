@@ -22,6 +22,7 @@ export function RememberedViewport({
   ready,
   latestToken,
   onReadLatest,
+  locateMessage,
   ...props
 }: ComponentProps<typeof MessageScrollerViewport> & {
   sessionId: string
@@ -30,6 +31,7 @@ export function RememberedViewport({
   ready: boolean
   latestToken?: string
   onReadLatest?: () => void
+  locateMessage?: string | null
 }) {
   const scroller = useMessageScroller()
   const scrollable = useMessageScrollerScrollable()
@@ -86,7 +88,9 @@ export function RememberedViewport({
     const position = sessionView(id).reading[surface]
     const first = requestAnimationFrame(() => {
       second = requestAnimationFrame(() => {
-        if (position && element.clientHeight) {
+        if (locateMessage && element.clientHeight) {
+          scroller.scrollToMessage(locateMessage, { align: 'center', behavior: 'instant' })
+        } else if (position && element.clientHeight) {
           const content = element.querySelector<HTMLElement>(
             '[data-slot="message-scroller-content"]',
           )
@@ -119,7 +123,7 @@ export function RememberedViewport({
       window.removeEventListener('pagehide', pagehide)
       save()
     }
-  }, [id, surface, active, ready, save, scroller, reportLatest])
+  }, [id, surface, active, ready, save, scroller, reportLatest, locateMessage])
   useEffect(() => {
     // Existing MessageScroller owns geometry observation; no second scroll controller.
     reportLatest()

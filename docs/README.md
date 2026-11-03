@@ -90,6 +90,10 @@ WS-02 两项验收已通过：Electron 最近列表 / 自定义名 / 明示排�
 
 ## WS-06 项目组织验收
 
-WS-06 四项已验收：项目创建 / 改名 / 置顶 / 组内顺序跨重启持久，侧栏展开与名称 / 路径检索、同名区分、项目新建预选 / 全局无项目、单默认目录与独立空间均通过。默认仅影响未来会话；明确移除解散归无项目，原子回滚失败，保留文件 / 会话 / cwd / 模型 / 历史 / 权限及已运行任务。完整 **201 项 Vitest / 63 项 E2E**、SDK 冒烟与本次 frozen clean 通过；40 步原生 Windows IME / 真实选择器 / 失败恢复 / 同 PID 后台 / 重启及两次正常退出已补证。249 个产品 / 测试 / 配置文件与 clean 一致，后续仅回填文档与进度并重建 PRD。当前 **19 / 133**，OPS-08 继续进行，下一项 SESSION-12。
+WS-06 四项已验收：项目创建 / 改名 / 置顶 / 组内顺序跨重启持久，侧栏展开与名称 / 路径检索、同名区分、项目新建预选 / 全局无项目、单默认目录与独立空间均通过。默认仅影响未来会话；明确移除解散归无项目，原子回滚失败，保留文件 / 会话 / cwd / 模型 / 历史 / 权限及已运行任务。完整 **201 项 Vitest / 63 项 E2E**、SDK 冒烟与本次 frozen clean 通过；40 步原生 Windows IME / 真实选择器 / 失败恢复 / 同 PID 后台 / 重启及两次正常退出已补证。249 个产品 / 测试 / 配置文件与 clean 一致，后续仅回填文档与进度并重建 PRD。该次 **19 / 133**，OPS-08 继续进行；SESSION-12 本次进展见下文。
 
 真实提供商请求 0、pi 配置 / canonical 预算不变、无安装包，网页版独立功能暂缓。[逐项验收与下一步提示词](validation/ws-06-evidence/acceptance.md)、[CI](validation/ws-06-evidence/ci.log)、[clean](validation/ws-06-evidence/clean-workspace.json)、[原生汇总](validation/ws-06-evidence/native-validation.json)、[重启关闭审计](validation/ws-06-evidence/native-final-closed.json)及[代码复用审计](validation/ws-06-evidence/native-code-reuse-audit.json)。
+
+## SESSION-12 基础搜索验收
+
+Electron 中文标题 / 用户 / 助手正文搜索、全部 / 指定 / 无项目、状态 / 本地日期 / 归档、脱敏分页与消息定位、200ms 防抖 / 迟到隔离 / 键盘和索引更新已实现。完整 **209 项 Vitest / 67 项浏览器及实际 Electron E2E**、SDK 冒烟和 frozen clean 通过；270 个产品 / 测试 / 脚本 / 配置文件与 clean 字节一致。用户恢复控制后，真实微软拼音 Enter / Escape / 数字及 Space 选词、原生筛选 / 旧消息定位 / 失败显式恢复 / 同 PID 后台状态 / 明暗窄窗 / 正常退出及同数据重启均已补证；SESSION-12 三项标 verified，完成数为 **20 / 133**，OPS-08 继续进行中。真实提供商请求 0，配置 / 预算未改，无安装包，网页独立功能暂缓。[实现、逐项验收及下一步提示词](validation/session-12-evidence/acceptance.md)。
