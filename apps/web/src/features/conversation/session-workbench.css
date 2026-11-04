@@ -108,6 +108,17 @@
 .session-workbench .conversation-column {
   min-height: 0;
 }
+.workspace-context {
+  max-height: 30%;
+  min-height: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+@media (max-height: 850px) {
+  .workspace-context {
+    max-height: 20%;
+  }
+}
 .session-options {
   display: grid;
   grid-template-columns: minmax(130px, 0.7fr) minmax(200px, 1.3fr);

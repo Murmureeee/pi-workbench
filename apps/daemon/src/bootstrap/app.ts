@@ -33,6 +33,7 @@ import { SessionService } from '../modules/sessions/session.service.js'
 import { SessionStore } from '../modules/sessions/session.store.js'
 import { registerSessionTransport } from '../modules/sessions/session.transport.js'
 import { ProjectService } from '../modules/workspaces/project.service.js'
+import { WorkspaceAvailabilityService } from '../modules/workspaces/workspace-availability.service.js'
 import { WorkspaceEnvironmentService } from '../modules/workspaces/workspace-environment.service.js'
 import { WorkspaceService } from '../modules/workspaces/workspace.service.js'
 import { registerWorkspaceTransport } from '../modules/workspaces/workspace.transport.js'
@@ -68,6 +69,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const trust = new TrustService(database, options.piAgentDir)
   const workspaces = new WorkspaceService(database)
   const environment = new WorkspaceEnvironmentService(workspaces, store)
+  const availability = new WorkspaceAvailabilityService(workspaces, store, trust)
   const models = new ModelService(security)
   const legacy = new LegacyHistoryService(options.piAgentDir)
   const projects = new ProjectService(database, workspaces)
@@ -104,6 +106,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: TrustService, useValue: trust },
       { provide: WorkspaceService, useValue: workspaces },
       { provide: WorkspaceEnvironmentService, useValue: environment },
+      { provide: WorkspaceAvailabilityService, useValue: availability },
       { provide: ModelService, useValue: models },
       { provide: ProjectService, useValue: projects },
       { provide: SessionService, useValue: sessionService },
@@ -143,7 +146,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   })
   registerAccessTransport(adapter.getInstance(), access, options.port, Boolean(options.development))
   registerTrustTransport(adapter.getInstance(), trust, access)
-  registerWorkspaceTransport(adapter.getInstance(), workspaces, access, environment)
+  registerWorkspaceTransport(adapter.getInstance(), workspaces, access, environment, availability)
   adapter.getInstance().addHook('preHandler', async (request, reply) => {
     if (
       request.url.startsWith('/api/legacy-history') &&

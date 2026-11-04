@@ -1,0 +1,16 @@
+{
+  "step": 19,
+  "label": "relocate-identity-rejected",
+  "time": "2026-11-04T15:38:49.674Z",
+  "window": {
+    "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+    "id": 1378632,
+    "title": "WS-07 历史保留 · Pi Workbench"
+  },
+  "accessibility": {
+    "document_text": "D:\\Project\\pi-workbench\\.workbench\\ws-07-native-56vzXk",
+    "focused_element": "13 文档 WS-07 历史保留 · Pi Workbench Value: http://127.0.0.1:5173/?session=7b095e58-9f53-48f8-877d-0097eeb598c6 ID: RootWebArea",
+    "tree": "Window: \"WS-07 历史保留 · Pi Workbench\", App: electron.exe.\n\t0 窗口 WS-07 历史保留 · Pi Workbench Secondary Actions: Raise\n\t\t1 窗格 (disabled)\n\t\t2 区域 WS-07 历史保留 · Pi Workbench\n\t\t\t3 区域\n\t\t\t\t4 区域\n\t\t\t\t\t5 区域\n\t\t\t\t\t\t6 按钮 最小化\n\t\t\t\t\t\t7 按钮 最大化\n\t\t\t\t\t\t8 按钮 关闭\n\t\t\t\t\t9 区域\n\t\t\t\t\t\t10 区域\n\t\t\t\t\t\t\t11 区域\n\t\t\t\t\t\t\t\t12 区域\n\t\t\t\t\t\t\t\t\t13 文档 WS-07 历史保留 · Pi Workbench Value: http://127.0.0.1:5173/?session=7b095e58-9f53-48f8-877d-0097eeb598c6 ID: RootWebArea\n\t\t\t\t\t\t\t\t\t\t503 组\n\t\t\t\t\t\t\t\t\t\t\t14 组 ID: root\n\t\t\t\t\t\t\t\t\t\t\t\t350 主要\n\t\t\t\t\t\t\t\t\t\t\t\t\t382 组\n\t\t\t\t\t\t\t\t\t\t\t623 组\n\t\t\t\t\t\t\t\t\t\t\t\t624 对话框 重新定位工作区 Secondary Actions: Raise\n\t\t\t\t\t\t\t\t\t\t\t\t\t625 标题 重新定位工作区 ID: base-ui-_r_1b_\n\t\t\t\t\t\t\t\t\t\t\t\t\t626 文本 请选择移动后的同一物理目录。只更新登记路径；既有会话保持原执行目录，旧路径失效时续发会被阻止。\n\t\t\t\t\t\t\t\t\t\t\t\t\t627 文本 新的目录位置\n\t\t\t\t\t\t\t\t\t\t\t\t\t628 编辑 (settable, string) 新的目录位置 Value: D:\\Project\\pi-workbench\\.workbench\\ws-07-native-56vzXk\n\t\t\t\t\t\t\t\t\t\t\t\t\t629 文本 保存时校验身份及读写 / 清理能力；选择文件夹不会立即保存。\n\t\t\t\t\t\t\t\t\t\t\t\t\t630 按钮 选择新的文件夹\n\t\t\t\t\t\t\t\t\t\t\t\t\t633 警报\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t634 文本 操作未完成\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t635 文本 这个路径现在指向另一个目录。 请重新打开目录以确认新的目录身份；不会沿用旧目录的会话或授权。\n\t\t\t\t\t\t\t\t\t\t\t\t\t631 按钮 取消\n\t\t\t\t\t\t\t\t\t\t\t\t\t632 按钮 保存位置\n\t\t\t\t\t\t\t\t98 区域\n\nDocument text: ```\nD:\\Project\\pi-workbench\\.workbench\\ws-07-native-56vzXk\n```"
+  },
+  "screenshots": []
+}

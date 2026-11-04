@@ -1,0 +1,47 @@
+{
+  "feature": "WS-07",
+  "recordedAt": "2026-11-04T15:14:06.794Z",
+  "commands": [
+    {
+      "command": "pnpm docs:build",
+      "exitCode": 0,
+      "evidence": "docs-build-final.log"
+    },
+    {
+      "command": "pnpm fix",
+      "exitCode": 0,
+      "evidence": "fix-documentation.log"
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0,
+      "evidence": "check.log"
+    }
+  ],
+  "productCodeAudit": {
+    "evidence": "code-reuse-audit.json",
+    "fileCount": 288,
+    "differences": [],
+    "cleanOnly": []
+  },
+  "protectedFilesChanged": [],
+  "screenshots": [
+    {
+      "file": "workspace-recovery-light.png",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "8b06cb76db2c97361ed9536d43231c878d15769ae8fc9e9444340ecd39ad3f63",
+      "source": "Latest full passing CI",
+      "visuallyReviewed": true
+    },
+    {
+      "file": "workspace-recovery-dark-800.png",
+      "width": 800,
+      "height": 760,
+      "sha256": "9b7e76d5ba02bc6efe2688b11be99a9e0481697e80d6ede48c73d9f1c46962b2",
+      "source": "Latest full passing CI",
+      "visuallyReviewed": true
+    }
+  ],
+  "nativePerformed": false
+}

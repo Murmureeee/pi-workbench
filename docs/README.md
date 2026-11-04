@@ -107,3 +107,7 @@ INPUT-01 输入与独立草稿已验收，新增2项实际Electron回归和27条
 ## SESSION-07 独立执行空间验收
 
 无项目首发／续发、真实独立目录、不可变来源、能力来源与仅整理归属已验收；失败／冲突／迟到、后台同PID／cwd、产物和历史持久均有自动及原生证据。完整223项Vitest／78项E2E、SDK与frozen clean通过，包含INPUT-01新增测试；29条Windows观察、重启0内核／0重发及两次正常退出补证，282文件与clean一致。当前本地23 / 133，SESSION-13完整迁移及OPS-08跨阶段门继续保留。真实提供商0；[逐项记录与下一步提示词](validation/session-07-evidence/acceptance.md)、[原生汇总](validation/session-07-evidence/native-validation.json)。
+
+## WS-07 验收记录
+
+[工作区信任与不可用恢复](validation/ws-07-evidence/acceptance.md)记录目录物理身份／后台停止／明确恢复、实际服务和 Electron 自动结果、68条原生观察、重启／正常退出与继续提示词；两项验收已通过。

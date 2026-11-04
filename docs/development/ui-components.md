@@ -84,3 +84,7 @@ project-groups / project-editor 位于 workspaces feature，复用既有官方 s
 WS-03 环境区复用既有官方 Base UI／base-nova Badge、Button、Alert 及 Lucide；已查询官方 CLI 与 Base UI 文档，没有新 primitive、依赖或传输。目录／Git 元数据由 daemon 观察；加载、未知、刷新、迟到隔离和只读提示均为 feature 组合。Electron 自动截图与原生用户验收分开归档。
 
 SESSION-07继续复用既有官方Dialog、DropdownMenuRadioGroup/RadioItem、Field/FieldGroup、Button、Alert和Badge，无新primitive或依赖。业务来源/能力/归属CAS组合放conversation/session-space-dialog.tsx，样式使用语义tokens；菜单选择后显式收起，窄窗保留页脚动作。
+
+## WS-07 恢复区采用说明
+
+工作区信任与恢复组合放在 web feature，复用现有官方 Base UI/base-nova 的 Badge、Alert、Button 和 WS-02 WorkspaceRecordDialog；没有新增 primitive 或依赖。正常状态紧凑显示资源受限，失效诊断与重新校验有文字和键盘入口；新草稿可明确改选目录或项目，已有会话仍锁定其保存 cwd。环境与恢复区共用有高度上限的内部滚动，保留消息阅读、输入、发送与停止空间。实际 Electron 1920×1080 明色／800×760 暗色截图及几何检查见 [WS-07 记录](../validation/ws-07-evidence/acceptance.md)，原生 Windows 操作待用户明确允许。

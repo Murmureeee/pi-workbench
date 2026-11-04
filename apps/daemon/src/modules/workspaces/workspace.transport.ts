@@ -1,9 +1,10 @@
 import type { AccessService } from '../security/access.service.js'
+import type { WorkspaceAvailabilityService } from './workspace-availability.service.js'
 import type { WorkspaceEnvironmentService } from './workspace-environment.service.js'
 import type { WorkspaceService } from './workspace.service.js'
 import type { FastifyInstance } from 'fastify'
 
-import { NotFoundException } from '@nestjs/common'
+import { HttpException, NotFoundException } from '@nestjs/common'
 
 import {
   workspaceEditSchema,
@@ -22,11 +23,19 @@ export function registerWorkspaceTransport(
   workspaces: WorkspaceService,
   access: AccessService,
   environment: WorkspaceEnvironmentService,
+  availability: WorkspaceAvailabilityService,
 ) {
   const desktopPaths = new Set(
-    ['recent', 'activate', 'rename', 'remove', 'relocate', 'environment'].map(
-      (operation) => `/api/workspaces/${operation}`,
-    ),
+    [
+      'recent',
+      'activate',
+      'rename',
+      'remove',
+      'relocate',
+      'environment',
+      'availability',
+      'recover',
+    ].map((operation) => `/api/workspaces/${operation}`),
   )
   server.addHook('preHandler', async (request, reply) => {
     if (
@@ -34,6 +43,34 @@ export function registerWorkspaceTransport(
       access.authenticate(request.headers.cookie)?.info.kind !== 'desktop'
     ) {
       await reply.code(403).send({ message: '最近工作区与整理目前仅向 Electron 开放。' })
+    }
+  })
+  server.get('/api/workspaces/availability', async (request, reply) => {
+    const target = workspaceEnvironmentTargetSchema.safeParse(request.query)
+    if (!target.success) {
+      return reply.code(400).send({ message: '请选择一个已登记工作区或会话。' })
+    }
+    try {
+      return await availability.inspect(target.data)
+    } catch (error) {
+      if (error instanceof HttpException) {
+        return reply.code(error.getStatus()).send(error.getResponse())
+      }
+      throw error
+    }
+  })
+  server.post('/api/workspaces/recover', async (request, reply) => {
+    const target = workspaceEnvironmentTargetSchema.safeParse(request.body)
+    if (!target.success) {
+      return reply.code(400).send({ message: '恢复仅接受已登记身份，不接受替换执行目录。' })
+    }
+    try {
+      return await availability.inspect(target.data, true)
+    } catch (error) {
+      if (error instanceof HttpException) {
+        return reply.code(error.getStatus()).send(error.getResponse())
+      }
+      throw error
     }
   })
   server.get('/api/workspaces/environment', async (request, reply) => {

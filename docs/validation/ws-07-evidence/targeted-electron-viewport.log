@@ -1,0 +1,51 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:2380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:15232) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts (10.3s)
+
+
+  1) e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator:  locator('.retained-session:not([hidden])').getByText('OFFLINE_OK', { exact: true })
+    Expected: in viewport
+    Received: viewport ratio 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeInViewport" locator('.retained-session:not([hidden])').getByText('OFFLINE_OK', { exact: true }) with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').getByText('OFFLINE_OK', { exact: true })
+        14 × locator resolved to <div data-slot="bubble-content" class="w-fit max-w-full min-w-0 overflow-hidden rounded-xl border border-transparent px-3 py-2 text-sm leading-relaxed wrap-break-word group-data-[align=end]/bubble:self-end [button]:text-left [button,a]:transition-colors [button,a]:outline-none [button,a]:focus-visible:border-ring [button,a]:focus-visible:ring-3 [button,a]:focus-visible:ring-ring/50 whitespace-pre-wrap">OFFLINE_OK</div>
+           - unexpected value "viewport ratio 0"
+
+
+      165 |     await expect(pane(f).getByRole('button', { name: '重新校验执行目录' })).toBeInViewport()
+      166 |     await expect(pane(f).getByRole('button', { name: '发送任务' })).toBeInViewport({ ratio: 1 })
+    > 167 |     await expect(pane(f).getByText('OFFLINE_OK', { exact: true })).toBeInViewport({ ratio: 1 })
+          |                                                                    ^
+      168 |     await page.screenshot({
+      169 |       path: `${evidence}/workspace-recovery-dark-800.png`,
+      170 |       animations: 'disabled',
+        at D:\Project\pi-workbench\e2e\workspace-recovery.spec.ts:167:68
+
+    Error Context: test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts 

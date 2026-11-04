@@ -413,3 +413,15 @@ SessionStore独占0010来源记录和归属CAS；ProjectService公开同步目�
 只读GET /api/chat/sessions/:sessionId/space绑定已保存cwd并前后核对物理身份；POST同路径/project只接受目标ID/revision和expectedVersion，拒绝cwd或权限字段。不启动内核、不修改pi配置或授权。Electron标题菜单复用官方Dialog/DropdownMenuRadioGroup/Field/Button/Badge，来源/能力与归属分开显示，旧来源诚实标记legacy-observed。完整环境迁移仍留待SESSION-13。
 
 上述SESSION-07边界已通过6项服务／4项Electron回归、最终223／78、SDK和frozen clean；29条Windows原生观察及重启退出补证，282文件与clean一致，原生后复用。[逐项证据](../validation/session-07-evidence/acceptance.md)区分外部产物夹具与禁用SDK工具；SESSION-13完整迁移未交付。
+
+## WS-07 已交付与恢复边界
+
+WorkspaceAvailabilityService 只接受已登记工作区／会话身份，读取保存 cwd、登记 revision 与物理身份；最多四项检查，前后校验，desktop-only GET /api/workspaces/availability 和 POST /api/workspaces/recover 沿用 Host／Origin／JSON／CSRF。GET 不写探针或元数据；明确恢复检查复用现有 4 字节探针，不更新最近顺序、cwd 或授权。
+
+SessionService 在准入前后检查之外，为每项已接受任务传入只读 directoryCheck；KernelService 每秒串行检查（不重叠），包括排队和后台轮次，检查归属 Task 对象而非仅 session ID。失效后排队任务失败且未发往 SDK；已 dispatch 的轮次停止并标 interrupted，不显示已知失败重试。内核实际退出后释放资源，保留 EventService 观察和 SDK 历史；恢复或重启不重放。定时器随任务／关闭清理，迟到检查不能停止下一轮。
+
+该检查是每秒采样，不是 OS 挂载事件订阅，不承诺瞬时检测或捕获采样间已经恢复的闪断。当前工具／命令禁用，轮次发送仍做实际读写探针；将来工具写入必须另经最终参数守卫复核目录，不能凭监测结果获得权限。Windows 子进程 cwd 的系统占用可能阻止外部移动；测试分别记录实际 Windows ACL 失效与释放子进程后的真实移动／删除，重命名夹具代表路径丢失，不冒充拔除物理设备。
+
+重新定位复用 WS-02 CAS／物理指纹：仅改登记位置，不改已保存会话 cwd、JSONL、项目归属或信任。原会话恢复原物理目录和登记路径后可明确发送；在新位置明确新建会话是独立选择。SESSION-13 的环境迁移未开放。信任指纹新增项目与来源目录 dev／inode／birthtime 绑定，原路径同内容的替换目录不继承；旧格式记录保留但需重新确认。自动与原生证据分开，见 [WS-07 记录](../validation/ws-07-evidence/acceptance.md)。
+
+后台目录检查每项最多等待 3 秒，超时停止本任务并释放无效 runtime；关闭确认丢失保持 KernelExecutionUncertain／interrupted，不能误记已知失败而提供直接重放。WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与frozen clean通过；68条原生观察补齐未信任资源、真实路径丢失与Windows ACL后台停止、原cwd／历史／草稿保留、同物理目录重新定位与明确恢复、明暗800px窄窗、同data/profile重启0内核／0新请求及两次正常菜单退出。288个代码文件与clean一致，原生后复用门禁；本地24／133，OPS-08继续in_progress。真实提供商0、pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。

@@ -105,6 +105,12 @@ export class WorkspaceService {
     return row ? this.display(row) : undefined
   }
 
+  /** Metadata for explicit recovery, including records hidden from recents. No IO or write. */
+  lookupRecord(id: string): WorkspaceRecord | undefined {
+    const row = this.row(id)
+    return row ? this.record(row) : undefined
+  }
+
   /** Read-only physical identity check for environment display. No probe, recency write,
    * trust or runtime is created. A saved session supplies its immutable original cwd. */
   async environmentDirectory(id: string, cwd?: string) {

@@ -1,0 +1,27 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:25840) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:31324) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\session-creation.spec.ts:84:1 › SESSION-01 Electron drafts, composition Enter, durable first send and continuing the same session (7.3s)
+{"event":"session-accept-failed","detail":{"name":"SqliteError","message":"injected write failure"}}
+  ok  2 e2e\session-creation.spec.ts:156:1 › SESSION-01 Electron preserves drafts on SQL failure and reconciles a lost accepted response after refresh without a second prompt (2.6s)
+  ok  3 e2e\session-creation.spec.ts:219:1 › SESSION-01 Electron project entry preselects its verified directory, global new resets attribution, themes and narrow layout stay usable (4.1s)
+  ok  4 e2e\session-creation.spec.ts:269:1 › SESSION-01 existing provider selection remains configured/unverified and disabled; no config write or external model request (3.5s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok  5 e2e\session-creation.spec.ts:316:1 › SESSION-01 actual SDK error keeps the session and offers explicit retry; a late successful save does not leave settings (4.4s)
+  ok  6 e2e\session-creation.spec.ts:366:1 › INPUT-01 Electron rejects whitespace and composition Enter, preserves line breaks and submits once (3.3s)
+  ok  7 e2e\session-creation.spec.ts:412:1 › INPUT-01 Electron restores project/model/new draft through navigation and reload without sending another session draft (9.5s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok  8 e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts (5.4s)
+{"event":"session-run-failed","detail":{"name":"Error","message":"执行目录不可用：当前 Windows 用户无法读取这个目录。 本轮已中断，请核对历史与现场后明确发送；未自动重发。"}}
+  ok  9 e2e\workspace-recovery.spec.ts:202:1 › WS-07 actual Electron background task stops on real OS directory access loss; recovery and full restart never replay (8.4s)
+  ok 10 e2e\workspace-recovery.spec.ts:272:1 › WS-07 Electron failed and late recovery checks keep drafts, isolate targets and allow explicit retry (4.6s)
+
+  10 passed (1.1m)

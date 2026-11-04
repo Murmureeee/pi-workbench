@@ -60,7 +60,9 @@ import { workspaceCommand } from '../../services/workspace-client.js'
 import { sessionDraft, useSessionDrafts } from '../../stores/session-drafts.js'
 import { retainSessionView, sessionView, useSessionViews } from '../../stores/session-views.js'
 import { useWorkbench } from '../../stores/workbench.js'
+import { useWorkspaceAvailability } from '../workspaces/use-workspace-availability.js'
 import { WorkspaceEnvironment } from '../workspaces/workspace-environment.js'
+import { WorkspaceSafety } from '../workspaces/workspace-safety.js'
 import { ManagedThread } from './managed-thread.js'
 import { SessionHistory } from './session-history.js'
 import { SessionLibrary } from './session-library.js'
@@ -248,6 +250,15 @@ function SessionPane({
     model: draft.model,
     thinking: 'off' as const,
   }
+  const directoryTarget = sessionId
+    ? { sessionId }
+    : configuration.workspaceId
+      ? { workspaceId: configuration.workspaceId }
+      : null
+  const availability = useWorkspaceAvailability(directoryTarget, Boolean(authorized && active))
+  const directoryBlocked = Boolean(
+    directoryTarget && (availability.isError || availability.data?.state !== 'available'),
+  )
   const locked = Boolean(
     currentOrganization?.archived ||
     organization.isError ||
@@ -263,7 +274,7 @@ function SessionPane({
     (sessionId && (!current || !submissions.isSuccess)),
   )
   const providerBlocked = configuration.model.kind === 'provider'
-  const sendBlocked = providerBlocked || !options.data?.localFixtureEnabled
+  const sendBlocked = directoryBlocked || providerBlocked || !options.data?.localFixtureEnabled
   const refetchAccess = access.refetch
   useEffect(() => {
     if (active) {
@@ -621,21 +632,34 @@ function SessionPane({
             ) : null}
           </header>
           {authorized ? (
-            <WorkspaceEnvironment
-              active={active}
-              cwd={
-                current?.cwd ??
-                (project ? (project.directory ?? undefined) : draft.workspace?.canonicalPath)
-              }
-              planned={!sessionId}
-              target={
-                sessionId
-                  ? { sessionId }
-                  : configuration.workspaceId
-                    ? { workspaceId: configuration.workspaceId }
-                    : null
-              }
-            />
+            <section aria-label="工作区环境与恢复" className="workspace-context">
+              <WorkspaceEnvironment
+                recoveryHandled={directoryBlocked}
+                active={active}
+                cwd={
+                  current?.cwd ??
+                  (project ? (project.directory ?? undefined) : draft.workspace?.canonicalPath)
+                }
+                planned={!sessionId}
+                target={
+                  sessionId
+                    ? { sessionId }
+                    : configuration.workspaceId
+                      ? { workspaceId: configuration.workspaceId }
+                      : null
+                }
+              />
+              {active ? (
+                <WorkspaceSafety
+                  key={JSON.stringify(directoryTarget)}
+                  target={directoryTarget}
+                  data={availability.data}
+                  failed={availability.isError}
+                  fetching={availability.isFetching}
+                  csrf={csrf}
+                />
+              ) : null}
+            </section>
           ) : null}
           <div className="conversation-workspace">
             <div className="conversation-column">
@@ -652,7 +676,7 @@ function SessionPane({
                   sessionId={current.id}
                   submissions={submissions.data?.submissions ?? []}
                   retry={(submission) => void send(submission)}
-                  retryDisabled={locked || submissions.isError}
+                  retryDisabled={locked || sendBlocked || submissions.isError}
                   active={active}
                   organization={currentOrganization}
                   changeOrganization={organization.change}

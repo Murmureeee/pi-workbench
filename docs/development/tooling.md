@@ -177,3 +177,9 @@ INPUT-01 新增两项真实 Electron E2E，实际page.reload验证配置恢复�
 新增6项真实目录／SQLite／HTTP／SDK本地夹具服务和4项实际Electron回归，纳入test:contracts和完整CI。覆盖无项目首发／续发／实际重启、仅精确cwd和指纹信任文本、不继承旧项目、归属CAS／ABA／项目解散、旧库legacy-observed、文件／JSONL／原始输入保持、真实后台同PID、失败／迟到／重新开框与明暗窄窗。项目列表读失败禁保存并保留选择，未知归属不伪装无项目。
 
 最终fix／完整CI／frozen clean全部退出0：27文件／223项Vitest、78项浏览器及Electron E2E、SDK冒烟，已包含INPUT-01两项新增回归。29条Windows原生观察、失败后明确重试、同PID／epoch／cwd后台、明暗800px、同data/profile重启0内核／0重发与两次正常菜单退出通过。282文件与clean一致，原生后复用；文档生成后另跑完整check。三项verified、本地23 / 133，SESSION-13仅整理子集、OPS-08第二项继续未勾选；[逐项来源、失败日志与限制](../validation/session-07-evidence/acceptance.md)。真实提供商0，配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。
+
+## WS-07 门禁与原生验收
+
+WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与frozen clean通过；68条原生观察补齐未信任资源、真实路径丢失与Windows ACL后台停止、原cwd／历史／草稿保留、同物理目录重新定位与明确恢复、明暗800px窄窗、同data/profile重启0内核／0新请求及两次正常菜单退出。288个代码文件与clean一致，原生后复用门禁；本地24／133，OPS-08继续in_progress。真实提供商0、pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。
+
+新增服务覆盖真实移动／删除／替换、同身份关联、Windows icacls 只对隔离目录的权限失效与恢复、无视图后台／排队停止、关闭确认丢失、超时／迟到 Task 隔离及 desktop／CSRF。Electron 覆盖历史／草稿、明确校验／选择器夹具／保存、完整重启不重放、故障和迟到以及新草稿失效后的改选；实际设备拔除未验证。初轮 CI 两处旧测试在新 POST 前读取了 pending 按钮／上一轮终态，修正为等待实际请求与本次轮次数；初轮79／81与最终82／82分别归档。窄窗修前失败与后台监测反向验证保留，不能算通过轮次。clean 不重复 E2E，主 CI 已跑完整；原生鼠标／键盘／未拦截选择器、重启及正常退出已补证。详见 [逐项来源、限制与继续提示词](../validation/ws-07-evidence/acceptance.md)。

@@ -36,6 +36,9 @@ interface Task {
   promise: Promise<Result>
   cancellation?: Promise<void>
   preflight?: () => Promise<void>
+  directoryCheck?: () => Promise<void>
+  directoryTimer?: ReturnType<typeof setTimeout>
+  directoryFailure?: KernelDirectoryUnavailable
 }
 /** Observation-only application handle. All model work enters KernelService.prompt() so a caller
  * cannot bypass admission by retaining an earlier raw SessionKernel.
@@ -46,6 +49,19 @@ export type ManagedKernelView = Pick<SessionKernel, 'snapshot' | 'ready' | 'subs
  * Business callers must retain it as interrupted instead of offering an automatic replay.
  */
 export class KernelExecutionUncertain extends Error {}
+
+/** Loss of a saved execution directory stops admission or interrupts an active turn.
+ * A dispatched turn must not be offered as a known-safe replay after recovery. */
+export class KernelDirectoryUnavailable extends Error {
+  constructor(
+    readonly dispatched: boolean,
+    diagnostic: string,
+  ) {
+    super(
+      `执行目录不可用：${diagnostic} ${dispatched ? '本轮已中断，请核对历史与现场后明确发送；未自动重发。' : '任务尚未发送，恢复原目录后可明确重试。'}`,
+    )
+  }
+}
 
 /** Single daemon authority for bounded kernels/model tasks. Each resource has its own FIFO.
  * Queued inputs never pin idle processes or enter model context before admission.
@@ -227,7 +243,7 @@ export class KernelService {
     sessionId: string,
     cwd: string,
     input: Prompt,
-    options: { preflight?: () => Promise<void> } = {},
+    options: { preflight?: () => Promise<void>; directoryCheck?: () => Promise<void> } = {},
   ): Promise<Result> {
     try {
       if (this.closing) {
@@ -262,14 +278,64 @@ export class KernelService {
         reject,
         promise,
         ...(options.preflight ? { preflight: options.preflight } : {}),
+        ...(options.directoryCheck ? { directoryCheck: options.directoryCheck } : {}),
       }
       this.tasks.set(sessionId, task)
       this.modelQueue.push(task)
+      this.watchDirectory(task)
       this.drainModels()
       return promise
     } catch (error) {
       return Promise.reject(error)
     }
+  }
+
+  /** Daemon-owned, non-overlapping, read-only checks also cover queued/background tasks.
+   * An awaited check is identity-bound: a late failure cannot cancel a subsequent turn.
+   * Detection is sampled (1 s), not an OS sandbox or a substitute for future tool guards. */
+  private watchDirectory(task: Task): void {
+    const check = task.directoryCheck
+    if (
+      !check ||
+      this.closing ||
+      task.controller.signal.aborted ||
+      this.tasks.get(task.sessionId) !== task
+    ) {
+      return
+    }
+    task.directoryTimer = setTimeout(() => {
+      void (async () => {
+        let deadline: ReturnType<typeof setTimeout> | undefined
+        try {
+          await Promise.race([
+            check(),
+            new Promise<never>((_resolve, reject) => {
+              deadline = setTimeout(
+                () => reject(new Error('目录检查超时，请核对挂载或访问状态。')),
+                3000,
+              )
+              deadline.unref()
+            }),
+          ])
+        } catch (error) {
+          if (
+            !this.closing &&
+            !task.controller.signal.aborted &&
+            this.tasks.get(task.sessionId) === task
+          ) {
+            task.directoryFailure = new KernelDirectoryUnavailable(
+              task.stage === 'running',
+              error instanceof Error ? error.message : '目录检查未完成。',
+            )
+            await this.abort(task.sessionId, task.input.turnId)
+          }
+        } finally {
+          clearTimeout(deadline)
+          this.watchDirectory(task)
+        }
+      })().catch(() => console.error('Directory stop failed; diagnostic details withheld'))
+    }, 1000)
+    task.directoryTimer.unref()
   }
 
   private drainModels(): void {
@@ -290,6 +356,7 @@ export class KernelService {
     let kernel: SessionKernel | undefined
     let started = false
     let dispatched = false
+    let settled = false
     try {
       if (task.preflight) {
         await task.preflight()
@@ -321,14 +388,31 @@ export class KernelService {
       const trustedContext =
         this.trust?.beginTurn(task.cwd, task.sessionId, task.input.turnId) ?? []
       dispatched = true
-      return await kernel.prompt({ ...task.input, trustedContext })
+      const result = await kernel.prompt({ ...task.input, trustedContext })
+      settled = true
+      if (task.directoryFailure) {
+        throw task.directoryFailure
+      }
+      return result
     } catch (error) {
-      if (started && kernel) {
+      if (started && kernel && !settled) {
         this.events.publish(task.sessionId, kernel.snapshot.epoch, task.input.turnId, {
           type: 'turn.finished',
           outcome: task.controller.signal.aborted ? 'aborted' : 'error',
           error: error instanceof Error ? error.message : 'Kernel failed',
         })
+      }
+      if (task.directoryFailure) {
+        try {
+          // Preserve observations/history, releasing only this invalid runtime's OS handles.
+          await this.pool.destroy(task.sessionId)
+        } catch (cause) {
+          throw new KernelExecutionUncertain(
+            'Directory loss runtime shutdown was not acknowledged',
+            { cause },
+          )
+        }
+        throw task.directoryFailure
       }
       if (kernel?.snapshot.state === 'failed') {
         await this.pool.destroy(task.sessionId)
@@ -341,6 +425,7 @@ export class KernelService {
       }
       throw error
     } finally {
+      clearTimeout(task.directoryTimer)
       this.trust?.endTurn(task.input.turnId)
       release?.()
       this.tasks.delete(task.sessionId)
@@ -357,11 +442,26 @@ export class KernelService {
       throw new Error('Unknown active turn')
     }
     task.controller.abort()
+    clearTimeout(task.directoryTimer)
     if (task.stage === 'queued') {
-      this.modelQueue.splice(this.modelQueue.indexOf(task), 1)
-      this.tasks.delete(sessionId)
-      task.reject(new DOMException('Queued task cancelled', 'AbortError'))
-      this.drainModels()
+      task.cancellation ??= (async () => {
+        const index = this.modelQueue.indexOf(task)
+        if (index >= 0) {
+          this.modelQueue.splice(index, 1)
+        }
+        try {
+          if (task.directoryFailure) {
+            await this.pool.destroy(sessionId)
+          }
+        } finally {
+          this.tasks.delete(sessionId)
+          task.reject(
+            task.directoryFailure ?? new DOMException('Queued task cancelled', 'AbortError'),
+          )
+          this.drainModels()
+        }
+      })()
+      await task.cancellation
     } else if (task.stage === 'running' && task.kernel) {
       const kernel = task.kernel
       task.cancellation ??= (async () => {
@@ -393,11 +493,13 @@ export class KernelService {
     this.closing = true
     this.unsubscribeResources()
     for (const task of this.modelQueue.splice(0)) {
+      clearTimeout(task.directoryTimer)
       this.tasks.delete(task.sessionId)
       task.reject(new Error('Daemon is shutting down'))
     }
     for (const task of this.tasks.values()) {
       task.controller.abort()
+      clearTimeout(task.directoryTimer)
     }
     const result = await Promise.allSettled([
       this.pool.close(),

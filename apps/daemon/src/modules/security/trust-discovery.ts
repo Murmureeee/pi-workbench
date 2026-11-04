@@ -9,6 +9,7 @@ import {
   readdirSync,
   readSync,
   realpathSync,
+  statSync,
 } from 'node:fs'
 import { isAbsolute, join, relative, resolve, sep } from 'node:path'
 import process from 'node:process'
@@ -50,6 +51,15 @@ function canonicalProject(project: string): string {
 }
 function key(path: string): string {
   return process.platform === 'win32' ? path.toLowerCase() : path
+}
+/** Source consent also binds the physical directory, so identical bytes at a replaced path
+ * cannot inherit an old grant. Existing path-only fingerprints require explicit reconfirmation. */
+function physicalIdentity(path: string): string {
+  const info = statSync(path, { bigint: true })
+  if (!info.isDirectory() || info.ino === 0n) {
+    throw new Error('目录物理身份无法核对，未加载资源。')
+  }
+  return `${process.platform}:${info.dev}:${info.ino}:${info.birthtimeNs}`
 }
 /** Bounds reads and rejects links in every component. Open file identity is rechecked, so a
  * concurrent replacement cannot substitute an unreviewed byte stream for the fingerprint.
@@ -116,6 +126,8 @@ interface DiscoveredResource {
  */
 export function discoverTrust(project: string, userDirectory?: string) {
   const root = canonicalProject(project)
+  const rootIdentity = physicalIdentity(root)
+  const sourceIdentities = new Map<string, string>([[root, rootIdentity]])
   const resources: DiscoveredResource[] = [],
     diagnostics: string[] = []
   const seen = new Set<string>()
@@ -142,6 +154,11 @@ export function discoverTrust(project: string, userDirectory?: string) {
       content: string | undefined,
       diagnostic: string | null = null
     try {
+      const baseIdentity = physicalIdentity(base)
+      if (sourceIdentities.has(base) && sourceIdentities.get(base) !== baseIdentity) {
+        throw new Error('资源目录身份已改变，未加载或确认资源。')
+      }
+      sourceIdentities.set(base, baseIdentity)
       const bytes: Buffer[] = []
       let total = 0,
         entries = 0
@@ -198,14 +215,19 @@ export function discoverTrust(project: string, userDirectory?: string) {
       }
       if (declaration !== undefined) {
         // Remote/local package references are labels only; never resolve their targets.
-        fingerprint = hash(JSON.stringify([source, declaration]))
+        fingerprint = hash(JSON.stringify([rootIdentity, baseIdentity, source, declaration]))
         preview = declaration.slice(0, 12000)
       } else {
         if (kind === 'context' && !lstatSync(path).isFile()) {
           throw new Error('上下文来源必须是普通文本文件；目录不会作为模型文本加载。')
         }
         visit(path, 0)
-        fingerprint = hash(Buffer.concat([Buffer.from(JSON.stringify([source, kind])), ...bytes]))
+        fingerprint = hash(
+          Buffer.concat([
+            Buffer.from(JSON.stringify([rootIdentity, baseIdentity, source, kind])),
+            ...bytes,
+          ]),
+        )
       }
     } catch (error) {
       content = undefined
@@ -313,6 +335,11 @@ export function discoverTrust(project: string, userDirectory?: string) {
       scope(canonicalProject(userDirectory), 'user')
     } catch {
       diagnostics.push('宿主指定的用户资源目录无法完整检查，未加载其内容。')
+    }
+  }
+  for (const [path, identity] of sourceIdentities) {
+    if (physicalIdentity(path) !== identity || canonicalProject(path) !== path) {
+      throw new Error('发现期间目录身份已改变；未加载或确认资源，请重新检查。')
     }
   }
   return { project: root, resources, diagnostics }

@@ -196,7 +196,9 @@ test('SESSION-01 Electron preserves drafts on SQL failure and reconciles a lost 
     })
     await page.getByRole('button', { name: '发送任务' }).click()
     await expect(page.getByRole('button', { name: '核对原提交' })).toBeVisible()
-    expect(requestIds).toHaveLength(2)
+    // The pending action appears before the protocol check and actual POST complete.
+    await expect.poll(() => requestIds.length).toBe(2)
+    await expect.poll(() => f.store.managedSessions().length).toBe(1)
     expect(requestIds[0]).toBe(requestIds[1])
     await expect(box).toHaveAttribute('readonly', '')
     await page.reload()
@@ -467,7 +469,10 @@ test('INPUT-01 Electron restores project/model/new draft through navigation and 
     await pane.getByTitle(b.title, { exact: true }).click()
     await expect(box).toHaveValue('')
     await box.fill('只续发乙会话')
+    await expect(pane.getByRole('button', { name: '发送任务' })).toBeEnabled()
     await box.press('Enter')
+    // Wait for this continuation, rather than accepting the preceding turn's terminal label.
+    await expect(pane.getByLabel('任务状态')).toHaveCount(2)
     await expect(pane.getByLabel('任务状态').last()).toHaveText('本轮已结束', {
       timeout: 15000,
     })

@@ -24,7 +24,7 @@ import { HttpException } from '@nestjs/common'
 
 import { sessionProjectSchema, sessionRenameSchema, sessionSpaceSchema } from '@pi-workbench/shared'
 
-import { KernelExecutionUncertain } from '../kernels/kernel.service.js'
+import { KernelDirectoryUnavailable, KernelExecutionUncertain } from '../kernels/kernel.service.js'
 import { SessionOrganizationConflict, SessionTitleConflict } from './session.store.js'
 
 /** Desktop first-send authority. Persists immutable input before admission, reconciles
@@ -393,6 +393,15 @@ export class SessionService {
         session.cwd,
         { turnId: submission.turnId, text: submission.text },
         {
+          directoryCheck: async () => {
+            const checked = await this.workspaces.environmentDirectory(
+              session.workspaceId,
+              session.cwd,
+            )
+            if (!checked.ok) {
+              throw new Error(checked.message)
+            }
+          },
           preflight: async () => {
             const checked = await this.workspaces.validate(session.workspaceId)
             if (!checked.ok || checked.workspace.canonicalPath !== session.cwd) {
@@ -417,14 +426,17 @@ export class SessionService {
         this.security.log('session-run-failed', error)
         this.store.settleSubmission(
           submission.requestId,
-          error instanceof KernelExecutionUncertain
+          error instanceof KernelExecutionUncertain ||
+            (error instanceof KernelDirectoryUnavailable && error.dispatched)
             ? 'interrupted'
             : error instanceof Error && error.name === 'AbortError'
               ? 'aborted'
               : 'failed',
-          error instanceof KernelExecutionUncertain
-            ? '内核连接中断，执行结果待确认；请检查历史和现场，未自动重发。'
-            : '内核未能完成任务。原会话与首条消息保留，请检查目录和本地服务后明确重试。',
+          error instanceof KernelDirectoryUnavailable
+            ? this.security.redactor.text(error.message)
+            : error instanceof KernelExecutionUncertain
+              ? '内核连接中断，执行结果待确认；请检查历史和现场，未自动重发。'
+              : '内核未能完成任务。原会话与首条消息保留，请检查目录和本地服务后明确重试。',
         )
       })
       .catch((error: unknown) => this.security.log('session-settlement-failed', error))

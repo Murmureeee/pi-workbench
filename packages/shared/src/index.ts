@@ -169,3 +169,5 @@ export type {
 } from './workspace-environment.js'
 export { sessionProjectSchema, sessionOriginSchema, sessionSpaceSchema } from './session-space.js'
 export type { SessionProject, SessionSpace } from './session-space.js'
+export { workspaceAvailabilitySchema } from './workspace-availability.js'
+export type { WorkspaceAvailability } from './workspace-availability.js'

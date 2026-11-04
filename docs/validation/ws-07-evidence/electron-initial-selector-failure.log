@@ -1,0 +1,177 @@
+$ pnpm build && playwright test -- e2e/workspace-recovery.spec.ts
+$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2625 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                                    0.62 kB │ gzip:   0.34 kB
+dist/assets/session-workbench-DICkHbx-.css         7.11 kB │ gzip:   1.75 kB
+dist/assets/index-CtGsRQXq.css                    82.48 kB │ gzip:  14.38 kB
+dist/assets/refresh-cw-CU6Y6jwC.js                 0.36 kB │ gzip:   0.25 kB
+dist/assets/rolldown-runtime-WkwZ5CU-.js           0.59 kB │ gzip:   0.36 kB
+dist/assets/model-client-DgZfoinO.js               0.60 kB │ gzip:   0.49 kB
+dist/assets/legacy-history-5h62ipg_.js             5.51 kB │ gzip:   2.42 kB
+dist/assets/model-discovery-_nVdcjyz.js            9.34 kB │ gzip:   3.77 kB
+dist/assets/workspace-manager-CpPhvneG.js         11.09 kB │ gzip:   4.48 kB
+dist/assets/session-workbench-DkQrPkjf.js         66.13 kB │ gzip:  20.19 kB
+dist/assets/workspace-record-dialog-DAvmWlZX.js  149.04 kB │ gzip:  50.49 kB
+dist/assets/createLucideIcon-BsKLoWtl.js         188.22 kB │ gzip:  57.04 kB
+dist/assets/index-BgULWEiy.js                    344.28 kB │ gzip: 107.65 kB
+
+✓ built in 775ms
+$ tsc -p tsconfig.json
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:12736) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 81 tests using 1 worker
+
+(node:29792) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\access.spec.ts:58:1 › SEC-08 actual pairing form: fragment is removed, keyboard/IME guard, HttpOnly identity, revocation and one-use error in light/dark narrow layouts (1.7s)
+  ok  2 e2e\access.spec.ts:126:1 › SEC-08 independent browsers: live WS revocation keeps actual SDK task alive; daemon restart requires fresh pairing for both identities (4.8s)
+  ok  3 e2e\contracts.spec.ts:9:1 › OPS-08 offline fixture: duplicate deltas preserve Unicode and output beyond 64 KiB (660ms)
+  ok  4 e2e\contracts.spec.ts:27:1 › OPS-08 offline fixture: a sequence gap pauses input and explicit resync restores content (632ms)
+  ok  5 e2e\contracts.spec.ts:61:1 › OPS-08 offline fixture: a delayed response cannot replace the selected view or its draft (592ms)
+  ok  6 e2e\contracts.spec.ts:92:1 › OPS-08 offline fixture: unknown payload fails validation without changing the draft (573ms)
+[WebServer] 22:20:18 [vite] (client) [console.error] Error: OPS-08 synthetic renderer fault
+[WebServer]     at Conversation (http://127.0.0.1:5173/src/features/conversation/conversation.tsx:1:40)
+[WebServer]     at Object.react_stack_bottom_frame (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:14140:12)
+[WebServer]     at renderWithHooks (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:4398:19)
+[WebServer]     at updateFunctionComponent (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:5773:16)
+[WebServer]     at beginWork (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:6389:20)
+[WebServer]     at runWithFiberInDEV (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:942:66)
+[WebServer]     at performUnitOfWork (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:9146:92)
+[WebServer]     at workLoopSync (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:9042:37)
+[WebServer]     at renderRootSync (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:9026:6)
+[WebServer]     at performWorkOnRoot (http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=1643131e:8713:27)
+[WebServer] 
+[WebServer] The above error occurred in the <Conversation> component.
+[WebServer] 
+[WebServer] React will try to recreate this component tree from scratch using the error boundary you provided, ConversationBoundary.
+[WebServer] 
+  ok  7 e2e\contracts.spec.ts:123:1 › OPS-08 synthetic renderer fault: actual boundary keeps composer usable and returns to new view (616ms)
+  ok  8 e2e\contracts.spec.ts:154:1 › OPS-08 offline fixture: an unknown command is shown as literal text and causes no execution requests (634ms)
+  ok  9 e2e\desktop.spec.ts:14:1 › Electron native chrome, settings navigation, theme and isolated renderer retain tray lifecycle (2.2s)
+  ok 10 e2e\desktop.spec.ts:185:1 › SEC-08 actual Electron parent IPC authorizes isolated renderer; native menu issues one-use browser link (3.3s)
+  ok 11 e2e\history.spec.ts:41:1 › CORE-06 real local SDK: restart reads exact native history and expands full Unicode content without writes (2.1s)
+  ok 12 e2e\history.spec.ts:83:1 › CORE-06 actual hard crash: partial text stays interrupted, records cannot execute and corrupt native bytes download intact (5.6s)
+  ok 13 e2e\history.spec.ts:157:1 › CORE-06 synthetic file fixture: newest 100 messages and earlier page have stable nonduplicated identities (1.4s)
+  ok 14 e2e\models.spec.ts:101:1 › MODEL-01 Electron discovers actual SDK/config sources, capabilities, expiry and command refusal; search, keyboard, themes and bounded lists (2.1s)
+  ok 15 e2e\models.spec.ts:179:1 › MODEL-01 Electron retains stale data on disconnect, recovers updated/invalid config and ignores results after leaving the view (3.5s)
+  ok 16 e2e\models.spec.ts:227:1 › MODEL-01 unconnected Electron stays offline and offers SDK catalog without inferring other-product account access (2.1s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 17 e2e\project-organization.spec.ts:78:1 › WS-06 Electron disambiguates same-name projects, searches name/path/ID, expands groups and keeps global/project attribution explicit (2.2s)
+  ok 18 e2e\project-organization.spec.ts:121:1 › WS-06 Electron editor prefill/cancel, Unicode/IME, storage failure recovery, concurrent revisions and invalid default retain input (4.4s)
+  ok 19 e2e\project-organization.spec.ts:200:1 › WS-06 Electron creates optional validated default and reconciles uncertain create identity without duplicates (1.7s)
+  ok 20 e2e\project-organization.spec.ts:249:1 › WS-06 Electron persists create/rename/pin/manual order across a complete restart and supports dark/narrow layouts (3.6s)
+  ok 21 e2e\project-organization.spec.ts:333:1 › WS-06 Electron default edits and confirmed removal preserve the running SDK PID/cwd, files and session, including continuation after detach (5.0s)
+  ok 22 e2e\project-organization.spec.ts:410:1 › WS-06 Electron late project creation after unmount refreshes metadata without selecting a newer draft (3.0s)
+  ok 23 e2e\resources.spec.ts:31:1 › CORE-07 actual SDK queue: browser shows limits, FIFO positions and cancellation without owning execution (5.5s)
+  ok 24 e2e\resources.spec.ts:97:1 › CORE-07 actual components preserve stale state on failed/incompatible reads and keyboard refresh recovers (2.7s)
+  ok 25 e2e\runtime.spec.ts:46:1 › CORE-05 real local SDK: two browser clients reconnect to the same complete messages and tools (2.4s)
+  ok 26 e2e\runtime.spec.ts:113:1 › CORE-05 synthetic observations: buffer exhaustion and live gap resync complete Unicode content; automatic reconnect retains cursor (3.4s)
+  ok 27 e2e\runtime.spec.ts:186:1 › CORE-05 incompatible version/capabilities blocks observation changes and keeps existing content (840ms)
+  ok 28 e2e\runtime.spec.ts:224:1 › CORE-05 synthetic observations: a late snapshot cannot replace a newer request or runtime generation (817ms)
+  ok 29 e2e\security.spec.ts:67:1 › SEC-06 actual credential status page shows metadata only, handles errors and keyboard refresh, dark/narrow layout (808ms)
+  ok 30 e2e\security.spec.ts:138:1 › SEC-06 synthetic split-secret, stopped output and approval observations stay redacted over actual WebSocket and reload (1.5s)
+  ok 31 e2e\session-creation.spec.ts:84:1 › SESSION-01 Electron drafts, composition Enter, durable first send and continuing the same session (7.4s)
+{"event":"session-accept-failed","detail":{"name":"SqliteError","message":"injected write failure"}}
+  ok 32 e2e\session-creation.spec.ts:156:1 › SESSION-01 Electron preserves drafts on SQL failure and reconciles a lost accepted response after refresh without a second prompt (3.6s)
+  ok 33 e2e\session-creation.spec.ts:217:1 › SESSION-01 Electron project entry preselects its verified directory, global new resets attribution, themes and narrow layout stay usable (4.2s)
+  ok 34 e2e\session-creation.spec.ts:267:1 › SESSION-01 existing provider selection remains configured/unverified and disabled; no config write or external model request (3.4s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 35 e2e\session-creation.spec.ts:314:1 › SESSION-01 actual SDK error keeps the session and offers explicit retry; a late successful save does not leave settings (4.6s)
+  ok 36 e2e\session-creation.spec.ts:364:1 › INPUT-01 Electron rejects whitespace and composition Enter, preserves line breaks and submits once (3.4s)
+  ok 37 e2e\session-creation.spec.ts:410:1 › INPUT-01 Electron restores project/model/new draft through navigation and reload without sending another session draft (8.8s)
+  ok 38 e2e\session-library.spec.ts:108:1 › SESSION-03 Electron pin/unread/archive survive real daemon and Electron restart; restore keeps content and does not start kernels (9.2s)
+  ok 39 e2e\session-library.spec.ts:149:1 › SESSION-03 Electron unread stays at the saved middle; latest and explicit read clear it, manual unread survives polling (12.7s)
+  ok 40 e2e\session-library.spec.ts:224:1 › SESSION-03 Electron running archive cancel leaves the same SDK PID; explicit stop settles before separate confirmation (8.2s)
+{"event":"session-organization-failed","detail":{"name":"SqliteError","message":"offline test write failure"}}
+  ok 41 e2e\session-library.spec.ts:272:1 › SESSION-03 Electron failed saves stay honest; delayed lists cannot undo a saved pin and hidden view portals close (9.2s)
+  ok 42 e2e\session-library.spec.ts:334:1 › SESSION-03 Electron a failed SDK result becomes unread in the background, clears when displayed and never retries automatically (8.4s)
+  ok 43 e2e\session-search.spec.ts:104:1 › SESSION-12 Electron searches Chinese title/user/assistant and opens the precise old message without creating a run or losing the draft (3.3s)
+  ok 44 e2e\session-search.spec.ts:143:1 › SESSION-12 Electron project/status/time/archive filters, empty clear and redacted snippets work in light/dark narrow layouts (3.5s)
+  ok 45 e2e\session-search.spec.ts:192:1 › SESSION-12 Electron paginates recent results, resets page on filters and refreshes rename/archive/project removal while open (8.5s)
+  ok 46 e2e\session-search.spec.ts:233:1 › SESSION-12 Electron debounces 200ms, isolates late A/B/A and closed queries, retains filters after failure, protects synthetic IME (6.5s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 47 e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart (9.2s)
+{"event":"session-project-failed","detail":{"name":"SqliteError","message":"fixture disk failure"}}
+  ok 48 e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution (5.8s)
+  ok 49 e2e\session-spaces.spec.ts:235:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows (8.4s)
+  ok 50 e2e\session-spaces.spec.ts:304:1 › SESSION-07 a late association receipt preserves a newer membership and cannot close a reopened dialog (9.0s)
+  ok 51 e2e\session-switching.spec.ts:136:1 › SESSION-02 Electron evicts after three views and restores per-session drafts, anchors and panel after reload (11.3s)
+  ok 52 e2e\session-switching.spec.ts:231:1 › SESSION-02 Electron keeps a real SDK task/PID across eviction, socket reconnect and renderer reload; only explicit stop aborts (12.3s)
+  ok 53 e2e\session-switching.spec.ts:313:1 › SESSION-02 Electron isolates evicted draft-directory and A-B-A history responses, restoring synthetic tool/reference context (11.5s)
+  ok 54 e2e\session-switching.spec.ts:463:1 › SESSION-02 Electron reads external pi history, handles concurrent append/partial/corrupt records without changing bytes or running kernels (8.5s)
+  ok 55 e2e\session-titles.spec.ts:91:1 › SESSION-11 Electron prefill, Unicode limits, Enter/Escape, sidebar/header, theme and retained composer draft (6.4s)
+{"event":"session-rename-failed","detail":{"name":"SqliteError","message":"fixture write failure"}}
+  ok 56 e2e\session-titles.spec.ts:144:1 › SESSION-11 Electron failed/uncertain save retains input and old title until authority; synthetic composition never saves or cancels (4.8s)
+  ok 57 e2e\session-titles.spec.ts:214:1 › SESSION-11 two real Electron clients and read-only browser synchronize, detect/rebase conflict and recover a missed notification (8.3s)
+  ok 58 e2e\session-titles.spec.ts:297:1 › SESSION-11 Electron ignores stale title lists and an old continuation receipt after a committed manual rename (6.6s)
+  ok 59 e2e\settings.spec.ts:5:1 › settings navigation keeps conversation state and theme; private views remain paired (998ms)
+  ok 60 e2e\settings.spec.ts:42:1 › settings search, keyboard and narrow navigation remain usable in light and dark (730ms)
+  ok 61 e2e\trust.spec.ts:48:1 › SEC-07 actual UI reviews sources, confirms per version, persists across reload and revokes; light/dark/narrow and keyboard (1.9s)
+  ok 62 e2e\trust.spec.ts:117:1 › SEC-07 stale preview cannot approve replacement; offline errors disable consent and late scope result cannot replace current directory (1.2s)
+  ok 63 e2e\workbench.spec.ts:10:1 › first send respects composition and Shift Enter; all traffic stays local (596ms)
+  ok 64 e2e\workbench.spec.ts:38:1 › approval refusal and stop have distinct states; drafts survive switching (801ms)
+  ok 65 e2e\workbench.spec.ts:60:1 › review opens a wide panel and closing restores conversation width (625ms)
+  ok 66 e2e\workbench.spec.ts:78:1 › settling, error, and lost service are visible without losing drafts (5.9s)
+  ok 67 e2e\workbench.spec.ts:99:1 › system, light and dark themes render at 1080p and 390px without overflow (808ms)
+Switched to a new branch '切换/新分支'
+HEAD is now at 28c9bb6 baseline
+  ok 68 e2e\workspace-environment.spec.ts:94:1 › WS-03 Electron observes actual cwd/repository, external branch and detached changes, non-Git, nested repositories, keyboard and themes (9.4s)
+  ok 69 e2e\workspace-environment.spec.ts:148:1 › WS-03 Electron isolates delayed previous workspace responses and removes stale branch labels on failure/retry (3.2s)
+Switched to a new branch '返回后新分支'
+  ok 70 e2e\workspace-environment.spec.ts:201:1 › WS-03 Electron keeps saved cwd and background SDK PID when viewing other repositories; return/reload uses current HEAD (7.0s)
+  ok 71 e2e\workspace-environment.spec.ts:256:1 › WS-03 Electron permits actual first-send/continuation in a non-Git directory and does not invent a directory before send (4.6s)
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-ui-qM6CHe/中文 A/module'...
+done.
+Preparing worktree (new branch 'feature/长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称')
+  ok 72 e2e\workspace-environment.spec.ts:299:1 › WS-03 Electron distinguishes submodule, superproject and linked worktree; long branch labels remain bounded (4.5s)
+  ok 73 e2e\workspace-recents.spec.ts:77:1 › WS-02 actual Electron persists recent order/custom names across full app restart, with prefill/cancel and light/dark/narrow layouts (5.4s)
+  ok 74 e2e\workspace-recents.spec.ts:165:1 › WS-02 Electron retains failed rename and conflicts, validates Unicode and does not save or cancel during synthetic IME (3.2s)
+  ok 75 e2e\workspace-recents.spec.ts:220:1 › WS-02 Electron diagnoses moved directories, rejects a different identity, explicitly saves picker relocation and hides/restores recent records without deleting files (3.5s)
+  ok 76 e2e\workspace-recents.spec.ts:276:1 › WS-02 Electron remove/rename/switch and disconnected recent reads preserve a real background SDK task and its cwd (4.5s)
+  x  77 e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts (30.0s)
+(node:11584) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"Error","message":"执行目录不可用：当前 Windows 用户无法读取这个目录。 本轮已中断，请核对历史与现场后明确发送；未自动重发。"}}
+  ok 78 e2e\workspace-recovery.spec.ts:189:1 › WS-07 actual Electron background task stops on real OS directory access loss; recovery and full restart never replay (7.9s)
+  ok 79 e2e\workspace-recovery.spec.ts:264:1 › WS-07 Electron failed and late recovery checks keep drafts, isolate targets and allow explicit retry (4.9s)
+  ok 80 e2e\workspaces.spec.ts:65:1 › WS-01 real Electron picker bridge opens/deduplicates/switches; cancellation and invalid paths preserve current view and running SDK task (4.6s)
+  ok 81 e2e\workspaces.spec.ts:148:1 › WS-01 Electron ignores stale responses, preserves selection on disconnect, and recovers a missing directory without phantom sessions (3.0s)
+
+
+  1) e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts 
+  80 passed (6.7m)
+[ELIFECYCLE] Command failed with exit code 1.

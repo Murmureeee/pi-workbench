@@ -1,0 +1,36 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/workspace-recovery.test.ts (6 tests | 1 failed | 5 skipped) 16549ms
+   ❯ WS-07 saved directory execution guard and explicit recovery; actual SDK/local fixture (6)
+     × real OS access loss interrupts and reaps a running background SDK task, retains history and does not replay on restoration 16548ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/workspace-recovery.test.ts > WS-07 saved directory execution guard and explicit recovery; actual SDK/local fixture > real OS access loss interrupts and reaps a running background SDK task, retains history and does not replay on restoration
+AssertionError: expected 'executing' to be 'interrupted' // Object.is equality
+
+Expected: "interrupted"
+Received: "executing"
+
+ ❯ Object.wait apps/daemon/test/workspace-recovery.test.ts:87:8
+     85|     await expect
+     86|       .poll(() => store.receipt(requestId)?.submission.status, { timeo…
+     87|       .toBe(status)
+       |        ^
+     88|   }
+     89|   const result = {
+ ❯ apps/daemon/test/workspace-recovery.test.ts:332:15
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ Object.wait apps/daemon/test/workspace-recovery.test.ts:85:5
+ ❯ apps/daemon/test/workspace-recovery.test.ts:332:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 skipped (6)
+   Start at  22:33:14
+   Duration  18.39s (tests 90%, import 9%, transform 1%)
+

@@ -20,6 +20,7 @@ export function WorkspaceEnvironment(props: {
   cwd?: string
   active?: boolean
   planned?: boolean
+  recoveryHandled?: boolean
 }) {
   return props.active === false ? null : (
     <EnvironmentObservation key={JSON.stringify(props.target)} {...props} />
@@ -31,11 +32,13 @@ function EnvironmentObservation({
   cwd,
   active = true,
   planned = false,
+  recoveryHandled = false,
 }: {
   target: WorkspaceEnvironmentTarget | null
   cwd?: string
   active?: boolean
   planned?: boolean
+  recoveryHandled?: boolean
 }) {
   const [visibleSince] = useState(() => Date.now())
   const query = useQuery({
@@ -142,7 +145,12 @@ function EnvironmentObservation({
           工作区登记：{current.workspacePath}；会话保留原 cwd。
         </p>
       ) : null}
-      {error ? (
+      {error &&
+      !(
+        recoveryHandled &&
+        git?.status === 'unavailable' &&
+        ['directory_unavailable', 'changed'].includes(git.code)
+      ) ? (
         <Alert>
           <AlertTitle>环境信息暂不可用</AlertTitle>
           <AlertDescription>

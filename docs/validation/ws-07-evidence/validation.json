@@ -1,0 +1,95 @@
+{
+  "feature": "WS-07",
+  "status": "verified",
+  "recordedAt": "2026-11-04T16:12:27.194Z",
+  "commands": [
+    {
+      "command": "pnpm fix",
+      "exitCode": 0,
+      "evidence": "fix-final.log"
+    },
+    {
+      "command": "pnpm run ci",
+      "exitCode": 0,
+      "files": 28,
+      "vitest": 230,
+      "e2e": 82,
+      "sdkSmoke": true,
+      "evidence": "ci.log"
+    },
+    {
+      "command": "pnpm verify:clean",
+      "exitCode": 0,
+      "evidence": "clean.log",
+      "destination": "D:\\Project\\.piw-clean-OMSYNE"
+    }
+  ],
+  "addedTests": {
+    "services": 7,
+    "actualElectron": 4
+  },
+  "native": {
+    "status": "passed",
+    "performed": true,
+    "normalMenuExits": 2,
+    "evidence": "native-validation.json"
+  },
+  "productFilesCompared": 288,
+  "differences": [],
+  "audit": "code-reuse-audit.json",
+  "sources": [
+    "Real directories/SQLite/desktop HTTP and pi SDK with local HTTP fixture",
+    "Real Windows ACL access loss on isolated temporary directory",
+    "Automated actual Electron main/preload/renderer; picker values and selected fault/latency routes are explicit fixtures"
+  ],
+  "providerRequests": 0,
+  "piConfigModified": false,
+  "canonicalBudgetModified": false,
+  "lockfileModified": false,
+  "installerCreated": false,
+  "standaloneWebDeferred": true,
+  "localProgress": {
+    "verified": 24,
+    "total": 133
+  },
+  "related": {
+    "SESSION-13": "Full environment migration remains deferred",
+    "OPS-08": "in_progress"
+  },
+  "limitations": [
+    "No physical device unmount/removal: real isolated path rename and Windows ACL loss are separate evidence.",
+    "Literal Chinese text input is not an IME test.",
+    "Native narrow window is 800px client width; 800x760 geometry is covered by automated Electron.",
+    "Fixture explicit extension file reference is missing; actual extension directory is discovered and disabled.",
+    "Idle runtime was explicitly released before Windows rename; observer sync diagnostic is separate from directory monitoring."
+  ],
+  "initialFailure": {
+    "evidence": "ci-initial-failure.log",
+    "vitest": 230,
+    "e2ePassed": 79,
+    "e2eFailed": 2,
+    "reason": "Assertions observed pending UI/previous terminal turn before new POST; now wait for actual request/save and current continuation count.",
+    "traceEvidence": "initial-ci-trace-timing.json"
+  },
+  "finalDocumentation": {
+    "commands": [
+      {
+        "command": "pnpm docs:build",
+        "exitCode": 0,
+        "evidence": "docs-build-final.log"
+      },
+      {
+        "command": "pnpm fix",
+        "exitCode": 0,
+        "evidence": "fix-documentation.log"
+      },
+      {
+        "command": "pnpm check",
+        "exitCode": 0,
+        "evidence": "check.log"
+      }
+    ],
+    "audit": "code-reuse-audit.json",
+    "evidence": "documentation-commands.json"
+  }
+}
