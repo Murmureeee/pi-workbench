@@ -1,0 +1,36 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:14144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+(node:15268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\history.spec.ts:41:1 › CORE-06 real local SDK: restart reads exact native history and expands full Unicode content without writes (2.4s)
+  ok  2 e2e\history.spec.ts:83:1 › CORE-06 actual hard crash: partial text stays interrupted, records cannot execute and corrupt native bytes download intact (5.4s)
+  ok  3 e2e\history.spec.ts:157:1 › CORE-06 synthetic file fixture: newest 100 messages and earlier page have stable nonduplicated identities (1.4s)
+  ok  4 e2e\message-rendering.spec.ts:12:1 › OBS-01 actual Electron/SDK safe Markdown, tables, lazy highlighting, unknown and incomplete fences (3.6s)
+  ok  5 e2e\message-rendering.spec.ts:70:1 › OBS-01 long SDK content expands and collapses without changing original history or requests (3.6s)
+  ok  6 e2e\message-rendering.spec.ts:97:1 › OBS-01 optional highlighting failure and late module load preserve new safe source (3.4s)
+[WebServer] 00:58:24 [vite] (client) [console.error] TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:5173/src/features/conversation/markdown-body.tsx
+[WebServer] 
+[WebServer] The above error occurred in one of your React components.
+[WebServer] 
+[WebServer] React will try to recreate this component tree from scratch using the error boundary you provided, RenderBoundary.
+[WebServer] 
+[WebServer] 00:58:25 [vite] (client) [console.error] TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:5173/src/features/conversation/markdown-body.tsx
+[WebServer] 
+[WebServer] The above error occurred in one of your React components.
+[WebServer] 
+[WebServer] React will try to recreate this component tree from scratch using the error boundary you provided, RenderBoundary.
+[WebServer] 
+  ok  7 e2e\message-rendering.spec.ts:130:1 › OBS-01 failed optional Markdown chunk keeps escaped original text readable (3.2s)
+  ok  8 e2e\runtime.spec.ts:46:1 › CORE-05 real local SDK: two browser clients reconnect to the same complete messages and tools (2.4s)
+  ok  9 e2e\runtime.spec.ts:113:1 › CORE-05 synthetic observations: buffer exhaustion and live gap resync complete Unicode content; automatic reconnect retains cursor (4.7s)
+  ok 10 e2e\runtime.spec.ts:189:1 › CORE-05 incompatible version/capabilities blocks observation changes and keeps existing content (907ms)
+  ok 11 e2e\runtime.spec.ts:227:1 › CORE-05 synthetic observations: a late snapshot cannot replace a newer request or runtime generation (840ms)
+
+  11 passed (42.9s)

@@ -216,3 +216,8 @@ R7：默认 Windows 当前用户应用数据目录，后续可受控迁移；旧
 目录失效停止／明确恢复、同物理目录重新关联、历史／草稿／原cwd保留及物理目录信任指纹已接入候选。自动与完整门禁见 [WS-07 记录](../validation/ws-07-evidence/acceptance.md)；尚未进行原生 Windows 控制验收，按用户要求等待明确允许，两项未勾选、保持 in_review。本地完成数仍从 backlog 计算，OPS-08 继续进行；SESSION-13 完整环境迁移未开放。
 
 WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与frozen clean通过；68条原生观察补齐未信任资源、真实路径丢失与Windows ACL后台停止、原cwd／历史／草稿保留、同物理目录重新定位与明确恢复、明暗800px窄窗、同data/profile重启0内核／0新请求及两次正常菜单退出。288个代码文件与clean一致，原生后复用门禁；本地24／133，OPS-08继续in_progress。真实提供商0、pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。
+
+
+## OBS-01 已验收
+
+Electron流式与安全内容展示已验收：每帧累计全部delta，非delta状态即时冲刷，权威终态替换去重；CommonMark/GFM安全Markdown、仅显式HTTP(S)链接、禁止自动图片和原始HTML执行、本地协议惰性。16k预览可展开，64k以上纯文本、12k以上代码不高亮，未知语言／未闭合围栏／可选模块失败回退；按需Shiki与异步身份保护。8项新增Vitest、4项新增Electron流程；完整238项Vitest／86项E2E、SDK和frozen clean通过。Windows原生富文本／纯文本切换、长内容展开／收起、明暗主题、同data/profile重启0请求及两次正常退出补证。图示仅惰性代码，未接入执行型图示。真实提供商0、pi配置／canonical预算未改，无安装包，网页独立功能暂缓；OPS-08继续in_progress。[逐项证据与下一步提示词](../validation/obs-01-evidence/acceptance.md)。

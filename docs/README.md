@@ -111,3 +111,7 @@ INPUT-01 输入与独立草稿已验收，新增2项实际Electron回归和27条
 ## WS-07 验收记录
 
 [工作区信任与不可用恢复](validation/ws-07-evidence/acceptance.md)记录目录物理身份／后台停止／明确恢复、实际服务和 Electron 自动结果、68条原生观察、重启／正常退出与继续提示词；两项验收已通过。
+
+## OBS-01 已验收
+
+Electron流式与安全内容展示已验收：每帧累计全部delta，非delta状态即时冲刷，权威终态替换去重；CommonMark/GFM安全Markdown、仅显式HTTP(S)链接、禁止自动图片和原始HTML执行、本地协议惰性。16k预览可展开，64k以上纯文本、12k以上代码不高亮，未知语言／未闭合围栏／可选模块失败回退；按需Shiki与异步身份保护。8项新增Vitest、4项新增Electron流程；完整238项Vitest／86项E2E、SDK和frozen clean通过。Windows原生富文本／纯文本切换、长内容展开／收起、明暗主题、同data/profile重启0请求及两次正常退出补证。图示仅惰性代码，未接入执行型图示。真实提供商0、pi配置／canonical预算未改，无安装包，网页独立功能暂缓；OPS-08继续in_progress。[逐项证据与下一步提示词](validation/obs-01-evidence/acceptance.md)。

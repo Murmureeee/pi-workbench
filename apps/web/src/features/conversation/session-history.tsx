@@ -19,6 +19,7 @@ import {
 import { sessionJson } from '../../services/session-client.js'
 import { mergeTitles } from '../../services/session-title-cache.js'
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
+import { MessageBody } from './message-body.js'
 import { RememberedViewport } from './remembered-viewport.js'
 
 function HistoryEntry({
@@ -67,7 +68,13 @@ function HistoryEntry({
         </MessageHeader>
         <Bubble variant={message.role === 'user' ? 'muted' : 'ghost'}>
           <BubbleContent className="whitespace-pre-wrap">
-            {(expanded || located) && full.data !== undefined ? full.data : message.text}
+            <MessageBody
+              sessionId={sessionId}
+              messageId={message.id}
+              text={(expanded || located) && full.data !== undefined ? full.data : message.text}
+              rich={message.role === 'assistant'}
+              preview={!message.truncated && !located}
+            />
           </BubbleContent>
         </Bubble>
         {message.error ? (

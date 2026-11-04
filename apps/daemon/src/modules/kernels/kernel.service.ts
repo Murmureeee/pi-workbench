@@ -19,7 +19,16 @@ const promptSchema = z.strictObject({
   turnId: z.uuid(),
   text: z.string().min(1).max(65536),
   fixture: z
-    .enum(['reply', 'hold', 'error', 'unknown-tool', 'context', 'trust-context'])
+    .enum([
+      'reply',
+      'hold',
+      'error',
+      'unknown-tool',
+      'context',
+      'trust-context',
+      'rendering',
+      'rendering-long',
+    ])
     .optional(),
 })
 type Prompt = z.infer<typeof promptSchema>

@@ -88,3 +88,7 @@ SESSION-07继续复用既有官方Dialog、DropdownMenuRadioGroup/RadioItem、Fi
 ## WS-07 恢复区采用说明
 
 工作区信任与恢复组合放在 web feature，复用现有官方 Base UI/base-nova 的 Badge、Alert、Button 和 WS-02 WorkspaceRecordDialog；没有新增 primitive 或依赖。正常状态紧凑显示资源受限，失效诊断与重新校验有文字和键盘入口；新草稿可明确改选目录或项目，已有会话仍锁定其保存 cwd。环境与恢复区共用有高度上限的内部滚动，保留消息阅读、输入、发送与停止空间。实际 Electron 1920×1080 明色／800×760 暗色截图及几何检查见 [WS-07 记录](../validation/ws-07-evidence/acceptance.md)，原生 Windows 操作待用户明确允许。
+
+## OBS-01 安全消息展示
+
+MessageBody／MarkdownBody／HighlightedCode为conversation业务组合；复用既有MessageScroller／Message／Bubble／Button和经官方CLI获取的Base UI/base-nova CodeBlock。后者仅适配本地cn、移除未用复制动作，不另造primitive。CommonMark/GFM转换为安全React节点，未引入raw HTML插件，禁止图片自动请求与本地／自定义协议；Shiki仅完整受支持且不超12k代码按需加载，token用文本span展示。16k可展开预览与64k纯文本回退只影响视图。失败／迟到／原文不变、实际Electron及原生证据见[OBS-01验收](../validation/obs-01-evidence/acceptance.md)。

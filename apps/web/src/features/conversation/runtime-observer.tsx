@@ -7,6 +7,7 @@ import { Bubble, BubbleContent } from '@pi-workbench/ui/components/bubble'
 import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
 
 import { RuntimeClient } from '../../services/runtime-client.js'
+import { MessageBody } from './message-body.js'
 
 /** CORE-05 read-only diagnostics; it does not create sessions, send prompts or decide approvals. */
 export function RuntimeObserver({ sessionId }: { sessionId: string }) {
@@ -79,7 +80,14 @@ export function RuntimeObserver({ sessionId }: { sessionId: string }) {
               <BubbleContent>{turn.prompt}</BubbleContent>
             </Bubble>
             <Bubble variant="ghost">
-              <BubbleContent>{turn.text}</BubbleContent>
+              <BubbleContent>
+                <MessageBody
+                  sessionId={sessionId}
+                  messageId={turn.messageId}
+                  text={turn.text}
+                  streaming={turn.phase === 'running' || turn.phase === 'stopping'}
+                />
+              </BubbleContent>
             </Bubble>
             <output aria-label="轮次状态">
               {

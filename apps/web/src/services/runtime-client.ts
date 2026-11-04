@@ -34,6 +34,7 @@ export class RuntimeClient {
   private generation = 0
   private attempts = 0
   private paused = true
+  private paint: number | undefined
 
   constructor(
     private readonly sessionId: string,
@@ -57,6 +58,23 @@ export class RuntimeClient {
 
   private update(status: RuntimeView['status'], message = '') {
     this.view = { ...this.view, status, message }
+    this.publish()
+  }
+
+  /** The authoritative cursor consumes every event immediately. Only presentation deltas
+   * wait for a frame; state/approval/errors/replacements flush and cancel that frame. */
+  private publish(delta = false): void {
+    if (delta) {
+      this.paint ??= requestAnimationFrame(() => {
+        this.paint = undefined
+        this.changed(this.view)
+      })
+      return
+    }
+    if (this.paint !== undefined) {
+      cancelAnimationFrame(this.paint)
+      this.paint = undefined
+    }
     this.changed(this.view)
   }
 
@@ -135,7 +153,7 @@ export class RuntimeClient {
           throw new Error('快照游标倒退，保留现有内容')
         }
         this.view = { ...this.view, snapshot }
-        this.changed(this.view)
+        this.publish()
       }
       const socket = new WebSocket(
         `${location.protocol === 'https:' ? 'wss:' : 'ws:'}//${location.host}/api/events`,
@@ -235,8 +253,7 @@ export class RuntimeClient {
           return
         }
         this.view = { ...this.view, snapshot: next }
-        // Every delta is accumulated; approval/terminal are delivered immediately without debounce.
-        this.changed(this.view)
+        this.publish(frame.event.payload.type === 'message.delta')
       } catch {
         this.update('syncing', '事件缺口，正在重新同步完整快照')
         void this.open(true)

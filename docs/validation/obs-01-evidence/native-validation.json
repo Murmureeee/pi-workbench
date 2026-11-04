@@ -1,0 +1,18 @@
+{
+  "feature": "OBS-01",
+  "source": "Native Windows SendInput/UIA, actual Electron/daemon/SQLite/SDK/local SSE; fixture selection in host only; no CDP or route interception",
+  "observations": 47,
+  "normalMenuExits": 2,
+  "providerRequests": 0,
+  "firstPrompts": 2,
+  "restartPrompts": 0,
+  "restartKernels": 0,
+  "historyUnchanged": true,
+  "protectedFilesUnchanged": true,
+  "limitations": [
+    "Error/module failure and late async chunk isolation use explicit Playwright route faults, not OS-native failure injection.",
+    "Diagrams are unsupported inert code; no renderer was enabled.",
+    "IME is not asserted for this rendering task.",
+    "Native border drags did not resize the window and are not narrow-window evidence; 800x760 is covered by actual Electron Playwright."
+  ]
+}

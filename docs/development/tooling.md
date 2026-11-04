@@ -183,3 +183,7 @@ INPUT-01 新增两项真实 Electron E2E，实际page.reload验证配置恢复�
 WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与frozen clean通过；68条原生观察补齐未信任资源、真实路径丢失与Windows ACL后台停止、原cwd／历史／草稿保留、同物理目录重新定位与明确恢复、明暗800px窄窗、同data/profile重启0内核／0新请求及两次正常菜单退出。288个代码文件与clean一致，原生后复用门禁；本地24／133，OPS-08继续in_progress。真实提供商0、pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。
 
 新增服务覆盖真实移动／删除／替换、同身份关联、Windows icacls 只对隔离目录的权限失效与恢复、无视图后台／排队停止、关闭确认丢失、超时／迟到 Task 隔离及 desktop／CSRF。Electron 覆盖历史／草稿、明确校验／选择器夹具／保存、完整重启不重放、故障和迟到以及新草稿失效后的改选；实际设备拔除未验证。初轮 CI 两处旧测试在新 POST 前读取了 pending 按钮／上一轮终态，修正为等待实际请求与本次轮次数；初轮79／81与最终82／82分别归档。窄窗修前失败与后台监测反向验证保留，不能算通过轮次。clean 不重复 E2E，主 CI 已跑完整；原生鼠标／键盘／未拦截选择器、重启及正常退出已补证。详见 [逐项来源、限制与继续提示词](../validation/ws-07-evidence/acceptance.md)。
+
+## OBS-01 已验收
+
+Electron流式与安全内容展示已验收：每帧累计全部delta，非delta状态即时冲刷，权威终态替换去重；CommonMark/GFM安全Markdown、仅显式HTTP(S)链接、禁止自动图片和原始HTML执行、本地协议惰性。16k预览可展开，64k以上纯文本、12k以上代码不高亮，未知语言／未闭合围栏／可选模块失败回退；按需Shiki与异步身份保护。8项新增Vitest、4项新增Electron流程；完整238项Vitest／86项E2E、SDK和frozen clean通过。Windows原生富文本／纯文本切换、长内容展开／收起、明暗主题、同data/profile重启0请求及两次正常退出补证。图示仅惰性代码，未接入执行型图示。真实提供商0、pi配置／canonical预算未改，无安装包，网页独立功能暂缓；OPS-08继续in_progress。[逐项证据与下一步提示词](../validation/obs-01-evidence/acceptance.md)。

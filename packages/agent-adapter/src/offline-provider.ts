@@ -6,6 +6,8 @@ import { setTimeout as delay } from 'node:timers/promises'
 
 import { z } from 'zod'
 
+import { renderingFixture } from './rendering-fixture.js'
+
 function frame(delta: unknown, finishReason: string | null = null) {
   return `data: ${JSON.stringify({ id: 'piw-offline', object: 'chat.completion.chunk', created: 0, model: 'fixture', choices: [{ index: 0, delta, finish_reason: finishReason }] })}\n\n`
 }
@@ -59,6 +61,14 @@ export async function createOfflineProvider() {
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
+    if (mode === 'rendering' || mode === 'rendering-long') {
+      const content = renderingFixture(mode === 'rendering-long')
+      for (let offset = 0; offset < content.length; offset += 97) {
+        response.write(frame({ content: content.slice(offset, offset + 97) }))
+      }
+      response.end(frame({}, 'stop') + 'data: [DONE]\n\n')
+      return
+    }
     if (mode === 'unknown-tool') {
       response.write(
         frame({

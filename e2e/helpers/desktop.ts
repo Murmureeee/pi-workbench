@@ -29,6 +29,9 @@ export async function launchWorkspaceDesktop(
     driver,
     `const { app, dialog } = require('electron');
 let selection = null;
+app.on('web-contents-created', (_event, contents) => {
+  contents.once('did-finish-load', () => process.send({type: 'renderer-ready'}));
+});
 dialog.showOpenDialog = async () => selection ? {canceled: false, filePaths: [selection]} : {canceled: true, filePaths: []};
 process.on('message', message => {
   if (message === 'quit') app.quit();
@@ -49,8 +52,11 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
   )
   const exited = new Promise<number | null>((done) => child.once('exit', done))
   let endpoint = '',
+    diagnostics = '',
+    rendererReady = false,
     selected: unknown
   child.stderr?.on('data', (chunk: Buffer) => {
+    diagnostics = (diagnostics + chunk.toString()).slice(-16000)
     endpoint ||=
       chunk.toString().match(/DevTools listening on (ws:\/\/127\.0\.0\.1:\d+\/\S+)/)?.[1] ?? ''
   })
@@ -64,8 +70,13 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
         apiOrigin: 'http://127.0.0.1:4318',
         ticket: app.get(AccessService).issueTicket(request.data.operation),
       })
-    } else if (message && typeof message === 'object' && 'selected' in message) {
-      selected = message.selected
+    } else if (message && typeof message === 'object') {
+      if ('selected' in message) {
+        selected = message.selected
+      }
+      if ('type' in message && message.type === 'renderer-ready') {
+        rendererReady = true
+      }
     }
   })
   let browser: Awaited<ReturnType<typeof chromium.connectOverCDP>> | undefined
@@ -80,6 +91,9 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
   }
   try {
     await expect.poll(() => endpoint).not.toBe('')
+    // Connecting CDP while Electron is creating its first target can miss that page.
+    // Observe actual native load before attaching; reload after the isolated routes exist.
+    await expect.poll(() => rendererReady, { timeout: 15000 }).toBe(true)
     browser = await chromium.connectOverCDP(endpoint)
     const context = browser.contexts()[0]
     if (!context) {
@@ -97,11 +111,12 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
       })
       await route.fulfill({ response })
     })
-    await expect.poll(() => context.pages().length).toBeGreaterThan(0)
+    await expect.poll(() => context.pages().length, { timeout: 15000 }).toBeGreaterThan(0)
     const page = context.pages()[0]
     if (!page) {
       throw new Error('Missing Electron page')
     }
+    await page.reload()
     await expect(page.getByRole('heading', { name: '今天想完成什么？' })).toBeVisible()
     return {
       page,
@@ -115,6 +130,8 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     }
   } catch (error) {
     await close()
-    throw error
+    throw new Error(`Electron fixture failed (rendererReady=${rendererReady}): ${diagnostics}`, {
+      cause: error,
+    })
   }
 }

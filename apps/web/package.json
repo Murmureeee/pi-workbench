@@ -15,6 +15,9 @@
     "lucide-react": "catalog:frontend",
     "react": "catalog:frontend",
     "react-dom": "catalog:frontend",
+    "react-markdown": "catalog:frontend",
+    "remark-gfm": "catalog:frontend",
+    "shiki": "catalog:frontend",
     "zustand": "catalog:frontend"
   },
   "devDependencies": {

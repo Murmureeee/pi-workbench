@@ -1,0 +1,166 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:11400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:1888) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"ZodError","message":"[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"reply\",\n      \"hold\",\n      \"error\",\n      \"unknown-tool\",\n      \"context\",\n      \"trust-context\"\n    ],\n    \"path\": [\n      \"fixture\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"reply\\\"|\\\"hold\\\"|\\\"error\\\"|\\\"unknown-tool\\\"|\\\"context\\\"|\\\"trust-context\\\"\"\n  }\n]"}}
+  x  1 e2e\message-rendering.spec.ts:12:1 › OBS-01 actual Electron/SDK safe Markdown, tables, lazy highlighting, unknown and incomplete fences (21.4s)
+(node:33608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"ZodError","message":"[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"reply\",\n      \"hold\",\n      \"error\",\n      \"unknown-tool\",\n      \"context\",\n      \"trust-context\"\n    ],\n    \"path\": [\n      \"fixture\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"reply\\\"|\\\"hold\\\"|\\\"error\\\"|\\\"unknown-tool\\\"|\\\"context\\\"|\\\"trust-context\\\"\"\n  }\n]"}}
+  x  2 e2e\message-rendering.spec.ts:62:1 › OBS-01 long SDK content expands and collapses without changing original history or requests (21.4s)
+(node:2432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"ZodError","message":"[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"reply\",\n      \"hold\",\n      \"error\",\n      \"unknown-tool\",\n      \"context\",\n      \"trust-context\"\n    ],\n    \"path\": [\n      \"fixture\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"reply\\\"|\\\"hold\\\"|\\\"error\\\"|\\\"unknown-tool\\\"|\\\"context\\\"|\\\"trust-context\\\"\"\n  }\n]"}}
+  x  3 e2e\message-rendering.spec.ts:89:1 › OBS-01 optional highlighting failure and late module load preserve new safe source (21.4s)
+(node:34336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"ZodError","message":"[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"reply\",\n      \"hold\",\n      \"error\",\n      \"unknown-tool\",\n      \"context\",\n      \"trust-context\"\n    ],\n    \"path\": [\n      \"fixture\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"reply\\\"|\\\"hold\\\"|\\\"error\\\"|\\\"unknown-tool\\\"|\\\"context\\\"|\\\"trust-context\\\"\"\n  }\n]"}}
+[WebServer] 00:43:18 [vite] (client) [console.error] TypeError: Failed to fetch dynamically imported module: http://127.0.0.1:5173/src/features/conversation/markdown-body.tsx
+[WebServer] 
+[WebServer] The above error occurred in one of your React components.
+[WebServer] 
+[WebServer] React will try to recreate this component tree from scratch using the error boundary you provided, RenderBoundary.
+[WebServer] 
+  x  4 e2e\message-rendering.spec.ts:122:1 › OBS-01 failed optional Markdown chunk keeps escaped original text readable (21.6s)
+
+
+  1) e2e\message-rendering.spec.ts:12:1 › OBS-01 actual Electron/SDK safe Markdown, tables, lazy highlighting, unknown and incomplete fences 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "completed"
+    Received: "failed"
+
+    Call Log:
+    - Timeout 20000ms exceeded while waiting on the predicate
+
+       at helpers\rendering.ts:43
+
+      41 |     await expect
+      42 |       .poll(() => store.submissions(session.id)[0]?.status, { timeout: 20000 })
+    > 43 |       .toBe('completed')
+         |        ^
+      44 |     await expect(desktop.page.getByLabel('任务状态')).toHaveText('本轮已结束')
+      45 |     return session
+      46 |   }
+        at Object.send (D:\Project\pi-workbench\e2e\helpers\rendering.ts:43:8)
+        at D:\Project\pi-workbench\e2e\message-rendering.spec.ts:22:5
+
+    Error Context: test-results\message-rendering-OBS-01-a-7c4a0-known-and-incomplete-fences\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\message-rendering-OBS-01-a-7c4a0-known-and-incomplete-fences\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\message-rendering-OBS-01-a-7c4a0-known-and-incomplete-fences\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\message-rendering.spec.ts:62:1 › OBS-01 long SDK content expands and collapses without changing original history or requests 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "completed"
+    Received: "failed"
+
+    Call Log:
+    - Timeout 20000ms exceeded while waiting on the predicate
+
+       at helpers\rendering.ts:43
+
+      41 |     await expect
+      42 |       .poll(() => store.submissions(session.id)[0]?.status, { timeout: 20000 })
+    > 43 |       .toBe('completed')
+         |        ^
+      44 |     await expect(desktop.page.getByLabel('任务状态')).toHaveText('本轮已结束')
+      45 |     return session
+      46 |   }
+        at Object.send (D:\Project\pi-workbench\e2e\helpers\rendering.ts:43:8)
+        at D:\Project\pi-workbench\e2e\message-rendering.spec.ts:66:5
+
+    Error Context: test-results\message-rendering-OBS-01-l-b37e6-riginal-history-or-requests\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\message-rendering-OBS-01-l-b37e6-riginal-history-or-requests\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\message-rendering-OBS-01-l-b37e6-riginal-history-or-requests\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) e2e\message-rendering.spec.ts:89:1 › OBS-01 optional highlighting failure and late module load preserve new safe source 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "completed"
+    Received: "failed"
+
+    Call Log:
+    - Timeout 20000ms exceeded while waiting on the predicate
+
+       at helpers\rendering.ts:43
+
+      41 |     await expect
+      42 |       .poll(() => store.submissions(session.id)[0]?.status, { timeout: 20000 })
+    > 43 |       .toBe('completed')
+         |        ^
+      44 |     await expect(desktop.page.getByLabel('任务状态')).toHaveText('本轮已结束')
+      45 |     return session
+      46 |   }
+        at Object.send (D:\Project\pi-workbench\e2e\helpers\rendering.ts:43:8)
+        at D:\Project\pi-workbench\e2e\message-rendering.spec.ts:103:5
+
+    Error Context: test-results\message-rendering-OBS-01-o-60672-ad-preserve-new-safe-source\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\message-rendering-OBS-01-o-60672-ad-preserve-new-safe-source\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\message-rendering-OBS-01-o-60672-ad-preserve-new-safe-source\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) e2e\message-rendering.spec.ts:122:1 › OBS-01 failed optional Markdown chunk keeps escaped original text readable 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "completed"
+    Received: "failed"
+
+    Call Log:
+    - Timeout 20000ms exceeded while waiting on the predicate
+
+       at helpers\rendering.ts:43
+
+      41 |     await expect
+      42 |       .poll(() => store.submissions(session.id)[0]?.status, { timeout: 20000 })
+    > 43 |       .toBe('completed')
+         |        ^
+      44 |     await expect(desktop.page.getByLabel('任务状态')).toHaveText('本轮已结束')
+      45 |     return session
+      46 |   }
+        at Object.send (D:\Project\pi-workbench\e2e\helpers\rendering.ts:43:8)
+        at D:\Project\pi-workbench\e2e\message-rendering.spec.ts:127:5
+
+    Error Context: test-results\message-rendering-OBS-01-f-e34d6-aped-original-text-readable\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\message-rendering-OBS-01-f-e34d6-aped-original-text-readable\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\message-rendering-OBS-01-f-e34d6-aped-original-text-readable\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4 failed
+    e2e\message-rendering.spec.ts:12:1 › OBS-01 actual Electron/SDK safe Markdown, tables, lazy highlighting, unknown and incomplete fences 
+    e2e\message-rendering.spec.ts:62:1 › OBS-01 long SDK content expands and collapses without changing original history or requests 
+    e2e\message-rendering.spec.ts:89:1 › OBS-01 optional highlighting failure and late module load preserve new safe source 
+    e2e\message-rendering.spec.ts:122:1 › OBS-01 failed optional Markdown chunk keeps escaped original text readable 

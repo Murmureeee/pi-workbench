@@ -165,7 +165,15 @@ export class SessionKernel {
   async prompt(input: {
     turnId: string
     text: string
-    fixture?: 'reply' | 'hold' | 'error' | 'unknown-tool' | 'context' | 'trust-context'
+    fixture?:
+      | 'reply'
+      | 'hold'
+      | 'error'
+      | 'unknown-tool'
+      | 'context'
+      | 'trust-context'
+      | 'rendering'
+      | 'rendering-long'
     trustedContext?: TrustedContext[]
   }) {
     if (this.snapshotValue.state === 'starting') {

@@ -140,6 +140,9 @@ test('CORE-05 synthetic observations: buffer exhaustion and live gap resync comp
     }
     await page.getByRole('button', { name: '重新连接', exact: true }).click()
     await expect(page.getByLabel('同步状态')).toHaveText('已同步')
+    // OBS-01 now bounds the visual preview; expanding still proves the complete snapshot.
+    await expect(page.getByLabel('实时会话消息')).not.toContainText('x'.repeat(1025))
+    await page.getByRole('button', { name: '展开完整消息', exact: true }).click()
     await expect(page.getByLabel('实时会话消息')).toContainText('x'.repeat(1025))
     // Bypass only the journal callback to simulate a dropped live network envelope.
     let dropped = false

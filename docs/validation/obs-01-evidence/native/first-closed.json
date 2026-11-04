@@ -1,0 +1,135 @@
+{
+  "feature": "OBS-01",
+  "source": "Native Windows SendInput/UIA, actual Electron/daemon/SQLite/SDK/local SSE; fixture selection in host only; no CDP or route interception",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\obs01-native-bPy6pU",
+  "desktopPid": 33616,
+  "prompts": 2,
+  "results": [
+    {
+      "sessionId": "7816f4c2-cd81-485b-a68b-008a29bda8ae",
+      "protocol": 1,
+      "epoch": "2d6ac825-5dc0-4c33-8489-dd6e62ba29b8",
+      "seq": 11,
+      "turnId": "9a764f4a-ecd1-4cc7-96e4-e4ea7f4b1b50",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "548edad7-b073-4d2d-a0f1-a6b0b02adbcf",
+      "protocol": 1,
+      "epoch": "1420bef7-9df6-4bfe-a270-c82163639cf8",
+      "seq": 694,
+      "turnId": "79d50513-aaa9-41b3-97cb-cb56e7392a82",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    }
+  ],
+  "sessions": [
+    {
+      "id": "7816f4c2-cd81-485b-a68b-008a29bda8ae",
+      "title": "OBS-01 原生中文富文本",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "82caff3f-8546-4361-9d1c-58abee3a0cc0",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "0b6cbaa4-6d1a-4f23-8924-d71093261661",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs01-native-bPy6pU\\data\\standalone\\7816f4c2-cd81-485b-a68b-008a29bda8ae",
+      "createdAt": 1793812328555
+    },
+    {
+      "id": "548edad7-b073-4d2d-a0f1-a6b0b02adbcf",
+      "title": "OBS-01 原生长内容",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "af305b7e-12f6-4af8-9217-a9bfbb44e79b",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "38bb2798-58b1-4c12-96e3-695452b439eb",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs01-native-bPy6pU\\data\\standalone\\548edad7-b073-4d2d-a0f1-a6b0b02adbcf",
+      "createdAt": 1793813261218
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "82caff3f-8546-4361-9d1c-58abee3a0cc0",
+      "sessionId": "7816f4c2-cd81-485b-a68b-008a29bda8ae",
+      "messageId": "58fdea32-49bb-41bf-a869-bdacc1b036d9",
+      "turnId": "9a764f4a-ecd1-4cc7-96e4-e4ea7f4b1b50",
+      "status": "completed",
+      "text": "OBS-01 原生中文富文本",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793812328557
+    },
+    {
+      "requestId": "af305b7e-12f6-4af8-9217-a9bfbb44e79b",
+      "sessionId": "548edad7-b073-4d2d-a0f1-a6b0b02adbcf",
+      "messageId": "b166a684-28e3-4b8f-802a-48969c8d7c26",
+      "turnId": "79d50513-aaa9-41b3-97cb-cb56e7392a82",
+      "status": "completed",
+      "text": "OBS-01 原生长内容",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793813261219
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 1,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "historyBefore": {},
+  "historyAfter": {
+    "548edad7-b073-4d2d-a0f1-a6b0b02adbcf\\1420bef7-9df6-4bfe-a270-c82163639cf8\\sessions\\2026-11-04T17-27-42-288Z_01a1a79a-2fd0-764c-968a-2a77ab854f7b.jsonl": "f9ffb38957d0fc64f354ccec0f82e99fcbeb77bbb71f17e42e680dda655bc95d",
+    "7816f4c2-cd81-485b-a68b-008a29bda8ae\\2d6ac825-5dc0-4c33-8489-dd6e62ba29b8\\sessions\\2026-11-04T17-12-09-539Z_01a1a78b-f442-739c-a015-b5706c42cf79.jsonl": "838380904e8e02bf58474ec0f9ef1989bddee7479a3079d843451c480466d5a9"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "ownedProcessesExited": true
+}

@@ -1,0 +1,34 @@
+{
+  "label": "theme-options",
+  "recordedAt": "2026-11-04T17:15:49.365Z",
+  "window": {
+    "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+    "id": 4917166,
+    "title": "Pi Workbench"
+  },
+  "accessibility": {
+    "document_text": "￼",
+    "focused_element": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "tree": "Window: \"Pi Workbench\", App: electron.exe.\n\t0 窗口 Pi Workbench Secondary Actions: Raise\n\t\t1 窗格 (disabled)\n\t\t2 区域 Pi Workbench\n\t\t\t3 区域\n\t\t\t\t4 区域\n\t\t\t\t\t5 区域\n\t\t\t\t\t\t6 按钮 最小化\n\t\t\t\t\t\t7 按钮 最大化\n\t\t\t\t\t\t8 按钮 关闭\n\t\t\t\t\t9 区域\n\t\t\t\t\t\t10 区域\n\t\t\t\t\t\t\t11 区域\n\t\t\t\t\t\t\t\t12 区域\n\t\t\t\t\t\t\t\t\t13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea\n\t\t\t\t\t\t\t\t\t\t14 组 ID: root\n\t\t\t\t\t\t\t\t\t\t\t15 标题 桌面控制栏\n\t\t\t\t\t\t\t\t\t\t\t\t16 按钮 后退\n\t\t\t\t\t\t\t\t\t\t\t\t17 按钮 (disabled) 前进\n\t\t\t\t\t\t\t\t\t\t\t\t18 导航 应用菜单\n\t\t\t\t\t\t\t\t\t\t\t\t\t19 按钮 文件\n\t\t\t\t\t\t\t\t\t\t\t\t\t20 按钮 编辑\n\t\t\t\t\t\t\t\t\t\t\t\t\t21 按钮 视图\n\t\t\t\t\t\t\t\t\t\t\t\t\t22 按钮 帮助\n\t\t\t\t\t\t\t\t\t\t\t\t23 文本 Pi Workbench\n\t\t\t\t\t\t\t\t\t\t\t24 导航 工作台导航\n\t\t\t\t\t\t\t\t\t\t\t\t25 链接 打开工作台 Description: 工作台 Value: http://127.0.0.1:5173/?session=7816f4c2-cd81-485b-a68b-008a29bda8ae\n\t\t\t\t\t\t\t\t\t\t\t\t26 链接 打开设置 Description: 设置 Value: http://127.0.0.1:5173/?settings=appearance\n\t\t\t\t\t\t\t\t\t\t\t315 补充 设置分类\n\t\t\t\t\t\t\t\t\t\t\t\t316 文本 设置\n\t\t\t\t\t\t\t\t\t\t\t\t317 链接 返回工作台 Description: 返回工作台 Value: http://127.0.0.1:5173/?session=7816f4c2-cd81-485b-a68b-008a29bda8ae\n\t\t\t\t\t\t\t\t\t\t\t\t318 文本 搜索设置\n\t\t\t\t\t\t\t\t\t\t\t\t319 编辑 (settable, string) 搜索设置 Description: 搜索设置… ID: settings-search\n\t\t\t\t\t\t\t\t\t\t\t\t320 导航 设置导航\n\t\t\t\t\t\t\t\t\t\t\t\t\t321 文本 工作台\n\t\t\t\t\t\t\t\t\t\t\t\t\t322 链接 外观 Value: http://127.0.0.1:5173/?settings=appearance\n\t\t\t\t\t\t\t\t\t\t\t\t\t323 文本 模型与连接\n\t\t\t\t\t\t\t\t\t\t\t\t\t324 链接 模型与提供商 Value: http://127.0.0.1:5173/?models\n\t\t\t\t\t\t\t\t\t\t\t\t\t325 链接 凭证与隐私 Value: http://127.0.0.1:5173/?credentials\n\t\t\t\t\t\t\t\t\t\t\t\t\t326 链接 已连接的客户端 Value: http://127.0.0.1:5173/?clients\n\t\t\t\t\t\t\t\t\t\t\t\t\t327 文本 安全与运行\n\t\t\t\t\t\t\t\t\t\t\t\t\t328 链接 资源信任 Value: http://127.0.0.1:5173/?trust\n\t\t\t\t\t\t\t\t\t\t\t\t\t329 链接 资源状态 Value: http://127.0.0.1:5173/?resources\n\t\t\t\t\t\t\t\t\t\t\t\t330 文本 π\n\t\t\t\t\t\t\t\t\t\t\t\t331 文本 Pi Workbench\n\t\t\t\t\t\t\t\t\t\t\t\t332 文本 本地优先 · 离线发现\n\t\t\t\t\t\t\t\t\t\t\t333 区域 设置内容\n\t\t\t\t\t\t\t\t\t\t\t\t334 主要\n\t\t\t\t\t\t\t\t\t\t\t\t\t335 章节标题\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t336 标题 外观\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t337 文本 让工作台适合你的阅读习惯。\n\t\t\t\t\t\t\t\t\t\t\t\t\t338 区域 主题设置\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t339 标题 主题\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t340 文本 颜色模式\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t341 文本 跟随系统，或选择你喜欢的明暗主题。\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t342 组合框 (settable, string) 外观主题 Value: 跟随系统 ID: appearance-theme\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t360 列表项目 (selectable) 跟随系统\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t361 列表项目 (selectable) 浅色\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t362 列表项目 (selectable) 深色\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t343 状态\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t344 文本 正在跟随系统外观，系统主题变化时自动切换。\n\t\t\t\t\t\t\t\t\t\t\t\t\t345 分隔符\n\t\t\t\t\t\t\t\t\t\t\t\t\t346 区域 阅读与布局\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t347 标题 阅读与布局\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t348 文本 界面密度\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t349 文本 为日常对话与展开审查保留合适的留白。\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t350 文本 中等\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t351 文本 文字大小\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t352 文本 界面 14 px · 消息 15 px · 辅助信息 12 px\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t353 文本 默认\n\t\t\t\t\t\t\t\t\t\t\t\t\t354 分隔符\n\t\t\t\t\t\t\t\t\t\t\t\t\t355 区域 桌面窗口\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t356 标题 桌面窗口\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t357 文本 关闭后保留在托盘\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t358 文本 关闭窗口后可从系统托盘返回；在文件或托盘菜单中退出应用。\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t359 文本 已启用\n\t\t\t\t\t\t\t\t90 区域\n\t\t\t363 窗格\n\t\t\t\t364 窗格 (disabled)\n\t\t\t\t365 区域\n\nDocument text: ```\n￼\n```"
+  },
+  "screenshots": [
+    {
+      "height": 961,
+      "id": "screenshot-0",
+      "originX": 239,
+      "originY": 36,
+      "width": 1442,
+      "zIndex": 0,
+      "path": "13-theme-options-0.jpg"
+    },
+    {
+      "height": 83,
+      "id": "screenshot-1",
+      "originX": 1331,
+      "originY": 305,
+      "width": 144,
+      "zIndex": 1,
+      "path": "13-theme-options-1.jpg"
+    }
+  ]
+}

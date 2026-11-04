@@ -1,0 +1,80 @@
+.message-body {
+  min-width: 0;
+  width: 100%;
+}
+.message-plain {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font: inherit;
+}
+.message-markdown {
+  white-space: normal;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+.message-markdown > * + * {
+  margin-top: 12px;
+}
+.message-markdown :is(h1, h2, h3, h4) {
+  font-weight: 600;
+  line-height: 1.5;
+  margin-block: 16px 8px;
+}
+.message-markdown h1 {
+  font-size: 1.3em;
+}
+.message-markdown h2 {
+  font-size: 1.2em;
+}
+.message-markdown :is(ul, ol) {
+  padding-inline-start: 1.5em;
+}
+.message-markdown ul {
+  list-style: disc;
+}
+.message-markdown ol {
+  list-style: decimal;
+}
+.message-markdown blockquote {
+  border-inline-start: 3px solid var(--border);
+  padding-inline-start: 12px;
+  color: var(--muted-foreground);
+}
+.message-markdown a {
+  color: var(--foreground);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.message-markdown :not(pre) > code {
+  font-family: monospace;
+  padding: 2px 4px;
+  background: var(--muted);
+  border-radius: 4px;
+}
+.message-table {
+  max-width: 100%;
+  overflow-x: auto;
+}
+.message-table :is(td, th) {
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  text-align: start;
+}
+.message-body [data-slot='code-block'] {
+  margin-block: 12px;
+}
+.message-body [data-slot='code-block-content'] {
+  max-height: 480px;
+  font-size: 13px;
+  white-space: pre;
+}
+.highlight-line {
+  display: block;
+  white-space: pre;
+}
+.dark .highlight-line span {
+  color: var(--shiki-dark);
+}
+.highlight-line span {
+  color: var(--shiki-light);
+}

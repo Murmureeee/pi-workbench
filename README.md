@@ -194,3 +194,7 @@ Electron 全局“新会话”默认无项目，首次发送后显示真实持�
 Electron 对话中显示项目资源受限、目录失效原因、重新校验和同物理目录重新定位。目录失效时 daemon 独立于视图停止相关排队／后台任务，历史和草稿保留；恢复只检查，不重发。工作区重新定位不改已有会话 cwd，旧会话需要恢复原路径；新位置可明确新建会话，完整环境迁移仍属 SESSION-13。资源确认绑定来源、内容与物理目录；旧路径指纹需重新确认，扩展／脚本／安装仍禁用。当前为实现候选、待原生验收，具体门禁及边界见 [WS-07 记录](docs/validation/ws-07-evidence/acceptance.md)。
 
 WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与frozen clean通过；68条原生观察补齐未信任资源、真实路径丢失与Windows ACL后台停止、原cwd／历史／草稿保留、同物理目录重新定位与明确恢复、明暗800px窄窗、同data/profile重启0内核／0新请求及两次正常菜单退出。288个代码文件与clean一致，原生后复用门禁；本地24／133，OPS-08继续in_progress。真实提供商0、pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。
+
+## OBS-01 已验收
+
+Electron流式与安全内容展示已验收：每帧累计全部delta，非delta状态即时冲刷，权威终态替换去重；CommonMark/GFM安全Markdown、仅显式HTTP(S)链接、禁止自动图片和原始HTML执行、本地协议惰性。16k预览可展开，64k以上纯文本、12k以上代码不高亮，未知语言／未闭合围栏／可选模块失败回退；按需Shiki与异步身份保护。8项新增Vitest、4项新增Electron流程；完整238项Vitest／86项E2E、SDK和frozen clean通过。Windows原生富文本／纯文本切换、长内容展开／收起、明暗主题、同data/profile重启0请求及两次正常退出补证。图示仅惰性代码，未接入执行型图示。真实提供商0、pi配置／canonical预算未改，无安装包，网页独立功能暂缓；OPS-08继续in_progress。[逐项证据与下一步提示词](docs/validation/obs-01-evidence/acceptance.md)。

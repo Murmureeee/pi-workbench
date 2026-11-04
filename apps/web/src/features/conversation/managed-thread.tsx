@@ -20,6 +20,7 @@ import {
 import { RuntimeClient } from '../../services/runtime-client.js'
 import { sessionJson } from '../../services/session-client.js'
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
+import { MessageBody } from './message-body.js'
 import { RememberedViewport } from './remembered-viewport.js'
 
 const statusNames = {
@@ -155,7 +156,7 @@ export function ManagedThread({
               const committed = history.data?.messages.findLast(
                 (message) => message.turnId === submission.turnId && message.role === 'assistant',
               )
-              const text = turn?.text || committed?.text || ''
+              const text = turn?.text ?? committed?.text ?? ''
               return (
                 <MessageScrollerItem
                   key={submission.messageId}
@@ -170,7 +171,12 @@ export function ManagedThread({
                       </MessageHeader>
                       <Bubble variant="muted">
                         <BubbleContent className="whitespace-pre-wrap">
-                          {submission.text}
+                          <MessageBody
+                            sessionId={sessionId}
+                            messageId={submission.messageId}
+                            text={submission.text}
+                            rich={false}
+                          />
                         </BubbleContent>
                       </Bubble>
                     </MessageContent>
@@ -180,10 +186,20 @@ export function ManagedThread({
                       <MessageHeader>Pi · 本地夹具</MessageHeader>
                       <Bubble variant="ghost">
                         <BubbleContent className="whitespace-pre-wrap">
-                          {text ||
-                            (['pending', 'executing'].includes(submission.status)
-                              ? '正在等待本地运行时…'
-                              : '没有可显示的回复。')}
+                          <MessageBody
+                            sessionId={sessionId}
+                            messageId={`${submission.messageId}:reply`}
+                            text={
+                              text ||
+                              (['pending', 'executing'].includes(submission.status)
+                                ? '正在等待本地运行时…'
+                                : '没有可显示的回复。')
+                            }
+                            streaming={turn?.phase === 'running' || turn?.phase === 'stopping'}
+                            {...(!turn && committed?.truncated
+                              ? { fullMessageId: committed.id }
+                              : {})}
+                          />
                         </BubbleContent>
                       </Bubble>
                       <output aria-label="任务状态">

@@ -208,3 +208,8 @@ SESSION-02 的视图缓存与内核池独立，最多 3 个视图含新草稿；
 WS-07 已接入 desktop-only availability／recover 身份接口、Electron 资源受限与恢复提示、同物理目录重定位。SessionService 保留准入前后探针，KernelService 每秒对排队／后台任务串行只读复核原 cwd，失效停止；未发送为 failed，已 dispatch 为 interrupted，进程退出后释放，历史／草稿保留，恢复不重放。异步检查绑定 Task 对象，迟到检查不能停止下一轮。监测是采样而非OS挂载通知，物理拔盘未验证。信任指纹增加项目及来源目录物理身份；旧路径指纹记录保留但需重新确认。重新定位仅改登记，原会话cwd不改；SESSION-13迁移未开放。原生验收已补齐，证据与后续门禁见 docs/validation/ws-07-evidence/acceptance.md；产品未改时复用本次通过的CI／clean。
 
 WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与frozen clean通过；68条原生观察补齐未信任资源、真实路径丢失与Windows ACL后台停止、原cwd／历史／草稿保留、同物理目录重新定位与明确恢复、明暗800px窄窗、同data/profile重启0内核／0新请求及两次正常菜单退出。288个代码文件与clean一致，原生后复用门禁；本地24／133，OPS-08继续in_progress。真实提供商0、pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。
+
+
+## OBS-01 已验收
+
+Electron流式与安全内容展示已验收：每帧累计全部delta，非delta状态即时冲刷，权威终态替换去重；CommonMark/GFM安全Markdown、仅显式HTTP(S)链接、禁止自动图片和原始HTML执行、本地协议惰性。16k预览可展开，64k以上纯文本、12k以上代码不高亮，未知语言／未闭合围栏／可选模块失败回退；按需Shiki与异步身份保护。8项新增Vitest、4项新增Electron流程；完整238项Vitest／86项E2E、SDK和frozen clean通过。Windows原生富文本／纯文本切换、长内容展开／收起、明暗主题、同data/profile重启0请求及两次正常退出补证。图示仅惰性代码，未接入执行型图示。真实提供商0、pi配置／canonical预算未改，无安装包，网页独立功能暂缓；OPS-08继续in_progress。[逐项证据与下一步提示词](docs/validation/obs-01-evidence/acceptance.md)。

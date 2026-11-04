@@ -16,6 +16,8 @@ const fixtureModeSchema = z.enum([
   'unknown-tool',
   'context',
   'trust-context',
+  'rendering',
+  'rendering-long',
 ])
 const resumeSchema = z.strictObject({
   sessionFile: z.string().min(1),
