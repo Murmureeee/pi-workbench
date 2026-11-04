@@ -28,6 +28,7 @@ const promptSchema = z.strictObject({
       'trust-context',
       'rendering',
       'rendering-long',
+      'scrolling',
     ])
     .optional(),
 })

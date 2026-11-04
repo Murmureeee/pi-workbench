@@ -1,0 +1,61 @@
+{
+  "feature": "OBS-04",
+  "verifiedAt": "2026-11-04T19:55:22.045Z",
+  "source": "Actual Windows Electron controlled by @oai/sky SendInput/UIA. Actual daemon/SQLite/SDK with fixed local SSE; tools/extensions disabled.",
+  "observations": 60,
+  "capturedRecords": 62,
+  "exclusions": [
+    {
+      "label": "initial-ready",
+      "reason": "Covered by another application; screenshot/UIA excluded from evidence."
+    },
+    {
+      "label": "long-session-open",
+      "reason": "Immediate transitional state still showing new draft; settled state used."
+    }
+  ],
+  "limitations": [
+    "Some immediate UIA snapshots lag the screenshot; settled captures determine outcomes.",
+    "First right-edge drag selected text and did not resize. Later Alt+Space > Size > Right > click produced an 802x961 captured native window, not the earlier attempt.",
+    "Full-screen resolution is not claimed: native maximized screenshot is 1920x1032 on the 1920x1080 display. Automated scroll light/dark are 1440x960 and 800x760.",
+    "Pagination rows are explicitly synthetic file messages appended only after SDK shutdown, not SDK-produced conversation content. The initial managed observation for that modified file can diagnose an inconsistent prior binding; dedicated read-only history is used for pagination.",
+    "Production approvals are not implemented here; synthetic approval over real TCP observation is covered by Electron E2E only.",
+    "Text input used literal SendInput, not an independent IME vendor acceptance. Existing IME regression remains in full CI.",
+    "Window bookmarks restore within the same window/sessionStorage through eviction and renderer reload; full application restart does not promise drafts or reading bookmarks."
+  ],
+  "checks": {
+    "collapsedLongMessageRemainsVisible": true,
+    "reading115To120StableAcrossDeltas": true,
+    "messageCounts": "2 user/reply before reading; 1 updated reply after explicit latest then scrolling back; 3 after a second unread user/reply",
+    "keyboardLatest": "Shift+Tab from composer focuses latest; Enter displays segment 180 and clears count",
+    "keyboardPageEnd": "Tab navigation then Enter returns older page to message 109, not newest history page",
+    "pagination": "Message 108 with same visible offset restored after newer -> older",
+    "eviction": "Four session views visited; returning long conversation preserves segment 115. Exact 3-view ownership additionally asserted by Electron E2E.",
+    "background": {
+      "sessionId": "f2599323-4c06-4085-9bcb-426cadd19239",
+      "pid": 22324,
+      "epoch": "0e487a92-b848-4574-aea3-e1267a94c78c",
+      "samePid": true,
+      "sameEpoch": true,
+      "gammaObservedAt": "2026-11-04T19:29:59.193Z",
+      "completionKeptCurrentPanel": "OBS04 分页样本"
+    },
+    "restart": {
+      "prompts": 0,
+      "kernels": 0,
+      "historyHashesUnchanged": true,
+      "ownedProcessesExited": true
+    },
+    "protectedFilesUnchanged": true
+  },
+  "localRequests": {
+    "seed": 4,
+    "explicitlySentInUI": 2,
+    "restartedHost": 0
+  },
+  "providerRequests": 0,
+  "realProviderEnabled": false,
+  "canonicalBudgetChanged": false,
+  "piConfigurationChanged": false,
+  "installerBuilt": false
+}

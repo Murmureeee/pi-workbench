@@ -1,0 +1,51 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:14616) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:18600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\scroll-reading.spec.ts:31:1 › OBS-04 actual Electron/SDK paced deltas preserve reading, count messages once, and resume follow only on explicit latest (12.3s)
+
+
+  1) e2e\scroll-reading.spec.ts:31:1 › OBS-04 actual Electron/SDK paced deltas preserve reading, count messages once, and resume follow only on explicit latest 
+
+    Error: expect(locator).toHaveText(expected) failed
+
+    Locator:  locator('.retained-session:not([hidden])').getByRole('button', { name: '返回最新消息', exact: true })
+    Expected: "2 条新消息 · 返回最新"
+    Received: "返回最新"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveText" locator('.retained-session:not([hidden])').getByRole('button', { name: '返回最新消息', exact: true }) with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').getByRole('button', { name: '返回最新消息', exact: true })
+        14 × locator resolved to <button inert="" type="button" tabindex="-1" data-size="sm" data-active="false" aria-label="返回最新消息" data-direction="end" data-variant="secondary" data-slot="message-scroller-button" class="group/button inline-flex shrink-0 items-center justify-center border bg-clip-padding font-medium whitespace-nowrap outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid…>…</button>
+           - unexpected value "返回最新"
+
+
+      68 |     await expect(reply).toContainText('离线流式第003段', { timeout: 15000 })
+      69 |     const latest = pane.getByRole('button', { name: '返回最新消息', exact: true })
+    > 70 |     await expect(latest).toHaveText('2 条新消息 · 返回最新')
+         |                          ^
+      71 |     expect((await position(viewport)).anchor).toBe(before.anchor)
+      72 |     expect(Math.abs((await position(viewport)).offset - before.offset)).toBeLessThan(3)
+      73 |     await expect(input).toBeFocused()
+        at D:\Project\pi-workbench\e2e\scroll-reading.spec.ts:70:26
+
+    Error Context: test-results\scroll-reading-OBS-04-actu-da849-low-only-on-explicit-latest\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\scroll-reading-OBS-04-actu-da849-low-only-on-explicit-latest\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\scroll-reading-OBS-04-actu-da849-low-only-on-explicit-latest\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\scroll-reading.spec.ts:31:1 › OBS-04 actual Electron/SDK paced deltas preserve reading, count messages once, and resume follow only on explicit latest 

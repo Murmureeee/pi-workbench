@@ -129,7 +129,9 @@ const readingPositionSchema = z.strictObject({
 export const sessionViewSchema = z.strictObject({
   panel: z.enum(['conversation', 'history', 'records']).default('conversation'),
   cursor: z.string().nullable().default(null),
+  historyTrail: z.array(z.string().nullable()).max(100).default([]),
   expanded: z.array(z.string()).default([]),
+  seenMessages: z.record(z.string(), z.string()).nullable().default(null),
   selectedReference: z.string().nullable().default(null),
   reading: z.record(z.string(), readingPositionSchema).default({}),
 })

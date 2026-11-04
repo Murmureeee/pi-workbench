@@ -1,0 +1,942 @@
+[
+  {
+    "label": "window-activated",
+    "recordedAt": "2026-11-04T19:21:15.936Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/ ID: RootWebArea",
+    "state": "native/window-activated.json",
+    "screenshots": []
+  },
+  {
+    "label": "long-session-settled",
+    "recordedAt": "2026-11-04T19:21:54.882Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/long-session-settled.json",
+    "screenshots": []
+  },
+  {
+    "label": "long-expanded",
+    "recordedAt": "2026-11-04T19:22:11.441Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/long-expanded.json",
+    "screenshots": []
+  },
+  {
+    "label": "expanded-end",
+    "recordedAt": "2026-11-04T19:22:59.315Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/expanded-end.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/expanded-end-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "resume-expanded-end",
+    "recordedAt": "2026-11-04T19:25:24.077Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/resume-expanded-end.json",
+    "screenshots": []
+  },
+  {
+    "label": "long-collapsed-visible",
+    "recordedAt": "2026-11-04T19:25:31.131Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/long-collapsed-visible.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/long-collapsed-visible-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "stream-input-focused",
+    "recordedAt": "2026-11-04T19:25:41.328Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/stream-input-focused.json",
+    "screenshots": []
+  },
+  {
+    "label": "stream-input-focus-settled",
+    "recordedAt": "2026-11-04T19:25:53.442Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/stream-input-focus-settled.json",
+    "screenshots": []
+  },
+  {
+    "label": "stream-text-entered",
+    "recordedAt": "2026-11-04T19:26:05.162Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/stream-text-entered.json",
+    "screenshots": []
+  },
+  {
+    "label": "stream-dispatched",
+    "recordedAt": "2026-11-04T19:26:16.932Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/stream-dispatched.json",
+    "screenshots": []
+  },
+  {
+    "label": "stream-review-new-count",
+    "recordedAt": "2026-11-04T19:26:32.344Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/stream-review-new-count.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/stream-review-new-count-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "stream-explicit-latest",
+    "recordedAt": "2026-11-04T19:26:43.031Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/stream-explicit-latest.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/stream-explicit-latest-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "stream-user-scrolls-back",
+    "recordedAt": "2026-11-04T19:27:00.015Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/stream-user-scrolls-back.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/stream-user-scrolls-back-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "stream-back-position-stable",
+    "recordedAt": "2026-11-04T19:27:13.425Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/stream-back-position-stable.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/stream-back-position-stable-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "background-switch-beta",
+    "recordedAt": "2026-11-04T19:27:26.589Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 乙独立会话 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 乙独立会话 · Pi Workbench Value: http://127.0.0.1:5173/?session=eb63405e-c55d-400e-8c03-86a84c224e8d ID: RootWebArea",
+    "state": "native/background-switch-beta.json",
+    "screenshots": []
+  },
+  {
+    "label": "beta-draft-retained",
+    "recordedAt": "2026-11-04T19:27:43.816Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 乙独立会话 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 乙独立会话 · Pi Workbench Value: http://127.0.0.1:5173/?session=eb63405e-c55d-400e-8c03-86a84c224e8d ID: RootWebArea",
+    "state": "native/beta-draft-retained.json",
+    "screenshots": []
+  },
+  {
+    "label": "long-position-after-switch",
+    "recordedAt": "2026-11-04T19:28:01.109Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 乙独立会话 · Pi Workbench Value: http://127.0.0.1:5173/?session=eb63405e-c55d-400e-8c03-86a84c224e8d ID: RootWebArea",
+    "state": "native/long-position-after-switch.json",
+    "screenshots": []
+  },
+  {
+    "label": "long-resumed-settled",
+    "recordedAt": "2026-11-04T19:28:14.756Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/long-resumed-settled.json",
+    "screenshots": []
+  },
+  {
+    "label": "second-stream-text",
+    "recordedAt": "2026-11-04T19:28:30.765Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/second-stream-text.json",
+    "screenshots": []
+  },
+  {
+    "label": "second-input-focused",
+    "recordedAt": "2026-11-04T19:28:47.571Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/second-input-focused.json",
+    "screenshots": []
+  },
+  {
+    "label": "second-stream-dispatched",
+    "recordedAt": "2026-11-04T19:29:08.114Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/second-stream-dispatched.json",
+    "screenshots": []
+  },
+  {
+    "label": "beta-draft-during-background",
+    "recordedAt": "2026-11-04T19:29:20.351Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 乙独立会话 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 乙独立会话 · Pi Workbench Value: http://127.0.0.1:5173/?session=eb63405e-c55d-400e-8c03-86a84c224e8d ID: RootWebArea",
+    "state": "native/beta-draft-during-background.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/beta-draft-during-background-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "cache-gamma-open",
+    "recordedAt": "2026-11-04T19:29:59.193Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 丙独立会话 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 丙独立会话 · Pi Workbench Value: http://127.0.0.1:5173/?session=7bdb82d2-93d5-4dfe-b2dc-de7477444bb8 ID: RootWebArea",
+    "state": "native/cache-gamma-open.json",
+    "screenshots": []
+  },
+  {
+    "label": "cache-fourth-pagination-open",
+    "recordedAt": "2026-11-04T19:30:18.360Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/cache-fourth-pagination-open.json",
+    "screenshots": []
+  },
+  {
+    "label": "background-completed-stays-pagination",
+    "recordedAt": "2026-11-04T19:30:41.052Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/background-completed-stays-pagination.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/background-completed-stays-pagination-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "pagination-history-open",
+    "recordedAt": "2026-11-04T19:30:55.852Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/pagination-history-open.json",
+    "screenshots": []
+  },
+  {
+    "label": "pagination-older-open",
+    "recordedAt": "2026-11-04T19:31:12.268Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/pagination-older-open.json",
+    "screenshots": []
+  },
+  {
+    "label": "pagination-older-reading-position",
+    "recordedAt": "2026-11-04T19:31:24.339Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/pagination-older-reading-position.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/pagination-older-reading-position-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "pagination-newer-restored",
+    "recordedAt": "2026-11-04T19:31:46.683Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/pagination-newer-restored.json",
+    "screenshots": []
+  },
+  {
+    "label": "pagination-older-anchor-restored",
+    "recordedAt": "2026-11-04T19:32:08.967Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/pagination-older-anchor-restored.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/pagination-older-anchor-restored-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "keyboard-newer-button",
+    "recordedAt": "2026-11-04T19:32:30.191Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/keyboard-newer-button.json",
+    "screenshots": []
+  },
+  {
+    "label": "keyboard-history-viewport",
+    "recordedAt": "2026-11-04T19:32:43.534Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/keyboard-history-viewport.json",
+    "screenshots": []
+  },
+  {
+    "label": "keyboard-page-end-focused",
+    "recordedAt": "2026-11-04T19:32:54.786Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/keyboard-page-end-focused.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/keyboard-page-end-focused-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "keyboard-page-end-activated",
+    "recordedAt": "2026-11-04T19:33:04.633Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/keyboard-page-end-activated.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/keyboard-page-end-activated-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "evicted-long-reading-restored",
+    "recordedAt": "2026-11-04T19:33:29.665Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/evicted-long-reading-restored.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/evicted-long-reading-restored-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "appearance-settings-open",
+    "recordedAt": "2026-11-04T19:34:16.156Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "state": "native/appearance-settings-open.json",
+    "screenshots": []
+  },
+  {
+    "label": "theme-options",
+    "recordedAt": "2026-11-04T19:34:34.385Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "state": "native/theme-options.json",
+    "screenshots": []
+  },
+  {
+    "label": "theme-dark-option",
+    "recordedAt": "2026-11-04T19:34:53.805Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "state": "native/theme-dark-option.json",
+    "screenshots": []
+  },
+  {
+    "label": "theme-dark-saved",
+    "recordedAt": "2026-11-04T19:35:14.707Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "state": "native/theme-dark-saved.json",
+    "screenshots": []
+  },
+  {
+    "label": "dark-reading-restored",
+    "recordedAt": "2026-11-04T19:35:37.903Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/dark-reading-restored.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/dark-reading-restored-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "native-dark-narrow-reading",
+    "recordedAt": "2026-11-04T19:36:27.871Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/native-dark-narrow-reading.json",
+    "screenshots": []
+  },
+  {
+    "label": "native-window-menu",
+    "recordedAt": "2026-11-04T19:36:41.710Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/native-window-menu.json",
+    "screenshots": []
+  },
+  {
+    "label": "native-size-mode",
+    "recordedAt": "2026-11-04T19:37:04.097Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/native-size-mode.json",
+    "screenshots": []
+  },
+  {
+    "label": "native-size-right-edge",
+    "recordedAt": "2026-11-04T19:37:30.833Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/native-size-right-edge.json",
+    "screenshots": []
+  },
+  {
+    "label": "native-dark-size-committed",
+    "recordedAt": "2026-11-04T19:37:54.972Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/native-dark-size-committed.json",
+    "screenshots": []
+  },
+  {
+    "label": "narrow-input-focus",
+    "recordedAt": "2026-11-04T19:38:32.656Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/narrow-input-focus.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 802,
+        "zIndex": 0,
+        "path": "native/narrow-input-focus-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "narrow-keyboard-latest-focused",
+    "recordedAt": "2026-11-04T19:38:58.143Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/narrow-keyboard-latest-focused.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 802,
+        "zIndex": 0,
+        "path": "native/narrow-keyboard-latest-focused-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "narrow-keyboard-latest-activated",
+    "recordedAt": "2026-11-04T19:39:24.693Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/narrow-keyboard-latest-activated.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 802,
+        "zIndex": 0,
+        "path": "native/narrow-keyboard-latest-activated-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "narrow-theme-settings",
+    "recordedAt": "2026-11-04T19:39:41.091Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "state": "native/narrow-theme-settings.json",
+    "screenshots": []
+  },
+  {
+    "label": "narrow-theme-select",
+    "recordedAt": "2026-11-04T19:40:21.381Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "state": "native/narrow-theme-select.json",
+    "screenshots": []
+  },
+  {
+    "label": "narrow-light-option",
+    "recordedAt": "2026-11-04T19:40:42.248Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "state": "native/narrow-light-option.json",
+    "screenshots": []
+  },
+  {
+    "label": "narrow-light-saved",
+    "recordedAt": "2026-11-04T19:40:55.474Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "Pi Workbench"
+    },
+    "focused": "13 文档 Pi Workbench Value: http://127.0.0.1:5173/?settings=appearance ID: RootWebArea",
+    "state": "native/narrow-light-saved.json",
+    "screenshots": []
+  },
+  {
+    "label": "native-light-narrow-latest",
+    "recordedAt": "2026-11-04T19:41:19.963Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/native-light-narrow-latest.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 802,
+        "zIndex": 0,
+        "path": "native/native-light-narrow-latest-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "native-light-maximized",
+    "recordedAt": "2026-11-04T19:41:53.009Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/native-light-maximized.json",
+    "screenshots": [
+      {
+        "height": 1032,
+        "id": "screenshot-0",
+        "originX": 0,
+        "originY": 0,
+        "width": 1920,
+        "zIndex": 0,
+        "path": "native/native-light-maximized-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "first-exit-menu",
+    "recordedAt": "2026-11-04T19:42:17.840Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 35653972,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "13 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/first-exit-menu.json",
+    "screenshots": []
+  },
+  {
+    "label": "restart-initial",
+    "recordedAt": "2026-11-04T19:46:26.515Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 59836968,
+      "title": "Pi Workbench"
+    },
+    "focused": "14 文档 Pi Workbench Value: http://127.0.0.1:5173/ ID: RootWebArea",
+    "state": "native/restart-initial.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/restart-initial-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "restart-long-history-retained",
+    "recordedAt": "2026-11-04T19:49:48.558Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 59836968,
+      "title": "OBS04 长内容阅读 · Pi Workbench"
+    },
+    "focused": "14 文档 OBS04 长内容阅读 · Pi Workbench Value: http://127.0.0.1:5173/?session=f2599323-4c06-4085-9bcb-426cadd19239 ID: RootWebArea",
+    "state": "native/restart-long-history-retained.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/restart-long-history-retained-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "restart-pagination-session",
+    "recordedAt": "2026-11-04T19:50:05.228Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 59836968,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "14 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/restart-pagination-session.json",
+    "screenshots": []
+  },
+  {
+    "label": "restart-pagination-history",
+    "recordedAt": "2026-11-04T19:50:40.653Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 59836968,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "14 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/restart-pagination-history.json",
+    "screenshots": [
+      {
+        "height": 961,
+        "id": "screenshot-0",
+        "originX": 239,
+        "originY": 36,
+        "width": 1442,
+        "zIndex": 0,
+        "path": "native/restart-pagination-history-0.jpg"
+      }
+    ]
+  },
+  {
+    "label": "restart-exit-menu",
+    "recordedAt": "2026-11-04T19:51:09.543Z",
+    "window": {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 59836968,
+      "title": "OBS04 分页样本 · Pi Workbench"
+    },
+    "focused": "14 文档 OBS04 分页样本 · Pi Workbench Value: http://127.0.0.1:5173/?session=4b3a5577-fdf8-484a-b34e-78aba8e47ada ID: RootWebArea",
+    "state": "native/restart-exit-menu.json",
+    "screenshots": []
+  }
+]

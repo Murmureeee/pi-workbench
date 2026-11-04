@@ -1,0 +1,261 @@
+{
+  "feature": "OBS-04",
+  "source": "Windows native SendInput/UIA; actual Electron/daemon/SQLite/SDK/local SSE. Pagination rows are explicitly synthetic file fixtures appended after SDK shutdown. No CDP or renderer routing.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\obs04-native-KRbIoQ",
+  "desktopPid": 33896,
+  "prompts": 5,
+  "results": [
+    {
+      "sessionId": "f2599323-4c06-4085-9bcb-426cadd19239",
+      "protocol": 1,
+      "epoch": "6bbe6656-7cae-4a3b-b1d9-37aa703d5447",
+      "seq": 694,
+      "turnId": "b6a07e4a-539c-474a-b601-b5e836dc2039",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "4b3a5577-fdf8-484a-b34e-78aba8e47ada",
+      "protocol": 1,
+      "epoch": "54777616-c700-4ad7-b235-a54b901e0b05",
+      "seq": 5,
+      "turnId": "ea71bd9d-92e9-4873-915b-bee8cb55415a",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "eb63405e-c55d-400e-8c03-86a84c224e8d",
+      "protocol": 1,
+      "epoch": "8a86cee1-1b1a-4d5e-822a-92b7426ee874",
+      "seq": 5,
+      "turnId": "05422524-ab23-4230-9b04-ddbe176c0a59",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "7bdb82d2-93d5-4dfe-b2dc-de7477444bb8",
+      "protocol": 1,
+      "epoch": "f019c7b7-d713-4c86-a57f-0b103ad94f49",
+      "seq": 5,
+      "turnId": "03ee48c4-3fb4-41e8-974f-c5093ec53951",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "f2599323-4c06-4085-9bcb-426cadd19239",
+      "protocol": 1,
+      "epoch": "0e487a92-b848-4574-aea3-e1267a94c78c",
+      "seq": 124,
+      "turnId": "c94ef0a3-3858-44e7-bf77-123696fdf05b",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    }
+  ],
+  "sessions": [
+    {
+      "id": "f2599323-4c06-4085-9bcb-426cadd19239",
+      "title": "OBS04 长内容阅读",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "6c519682-91af-4cf1-b72a-d1e790e56cc9",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "e30ab7eb-6663-434d-aa72-318d03df1a50",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs04-native-KRbIoQ\\data\\standalone\\f2599323-4c06-4085-9bcb-426cadd19239",
+      "createdAt": 1793820004122
+    },
+    {
+      "id": "4b3a5577-fdf8-484a-b34e-78aba8e47ada",
+      "title": "OBS04 分页样本",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "736a46f3-83a0-4822-adf0-5d8e42370e68",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "4789cfa1-1e3a-4a0c-aa95-2ad3f7165b35",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs04-native-KRbIoQ\\data\\standalone\\4b3a5577-fdf8-484a-b34e-78aba8e47ada",
+      "createdAt": 1793820005542
+    },
+    {
+      "id": "eb63405e-c55d-400e-8c03-86a84c224e8d",
+      "title": "OBS04 乙独立会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "aab5f333-6d19-43ad-af83-c37b7642572e",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "470efa28-0d79-4514-b2f0-6d7c6b43be89",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs04-native-KRbIoQ\\data\\standalone\\eb63405e-c55d-400e-8c03-86a84c224e8d",
+      "createdAt": 1793820006679
+    },
+    {
+      "id": "7bdb82d2-93d5-4dfe-b2dc-de7477444bb8",
+      "title": "OBS04 丙独立会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "23cddb10-5dbe-4c58-8374-04c5d8474016",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "8b1f0704-c936-4da8-8fac-90be1a9d24c3",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs04-native-KRbIoQ\\data\\standalone\\7bdb82d2-93d5-4dfe-b2dc-de7477444bb8",
+      "createdAt": 1793820007806
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "6c519682-91af-4cf1-b72a-d1e790e56cc9",
+      "sessionId": "f2599323-4c06-4085-9bcb-426cadd19239",
+      "messageId": "e6e25648-e718-40ba-9ff1-9bee88d2416e",
+      "turnId": "b6a07e4a-539c-474a-b601-b5e836dc2039",
+      "status": "completed",
+      "text": "OBS04 长内容阅读",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793820004124
+    },
+    {
+      "requestId": "520165ec-8c22-4afb-a955-187f9e250b84",
+      "sessionId": "f2599323-4c06-4085-9bcb-426cadd19239",
+      "messageId": "35806140-d6b7-4dbd-ac94-518edaaa5488",
+      "turnId": "c94ef0a3-3858-44e7-bf77-123696fdf05b",
+      "status": "completed",
+      "text": "持续滚动原生验收",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793820376654
+    },
+    {
+      "requestId": "736a46f3-83a0-4822-adf0-5d8e42370e68",
+      "sessionId": "4b3a5577-fdf8-484a-b34e-78aba8e47ada",
+      "messageId": "b43f2722-5488-4f1c-bc0d-602b6230a521",
+      "turnId": "ea71bd9d-92e9-4873-915b-bee8cb55415a",
+      "status": "completed",
+      "text": "原生输入暂不可读，请检查历史诊断。",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793820005543
+    },
+    {
+      "requestId": "aab5f333-6d19-43ad-af83-c37b7642572e",
+      "sessionId": "eb63405e-c55d-400e-8c03-86a84c224e8d",
+      "messageId": "50ac7c23-c89c-4cea-9134-d0e06d2b01c4",
+      "turnId": "05422524-ab23-4230-9b04-ddbe176c0a59",
+      "status": "completed",
+      "text": "OBS04 乙独立会话",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793820006679
+    },
+    {
+      "requestId": "23cddb10-5dbe-4c58-8374-04c5d8474016",
+      "sessionId": "7bdb82d2-93d5-4dfe-b2dc-de7477444bb8",
+      "messageId": "cfcc52c8-c83b-4919-b2ec-97214b801c1d",
+      "turnId": "03ee48c4-3fb4-41e8-974f-c5093ec53951",
+      "status": "completed",
+      "text": "OBS04 丙独立会话",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793820007807
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "f2599323-4c06-4085-9bcb-426cadd19239",
+        "epoch": "0e487a92-b848-4574-aea3-e1267a94c78c",
+        "state": "ready",
+        "pid": 22324,
+        "pins": 0,
+        "lastUsedAt": 1793820438402,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "historyBefore": {
+    "4b3a5577-fdf8-484a-b34e-78aba8e47ada\\54777616-c700-4ad7-b235-a54b901e0b05\\sessions\\2026-11-04T19-20-06-473Z_01a1a801-1849-7780-a4dc-86b38690d345.jsonl": "ebbda8f184c7e439b155db1d70f3006715dffa48e7c7c9d9675c077cb1c9a2bd",
+    "7bdb82d2-93d5-4dfe-b2dc-de7477444bb8\\f019c7b7-d713-4c86-a57f-0b103ad94f49\\sessions\\2026-11-04T19-20-08-714Z_01a1a801-210a-7676-9fac-cc732fee4b81.jsonl": "ca572b4ab68ff2d9bffe88b52b76e5303bb75704842fc84ee1d894c916d9e82f",
+    "eb63405e-c55d-400e-8c03-86a84c224e8d\\8a86cee1-1b1a-4d5e-822a-92b7426ee874\\sessions\\2026-11-04T19-20-07-628Z_01a1a801-1ccc-710f-836a-4cf148758b21.jsonl": "7640a5f476740cf279c4d8475bce8daefdc36a021b7525eb96e3e9e0d4dc01c4",
+    "f2599323-4c06-4085-9bcb-426cadd19239\\6bbe6656-7cae-4a3b-b1d9-37aa703d5447\\sessions\\2026-11-04T19-20-05-108Z_01a1a801-12f3-77c5-b194-be50a7d7cad6.jsonl": "38c7d1e235d3c31753ef13263a9bc6806d52d7eccfd9c66966990512f9dba98c"
+  },
+  "historyAfter": {
+    "4b3a5577-fdf8-484a-b34e-78aba8e47ada\\54777616-c700-4ad7-b235-a54b901e0b05\\sessions\\2026-11-04T19-20-06-473Z_01a1a801-1849-7780-a4dc-86b38690d345.jsonl": "ebbda8f184c7e439b155db1d70f3006715dffa48e7c7c9d9675c077cb1c9a2bd",
+    "7bdb82d2-93d5-4dfe-b2dc-de7477444bb8\\f019c7b7-d713-4c86-a57f-0b103ad94f49\\sessions\\2026-11-04T19-20-08-714Z_01a1a801-210a-7676-9fac-cc732fee4b81.jsonl": "ca572b4ab68ff2d9bffe88b52b76e5303bb75704842fc84ee1d894c916d9e82f",
+    "eb63405e-c55d-400e-8c03-86a84c224e8d\\8a86cee1-1b1a-4d5e-822a-92b7426ee874\\sessions\\2026-11-04T19-20-07-628Z_01a1a801-1ccc-710f-836a-4cf148758b21.jsonl": "7640a5f476740cf279c4d8475bce8daefdc36a021b7525eb96e3e9e0d4dc01c4",
+    "f2599323-4c06-4085-9bcb-426cadd19239\\6bbe6656-7cae-4a3b-b1d9-37aa703d5447\\sessions\\2026-11-04T19-20-05-108Z_01a1a801-12f3-77c5-b194-be50a7d7cad6.jsonl": "51f9f3a470ce5cc94b52f75b1879467bfd854cb0dbaaf430986c1d15161ca260"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

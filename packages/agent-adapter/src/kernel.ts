@@ -174,6 +174,7 @@ export class SessionKernel {
       | 'trust-context'
       | 'rendering'
       | 'rendering-long'
+      | 'scrolling'
     trustedContext?: TrustedContext[]
   }) {
     if (this.snapshotValue.state === 'starting') {

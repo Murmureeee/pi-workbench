@@ -989,6 +989,7 @@ function SessionPane({
             updateView(result.sessionId, {
               panel: result.messageId ? 'history' : 'conversation',
               cursor: null,
+              historyTrail: [],
               reading: result.messageId
                 ? prior.reading
                 : {

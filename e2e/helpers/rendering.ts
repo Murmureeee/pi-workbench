@@ -5,15 +5,22 @@ import { join } from 'node:path'
 import { expect } from '@playwright/test'
 
 import { createApp } from '../../apps/daemon/dist/bootstrap/app.js'
+import { EventService } from '../../apps/daemon/dist/modules/events/event.service.js'
 import { KernelService } from '../../apps/daemon/dist/modules/kernels/kernel.service.js'
+import { SessionService } from '../../apps/daemon/dist/modules/sessions/session.service.js'
 import { SessionStore } from '../../apps/daemon/dist/modules/sessions/session.store.js'
 import { launchWorkspaceDesktop } from './desktop.js'
 
 /** Actual Electron/SQLite/SDK through the local SSE fixture. Only fixture selection is
  * injected in the host; the renderer still sends via the production daemon/CSRF boundary. */
-export async function renderingDesktop() {
+export async function renderingDesktop(modelTasks = 1) {
   const directory = mkdtempSync(join(tmpdir(), 'piw-render-ui-'))
-  const app = await createApp({ dataDir: join(directory, 'data'), port: 4318, development: true })
+  const app = await createApp({
+    dataDir: join(directory, 'data'),
+    port: 4318,
+    development: true,
+    resourceLimits: { modelTasks },
+  })
   await app.listen(4318, '127.0.0.1')
   const kernels = app.get(KernelService),
     original = kernels.prompt.bind(kernels)
@@ -23,7 +30,16 @@ export async function renderingDesktop() {
     return original(
       id,
       cwd,
-      { ...input, fixture: input.text.includes('长内容') ? 'rendering-long' : 'rendering' },
+      {
+        ...input,
+        fixture: input.text.includes('持续滚动')
+          ? 'scrolling'
+          : input.text.includes('保持运行')
+            ? 'hold'
+            : input.text.includes('长内容')
+              ? 'rendering-long'
+              : 'rendering',
+      },
       options,
     )
   }
@@ -55,12 +71,16 @@ export async function renderingDesktop() {
     await expect
       .poll(() => store.submissions(session.id)[0]?.status, { timeout: 20000 })
       .toBe('completed')
-    await expect(desktop.page.getByLabel('任务状态')).toHaveText('本轮已结束')
-    await expect(desktop.page.getByLabel('会话同步状态')).toHaveText('已同步')
+    const pane = desktop.page.locator('.retained-session:not([hidden])')
+    await expect(pane.getByLabel('任务状态')).toHaveText('本轮已结束')
+    await expect(pane.getByLabel('会话同步状态')).toHaveText('已同步')
     return session
   }
   return {
     desktop,
+    sessions: app.get(SessionService),
+    events: app.get(EventService),
+    kernels,
     store,
     directory,
     send,

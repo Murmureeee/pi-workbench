@@ -1,0 +1,47 @@
+{
+  "feature": "OBS-04",
+  "verifiedAt": "2026-11-04T19:55:22.046Z",
+  "commands": [
+    {
+      "command": "pnpm fix",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm run ci",
+      "exitCode": 0,
+      "testFiles": 31,
+      "vitest": 240,
+      "e2e": 90,
+      "source": "ci.log"
+    },
+    {
+      "command": "pnpm verify:clean",
+      "exitCode": 0,
+      "source": "clean-workspace.json / clean-commands.json"
+    }
+  ],
+  "addedTests": {
+    "vitest": 2,
+    "electron": 4
+  },
+  "native": "native-validation.json",
+  "evidenceSources": [
+    "Real SDK + fixed local paced HTTP/SSE",
+    "Actual SQLite/native JSONL",
+    "Explicit synthetic file pagination rows",
+    "Synthetic approval observation over real TCP subscription",
+    "Native Windows SendInput/UIA separate from Playwright Electron automation"
+  ],
+  "providerRequests": 0,
+  "configurationChanged": false,
+  "canonicalBudgetChanged": false,
+  "documentChecks": {
+    "commands": [
+      "pnpm docs:build",
+      "pnpm fix",
+      "pnpm check"
+    ],
+    "exitCode": 0,
+    "output": "docs-check.log"
+  }
+}

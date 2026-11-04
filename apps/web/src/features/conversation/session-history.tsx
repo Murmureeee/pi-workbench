@@ -19,7 +19,9 @@ import {
 import { sessionJson } from '../../services/session-client.js'
 import { mergeTitles } from '../../services/session-title-cache.js'
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
+import { LatestMessagesButton } from './latest-messages-button.js'
 import { MessageBody } from './message-body.js'
+import { useReadingLayout } from './reading-layout.js'
 import { RememberedViewport } from './remembered-viewport.js'
 
 function HistoryEntry({
@@ -31,10 +33,12 @@ function HistoryEntry({
   message: HistoryMessage
   located?: boolean
 }) {
+  const reading = useReadingLayout()
   const expanded = useSessionViews(
     (state) => state.views[sessionId]?.expanded.includes(message.id) ?? false,
   )
   const setExpanded = () => {
+    reading?.preserve(expanded)
     const prior = sessionView(sessionId).expanded
     useSessionViews.getState().update(sessionId, {
       expanded: expanded ? prior.filter((id) => id !== message.id) : [...prior, message.id],
@@ -215,8 +219,8 @@ export function SessionHistory({
   const cursor = view?.cursor ?? null
   const [locationDismissed, setLocationDismissed] = useState<string | null>(null)
   const around = cursor || locationDismissed === targetMessage ? null : targetMessage
-  const setCursor = (value: string | null) =>
-    useSessionViews.getState().update(sessionId, { cursor: value })
+  const setCursor = (value: string | null, trail: (string | null)[] = []) =>
+    useSessionViews.getState().update(sessionId, { cursor: value, historyTrail: trail })
   const history = useQuery({
     queryKey: ['session-history', sessionId, cursor, around],
     queryFn: async ({ signal }) => {
@@ -284,9 +288,24 @@ export function SessionHistory({
         <Button
           variant="outline"
           disabled={!page?.nextCursor || history.isFetching}
-          onClick={() => setCursor(page?.nextCursor ?? null)}
+          onClick={() =>
+            setCursor(
+              page?.nextCursor ?? null,
+              [...(cursor ? (view?.historyTrail ?? []) : []), cursor].slice(-100),
+            )
+          }
         >
           更早的消息
+        </Button>
+        <Button
+          variant="outline"
+          disabled={!cursor || !view?.historyTrail.length || history.isFetching}
+          onClick={() => {
+            const trail = sessionView(sessionId).historyTrail
+            setCursor(trail.at(-1) ?? null, trail.slice(0, -1))
+          }}
+        >
+          返回较新一页
         </Button>
         <Button disabled>继续任务（尚未开放）</Button>
       </div>
@@ -319,6 +338,7 @@ export function SessionHistory({
             active={active}
             ready={history.isSuccess}
             locateMessage={around}
+            navigation={<LatestMessagesButton count={0} label="返回本页末尾" />}
           >
             <MessageScrollerContent>
               {page?.diagnostics.map((diagnostic) => (

@@ -18,6 +18,7 @@ const fixtureModeSchema = z.enum([
   'trust-context',
   'rendering',
   'rendering-long',
+  'scrolling',
 ])
 const resumeSchema = z.strictObject({
   sessionFile: z.string().min(1),

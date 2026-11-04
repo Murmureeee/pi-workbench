@@ -93,7 +93,7 @@ M2 补齐基础项目管理、无项目会话、自动命名、重命名及标�
 
 ## 进度计算与完成定义
 
-当前工作区包含产品规划、交互原型、M0验证工程与已验收的M1／M2条目；完整状态以canonical backlog和[实施方案](../architecture/implementation-plan.md)为准。依据backlog当前为 **24 / 133 已验收**。本次完成WS-03原生补验、INPUT-01输入与草稿、SESSION-07独立空间与来源。最终完整 **223项Vitest／78项浏览器与Electron E2E**、SDK冒烟及本次frozen clean通过，282文件与clean一致；29条SESSION-07原生观察、同PID／epoch后台、明暗窄窗、重启0内核／0重发和两次正常退出均补证，见[逐项记录](../validation/session-07-evidence/acceptance.md)。原生后未改产品代码，复用门禁；文档／PRD生成另跑完整check。SDK仅用本地HTTP夹具，工具／扩展／真实提供商禁用，浏览器首页及桌面?samples仍为fake样本。SESSION-13仅整理归属子集，完整迁移未验收；OPS-08跨阶段门继续进行，规划和PRD不代表产品全部实现。
+当前工作区包含产品规划、交互原型、M0 验证工程与已验收的 M1／M2 条目。依据 canonical backlog 当前为 **26 / 133 已验收**；本轮按顺序完成 WS-07、OBS-01、OBS-04。最终完整 **240 项 Vitest／90 项浏览器及 Electron E2E**、SDK 冒烟及 frozen clean 通过，304 文件与 clean 一致；60 条 OBS-04 原生观察、同 PID／epoch 后台、明暗窄窗、重启 0 内核／0 新请求及两次正常菜单退出补证，见[逐项记录](../validation/obs-04-evidence/acceptance.md)。原生后只更新文档并复用门禁，文档／PRD 生成另跑完整 check。SDK 使用本地 HTTP 夹具，工具／扩展／真实提供商禁用，浏览器首页和桌面 ?samples 仍为 fake 样本；网页版独立功能暂缓。SESSION-13 只交付整理归属子集，OPS-08 跨阶段门继续进行，规划和 PRD 不代表产品全部实现。
 
 OPS-08 首次基线通过 14 份来源标明的历史 SDK 样本只读重放、投影 / IPC 故障与实际 UI 组合回归；当时完整 85 项 Vitest、12 项浏览器 / Electron 测试和干净目录验证通过，新增真实提供商请求 0。第一条契约验收已勾选；后续 SESSION-01 / 02 / 03 / 11 已补齐输入、恢复、整理、改名及标题多端同步 / 重连，当前完整门禁见上文。生产业务审批 / 双端交互、后续回滚及平台门禁仍待各阶段补齐，第二条不勾选；[阶段矩阵与证据](../development/tooling.md#ops-08-契约回归门禁)记录边界，不增加已验收数。
 
@@ -211,9 +211,9 @@ R7：默认 Windows 当前用户应用数据目录，后续可受控迁移；旧
 
 无项目会话的持久独立目录、不可变创建来源、只读能力来源及仅整理归属已完成自动与Windows原生验收，三项勾选。来源与归属分离，后台任务保持原cwd／PID；产物退出后保留。最终223／78、SDK和frozen clean通过，原生后282文件一致，见[验收记录](../validation/session-07-evidence/acceptance.md)。SESSION-13完整迁移和OPS-08跨阶段门继续保留，下一项建议已满足前置的WS-07。
 
-## WS-07：实现候选，等待原生验收
+## WS-07：已完成自动与原生验收
 
-目录失效停止／明确恢复、同物理目录重新关联、历史／草稿／原cwd保留及物理目录信任指纹已接入候选。自动与完整门禁见 [WS-07 记录](../validation/ws-07-evidence/acceptance.md)；尚未进行原生 Windows 控制验收，按用户要求等待明确允许，两项未勾选、保持 in_review。本地完成数仍从 backlog 计算，OPS-08 继续进行；SESSION-13 完整环境迁移未开放。
+目录失效停止／明确恢复、同物理目录重新关联、历史／草稿／原cwd保留及物理目录信任指纹已通过自动与原生验收，两项勾选、状态 verified。门禁与68条原生观察见 [WS-07 记录](../validation/ws-07-evidence/acceptance.md)；本地完成数从 backlog 计算，OPS-08 继续进行，SESSION-13 完整环境迁移未开放。
 
 WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与frozen clean通过；68条原生观察补齐未信任资源、真实路径丢失与Windows ACL后台停止、原cwd／历史／草稿保留、同物理目录重新定位与明确恢复、明暗800px窄窗、同data/profile重启0内核／0新请求及两次正常菜单退出。288个代码文件与clean一致，原生后复用门禁；本地24／133，OPS-08继续in_progress。真实提供商0、pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。
 
@@ -221,3 +221,7 @@ WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与fro
 ## OBS-01 已验收
 
 Electron流式与安全内容展示已验收：每帧累计全部delta，非delta状态即时冲刷，权威终态替换去重；CommonMark/GFM安全Markdown、仅显式HTTP(S)链接、禁止自动图片和原始HTML执行、本地协议惰性。16k预览可展开，64k以上纯文本、12k以上代码不高亮，未知语言／未闭合围栏／可选模块失败回退；按需Shiki与异步身份保护。8项新增Vitest、4项新增Electron流程；完整238项Vitest／86项E2E、SDK和frozen clean通过。Windows原生富文本／纯文本切换、长内容展开／收起、明暗主题、同data/profile重启0请求及两次正常退出补证。图示仅惰性代码，未接入执行型图示。真实提供商0、pi配置／canonical预算未改，无安装包，网页独立功能暂缓；OPS-08继续in_progress。[逐项证据与下一步提示词](../validation/obs-01-evidence/acceptance.md)。
+
+## OBS-04 已验收
+
+OBS-04 已验收：Electron 回看不强拉、按消息计数、显式／键盘返回最新、消息锚点与偏移跨分页／3 视图淘汰／renderer 刷新恢复；长文展开保持现场、收起不留空白，后台完成或合成审批观察不抢当前焦点与面板。新增 2 项 Vitest／4 项实际 Electron 回归，完整 31 文件／240 项 Vitest、90 项 E2E、SDK 和 frozen clean 通过；60 条 Windows 原生观察、明暗窄窗、后台同 PID／epoch、同 data/profile 重启 0 内核／0 新请求及两次正常菜单退出补证。304 文件与 clean 一致，原生后复用门禁；当前本地 26 / 133，OPS-08 继续 in_progress。分页行／审批观察均明确为合成样本，完整应用重启不承诺窗口书签；真实提供商 0，配置／canonical 预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/obs-04-evidence/acceptance.md)。

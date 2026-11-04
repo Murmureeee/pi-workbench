@@ -1,0 +1,51 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:32808) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:34996) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\scroll-reading.spec.ts:135:1 › OBS-04 Electron long-message expansion preserves anchor/offset and history bytes through eviction and reload (19.3s)
+
+
+  1) e2e\scroll-reading.spec.ts:135:1 › OBS-04 Electron long-message expansion preserves anchor/offset and history bytes through eviction and reload 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator:  locator('.retained-session:not([hidden])').getByRole('button', { name: '展开完整消息', exact: true })
+    Expected: in viewport
+    Received: viewport ratio 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeInViewport" locator('.retained-session:not([hidden])').getByRole('button', { name: '展开完整消息', exact: true }) with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').getByRole('button', { name: '展开完整消息', exact: true })
+        14 × locator resolved to <button tabindex="0" type="button" data-slot="button" aria-expanded="false" class="group/button inline-flex shrink-0 items-center justify-center border bg-clip-padding font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:…>展开完整消息</button>
+           - unexpected value "viewport ratio 0"
+
+
+      182 |     await viewport.press('End')
+      183 |     await pane.getByRole('button', { name: '收起长消息', exact: true }).click()
+    > 184 |     await expect(pane.getByRole('button', { name: '展开完整消息', exact: true })).toBeInViewport()
+          |                                                                             ^
+      185 |     expect(readFileSync(file)).toEqual(beforeBytes)
+      186 |     expect(f.prompts()).toBe(4)
+      187 |   } finally {
+        at D:\Project\pi-workbench\e2e\scroll-reading.spec.ts:184:77
+
+    Error Context: test-results\scroll-reading-OBS-04-Elec-41fe7-through-eviction-and-reload\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\scroll-reading-OBS-04-Elec-41fe7-through-eviction-and-reload\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\scroll-reading-OBS-04-Elec-41fe7-through-eviction-and-reload\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\scroll-reading.spec.ts:135:1 › OBS-04 Electron long-message expansion preserves anchor/offset and history bytes through eviction and reload 

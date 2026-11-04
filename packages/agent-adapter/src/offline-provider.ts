@@ -61,6 +61,33 @@ export async function createOfflineProvider() {
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
+    if (mode === 'scrolling') {
+      // Paced, fixed offline SSE for actual SDK/Electron reading-position acceptance.
+      // The response owns the timer; abort/dispose closes it without another request.
+      const content =
+        Array.from(
+          { length: 180 },
+          (_, index) =>
+            `离线流式第${String(index + 1).padStart(3, '0')}段：中文🙂。` +
+            '回看保留当前消息与偏移，点击返回最新后继续跟随。'.repeat(2) +
+            '\n\n',
+        ).join('') + 'OBS04_STREAM_END'
+      let offset = 0
+      const timer = setInterval(() => {
+        if (response.destroyed) {
+          clearInterval(timer)
+          return
+        }
+        response.write(frame({ content: content.slice(offset, offset + 97) }))
+        offset += 97
+        if (offset >= content.length) {
+          clearInterval(timer)
+          response.end(frame({}, 'stop') + 'data: [DONE]\n\n')
+        }
+      }, 500)
+      response.once('close', () => clearInterval(timer))
+      return
+    }
     if (mode === 'rendering' || mode === 'rendering-long') {
       const content = renderingFixture(mode === 'rendering-long')
       for (let offset = 0; offset < content.length; offset += 97) {

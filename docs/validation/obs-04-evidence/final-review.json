@@ -1,0 +1,24 @@
+{
+  "verifiedAt": "2026-11-04T20:05:12.321Z",
+  "observations": 60,
+  "codeFilesUnchanged": 304,
+  "evidenceFiles": 114,
+  "evidenceBytes": 6119949,
+  "evidenceScope": "All archived evidence except this self report",
+  "forbiddenArtifacts": [],
+  "protectedFiles": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    }
+  ],
+  "progress": {
+    "complete": 26,
+    "total": 133
+  },
+  "source": "Final local evidence and source consistency review; does not re-run CI/E2E"
+}

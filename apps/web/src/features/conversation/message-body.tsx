@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react'
 
 import { useQuery } from '@tanstack/react-query'
-import { Component, lazy, memo, Suspense, useState } from 'react'
+import { Component, lazy, memo, Suspense, useLayoutEffect, useState } from 'react'
 
 import { Button } from '@pi-workbench/ui/components/button'
 
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { markdownLimit, messagePrefix, messagePreview } from './content-policy.js'
+import { useReadingLayout } from './reading-layout.js'
 import './message-body.css'
 
 const MarkdownBody = lazy(() => import('./markdown-body.js'))
@@ -71,6 +72,10 @@ export const MessageBody = memo(function MessageBody({
     preview && !expanded && (source.length > messagePreview || Boolean(fullMessageId))
   const visible = truncated ? messagePrefix(source) : source
   const [plain, setPlain] = useState(false)
+  const reading = useReadingLayout()
+  useLayoutEffect(() => {
+    reading?.restore()
+  }, [reading, visible, plain, expanded])
   const fallback = <pre className="message-plain">{visible}</pre>
   return (
     <div className="message-body" data-message-body={messageId}>
@@ -84,10 +89,18 @@ export const MessageBody = memo(function MessageBody({
         fallback
       )}
       {source.length > markdownLimit ? (
-        <p className="phase-note">内容较长，保留纯文本显示。</p>
+        <p className="phase-note">完整内容较长，展开后以纯文本显示。</p>
       ) : null}
       {rich ? (
-        <Button variant="ghost" size="sm" aria-pressed={plain} onClick={() => setPlain((v) => !v)}>
+        <Button
+          variant="ghost"
+          size="sm"
+          aria-pressed={plain}
+          onClick={() => {
+            reading?.preserve(true)
+            setPlain((v) => !v)
+          }}
+        >
           {plain ? '格式化显示' : '纯文本显示'}
         </Button>
       ) : null}
@@ -97,6 +110,7 @@ export const MessageBody = memo(function MessageBody({
           size="sm"
           aria-expanded={expanded}
           onClick={() => {
+            reading?.preserve(expanded)
             const prior = sessionView(sessionId).expanded
             useSessionViews.getState().update(sessionId, {
               expanded: expanded ? prior.filter((id) => id !== key) : [...prior, key],

@@ -2,7 +2,7 @@ import type { RuntimeView } from '../../services/runtime-client.js'
 import type { SessionOrganization, SessionOrganize, SessionSubmission } from '@pi-workbench/shared'
 
 import { useQuery } from '@tanstack/react-query'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 
 import { historyPageSchema } from '@pi-workbench/shared'
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
@@ -11,7 +11,6 @@ import { Button } from '@pi-workbench/ui/components/button'
 import { Message, MessageContent, MessageHeader } from '@pi-workbench/ui/components/message'
 import {
   MessageScroller,
-  MessageScrollerButton,
   MessageScrollerContent,
   MessageScrollerItem,
   MessageScrollerProvider,
@@ -20,7 +19,9 @@ import {
 import { RuntimeClient } from '../../services/runtime-client.js'
 import { sessionJson } from '../../services/session-client.js'
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
+import { LatestMessagesButton } from './latest-messages-button.js'
 import { MessageBody } from './message-body.js'
+import { messageStamp, updatedMessages } from './message-updates.js'
 import { RememberedViewport } from './remembered-viewport.js'
 
 const statusNames = {
@@ -55,6 +56,7 @@ export function ManagedThread({
   organizationAvailable: boolean
 }) {
   const expanded = useSessionViews((state) => state.views[sessionId]?.expanded ?? emptyExpanded)
+  const seen = useSessionViews((state) => state.views[sessionId]?.seenMessages ?? null)
   const follow = useSessionViews(
     (state) => state.views[sessionId]?.reading.conversation?.follow ?? true,
   )
@@ -92,7 +94,47 @@ export function ManagedThread({
         (latestTurn && ['completed', 'error', 'aborted'].includes(latestTurn.phase)),
       ))
   const latestToken = displayed ? `${organization?.resultVersion}:${latest.requestId}` : ''
+  // Receipts contain at most 200 IDs/stamps, never bodies. Committed messages are
+  // immutable: their terminal status stays stable across SDK/HTTP preview changes.
+  const stamps = useMemo(() => {
+    const current: Record<string, string> = {}
+    for (const submission of submissions.slice(-100)) {
+      current[submission.messageId] = messageStamp(submission.text, '')
+      const turn = view?.snapshot?.turns.find((item) => item.id === submission.turnId)
+      const committed = history.data?.messages.findLast(
+        (item) => item.turnId === submission.turnId && item.role === 'assistant',
+      )
+      const text = turn?.text ?? committed?.text ?? ''
+      const terminal =
+        !['pending', 'executing'].includes(submission.status) &&
+        (committed ||
+          (turn && ['completed', 'error', 'aborted', 'interrupted'].includes(turn.phase)))
+      if (text || terminal || turn?.approval) {
+        current[`${submission.messageId}:reply`] = terminal
+          ? submission.status
+          : messageStamp(text, turn?.approval?.id ?? '')
+      }
+    }
+    return current
+  }, [submissions, view?.snapshot, history.data])
+  const stampToken = JSON.stringify(stamps)
+  const stampsReady =
+    history.isSuccess &&
+    (view?.status === 'connected' ||
+      !submissions.some((item) => ['pending', 'executing'].includes(item.status)))
+  useEffect(() => {
+    if (stampsReady && sessionView(sessionId).seenMessages === null) {
+      useSessionViews.getState().update(sessionId, { seenMessages: stamps })
+    }
+  }, [sessionId, stampsReady, stamps])
   const readLatest = () => {
+    if (
+      active &&
+      stampsReady &&
+      JSON.stringify(sessionView(sessionId).seenMessages) !== stampToken
+    ) {
+      useSessionViews.getState().update(sessionId, { seenMessages: stamps })
+    }
     if (!active || !displayed || !organization?.unread || !organizationAvailable) {
       return
     }
@@ -120,8 +162,9 @@ export function ManagedThread({
           surface="conversation"
           active={active}
           ready={history.isSuccess && submissions.length > 0}
-          latestToken={latestToken}
+          latestToken={`${latestToken}:${stampToken}`}
           onReadLatest={readLatest}
+          navigation={<LatestMessagesButton count={updatedMessages(stamps, seen)} />}
         >
           <MessageScrollerContent className="conversation-content">
             <MessageScrollerItem messageId="source">
@@ -161,7 +204,6 @@ export function ManagedThread({
                 <MessageScrollerItem
                   key={submission.messageId}
                   messageId={submission.messageId}
-                  scrollAnchor
                   data-reading-id={submission.messageId}
                 >
                   <Message align="end">
@@ -262,7 +304,6 @@ export function ManagedThread({
             })}
           </MessageScrollerContent>
         </RememberedViewport>
-        <MessageScrollerButton aria-label="返回最新消息" />
       </MessageScroller>
     </MessageScrollerProvider>
   )
