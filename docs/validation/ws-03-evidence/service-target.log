@@ -1,0 +1,14 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+Switched to a new branch '功能/中文'
+HEAD is now at bf041a2 offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-RoY5Lb/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  10:51:53
+   Duration  6.31s (tests 68%, import 30%, transform 2%)
+

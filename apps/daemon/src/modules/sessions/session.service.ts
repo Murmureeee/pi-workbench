@@ -2,6 +2,7 @@ import type { EventService } from '../events/event.service.js'
 import type { KernelService } from '../kernels/kernel.service.js'
 import type { ModelService } from '../models/model.service.js'
 import type { SecurityService } from '../security/security.service.js'
+import type { TrustService } from '../security/trust.service.js'
 import type { ProjectService } from '../workspaces/project.service.js'
 import type { WorkspaceService } from '../workspaces/workspace.service.js'
 import type { SessionStore } from './session.store.js'
@@ -9,6 +10,7 @@ import type {
   ManagedSession,
   ProjectCommand,
   SessionOrganize,
+  SessionProject,
   SessionReceipt,
   SessionRename,
   SessionSubmit,
@@ -20,7 +22,7 @@ import { join, relative } from 'node:path'
 
 import { HttpException } from '@nestjs/common'
 
-import { sessionRenameSchema } from '@pi-workbench/shared'
+import { sessionProjectSchema, sessionRenameSchema, sessionSpaceSchema } from '@pi-workbench/shared'
 
 import { KernelExecutionUncertain } from '../kernels/kernel.service.js'
 import { SessionOrganizationConflict, SessionTitleConflict } from './session.store.js'
@@ -44,6 +46,7 @@ export class SessionService {
     private readonly models: ModelService,
     private readonly security: SecurityService,
     private readonly events: EventService,
+    private readonly trust: TrustService,
   ) {}
 
   options() {
@@ -52,6 +55,83 @@ export class SessionService {
       realProviderEnabled: false,
       localFixtureEnabled: this.development,
       projects: this.projects.list(),
+    }
+  }
+
+  /** Read-only policy/source inspection binds the persisted execution cwd, never a project's
+   * current default. No grants, model admission, config merge or source body is returned. */
+  async space(sessionId: string) {
+    const session = this.store.managedSessions().find((row) => row.id === sessionId)
+    const origin = this.store.origin(sessionId)
+    if (!session || !origin) {
+      throw new HttpException('会话执行空间不存在，旧 pi 历史仅供只读。', 404)
+    }
+    const before = await this.workspaces.environmentDirectory(session.workspaceId, session.cwd)
+    if (!before.ok) {
+      throw new HttpException('执行目录当前不可用，保留原会话与来源；请恢复后重新核对。', 409)
+    }
+    const snapshot = this.trust.inspect(session.cwd)
+    const after = await this.workspaces.environmentDirectory(session.workspaceId, session.cwd)
+    const current = this.store.managedSessions().find((row) => row.id === sessionId)
+    if (
+      !after.ok ||
+      after.canonicalPath !== before.canonicalPath ||
+      current?.membershipVersion !== session.membershipVersion
+    ) {
+      throw new HttpException('核对期间目录或归属已变化，请重新核对；原文件保留。', 409)
+    }
+    const loaded = snapshot.activeTurns
+      .filter((turn) => turn.sessionId === sessionId)
+      .flatMap((turn) => turn.resources)
+    return sessionSpaceSchema.parse({
+      sessionId,
+      cwd: session.cwd,
+      workspaceId: session.workspaceId,
+      standalone: origin.kind === 'standalone',
+      projectId: session.configuration.projectId,
+      membershipVersion: session.membershipVersion,
+      origin,
+      policy: 'host-tools-disabled',
+      realProviderEnabled: false,
+      activeContextCount: loaded.length,
+      resources: snapshot.resources.map(
+        ({ project: _project, preview: _preview, impact: _impact, ...resource }) => ({
+          ...resource,
+          enabledNextTurn: resource.capability === 'context-only' && resource.trust === 'trusted',
+          loadedNow: loaded.some(
+            (row) => row.id === resource.id && row.fingerprint === resource.fingerprint,
+          ),
+        }),
+      ),
+      diagnostics: snapshot.diagnostics,
+    })
+  }
+
+  /** Only changes attribution, even during a background task. No await separates project
+   * validation and SQLite CAS; obsolete target or session versions cannot be overwritten. */
+  setProject(sessionId: string, input: SessionProject) {
+    const parsed = sessionProjectSchema.safeParse(input)
+    if (!parsed.success) {
+      throw new HttpException('项目归属或保存版本无效。', 400)
+    }
+    if (!this.store.managedSessions().some((row) => row.id === sessionId)) {
+      throw new HttpException('会话不存在。', 404)
+    }
+    if (parsed.data.project) {
+      this.projects.assertMembership(parsed.data.project.id, parsed.data.project.revision)
+    }
+    try {
+      return this.store.setProject(
+        sessionId,
+        parsed.data.project?.id ?? null,
+        parsed.data.expectedVersion,
+      )
+    } catch (error) {
+      if (error instanceof SessionOrganizationConflict) {
+        throw new HttpException(error.message, 409)
+      }
+      this.security.log('session-project-failed', error)
+      throw new HttpException('归属未能保存，请核对最新归属后重试；执行空间和文件保留。', 503)
     }
   }
 
@@ -257,6 +337,7 @@ export class SessionService {
             .join('') || '新任务',
         titleSource: 'local',
         titleVersion: 1,
+        membershipVersion: 1,
       }
       if (!existing) {
         this.projects.assertDefault(input.configuration.projectId, input.configuration.workspaceId)

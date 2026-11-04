@@ -92,6 +92,11 @@ export class ProjectService {
     return row
   }
 
+  /** Organization-only admission. No directory IO, resource loading or default inheritance. */
+  assertMembership(id: string, expectedRevision: number): void {
+    this.current(id, expectedRevision)
+  }
+
   private failure(error: unknown): never {
     if (error instanceof HttpException) {
       throw error

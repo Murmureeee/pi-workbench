@@ -79,6 +79,7 @@ export const managedSessionSchema = z.strictObject({
   title: z.string(),
   titleSource: z.enum(['local', 'user']),
   titleVersion: z.number().int().positive(),
+  membershipVersion: z.number().int().positive().default(1),
   creationRequestId: z.uuid(),
   configuration: sessionConfigurationSchema,
   workspaceId: z.uuid(),

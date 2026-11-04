@@ -394,6 +394,9 @@ describe('SESSION-03 daemon-owned library; actual SQLite and SDK/local HTTP fixt
       id = receipt.session.id
     const db = f.app.get(WorkspaceDatabase).sqlite
     db.exec(
+      'DROP TABLE session_origins; ALTER TABLE session_configurations DROP COLUMN membership_version',
+    )
+    db.exec(
       'ALTER TABLE projects DROP COLUMN pinned; ALTER TABLE projects DROP COLUMN position; ALTER TABLE projects DROP COLUMN revision; ALTER TABLE projects DROP COLUMN removed; ALTER TABLE projects DROP COLUMN creation_input; DROP INDEX workspaces_recent_order; ALTER TABLE workspaces DROP COLUMN custom_name; ALTER TABLE workspaces DROP COLUMN last_opened_at; ALTER TABLE workspaces DROP COLUMN revision; ALTER TABLE session_configurations DROP COLUMN title_version; ALTER TABLE session_configurations DROP COLUMN title_source; DROP TABLE session_organization; DELETE FROM __drizzle_migrations WHERE created_at >= 1793674835887',
     )
     await f.app.close()

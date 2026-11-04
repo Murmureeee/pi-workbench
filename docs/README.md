@@ -97,3 +97,13 @@ WS-06 四项已验收：项目创建 / 改名 / 置顶 / 组内顺序跨重启�
 ## SESSION-12 基础搜索验收
 
 Electron 中文标题 / 用户 / 助手正文搜索、全部 / 指定 / 无项目、状态 / 本地日期 / 归档、脱敏分页与消息定位、200ms 防抖 / 迟到隔离 / 键盘和索引更新已实现。完整 **209 项 Vitest / 67 项浏览器及实际 Electron E2E**、SDK 冒烟和 frozen clean 通过；270 个产品 / 测试 / 脚本 / 配置文件与 clean 字节一致。用户恢复控制后，真实微软拼音 Enter / Escape / 数字及 Space 选词、原生筛选 / 旧消息定位 / 失败显式恢复 / 同 PID 后台状态 / 明暗窄窗 / 正常退出及同数据重启均已补证；SESSION-12 三项标 verified，完成数为 **20 / 133**，OPS-08 继续进行中。真实提供商请求 0，配置 / 预算未改，无安装包，网页独立功能暂缓。[实现、逐项验收及下一步提示词](validation/session-12-evidence/acceptance.md)。
+
+## WS-03 工作区与 Git 环境
+
+真实 cwd／仓库／HEAD 的 Electron 观察实现与离线自动验证见 [WS-03 验收记录](validation/ws-03-evidence/acceptance.md)。28 步 Windows 原生操作、同 PID／cwd、明暗窄窗与重启退出已补齐；277 文件与 clean 一致，复用 217／72、SDK 和 clean，WS-03 两项均验收。
+
+INPUT-01 输入与独立草稿已验收，新增2项实际Electron回归和27条Windows原生观察，来源与快捷键刷新限制见[逐项记录](validation/input-01-evidence/acceptance.md)。
+
+## SESSION-07 独立执行空间验收
+
+无项目首发／续发、真实独立目录、不可变来源、能力来源与仅整理归属已验收；失败／冲突／迟到、后台同PID／cwd、产物和历史持久均有自动及原生证据。完整223项Vitest／78项E2E、SDK与frozen clean通过，包含INPUT-01新增测试；29条Windows观察、重启0内核／0重发及两次正常退出补证，282文件与clean一致。当前本地23 / 133，SESSION-13完整迁移及OPS-08跨阶段门继续保留。真实提供商0；[逐项记录与下一步提示词](validation/session-07-evidence/acceptance.md)、[原生汇总](validation/session-07-evidence/native-validation.json)。

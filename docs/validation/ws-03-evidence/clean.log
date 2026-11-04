@@ -1,0 +1,56 @@
+$ pnpm build:packages && node scripts/verify-clean.mjs
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+Clean workspace: pnpm install --frozen-lockfile
+Clean workspace: pnpm check
+Clean workspace: pnpm build
+Clean workspace: pnpm test
+Clean workspace: pnpm smoke:sdk
+{
+  "feature": "OPS-01",
+  "verifiedAt": "2026-11-04T03:01:17.938Z",
+  "node": "v24.22.2",
+  "destination": "D:\\Project\\.piw-clean-AfUt1a",
+  "commands": [
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm smoke:sdk",
+      "exitCode": 0
+    }
+  ],
+  "lockSha256": "d9d46d301907ef4d86e5c53de3eca57433f5978ebf1e6547f8d094f50a60b40a",
+  "cleanLockSha256": "d9d46d301907ef4d86e5c53de3eca57433f5978ebf1e6547f8d094f50a60b40a",
+  "health": {
+    "status": "ok",
+    "kernel": "fake",
+    "protocolVersion": 1,
+    "node": "v24.22.2",
+    "storage": "sqlite",
+    "realProviderEnabled": false
+  },
+  "uiStatus": 200,
+  "uiModuleStatus": 200,
+  "gracefulShutdown": true,
+  "serverOutput": "Pi Workbench http://127.0.0.1:5173; offline fake kernel; no model calls\n",
+  "providerRequests": 0
+}

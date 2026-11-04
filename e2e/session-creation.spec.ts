@@ -360,3 +360,127 @@ test('SESSION-01 actual SDK error keeps the session and offers explicit retry; a
     await f.close()
   }
 })
+
+test('INPUT-01 Electron rejects whitespace and composition Enter, preserves line breaks and submits once', async () => {
+  const f = await fixture(),
+    { page } = f.desktop,
+    pane = page.locator('.retained-session:not([hidden])'),
+    box = pane.getByRole('textbox', { name: '任务内容' })
+  try {
+    const rejectWhitespace = async (text: string) => {
+      await box.fill(text)
+      await expect(pane.getByRole('button', { name: '发送任务' })).toBeDisabled()
+      await box.press('Enter')
+      expect(f.store.managedSessions()).toHaveLength(0)
+    }
+    await rejectWhitespace('')
+    await rejectWhitespace(' \t\n　')
+    await box.fill('输入法候选尚未确认')
+    // These are explicit synthetic Chromium key/composition cases. Real Microsoft Pinyin
+    // candidate selection is recorded separately by native Windows acceptance.
+    await box.dispatchEvent('compositionstart')
+    await box.press('Enter')
+    await expect(box).toHaveValue('输入法候选尚未确认\n')
+    expect(f.store.managedSessions()).toHaveLength(0)
+    await box.dispatchEvent('compositionend')
+    await box.dispatchEvent('keydown', { key: 'Enter', code: 'Enter', isComposing: true })
+    await box.dispatchEvent('keydown', { key: 'Enter', code: 'Enter', keyCode: 229 })
+    expect(f.store.managedSessions()).toHaveLength(0)
+    await box.fill('第一行')
+    await box.press('Shift+Enter')
+    await expect(box).toHaveValue('第一行\n')
+    await page.keyboard.insertText('第二行')
+    await expect(box).toHaveValue('第一行\n第二行')
+    await box.press('Enter')
+    await box.press('Enter')
+    await expect(pane.getByLabel('任务状态').last()).toHaveText('本轮已结束', {
+      timeout: 15000,
+    })
+    expect(f.store.managedSessions()).toHaveLength(1)
+    const id = firstSessionId(f.store)
+    expect(f.store.submissions(id).map((row) => row.text)).toEqual(['第一行\n第二行'])
+    await expect(box).toHaveValue('')
+    await box.press('Enter')
+    expect(f.store.submissions(id)).toHaveLength(1)
+  } finally {
+    await f.close()
+  }
+})
+
+test('INPUT-01 Electron restores project/model/new draft through navigation and reload without sending another session draft', async () => {
+  test.setTimeout(90000)
+  const f = await fixture(true),
+    { page } = f.desktop,
+    pane = page.locator('.retained-session:not([hidden])'),
+    box = pane.getByRole('textbox', { name: '任务内容' }),
+    before = readFileSync(f.modelPath)
+  try {
+    const createSession = async (title: string) => {
+      await box.fill(title)
+      await box.press('Enter')
+      await expect(pane.getByLabel('任务状态').last()).toHaveText('本轮已结束', {
+        timeout: 15000,
+      })
+      await pane.getByRole('button', { name: '新会话', exact: true }).click()
+    }
+    await createSession('INPUT-01 会话甲')
+    await createSession('INPUT-01 会话乙')
+    const [a, b] = ['INPUT-01 会话甲', 'INPUT-01 会话乙'].map((title) =>
+      f.store.managedSessions().find((session) => session.title === title),
+    )
+    if (!a || !b) {
+      throw new Error('Missing INPUT-01 sessions')
+    }
+    await pane.getByRole('button', { name: '新建项目', exact: true }).click()
+    await page.getByLabel('项目名称', { exact: true }).fill('INPUT-01 草稿项目')
+    await page.getByRole('button', { name: '保存项目', exact: true }).click()
+    await expect(pane.getByLabel('项目', { exact: true })).not.toHaveValue('')
+    const projectId = await pane.getByLabel('项目', { exact: true }).inputValue()
+    await pane.getByLabel('模型', { exact: true }).selectOption({
+      label: 'existing / 已有编码模型 · 已配置 · 未联网验证',
+    })
+    const model = await pane.getByLabel('模型', { exact: true }).inputValue(),
+      newText = '新草稿第一行\n新草稿第二行'
+    await box.fill(newText)
+    await pane.getByTitle(a.title, { exact: true }).click()
+    await expect(box).toHaveValue('')
+    await box.fill('甲会话独立草稿')
+    await page.getByRole('button', { name: '后退', exact: true }).click()
+    await expect(box).toHaveValue(newText)
+    await expect(pane.getByLabel('项目', { exact: true })).toHaveValue(projectId)
+    await expect(pane.getByLabel('模型', { exact: true })).toHaveValue(model)
+    await box.press('Enter')
+    await expect(pane.getByRole('button', { name: '发送任务' })).toBeDisabled()
+    expect(f.store.managedSessions()).toHaveLength(2)
+    await page.reload()
+    await expect(box).toHaveValue(newText)
+    await expect(pane.getByLabel('项目', { exact: true })).toHaveValue(projectId)
+    await expect(pane.getByLabel('模型', { exact: true })).toHaveValue(model)
+    await pane.getByTitle(a.title, { exact: true }).click()
+    await expect(box).toHaveValue('甲会话独立草稿')
+    await page.reload()
+    await expect(box).toHaveValue('甲会话独立草稿')
+    await expect(pane.getByLabel('项目', { exact: true })).toHaveValue('')
+    await expect(pane.getByLabel('模型', { exact: true }).locator('option:checked')).toContainText(
+      '离线验收模型',
+    )
+    await pane.getByTitle(b.title, { exact: true }).click()
+    await expect(box).toHaveValue('')
+    await box.fill('只续发乙会话')
+    await box.press('Enter')
+    await expect(pane.getByLabel('任务状态').last()).toHaveText('本轮已结束', {
+      timeout: 15000,
+    })
+    expect(f.store.submissions(a.id)).toHaveLength(1)
+    expect(f.store.submissions(b.id).map((row) => row.text)).toEqual([b.title, '只续发乙会话'])
+    await page.getByRole('button', { name: '后退', exact: true }).click()
+    await expect(box).toHaveValue('甲会话独立草稿')
+    expect(readFileSync(f.modelPath)).toEqual(before)
+    await page.screenshot({
+      path: `${evidence}/input-drafts-project-model.png`,
+      animations: 'disabled',
+    })
+  } finally {
+    await f.close()
+  }
+})

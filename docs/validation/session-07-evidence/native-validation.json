@@ -1,0 +1,82 @@
+{
+  "recordedAt": "2026-11-04T12:06:16.872Z",
+  "feature": "SESSION-07",
+  "status": "passed",
+  "source": "Actual Windows SendInput + production Electron main/preload + daemon/SQLite/SDK + local HTTP fixture",
+  "noCdp": true,
+  "noRouteInterception": true,
+  "noDomInjection": true,
+  "observations": 29,
+  "sessionId": "e16e307b-3e16-4ee7-964b-b8de8d039493",
+  "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\data\\standalone\\e16e307b-3e16-4ee7-964b-b8de8d039493",
+  "background": {
+    "pid": 32288,
+    "epoch": "dcb54e17-5d28-4db7-9a89-7de77f7562d3",
+    "states": [
+      {
+        "snapshot": "background-before",
+        "state": "running",
+        "membershipVersion": 2
+      },
+      {
+        "snapshot": "background-after-detach",
+        "state": "running",
+        "membershipVersion": 3
+      },
+      {
+        "snapshot": "background-project-view",
+        "state": "running",
+        "membershipVersion": 3
+      },
+      {
+        "snapshot": "background-return",
+        "state": "running",
+        "membershipVersion": 3
+      },
+      {
+        "snapshot": "background-stopped",
+        "state": "stopped",
+        "membershipVersion": 3
+      }
+    ]
+  },
+  "failureInjection": "External SQLite trigger rejects membership update; choice retained. Trigger dropped before explicit retry.",
+  "firstRun": {
+    "seedPrompts": 1,
+    "uiPrompts": 2,
+    "statuses": [
+      "completed",
+      "completed",
+      "aborted"
+    ]
+  },
+  "restart": {
+    "seedPrompts": 0,
+    "uiPrompts": 0,
+    "kernels": 0,
+    "historyUnchanged": true,
+    "originUnchanged": true
+  },
+  "artifact": {
+    "path": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\data\\standalone\\e16e307b-3e16-4ee7-964b-b8de8d039493\\外部验收夹具产物.txt",
+    "sha256": "6b8e09399b5aedb6f25f2d45a6225ae00176ead4dfb24c238bd1422cba1fdec3",
+    "projectHasCopy": false,
+    "source": "External acceptance host wrote fixture file; SDK tools disabled. Not a model-generated artifact."
+  },
+  "nativeMenusExited": 2,
+  "ownedProcessesExited": true,
+  "portsReleased": [
+    4317,
+    5173
+  ],
+  "providerRequests": 0,
+  "configModified": false,
+  "canonicalBudgetModified": false,
+  "installerCreated": false,
+  "standaloneWebDeferred": true,
+  "limitations": [
+    "Observations 02 and 04 are transitional; 04 has no PNG and does not prove navigation. Stable states are separate.",
+    "Native IME belongs to INPUT-01 evidence; this run does not claim another IME verification.",
+    "Full environment migration remains SESSION-13, not delivered here."
+  ]
+}

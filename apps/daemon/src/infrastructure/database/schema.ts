@@ -107,6 +107,19 @@ export const sessionConfigurations = sqliteTable('session_configurations', {
     .notNull()
     .default('local'),
   titleVersion: integer('title_version').notNull().default(1),
+  membershipVersion: integer('membership_version').notNull().default(1),
+})
+// Immutable execution/artifact provenance. Project organization never rewrites this row.
+export const sessionOrigins = sqliteTable('session_origins', {
+  sessionId: text('session_id')
+    .primaryKey()
+    .references(() => sessions.id),
+  kind: text('kind', { enum: ['standalone', 'workspace'] }).notNull(),
+  cwd: text('cwd').notNull(),
+  workspaceId: text('workspace_id').notNull(),
+  projectId: text('project_id'),
+  recordedAt: integer('recorded_at').notNull(),
+  provenance: text('provenance', { enum: ['created', 'legacy-observed'] }).notNull(),
 })
 // An outbox of accepted input, not a second committed message store. Text is cleared once
 // the corresponding SDK user message has committed; its stable identity and digest remain.

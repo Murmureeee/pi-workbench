@@ -53,6 +53,9 @@ describe('SESSION-12 actual SQLite / native JSONL read-only search', () => {
       a = await f.seed('旧库搜索标题')
     const bytes = readFileSync(a.sessionFile)
     f.db.exec(
+      'DROP TABLE session_origins; ALTER TABLE session_configurations DROP COLUMN membership_version',
+    )
+    f.db.exec(
       'DROP TABLE session_search_documents; DELETE FROM __drizzle_migrations WHERE created_at >= 1793728000000',
     )
     await f.app.close()

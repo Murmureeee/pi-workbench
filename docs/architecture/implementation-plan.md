@@ -385,7 +385,7 @@ ProjectService 独占项目名称、单默认工作区、pinned / position / rev
 
 项目目录复用 WorkspaceService 校验但不记最近；选择器仅填值、保存独立。目录 IO 后重查项目版本及发送准入时默认 / 归属，避免迟到操作落库。项目默认仅用于未来会话，无目录项目的会话各有独立持久 cwd。SessionService 通过 SessionStore 公开 detach 边界，在同一 SQLite 事务内解散分组并归无项目；写失败整体回滚。已有任务、文件、实际 cwd、模型、JSONL、信任与权限保留，不自动停止、搬移或授权。
 
-React feature 复用既有官方 Dialog / AlertDialog / DropdownMenu / Field / Input / Button，无新 primitive 或依赖。失败 / CAS 冲突保留输入，未知创建核对原 request，移除墓碑避免复活；迟到保存不切换新草稿。组展开 / 本地项目检索仅改变视图；基础会话搜索见 SESSION-12，主动归属迁移仍为 SESSION-13。
+React feature 复用既有官方 Dialog / AlertDialog / DropdownMenu / Field / Input / Button，无新 primitive 或依赖。失败 / CAS 冲突保留输入，未知创建核对原 request，移除墓碑避免复活；迟到保存不切换新草稿。组展开 / 本地项目检索仅改变视图；基础会话搜索见 SESSION-12；SESSION-07 已补齐仅整理归属，实际环境迁移仍为 SESSION-13。
 
 新增 9 项实际服务及 6 项 Electron 流程；完整 201 项 Vitest / 63 项 E2E、SDK 冒烟、frozen clean 退出 0。40 步实际 Windows 微软拼音、未拦截选择器、失败恢复、同 PID / cwd 的运行中移除、同 data/profile 重启及两次正常菜单退出通过。249 个产品 / 测试 / 配置文件与 clean 一致，后续文档进度回填复用该门禁；四项已勾选、本地 19 / 133，OPS-08 继续进行。首段 hold 到时终止与新本地轮次分别记录；真实请求 0、配置 / 预算未改、无安装包，网页独立功能暂缓。[逐项结果、原始证据及限制](../validation/ws-06-evidence/acceptance.md)。
 
@@ -397,3 +397,19 @@ daemon SearchService 使用 0009 的可重建 SQLite 脱敏索引，SessionStore
 
 
 新增 8 项实际服务与 4 项 Electron 自动流程；完整 209 项 Vitest / 67 项 E2E、SDK 冒烟及本次 frozen clean 通过。真实 Windows 微软拼音、原生筛选 / 定位 / 失败恢复 / 改名索引 / 后台同 PID / 明暗窄窗 / 重启和两次正常退出补证；270 文件与 clean 一致，原生后复用门禁。三项 verified、本地 20 / 133，OPS-08 继续进行；真实提供商请求 0，配置 / 预算未改，无安装包，网页独立功能暂缓。
+
+## WS-03 只读环境边界
+
+已配对 desktop 的 GET /api/workspaces/environment 只接受一个 sessionId 或 workspaceId，拒绝任意路径与混合身份。WorkspaceEnvironmentService 通过 SessionStore 的执行绑定点查获取已保存 cwd，通过 WorkspaceService 复用只读物理身份／列目录校验；不创建探针、不改最近列表、配置、信任或会话，不启动 SDK。
+
+先沿最多 64 层祖先核对 .git，明确非 Git 时不启动 Git 子进程，避免 Windows 为普通目录检测占用待移动目录。实际仓库使用固定只读 plumbing（rev-parse／symbolic-ref），无 shell、可选锁、fsmonitor、项目脚本、status／索引刷新、fetch 或 safe.directory 覆盖；去除继承 GIT_* 路由。进程隐藏、单命令 1500ms／64KiB 有界，两次一致快照与前后目录身份核对拒绝混合结果。最多 4 个检查、相同目标合并、不写磁盘缓存。Git 缺失／失败／不完整祖先检查显示未知；不枚举子目录，嵌套或多个仓库按当前 cwd 最近仓库分别展示，多根注册仍属 WS-05。
+
+React 使用目标身份的 Query key 与 AbortSignal，隐藏视图卸载观察但不停止后台任务。对象重入先等待本次检查，同对象刷新保留布局并标明上次观察，失败不保留旧分支；响应复用统一 SEC-06 脱敏。真实 SDK 仅用开发本地夹具，真实提供商保持关闭。自动与原生结果分别记录于 [WS-03 验收](../validation/ws-03-evidence/acceptance.md)，已补齐 28 步 Windows 原生验证及两次正常退出；观察不启动重启后的内核或新增请求，277 文件哈希一致，原生后复用 CI／clean。
+
+## SESSION-07 独立执行空间边界
+
+SessionStore独占0010来源记录和归属CAS；ProjectService公开同步目标版本检查，SessionService不在检查和事务之间await，确保仅整理不载入目标目录或资源。解散项目同事务递增归属版本，防止ABA。客户端按membershipVersion合并列表/提交/整理回执，旧结果不能恢复旧分组。
+
+只读GET /api/chat/sessions/:sessionId/space绑定已保存cwd并前后核对物理身份；POST同路径/project只接受目标ID/revision和expectedVersion，拒绝cwd或权限字段。不启动内核、不修改pi配置或授权。Electron标题菜单复用官方Dialog/DropdownMenuRadioGroup/Field/Button/Badge，来源/能力与归属分开显示，旧来源诚实标记legacy-observed。完整环境迁移仍留待SESSION-13。
+
+上述SESSION-07边界已通过6项服务／4项Electron回归、最终223／78、SDK和frozen clean；29条Windows原生观察及重启退出补证，282文件与clean一致，原生后复用。[逐项证据](../validation/session-07-evidence/acceptance.md)区分外部产物夹具与禁用SDK工具；SESSION-13完整迁移未交付。

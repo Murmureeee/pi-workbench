@@ -1,0 +1,83 @@
+{
+  "feature": "WS-03",
+  "status": "verified",
+  "recordedAt": "2026-11-04T03:01:50.131Z",
+  "commands": [
+    {
+      "command": "pnpm fix",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm run ci",
+      "exitCode": 0,
+      "vitest": 217,
+      "e2e": 72
+    },
+    {
+      "command": "pnpm verify:clean",
+      "exitCode": 0,
+      "destination": "D:\\Project\\.piw-clean-AfUt1a"
+    }
+  ],
+  "cleanComparedFiles": 277,
+  "productCodeUnchangedAfterClean": true,
+  "providerRequests": 0,
+  "piConfigModified": false,
+  "canonicalBudgetModified": false,
+  "lockfileModified": false,
+  "installerCreated": false,
+  "standaloneWebDeferred": true,
+  "nativeControlAllowed": true,
+  "nativeValidation": "passed",
+  "sources": [
+    "real local Git/directories/SQLite/HTTP",
+    "real pi SDK with local HTTP fixture",
+    "real Electron automated main/preload/renderer via CDP; no OS mouse/keyboard control",
+    "actual Windows native SendInput/UI Automation with real Electron main/preload/renderer; no CDP/route interception"
+  ],
+  "limitations": [
+    "Automated Electron tests do not replace native Windows acceptance",
+    "Git is a read-only point-in-time observation, not an execution lock",
+    "Multiple/nested repositories resolve from current cwd; no recursive multi-root discovery"
+  ],
+  "finalDocumentationCommands": [
+    {
+      "command": "pnpm docs:build",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm fix",
+      "exitCode": 0,
+      "evidence": "fix-final.log"
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0,
+      "evidence": "check-final.log"
+    }
+  ],
+  "finalAuditAt": "2026-11-04T03:05:12.4739896Z",
+  "automaticProcessesClosed": true,
+  "nativeSteps": 28,
+  "nativeEvidence": [
+    "native-observations.json",
+    "native-first-closed.json",
+    "native-restart-closed.json",
+    "native-final-closed.json",
+    "native-code-reuse-audit.json"
+  ],
+  "nativeRecordedAt": "2026-11-04T06:06:36.274Z",
+  "nativeCodeFiles": 277,
+  "nativeDocumentationCommands": [
+    {
+      "command": "pnpm fix",
+      "exitCode": 0,
+      "evidence": "fix-native-docs.log"
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0,
+      "evidence": "check-native-docs.log"
+    }
+  ]
+}

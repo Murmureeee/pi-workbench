@@ -1,0 +1,66 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:28932) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:29056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart (30.0s)
+(node:29236) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution (30.0s)
+(node:29940) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 e2e\session-spaces.spec.ts:217:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows (30.0s)
+
+
+  1) e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results\session-spaces-SESSION-07--a4f31-gin-across-real-app-restart\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-spaces-SESSION-07--a4f31-gin-across-real-app-restart\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\session-spaces-SESSION-07--a4f31-gin-across-real-app-restart\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results\session-spaces-SESSION-07--053ca--for-concurrent-attribution\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-spaces-SESSION-07--053ca--for-concurrent-attribution\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\session-spaces-SESSION-07--053ca--for-concurrent-attribution\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) e2e\session-spaces.spec.ts:217:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results\session-spaces-SESSION-07--05782-n-light-dark-narrow-windows\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-spaces-SESSION-07--05782-n-light-dark-narrow-windows\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\session-spaces-SESSION-07--05782-n-light-dark-narrow-windows\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart 
+    e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution 
+    e2e\session-spaces.spec.ts:217:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows 

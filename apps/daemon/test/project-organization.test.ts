@@ -122,6 +122,9 @@ describe('WS-06 actual SQLite/default directory/SDK local fixture boundaries', (
       b = await f.create('旧项目乙')
     const recent = f.workspaces.recent()
     f.db.exec(
+      'DROP TABLE session_origins; ALTER TABLE session_configurations DROP COLUMN membership_version',
+    )
+    f.db.exec(
       'ALTER TABLE projects DROP COLUMN pinned; ALTER TABLE projects DROP COLUMN position; ALTER TABLE projects DROP COLUMN revision; ALTER TABLE projects DROP COLUMN removed; ALTER TABLE projects DROP COLUMN creation_input; DELETE FROM __drizzle_migrations WHERE created_at >= 1793711585232',
     )
     await f.app.close()

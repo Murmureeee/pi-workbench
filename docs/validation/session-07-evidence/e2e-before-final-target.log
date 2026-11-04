@@ -1,0 +1,84 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:22748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:6092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 1 e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart (10.2s)
+{"event":"session-project-failed","detail":{"name":"SqliteError","message":"fixture disk failure"}}
+  ok 2 e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution (6.8s)
+  x  3 e2e\session-spaces.spec.ts:217:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows (18.5s)
+(node:5144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  4 e2e\session-spaces.spec.ts:286:1 › SESSION-07 a late association receipt preserves a newer membership and cannot close a reopened dialog (6.3s)
+
+
+  1) e2e\session-spaces.spec.ts:217:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows 
+
+    Error: locator.click: Target page, context or browser has been closed
+    Call log:
+      - waiting for locator('.retained-session:not([hidden])').getByRole('link', { name: '设置', exact: true })
+
+
+      265 |     })
+      266 |     await dialog.getByRole('button', { name: '返回会话' }).click()
+    > 267 |     await active(page).getByRole('link', { name: '设置', exact: true }).click()
+          |                                                                       ^
+      268 |     await page.getByLabel('外观主题').selectOption('dark')
+      269 |     await page.getByRole('link', { name: '返回工作台', exact: true }).click()
+      270 |     const dark = await inspect(page, b.title)
+        at D:\Project\pi-workbench\e2e\session-spaces.spec.ts:267:71
+
+    Error Context: test-results\session-spaces-SESSION-07--05782-n-light-dark-narrow-windows\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-spaces-SESSION-07--05782-n-light-dark-narrow-windows\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\session-spaces-SESSION-07--05782-n-light-dark-narrow-windows\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\session-spaces.spec.ts:286:1 › SESSION-07 a late association receipt preserves a newer membership and cannot close a reopened dialog 
+
+    Error: expect(received).toBeGreaterThan(expected)
+
+    Expected: > 0
+    Received:   0
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+       at helpers\desktop.ts:100
+
+       98 |       await route.fulfill({ response })
+       99 |     })
+    > 100 |     await expect.poll(() => context.pages().length).toBeGreaterThan(0)
+          |                                                     ^
+      101 |     const page = context.pages()[0]
+      102 |     if (!page) {
+      103 |       throw new Error('Missing Electron page')
+        at launchWorkspaceDesktop (D:\Project\pi-workbench\e2e\helpers\desktop.ts:100:53)
+        at fixture (D:\Project\pi-workbench\e2e\session-spaces.spec.ts:49:17)
+        at D:\Project\pi-workbench\e2e\session-spaces.spec.ts:287:13
+
+    Error Context: test-results\session-spaces-SESSION-07--3eb01-not-close-a-reopened-dialog\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\session-spaces-SESSION-07--3eb01-not-close-a-reopened-dialog\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\session-spaces-SESSION-07--3eb01-not-close-a-reopened-dialog\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    e2e\session-spaces.spec.ts:217:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows 
+    e2e\session-spaces.spec.ts:286:1 › SESSION-07 a late association receipt preserves a newer membership and cannot close a reopened dialog 
+  2 passed (2.5h)

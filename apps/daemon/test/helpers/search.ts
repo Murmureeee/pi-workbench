@@ -40,6 +40,7 @@ export async function seedSearchSession(
     title,
     titleSource: 'local' as const,
     titleVersion: 1,
+    membershipVersion: 1,
   }
   store.acceptSubmission(
     { requestId, sessionId: null, retryOf: null, text: texts[0] ?? '合成输入', configuration },

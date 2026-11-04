@@ -1,0 +1,150 @@
+{
+  "source": "Actual Windows native Electron, daemon, SQLite and pi SDK/local HTTP fixture; no CDP/route interception",
+  "directory": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-input-01-native-xzpsYf",
+  "seeds": {
+    "project": {
+      "id": "39a35f83-9b8a-41ef-8488-da78153d75bb",
+      "name": "INPUT-01 草稿项目",
+      "workspaceId": "28762f52-dfe3-4714-9372-7603286e18a4",
+      "directory": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-input-01-native-xzpsYf\\项目目录",
+      "pinned": false,
+      "position": 0,
+      "revision": 1
+    },
+    "a": "debbcd98-5c88-4ebc-8983-fe3b3ea0d982",
+    "b": "311a6528-04c9-4ca0-8e61-e103dbb3131a"
+  },
+  "sessions": [
+    {
+      "id": "debbcd98-5c88-4ebc-8983-fe3b3ea0d982",
+      "title": "INPUT-01 原生会话甲",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "6e326c8d-67bb-4aef-abf7-b0337f976dab",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "cf2c259e-a64e-4174-a245-a42b72b1db7c",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-input-01-native-xzpsYf\\data\\standalone\\debbcd98-5c88-4ebc-8983-fe3b3ea0d982",
+      "createdAt": 1793778554158
+    },
+    {
+      "id": "311a6528-04c9-4ca0-8e61-e103dbb3131a",
+      "title": "INPUT-01 原生会话乙",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "ff0ed8bc-54f3-460e-b956-810b0c63241d",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a3670416-74ff-46f0-be7c-935028ea98d9",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-input-01-native-xzpsYf\\data\\standalone\\311a6528-04c9-4ca0-8e61-e103dbb3131a",
+      "createdAt": 1793778555432
+    },
+    {
+      "id": "c5e7b4ac-d583-41b1-bcf4-91d9607d0c3e",
+      "title": "ni你呢 第二行",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "creationRequestId": "57e9d25b-8eeb-4a6b-af07-700471664550",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "ac8c0675-9944-415c-8722-13fd19cf9a6f",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-input-01-native-xzpsYf\\data\\standalone\\c5e7b4ac-d583-41b1-bcf4-91d9607d0c3e",
+      "createdAt": 1793779024035
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "debbcd98-5c88-4ebc-8983-fe3b3ea0d982",
+      "requestId": "6e326c8d-67bb-4aef-abf7-b0337f976dab",
+      "text": "INPUT-01 原生会话甲",
+      "status": "completed"
+    },
+    {
+      "sessionId": "311a6528-04c9-4ca0-8e61-e103dbb3131a",
+      "requestId": "ff0ed8bc-54f3-460e-b956-810b0c63241d",
+      "text": "INPUT-01 原生会话乙",
+      "status": "completed"
+    },
+    {
+      "sessionId": "c5e7b4ac-d583-41b1-bcf4-91d9607d0c3e",
+      "requestId": "57e9d25b-8eeb-4a6b-af07-700471664550",
+      "text": "ni你呢\n第二行",
+      "status": "completed"
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 1,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "c5e7b4ac-d583-41b1-bcf4-91d9607d0c3e",
+        "epoch": "2155a76f-b571-444d-b0b6-20cec6b0ae77",
+        "state": "ready",
+        "pid": 31200,
+        "pins": 0,
+        "lastUsedAt": 1793779025234,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "seedPrompts": 2,
+  "uiPrompts": 1,
+  "providerRequests": 0,
+  "historyBefore": {
+    "311a6528-04c9-4ca0-8e61-e103dbb3131a\\f85589dd-6396-4e4a-a763-0e39a5d6b886\\sessions\\2026-11-04T07-49-16-491Z_01a1a588-9e4b-71c0-8bd5-4db8342129da.jsonl": "3ba3b09a2dac5c9f4f7b921ac32db646304f226fcf0a1b5fc9208516939b8395",
+    "debbcd98-5c88-4ebc-8983-fe3b3ea0d982\\adc3d592-13e6-4860-ac10-aaa0df3a3687\\sessions\\2026-11-04T07-49-15-112Z_01a1a588-98e7-71da-9eec-9d953bb573e3.jsonl": "0d61db4b18e9fa9830cfdc1becc05b239f16730b15a544e231e0d4a378e923b1"
+  },
+  "historyAfter": {
+    "311a6528-04c9-4ca0-8e61-e103dbb3131a\\f85589dd-6396-4e4a-a763-0e39a5d6b886\\sessions\\2026-11-04T07-49-16-491Z_01a1a588-9e4b-71c0-8bd5-4db8342129da.jsonl": "3ba3b09a2dac5c9f4f7b921ac32db646304f226fcf0a1b5fc9208516939b8395",
+    "c5e7b4ac-d583-41b1-bcf4-91d9607d0c3e\\2155a76f-b571-444d-b0b6-20cec6b0ae77\\sessions\\2026-11-04T07-57-05-054Z_01a1a58f-c49d-759a-b361-aa60e1682e5c.jsonl": "90343a88dafedb96f9debe5546703e828e044278a21069bf1640e146eb5a6f70",
+    "debbcd98-5c88-4ebc-8983-fe3b3ea0d982\\adc3d592-13e6-4860-ac10-aaa0df3a3687\\sessions\\2026-11-04T07-49-15-112Z_01a1a588-98e7-71da-9eec-9d953bb573e3.jsonl": "0d61db4b18e9fa9830cfdc1becc05b239f16730b15a544e231e0d4a378e923b1"
+  },
+  "configBefore": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "dc7c79a28d41a91cd52834a3aaae5daca483b881fa30c856296eab8298448131"
+  },
+  "configAfter": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "dc7c79a28d41a91cd52834a3aaae5daca483b881fa30c856296eab8298448131"
+  },
+  "budgetBefore": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "budgetAfter": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+}

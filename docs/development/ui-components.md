@@ -80,3 +80,7 @@ SESSION-11 重命名使用官方 shadcn Base UI / base-nova `Dialog`，通过 CL
 project-groups / project-editor 位于 workspaces feature，复用既有官方 shadcn Base UI / base-nova 的 DropdownMenu、Dialog、AlertDialog、Field / FieldGroup、Input、Alert、Button 与 Lucide，没有新增 primitive、运行依赖或锁变更。已核对组件注册表和本地源码；项目展开主按钮、新会话按钮与菜单为兄弟节点，焦点 / 对话框和菜单由 Base UI 管理，不自制弹层。项目业务版本、幂等、错误恢复与 IME 放 feature，SQLite / 目录权威保持 daemon。
 
 组 / 项目名搜索 / 同名路径与短 ID、置顶 / 手动顺序、目录仅未来生效及明确解散保留后台任务是业务组合，不采用示例 AI transport。整个 FieldGroup 捕获 composition，名称和路径均保护 Enter / Escape；未知保存 / CAS 保留输入并要求明确恢复。实际 Electron 1920×1080 / 800px 明暗与键盘检查、真实微软拼音、未拦截选择器、原生约 800px 导航和编辑均有独立证据，[验收说明](../validation/ws-06-evidence/acceptance.md)。
+
+WS-03 环境区复用既有官方 Base UI／base-nova Badge、Button、Alert 及 Lucide；已查询官方 CLI 与 Base UI 文档，没有新 primitive、依赖或传输。目录／Git 元数据由 daemon 观察；加载、未知、刷新、迟到隔离和只读提示均为 feature 组合。Electron 自动截图与原生用户验收分开归档。
+
+SESSION-07继续复用既有官方Dialog、DropdownMenuRadioGroup/RadioItem、Field/FieldGroup、Button、Alert和Badge，无新primitive或依赖。业务来源/能力/归属CAS组合放conversation/session-space-dialog.tsx，样式使用语义tokens；菜单选择后显式收起，窄窗保留页脚动作。

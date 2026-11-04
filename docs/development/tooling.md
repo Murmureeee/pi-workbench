@@ -163,3 +163,17 @@ pnpm fix / 完整 pnpm run ci / pnpm verify:clean 均退出 0：**24 文件 / 20
 完整 pnpm run ci 退出 0：**25 文件 / 209 项 Vitest、67 项浏览器 / Electron E2E**及 SDK 冒烟通过；pnpm verify:clean 的 frozen 安装 / check / build / test / SDK / HTTP 健康 / 正常服务退出通过。初轮工具类型检查、旧迁移数 9→10 的失败日志及最终通过日志分别保留。历史定位修前加载正确页但滚到最新，实际消息 viewport 断言失败；修后通过。270 个产品 / 测试 / 脚本 / 根配置文件与 clean 一致；文档和进度回填后独立运行 docs:build / fix / check，复用本次 CI / clean。
 
 用户恢复控制后完成 41 条原生观察（首条遮挡截图弃用）：真实微软拼音 Enter / Escape / 数字及 Space 选词、中文标题 / 双角色正文 / 原消息定位、项目 / 状态 / 日期 / 归档 / 分页、脱敏 / 失败停止轮询及明确重试、改名索引刷新、草稿 / 设置返回、明暗 / 800px 与最大化、真实 SDK 本地后台同 PID / 代际与产品显式停止、同 data/profile 重启及两次正常菜单退出。恢复前两次激活失败和强制夹具清理仍作为历史尝试保留，不计正常退出；合成 composition 与 OS IME 分开。原生后产品代码未改，复用通过的 CI / clean，文档生成后另跑完整 check。三项 verified、本地 20 / 133；OPS-08 仍待生产业务审批 / 双端审批、M3 回滚及平台门禁，继续 in_progress。真实提供商请求 0、配置 / canonical 预算未改，无安装包，网页独立功能暂缓；[逐项来源与证据](../validation/session-12-evidence/acceptance.md)。
+
+## WS-03 Git 环境自动门禁与原生验收
+
+新增 **8 项**实际 Git／目录身份／SQLite／desktop HTTP／SDK 本地夹具服务测试，以及 **5 项**真实 Electron 自动流程，纳入 test:contracts／完整 CI。覆盖分支／detached／尚无提交、非 Git／损坏 Git／Git 缺失、子模块／linked worktree／嵌套兄弟仓库、继承 GIT_* 隔离、fsmonitor 不执行、index／HEAD／reflog／最近排序保留、已保存 cwd 与后台同 PID、迟到／失败恢复、长分支、键盘、明暗与390px窄窗。
+
+完整 CI：**26 文件／217 项 Vitest、72 项浏览器及 Electron E2E**，SDK 冒烟通过；frozen clean 的安装／check／build／test／SDK／HTTP 健康／正常退出通过，277 文件与 clean 一致。真实提供商请求0，配置／canonical预算／锁文件未改，无安装包，网页独立功能暂缓。用户明确授权后补齐28步Windows原生操作，覆盖cwd／外部HEAD更新／非Git续发／子模块和多仓库、同PID／epoch后台与cwd保留、明确停止、明暗800px窄窗、同data/profile重启及两次正常退出。重启无内核／新请求、历史不变；277文件与clean一致，复用既有门禁，WS-03两项勾选并verified，OPS-08继续in_progress。[逐项记录及继续提示词](../validation/ws-03-evidence/acceptance.md)。
+
+INPUT-01 新增两项真实 Electron E2E，实际page.reload验证配置恢复；27条原生观察与正常退出已补证。产品未改，只新增测试，复用WS-03未变运行时门禁，本次SESSION-07完整223／78、SDK及frozen clean已覆盖；[逐项证据](../validation/input-01-evidence/acceptance.md)。
+
+## SESSION-07 独立空间与来源门禁
+
+新增6项真实目录／SQLite／HTTP／SDK本地夹具服务和4项实际Electron回归，纳入test:contracts和完整CI。覆盖无项目首发／续发／实际重启、仅精确cwd和指纹信任文本、不继承旧项目、归属CAS／ABA／项目解散、旧库legacy-observed、文件／JSONL／原始输入保持、真实后台同PID、失败／迟到／重新开框与明暗窄窗。项目列表读失败禁保存并保留选择，未知归属不伪装无项目。
+
+最终fix／完整CI／frozen clean全部退出0：27文件／223项Vitest、78项浏览器及Electron E2E、SDK冒烟，已包含INPUT-01两项新增回归。29条Windows原生观察、失败后明确重试、同PID／epoch／cwd后台、明暗800px、同data/profile重启0内核／0重发与两次正常菜单退出通过。282文件与clean一致，原生后复用；文档生成后另跑完整check。三项verified、本地23 / 133，SESSION-13仅整理子集、OPS-08第二项继续未勾选；[逐项来源、失败日志与限制](../validation/session-07-evidence/acceptance.md)。真实提供商0，配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。

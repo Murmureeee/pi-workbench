@@ -157,3 +157,15 @@ export type {
   SessionSearchResult,
   SessionSearchPage,
 } from './session-search.js'
+export {
+  workspaceEnvironmentTargetSchema,
+  workspaceEnvironmentSchema,
+  gitEnvironmentSchema,
+} from './workspace-environment.js'
+export type {
+  WorkspaceEnvironmentTarget,
+  WorkspaceEnvironment,
+  GitEnvironment,
+} from './workspace-environment.js'
+export { sessionProjectSchema, sessionOriginSchema, sessionSpaceSchema } from './session-space.js'
+export type { SessionProject, SessionSpace } from './session-space.js'

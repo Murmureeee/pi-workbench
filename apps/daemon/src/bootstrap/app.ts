@@ -33,6 +33,7 @@ import { SessionService } from '../modules/sessions/session.service.js'
 import { SessionStore } from '../modules/sessions/session.store.js'
 import { registerSessionTransport } from '../modules/sessions/session.transport.js'
 import { ProjectService } from '../modules/workspaces/project.service.js'
+import { WorkspaceEnvironmentService } from '../modules/workspaces/workspace-environment.service.js'
 import { WorkspaceService } from '../modules/workspaces/workspace.service.js'
 import { registerWorkspaceTransport } from '../modules/workspaces/workspace.transport.js'
 // @env node
@@ -66,6 +67,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const access = new AccessService(options.port, security.redactor)
   const trust = new TrustService(database, options.piAgentDir)
   const workspaces = new WorkspaceService(database)
+  const environment = new WorkspaceEnvironmentService(workspaces, store)
   const models = new ModelService(security)
   const legacy = new LegacyHistoryService(options.piAgentDir)
   const projects = new ProjectService(database, workspaces)
@@ -80,6 +82,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     models,
     security,
     events,
+    trust,
   )
   const search = new SearchService(database, store, sessionService, projects, security)
   @Module({
@@ -100,6 +103,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: AccessService, useValue: access },
       { provide: TrustService, useValue: trust },
       { provide: WorkspaceService, useValue: workspaces },
+      { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: ModelService, useValue: models },
       { provide: ProjectService, useValue: projects },
       { provide: SessionService, useValue: sessionService },
@@ -139,7 +143,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   })
   registerAccessTransport(adapter.getInstance(), access, options.port, Boolean(options.development))
   registerTrustTransport(adapter.getInstance(), trust, access)
-  registerWorkspaceTransport(adapter.getInstance(), workspaces, access)
+  registerWorkspaceTransport(adapter.getInstance(), workspaces, access, environment)
   adapter.getInstance().addHook('preHandler', async (request, reply) => {
     if (
       request.url.startsWith('/api/legacy-history') &&

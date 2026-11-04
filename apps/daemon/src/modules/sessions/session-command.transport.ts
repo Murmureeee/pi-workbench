@@ -14,6 +14,7 @@ import {
   projectCreateSchema,
   runtimeCapabilities,
   sessionOrganizeSchema,
+  sessionProjectSchema,
   sessionRenameSchema,
   sessionSubmitSchema,
   workspaceOpenSchema,
@@ -57,6 +58,33 @@ export function registerSessionCommands(
   })
   server.get('/api/chat/options', () => service.options())
   server.get('/api/chat/sessions', () => ({ sessions: store.managedSessions() }))
+  server.get<{ Params: { sessionId: string } }>(
+    '/api/chat/sessions/:sessionId/space',
+    async (request, reply) => {
+      if (!z.uuid().safeParse(request.params.sessionId).success) {
+        return reply.code(400).send({ message: '会话身份无效。' })
+      }
+      try {
+        return await service.space(request.params.sessionId)
+      } catch (error) {
+        return failure(reply, error)
+      }
+    },
+  )
+  server.post<{ Params: { sessionId: string } }>(
+    '/api/chat/sessions/:sessionId/project',
+    (request, reply) => {
+      const parsed = sessionProjectSchema.safeParse(request.body)
+      if (!z.uuid().safeParse(request.params.sessionId).success || !parsed.success) {
+        return reply.code(400).send({ message: '会话归属或版本无效。' })
+      }
+      try {
+        return service.setProject(request.params.sessionId, parsed.data)
+      } catch (error) {
+        return failure(reply, error)
+      }
+    },
+  )
   server.post<{ Params: { sessionId: string } }>(
     '/api/chat/sessions/:sessionId/title',
     (request, reply) => {

@@ -1,0 +1,173 @@
+{
+  "source": "Actual Windows native Electron/daemon/SQLite/SDK + local HTTP fixture; no CDP/route interception",
+  "directory": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv",
+  "data": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\data",
+  "projectDirectory": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\旧项目目录",
+  "seeds": {
+    "project": {
+      "id": "8c67071f-0e54-48b9-a9ea-0f6ed13b8b94",
+      "name": "SESSION-07 整理目标",
+      "workspaceId": "ed96bf42-9ca0-41e3-a9b0-899539812a8c",
+      "directory": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\旧项目目录",
+      "pinned": false,
+      "position": 0,
+      "revision": 1
+    },
+    "projectSession": "3347330f-bdf8-44e8-a1a1-8575b8da5083"
+  },
+  "restored": false,
+  "sessions": [
+    {
+      "id": "3347330f-bdf8-44e8-a1a1-8575b8da5083",
+      "title": "SESSION-07 之前项目会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "03a2581f-8496-484a-be51-349aa3220758",
+      "configuration": {
+        "projectId": "8c67071f-0e54-48b9-a9ea-0f6ed13b8b94",
+        "workspaceId": "ed96bf42-9ca0-41e3-a9b0-899539812a8c",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "ed96bf42-9ca0-41e3-a9b0-899539812a8c",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\旧项目目录",
+      "createdAt": 1793791742356
+    },
+    {
+      "id": "e16e307b-3e16-4ee7-964b-b8de8d039493",
+      "title": "SESSION-07 原生独立会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 3,
+      "creationRequestId": "b6282821-0f9c-4756-bf41-96a88ebadcf4",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "0272cba7-ccbb-4166-9313-1fee5e076d23",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\data\\standalone\\e16e307b-3e16-4ee7-964b-b8de8d039493",
+      "createdAt": 1793792030876
+    }
+  ],
+  "origins": [
+    {
+      "sessionId": "3347330f-bdf8-44e8-a1a1-8575b8da5083",
+      "kind": "workspace",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\旧项目目录",
+      "workspaceId": "ed96bf42-9ca0-41e3-a9b0-899539812a8c",
+      "projectId": "8c67071f-0e54-48b9-a9ea-0f6ed13b8b94",
+      "recordedAt": 1793791742356,
+      "provenance": "created"
+    },
+    {
+      "sessionId": "e16e307b-3e16-4ee7-964b-b8de8d039493",
+      "kind": "standalone",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\data\\standalone\\e16e307b-3e16-4ee7-964b-b8de8d039493",
+      "workspaceId": "0272cba7-ccbb-4166-9313-1fee5e076d23",
+      "projectId": null,
+      "recordedAt": 1793792030876,
+      "provenance": "created"
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "3347330f-bdf8-44e8-a1a1-8575b8da5083",
+      "requestId": "03a2581f-8496-484a-be51-349aa3220758",
+      "text": "SESSION-07 之前项目会话",
+      "status": "completed"
+    },
+    {
+      "sessionId": "e16e307b-3e16-4ee7-964b-b8de8d039493",
+      "requestId": "b6282821-0f9c-4756-bf41-96a88ebadcf4",
+      "text": "SESSION-07 原生独立会话",
+      "status": "completed"
+    },
+    {
+      "sessionId": "e16e307b-3e16-4ee7-964b-b8de8d039493",
+      "requestId": "3cdefb9d-bc71-4983-8c67-7749622aef8e",
+      "text": "SESSION-07 原生后台任务",
+      "status": "executing"
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 1,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 1,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "e16e307b-3e16-4ee7-964b-b8de8d039493",
+        "epoch": "dcb54e17-5d28-4db7-9a89-7de77f7562d3",
+        "state": "running",
+        "pid": 32288,
+        "pins": 1,
+        "lastUsedAt": 1793792308170,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": [
+      {
+        "id": "b3b83aac-6e2b-41ac-96ed-63456903db8b",
+        "sessionId": "e16e307b-3e16-4ee7-964b-b8de8d039493",
+        "kind": "model",
+        "stage": "running",
+        "position": 0,
+        "reason": "running",
+        "cancellable": true
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "path": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-session-07-native-zISqHv\\data\\standalone\\e16e307b-3e16-4ee7-964b-b8de8d039493\\外部验收夹具产物.txt",
+      "sha256": "6b8e09399b5aedb6f25f2d45a6225ae00176ead4dfb24c238bd1422cba1fdec3",
+      "projectHasCopy": false
+    }
+  ],
+  "trustRecords": 0,
+  "failureEnabled": false,
+  "seedPrompts": 1,
+  "uiPrompts": 2,
+  "providerRequests": 0,
+  "historyBefore": {
+    "3347330f-bdf8-44e8-a1a1-8575b8da5083\\b9305550-aeb5-455f-948e-d5f25f83e162\\sessions\\2026-11-04T11-29-03-351Z_01a1a651-d576-7258-aa74-71f28cec7713.jsonl": "27098e0cec81aef02cd6c5ceff9ccf9b059c8a9c101d1b8ab30fb44205af638d"
+  },
+  "historyAfter": {
+    "3347330f-bdf8-44e8-a1a1-8575b8da5083\\b9305550-aeb5-455f-948e-d5f25f83e162\\sessions\\2026-11-04T11-29-03-351Z_01a1a651-d576-7258-aa74-71f28cec7713.jsonl": "27098e0cec81aef02cd6c5ceff9ccf9b059c8a9c101d1b8ab30fb44205af638d",
+    "e16e307b-3e16-4ee7-964b-b8de8d039493\\dcb54e17-5d28-4db7-9a89-7de77f7562d3\\sessions\\2026-11-04T11-33-51-868Z_01a1a656-3c7c-73c3-9991-ffcf4e146b09.jsonl": "d0d305a10068f216f03a6cd7592bca30032eade5dd377a36008ab27cda47fc2f"
+  },
+  "configBefore": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "AGENTS.md": "0c2246862f56a940a1a9d5dbfd51bb2fc33691b35ef0753a1d17d7266ed4cc05"
+  },
+  "configAfter": {
+    "auth.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "models.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "settings.json": "ca3d163bab055381827226140568f3bef7eaac187cebd76878e0b63e9e442356",
+    "AGENTS.md": "0c2246862f56a940a1a9d5dbfd51bb2fc33691b35ef0753a1d17d7266ed4cc05"
+  },
+  "budgetBefore": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+  "budgetAfter": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+}

@@ -1,0 +1,409 @@
+{
+  "source": "Actual Windows SendInput/UI Automation and Electron window captures; no CDP or route interception",
+  "steps": [
+    {
+      "file": "native/01-initial.json",
+      "step": 1,
+      "label": "initial",
+      "time": "2026-11-04T05:26:25.779Z",
+      "screenshots": [
+        {
+          "file": "01-initial-0.png",
+          "id": "screenshot-0",
+          "width": 1442,
+          "height": 961
+        }
+      ]
+    },
+    {
+      "file": "native/02-maximized.json",
+      "step": 2,
+      "label": "maximized",
+      "time": "2026-11-04T05:26:37.986Z",
+      "screenshots": [
+        {
+          "file": "02-maximized-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/03-alpha-branch-cwd.json",
+      "step": 3,
+      "label": "alpha-branch-cwd",
+      "time": "2026-11-04T05:27:05.965Z",
+      "screenshots": [
+        {
+          "file": "03-alpha-branch-cwd-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/04-external-branch-updated.json",
+      "step": 4,
+      "label": "external-branch-updated",
+      "time": "2026-11-04T05:27:39.829Z",
+      "screenshots": [
+        {
+          "file": "04-external-branch-updated-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/05-detached.json",
+      "step": 5,
+      "label": "detached",
+      "time": "2026-11-04T05:28:10.259Z",
+      "screenshots": [
+        {
+          "file": "05-detached-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/06-alpha-running.json",
+      "step": 6,
+      "label": "alpha-running",
+      "time": "2026-11-04T05:30:13.743Z",
+      "screenshots": [
+        {
+          "file": "06-alpha-running-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/07-non-git-background.json",
+      "step": 7,
+      "label": "non-git-background",
+      "time": "2026-11-04T05:30:53.932Z",
+      "screenshots": [
+        {
+          "file": "07-non-git-background-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/08-non-git-followup-completed.json",
+      "step": 8,
+      "label": "non-git-followup-completed",
+      "time": "2026-11-04T05:32:26.207Z",
+      "screenshots": [
+        {
+          "file": "08-non-git-followup-completed-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/09-workspace-overview-running.json",
+      "step": 9,
+      "label": "workspace-overview-running",
+      "time": "2026-11-04T05:33:18.310Z",
+      "screenshots": [
+        {
+          "file": "09-workspace-overview-running-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/10-submodule.json",
+      "step": 10,
+      "label": "submodule",
+      "time": "2026-11-04T05:33:44.622Z",
+      "screenshots": [
+        {
+          "file": "10-submodule-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/11-linked-worktree.json",
+      "step": 11,
+      "label": "linked-worktree",
+      "time": "2026-11-04T05:34:08.060Z",
+      "screenshots": [
+        {
+          "file": "11-linked-worktree-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/12-beta-repository.json",
+      "step": 12,
+      "label": "beta-repository",
+      "time": "2026-11-04T05:34:58.481Z",
+      "screenshots": [
+        {
+          "file": "12-beta-repository-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/13-non-git-continued-after-switch.json",
+      "step": 13,
+      "label": "non-git-continued-after-switch",
+      "time": "2026-11-04T05:35:51.230Z",
+      "screenshots": [
+        {
+          "file": "13-non-git-continued-after-switch-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/14-alpha-saved-cwd-return.json",
+      "step": 14,
+      "label": "alpha-saved-cwd-return",
+      "time": "2026-11-04T05:35:51.895Z",
+      "screenshots": [
+        {
+          "file": "14-alpha-saved-cwd-return-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/15-background-retry.json",
+      "step": 15,
+      "label": "background-retry",
+      "time": "2026-11-04T05:36:10.774Z",
+      "screenshots": [
+        {
+          "file": "15-background-retry-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/16-workspace-during-background.json",
+      "step": 16,
+      "label": "workspace-during-background",
+      "time": "2026-11-04T05:36:48.328Z",
+      "screenshots": [
+        {
+          "file": "16-workspace-during-background-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/17-beta-during-retry.json",
+      "step": 17,
+      "label": "beta-during-retry",
+      "time": "2026-11-04T05:37:39.062Z",
+      "screenshots": [
+        {
+          "file": "17-beta-during-retry-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/18-background-return-cwd.json",
+      "step": 18,
+      "label": "background-return-cwd",
+      "time": "2026-11-04T05:38:46.306Z",
+      "screenshots": [
+        {
+          "file": "18-background-return-cwd-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/19-explicit-stop.json",
+      "step": 19,
+      "label": "explicit-stop",
+      "time": "2026-11-04T05:39:17.697Z",
+      "screenshots": [
+        {
+          "file": "19-explicit-stop-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/20-dark-full.json",
+      "step": 20,
+      "label": "dark-full",
+      "time": "2026-11-04T05:40:28.563Z",
+      "screenshots": [
+        {
+          "file": "20-dark-full-0.png",
+          "id": "screenshot-0",
+          "width": 1920,
+          "height": 1032
+        }
+      ]
+    },
+    {
+      "file": "native/21-dark-narrow.json",
+      "step": 21,
+      "label": "dark-narrow",
+      "time": "2026-11-04T05:41:02.218Z",
+      "screenshots": [
+        {
+          "file": "21-dark-narrow-0.png",
+          "id": "screenshot-0",
+          "width": 1442,
+          "height": 961
+        }
+      ]
+    },
+    {
+      "file": "native/22-dark-native-800.json",
+      "step": 22,
+      "label": "dark-native-800",
+      "time": "2026-11-04T05:48:22.886Z",
+      "screenshots": [
+        {
+          "file": "22-dark-native-800-0.png",
+          "id": "screenshot-0",
+          "width": 802,
+          "height": 961
+        }
+      ]
+    },
+    {
+      "file": "native/23-narrow-refresh.json",
+      "step": 23,
+      "label": "narrow-refresh",
+      "time": "2026-11-04T05:48:45.667Z",
+      "screenshots": [
+        {
+          "file": "23-narrow-refresh-0.png",
+          "id": "screenshot-0",
+          "width": 802,
+          "height": 961
+        }
+      ]
+    },
+    {
+      "file": "native/24-light-native-800.json",
+      "step": 24,
+      "label": "light-native-800",
+      "time": "2026-11-04T05:51:02.462Z",
+      "screenshots": [
+        {
+          "file": "24-light-native-800-0.png",
+          "id": "screenshot-0",
+          "width": 802,
+          "height": 961
+        }
+      ]
+    },
+    {
+      "file": "native/25-first-exit-menu.json",
+      "step": 25,
+      "label": "first-exit-menu",
+      "time": "2026-11-04T05:51:38.226Z",
+      "screenshots": [
+        {
+          "file": "25-first-exit-menu-0.png",
+          "id": "screenshot-0",
+          "width": 802,
+          "height": 961
+        },
+        {
+          "file": "25-first-exit-menu-1.png",
+          "id": "screenshot-1",
+          "width": 318,
+          "height": 274
+        }
+      ]
+    },
+    {
+      "file": "native/26-restart-first-frame.json",
+      "step": 26,
+      "label": "restart-first-frame",
+      "time": "2026-11-04T05:53:29.331Z",
+      "screenshots": [
+        {
+          "file": "26-restart-first-frame-0.png",
+          "id": "screenshot-0",
+          "width": 1442,
+          "height": 961
+        }
+      ]
+    },
+    {
+      "file": "native/27-restart-alpha.json",
+      "step": 27,
+      "label": "restart-alpha",
+      "time": "2026-11-04T05:54:23.836Z",
+      "screenshots": [
+        {
+          "file": "27-restart-alpha-0.png",
+          "id": "screenshot-0",
+          "width": 1442,
+          "height": 961
+        }
+      ]
+    },
+    {
+      "file": "native/28-restart-exit-menu.json",
+      "step": 28,
+      "label": "restart-exit-menu",
+      "time": "2026-11-04T05:55:02.189Z",
+      "screenshots": [
+        {
+          "file": "28-restart-exit-menu-0.png",
+          "id": "screenshot-0",
+          "width": 1442,
+          "height": 961
+        },
+        {
+          "file": "28-restart-exit-menu-1.png",
+          "id": "screenshot-1",
+          "width": 318,
+          "height": 274
+        }
+      ]
+    }
+  ]
+}

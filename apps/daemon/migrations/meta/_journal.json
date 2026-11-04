@@ -71,6 +71,13 @@
       "when": 1793728000000,
       "tag": "0009_session_search",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "6",
+      "when": 1793780000000,
+      "tag": "0010_session_spaces",
+      "breakpoints": true
     }
   ]
 }

@@ -1,0 +1,73 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/session-spaces.test.ts (6 tests | 4 failed) 10732ms
+   ❯ SESSION-07 real standalone directories, SQLite, SDK/local fixture and source boundaries (6)
+     × does not inherit a previous project or its global consent; only explicitly confirmed current-cwd text reaches the SDK 3157ms
+     × preserves real artifacts, source, history, accepted input and the same background PID when associating and removing a project 2452ms
+     × restores standalone files, history and organization after actual daemon restart without opening a kernel or replaying a prompt 1305ms
+     × uses desktop-only, Host/Origin/CSRF/protocol and strict IDs; returns source metadata through redaction and rejects changed directory identity 1253ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/session-spaces.test.ts > SESSION-07 real standalone directories, SQLite, SDK/local fixture and source boundaries > does not inherit a previous project or its global consent; only explicitly confirmed current-cwd text reaches the SDK
+HttpException: 已有会话继续使用已保存配置；不能在发送时静默切换环境。
+ ❯ SessionService.accept apps/daemon/src/modules/sessions/session.service.ts:264:13
+ ❯ SessionService.submit apps/daemon/src/modules/sessions/session.service.ts:227:26
+ ❯ ask apps/daemon/test/session-spaces.test.ts:179:36
+    177|         prompt(id, cwd, { ...input, fixture: 'trust-context' }, option…
+    178|       )
+    179|       const next = await f.service.submit({ ...command(), sessionId: a…
+       |                                    ^
+    180|       await f.settled(next.submission.requestId)
+    181|       let text = ''
+ ❯ apps/daemon/test/session-spaces.test.ts:189:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  apps/daemon/test/session-spaces.test.ts > SESSION-07 real standalone directories, SQLite, SDK/local fixture and source boundaries > preserves real artifacts, source, history, accepted input and the same background PID when associating and removing a project
+HttpException: 已有会话继续使用已保存配置；不能在发送时静默切换环境。
+ ❯ SessionService.accept apps/daemon/src/modules/sessions/session.service.ts:264:13
+ ❯ SessionService.submit apps/daemon/src/modules/sessions/session.service.ts:227:26
+ ❯ apps/daemon/test/session-spaces.test.ts:222:34
+    220|     )
+    221|     const input = { ...command(), sessionId: a.session.id, text: 'expl…
+    222|     const held = await f.service.submit(input)
+       |                                  ^
+    223|     await vi.waitFor(
+    224|       () =>
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  apps/daemon/test/session-spaces.test.ts > SESSION-07 real standalone directories, SQLite, SDK/local fixture and source boundaries > restores standalone files, history and organization after actual daemon restart without opening a kernel or replaying a prompt
+HttpException: 已有会话继续使用已保存配置；不能在发送时静默切换环境。
+ ❯ SessionService.accept apps/daemon/src/modules/sessions/session.service.ts:264:13
+ ❯ SessionService.submit apps/daemon/src/modules/sessions/session.service.ts:227:26
+ ❯ apps/daemon/test/session-spaces.test.ts:291:42
+    289|     expect(result.results.map((row) => row.sessionId)).toContain(a.ses…
+    290|     expect(next.kernels.list()).toEqual([])
+    291|     const continued = await next.service.submit({ ...command(), sessio…
+       |                                          ^
+    292|     await next.settled(continued.submission.requestId)
+    293|     expect(continued.session.cwd).toBe(a.session.cwd)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  apps/daemon/test/session-spaces.test.ts > SESSION-07 real standalone directories, SQLite, SDK/local fixture and source boundaries > uses desktop-only, Host/Origin/CSRF/protocol and strict IDs; returns source metadata through redaction and rejects changed directory identity
+Error: EBUSY: resource busy or locked, rename 'C:\Users\Murmure\AppData\Local\Temp\piw-session-spaces-Y2pLPw\data\standalone\a81d97c1-fc1f-46d9-a926-d8f2ea80ff84' -> 'C:\Users\Murmure\AppData\Local\Temp\piw-session-spaces-Y2pLPw\data\standalone\a81d97c1-fc1f-46d9-a926-d8f2ea80ff84-moved'
+ ❯ apps/daemon/test/session-spaces.test.ts:372:5
+    370|     expect(snapshot.resources).toEqual([])
+    371|     expect(snapshot.policy).toBe('host-tools-disabled')
+    372|     renameSync(a.session.cwd, a.session.cwd + '-moved')
+       |     ^
+    373|     mkdirSync(a.session.cwd)
+    374|     writeFileSync(join(a.session.cwd, 'AGENTS.md'), 'REPLACEMENT_MUST_…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  4 failed | 2 passed (6)
+   Start at  16:30:29
+   Duration  12.76s (tests 85%, import 14%, transform 1%)
+

@@ -1,9 +1,13 @@
 import type { AccessService } from '../security/access.service.js'
+import type { WorkspaceEnvironmentService } from './workspace-environment.service.js'
 import type { WorkspaceService } from './workspace.service.js'
 import type { FastifyInstance } from 'fastify'
 
+import { NotFoundException } from '@nestjs/common'
+
 import {
   workspaceEditSchema,
+  workspaceEnvironmentTargetSchema,
   workspaceOpenSchema,
   workspaceRelocateSchema,
   workspaceRenameSchema,
@@ -17,9 +21,10 @@ export function registerWorkspaceTransport(
   server: FastifyInstance,
   workspaces: WorkspaceService,
   access: AccessService,
+  environment: WorkspaceEnvironmentService,
 ) {
   const desktopPaths = new Set(
-    ['recent', 'activate', 'rename', 'remove', 'relocate'].map(
+    ['recent', 'activate', 'rename', 'remove', 'relocate', 'environment'].map(
       (operation) => `/api/workspaces/${operation}`,
     ),
   )
@@ -29,6 +34,22 @@ export function registerWorkspaceTransport(
       access.authenticate(request.headers.cookie)?.info.kind !== 'desktop'
     ) {
       await reply.code(403).send({ message: '最近工作区与整理目前仅向 Electron 开放。' })
+    }
+  })
+  server.get('/api/workspaces/environment', async (request, reply) => {
+    const parsed = workspaceEnvironmentTargetSchema.safeParse(request.query)
+    if (!parsed.success) {
+      return reply.code(400).send({ message: '请指定一个会话或已登记工作区；不接受任意执行路径。' })
+    }
+    try {
+      return await reply
+        .header('cache-control', 'no-store')
+        .send(await environment.inspect(parsed.data))
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        return reply.code(404).send({ message: error.message })
+      }
+      throw error
     }
   })
   server.get('/api/workspaces/recent', (_request, reply) => {

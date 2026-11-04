@@ -1,0 +1,158 @@
+{
+  "steps": [
+    {
+      "step": 1,
+      "label": "initial",
+      "evidence": "native/01-initial.json",
+      "limitations": "No saved PNG; do not use as screenshot evidence."
+    },
+    {
+      "step": 2,
+      "label": "maximized",
+      "evidence": "native/02-maximized.json",
+      "limitations": "No saved PNG; do not use as screenshot evidence."
+    },
+    {
+      "step": 3,
+      "label": "stable-maximized",
+      "evidence": "native/03-stable-maximized.json"
+    },
+    {
+      "step": 4,
+      "label": "whitespace-disabled",
+      "evidence": "native/04-whitespace-disabled.json"
+    },
+    {
+      "step": 5,
+      "label": "whitespace-enter-no-send",
+      "evidence": "native/05-whitespace-enter-no-send.json"
+    },
+    {
+      "step": 6,
+      "label": "microsoft-pinyin-ni-candidates",
+      "evidence": "native/06-microsoft-pinyin-ni-candidates.json",
+      "limitations": "Actual Windows Chinese IME; vendor not independently rechecked in this run."
+    },
+    {
+      "step": 7,
+      "label": "ime-enter-commit-no-send",
+      "evidence": "native/07-ime-enter-commit-no-send.json"
+    },
+    {
+      "step": 8,
+      "label": "ime-escape-keeps-committed-text",
+      "evidence": "native/08-ime-escape-keeps-committed-text.json"
+    },
+    {
+      "step": 9,
+      "label": "ime-space-candidates",
+      "evidence": "native/09-ime-space-candidates.json"
+    },
+    {
+      "step": 10,
+      "label": "ime-space-chinese-no-send",
+      "evidence": "native/10-ime-space-chinese-no-send.json"
+    },
+    {
+      "step": 11,
+      "label": "ime-number-selection",
+      "evidence": "native/11-ime-number-selection.json"
+    },
+    {
+      "step": 12,
+      "label": "shift-enter-newline",
+      "evidence": "native/12-shift-enter-newline.json"
+    },
+    {
+      "step": 13,
+      "label": "native-multiline-before-send",
+      "evidence": "native/13-native-multiline-before-send.json"
+    },
+    {
+      "step": 14,
+      "label": "plain-enter-first-send",
+      "evidence": "native/14-plain-enter-first-send.json"
+    },
+    {
+      "step": 15,
+      "label": "first-send-completed",
+      "evidence": "native/15-first-send-completed.json"
+    },
+    {
+      "step": 16,
+      "label": "new-draft-project-provider",
+      "evidence": "native/16-new-draft-project-provider.json"
+    },
+    {
+      "step": 17,
+      "label": "session-a-own-draft",
+      "evidence": "native/17-session-a-own-draft.json"
+    },
+    {
+      "step": 18,
+      "label": "session-b-own-draft",
+      "evidence": "native/18-session-b-own-draft.json"
+    },
+    {
+      "step": 19,
+      "label": "back-a-restored",
+      "evidence": "native/19-back-a-restored.json"
+    },
+    {
+      "step": 20,
+      "label": "back-new-project-model-restored",
+      "evidence": "native/20-back-new-project-model-restored.json"
+    },
+    {
+      "step": 21,
+      "label": "reload-new-draft-config-restored",
+      "evidence": "native/21-reload-new-draft-config-restored.json",
+      "limitations": "Ctrl+R/F5 did not establish a real reload. This is configuration retention evidence only; reload is proved by the Electron E2E."
+    },
+    {
+      "step": 22,
+      "label": "settings-return-new-draft",
+      "evidence": "native/22-settings-return-new-draft.json"
+    },
+    {
+      "step": 23,
+      "label": "b-draft-restored-before-send",
+      "evidence": "native/23-b-draft-restored-before-send.json"
+    },
+    {
+      "step": 24,
+      "label": "b-own-draft-submitted",
+      "evidence": "native/24-b-own-draft-submitted.json"
+    },
+    {
+      "step": 25,
+      "label": "b-completed-own-draft",
+      "evidence": "native/25-b-completed-own-draft.json"
+    },
+    {
+      "step": 26,
+      "label": "a-draft-unchanged-after-b-send",
+      "evidence": "native/26-a-draft-unchanged-after-b-send.json"
+    },
+    {
+      "step": 27,
+      "label": "normal-exit-menu",
+      "evidence": "native/27-normal-exit-menu.json"
+    }
+  ],
+  "source": "Windows SendInput/UI Automation; actual Electron; no CDP or route interception",
+  "ports": [
+    {
+      "port": 4317,
+      "available": true
+    },
+    {
+      "port": 5173,
+      "available": true
+    }
+  ],
+  "seedPrompts": 2,
+  "uiPrompts": 2,
+  "providerRequests": 0,
+  "closed": true
+}

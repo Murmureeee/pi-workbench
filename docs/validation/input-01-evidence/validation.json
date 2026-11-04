@@ -1,0 +1,58 @@
+{
+  "feature": "INPUT-01",
+  "status": "verified",
+  "recordedAt": "2026-11-04T08:13:58.890Z",
+  "commands": [
+    {
+      "command": "pnpm exec playwright test e2e/session-creation.spec.ts -g INPUT-01",
+      "exitCode": 0,
+      "e2e": 2,
+      "evidence": "target.log"
+    },
+    {
+      "command": "pnpm docs:build",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm fix",
+      "exitCode": 0,
+      "evidence": "fix.log"
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0,
+      "evidence": "check.log"
+    },
+    {
+      "command": "pnpm exec playwright test e2e/session-creation.spec.ts -g INPUT-01",
+      "exitCode": 0,
+      "e2e": 2,
+      "evidence": "target-final.log"
+    }
+  ],
+  "reused": {
+    "from": "../ws-03-evidence/validation.json",
+    "vitest": 217,
+    "e2e": 72,
+    "sdkSmoke": true,
+    "frozenClean": true,
+    "scope": "Unchanged product/runtime only; changed test file has two separately passing new tests",
+    "audit": "code-reuse-audit.json"
+  },
+  "providerRequests": 0,
+  "configModified": false,
+  "budgetModified": false,
+  "installerCreated": false,
+  "standaloneWebDeferred": true,
+  "nativeValidation": "passed",
+  "followupFullCi": {
+    "feature": "SESSION-07",
+    "exitCode": 0,
+    "vitest": 223,
+    "e2e": 78,
+    "sdkSmoke": true,
+    "frozenClean": true,
+    "evidence": "../session-07-evidence/ci.log",
+    "clean": "../session-07-evidence/clean-workspace.json"
+  }
+}

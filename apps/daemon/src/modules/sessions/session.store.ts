@@ -54,6 +54,7 @@ import {
   sessionChanges,
   sessionConfigurations,
   sessionOrganization,
+  sessionOrigins,
   sessionQueue,
   sessionRuntimes,
   sessions,
@@ -157,11 +158,58 @@ export class SessionStore {
           title: row.title,
           titleSource: row.titleSource,
           titleVersion: row.titleVersion,
+          membershipVersion: row.membershipVersion,
           creationRequestId: row.creationRequestId,
           workspaceId: row.workspaceId,
           configuration: this.parse(row.configuration),
         })
       })
+  }
+
+  /** Point lookup of the saved execution binding for read-only environment observation.
+   * Project membership and mutable workspace paths must never substitute for this cwd. */
+  executionEnvironment(sessionId: string) {
+    return this.database.db
+      .select({ cwd: sessions.cwd, workspaceId: sessionConfigurations.workspaceId })
+      .from(sessions)
+      .innerJoin(sessionConfigurations, eq(sessionConfigurations.sessionId, sessions.id))
+      .where(eq(sessions.id, sessionId))
+      .get()
+  }
+
+  origin(sessionId: string) {
+    return this.database.db
+      .select()
+      .from(sessionOrigins)
+      .where(eq(sessionOrigins.sessionId, sessionId))
+      .get()
+  }
+
+  /** Atomic, metadata-only CAS. The caller synchronously validates the target project.
+   * It never touches cwd, model, accepted input, SDK history, files or resource consent. */
+  setProject(sessionId: string, projectId: string | null, expectedVersion: number): ManagedSession {
+    this.database.db.transaction((tx) => {
+      const row = tx
+        .select()
+        .from(sessionConfigurations)
+        .where(eq(sessionConfigurations.sessionId, sessionId))
+        .get()
+      if (this.closed || !row || row.membershipVersion !== expectedVersion) {
+        throw new SessionOrganizationConflict('会话归属已更新，请核对最新归属后再保存。')
+      }
+      const configuration = managedSessionSchema.shape.configuration.parse(
+        this.parse(row.configuration),
+      )
+      tx.update(sessionConfigurations)
+        .set({
+          projectId,
+          membershipVersion: expectedVersion + 1,
+          configuration: JSON.stringify({ ...configuration, projectId }),
+        })
+        .where(eq(sessionConfigurations.sessionId, sessionId))
+        .run()
+    })
+    return this.managedSessions().find((row) => row.id === sessionId)!
   }
 
   organizations(): SessionOrganization[] {
@@ -343,6 +391,7 @@ export class SessionStore {
         tx.update(sessionConfigurations)
           .set({
             projectId: null,
+            membershipVersion: row.membershipVersion + 1,
             configuration: JSON.stringify({ ...configuration, projectId: null }),
           })
           .where(eq(sessionConfigurations.sessionId, row.sessionId))
@@ -404,6 +453,17 @@ export class SessionStore {
           .run()
         tx.insert(sessionOrganization)
           .values({ sessionId: prepared.id, updatedAt: prepared.createdAt })
+          .run()
+        tx.insert(sessionOrigins)
+          .values({
+            sessionId: prepared.id,
+            kind: prepared.configuration.workspaceId ? 'workspace' : 'standalone',
+            cwd: prepared.cwd,
+            workspaceId: prepared.workspaceId,
+            projectId: prepared.configuration.projectId,
+            recordedAt: prepared.createdAt,
+            provenance: 'created',
+          })
           .run()
       }
       tx.insert(sessionSubmissions)

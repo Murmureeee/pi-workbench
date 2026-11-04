@@ -1,0 +1,25 @@
+{
+  "step": 9,
+  "label": "ime-space-candidates",
+  "time": "2026-11-04T07:55:02.582Z",
+  "window": {
+    "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+    "id": 657390,
+    "title": "Pi Workbench"
+  },
+  "accessibility": null,
+  "screenshots": [
+    {
+      "file": "09-ime-space-candidates-0.png",
+      "id": "screenshot-0",
+      "width": 1920,
+      "height": 1032
+    },
+    {
+      "file": "09-ime-space-candidates-1.png",
+      "id": "screenshot-1",
+      "width": 52,
+      "height": 33
+    }
+  ]
+}

@@ -36,6 +36,12 @@ export function mergeSessions(old: unknown, next: unknown, metadata: unknown) {
       })
       const latest = title ? newer(candidate, title) : candidate
       return Object.assign({}, row, {
+        ...(saved && saved.membershipVersion > row.membershipVersion
+          ? {
+              configuration: saved.configuration,
+              membershipVersion: saved.membershipVersion,
+            }
+          : {}),
         title: latest.title,
         titleSource: latest.titleSource,
         titleVersion: latest.titleVersion,

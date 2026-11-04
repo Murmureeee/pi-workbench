@@ -1,0 +1,51 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 397ms on 239 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: src/features/conversation/session-workbench.tsx(962,11): error TS2322: Type '{ projects: { id: string; name: string; workspaceId: string | null; directory: string | null; pinned: boolean; position: number; revision: number; }[]; projectsAvailable: boolean; refreshProjects: () => undefined; close: () => void; select: (result: { ...; }) => void; }' is not assignable to type 'IntrinsicAttributes & { projects: { id: string; name: string; workspaceId: string | null; directory: string | null; pinned: boolean; position: number; revision: number; }[]; close: () => void; select: (result: { ...; }) => void; }'.
+apps/web typecheck:   Property 'projectsAvailable' does not exist on type 'IntrinsicAttributes & { projects: { id: string; name: string; workspaceId: string | null; directory: string | null; pinned: boolean; position: number; revision: number; }[]; close: () => void; select: (result: { ...; }) => void; }'.
+apps/web typecheck: src/features/conversation/session-workbench.tsx(988,10): error TS2739: Type '{ key: string; sessionId: string; projects: { id: string; name: string; workspaceId: string | null; directory: string | null; pinned: boolean; position: number; revision: number; }[]; csrf: string; close: () => void; }' is missing the following properties from type '{ sessionId: string; projects: { id: string; name: string; workspaceId: string | null; directory: string | null; pinned: boolean; position: number; revision: number; }[]; projectsAvailable: boolean; refreshProjects: () => void; csrf: string; close: () => void; }': projectsAvailable, refreshProjects
+apps/web typecheck: Failed
+[ELIFECYCLE] Command failed with exit code 2.
+apps/daemon typecheck: Failed
+[ELIFECYCLE] Command failed with exit code 1.
+Error: ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL
+
+  × "pnpm recursive run" failed in D:\Project\pi-workbench\apps\web
+
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

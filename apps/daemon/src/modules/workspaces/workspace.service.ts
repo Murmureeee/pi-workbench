@@ -105,6 +105,16 @@ export class WorkspaceService {
     return row ? this.display(row) : undefined
   }
 
+  /** Read-only physical identity check for environment display. No probe, recency write,
+   * trust or runtime is created. A saved session supplies its immutable original cwd. */
+  async environmentDirectory(id: string, cwd?: string) {
+    const row = this.row(id)
+    if (!row) {
+      return failed('unknown_workspace')
+    }
+    return this.inspect(cwd ?? row.canonicalPath, row.directoryKey, false)
+  }
+
   /** Persisted recent metadata only: listing never probes directories or starts a task.
    * Removed and pre-upgrade records remain registered but have no recent timestamp. */
   recent(): WorkspaceRecent {
@@ -348,7 +358,11 @@ export class WorkspaceService {
     }
   }
 
-  private async inspect(path: string, expectedKey?: string): Promise<DirectoryInspection> {
+  private async inspect(
+    path: string,
+    expectedKey?: string,
+    probeWritable = true,
+  ): Promise<DirectoryInspection> {
     // Win32 device namespaces can address devices rather than ordinary directory paths.
     if (
       !path ||
@@ -385,32 +399,34 @@ export class WorkspaceService {
       } finally {
         await directory.close()
       }
-      stage = 'write'
-      const probe = join(canonicalPath, `.pi-workbench-check-${randomUUID()}`)
-      const handle = await open(probe, 'wx', 0o600)
-      let writeFailure: unknown,
-        cleanupFailure = false
-      try {
-        await handle.writeFile('piw\n')
-      } catch (error) {
-        writeFailure = error
-      } finally {
+      if (probeWritable) {
+        stage = 'write'
+        const probe = join(canonicalPath, `.pi-workbench-check-${randomUUID()}`)
+        const handle = await open(probe, 'wx', 0o600)
+        let writeFailure: unknown,
+          cleanupFailure = false
         try {
-          await handle.close()
-        } catch {
-          cleanupFailure = true
+          await handle.writeFile('piw\n')
+        } catch (error) {
+          writeFailure = error
+        } finally {
+          try {
+            await handle.close()
+          } catch {
+            cleanupFailure = true
+          }
+          try {
+            await unlink(probe)
+          } catch {
+            cleanupFailure = true
+          }
         }
-        try {
-          await unlink(probe)
-        } catch {
-          cleanupFailure = true
+        if (cleanupFailure) {
+          return failed('cleanup_failed')
         }
-      }
-      if (cleanupFailure) {
-        return failed('cleanup_failed')
-      }
-      if (writeFailure) {
-        return classify(writeFailure, 'write')
+        if (writeFailure) {
+          return classify(writeFailure, 'write')
+        }
       }
       stage = 'resolve'
       const after = await stat(canonicalPath, { bigint: true })

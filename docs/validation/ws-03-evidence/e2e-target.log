@@ -1,0 +1,59 @@
+$ pnpm build && playwright test e2e/workspace-environment.spec.ts e2e/workspaces.spec.ts
+$ pnpm build:server && pnpm --filter @pi-workbench/web build && pnpm --filter @pi-workbench/desktop build
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ vite build
+vite v8.3.5 building client environment for production...
+transforming...
+✓ 2620 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                               0.62 kB │ gzip:   0.34 kB
+dist/assets/session-workbench-BTyATbqz.css    6.44 kB │ gzip:   1.66 kB
+dist/assets/index-BHCZS5xZ.css               82.42 kB │ gzip:  14.36 kB
+dist/assets/refresh-cw-CkIwHkSe.js            0.36 kB │ gzip:   0.25 kB
+dist/assets/rolldown-runtime-WkwZ5CU-.js      0.59 kB │ gzip:   0.36 kB
+dist/assets/model-client-C5XJyrpg.js          0.60 kB │ gzip:   0.49 kB
+dist/assets/legacy-history-D8lHGLrr.js        5.51 kB │ gzip:   2.42 kB
+dist/assets/model-discovery-C8vtn1-n.js       9.34 kB │ gzip:   3.77 kB
+dist/assets/workspace-manager-ixD2tVTz.js    15.84 kB │ gzip:   6.01 kB
+dist/assets/session-workbench-C3LGwz33.js    54.79 kB │ gzip:  17.10 kB
+dist/assets/dialog-qW86_CZc.js              140.95 kB │ gzip:  47.71 kB
+dist/assets/createLucideIcon-DWVC4zpE.js    187.15 kB │ gzip:  56.77 kB
+dist/assets/index-frPjcg-Q.js               344.14 kB │ gzip: 107.59 kB
+
+✓ built in 276ms
+$ tsc -p tsconfig.json
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:26380) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:28524) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+Switched to a new branch '切换/新分支'
+HEAD is now at a8ed507 baseline
+  ok 1 e2e\workspace-environment.spec.ts:94:1 › WS-03 Electron observes actual cwd/repository, external branch and detached changes, non-Git, nested repositories, keyboard and themes (10.1s)
+  ok 2 e2e\workspace-environment.spec.ts:148:1 › WS-03 Electron isolates delayed previous workspace responses and removes stale branch labels on failure/retry (3.5s)
+Switched to a new branch '返回后新分支'
+  ok 3 e2e\workspace-environment.spec.ts:201:1 › WS-03 Electron keeps saved cwd and background SDK PID when viewing other repositories; return/reload uses current HEAD (7.8s)
+  ok 4 e2e\workspace-environment.spec.ts:256:1 › WS-03 Electron permits actual first-send/continuation in a non-Git directory and does not invent a directory before send (5.0s)
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-ui-g4GJ4V/中文 A/module'...
+done.
+Preparing worktree (new branch 'feature/长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称长分支名称')
+  ok 5 e2e\workspace-environment.spec.ts:299:1 › WS-03 Electron distinguishes submodule, superproject and linked worktree; long branch labels remain bounded (4.3s)
+  ok 6 e2e\workspaces.spec.ts:65:1 › WS-01 real Electron picker bridge opens/deduplicates/switches; cancellation and invalid paths preserve current view and running SDK task (4.4s)
+  ok 7 e2e\workspaces.spec.ts:148:1 › WS-01 Electron ignores stale responses, preserves selection on disconnect, and recovers a missing directory without phantom sessions (3.0s)
+
+  7 passed (51.7s)

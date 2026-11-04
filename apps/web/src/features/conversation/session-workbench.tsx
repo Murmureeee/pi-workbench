@@ -60,11 +60,13 @@ import { workspaceCommand } from '../../services/workspace-client.js'
 import { sessionDraft, useSessionDrafts } from '../../stores/session-drafts.js'
 import { retainSessionView, sessionView, useSessionViews } from '../../stores/session-views.js'
 import { useWorkbench } from '../../stores/workbench.js'
+import { WorkspaceEnvironment } from '../workspaces/workspace-environment.js'
 import { ManagedThread } from './managed-thread.js'
 import { SessionHistory } from './session-history.js'
 import { SessionLibrary } from './session-library.js'
 import { SessionRenameDialog } from './session-rename-dialog.js'
 import { SessionSearchDialog } from './session-search-dialog.js'
+import { SessionSpaceDialog } from './session-space-dialog.js'
 import { useSessionOrganization } from './use-session-organization.js'
 import './session-workbench.css'
 
@@ -151,6 +153,7 @@ function SessionPane({
     setRenaming({ session, token: crypto.randomUUID() })
   const [titleMenuOpen, setTitleMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [spaceToken, setSpaceToken] = useState<string | null>(null)
   useEffect(() => {
     if (!active) {
       return undefined
@@ -173,6 +176,7 @@ function SessionPane({
       setSearchOpen(false)
       setRenaming(null)
       setTitleMenuOpen(false)
+      setSpaceToken(null)
     }
   }, [active])
   const [directoryPath, setDirectoryPath] = useState(''),
@@ -303,12 +307,13 @@ function SessionPane({
               : []),
             // An accepted input receipt may predate project removal. Existing index
             // metadata owns attribution; reconciling that input must not restore it.
-            known
+            known && known.membershipVersion >= receipt.session.membershipVersion
               ? {
                   ...receipt.session,
                   configuration: known.configuration,
                   workspaceId: known.workspaceId,
                   cwd: known.cwd,
+                  membershipVersion: known.membershipVersion,
                 }
               : receipt.session,
           ],
@@ -584,6 +589,10 @@ function SessionPane({
                         <PencilIcon />
                         重命名会话
                       </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setSpaceToken(crypto.randomUUID())}>
+                        <FolderIcon />
+                        执行空间与项目归属
+                      </DropdownMenuItem>
                     </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
@@ -592,7 +601,7 @@ function SessionPane({
               )}
               <span>
                 {current
-                  ? `${options.data?.projects.find((item) => item.id === current.configuration.projectId)?.name ?? '无项目'} · ${current.cwd}`
+                  ? `${options.data?.projects.find((item) => item.id === current.configuration.projectId)?.name ?? '无项目'} · ${current.configuration.workspaceId ? '' : '独立目录 · '}${current.cwd}`
                   : `${project?.name ?? '无项目'} · ${project?.directory ?? draft.workspace?.canonicalPath ?? '独立目录（首次发送时创建）'}`}
               </span>
             </div>
@@ -611,6 +620,23 @@ function SessionPane({
               </Button>
             ) : null}
           </header>
+          {authorized ? (
+            <WorkspaceEnvironment
+              active={active}
+              cwd={
+                current?.cwd ??
+                (project ? (project.directory ?? undefined) : draft.workspace?.canonicalPath)
+              }
+              planned={!sessionId}
+              target={
+                sessionId
+                  ? { sessionId }
+                  : configuration.workspaceId
+                    ? { workspaceId: configuration.workspaceId }
+                    : null
+              }
+            />
+          ) : null}
           <div className="conversation-workspace">
             <div className="conversation-column">
               {current && authorized && historyVisible ? (
@@ -954,6 +980,17 @@ function SessionPane({
               toggleNav()
             }
           }}
+        />
+      ) : null}
+      {spaceToken && active && authorized && current ? (
+        <SessionSpaceDialog
+          key={spaceToken}
+          sessionId={current.id}
+          projects={options.data?.projects ?? []}
+          projectsAvailable={Boolean(options.data) && !options.isError}
+          refreshProjects={() => void options.refetch()}
+          csrf={csrf}
+          close={() => setSpaceToken((prior) => (prior === spaceToken ? null : prior))}
         />
       ) : null}
     </div>

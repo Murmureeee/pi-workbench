@@ -20,6 +20,7 @@ import { Input } from '@pi-workbench/ui/components/input'
 import { Separator } from '@pi-workbench/ui/components/separator'
 
 import { readRecentWorkspaces, workspaceCommand } from '../../services/workspace-client.js'
+import { WorkspaceEnvironment } from './workspace-environment.js'
 import { WorkspaceRecordDialog } from './workspace-record-dialog.js'
 
 /** Real desktop workspace selection, separate from OPS-01 sample conversations. Each request
@@ -278,6 +279,12 @@ export function WorkspaceManager() {
               <p className="text-sm break-all" aria-label="实际目录">
                 {active.canonicalPath}
               </p>
+              <WorkspaceEnvironment
+                key={active.id}
+                active={invalidId !== active.id}
+                target={{ workspaceId: active.id }}
+                cwd={active.canonicalPath}
+              />
               <p className="text-xs break-all text-muted-foreground" aria-label="工作区标识">
                 工作区 ID · {active.id}
               </p>

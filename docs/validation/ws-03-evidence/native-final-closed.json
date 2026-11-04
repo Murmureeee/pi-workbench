@@ -1,0 +1,34 @@
+{
+  "checkedAt": "2026-11-04T06:06:36.272Z",
+  "firstClosed": true,
+  "restartClosed": true,
+  "ownedProcessesExited": true,
+  "restartPrompts": 0,
+  "restartKernels": 0,
+  "restartHistoryUnchanged": true,
+  "configsUnchanged": true,
+  "canonicalBudgetUnchanged": true,
+  "providerRequests": 0,
+  "ports": [
+    {
+      "port": 4317,
+      "available": true
+    },
+    {
+      "port": 5173,
+      "available": true
+    }
+  ],
+  "background": {
+    "sessionId": "b6105df7-2f1b-46b5-ae48-46ee1f50a2a2",
+    "pid": 29412,
+    "epoch": "7ec808a4-fdac-49a2-8c16-2770ac62e80a",
+    "state": "running",
+    "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-ws-03-native-9ZCxUu\\甲仓库",
+    "observations": [
+      "short-background-workspace.json",
+      "short-background-beta.json",
+      "short-background-return.json"
+    ]
+  }
+}
