@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { runtimeToolSchema, trustedContextSchema } from '@pi-workbench/shared'
+import { reasoningSchema, runtimeToolSchema, trustedContextSchema } from '@pi-workbench/shared'
 
 const identity = {
   protocol: z.literal(1),
@@ -19,6 +19,7 @@ const fixtureModeSchema = z.enum([
   'rendering',
   'rendering-long',
   'scrolling',
+  'reasoning',
 ])
 const resumeSchema = z.strictObject({
   sessionFile: z.string().min(1),
@@ -67,6 +68,7 @@ export const kernelMessageSchema = z.discriminatedUnion('type', [
   }),
   z.strictObject({ ...envelope, type: z.literal('running') }),
   z.strictObject({ ...envelope, type: z.literal('delta'), text: z.string().max(65536) }),
+  z.strictObject({ ...envelope, type: z.literal('reasoning'), reasoning: reasoningSchema }),
   z.strictObject({
     ...envelope,
     type: z.literal('tool'),

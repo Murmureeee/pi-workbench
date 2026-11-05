@@ -1,0 +1,178 @@
+{
+  "feature": "OBS-06",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local HTTP public reasoning fixture. No CDP, renderer routing, synthetic injection or real providers.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\obs06-native-9n4be4",
+  "desktopPid": 29992,
+  "prompts": 0,
+  "results": [],
+  "sessions": [
+    {
+      "id": "e12de4ee-cfce-43ca-a23f-004e45564202",
+      "title": "OBS06 公开思考原生验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "7193f7b5-f98e-40fa-a94c-35ba53b5cb10",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "703c4b66-751e-43ac-b837-a3c04f642a07",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs06-native-9n4be4\\data\\standalone\\e12de4ee-cfce-43ca-a23f-004e45564202",
+      "createdAt": 1793877972900
+    },
+    {
+      "id": "6708b605-9b23-4ed9-b025-517e7b42c58a",
+      "title": "OBS06 普通回答状态验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "4580d2c9-0d7e-4fc2-bb9a-0f1dd3870a33",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "d77f525b-bd1c-4b03-b845-988b508cce48",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs06-native-9n4be4\\data\\standalone\\6708b605-9b23-4ed9-b025-517e7b42c58a",
+      "createdAt": 1793878443553
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "7193f7b5-f98e-40fa-a94c-35ba53b5cb10",
+      "sessionId": "e12de4ee-cfce-43ca-a23f-004e45564202",
+      "messageId": "0a8f5662-ee1c-4ff3-a32f-bbdd970f28c3",
+      "turnId": "9325ac0f-608e-4d7c-a82d-f19decbc71a5",
+      "status": "completed",
+      "text": "OBS06 公开思考原生验收",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793877972901
+    },
+    {
+      "requestId": "feeb866a-5bd1-4959-822f-043750104e81",
+      "sessionId": "e12de4ee-cfce-43ca-a23f-004e45564202",
+      "messageId": "0838add2-5a95-4f9b-bc05-5b95786890fb",
+      "turnId": "bda81214-8e37-427f-b33d-09cdd4bd8c03",
+      "status": "completed",
+      "text": "本地公开思考样本：先核对输入，再整理回答。api_key=«redacted»",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793878607369
+    },
+    {
+      "requestId": "4580d2c9-0d7e-4fc2-bb9a-0f1dd3870a33",
+      "sessionId": "6708b605-9b23-4ed9-b025-517e7b42c58a",
+      "messageId": "a87c2156-ba54-416c-a723-8999965f5d31",
+      "turnId": "12ff4627-f260-465c-9101-09acf5d54583",
+      "status": "completed",
+      "text": "OBS06 普通回答状态验收",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793878443554
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "9eb040d0-cad8-42a9-a12a-70ac2ef0de8c",
+      "sessionId": "e12de4ee-cfce-43ca-a23f-004e45564202",
+      "epoch": "3bf06c73-5ec1-4015-9aa8-0a7c4f6df54b",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "bda81214-8e37-427f-b33d-09cdd4bd8c03",
+          "messageId": "bda81214-8e37-427f-b33d-09cdd4bd8c03:assistant",
+          "prompt": "本地公开思考样本：先核对输入，再整理回答。api_key=«redacted»",
+          "text": "OBS06_PUBLIC_REPLY：这是公开回答。",
+          "reasoning": {
+            "status": "provided",
+            "text": "本地公开思考样本：先核对输入，再整理回答。api_key=«redacted»",
+            "truncated": false
+          },
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "9eb040d0-cad8-42a9-a12a-70ac2ef0de8c",
+      "sessionId": "6708b605-9b23-4ed9-b025-517e7b42c58a",
+      "epoch": "c4c7d131-54fe-4268-8dfc-1b5e0bb784fa",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "12ff4627-f260-465c-9101-09acf5d54583",
+          "messageId": "12ff4627-f260-465c-9101-09acf5d54583:assistant",
+          "prompt": "OBS06 普通回答状态验收",
+          "text": "OFFLINE_OK",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "historyBefore": {
+    "6708b605-9b23-4ed9-b025-517e7b42c58a\\c4c7d131-54fe-4268-8dfc-1b5e0bb784fa\\sessions\\2026-11-05T11-34-04-572Z_01a1ab7c-ca1c-74d9-b7f7-316405a893f1.jsonl": "4a7a5ce724f807cb7feaea1b9a4b0d5cc4b40fb2ae36c10ea06ab3aa40fbed71",
+    "e12de4ee-cfce-43ca-a23f-004e45564202\\f0e949c3-5d12-4482-955e-7b9afb98fb93\\sessions\\2026-11-05T11-26-13-907Z_01a1ab75-9b93-7443-bc19-78a3e4525674.jsonl": "c721773f9b6a745b33687281ffdb1389727b60bb4c875d8d9fb82a5fc6183fbf"
+  },
+  "historyAfter": {
+    "6708b605-9b23-4ed9-b025-517e7b42c58a\\c4c7d131-54fe-4268-8dfc-1b5e0bb784fa\\sessions\\2026-11-05T11-34-04-572Z_01a1ab7c-ca1c-74d9-b7f7-316405a893f1.jsonl": "4a7a5ce724f807cb7feaea1b9a4b0d5cc4b40fb2ae36c10ea06ab3aa40fbed71",
+    "e12de4ee-cfce-43ca-a23f-004e45564202\\f0e949c3-5d12-4482-955e-7b9afb98fb93\\sessions\\2026-11-05T11-26-13-907Z_01a1ab75-9b93-7443-bc19-78a3e4525674.jsonl": "c721773f9b6a745b33687281ffdb1389727b60bb4c875d8d9fb82a5fc6183fbf"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "ownedProcessesExited": true
+}

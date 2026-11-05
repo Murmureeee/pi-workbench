@@ -1130,6 +1130,7 @@ export class SessionStore {
           turnId: binding?.turnId ?? null,
           role: entry.message.role,
           text: entry.message.text,
+          ...(entry.message.reasoning ? { reasoning: entry.message.reasoning } : {}),
           bytes: entry.message.bytes,
           truncated: entry.message.truncated,
           origin: 'sdk-jsonl',
@@ -1223,6 +1224,7 @@ export class SessionStore {
               turnId: turn.id,
               role: 'assistant',
               text: previewText(partial.text),
+              ...(partial.reasoning ? { reasoning: partial.reasoning } : {}),
               bytes: Buffer.byteLength(partial.text),
               truncated: Buffer.byteLength(partial.text) > historyPreviewBytes,
               origin: 'interrupted-checkpoint',
@@ -1467,6 +1469,7 @@ export class SessionStore {
                     .map((item) => item.text())
                     .join(''),
                   phase,
+                  ...(last?.message.reasoning ? { reasoning: last.message.reasoning } : {}),
                   tools: tools.success ? interruptToolObservations(tools.data) : [],
                   approval: null,
                   error:

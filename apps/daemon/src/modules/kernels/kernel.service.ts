@@ -33,6 +33,7 @@ const promptSchema = z.strictObject({
       'rendering',
       'rendering-long',
       'scrolling',
+      'reasoning',
     ])
     .optional(),
 })
@@ -136,6 +137,12 @@ export class KernelService {
           type: 'tool.updated',
           // Strip the private IPC envelope; no host/transport fields enter public observations.
           tool: runtimeToolSchema.strip().parse({ ...message, id: message.toolId }),
+        })
+      }
+      if (message.type === 'reasoning') {
+        this.events.publish(sessionId, epoch, message.turnId, {
+          type: 'reasoning.updated',
+          reasoning: message.reasoning,
         })
       }
       if (message.type === 'finished') {

@@ -30,6 +30,7 @@ async function observer() {
       'tool-observation',
       'redacted-observation',
       'tool-timeline-v1',
+      'reasoning-observation-v1',
     ],
     mutations: false,
     realProviderEnabled: false,

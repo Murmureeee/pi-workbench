@@ -3,7 +3,7 @@ import type { SessionStore } from './session.store.js'
 import type { HistoryMessage } from '@pi-workbench/shared'
 import type { FastifyInstance } from 'fastify'
 
-import { visibleToolObservation } from '@pi-workbench/shared'
+import { visibleReasoning, visibleToolObservation } from '@pi-workbench/shared'
 
 function incomplete(message: Pick<HistoryMessage, 'origin' | 'outcome'>): boolean {
   return (
@@ -57,6 +57,9 @@ export function registerSessionTransport(
         page.messages = page.messages.map((message) => ({
           ...message,
           text: security.redactor.text(message.text, message.truncated || incomplete(message)),
+          ...(message.reasoning
+            ? { reasoning: visibleReasoning(message.reasoning, security.redactor) }
+            : {}),
         }))
       }
       return reply

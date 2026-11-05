@@ -1,7 +1,10 @@
 import type { KernelCommand, KernelIdentity, KernelMessage } from './kernel-protocol.js'
 import type { createOfflineRuntime } from './sdk-runtime.js'
+import type { Reasoning } from '@pi-workbench/shared'
 
 import process from 'node:process'
+
+import { mergeReasoning, publicReasoning } from '@pi-workbench/shared'
 
 import { kernelCommandSchema } from './kernel-protocol.js'
 import { ToolObserver } from './tool-observer.js'
@@ -14,6 +17,7 @@ let seq = 0
 let closing = false
 let unsubscribe: (() => void) | undefined
 const tools = new ToolObserver(process.cwd())
+let reasoning: Reasoning | undefined
 
 type Payload = KernelMessage extends infer Message
   ? Message extends KernelMessage
@@ -65,6 +69,13 @@ async function handle(command: KernelCommand) {
       return
     }
     unsubscribe = runtime.session.subscribe((event) => {
+      if (event.type === 'message_end' && event.message.role === 'assistant') {
+        reasoning = mergeReasoning(
+          reasoning,
+          publicReasoning(event.message.content, runtime?.session.model?.reasoning),
+        )
+        send({ type: 'reasoning', reasoning })
+      }
       if (event.type === 'message_update' && event.assistantMessageEvent.type === 'text_delta') {
         send({ type: 'delta', text: event.assistantMessageEvent.delta })
       } else {
@@ -123,6 +134,7 @@ async function handle(command: KernelCommand) {
     }
     currentTurn = command.turnId
     tools.reset()
+    reasoning = undefined
     const activeRuntime = runtime
     if (
       activeRuntime.session.getActiveToolNames().length ||

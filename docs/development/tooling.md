@@ -199,3 +199,7 @@ OBS-03 已验收 Electron 工具时间线：调用身份／最终参数与父子
 新增 11 项 Vitest（shared 调用合并／脱敏／摘要／迭代嵌套、SDK 类型映射、实际 SQLite／HTTP／TCP／重启）和 3 项实际 Electron 流程，纳入 test:contracts／完整 CI。真实 SDK 的禁用 write 请求沿用已有本地 HTTP 用例并加强参数／ID／错误断言，不增加请求；拒绝／取消／MCP／Diff／长输出／嵌套来源为明确合成观察，不代表生产工具执行。关键反向控制验证同一会话下一轮相同 ID 不共享展开；初轮脱敏 JSON／运行中工具恢复失败与修后日志保留。自动与原生结果见[验收记录](../validation/obs-03-evidence/acceptance.md)。
 
 OBS-03 已验收：完整 35 文件／251 项 Vitest、93 项浏览器及 Electron E2E、SDK 冒烟与 frozen clean 通过；Windows 原生工具身份／摘要／长输出脱敏与收起、跨会话及逐轮展开隔离、后台同 PID／epoch 和焦点、明暗 802px 窄窗、同 data/profile 只读重启 0 内核／0 新发送／0 注入、历史哈希不变及正常菜单退出已补证。316 文件与 CI／clean 一致，原生后复用门禁；仅文档模板另更新。两项勾选，当前本地 27 / 133，OPS-08 继续 in_progress。合成工具观察与真实 SDK 禁用工具错误分开，未开启生产工具／审批／MCP／回滚；真实提供商 0，配置／预算／锁未改。
+
+## OBS-06 已验收
+
+OBS-06 已验收公开思考权限过滤、默认折叠、脱敏复制下载、本窗口隐藏与明确缺失状态。静态检查、257 项 Vitest／SDK通过；一次 CI 的既有 E2E 超时保留，随后完整95项E2E通过；最终边界加强经47项相关测试、2项Electron和完整frozen clean验证。56条Windows原生观察、明暗802px窄窗、同data/profile重启0发送／0内核、历史哈希不变及两次正常退出补证。319文件与clean一致，原生后复用门禁。本地28／133，OPS-08继续in_progress；真实提供商0，pi配置／预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/obs-06-evidence/acceptance.md)。

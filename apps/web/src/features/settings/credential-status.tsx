@@ -5,6 +5,8 @@ import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components
 import { Badge } from '@pi-workbench/ui/components/badge'
 import { Button } from '@pi-workbench/ui/components/button'
 
+import { useWorkbench } from '../../stores/workbench.js'
+
 const status = {
   configured: '已配置 · 未联网验证',
   missing: '凭证缺失',
@@ -27,6 +29,8 @@ const diagnostics = {
  * or write API is available before MODEL-02 configuration is implemented.
  */
 export function CredentialStatus() {
+  const hidden = useWorkbench((state) => state.hideReasoning)
+  const setHidden = useWorkbench((state) => state.setHideReasoning)
   const credentials = useQuery({
     queryKey: ['credential-status'],
     queryFn: async ({ signal }) => {
@@ -53,6 +57,16 @@ export function CredentialStatus() {
         <h1>凭证与隐私</h1>
         <p className="text-muted-foreground">沿用 pi 配置，仅显示凭证状态。</p>
       </header>
+      <section aria-label="思考信息隐私" className="settings-section">
+        <h2>思考信息</h2>
+        <p>
+          只显示上游提供且允许展示的文本，默认折叠。隐藏时，本窗口不展示正文或提供复制、下载；不删除
+          SDK 原件，也不改变模型请求。
+        </p>
+        <Button variant="outline" aria-pressed={hidden} onClick={() => setHidden(!hidden)}>
+          {hidden ? '允许显示公开思考正文' : '隐藏公开思考正文'}
+        </Button>
+      </section>
       <div className="flex flex-wrap gap-2">
         <Button
           variant="outline"

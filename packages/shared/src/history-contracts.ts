@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { reasoningSchema } from './reasoning-observation.js'
 import { runtimeToolSchema } from './tool-observation.js'
 
 export const historyPageSize = 100
@@ -43,6 +44,7 @@ export const historyMessageSchema = z.strictObject({
   role: z.enum(['user', 'assistant', 'toolResult']),
   text: z.string(),
   bytes: z.number().int().nonnegative(),
+  reasoning: reasoningSchema.optional(),
   truncated: z.boolean(),
   origin: z.enum(['sdk-jsonl', 'interrupted-checkpoint']),
   outcome: z.string().nullable(),

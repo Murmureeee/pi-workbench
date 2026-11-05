@@ -1,0 +1,15 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:31136) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:34036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"Error","message":"执行目录不可用：当前 Windows 用户无法读取这个目录。 本轮已中断，请核对历史与现场后明确发送；未自动重发。"}}
+  ok 1 e2e\workspace-recovery.spec.ts:203:1 › WS-07 actual Electron background task stops on real OS directory access loss; recovery and full restart never replay (9.1s)
+
+  1 passed (19.8s)

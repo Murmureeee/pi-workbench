@@ -1,10 +1,10 @@
-import type { TurnBinding } from '@pi-workbench/shared'
+import type { Reasoning, TurnBinding } from '@pi-workbench/shared'
 
 import { closeSync, fstatSync, openSync, readSync } from 'node:fs'
 
 import { z } from 'zod'
 
-import { historyPreviewBytes, turnBindingSchema } from '@pi-workbench/shared'
+import { historyPreviewBytes, publicReasoning, turnBindingSchema } from '@pi-workbench/shared'
 
 const headerSchema = z.object({
   type: z.literal('session'),
@@ -37,6 +37,7 @@ export interface NativeRecord {
   message?: {
     role: 'user' | 'assistant' | 'toolResult'
     text: string
+    reasoning?: Reasoning
     bytes: number
     truncated: boolean
     outcome: string | null
@@ -73,7 +74,23 @@ function contentText(content: string | unknown[]): string {
   return content
     .map((part) => {
       const text = z.object({ type: z.literal('text'), text: z.string() }).safeParse(part)
-      return text.success ? text.data.text : JSON.stringify(part)
+      // Structured thinking/signatures never become ordinary reply/search/full-text content.
+      if (
+        typeof part === 'object' &&
+        part !== null &&
+        'type' in part &&
+        typeof part.type === 'string' &&
+        /thinking|reasoning/i.test(part.type)
+      ) {
+        return ''
+      }
+      if (text.success) {
+        return text.data.text
+      }
+      if (typeof part === 'object' && part !== null && 'type' in part && part.type === 'toolCall') {
+        return JSON.stringify(part)
+      }
+      return '[未支持的结构化内容；原件保留]'
     })
     .join('')
 }
@@ -173,6 +190,9 @@ export function readNativeHistory(
           const text = contentText(message.content)
           if (message.role !== 'system') {
             record.message = {
+              ...(message.role === 'assistant'
+                ? { reasoning: publicReasoning(message.content) }
+                : {}),
               role: message.role,
               text: previewText(text),
               bytes: Buffer.byteLength(text),

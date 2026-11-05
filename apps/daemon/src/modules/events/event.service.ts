@@ -15,6 +15,7 @@ import {
   runtimeCapabilities,
   runtimeEventSchema,
   runtimeSnapshotSchema,
+  visibleReasoning,
   visibleToolObservation,
 } from '@pi-workbench/shared'
 
@@ -138,6 +139,7 @@ export class EventService {
       ...turn,
       text: this.redactor.text(turn.text, turn.phase !== 'completed'),
       tools: turn.tools.map((tool) => visibleToolObservation(tool, this.redactor)),
+      ...(turn.reasoning ? { reasoning: visibleReasoning(turn.reasoning, this.redactor) } : {}),
     }))
     return runtimeSnapshotSchema.parse(this.redactor.value({ ...value, turns }))
   }
@@ -162,6 +164,8 @@ export class EventService {
         type: 'tool.updated',
         tool: visibleToolObservation(tool ?? incoming, this.redactor),
       }
+    } else if (payload.type === 'reasoning.updated') {
+      payload = { ...payload, reasoning: visibleReasoning(payload.reasoning, this.redactor) }
     } else if (payload.type === 'turn.finished' && turn) {
       payload = { ...payload, text: this.redactor.text(turn.text, payload.outcome !== 'completed') }
     }

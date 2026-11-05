@@ -61,6 +61,18 @@ export async function createOfflineProvider() {
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
+    if (mode === 'reasoning') {
+      // Explicit upstream public-text fixture, parsed and persisted by the real installed SDK.
+      response.write(
+        frame({
+          reasoning_content:
+            '本地公开思考样本：先核对输入，再整理回答。api_key=fixture-only-secret',
+        }),
+      )
+      response.write(frame({ content: 'OBS06_PUBLIC_REPLY：这是公开回答。' }))
+      response.end(frame({}, 'stop') + 'data: [DONE]\n\n')
+      return
+    }
     if (mode === 'scrolling') {
       // Paced, fixed offline SSE for actual SDK/Electron reading-position acceptance.
       // The response owns the timer; abort/dispose closes it without another request.

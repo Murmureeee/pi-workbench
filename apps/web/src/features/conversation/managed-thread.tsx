@@ -22,6 +22,7 @@ import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { LatestMessagesButton } from './latest-messages-button.js'
 import { MessageBody } from './message-body.js'
 import { messageStamp, updatedMessages } from './message-updates.js'
+import { ReasoningCard } from './reasoning-card.js'
 import { RememberedViewport } from './remembered-viewport.js'
 import { ToolTimeline } from './tool-timeline.js'
 
@@ -249,6 +250,11 @@ export function ManagedThread({
                           ? '运行中'
                           : statusNames[submission.status]}
                       </output>
+                      <ReasoningCard
+                        sessionId={sessionId}
+                        messageId={submission.turnId}
+                        reasoning={turn?.reasoning ?? committed?.reasoning}
+                      />
                       <ToolTimeline
                         sessionId={sessionId}
                         turnId={submission.turnId}

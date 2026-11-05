@@ -481,6 +481,10 @@ export class SecurityService {
         ? content
         : Buffer.from(JSON.stringify(safe, null, 2), 'utf8')
     } catch {
+      // Broken thinking records cannot prove display rights. Preserve original, refuse export.
+      if (/thinking|reasoning|encrypted[_-]?content/i.test(text)) {
+        return undefined
+      }
       return Buffer.from(this.redactor.text(text), 'utf8')
     }
   }

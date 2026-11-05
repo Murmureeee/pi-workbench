@@ -50,11 +50,40 @@ function alive(pid: number | undefined) {
 afterEach(async () => {
   await Promise.all(kernels.splice(0).map((kernel) => kernel.dispose()))
   for (const directory of directories.splice(0)) {
-    rmSync(directory, { recursive: true, force: true })
+    // Windows can retain a just-exited process' cwd handle briefly. Retry only owned temp
+    // cleanup; a persistent lock still fails the test instead of hiding an orphan.
+    rmSync(directory, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 })
   }
 })
 
 describe('CORE-04 real SDK + local HTTP fixture (zero real provider requests)', () => {
+  it('oBS-06 receives public reasoning through installed SDK and private IPC without merging it into reply text', async () => {
+    const kernel = create()
+    await kernel.ready()
+    const messages: KernelMessage[] = []
+    kernel.subscribe((message) => messages.push(message))
+    const result = await kernel.prompt({
+      turnId: randomUUID(),
+      text: 'reasoning fixture',
+      fixture: 'reasoning',
+    })
+    expect(result).toMatchObject({
+      outcome: 'completed',
+      localRequests: 1,
+      blockedNetworkAttempts: 0,
+    })
+    expect(messages.filter((message) => message.type === 'reasoning')).toHaveLength(1)
+    const observed = messages.find((message) => message.type === 'reasoning')?.reasoning
+    expect(observed?.status).toBe('provided')
+    expect(observed?.status === 'provided' && observed.text).toContain('本地公开思考样本')
+    expect(
+      messages
+        .filter((message) => message.type === 'delta')
+        .map((message) => message.text)
+        .join(''),
+    ).toBe('OBS06_PUBLIC_REPLY：这是公开回答。')
+    expect(readFileSync(kernel.snapshot.sessionFile!, 'utf8')).toContain('本地公开思考样本')
+  })
   it('reaps the real SDK stream when its host disappears without graceful shutdown', async () => {
     const directory = mkdtempSync(join(tmpdir(), 'piw-orphan-test-'))
     directories.push(directory)

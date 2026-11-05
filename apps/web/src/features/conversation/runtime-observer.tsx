@@ -8,6 +8,7 @@ import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
 
 import { RuntimeClient } from '../../services/runtime-client.js'
 import { MessageBody } from './message-body.js'
+import { ReasoningCard } from './reasoning-card.js'
 import { ToolTimeline } from './tool-timeline.js'
 
 /** CORE-05 read-only diagnostics; it does not create sessions, send prompts or decide approvals. */
@@ -103,6 +104,7 @@ export function RuntimeObserver({ sessionId }: { sessionId: string }) {
               }
             </output>
             <ToolTimeline sessionId={sessionId} turnId={turn.id} tools={turn.tools} />
+            <ReasoningCard sessionId={sessionId} messageId={turn.id} reasoning={turn.reasoning} />
             {turn.approval ? (
               <Alert>
                 <AlertTitle>等待审批（仅观察）</AlertTitle>

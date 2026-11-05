@@ -7,6 +7,47 @@ import { describe, expect, it } from 'vitest'
 import { readNativeHistory, readNativeMessage, readNativeRange } from './native-history.js'
 
 describe('CORE-06 read-only native v3 history parser (synthetic file fixtures)', () => {
+  it('oBS-06 excludes thinking and opaque payloads from reply/full-text while retaining only public reasoning separately', () => {
+    for (const mode of ['public', 'filtered', 'unknown']) {
+      const redacted = mode === 'filtered'
+      const bytes = Buffer.from(
+        [
+          { type: 'session', version: 3, id: 'native', cwd: 'unused' },
+          {
+            type: 'message',
+            id: 'a',
+            parentId: null,
+            message: {
+              role: 'assistant',
+              content: [
+                {
+                  type: 'thinking',
+                  thinking: 'THINKING_ONLY',
+                  thinkingSignature: 'OPAQUE',
+                  redacted,
+                },
+                { type: 'text', text: '普通回答' },
+                ...(mode === 'unknown' ? [{ type: 'redacted_thinking', data: 'OPAQUE' }] : []),
+              ],
+            },
+          },
+        ]
+          .map((record) => JSON.stringify(record))
+          .join('\n') + '\n',
+      )
+      const record = readNativeHistory(bytes, 'native').records[0]
+      if (!record) {
+        throw new Error('Missing native record')
+      }
+      expect(record.message?.text).toBe('普通回答')
+      expect(readNativeMessage(bytes, record)).toBe('普通回答')
+      expect(record.message?.reasoning).toEqual(
+        mode !== 'public'
+          ? { status: 'unavailable' }
+          : { status: 'provided', text: 'THINKING_ONLY', truncated: false },
+      )
+    }
+  })
   it('bounds traversal of corrupt cyclic parents in an external read snapshot', () => {
     const bytes = Buffer.from(
       [

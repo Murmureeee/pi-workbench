@@ -1,0 +1,16 @@
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared/src/reasoning-observation.test.ts:57:167: error: Expected a semicolon or an implicit semicolon after a statement, but found none help: Try inserting a semicolon here
+packages/shared/src/reasoning-observation.test.ts:41:1: error typescript(no-unsafe-call): Unsafe call of a(n) `error` type typed value.
+packages/shared/src/reasoning-observation.test.ts:57:173: error typescript(no-unsafe-member-access): Unsafe member access .toContain on an `error` typed value.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

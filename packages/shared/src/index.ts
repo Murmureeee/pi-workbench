@@ -39,6 +39,13 @@ export { resourceLimitsSchema, resourceSnapshotSchema } from './resource-contrac
 export type { ResourceLimits, ResourceSnapshot } from './resource-contracts.js'
 export { Redactor, redacted } from './redaction.js'
 export {
+  reasoningSchema,
+  publicReasoning,
+  mergeReasoning,
+  visibleReasoning,
+} from './reasoning-observation.js'
+export type { Reasoning } from './reasoning-observation.js'
+export {
   runtimeToolSchema,
   mergeToolObservation,
   toolIsActive,

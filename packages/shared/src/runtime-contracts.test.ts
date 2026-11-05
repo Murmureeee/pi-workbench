@@ -114,6 +114,7 @@ describe('CORE-05 authoritative observation contract', () => {
         'tool-observation',
         'redacted-observation',
         'tool-timeline-v1',
+        'reasoning-observation-v1',
       ],
       mutations: false,
       realProviderEnabled: false,

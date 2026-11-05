@@ -22,6 +22,7 @@ import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { LatestMessagesButton } from './latest-messages-button.js'
 import { MessageBody } from './message-body.js'
 import { useReadingLayout } from './reading-layout.js'
+import { ReasoningCard } from './reasoning-card.js'
 import { RememberedViewport } from './remembered-viewport.js'
 import { ToolTimeline } from './tool-timeline.js'
 
@@ -82,6 +83,13 @@ function HistoryEntry({
             />
           </BubbleContent>
         </Bubble>
+        {message.role === 'assistant' ? (
+          <ReasoningCard
+            sessionId={sessionId}
+            messageId={message.id}
+            reasoning={message.reasoning}
+          />
+        ) : null}
         {message.error ? (
           <Alert variant="destructive">
             <AlertTitle>本轮未完成</AlertTitle>

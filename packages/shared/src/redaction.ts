@@ -3,7 +3,7 @@ export const redacted = '«redacted»'
 const secretField =
   /(?:^|[_\-.])(?:api[_-]?key|key|token|secret|password|passwd|authorization|proxy[_-]?authorization|cookie|set[_-]?cookie|access|refresh|credential)(?:$|[_\-.])/i
 const camelSecret =
-  /(?:apiKey|accessToken|refreshToken|clientSecret|privateKey|password|authorization|credentials?)/i
+  /(?:apiKey|accessToken|refreshToken|clientSecret|privateKey|password|authorization|credentials?|thinkingSignature|reasoningSignature|encrypted[_-]?content)/i
 function secretName(name: string): boolean {
   return secretField.test(name) || camelSecret.test(name)
 }
@@ -48,12 +48,38 @@ export class Redactor {
         return '[unavailable]'
       }
       seen.add(value)
+      if (
+        'type' in value &&
+        typeof value.type === 'string' &&
+        ['thinking', 'redacted_thinking', 'reasoning', 'redacted_reasoning'].includes(value.type) &&
+        (value.type !== 'thinking' ||
+          !('thinking' in value) ||
+          typeof value.thinking !== 'string' ||
+          ('redacted' in value && value.redacted !== false))
+      ) {
+        seen.delete(value)
+        return { type: 'thinking', redacted: true }
+      }
       const output = Array.isArray(value)
         ? value.map((item: unknown) => visit(item, depth + 1))
         : Object.fromEntries(
             Object.entries(value).map(([key, item]: [string, unknown]) => [
               this.text(key),
-              secretName(key) ? redacted : visit(item, depth + 1),
+              secretName(key)
+                ? redacted
+                : key === 'content' &&
+                    'role' in value &&
+                    value.role === 'assistant' &&
+                    Array.isArray(item)
+                  ? item.map((part: unknown) =>
+                      typeof part === 'object' &&
+                      part !== null &&
+                      'type' in part &&
+                      ['text', 'thinking', 'toolCall'].includes(String(part.type))
+                        ? visit(part, depth + 1)
+                        : '[unsupported content]',
+                    )
+                  : visit(item, depth + 1),
             ]),
           )
       seen.delete(value)

@@ -6,12 +6,29 @@ import { emptyProjection, reduceEvent } from '@pi-workbench/shared'
 
 import { readTheme, saveTheme } from '../services/theme.js'
 
+function readReasoningPrivacy(): boolean {
+  try {
+    return sessionStorage.getItem('piw-hide-reasoning') === 'true'
+  } catch {
+    return false
+  }
+}
+
 export const useWorkbench = create<WorkbenchStore>((set, get) => ({
   scene: 'new',
   projection: emptyProjection(),
   draft: '',
   submitted: '',
   theme: readTheme(),
+  hideReasoning: readReasoningPrivacy(),
+  setHideReasoning: (hideReasoning) => {
+    try {
+      sessionStorage.setItem('piw-hide-reasoning', String(hideReasoning))
+    } catch {
+      /* Window memory remains authoritative when storage is unavailable. */
+    }
+    set({ hideReasoning })
+  },
   navOpen: false,
   changesOpen: false,
   sessionListFilter: 'active',

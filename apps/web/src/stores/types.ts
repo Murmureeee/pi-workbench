@@ -7,6 +7,8 @@ export interface WorkbenchStore {
   draft: string
   submitted: string
   theme: Theme
+  hideReasoning: boolean
+  setHideReasoning: (value: boolean) => void
   navOpen: boolean
   changesOpen: boolean
   sessionListFilter: 'active' | 'archived'

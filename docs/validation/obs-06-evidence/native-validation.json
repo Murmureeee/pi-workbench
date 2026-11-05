@@ -1,0 +1,16 @@
+{
+  "feature": "OBS-06",
+  "verifiedAt": "2026-11-05T11:50:30.451Z",
+  "observations": 56,
+  "firstPrompts": 3,
+  "restartPrompts": 0,
+  "restartKernels": 0,
+  "historiesUnchanged": true,
+  "protectedUnchanged": true,
+  "normalExits": 2,
+  "ownedProcessesExited": true,
+  "providerRequests": 0,
+  "nativePrivacyChanges": 0,
+  "source": "Actual Windows SendInput/UIA, Electron, daemon, SQLite and installed SDK local HTTP fixture; no CDP or synthetic injection.",
+  "caveat": "One extra local fixture submission occurred when Return was pressed after a window resize; retained in the audit. It is not a restart replay or provider call."
+}

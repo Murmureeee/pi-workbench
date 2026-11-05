@@ -2063,16 +2063,16 @@
       "sources": [],
       "legacy": "feature-stream",
       "progress": {
-        "status": "not_started",
-        "owner": "",
+        "status": "verified",
+        "owner": "Codex",
         "targetDate": "",
-        "note": "",
-        "evidence": "",
+        "note": "公开思考权限过滤、折叠、脱敏复制下载、本窗口隐藏和明确缺失状态已验收；257 项 Vitest、完整 95 项 E2E及最终相关回归／frozen clean，56 条 Windows 原生观察、同 data/profile 重启零发送与两次正常退出；工具、扩展及真实提供商仍关闭。",
+        "evidence": "docs/validation/obs-06-evidence/acceptance.md",
         "acceptanceChecked": [
-          false,
-          false
+          true,
+          true
         ],
-        "updatedAt": null
+        "updatedAt": "2026-11-05"
       }
     },
     {

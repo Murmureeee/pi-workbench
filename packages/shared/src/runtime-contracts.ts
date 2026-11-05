@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { reasoningSchema } from './reasoning-observation.js'
 import {
   interruptToolObservations,
   mergeToolObservation,
@@ -12,6 +13,7 @@ export const runtimeCapabilities = [
   'tool-observation',
   'redacted-observation',
   'tool-timeline-v1',
+  'reasoning-observation-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),
@@ -28,6 +30,7 @@ const turnSchema = z.strictObject({
   messageId: z.string().min(1),
   prompt: z.string(),
   text: z.string(),
+  reasoning: reasoningSchema.optional(),
   phase: z.enum(['running', 'stopping', 'completed', 'aborted', 'error', 'interrupted']),
   tools: z.array(runtimeToolSchema),
   approval: approvalSchema.nullable(),
@@ -83,6 +86,7 @@ export const runtimeEventSchema = z
         text: z.string(),
       }),
       z.strictObject({ type: z.literal('tool.updated'), tool: runtimeToolSchema }),
+      z.strictObject({ type: z.literal('reasoning.updated'), reasoning: reasoningSchema }),
       z.strictObject({ type: z.literal('approval.requested'), approval: approvalSchema }),
       z.strictObject({ type: z.literal('approval.resolved'), approvalId: z.string() }),
       z.strictObject({ type: z.literal('turn.stopping') }),
@@ -187,6 +191,9 @@ export function applyRuntimeEvent(state: RuntimeSnapshot, event: RuntimeEvent): 
   }
   let turn = { ...active }
   switch (payload.type) {
+    case 'reasoning.updated':
+      turn.reasoning = payload.reasoning
+      break
     case 'message.delta':
     case 'message.replaced':
       if (payload.messageId !== active.messageId) {
