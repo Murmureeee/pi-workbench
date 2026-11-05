@@ -90,7 +90,9 @@ test('OBS-06 actual Electron states, late/cross-session isolation, background fo
     await expect(pane.getByRole('button', { name: '上游提供的思考信息', exact: true })).toHaveCount(
       0,
     )
-    await page.getByRole('button', { name: first.title, exact: true }).click()
+    // The result may still be unread when leaving immediately after completion.
+    // Its native title identifies the same row regardless of the unread badge.
+    await pane.getByTitle(first.title, { exact: true }).click()
     await page.getByRole('textbox', { name: '任务内容' }).fill('草稿焦点保持')
     await page.getByRole('textbox', { name: '任务内容' }).focus()
     f.events.publish(second.id, snapshot.epoch, turn.id, {

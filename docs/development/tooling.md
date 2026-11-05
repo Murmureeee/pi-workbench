@@ -207,3 +207,7 @@ OBS-06 已验收公开思考权限过滤、默认折叠、脱敏复制下载、�
 ## MODEL-07 已验收
 
 MODEL-07 已验收：实际 SDK 请求计数、零自动重试策略、脱敏原错误、权威等待期限／未知等待／到期不执行、终态清除等待、同操作错误合并及工具／审批阻止整任务重放。完整261项Vitest／97项E2E、SDK与frozen clean，55条Windows原生观察、同data/profile重启0请求／0内核及两次正常退出；真实提供商0。 当前本地29／133，OPS-08继续in_progress。pi配置／预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/model-07-evidence/acceptance.md)。
+
+## INPUT-06 已验收
+
+INPUT-06 已验收：daemon持久有界引导／追加队列、实际SDK边界FIFO、settled后追加新轮、编辑CAS与失败保留、停止／重启held及单条明确恢复。完整40文件／264项Vitest、99项E2E、SDK与frozen clean通过；78条Windows原生观察、后台同PID／epoch／cwd、明暗802px窄窗及两次正常退出，同data/profile重启0发送／0内核且历史不变。329文件与clean一致，原生后复用门禁；短边界原生顺序未建立，SDK顺序和合成IME守卫以自动测试为证。当前本地30／133，OPS-08继续in_progress；真实提供商0，pi配置／预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/input-06-evidence/acceptance.md)。

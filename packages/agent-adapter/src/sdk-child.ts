@@ -2,6 +2,7 @@ import type { KernelCommand, KernelIdentity, KernelMessage } from './kernel-prot
 import type { createOfflineRuntime } from './sdk-runtime.js'
 import type { ModelRequest, Reasoning } from '@pi-workbench/shared'
 
+import { randomUUID } from 'node:crypto'
 import process from 'node:process'
 
 import { mergeReasoning, publicReasoning } from '@pi-workbench/shared'
@@ -16,6 +17,12 @@ let run: Promise<void> | undefined
 let seq = 0
 let closing = false
 let unsubscribe: (() => void) | undefined
+let unsubscribeBoundary: (() => void) | undefined
+let boundary:
+  | { id: string; resolve: (item: { id: string; text: string } | null) => void }
+  | undefined
+let deliveredInput: { id: string; timestamp: number } | undefined
+let queueEnabled = false
 const tools = new ToolObserver(process.cwd())
 let reasoning: Reasoning | undefined
 let modelRequest: ModelRequest = {
@@ -46,10 +53,12 @@ async function dispose() {
     return
   }
   closing = true
+  boundary?.resolve(null)
   if (runtime) {
     await runtime.session.abort()
     await run
     unsubscribe?.()
+    unsubscribeBoundary?.()
     runtime.session.dispose()
     await runtime.provider.close()
   }
@@ -86,6 +95,15 @@ async function handle(command: KernelCommand) {
       return
     }
     unsubscribe = runtime.session.subscribe((event) => {
+      if (
+        event.type === 'message_start' &&
+        event.message.role === 'user' &&
+        deliveredInput &&
+        event.message.timestamp === deliveredInput.timestamp
+      ) {
+        send({ type: 'queue-delivered', id: deliveredInput.id })
+        deliveredInput = undefined
+      }
       if (event.type === 'auto_retry_start') {
         modelRequest = {
           ...modelRequest,
@@ -126,6 +144,43 @@ async function handle(command: KernelCommand) {
         }
       }
     })
+    // Agent listeners are awaited. The installed SDK emits turn_end after tools, before
+    // draining steering input. Hold this boundary for the daemon's immutable selection;
+    // follow-up never enters the SDK's uncheckpointed continuation queue.
+    unsubscribeBoundary = runtime.session.agent.subscribe(async (event, signal) => {
+      if (
+        !queueEnabled ||
+        event.type !== 'turn_end' ||
+        signal.aborted ||
+        event.message.role !== 'assistant' ||
+        event.message.stopReason === 'error' ||
+        event.message.stopReason === 'aborted'
+      ) {
+        return
+      }
+      const id = randomUUID()
+      let timer: ReturnType<typeof setTimeout> | undefined
+      const item = await new Promise<{ id: string; text: string } | null>((resolve, reject) => {
+        boundary = { id, resolve }
+        timer = setTimeout(
+          () => reject(new Error('Host input boundary timed out; no input replayed')),
+          10000,
+        )
+        send({ type: 'queue-boundary', boundaryId: id })
+      }).finally(() => {
+        clearTimeout(timer)
+        boundary = undefined
+      })
+      if (!item || signal.aborted || closing) {
+        return
+      }
+      deliveredInput = { id: item.id, timestamp: Date.now() }
+      runtime?.session.agent.steer({
+        role: 'user',
+        content: [{ type: 'text', text: item.text }],
+        timestamp: deliveredInput.timestamp,
+      })
+    })
     const sessionFile = runtime.session.sessionFile
     if (
       !sessionFile ||
@@ -163,16 +218,24 @@ async function handle(command: KernelCommand) {
       throw new Error('Disposal turn mismatch')
     }
     await dispose()
+  } else if (command.type === 'queue-boundary') {
+    if (command.turnId === currentTurn && command.boundaryId === boundary?.id) {
+      boundary.resolve(command.item)
+    }
   } else if (command.type === 'abort') {
     if (command.turnId !== currentTurn || !run) {
       throw new Error('Abort turn mismatch')
     }
+    boundary?.resolve(null)
+    runtime.session.agent.clearAllQueues()
     await runtime.session.abort()
   } else {
     if (run) {
       throw new Error('A turn is already running')
     }
     currentTurn = command.turnId
+    queueEnabled = command.inputQueue
+    deliveredInput = undefined
     tools.reset()
     reasoning = undefined
     modelRequest = {
@@ -233,6 +296,7 @@ async function handle(command: KernelCommand) {
         ...activeRuntime.provider.stats(),
       })
       currentTurn = null
+      activeRuntime.session.agent.clearAllQueues()
       run = undefined
     })()
   }

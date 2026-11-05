@@ -197,6 +197,9 @@ test('SEC-08 actual Electron parent IPC authorizes isolated renderer; native men
     driver,
     `const { app, Menu, shell } = require('electron');
 shell.openExternal = async (url) => { process.send({ external: url }); };
+app.on('web-contents-created', (_event, contents) => {
+  contents.once('did-finish-load', () => process.send({type: 'renderer-ready'}));
+});
 process.on('message', (message) => {
   if (message === 'browser-menu') Menu.getApplicationMenu().items[0].submenu.items[0].click();
   if (message === 'quit') app.quit();
@@ -216,7 +219,8 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
   )
   const exited = new Promise<number | null>((done) => child.once('exit', done))
   let endpoint = '',
-    external = ''
+    external = '',
+    rendererReady = false
   child.stderr?.on('data', (chunk: Buffer) => {
     endpoint ||=
       chunk.toString().match(/DevTools listening on (ws:\/\/127\.0\.0\.1:\d+\/\S+)/)?.[1] ?? ''
@@ -234,6 +238,13 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     } else if (
       message &&
       typeof message === 'object' &&
+      'type' in message &&
+      message.type === 'renderer-ready'
+    ) {
+      rendererReady = true
+    } else if (
+      message &&
+      typeof message === 'object' &&
       'external' in message &&
       typeof message.external === 'string'
     ) {
@@ -244,6 +255,9 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
   try {
     await app.listen(4318, '127.0.0.1')
     await expect.poll(() => endpoint).not.toBe('')
+    // Electron can create its first CDP target during connection. Follow the common
+    // desktop helper and wait for native load before attaching to the target list.
+    await expect.poll(() => rendererReady, { timeout: 15000 }).toBe(true)
     browser = await chromium.connectOverCDP(endpoint)
     const context = browser.contexts()[0]
     if (!context) {

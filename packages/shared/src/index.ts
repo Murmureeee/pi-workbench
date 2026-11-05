@@ -1,4 +1,6 @@
 export { eventSchema, fixtureSchema, healthSchema, sceneSchema } from './contracts.js'
+export { inputQueueCommandSchema, inputQueueSchema } from './input-queue.js'
+export type { InputQueueCommand, InputQueueRecord } from './input-queue.js'
 export { emptyProjection, reduceEvent, restoreProjection } from './reducer.js'
 export type { Fixture, Health, Projection, Scene, WorkbenchEvent } from './types.js'
 export {

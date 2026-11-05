@@ -34,6 +34,8 @@ const promptSchema = z.strictObject({
       'rendering-long',
       'scrolling',
       'reasoning',
+      'queue',
+      'queue-fast',
     ])
     .optional(),
 })
@@ -90,6 +92,21 @@ export class KernelService {
   private closing = false
   private disposal: Promise<void> | undefined
   private readonly unsubscribeResources: () => void
+  private inputQueue:
+    | {
+        take: (
+          sessionId: string,
+          epoch: string,
+          turnId: string,
+        ) => { id: string; text: string } | null
+        delivered: (sessionId: string, epoch: string, turnId: string, id: string) => void
+      }
+    | undefined
+
+  /** Only the daemon queue owner can select input; no HTTP/client can talk to SDK IPC. */
+  setInputQueue(owner: NonNullable<KernelService['inputQueue']>): void {
+    this.inputQueue = owner
+  }
 
   constructor(
     private readonly dataDir: string,
@@ -124,6 +141,32 @@ export class KernelService {
     kernel.subscribe((message) => {
       if (!message.turnId) {
         return
+      }
+      if (message.type === 'queue-delivered') {
+        this.inputQueue?.delivered(sessionId, epoch, message.turnId, message.id)
+      }
+      if (message.type === 'queue-boundary') {
+        const turnId = message.turnId,
+          task = this.tasks.get(sessionId)
+        void (async () => {
+          try {
+            await task?.directoryCheck?.()
+            const item =
+              task &&
+              this.tasks.get(sessionId) === task &&
+              task.input.turnId === turnId &&
+              !task.controller.signal.aborted &&
+              !this.closing
+                ? (this.inputQueue?.take(sessionId, epoch, turnId) ?? null)
+                : null
+            kernel.inputBoundary(turnId, message.boundaryId, item)
+          } catch {
+            kernel.inputBoundary(turnId, message.boundaryId, null)
+            if (task && this.tasks.get(sessionId) === task) {
+              await this.abort(sessionId, turnId)
+            }
+          }
+        })().catch(() => console.error('Input boundary failed; no automatic replay'))
       }
       if (message.type === 'delta') {
         this.events.publish(sessionId, epoch, message.turnId, {
@@ -411,7 +454,11 @@ export class KernelService {
       const trustedContext =
         this.trust?.beginTurn(task.cwd, task.sessionId, task.input.turnId) ?? []
       dispatched = true
-      const result = await kernel.prompt({ ...task.input, trustedContext })
+      const result = await kernel.prompt({
+        ...task.input,
+        trustedContext,
+        inputQueue: Boolean(this.inputQueue),
+      })
       settled = true
       if (task.directoryFailure) {
         throw task.directoryFailure

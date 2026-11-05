@@ -1,0 +1,16 @@
+{
+  "before": "{\"6beebd1e-869b-45cf-8334-b91995f075a6\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"0b96f1bc-4efe-4f61-b002-d6f7689fd408\":\"1518:1134430163:\",\"0b96f1bc-4efe-4f61-b002-d6f7689fd408:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"0b96f1bc-4efe-4f61-b002-d6f7689fd408\",\"offset\":-816.8125,\"top\":900,\"follow\":false}}}}",
+  "after": "{\"6beebd1e-869b-45cf-8334-b91995f075a6\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"0b96f1bc-4efe-4f61-b002-d6f7689fd408\":\"1518:1134430163:\",\"0b96f1bc-4efe-4f61-b002-d6f7689fd408:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"0b96f1bc-4efe-4f61-b002-d6f7689fd408\",\"offset\":-816.8125,\"top\":900,\"follow\":false}}},\"dbc28122-a57e-46d5-8055-466b3c2422fe\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"200908aa-e983-464b-8df4-9edcf8febfe1\":\"1518:4048832866:\",\"200908aa-e983-464b-8df4-9edcf8febfe1:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"200908aa-e983-464b-8df4-9edcf8febfe1\",\"offset\":-1981.8125,\"top\":2065,\"follow\":true}}},\"48485196-a272-4f5c-9498-2f058b78ea52\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"80248b08-4300-4720-9ec1-5a08c5a7a5c1\":\"1518:1511967185:\",\"80248b08-4300-4720-9ec1-5a08c5a7a5c1:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"80248b08-4300-4720-9ec1-5a08c5a7a5c1\",\"offset\":-1981.8125,\"top\":2065,\"follow\":true}}},\"9f08c5cb-59ce-4036-b2bf-b37fd4d00feb\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"3d875449-59aa-46bf-8021-b45c619eeb63\":\"1518:1567066992:\",\"3d875449-59aa-46bf-8021-b45c619eeb63:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"3d875449-59aa-46bf-8021-b45c619eeb63\",\"offset\":-1981.8125,\"top\":2065,\"follow\":true}}}}",
+  "geometry": {
+    "top": 900,
+    "height": 403,
+    "scrollHeight": 2558,
+    "anchors": [
+      {
+        "id": "0b96f1bc-4efe-4f61-b002-d6f7689fd408",
+        "top": -604.625,
+        "height": 2444.78125
+      }
+    ]
+  }
+}

@@ -112,7 +112,7 @@ test('MODEL-07 synthetic wait deadlines never retry, preserve completed/denied t
       'completed',
       'denied',
     ])
-    await page.getByRole('button', { name: first.title, exact: true }).click()
+    await pane.getByTitle(first.title, { exact: true }).click()
     await page.getByRole('textbox', { name: '任务内容' }).fill('前台草稿不受迟到等待影响')
     await page.getByRole('textbox', { name: '任务内容' }).focus()
     f.events.publish(session.id, snapshot.epoch, turn.id, {

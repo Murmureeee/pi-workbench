@@ -7,6 +7,7 @@ import type { ProjectService } from '../workspaces/project.service.js'
 import type { WorkspaceService } from '../workspaces/workspace.service.js'
 import type { SessionStore } from './session.store.js'
 import type {
+  InputQueueCommand,
   ManagedSession,
   ProjectCommand,
   SessionOrganize,
@@ -47,7 +48,196 @@ export class SessionService {
     private readonly security: SecurityService,
     private readonly events: EventService,
     private readonly trust: TrustService,
-  ) {}
+  ) {
+    kernels.setInputQueue({
+      take: (sessionId, epoch, turnId) => {
+        const row = store
+          .inputQueue(sessionId)
+          .find(
+            (item) =>
+              item.kind === 'steer' &&
+              ['queued', 'held', 'sending', 'uncertain'].includes(item.status),
+          )
+        if (!row || row.status !== 'queued' || row.epoch !== epoch || row.turnId !== turnId) {
+          return null
+        }
+        store.updateInput({ ...row, status: 'sending' }, row.revision)
+        return { id: row.id, text: row.text }
+      },
+      delivered: (sessionId, epoch, turnId, id) => {
+        const row = store.inputQueue(sessionId).find((item) => item.id === id)
+        if (row?.status === 'sending' && row.epoch === epoch && row.turnId === turnId) {
+          store.updateInput({ ...row, status: 'delivered', deliveredTurnId: turnId }, row.revision)
+        }
+      },
+    })
+  }
+
+  inputQueue(sessionId: string) {
+    if (!this.store.managedSessions().some((row) => row.id === sessionId)) {
+      throw new HttpException('会话不存在。', 404)
+    }
+    return {
+      sessionId,
+      activeTurnId:
+        this.events.snapshot(sessionId)?.turns.findLast((turn) => turn.phase === 'running')?.id ??
+        null,
+      records: this.store.inputQueue(sessionId).map((row) =>
+        Object.assign({}, row, {
+          text: this.security.redactor.text(row.text),
+          error: row.error ? this.security.redactor.text(row.error) : null,
+        }),
+      ),
+    }
+  }
+
+  /** A stop intent pauses undelivered inputs before awaiting SDK acknowledgement. */
+  pauseInput(sessionId: string): void {
+    this.store.holdInput(sessionId)
+  }
+
+  /** Explicit queue mutations are identity/CAS bound. Enqueue never invokes a model.
+   * Held input resumes only by a separate command; uncertain delivery requires inspection. */
+  async inputCommand(sessionId: string, input: InputQueueCommand) {
+    this.store.assertWritable(sessionId)
+    const rows = this.store.inputQueue(sessionId)
+    if (input.action === 'enqueue') {
+      const digest = createHash('sha256').update(JSON.stringify(input)).digest('hex')
+      const duplicate = rows.find((row) => row.id === input.id)
+      if (duplicate) {
+        if (duplicate.inputDigest !== digest) {
+          throw new HttpException('队列身份已绑定其他输入。', 409)
+        }
+        return this.inputQueue(sessionId)
+      }
+      if (rows.length >= 256) {
+        throw new HttpException('本会话队列记录已达256条上限。', 409)
+      }
+      const active = this.store
+        .submissions(sessionId)
+        .findLast((row) => ['pending', 'executing'].includes(row.status))
+      const snapshot = this.events.snapshot(sessionId)
+      if (
+        !active ||
+        active.turnId !== input.turnId ||
+        !snapshot ||
+        snapshot.turns.at(-1)?.id !== input.turnId ||
+        snapshot.turns.at(-1)?.phase !== 'running'
+      ) {
+        throw new HttpException('当前轮次已变化，请核对；草稿保留。', 409)
+      }
+      this.store.saveQueue({
+        id: input.id,
+        sessionId,
+        epoch: snapshot.epoch,
+        turnId: input.turnId,
+        source: 'workbench',
+        kind: input.kind,
+        text: input.text,
+        position: Math.max(-1, ...rows.map((row) => row.position)) + 1,
+        status: 'queued',
+        inputDigest: digest,
+      })
+    } else {
+      const row = rows.find((item) => item.id === input.id)
+      if (!row || row.revision !== input.revision) {
+        throw new HttpException('队列版本已变化；编辑保留，请刷新核对。', 409)
+      }
+      if (
+        !['queued', 'held'].includes(row.status) &&
+        !(input.action === 'cancel' && row.status === 'uncertain')
+      ) {
+        throw new HttpException('消息已进入送达或已结束，不能改写；请核对历史。', 409)
+      }
+      if (input.action === 'resume') {
+        if (
+          row.status !== 'held' ||
+          this.drainingInput.has(sessionId) ||
+          this.activity().find((item) => item.id === sessionId)?.running
+        ) {
+          throw new HttpException('请等待当前轮实际结束，再明确恢复。', 409)
+        }
+        if (
+          rows.some(
+            (item) =>
+              item.kind === row.kind &&
+              item.position < row.position &&
+              ['held', 'queued', 'sending', 'uncertain'].includes(item.status),
+          )
+        ) {
+          throw new HttpException('请先处理同类队列中更早的消息。', 409)
+        }
+        this.store.updateInput({ ...row, status: 'queued' }, row.revision)
+        await this.drainInput(sessionId, row.id)
+      } else {
+        this.store.updateInput(
+          {
+            ...row,
+            ...(input.action === 'edit' ? { text: input.text } : { status: 'cancelled' as const }),
+          },
+          row.revision,
+        )
+      }
+    }
+    return this.inputQueue(sessionId)
+  }
+
+  private readonly drainingInput = new Set<string>()
+  /** Claims one persisted input, then reuses normal directory/trust admission. A failed
+   * admission holds the queue; a view refresh or restart never calls this to resume it. */
+  private async drainInput(sessionId: string, explicitId?: string): Promise<void> {
+    if (this.drainingInput.has(sessionId)) {
+      return
+    }
+    this.drainingInput.add(sessionId)
+    try {
+      const session = this.store.managedSessions().find((row) => row.id === sessionId)
+      const rows = this.store.inputQueue(sessionId)
+      const row = explicitId
+        ? rows.find((item) => item.id === explicitId)
+        : rows.find(
+            (item) =>
+              ['queued', 'held', 'sending', 'uncertain'].includes(item.status) &&
+              item.kind === 'follow-up',
+          )
+      if (!session || !row || row.status !== 'queued') {
+        return
+      }
+      this.store.updateInput({ ...row, status: 'sending' }, row.revision)
+      const input: SessionSubmit = {
+        requestId: row.id,
+        sessionId,
+        text: row.text,
+        retryOf: null,
+        configuration: session.configuration,
+      }
+      try {
+        await this.accept(
+          input,
+          createHash('sha256').update(JSON.stringify(input)).digest('hex'),
+          row.id,
+        )
+      } catch (error) {
+        const latest = this.store.inputQueue(sessionId).find((item) => item.id === row.id)
+        if (latest?.status === 'sending') {
+          this.store.updateInput(
+            {
+              ...latest,
+              status: 'held',
+              error:
+                error instanceof Error
+                  ? this.security.redactor.text(error.message)
+                  : '准入失败，输入保留。',
+            },
+            latest.revision,
+          )
+        }
+        this.store.holdInput(sessionId)
+      }
+    } finally {
+      this.drainingInput.delete(sessionId)
+    }
+  }
 
   options() {
     return {
@@ -235,7 +425,11 @@ export class SessionService {
     return promise
   }
 
-  private async accept(input: SessionSubmit, digest: string): Promise<SessionReceipt> {
+  private async accept(
+    input: SessionSubmit,
+    digest: string,
+    queueId?: string,
+  ): Promise<SessionReceipt> {
     if (input.configuration.model.kind === 'provider') {
       const catalog = await this.models.discover()
       const provider = catalog.providers.find(
@@ -354,7 +548,7 @@ export class SessionService {
       ) {
         throw new HttpException('会话归属已变化，请刷新核对；原执行目录保留。', 409)
       }
-      saved = this.store.acceptSubmission(input, digest, prepared)
+      saved = this.store.acceptSubmission(input, digest, prepared, queueId)
       const receipt = this.store.receipt(input.requestId)!
       if (saved) {
         try {
@@ -426,9 +620,24 @@ export class SessionService {
               : 'completed',
           result.error ? this.security.redactor.text(result.error) : null,
         )
+        if (result.outcome === 'completed') {
+          for (const row of this.store.inputQueue(session.id)) {
+            if (
+              row.kind === 'steer' &&
+              row.turnId === submission.turnId &&
+              row.status === 'queued'
+            ) {
+              this.store.updateInput({ ...row, status: 'held' }, row.revision)
+            }
+          }
+          void this.drainInput(session.id)
+        } else {
+          this.store.holdInput(session.id)
+        }
         return undefined
       })
       .catch((error: unknown) => {
+        this.store.holdInput(session.id)
         this.security.log('session-run-failed', error)
         this.store.settleSubmission(
           submission.requestId,

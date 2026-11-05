@@ -63,6 +63,41 @@ export async function createOfflineProvider() {
       })
       return
     }
+    if (mode === 'queue' || mode === 'queue-fast') {
+      // Explicit, bounded local multi-request fixture for steering order. No remote transport.
+      let body = ''
+      request.setEncoding('utf8')
+      request.on('data', (chunk: string) => {
+        body += chunk
+      })
+      request.on('end', () => {
+        const value = z
+          .object({ messages: z.array(z.object({ role: z.string(), content: z.unknown() })) })
+          .safeParse(JSON.parse(body))
+        const users = value.success
+          ? value.data.messages.filter((message) => message.role === 'user')
+          : []
+        response.writeHead(200, {
+          'content-type': 'text/event-stream',
+          'cache-control': 'no-cache',
+        })
+        response.write(frame({ role: 'assistant', content: 'INPUT06_REQUEST\n' }))
+        const timer = setTimeout(
+          () => {
+            if (!response.destroyed) {
+              response.end(
+                frame({ content: JSON.stringify(users).slice(-12000) }) +
+                  frame({}, 'stop') +
+                  'data: [DONE]\n\n',
+              )
+            }
+          },
+          mode === 'queue' && users.length === 1 ? 45000 : 1800,
+        )
+        response.once('close', () => clearTimeout(timer))
+      })
+      return
+    }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
     if (mode === 'reasoning') {
@@ -190,7 +225,7 @@ export async function createOfflineProvider() {
     prepare(fixture: FixtureMode) {
       mode = fixture
       // Unknown tool completion may cause a second SDK model round. Bound it locally.
-      requestLimit = requests + 1
+      requestLimit = requests + (fixture === 'queue' || fixture === 'queue-fast' ? 32 : 1)
     },
     stats: () => ({ localRequests: requests, blockedNetworkAttempts }),
     async close() {

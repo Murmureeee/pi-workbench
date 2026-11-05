@@ -10,6 +10,7 @@ import { HttpException } from '@nestjs/common'
 import { z } from 'zod'
 
 import {
+  inputQueueCommandSchema,
   projectCommandSchema,
   projectCreateSchema,
   runtimeCapabilities,
@@ -57,6 +58,30 @@ export function registerSessionCommands(
     }
   })
   server.get('/api/chat/options', () => service.options())
+  server.get<{ Params: { sessionId: string } }>(
+    '/api/chat/sessions/:sessionId/queue',
+    (request, reply) => {
+      try {
+        return service.inputQueue(request.params.sessionId)
+      } catch (error) {
+        return failure(reply, error)
+      }
+    },
+  )
+  server.post<{ Params: { sessionId: string } }>(
+    '/api/chat/sessions/:sessionId/queue',
+    async (request, reply) => {
+      const parsed = inputQueueCommandSchema.safeParse(request.body)
+      if (!z.uuid().safeParse(request.params.sessionId).success || !parsed.success) {
+        return reply.code(400).send({ message: '队列输入、操作或版本无效。' })
+      }
+      try {
+        return await service.inputCommand(request.params.sessionId, parsed.data)
+      } catch (error) {
+        return failure(reply, error)
+      }
+    },
+  )
   server.get('/api/chat/sessions', () => ({ sessions: store.managedSessions() }))
   server.get<{ Params: { sessionId: string } }>(
     '/api/chat/sessions/:sessionId/space',
@@ -215,6 +240,7 @@ export function registerSessionCommands(
         return reply.code(409).send({ message: '任务已结束或身份不匹配，请刷新状态。' })
       }
       try {
+        service.pauseInput(submission.sessionId)
         await kernels.abort(submission.sessionId, submission.turnId)
         return { stopping: true }
       } catch {

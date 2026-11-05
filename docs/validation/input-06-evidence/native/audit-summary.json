@@ -1,0 +1,37 @@
+{
+  "feature": "INPUT-06",
+  "observationCount": 78,
+  "firstPrompts": 4,
+  "firstOutcomes": [
+    "completed",
+    "completed",
+    "aborted",
+    "completed"
+  ],
+  "restartPrompts": 0,
+  "restartKernels": 0,
+  "bothNormalExits": true,
+  "ownedProcessesExited": true,
+  "protectedHashesUnchanged": true,
+  "restartHistoryHashesUnchanged": true,
+  "background": {
+    "pid": 3572,
+    "epoch": "957c49b8-3e0f-433b-b400-d3131092cd6c"
+  },
+  "queue": [
+    {
+      "text": "原生恢复已编辑",
+      "status": "delivered",
+      "revision": 5
+    },
+    {
+      "text": "原生重启保留",
+      "status": "held",
+      "revision": 1
+    }
+  ],
+  "limitations": [
+    "Two native 45-second boundary attempts settled before manual enqueue; actual ordering established by SDK/service and Electron automated tests.",
+    "Unicode SendInput and ordinary Escape are not fresh Microsoft Pinyin composition evidence; synthetic IME guard is separately automated."
+  ]
+}

@@ -16,6 +16,7 @@ export const runtimeCapabilities = [
   'tool-timeline-v1',
   'reasoning-observation-v1',
   'model-request-v1',
+  'input-queue-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),

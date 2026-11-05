@@ -25,7 +25,11 @@ export const queueRecordSchema = z.strictObject({
   kind: z.enum(['steer', 'follow-up']),
   position: z.number().int().nonnegative(),
   text: z.string(),
-  status: z.enum(['queued', 'held', 'delivered', 'cancelled']),
+  status: z.enum(['queued', 'held', 'sending', 'uncertain', 'delivered', 'cancelled']),
+  revision: z.number().int().nonnegative().default(0),
+  deliveredTurnId: z.uuid().nullable().default(null),
+  error: z.string().nullable().default(null),
+  inputDigest: z.string().default(''),
 })
 export const approvalRecordSchema = z.strictObject({
   ...identity,

@@ -32,6 +32,7 @@ async function observer() {
       'tool-timeline-v1',
       'reasoning-observation-v1',
       'model-request-v1',
+      'input-queue-v1',
     ],
     mutations: false,
     realProviderEnabled: false,

@@ -5,8 +5,12 @@ import { AccessService } from '../../dist/modules/security/access.service.js'
 /** Existing CORE tests receive a host-issued ticket and redeem it through the real HTTP
  * handler. SEC-08 tests additionally exercise unpaired/invalid/revoked browser behavior.
  */
-export async function authorizedHeaders(app: Awaited<ReturnType<typeof createApp>>, port: number) {
-  const ticket = app.get(AccessService).issueTicket()
+export async function authorizedHeaders(
+  app: Awaited<ReturnType<typeof createApp>>,
+  port: number,
+  kind: 'browser' | 'desktop' = 'browser',
+) {
+  const ticket = app.get(AccessService).issueTicket(kind)
   const response = await app.inject({
     method: 'POST',
     url: '/api/access/pair',

@@ -65,6 +65,7 @@ import { WorkspaceEnvironment } from '../workspaces/workspace-environment.js'
 import { WorkspaceSafety } from '../workspaces/workspace-safety.js'
 import { ManagedThread } from './managed-thread.js'
 import { SessionHistory } from './session-history.js'
+import { SessionInputQueue } from './session-input-queue.js'
 import { SessionLibrary } from './session-library.js'
 import { SessionRenameDialog } from './session-rename-dialog.js'
 import { SessionSearchDialog } from './session-search-dialog.js'
@@ -972,6 +973,27 @@ function SessionPane({
                     </Button>
                   </InputGroupAddon>
                 </InputGroup>
+                {current ? (
+                  <SessionInputQueue
+                    sessionId={current.id}
+                    turnId={activeSubmission?.turnId ?? null}
+                    csrf={csrf}
+                    text={draft.text}
+                    enabled={Boolean(
+                      authorized &&
+                      !directoryBlocked &&
+                      !currentOrganization?.archived &&
+                      !draft.pending,
+                    )}
+                    onQueued={(text) => {
+                      // Immutable draft identity also protects A→B→A edits while a queue
+                      // receipt is delayed; matching text alone is not a request version.
+                      if (sessionDraft(key) === draft && draft.text.trim() === text) {
+                        update(key, { text: '' })
+                      }
+                    }}
+                  />
+                ) : null}
                 <div className="composer-hint">
                   <span>Enter 发送 · Shift+Enter 换行</span>
                   <span>{pending ? '正在保存…' : '费用未知 · 未调用真实提供商'}</span>

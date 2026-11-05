@@ -2,6 +2,7 @@ import type { WorkspaceDatabase } from '../../infrastructure/database/database.j
 import type {
   HistoryDiagnostic,
   HistoryMessage,
+  InputQueueRecord,
   ManagedSession,
   RuntimeSnapshot,
   SessionOrganization,
@@ -134,7 +135,8 @@ export class SessionStore {
         .filter((row) => {
           const parsed = queueRecordSchema.safeParse(this.parse(row.data))
           return (
-            parsed.success && (parsed.data.status === 'held' || parsed.data.status === 'queued')
+            parsed.success &&
+            ['held', 'queued', 'sending', 'uncertain'].includes(parsed.data.status)
           )
         }).length,
     }))
@@ -407,7 +409,12 @@ export class SessionStore {
    * before any SDK startup. A reused request with changed input is never accepted.
    * Pending text is an outbox, retired only after a matching native user entry is readable.
    */
-  acceptSubmission(input: SessionSubmit, digest: string, prepared: ManagedSession) {
+  acceptSubmission(
+    input: SessionSubmit,
+    digest: string,
+    prepared: ManagedSession,
+    queueId?: string,
+  ) {
     this.assertWritable(prepared.id)
     return this.database.db.transaction((tx) => {
       const duplicate = tx
@@ -440,6 +447,16 @@ export class SessionStore {
       ) {
         throw new Error('Session already has an accepted task')
       }
+      if (
+        this.inputQueue(prepared.id).some(
+          (row) =>
+            ['queued', 'held', 'sending', 'uncertain'].includes(row.status) && row.id !== queueId,
+        )
+      ) {
+        if (!queueId) {
+          throw new Error('先处理保留队列，再发送独立任务。')
+        }
+      }
       if (!input.sessionId) {
         tx.insert(sessions)
           .values({ id: prepared.id, cwd: prepared.cwd, createdAt: prepared.createdAt })
@@ -469,12 +486,31 @@ export class SessionStore {
           })
           .run()
       }
+      const acceptedTurnId = randomUUID()
+      if (queueId) {
+        const queued = this.inputQueue(prepared.id).find((item) => item.id === queueId)
+        if (!queued || queued.status !== 'sending' || queued.text !== input.text) {
+          throw new Error('Queued input changed before admission')
+        }
+        tx.update(sessionQueue)
+          .set({
+            data: JSON.stringify({
+              ...queued,
+              status: 'delivered',
+              deliveredTurnId: acceptedTurnId,
+              error: null,
+              revision: queued.revision + 1,
+            }),
+          })
+          .where(eq(sessionQueue.id, queueId))
+          .run()
+      }
       tx.insert(sessionSubmissions)
         .values({
           requestId: input.requestId,
           sessionId: prepared.id,
           messageId: randomUUID(),
-          turnId: randomUUID(),
+          turnId: acceptedTurnId,
           digest,
           text: input.text,
           retryOf: input.retryOf,
@@ -859,6 +895,41 @@ export class SessionStore {
       .onConflictDoUpdate({ target: sessionQueue.id, set: { data: JSON.stringify(record) } })
       .run()
   }
+
+  /** Queue bodies are host-owned outbox records. Version checks and claims are synchronous
+   * on the sole SQLite owner, so edits cannot replace an already selected SDK input. */
+  inputQueue(sessionId: string): InputQueueRecord[] {
+    return this.database.db
+      .select()
+      .from(sessionQueue)
+      .where(eq(sessionQueue.sessionId, sessionId))
+      .all()
+      .map((row) => queueRecordSchema.parse(this.parse(row.data)))
+      .toSorted((a, b) => a.position - b.position || a.id.localeCompare(b.id))
+  }
+
+  updateInput(record: InputQueueRecord, expectedRevision: number): InputQueueRecord {
+    const current = this.inputQueue(record.sessionId).find((row) => row.id === record.id)
+    if (!current || current.revision !== expectedRevision) {
+      throw new SessionOrganizationConflict('队列版本已变化；编辑保留，请刷新核对。')
+    }
+    const next = { ...record, revision: expectedRevision + 1 }
+    this.saveQueue(next)
+    return next
+  }
+
+  /** Pause on stop/failure/shutdown; selected but unacknowledged input stays uncertain and
+   * cannot be resumed blindly. Already delivered records are immutable audit evidence. */
+  holdInput(sessionId: string): void {
+    for (const row of this.inputQueue(sessionId)) {
+      if (row.status === 'queued' || row.status === 'sending') {
+        this.updateInput(
+          { ...row, status: row.status === 'sending' ? 'uncertain' : 'held' },
+          row.revision,
+        )
+      }
+    }
+  }
   saveApproval(value: unknown): void {
     const record = approvalRecordSchema.parse(value)
     this.assertRecordIdentity(record, sessionApprovals)
@@ -919,9 +990,15 @@ export class SessionStore {
     this.database.db.transaction((tx) => {
       for (const row of tx.select().from(sessionQueue).all()) {
         const parsed = queueRecordSchema.safeParse(this.parse(row.data))
-        if (parsed.success && parsed.data.status === 'queued') {
+        if (parsed.success && ['queued', 'sending'].includes(parsed.data.status)) {
           tx.update(sessionQueue)
-            .set({ data: JSON.stringify({ ...parsed.data, status: 'held' }) })
+            .set({
+              data: JSON.stringify({
+                ...parsed.data,
+                status: parsed.data.status === 'sending' ? 'uncertain' : 'held',
+                revision: parsed.data.revision + 1,
+              }),
+            })
             .where(eq(sessionQueue.id, row.id))
             .run()
         }

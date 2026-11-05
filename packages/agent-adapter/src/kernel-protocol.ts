@@ -25,6 +25,8 @@ const fixtureModeSchema = z.enum([
   'rendering-long',
   'scrolling',
   'reasoning',
+  'queue',
+  'queue-fast',
 ])
 const resumeSchema = z.strictObject({
   sessionFile: z.string().min(1),
@@ -46,9 +48,17 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
     turnId: z.uuid(),
     text: z.string().min(1).max(65536),
     fixture: fixtureModeSchema,
+    inputQueue: z.boolean().default(false),
     trustedContext: z.array(trustedContextSchema).max(128).default([]),
   }),
   z.strictObject({ ...identity, type: z.literal('abort'), turnId: z.uuid() }),
+  z.strictObject({
+    ...identity,
+    type: z.literal('queue-boundary'),
+    turnId: z.uuid(),
+    boundaryId: z.uuid(),
+    item: z.strictObject({ id: z.uuid(), text: z.string().min(1).max(16000) }).nullable(),
+  }),
   z.strictObject({ ...identity, type: z.literal('dispose'), turnId: z.uuid().nullable() }),
 ])
 
@@ -72,6 +82,8 @@ export const kernelMessageSchema = z.discriminatedUnion('type', [
     guard: guardSchema,
   }),
   z.strictObject({ ...envelope, type: z.literal('running') }),
+  z.strictObject({ ...envelope, type: z.literal('queue-boundary'), boundaryId: z.uuid() }),
+  z.strictObject({ ...envelope, type: z.literal('queue-delivered'), id: z.uuid() }),
   z.strictObject({ ...envelope, type: z.literal('delta'), text: z.string().max(65536) }),
   z.strictObject({ ...envelope, type: z.literal('reasoning'), reasoning: reasoningSchema }),
   z.strictObject({ ...envelope, type: z.literal('model'), modelRequest: modelRequestSchema }),

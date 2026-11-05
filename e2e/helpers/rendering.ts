@@ -33,17 +33,19 @@ export async function renderingDesktop(modelTasks = 1) {
       cwd,
       {
         ...input,
-        fixture: input.text.includes('模型错误')
-          ? 'error'
-          : input.text.includes('公开思考')
-            ? 'reasoning'
-            : input.text.includes('持续滚动')
-              ? 'scrolling'
-              : input.text.includes('保持运行')
-                ? 'hold'
-                : input.text.includes('长内容')
-                  ? 'rendering-long'
-                  : 'rendering',
+        fixture: input.text.includes('队列边界')
+          ? 'queue'
+          : input.text.includes('模型错误')
+            ? 'error'
+            : input.text.includes('公开思考')
+              ? 'reasoning'
+              : input.text.includes('持续滚动')
+                ? 'scrolling'
+                : input.text.includes('保持运行')
+                  ? 'hold'
+                  : input.text.includes('长内容')
+                    ? 'rendering-long'
+                    : 'rendering',
       },
       options,
     )

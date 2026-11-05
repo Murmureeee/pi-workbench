@@ -1,0 +1,326 @@
+{
+  "feature": "INPUT-06",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local HTTP queue/reply/hold fixtures. No CDP, renderer routing, synthetic injection or real providers.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\input06-native-AkKKIp",
+  "desktopPid": 29832,
+  "prompts": 3,
+  "results": [
+    {
+      "sessionId": "314051ba-9255-4a41-8d63-783f1405166c",
+      "protocol": 1,
+      "epoch": "8dc130ae-7dc8-4e0d-847c-9d4e5d173ac2",
+      "seq": 10,
+      "turnId": "57c10da5-9d42-4dca-8082-3cd70132f86c",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "b4e110c2-bc6f-4b17-bb30-041d4c31c7e5",
+      "protocol": 1,
+      "epoch": "b6c147a0-b9c8-4e24-aa48-e20b305af01f",
+      "seq": 10,
+      "turnId": "0ceefead-a4c0-480b-beaf-52645e7a5b0d",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    }
+  ],
+  "sessions": [
+    {
+      "id": "314051ba-9255-4a41-8d63-783f1405166c",
+      "title": "队列边界原生验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "86badf6c-59de-4ed2-922a-56d82475bad3",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "dc4c543b-0e3d-4e8a-98fa-374fd156c84d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\input06-native-AkKKIp\\data\\standalone\\314051ba-9255-4a41-8d63-783f1405166c",
+      "createdAt": 1793892136219
+    },
+    {
+      "id": "b4e110c2-bc6f-4b17-bb30-041d4c31c7e5",
+      "title": "队列边界原生顺序",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "0480f347-16cf-4951-9f0d-b23f70ef829f",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "85e01a1d-2ec3-481e-a15d-e939f7b3bfe6",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\input06-native-AkKKIp\\data\\standalone\\b4e110c2-bc6f-4b17-bb30-041d4c31c7e5",
+      "createdAt": 1793892276643
+    },
+    {
+      "id": "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+      "title": "保持运行 · 原生队列保留",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "59e2ab49-d235-413f-b76e-be89d0751a3c",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "bf785473-f729-42fb-9f88-c6607bcdac1f",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\input06-native-AkKKIp\\data\\standalone\\4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+      "createdAt": 1793892456710
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "86badf6c-59de-4ed2-922a-56d82475bad3",
+      "sessionId": "314051ba-9255-4a41-8d63-783f1405166c",
+      "messageId": "5f68331a-b509-4eb0-952b-c8a8d3f55843",
+      "turnId": "57c10da5-9d42-4dca-8082-3cd70132f86c",
+      "status": "completed",
+      "text": "队列边界原生验收",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793892136221
+    },
+    {
+      "requestId": "0480f347-16cf-4951-9f0d-b23f70ef829f",
+      "sessionId": "b4e110c2-bc6f-4b17-bb30-041d4c31c7e5",
+      "messageId": "93d40ea0-744c-4fa2-9474-8753b4177a13",
+      "turnId": "0ceefead-a4c0-480b-beaf-52645e7a5b0d",
+      "status": "completed",
+      "text": "队列边界原生顺序",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793892276645
+    },
+    {
+      "requestId": "59e2ab49-d235-413f-b76e-be89d0751a3c",
+      "sessionId": "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+      "messageId": "02bbb9b4-d9ef-40ac-aa92-a4b1b4d096ef",
+      "turnId": "66c6dc70-1219-4329-95db-87461e61a677",
+      "status": "executing",
+      "text": "保持运行 · 原生队列保留",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793892456711
+    }
+  ],
+  "queues": [
+    {
+      "sessionId": "314051ba-9255-4a41-8d63-783f1405166c",
+      "records": []
+    },
+    {
+      "sessionId": "b4e110c2-bc6f-4b17-bb30-041d4c31c7e5",
+      "records": []
+    },
+    {
+      "sessionId": "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+      "records": [
+        {
+          "id": "dc665040-e308-4701-8774-078e40c71b78",
+          "sessionId": "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+          "epoch": "957c49b8-3e0f-433b-b400-d3131092cd6c",
+          "turnId": "66c6dc70-1219-4329-95db-87461e61a677",
+          "source": "workbench",
+          "kind": "follow-up",
+          "position": 0,
+          "text": "原生恢复一",
+          "status": "queued",
+          "revision": 0,
+          "deliveredTurnId": null,
+          "error": null,
+          "inputDigest": "6eb69bfebdf0270c91a4236e23bde88584597a4b794a5db2c516817601aae872"
+        },
+        {
+          "id": "02ad49b8-0317-40d0-9c40-4b497be3f49b",
+          "sessionId": "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+          "epoch": "957c49b8-3e0f-433b-b400-d3131092cd6c",
+          "turnId": "66c6dc70-1219-4329-95db-87461e61a677",
+          "source": "workbench",
+          "kind": "follow-up",
+          "position": 1,
+          "text": "原生重启保留",
+          "status": "queued",
+          "revision": 0,
+          "deliveredTurnId": null,
+          "error": null,
+          "inputDigest": "73ed4dcdf931d5ac8e0837fbcb22fd3c1b87837ccf7aca18ef369a4559ed68e1"
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 1,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+        "epoch": "957c49b8-3e0f-433b-b400-d3131092cd6c",
+        "state": "running",
+        "pid": 3572,
+        "pins": 1,
+        "lastUsedAt": 1793892457815,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": [
+      {
+        "id": "66c6dc70-1219-4329-95db-87461e61a677",
+        "sessionId": "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+        "kind": "model",
+        "stage": "running",
+        "position": 0,
+        "reason": "running",
+        "cancellable": true
+      }
+    ]
+  },
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "64f57a8a-ec7a-4a32-8809-fa3f496e9e49",
+      "sessionId": "314051ba-9255-4a41-8d63-783f1405166c",
+      "epoch": "8dc130ae-7dc8-4e0d-847c-9d4e5d173ac2",
+      "seq": 8,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "57c10da5-9d42-4dca-8082-3cd70132f86c",
+          "messageId": "57c10da5-9d42-4dca-8082-3cd70132f86c:assistant",
+          "prompt": "队列边界原生验收",
+          "text": "INPUT06_REQUEST\n[{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"队列边界原生验收\"}]}]",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "64f57a8a-ec7a-4a32-8809-fa3f496e9e49",
+      "sessionId": "b4e110c2-bc6f-4b17-bb30-041d4c31c7e5",
+      "epoch": "b6c147a0-b9c8-4e24-aa48-e20b305af01f",
+      "seq": 8,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "0ceefead-a4c0-480b-beaf-52645e7a5b0d",
+          "messageId": "0ceefead-a4c0-480b-beaf-52645e7a5b0d:assistant",
+          "prompt": "队列边界原生顺序",
+          "text": "INPUT06_REQUEST\n[{\"role\":\"user\",\"content\":[{\"type\":\"text\",\"text\":\"队列边界原生顺序\"}]}]",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "64f57a8a-ec7a-4a32-8809-fa3f496e9e49",
+      "sessionId": "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7",
+      "epoch": "957c49b8-3e0f-433b-b400-d3131092cd6c",
+      "seq": 4,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "66c6dc70-1219-4329-95db-87461e61a677",
+          "messageId": "66c6dc70-1219-4329-95db-87461e61a677:assistant",
+          "prompt": "保持运行 · 原生队列保留",
+          "text": "OFFLINE_",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "requesting",
+            "waitUntil": null,
+            "error": null
+          },
+          "phase": "running",
+          "tools": [],
+          "approval": null,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "314051ba-9255-4a41-8d63-783f1405166c\\8dc130ae-7dc8-4e0d-847c-9d4e5d173ac2\\sessions\\2026-11-05T15-22-17-349Z_01a1ac4d-b985-738d-8e5d-00a78716c9e5.jsonl": "e71c902a923bc2afe6675ef4834873b54940fa6c20616fdff8a2537cfa736e61",
+    "4d433256-d3eb-4fd0-9bff-9ba14e60a5b7\\957c49b8-3e0f-433b-b400-d3131092cd6c\\sessions\\2026-11-05T15-27-37-804Z_01a1ac52-9d4c-7540-b258-79a310dd1b65.jsonl": "df9b645077ab99bb566f3abc5754f7d51e3601ab7590f0a8ee28df0d559d15e8",
+    "b4e110c2-bc6f-4b17-bb30-041d4c31c7e5\\b6c147a0-b9c8-4e24-aa48-e20b305af01f\\sessions\\2026-11-05T15-24-37-749Z_01a1ac4f-ddf4-75c5-a77b-c0e4c6372883.jsonl": "9d3eecacddb8c699bd27436a361a1f1ebdbc966f4d48514429d37d9d65155717"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

@@ -9,6 +9,10 @@
 .retained-session[hidden] {
   display: none;
 }
+.session-workbench .composer-area {
+  max-height: 60%;
+  overflow-y: auto;
+}
 .session-title {
   flex: 1;
   min-width: 0;

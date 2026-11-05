@@ -166,11 +166,12 @@ export class SessionKernel {
     }
   }
 
-  /** Single turn, unique ID per generation. No queuing/steering or paid transport here. */
+  /** Single product turn, unique ID per generation. Host queues enter only at SDK boundaries. */
   async prompt(input: {
     turnId: string
     text: string
     fixture?: FixtureMode
+    inputQueue?: boolean
     trustedContext?: TrustedContext[]
   }) {
     if (this.snapshotValue.state === 'starting') {
@@ -203,6 +204,26 @@ export class SessionKernel {
     this.snapshotValue.state = 'running'
     this.send(command)
     return promise
+  }
+
+  /** Replies to one awaited SDK boundary with a host-selected immutable input or no input. */
+  inputBoundary(
+    turnId: string,
+    boundaryId: string,
+    item: { id: string; text: string } | null,
+  ): void {
+    if (this.active?.id !== turnId) {
+      return
+    }
+    this.send(
+      kernelCommandSchema.parse({
+        ...this.identity,
+        type: 'queue-boundary',
+        turnId,
+        boundaryId,
+        item: this.snapshotValue.state === 'running' ? item : null,
+      }),
+    )
   }
 
   /** Resolves only after SDK prompt termination, or rejects and kills an unresponsive child. */
