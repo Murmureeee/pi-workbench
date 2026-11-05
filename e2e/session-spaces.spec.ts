@@ -220,7 +220,20 @@ test('SESSION-07 Electron keeps choices on real SQLite failure and requires expl
       project: { id: f.project.id, revision: f.project.revision },
     })
     f.app.get(SessionService).setProject(session.id, { expectedVersion: 2, project: null })
-    await expect(dialog.getByText('归属或目标项目已更新', { exact: true })).toBeVisible()
+    const conflict = dialog.getByText('归属或目标项目已更新', { exact: true })
+    const unsynced = dialog.getByText('执行空间未同步', { exact: true })
+    await expect(conflict.or(unsynced).first()).toBeVisible()
+    // An inspection overlapping these real CAS changes is correctly rejected with 409.
+    // Recover that read explicitly; never assume a mixed-version read will auto-retry.
+    if (await unsynced.isVisible()) {
+      await expect(dialog.getByRole('button', { name: '确认仅调整归属' })).toBeDisabled()
+      await expect(dialog.getByRole('button', { name: '仅调整项目归属' })).toContainText(
+        f.project.name,
+      )
+      await dialog.getByRole('button', { name: '重新核对执行空间' }).click()
+      await expect(unsynced).not.toBeVisible()
+    }
+    await expect(conflict).toBeVisible()
     await expect(dialog.getByRole('button', { name: '确认仅调整归属' })).toBeDisabled()
     await dialog.getByRole('button', { name: '使用最新版本继续整理' }).click()
     await dialog.getByRole('button', { name: '确认仅调整归属' }).click()

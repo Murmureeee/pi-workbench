@@ -1,0 +1,132 @@
+{
+  "feature": "OBS-03",
+  "status": "verified",
+  "recordedAt": "2026-11-05T05:01:09.604Z",
+  "commands": [
+    {
+      "command": "pnpm fix",
+      "exitCode": 0,
+      "source": "fix.log"
+    },
+    {
+      "command": "pnpm run ci",
+      "exitCode": 0,
+      "testFiles": 35,
+      "vitest": 251,
+      "e2e": 93,
+      "source": "ci.log"
+    },
+    {
+      "command": "pnpm verify:clean",
+      "exitCode": 0,
+      "source": "clean-workspace.json / clean-commands.json"
+    },
+    {
+      "command": "pnpm docs:build",
+      "exitCode": 0,
+      "source": "docs-build.log"
+    },
+    {
+      "command": "pnpm fix (documentation follow-up)",
+      "exitCode": 0,
+      "source": "fix-docs.log"
+    },
+    {
+      "command": "pnpm check (documentation follow-up)",
+      "exitCode": 0,
+      "source": "check-docs.log"
+    },
+    {
+      "command": "pnpm docs:build (native evidence documentation)",
+      "exitCode": 0,
+      "source": "docs-build-native.log"
+    },
+    {
+      "command": "pnpm fix (native evidence documentation)",
+      "exitCode": 0,
+      "source": "fix-native-docs.log"
+    },
+    {
+      "command": "pnpm check (native evidence documentation)",
+      "exitCode": 0,
+      "source": "check-native-docs.log"
+    }
+  ],
+  "addedTests": {
+    "vitest": 11,
+    "electron": 3
+  },
+  "smoke": {
+    "feature": "CORE-04",
+    "source": "real-sdk/local-fixture",
+    "sdk": "1.4.0",
+    "node": "v24.22.2",
+    "pid": 8612,
+    "guard": "deny-all",
+    "reply": "completed",
+    "abort": "aborted",
+    "disposed": true,
+    "localRequests": 2,
+    "providerRequests": 0,
+    "blockedNetworkAttempts": 0
+  },
+  "native": "passed: actual Windows observations, restart and normal menu exits",
+  "nativeSource": "native-validation.json",
+  "visualReview": {
+    "source": "Actual Electron screenshots, reviewed separately from native mouse/keyboard acceptance",
+    "screenshots": [
+      {
+        "path": "tool-timeline-light.png",
+        "width": 1920,
+        "height": 1080,
+        "sha256": "6ca2da154d9994f528eb2e1e27b877125f8a5ec61216afca3a40e3b8dd823d24"
+      },
+      {
+        "path": "tool-timeline-dark-800.png",
+        "width": 800,
+        "height": 760,
+        "sha256": "2f92881c7895a0759a34f69696113a13ce38e2823e65ee9e794adc99bae8ad98"
+      }
+    ],
+    "observations": [
+      "Diff text and observation-only boundary visible",
+      "No page horizontal overflow at narrow width",
+      "Semantic light/dark colors and readable status text"
+    ],
+    "reviewedAt": "2026-11-05T05:03:00.521Z"
+  },
+  "providerRequests": 0,
+  "configurationChanged": false,
+  "canonicalBudgetChanged": false,
+  "protectedFiles": {
+    "pnpm-lock.yaml": {
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "headSha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "unchanged": true
+    },
+    "docs/validation/live-validation-budget.json": {
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "headSha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "unchanged": true
+    }
+  },
+  "codeFileCount": 316,
+  "sources": [
+    "Real installed SDK + local fixed HTTP; disabled tool error and no file side effect",
+    "Typed synthetic SDK parent/duration/partial-result observations",
+    "Real SQLite/HTTP/TCP/restart with explicit synthetic native history and observations",
+    "Actual Electron/daemon/local SDK with explicit synthetic nested/denied/cancelled/MCP/Diff/long-output observations"
+  ],
+  "limits": [
+    "No production tools/extensions/approvals/MCP execution or rollback enabled",
+    "Captured text expansion only; no new download endpoint or external output file reads",
+    "Window bookmarks survive eviction/renderer reload, not promised across full application restart"
+  ],
+  "codeAuditAfterDocumentation": "2026-11-05T05:03:00.521Z",
+  "nativeCodeAudit": {
+    "at": "2026-11-05T08:41:14.749Z",
+    "fileCount": 316,
+    "differences": [],
+    "allUnchangedBeforeProgressDocumentation": true
+  }
+}

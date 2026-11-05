@@ -1,0 +1,104 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:2044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+(node:17040) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\runtime.spec.ts:46:1 › CORE-05 real local SDK: two browser clients reconnect to the same complete messages and tools (2.8s)
+  ok  2 e2e\runtime.spec.ts:117:1 › CORE-05 synthetic observations: buffer exhaustion and live gap resync complete Unicode content; automatic reconnect retains cursor (5.9s)
+  ok  3 e2e\runtime.spec.ts:193:1 › CORE-05 incompatible version/capabilities blocks observation changes and keeps existing content (1.2s)
+  ok  4 e2e\runtime.spec.ts:231:1 › CORE-05 synthetic observations: a late snapshot cannot replace a newer request or runtime generation (1.1s)
+  ok  5 e2e\session-switching.spec.ts:136:1 › SESSION-02 Electron evicts after three views and restores per-session drafts, anchors and panel after reload (14.8s)
+  ok  6 e2e\session-switching.spec.ts:231:1 › SESSION-02 Electron keeps a real SDK task/PID across eviction, socket reconnect and renderer reload; only explicit stop aborts (15.0s)
+[WebServer] 11:53:30 [vite] (client) [Unhandled error] Error: ResizeObserver loop completed with undelivered notifications.
+[WebServer]  > ../../../../@vite/client:374:50
+[WebServer] 
+[WebServer] 11:53:32 [vite] (client) [Unhandled error] Error: ResizeObserver loop completed with undelivered notifications.
+[WebServer]  > ../../../../@vite/client:374:50
+[WebServer] 
+  ok  7 e2e\session-switching.spec.ts:313:1 › SESSION-02 Electron isolates evicted draft-directory and A-B-A history responses, restoring synthetic tool/reference context (15.7s)
+  ok  8 e2e\session-switching.spec.ts:467:1 › SESSION-02 Electron reads external pi history, handles concurrent append/partial/corrupt records without changing bytes or running kernels (9.8s)
+  x   9 e2e\tool-timeline.spec.ts:35:1 › OBS-03 actual Electron read-only Trace: nested identity, result-before-start, explicit outcomes/unknown metrics, safe structures and keyboard (10.6s)
+(node:7992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 10 e2e\tool-timeline.spec.ts:90:1 › OBS-03 actual Electron long redacted output expands without changing source, Diff remains observation, light/dark narrow layouts stay bounded (7.1s)
+  x  11 e2e\tool-timeline.spec.ts:142:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn (13.1s)
+
+
+  1) e2e\tool-timeline.spec.ts:35:1 › OBS-03 actual Electron read-only Trace: nested identity, result-before-start, explicit outcomes/unknown metrics, safe structures and keyboard 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.retained-session:not([hidden])').getByRole('region', { name: '工具调用 read-child', exact: true })
+    Expected substring: "src/中文.ts · 请求从第 2 行开始 · 请求最多 4 行"
+    Received string:    "read已完成未知结构合成观察 · 未执行保留脱敏参数与结果，按安全文本显示。调用 IDread-child父调用script-parent嵌套层级1执行目录C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-render-ui-LqjK3m\\data\\standalone\\d7920059-db39-48f5-a367-3a607b630267耗时未知退出码未知最终参数快照{\"path\":\"src/中文.ts\",\"offset\":2,\"limit\":4,\"apiKey\":«redacted»}工具结果{\"content\":[{\"type\":\"text\",\"text\":\"只读样本🙂\"}]}"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.retained-session:not([hidden])').getByRole('region', { name: '工具调用 read-child', exact: true }) with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').getByRole('region', { name: '工具调用 read-child', exact: true })
+        14 × locator resolved to <section class="min-w-0" data-tool-depth="1" data-tool-id="read-child" aria-label="工具调用 read-child">…</section>
+           - unexpected value "read已完成未知结构合成观察 · 未执行保留脱敏参数与结果，按安全文本显示。调用 IDread-child父调用script-parent嵌套层级1执行目录C:\Users\Murmure\AppData\Local\Temp\piw-render-ui-LqjK3m\data\standalone\d7920059-db39-48f5-a367-3a607b630267耗时未知退出码未知最终参数快照{"path":"src/中文.ts","offset":2,"limit":4,"apiKey":«redacted»}工具结果{"content":[{"type":"text","text":"只读样本🙂"}]}"
+
+
+      54 |     await expect(child.getByRole('button')).toHaveAttribute('aria-expanded', 'true')
+      55 |     await expect(child).toContainText('只读样本🙂')
+    > 56 |     await expect(child).toContainText('src/中文.ts · 请求从第 2 行开始 · 请求最多 4 行')
+         |                         ^
+      57 |     await expect(child).not.toContainText('sample-key-hidden')
+      58 |     const command = pane.locator('[data-tool-id="command"]')
+      59 |     await command.getByRole('button').click()
+        at D:\Project\pi-workbench\e2e\tool-timeline.spec.ts:56:25
+
+    Error Context: test-results\tool-timeline-OBS-03-actua-ef9c3-afe-structures-and-keyboard\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\tool-timeline-OBS-03-actua-ef9c3-afe-structures-and-keyboard\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\tool-timeline-OBS-03-actua-ef9c3-afe-structures-and-keyboard\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\tool-timeline.spec.ts:142:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator: locator('.retained-session:not([hidden])').locator('[data-tool-id="read-child"]').getByRole('button')
+    Expected: "false"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.retained-session:not([hidden])').locator('[data-tool-id="read-child"]').getByRole('button') with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').locator('[data-tool-id="read-child"]').getByRole('button')
+
+
+      176 |     }
+      177 |     f.events.restore(other)
+    > 178 |     await expect(pane.locator('[data-tool-id="read-child"]').getByRole('button')).toHaveAttribute(
+          |                                                                                   ^
+      179 |       'aria-expanded',
+      180 |       'false',
+      181 |     )
+        at D:\Project\pi-workbench\e2e\tool-timeline.spec.ts:178:83
+
+    Error Context: test-results\tool-timeline-OBS-03-actua-d8473-rrent-focus-or-another-turn\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\tool-timeline-OBS-03-actua-d8473-rrent-focus-or-another-turn\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\tool-timeline-OBS-03-actua-d8473-rrent-focus-or-another-turn\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    e2e\tool-timeline.spec.ts:35:1 › OBS-03 actual Electron read-only Trace: nested identity, result-before-start, explicit outcomes/unknown metrics, safe structures and keyboard 
+    e2e\tool-timeline.spec.ts:142:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn 
+  9 passed (1.9m)

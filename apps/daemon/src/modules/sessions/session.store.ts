@@ -28,7 +28,7 @@ import {
 } from 'node:fs'
 import { isAbsolute, join, relative, resolve } from 'node:path'
 
-import { and, asc, desc, eq, sql } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, sql } from 'drizzle-orm'
 
 import {
   previewText,
@@ -42,6 +42,7 @@ import {
   historyPageSchema,
   historyPageSize,
   historyPreviewBytes,
+  interruptToolObservations,
   managedSessionSchema,
   queueRecordSchema,
   runtimeSnapshotSchema,
@@ -810,12 +811,18 @@ export class SessionStore {
     }
     // Never remove the old checkpoint before replacement. A failed rename leaves it readable.
     renameSync(temp, path)
-    if (turn.phase !== 'running' && turn.phase !== 'stopping') {
-      this.database.db
-        .update(sessionTurns)
-        .set({ phase: turn.phase, tools: JSON.stringify(turn.tools) })
-        .where(eq(sessionTurns.id, turn.id))
-        .run()
+    // Active calls must survive a restart too. Keep the row phase running until a terminal
+    // checkpoint; a stopping row must still accept its later terminal capture.
+    const terminal = turn.phase !== 'running' && turn.phase !== 'stopping'
+    this.database.db
+      .update(sessionTurns)
+      .set({
+        tools: JSON.stringify(turn.tools),
+        phase: turn.phase === 'stopping' ? 'running' : turn.phase,
+      })
+      .where(eq(sessionTurns.id, turn.id))
+      .run()
+    if (terminal) {
       // The final native message can win even if a crash leaves this checkpoint behind.
       const runtime = this.database.db
         .select()
@@ -1326,10 +1333,41 @@ export class SessionStore {
       .from(sessionRuntimes)
       .where(eq(sessionRuntimes.sessionId, sessionId))
       .get()
+    const messages = loaded.messages.slice(start, end).map((item) => item.message)
+    const turnIds = [
+      ...new Set(messages.flatMap((message) => (message.turnId ? [message.turnId] : []))),
+    ]
+    // Page-owned observations are indexed metadata, not reconstructed tool execution.
+    // Do not expose other turns merely because their records share the same session.
+    const toolTimelines = turnIds.length
+      ? this.database.db
+          .select()
+          .from(sessionTurns)
+          .where(and(eq(sessionTurns.sessionId, sessionId), inArray(sessionTurns.id, turnIds)))
+          .orderBy(asc(sessionTurns.createdAt), asc(sessionTurns.id))
+          .all()
+          .flatMap((turn) => {
+            const parsed = runtimeSnapshotSchema.shape.turns.element.shape.tools.safeParse(
+              this.parse(turn.tools),
+            )
+            return parsed.success && parsed.data.length
+              ? [
+                  {
+                    epoch: turn.epoch,
+                    turnId: turn.id,
+                    tools: ['running', 'stopping'].includes(turn.phase)
+                      ? parsed.data
+                      : interruptToolObservations(parsed.data),
+                  },
+                ]
+              : []
+          })
+      : []
     return historyPageSchema.parse({
       sessionId,
       source: runtime?.source ?? 'synthetic-ipc-fixture',
-      messages: loaded.messages.slice(start, end).map((item) => item.message),
+      messages,
+      toolTimelines,
       nextCursor: start > 0 ? loaded.messages[start]?.message.id : null,
       diagnostics,
       queue,
@@ -1429,7 +1467,7 @@ export class SessionStore {
                     .map((item) => item.text())
                     .join(''),
                   phase,
-                  tools: tools.success ? tools.data : [],
+                  tools: tools.success ? interruptToolObservations(tools.data) : [],
                   approval: null,
                   error:
                     phase === 'interrupted' ? '任务已中断；仅恢复观察记录，未自动继续。' : null,

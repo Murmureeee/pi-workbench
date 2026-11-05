@@ -1,0 +1,88 @@
+{
+  "feature": "OBS-03",
+  "status": "passed",
+  "recordedAt": "2026-11-05T08:41:14.762Z",
+  "source": "Actual Windows SendInput/UIA, Electron/daemon/SQLite/SDK local HTTP; no CDP or renderer routing. Tool observations synthetic, never executed.",
+  "observationCount": 102,
+  "raw": "native/observations.json",
+  "checks": [
+    {
+      "name": "Tool identity, immutable metadata, outcomes, nesting, out-of-order and cycle/missing-parent",
+      "labels": [
+        "02",
+        "08",
+        "11",
+        "23",
+        "24",
+        "25"
+      ]
+    },
+    {
+      "name": "Redacted full captured output and collapse",
+      "labels": [
+        "16",
+        "20",
+        "21"
+      ]
+    },
+    {
+      "name": "Per-session and per-turn expansion isolation",
+      "labels": [
+        "36",
+        "42"
+      ]
+    },
+    {
+      "name": "Running background updates preserve active draft and focus",
+      "labels": [
+        "48",
+        "49",
+        "50",
+        "51",
+        "52",
+        "53"
+      ],
+      "pid": 19164,
+      "epoch": "f5b127f0-5b3f-49f4-8ba4-cee7af7e11bb"
+    },
+    {
+      "name": "Explicit stop",
+      "label": "54",
+      "outcome": "aborted"
+    },
+    {
+      "name": "Light/dark narrow window",
+      "labels": [
+        "80",
+        "87"
+      ],
+      "width": 802,
+      "height": 961
+    },
+    {
+      "name": "Read-only same-data/profile restart, history and normal exits",
+      "labels": [
+        "89",
+        "92",
+        "96",
+        "98",
+        "102",
+        "103"
+      ],
+      "prompts": 0,
+      "injections": 0,
+      "kernels": 0,
+      "historyUnchanged": true,
+      "ownedProcessesExited": true
+    }
+  ],
+  "providerRequests": 0,
+  "configurationChanged": false,
+  "canonicalBudgetChanged": false,
+  "diagnostics": [
+    "First three local hold requests ended with terminated after approximately 300s; recorded as errors. Fourth was explicitly stopped after successful background PID/focus verification.",
+    "First restart harness re-injected synthetic tool observations into restored snapshots; no SDK prompt or actual tool. Preserved restart-fixture-diagnostic.json. Disabled injection in existing-data mode and repeated read-only restart with zero injections/prompts/kernels.",
+    "Initial resize drags failed; committed native system sizing/edge drag measured 802px. No 800px claim for these raw captures; automated screenshot separately 800px."
+  ],
+  "gates": "316 files unchanged before documentation; reuse CI 251 Vitest/93 E2E and frozen clean as authorized."
+}

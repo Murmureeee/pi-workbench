@@ -1,0 +1,38 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/tool-observations.test.ts (2 tests | 2 failed) 1886ms
+   × oBS-03 real HTTP/TCP snapshots/live/replay share safe nested calls; conflicting identities and partial secrets never rebind or leak 1705ms
+   × oBS-03 actual SQLite restart retains earlier turn observations, separates reused call IDs, and never resumes tools 180ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/tool-observations.test.ts > oBS-03 real HTTP/TCP snapshots/live/replay share safe nested calls; conflicting identities and partial secrets never rebind or leak
+Error: listen EADDRINUSE: address already in use 127.0.0.1:4328
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/daemon/test/tool-observations.test.ts > oBS-03 actual SQLite restart retains earlier turn observations, separates reused call IDs, and never resumes tools
+AssertionError: expected undefined to be 'interrupted' // Object.is equality
+
+- Expected:
+"interrupted"
+
++ Received:
+undefined
+
+ ❯ apps/daemon/test/tool-observations.test.ts:255:50
+    253|     const restored = app.get(EventService).snapshot(f.sessionId)
+    254|     expect(restored?.turns[0]?.id).toBe(next)
+    255|     expect(restored?.turns[0]?.tools[0]?.status).toBe('interrupted')
+       |                                                  ^
+    256|     const page = app.get(SessionStore).history(f.sessionId)
+    257|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 6 passed (7)
+      Tests  2 failed | 24 passed (26)
+   Start at  11:48:59
+   Duration  17.34s (import 66%, tests 29%, transform 5%)
+

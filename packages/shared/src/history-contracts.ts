@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { runtimeToolSchema } from './tool-observation.js'
+
 export const historyPageSize = 100
 export const historyPreviewBytes = 64 * 1024
 export const turnBindingSchema = z.strictObject({
@@ -63,6 +65,16 @@ export const historyPageSchema = z.strictObject({
   queue: z.array(queueRecordSchema),
   approvals: z.array(approvalRecordSchema.extend({ executable: z.literal(false) })),
   changes: z.array(changeReferenceSchema),
+  toolTimelines: z
+    .array(
+      z.strictObject({
+        epoch: z.uuid(),
+        turnId: z.uuid(),
+        tools: z.array(runtimeToolSchema),
+      }),
+    )
+    .max(historyPageSize)
+    .optional(),
   canResume: z.literal(false),
 })
 export type HistoryPage = z.infer<typeof historyPageSchema>

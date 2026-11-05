@@ -24,7 +24,13 @@ async function observer() {
     type: 'hello',
     protocolVersion: 1,
     daemonId: snapshot.daemonId,
-    capabilities: ['snapshots', 'replay', 'tool-observation', 'redacted-observation'],
+    capabilities: [
+      'snapshots',
+      'replay',
+      'tool-observation',
+      'redacted-observation',
+      'tool-timeline-v1',
+    ],
     mutations: false,
     realProviderEnabled: false,
   }

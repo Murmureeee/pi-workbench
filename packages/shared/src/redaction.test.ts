@@ -28,6 +28,7 @@ describe('SEC-06 shared presentation policy', () => {
       'curl --password="abc123-fixture"',
       'https://user:abc123-fixture@example.test/?api_key=abc123-fixture',
       '{"accessToken":"abc123-fixture"}',
+      '{"accessToken":"escaped\\\"abc123-fixture"}',
       "DB_PASSWORD='abc123-fixture'",
       'sk-abc123-fixture',
       '-----BEGIN PRIVATE KEY-----\nabc123-fixture\n-----END PRIVATE KEY-----',
@@ -38,6 +39,10 @@ describe('SEC-06 shared presentation policy', () => {
     expect(scrub.text('MONKEY=ordinary --output useful.txt')).toBe(
       'MONKEY=ordinary --output useful.txt',
     )
+    expect(JSON.parse(scrub.text(scrub.text('{"path":"file.txt","apiKey":"private"}')))).toEqual({
+      path: 'file.txt',
+      apiKey: redacted,
+    })
   })
 
   it('masks registered literal/URI/escaped values, retains rotation values, and handles cycles', () => {

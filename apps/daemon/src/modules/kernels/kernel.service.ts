@@ -11,7 +11,11 @@ import { join } from 'node:path'
 import { z } from 'zod'
 
 import { SessionKernel } from '@pi-workbench/agent-adapter'
-import { resourceLimitsSchema, resourceSnapshotSchema } from '@pi-workbench/shared'
+import {
+  resourceLimitsSchema,
+  resourceSnapshotSchema,
+  runtimeToolSchema,
+} from '@pi-workbench/shared'
 
 import { KernelPool } from './kernel-pool.js'
 
@@ -130,12 +134,8 @@ export class KernelService {
       if (message.type === 'tool') {
         this.events.publish(sessionId, epoch, message.turnId, {
           type: 'tool.updated',
-          tool: {
-            id: message.toolId,
-            name: message.name,
-            status: message.status,
-            summary: message.summary,
-          },
+          // Strip the private IPC envelope; no host/transport fields enter public observations.
+          tool: runtimeToolSchema.strip().parse({ ...message, id: message.toolId }),
         })
       }
       if (message.type === 'finished') {

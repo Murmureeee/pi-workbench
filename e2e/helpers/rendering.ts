@@ -7,6 +7,7 @@ import { expect } from '@playwright/test'
 import { createApp } from '../../apps/daemon/dist/bootstrap/app.js'
 import { EventService } from '../../apps/daemon/dist/modules/events/event.service.js'
 import { KernelService } from '../../apps/daemon/dist/modules/kernels/kernel.service.js'
+import { SecurityService } from '../../apps/daemon/dist/modules/security/security.service.js'
 import { SessionService } from '../../apps/daemon/dist/modules/sessions/session.service.js'
 import { SessionStore } from '../../apps/daemon/dist/modules/sessions/session.store.js'
 import { launchWorkspaceDesktop } from './desktop.js'
@@ -81,6 +82,7 @@ export async function renderingDesktop(modelTasks = 1) {
     sessions: app.get(SessionService),
     events: app.get(EventService),
     kernels,
+    security: app.get(SecurityService),
     store,
     directory,
     send,

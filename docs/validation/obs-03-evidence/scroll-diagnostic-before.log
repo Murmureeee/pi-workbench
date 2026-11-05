@@ -1,0 +1,46 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:29952) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:7516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+SCROLL DEBUG [{"label":"before","top":900,"end":10404,"client":403,"data":{"slot":"message-scroller-viewport","scrollable":"start end"},"reading":{"conversation":{"anchor":"ae5bce58-b46b-4a0e-9b91-66fdbbac14fb","offset":-816.8125,"top":900,"follow":false}},"children":[{"name":"message-scroller-content","height":11706.625}]},{"label":"resize","top":900,"end":10404,"client":403,"data":{"slot":"message-scroller-viewport","scrollable":"start end"},"reading":{"conversation":{"anchor":"ae5bce58-b46b-4a0e-9b91-66fdbbac14fb","offset":-816.8125,"top":900,"follow":false}},"children":[{"name":"message-scroller-content","height":11706.625}]},{"label":"capture","top":900,"end":10404,"client":403,"data":{"slot":"message-scroller-viewport","scrollable":"start end"},"reading":{"conversation":{"anchor":"ae5bce58-b46b-4a0e-9b91-66fdbbac14fb","offset":-816.8125,"top":900,"follow":false}},"children":[{"name":"message-scroller-content","height":11706.625}]},{"label":"microtask","top":900,"end":10404,"client":403,"data":{"slot":"message-scroller-viewport","scrollable":"start end"},"reading":{"conversation":{"anchor":"ae5bce58-b46b-4a0e-9b91-66fdbbac14fb","offset":-816.8125,"top":900,"follow":false}},"children":[{"name":"message-scroller-content","height":11706.625}]},{"label":"scroll","top":11304,"end":0,"client":403,"data":{"slot":"message-scroller-viewport","scrollable":"start","autoscrolling":""},"reading":{"conversation":{"anchor":"ae5bce58-b46b-4a0e-9b91-66fdbbac14fb","offset":-11220.8125,"top":11304,"follow":true}},"children":[{"name":"message-scroller-content","height":11706.625}]},{"label":"frame1","top":11304,"end":0,"client":403,"data":{"slot":"message-scroller-viewport","scrollable":"start","autoscrolling":""},"reading":{"conversation":{"anchor":"ae5bce58-b46b-4a0e-9b91-66fdbbac14fb","offset":-11220.8125,"top":11304,"follow":true}},"children":[{"name":"message-scroller-content","height":11706.625}]},{"label":"frame2","top":11304,"end":0,"client":403,"data":{"slot":"message-scroller-viewport","scrollable":"start","autoscrolling":""},"reading":{"conversation":{"anchor":"ae5bce58-b46b-4a0e-9b91-66fdbbac14fb","offset":-11220.8125,"top":11304,"follow":true}},"children":[{"name":"message-scroller-content","height":11706.625}]},{"label":"scroll","top":11510,"end":100,"client":403,"data":{"slot":"message-scroller-viewport","scrollable":"start","autoscrolling":""},"reading":{"conversation":{"anchor":"5e76cddd-346f-47e1-836d-1f17caf39b68","offset":6.625,"top":11510,"follow":false}},"children":[{"name":"message-scroller-content","height":12013.125}]}]
+  x  1 e2e\scroll-reading.spec.ts:29:1 › OBS-04 actual Electron/SDK paced deltas preserve reading, count messages once, and resume follow only on explicit latest (11.9s)
+
+
+  1) e2e\scroll-reading.spec.ts:29:1 › OBS-04 actual Electron/SDK paced deltas preserve reading, count messages once, and resume follow only on explicit latest 
+
+    Error: expect(received).toBeLessThan(expected)
+
+    Expected: < 40
+    Received:   856
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      111 |     await expect(viewport).toBeFocused()
+      112 |     try {
+    > 113 |       await expect.poll(async () => (await position(viewport)).end).toBeLessThan(40)
+          |                                                                     ^
+      114 |     } finally {
+      115 |       console.log('SCROLL DEBUG', JSON.stringify(await page.evaluate(() => Reflect.get(window, 'obs03ScrollDebug'))))
+      116 |     }
+        at D:\Project\pi-workbench\e2e\scroll-reading.spec.ts:113:69
+
+    Error Context: test-results\scroll-reading-OBS-04-actu-da849-low-only-on-explicit-latest\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\scroll-reading-OBS-04-actu-da849-low-only-on-explicit-latest\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\scroll-reading-OBS-04-actu-da849-low-only-on-explicit-latest\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\scroll-reading.spec.ts:29:1 › OBS-04 actual Electron/SDK paced deltas preserve reading, count messages once, and resume follow only on explicit latest 

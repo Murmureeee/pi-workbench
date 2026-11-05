@@ -15,6 +15,7 @@ import {
   runtimeCapabilities,
   runtimeEventSchema,
   runtimeSnapshotSchema,
+  visibleToolObservation,
 } from '@pi-workbench/shared'
 
 interface Journal {
@@ -136,6 +137,7 @@ export class EventService {
     const turns = value.turns.map((turn) => ({
       ...turn,
       text: this.redactor.text(turn.text, turn.phase !== 'completed'),
+      tools: turn.tools.map((tool) => visibleToolObservation(tool, this.redactor)),
     }))
     return runtimeSnapshotSchema.parse(this.redactor.value({ ...value, turns }))
   }
@@ -153,6 +155,13 @@ export class EventService {
         text: text.startsWith(journal.visibleText) ? text.slice(journal.visibleText.length) : text,
       }
       journal.visibleText = text
+    } else if (payload.type === 'tool.updated' && turn) {
+      const incoming = payload.tool
+      const tool = turn.tools.find((item) => item.id === incoming.id)
+      payload = {
+        type: 'tool.updated',
+        tool: visibleToolObservation(tool ?? incoming, this.redactor),
+      }
     } else if (payload.type === 'turn.finished' && turn) {
       payload = { ...payload, text: this.redactor.text(turn.text, payload.outcome !== 'completed') }
     }

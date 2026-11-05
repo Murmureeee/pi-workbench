@@ -17,7 +17,7 @@ shadcn/ui 按源码分发：通过官方 CLI 将组件加入项目，由项目�
 | 按钮、输入、徽标、提示   | Button、Input / Textarea、InputGroup、Badge、Alert    | 已采用官方组件源码                                                                                             |
 | 消息与滚动               | Message、Bubble、MessageScroller                      | 已用于 Conversation；与官方 Chat 模式使用相同的核心组件，完整会话恢复仍按 OBS / SESSION 验收                   |
 | 输入区                   | InputGroupTextarea、InputGroupAddon、InputGroupButton | 已采用 Prompt Input 的核心结构；附件、模型菜单等待对应功能接入                                                 |
-| 过程展示                 | Trace / TraceLine                                     | 已用于离线样本；真实工具内容、展开与状态映射仍待实现                                                           |
+| 过程展示                 | Trace / TraceLine / TraceCollapsible                  | OBS-03 候选已接入受管对话、只读观察和历史；调用独立展开与状态映射，原生验收待授权                              |
 | 执行前审批               | 自定义 section / dl / pre + 官方 Button               | 当前结构手写；应参照 Confirmation，以 Item / ItemActions / Button 组合，保留命令、目录、影响范围与授权绑定信息 |
 | 项目与会话侧栏、窄窗导航 | 自定义 aside、布局 CSS、遮罩和 Button                 | 目前未采用 Sidebar / Sheet；正式导航应优先使用官方组件并复用其键盘、焦点和弹层行为                             |
 | 开发场景 / 主题选择      | 原生 select + 自定义 CSS                              | 应优先采用官方 Native Select 或 Select，按原生选择框或自定义选择需求决定                                       |
@@ -28,7 +28,7 @@ shadcn/ui 按源码分发：通过官方 CLI 将组件加入项目，由项目�
 
 这些组件的存在或 UI 结构的调整不代表真实会话、权限、工具、快照或回滚已经完成。当前产品进度以 backlog 为准。
 
-CORE-05 的 `?observe=<sessionId>` 是独立只读观察页，复用现有 Alert / Button / Bubble，展示实际 REST / WS 投影；工具结果暂用安全纯文本 `pre`，没有另造基础组件。普通 Conversation 的 Trace 仍为离线样本；完整 OBS 工具组合、历史滚动 / 分页与正式会话 UI 继续按各自功能验收，不能因观察通道完成提前勾选。
+CORE-05 的 `?observe=<sessionId>` 是独立只读观察页，复用现有 Alert / Button / Bubble，展示实际 REST / WS 投影；OBS-03 候选复用 TraceCollapsible 展示真实工具观察，参数／结果使用 MessageBody 的纯文本路径，长文明确展开，未知结构不注入 HTML。普通样本与真实 daemon 观察仍分开；工具／扩展继续禁用，不能由界面存在推定生产工具或审批执行已验收。
 
 CORE-06 的 `?history=<sessionId>` 复用 MessageScroller / Message / Bubble、Alert、Badge 与 Button；导航链接复用官方 buttonVariants。分页、按需全文和记录导出均调用 daemon，只读读取 SDK 原件；SEC-06 已为展示与下载加入统一脱敏，无法安全解析的内容拒绝导出且保留原件。合成队列 / 审批 / 引用记录明确标注，按钮安装和此读取页不代表 M2 真实会话或审批执行已验收。
 

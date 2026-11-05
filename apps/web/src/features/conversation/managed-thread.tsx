@@ -23,6 +23,7 @@ import { LatestMessagesButton } from './latest-messages-button.js'
 import { MessageBody } from './message-body.js'
 import { messageStamp, updatedMessages } from './message-updates.js'
 import { RememberedViewport } from './remembered-viewport.js'
+import { ToolTimeline } from './tool-timeline.js'
 
 const statusNames = {
   pending: '等待执行资源',
@@ -55,7 +56,6 @@ export function ManagedThread({
   changeOrganization: (id: string, input: SessionOrganize) => Promise<SessionOrganization>
   organizationAvailable: boolean
 }) {
-  const expanded = useSessionViews((state) => state.views[sessionId]?.expanded ?? emptyExpanded)
   const seen = useSessionViews((state) => state.views[sessionId]?.seenMessages ?? null)
   const follow = useSessionViews(
     (state) => state.views[sessionId]?.reading.conversation?.follow ?? true,
@@ -249,26 +249,17 @@ export function ManagedThread({
                           ? '运行中'
                           : statusNames[submission.status]}
                       </output>
-                      {turn?.tools.map((tool) => (
-                        <details
-                          key={tool.id}
-                          open={expanded.includes(tool.id)}
-                          onToggle={(event) => {
-                            const prior = sessionView(sessionId).expanded
-                            const next = event.currentTarget.open
-                              ? [...new Set([...prior, tool.id])]
-                              : prior.filter((id) => id !== tool.id)
-                            if (JSON.stringify(next) !== JSON.stringify(prior)) {
-                              useSessionViews.getState().update(sessionId, { expanded: next })
-                            }
-                          }}
-                        >
-                          <summary>
-                            {tool.name} · {tool.status} · 只读过程
-                          </summary>
-                          <p className="whitespace-pre-wrap">{tool.summary}</p>
-                        </details>
-                      ))}
+                      <ToolTimeline
+                        sessionId={sessionId}
+                        turnId={submission.turnId}
+                        tools={
+                          turn?.tools ??
+                          history.data?.toolTimelines?.find(
+                            (timeline) => timeline.turnId === submission.turnId,
+                          )?.tools ??
+                          []
+                        }
+                      />
                       {turn?.approval ? (
                         <Alert>
                           <AlertTitle>待审批 · 仅观察</AlertTitle>
@@ -308,4 +299,3 @@ export function ManagedThread({
     </MessageScrollerProvider>
   )
 }
-const emptyExpanded: string[] = []

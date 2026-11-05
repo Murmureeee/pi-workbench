@@ -4,6 +4,7 @@ import type { createOfflineRuntime } from './sdk-runtime.js'
 import process from 'node:process'
 
 import { kernelCommandSchema } from './kernel-protocol.js'
+import { ToolObserver } from './tool-observer.js'
 
 let identity: KernelIdentity | undefined
 let runtime: Awaited<ReturnType<typeof createOfflineRuntime>> | undefined
@@ -12,6 +13,7 @@ let run: Promise<void> | undefined
 let seq = 0
 let closing = false
 let unsubscribe: (() => void) | undefined
+const tools = new ToolObserver(process.cwd())
 
 type Payload = KernelMessage extends infer Message
   ? Message extends KernelMessage
@@ -65,22 +67,12 @@ async function handle(command: KernelCommand) {
     unsubscribe = runtime.session.subscribe((event) => {
       if (event.type === 'message_update' && event.assistantMessageEvent.type === 'text_delta') {
         send({ type: 'delta', text: event.assistantMessageEvent.delta })
-      } else if (event.type === 'tool_execution_start') {
-        send({
-          type: 'tool',
-          toolId: event.toolCallId,
-          name: event.toolName,
-          status: 'running',
-          summary: '',
-        })
-      } else if (event.type === 'tool_execution_end') {
-        send({
-          type: 'tool',
-          toolId: event.toolCallId,
-          name: event.toolName,
-          status: event.isError ? 'error' : 'completed',
-          summary: JSON.stringify(event.result),
-        })
+      } else {
+        const tool = tools.observe(event)
+        if (tool) {
+          const { id, ...observation } = tool
+          send({ type: 'tool', toolId: id, ...observation })
+        }
       }
     })
     const sessionFile = runtime.session.sessionFile
@@ -130,6 +122,7 @@ async function handle(command: KernelCommand) {
       throw new Error('A turn is already running')
     }
     currentTurn = command.turnId
+    tools.reset()
     const activeRuntime = runtime
     if (
       activeRuntime.session.getActiveToolNames().length ||

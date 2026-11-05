@@ -17,6 +17,10 @@ import { ReadingLayout } from './reading-layout.js'
  * waits for page content and layout, never focuses, sends, or changes the active object.
  * MessageScroller owns scrolling/auto-follow. Explicit content expansion temporarily
  * holds this bookmark across async layout changes until the user scrolls or returns latest.
+ * Browser anchoring is disabled: lazy content must not shift an explicit Home/scroll position
+ * independently of the scroller and these message bookmarks.
+ * A viewport Home uses the public instant-scroll API so native smooth-key animation cannot
+ * race lazy layout or reapply an obsolete intermediate position.
  */
 export function RememberedViewport({
   sessionId: id,
@@ -43,6 +47,7 @@ export function RememberedViewport({
   const scrollable = useMessageScrollerScrollable()
   const viewport = useRef<HTMLDivElement>(null)
   const restored = useRef(false)
+  const manualScroll = useRef(false)
   const held = useRef<SessionView['reading'][string] | null>(null)
   const clampAfterShrink = useRef(false)
   const readLatest = useRef(onReadLatest)
@@ -70,13 +75,24 @@ export function RememberedViewport({
     const item = [...element.querySelectorAll<HTMLElement>('[data-reading-id]')].find(
       (child) => child.getBoundingClientRect().bottom > bounds.top,
     )
+    const atEnd = element.scrollHeight - element.scrollTop - element.clientHeight < 40
+    if (atEnd) {
+      manualScroll.current = false
+    }
+    // Lazy content can resize between the scroller's jump and its next resize frame.
+    // Such an automatic scroll must not disable its controlled follow flag. An actual
+    // wheel/key/scrollbar gesture still takes precedence, even during that jump.
+    const followingLayout =
+      !manualScroll.current &&
+      element.hasAttribute('data-autoscrolling') &&
+      sessionView(id).reading[surface]?.follow !== false
     return {
       anchor: item?.dataset.readingId ?? null,
       offset: item ? item.getBoundingClientRect().top - bounds.top : 0,
       top: element.scrollTop,
-      follow: !held.current && element.scrollHeight - element.scrollTop - element.clientHeight < 40,
+      follow: !held.current && (atEnd || followingLayout),
     }
-  }, [])
+  }, [id, surface])
   const save = useCallback(() => {
     const position = capture()
     if (!position) {
@@ -152,6 +168,7 @@ export function RememberedViewport({
   }, [active, ready, applyPosition, save])
   const release = useCallback(() => {
     held.current = null
+    manualScroll.current = false
     const position = capture()
     if (position) {
       useSessionViews.getState().update(id, {
@@ -165,12 +182,22 @@ export function RememberedViewport({
     if (!active || !ready || !content) {
       return undefined
     }
-    const observer = new ResizeObserver(restore)
+    let frame = 0
+    // Restoring can change the scroller's anchor spacer. Defer that layout write out of
+    // ResizeObserver delivery so expanding a tool result cannot re-enter the same cycle.
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(frame)
+      frame = requestAnimationFrame(restore)
+    })
     observer.observe(content)
-    return () => observer.disconnect()
+    return () => {
+      observer.disconnect()
+      cancelAnimationFrame(frame)
+    }
   }, [active, ready, restore])
   useLayoutEffect(() => {
     held.current = null
+    manualScroll.current = false
     clampAfterShrink.current = false
     restored.current = false
     if (!active || !ready) {
@@ -219,18 +246,37 @@ export function RememberedViewport({
     <ReadingLayout value={layout}>
       <MessageScrollerViewport
         {...props}
+        style={{ ...props.style, overflowAnchor: 'none' }}
         ref={viewport}
         onPointerDown={() => {
           held.current = null
+          manualScroll.current = true
         }}
         onWheel={() => {
           held.current = null
+          manualScroll.current = true
         }}
         onTouchMove={() => {
           held.current = null
+          manualScroll.current = true
         }}
-        onKeyDown={() => {
-          held.current = null
+        onKeyDown={(event) => {
+          if (
+            ['ArrowDown', 'ArrowUp', 'End', 'Home', 'PageDown', 'PageUp', ' '].includes(event.key)
+          ) {
+            held.current = null
+            manualScroll.current = true
+          }
+          if (
+            event.target === event.currentTarget &&
+            event.key === 'Home' &&
+            !event.altKey &&
+            !event.metaKey &&
+            !event.shiftKey
+          ) {
+            event.preventDefault()
+            scroller.scrollToStart({ behavior: 'instant' })
+          }
         }}
         onScroll={() => {
           save()

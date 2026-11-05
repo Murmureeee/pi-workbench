@@ -1,4 +1,5 @@
 import { ArrowDownIcon } from 'lucide-react'
+import { flushSync } from 'react-dom'
 
 import {
   MessageScrollerButton,
@@ -24,7 +25,9 @@ export function LatestMessagesButton({
       size="sm"
       onClick={(event) => {
         event.preventDefault()
-        reading?.release()
+        // The scroller reads its controlled autoScroll flag when jumping. Commit the
+        // user's follow intent first, or it can remain in free-scrolling during a stream.
+        flushSync(() => reading?.release())
         scroller.scrollToEnd({ behavior: 'instant' })
         event.currentTarget
           .closest('[data-slot="message-scroller"]')

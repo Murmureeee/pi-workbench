@@ -197,6 +197,12 @@ describe('CORE-04 real SDK + local HTTP fixture (zero real provider requests)', 
   it('keeps tools disabled even when the local model asks to write a file', async () => {
     const kernel = create()
     await kernel.ready()
+    const observations: Extract<KernelMessage, { type: 'tool' }>[] = []
+    kernel.subscribe((message) => {
+      if (message.type === 'tool') {
+        observations.push(message)
+      }
+    })
     const result = await kernel.prompt({
       turnId: randomUUID(),
       text: 'unknown tool fixture',
@@ -204,6 +210,20 @@ describe('CORE-04 real SDK + local HTTP fixture (zero real provider requests)', 
     })
     expect(result).toMatchObject({ outcome: 'error', localRequests: 2, blockedNetworkAttempts: 0 })
     expect(existsSync(join(kernel.snapshot.cwd, 'MUST-NOT-EXIST'))).toBe(false)
+    expect(observations.find((message) => message.status === 'running')).toMatchObject({
+      toolId: 'offline-untrusted',
+      name: 'write',
+      origin: 'sdk',
+      cwd: kernel.snapshot.cwd,
+      parameters: '{"path":"MUST-NOT-EXIST","content":"denied"}',
+    })
+    expect(observations.find((message) => message.status === 'error')).toMatchObject({
+      toolId: 'offline-untrusted',
+      name: 'write',
+      origin: 'sdk',
+      parameters: '{"path":"MUST-NOT-EXIST","content":"denied"}',
+    })
+    expect(observations.every((message) => message.exitCode === undefined)).toBe(true)
     expect(
       kernel.snapshot.sessionFile && readFileSync(kernel.snapshot.sessionFile, 'utf8'),
     ).toContain('not found')

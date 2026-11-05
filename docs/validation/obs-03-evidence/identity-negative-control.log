@@ -1,0 +1,51 @@
+
+Running 1 test using 1 worker
+
+  x  1 e2e\tool-timeline.spec.ts:155:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn (21.5s)
+
+
+  1) e2e\tool-timeline.spec.ts:155:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn 
+
+    Error: expect(locator).toHaveAttribute(expected) failed
+
+    Locator:  locator('.retained-session:not([hidden])').locator('[data-tool-id="read-child"]').last().getByRole('button')
+    Expected: "false"
+    Received: "true"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveAttribute" locator('.retained-session:not([hidden])').locator('[data-tool-id="read-child"]').last().getByRole('button') with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').locator('[data-tool-id="read-child"]').last().getByRole('button')
+        14 × locator resolved to <button tabindex="0" type="button" data-panel-open="" aria-expanded="true" aria-controls="base-ui-_r_24_" aria-label="read · 已完成 · read-child" data-slot="trace-collapsible-trigger" class="group/trace-collapsible-trigger flex w-fit max-w-full min-w-0 cursor-pointer items-center gap-1 rounded-md text-left text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 has-[[data-status=error]]:text-destructive">…</button>
+           - unexpected value "true"
+
+
+      260 |     await expect(sameId).toHaveCount(2)
+      261 |     await expect(sameId.first().getByRole('button')).toHaveAttribute('aria-expanded', 'true')
+    > 262 |     await expect(sameId.last().getByRole('button')).toHaveAttribute('aria-expanded', 'false')
+          |                                                     ^
+      263 |     expect(f.prompts()).toBe(5)
+      264 |     await f.kernels.abort(session.id, next.id)
+      265 |   } finally {
+        at D:\Project\pi-workbench\e2e\tool-timeline.spec.ts:262:53
+
+    Error Context: test-results\tool-timeline-OBS-03-actua-d8473-rrent-focus-or-another-turn\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\tool-timeline-OBS-03-actua-d8473-rrent-focus-or-another-turn\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\tool-timeline-OBS-03-actua-d8473-rrent-focus-or-another-turn\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\tool-timeline.spec.ts:155:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn 
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:21548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+(node:8272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)

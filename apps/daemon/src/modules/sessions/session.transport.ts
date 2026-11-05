@@ -3,6 +3,8 @@ import type { SessionStore } from './session.store.js'
 import type { HistoryMessage } from '@pi-workbench/shared'
 import type { FastifyInstance } from 'fastify'
 
+import { visibleToolObservation } from '@pi-workbench/shared'
+
 function incomplete(message: Pick<HistoryMessage, 'origin' | 'outcome'>): boolean {
   return (
     message.origin === 'interrupted-checkpoint' ||
@@ -46,6 +48,12 @@ export function registerSessionTransport(
         request.query.around,
       )
       if (page) {
+        if (page.toolTimelines) {
+          page.toolTimelines = page.toolTimelines.map((timeline) => ({
+            ...timeline,
+            tools: timeline.tools.map((tool) => visibleToolObservation(tool, security.redactor)),
+          }))
+        }
         page.messages = page.messages.map((message) => ({
           ...message,
           text: security.redactor.text(message.text, message.truncated || incomplete(message)),

@@ -69,6 +69,16 @@ test('OBS-04 actual Electron/SDK paced deltas preserve reading, count messages o
     expect((await position(viewport)).anchor).toBe(before.anchor)
     expect(Math.abs((await position(viewport)).offset - before.offset)).toBeLessThan(3)
     await expect(input).toBeFocused()
+    await expect
+      .poll(
+        async () =>
+          sessionViewsSchema.parse(
+            JSON.parse(
+              await page.evaluate(() => sessionStorage.getItem('piw-session-views-v1') ?? '{}'),
+            ),
+          )[a.id]?.reading.conversation?.follow,
+      )
+      .toBe(false)
     await latest.focus()
     await page.keyboard.press('Enter')
     await expect(viewport).toBeFocused()

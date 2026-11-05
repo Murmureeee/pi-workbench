@@ -38,6 +38,15 @@ export type {
 export { resourceLimitsSchema, resourceSnapshotSchema } from './resource-contracts.js'
 export type { ResourceLimits, ResourceSnapshot } from './resource-contracts.js'
 export { Redactor, redacted } from './redaction.js'
+export {
+  runtimeToolSchema,
+  mergeToolObservation,
+  toolIsActive,
+  visibleToolObservation,
+  interruptToolObservations,
+} from './tool-observation.js'
+export type { RuntimeTool } from './tool-observation.js'
+export { toolPresentation, toolRows, toolStatusNames } from './tool-presentation.js'
 export { securitySnapshotSchema } from './security-contracts.js'
 export type { SecuritySnapshot } from './security-contracts.js'
 export {

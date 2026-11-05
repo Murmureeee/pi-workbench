@@ -87,7 +87,11 @@ test('CORE-05 real local SDK: two browser clients reconnect to the same complete
     await expect(
       page.getByLabel('实时会话消息').getByText('OFFLINE_', { exact: true }),
     ).toHaveCount(1)
-    await expect(page.getByLabel('实时会话消息').locator('pre')).toHaveCount(1)
+    await expect(
+      page
+        .getByLabel('实时会话消息')
+        .getByRole('button', { name: 'write · 失败 · offline-untrusted', exact: true }),
+    ).toBeVisible()
     await expect
       .poll(() => second.getByLabel('实时会话消息').innerText())
       .toBe(await page.getByLabel('实时会话消息').innerText())

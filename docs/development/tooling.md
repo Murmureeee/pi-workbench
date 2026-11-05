@@ -191,3 +191,11 @@ Electron流式与安全内容展示已验收：每帧累计全部delta，非delt
 ## OBS-04 已验收
 
 OBS-04 已验收：Electron 回看不强拉、按消息计数、显式／键盘返回最新、消息锚点与偏移跨分页／3 视图淘汰／renderer 刷新恢复；长文展开保持现场、收起不留空白，后台完成或合成审批观察不抢当前焦点与面板。新增 2 项 Vitest／4 项实际 Electron 回归，完整 31 文件／240 项 Vitest、90 项 E2E、SDK 和 frozen clean 通过；60 条 Windows 原生观察、明暗窄窗、后台同 PID／epoch、同 data/profile 重启 0 内核／0 新请求及两次正常菜单退出补证。304 文件与 clean 一致，原生后复用门禁；当前本地 26 / 133，OPS-08 继续 in_progress。分页行／审批观察均明确为合成样本，完整应用重启不承诺窗口书签；真实提供商 0，配置／canonical 预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/obs-04-evidence/acceptance.md)。
+
+## OBS-03 工具时间线验收
+
+OBS-03 已验收 Electron 工具时间线：调用身份／最终参数与父子关联、拒绝／失败／取消／结果未知、乱序终态保护、脱敏长文明确展开和可验证摘要；未知指标显示未知，Diff 仅观察。原生 Windows 工具卡／长输出／逐轮隔离、后台同 PID／epoch 与焦点、明暗窄窗、同 data/profile 重启不重发和正常退出均已补证，两项勾选。真实提供商 0，工具／扩展继续禁用，不改 pi 配置／canonical 预算，无安装包，网页独立功能暂缓；OPS-08 继续 in_progress。
+
+新增 11 项 Vitest（shared 调用合并／脱敏／摘要／迭代嵌套、SDK 类型映射、实际 SQLite／HTTP／TCP／重启）和 3 项实际 Electron 流程，纳入 test:contracts／完整 CI。真实 SDK 的禁用 write 请求沿用已有本地 HTTP 用例并加强参数／ID／错误断言，不增加请求；拒绝／取消／MCP／Diff／长输出／嵌套来源为明确合成观察，不代表生产工具执行。关键反向控制验证同一会话下一轮相同 ID 不共享展开；初轮脱敏 JSON／运行中工具恢复失败与修后日志保留。自动与原生结果见[验收记录](../validation/obs-03-evidence/acceptance.md)。
+
+OBS-03 已验收：完整 35 文件／251 项 Vitest、93 项浏览器及 Electron E2E、SDK 冒烟与 frozen clean 通过；Windows 原生工具身份／摘要／长输出脱敏与收起、跨会话及逐轮展开隔离、后台同 PID／epoch 和焦点、明暗 802px 窄窗、同 data/profile 只读重启 0 内核／0 新发送／0 注入、历史哈希不变及正常菜单退出已补证。316 文件与 CI／clean 一致，原生后复用门禁；仅文档模板另更新。两项勾选，当前本地 27 / 133，OPS-08 继续 in_progress。合成工具观察与真实 SDK 禁用工具错误分开，未开启生产工具／审批／MCP／回滚；真实提供商 0，配置／预算／锁未改。

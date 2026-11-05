@@ -1,0 +1,224 @@
+{
+  "feature": "OBS-03",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local hold. Tool events explicitly synthetic, never executed. No CDP or renderer routing.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\obs03-native-rt5ECj",
+  "desktopPid": 33900,
+  "prompts": 0,
+  "results": [],
+  "injections": [
+    {
+      "sessionId": "3dc924a6-0f66-4230-a893-6411ac3d2e0a",
+      "turnId": "84a4217f-942b-48e1-a77b-ff54fe7a7a20",
+      "epoch": "e121e7b3-82a3-4483-80bd-09e719f5cd47",
+      "count": 14
+    },
+    {
+      "sessionId": "96a5c9e0-9d39-4eb9-9d13-98d05be3911a",
+      "turnId": "c940e155-2a82-4df3-8153-f64ccd19d6ca",
+      "epoch": "f5b127f0-5b3f-49f4-8ba4-cee7af7e11bb",
+      "count": 1
+    }
+  ],
+  "sessions": [
+    {
+      "id": "3dc924a6-0f66-4230-a893-6411ac3d2e0a",
+      "title": "OBS03 甲 保持运行 · 合成工具观察",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "dca7121c-fe51-4bad-82a2-41d429fafd97",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "faf9a7a2-612c-40b3-a7a7-763bc7f1e4f3",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs03-native-rt5ECj\\data\\standalone\\3dc924a6-0f66-4230-a893-6411ac3d2e0a",
+      "createdAt": 1793864378397
+    },
+    {
+      "id": "96a5c9e0-9d39-4eb9-9d13-98d05be3911a",
+      "title": "OBS03 乙 保持运行 · 独立调用",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "4720c649-7f2e-4f7c-a969-e44845a97525",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "794772b6-4bdf-404f-9cf0-3488adc5e5c0",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs03-native-rt5ECj\\data\\standalone\\96a5c9e0-9d39-4eb9-9d13-98d05be3911a",
+      "createdAt": 1793865617312
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "dca7121c-fe51-4bad-82a2-41d429fafd97",
+      "sessionId": "3dc924a6-0f66-4230-a893-6411ac3d2e0a",
+      "messageId": "42008fd8-c9d0-49ed-b851-b5e416d96973",
+      "turnId": "c45d57f7-2fcb-4d86-bc57-e97816312c6f",
+      "status": "failed",
+      "text": "OBS03 甲 保持运行 · 合成工具观察",
+      "retryOf": null,
+      "error": "terminated",
+      "createdAt": 1793864378398
+    },
+    {
+      "requestId": "6fab6884-7234-4322-be8d-f6d60ac9728a",
+      "sessionId": "3dc924a6-0f66-4230-a893-6411ac3d2e0a",
+      "messageId": "c3735863-2ace-41fd-b507-87ca06e0e724",
+      "turnId": "84a4217f-942b-48e1-a77b-ff54fe7a7a20",
+      "status": "failed",
+      "text": "保持运行 · 同会话新轮次重复ID",
+      "retryOf": null,
+      "error": "terminated",
+      "createdAt": 1793865413586
+    },
+    {
+      "requestId": "4720c649-7f2e-4f7c-a969-e44845a97525",
+      "sessionId": "96a5c9e0-9d39-4eb9-9d13-98d05be3911a",
+      "messageId": "b76bb3e2-b195-42d9-89a5-fe5721f1662c",
+      "turnId": "027d10d2-0332-4090-86f6-617062557525",
+      "status": "failed",
+      "text": "OBS03 乙 保持运行 · 独立调用",
+      "retryOf": null,
+      "error": "terminated",
+      "createdAt": 1793865617313
+    },
+    {
+      "requestId": "245ac352-4d4f-45be-9e45-8ebbfd05c4ba",
+      "sessionId": "96a5c9e0-9d39-4eb9-9d13-98d05be3911a",
+      "messageId": "1e2083ac-25f7-46e6-b811-81c371d53d54",
+      "turnId": "c940e155-2a82-4df3-8153-f64ccd19d6ca",
+      "status": "aborted",
+      "text": "OBS03 乙 保持运行 · 独立调用",
+      "retryOf": "4720c649-7f2e-4f7c-a969-e44845a97525",
+      "error": "Request was aborted",
+      "createdAt": 1793866089341
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "d4dc0b34-9e37-4be0-ad93-cbe1ad1904b2",
+      "sessionId": "3dc924a6-0f66-4230-a893-6411ac3d2e0a",
+      "epoch": "e121e7b3-82a3-4483-80bd-09e719f5cd47",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "84a4217f-942b-48e1-a77b-ff54fe7a7a20",
+          "messageId": "84a4217f-942b-48e1-a77b-ff54fe7a7a20:assistant",
+          "prompt": "保持运行 · 同会话新轮次重复ID",
+          "text": "OFFLINE_",
+          "phase": "error",
+          "tools": [
+            {
+              "id": "read-child",
+              "name": "read",
+              "status": "completed",
+              "summary": "独立会话或新轮次结果",
+              "parameters": "{\"path\":\"next.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs03-native-rt5ECj\\data\\standalone\\3dc924a6-0f66-4230-a893-6411ac3d2e0a",
+              "origin": "synthetic-fixture"
+            }
+          ],
+          "approval": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "d4dc0b34-9e37-4be0-ad93-cbe1ad1904b2",
+      "sessionId": "96a5c9e0-9d39-4eb9-9d13-98d05be3911a",
+      "epoch": "f5b127f0-5b3f-49f4-8ba4-cee7af7e11bb",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "c940e155-2a82-4df3-8153-f64ccd19d6ca",
+          "messageId": "c940e155-2a82-4df3-8153-f64ccd19d6ca:assistant",
+          "prompt": "OBS03 乙 保持运行 · 独立调用",
+          "text": "OFFLINE_",
+          "phase": "aborted",
+          "tools": [
+            {
+              "id": "read-child",
+              "name": "read",
+              "status": "completed",
+              "summary": "独立会话或新轮次结果",
+              "parameters": "{\"path\":\"next.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs03-native-rt5ECj\\data\\standalone\\96a5c9e0-9d39-4eb9-9d13-98d05be3911a",
+              "origin": "synthetic-fixture"
+            },
+            {
+              "id": "background",
+              "name": "background",
+              "status": "completed",
+              "summary": "后台合成观察，不抢焦点",
+              "origin": "synthetic-fixture"
+            }
+          ],
+          "approval": null,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "historyBefore": {
+    "3dc924a6-0f66-4230-a893-6411ac3d2e0a\\043402eb-dfb6-4d0b-b15f-c17f18abf873\\sessions\\2026-11-05T07-39-39-492Z_01a1aaa6-2c64-76cd-a51e-ec7a5c2cb459.jsonl": "8e87c1afb7d6c45cf51e06ba2eec3b334a141fdac91c2f8cf6cb64a45ffbbd1f",
+    "96a5c9e0-9d39-4eb9-9d13-98d05be3911a\\f5b127f0-5b3f-49f4-8ba4-cee7af7e11bb\\sessions\\2026-11-05T08-00-18-362Z_01a1aab9-13ba-74cd-931d-ced202cc49ab.jsonl": "33f9d05a983331feae52da329128b7ed7bd232954074a354ed32e845706ea633"
+  },
+  "historyAfter": {
+    "3dc924a6-0f66-4230-a893-6411ac3d2e0a\\043402eb-dfb6-4d0b-b15f-c17f18abf873\\sessions\\2026-11-05T07-39-39-492Z_01a1aaa6-2c64-76cd-a51e-ec7a5c2cb459.jsonl": "8e87c1afb7d6c45cf51e06ba2eec3b334a141fdac91c2f8cf6cb64a45ffbbd1f",
+    "96a5c9e0-9d39-4eb9-9d13-98d05be3911a\\f5b127f0-5b3f-49f4-8ba4-cee7af7e11bb\\sessions\\2026-11-05T08-00-18-362Z_01a1aab9-13ba-74cd-931d-ced202cc49ab.jsonl": "33f9d05a983331feae52da329128b7ed7bd232954074a354ed32e845706ea633"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "ownedProcessesExited": true
+}

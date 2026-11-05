@@ -32,11 +32,11 @@ export class Redactor {
   }
 
   /** Field names are inspected before values. Never call on authoritative execution parameters. */
-  value(input: unknown): unknown {
+  value(input: unknown, streaming = false): unknown {
     const seen = new WeakSet<object>()
     const visit = (value: unknown, depth: number): unknown => {
       if (typeof value === 'string') {
-        return this.text(value)
+        return this.text(value, streaming)
       }
       if (value instanceof Error) {
         return { name: this.text(value.name), message: this.text(value.message) }
@@ -75,9 +75,16 @@ export class Redactor {
       const start = match.index + match[0].length
       const value = input
         .slice(start)
-        .match(/^(?:"[^"\r\n]*(?:"|$)|'[^'\r\n]*(?:'|$)|[^\s,;&}\]<>]+)/)?.[0]
+        .match(/^(?:"(?:\\.|[^"\\\r\n])*(?:"|$)|'(?:\\.|[^'\\\r\n])*(?:'|$)|[^\s,;&}\]<>]+)/)?.[0]
       if (value) {
-        output += input.slice(cursor, start) + redacted
+        // Preserve surrounding quotes so repeated filtering of a JSON parameter/result
+        // string stays parseable. Values are masked as a whole, including escaped quotes.
+        const quote = value[0] === '"' || value[0] === "'" ? value[0] : ''
+        output +=
+          input.slice(cursor, start) +
+          quote +
+          redacted +
+          (quote && value.length > 1 && value.endsWith(quote) ? quote : '')
         cursor = start + value.length
       }
     }

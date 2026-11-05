@@ -1,0 +1,20 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:14284) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:19552) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\scroll-reading.spec.ts:29:1 › OBS-04 actual Electron/SDK paced deltas preserve reading, count messages once, and resume follow only on explicit latest (1.1m)
+  ok 2 e2e\scroll-reading.spec.ts:133:1 › OBS-04 Electron long-message expansion preserves anchor/offset and history bytes through eviction and reload (15.9s)
+  ok 3 e2e\scroll-reading.spec.ts:190:1 › OBS-04 Electron history pagination restores each page bookmark through reload (9.4s)
+  ok 4 e2e\scroll-reading.spec.ts:257:1 › OBS-04 Electron background synthetic approval never focuses, changes session or opens a panel (8.2s)
+  ok 5 e2e\tool-timeline.spec.ts:36:1 › OBS-03 actual Electron read-only Trace: nested identity, result-before-start, explicit outcomes/unknown metrics, safe structures and keyboard (7.2s)
+  ok 6 e2e\tool-timeline.spec.ts:94:1 › OBS-03 actual Electron long redacted output expands without changing source, Diff remains observation, light/dark narrow layouts stay bounded (6.2s)
+  ok 7 e2e\tool-timeline.spec.ts:146:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn (15.1s)
+
+  7 passed (2.4m)

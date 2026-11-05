@@ -1,6 +1,6 @@
 import { z } from 'zod'
 
-import { trustedContextSchema } from '@pi-workbench/shared'
+import { runtimeToolSchema, trustedContextSchema } from '@pi-workbench/shared'
 
 const identity = {
   protocol: z.literal(1),
@@ -71,9 +71,7 @@ export const kernelMessageSchema = z.discriminatedUnion('type', [
     ...envelope,
     type: z.literal('tool'),
     toolId: z.string().min(1),
-    name: z.string(),
-    status: z.enum(['running', 'completed', 'error']),
-    summary: z.string(),
+    ...runtimeToolSchema.omit({ id: true }).shape,
   }),
   z.strictObject({
     ...envelope,

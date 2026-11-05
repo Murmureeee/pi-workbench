@@ -30,7 +30,7 @@ CORE-04 已实现每会话单进程、守卫握手、流式、中止、销毁与
 
 CORE-05 已验收：`GET /api/protocol` 核对版本与能力，`GET /api/sessions/:sessionId/snapshot` 读取完整观察快照，`WS /api/events` 按游标重放并订阅。已存在运行时可用 `http://127.0.0.1:5173/?observe=<sessionId>` 只读查看，关闭观察不停止任务；不会自动创建会话或调用模型。缺口 / 缓冲不足重新同步，重连不重发任务；不兼容保留内容并禁用变更入口。CORE-06 已补齐重启后的只读历史与中断恢复，CORE-07 已补齐资源调度，接着进入 M2。协议与边界见[实施方案](docs/architecture/implementation-plan.md#core-05-已交付边界)。
 
-OPS-08 的 M1 契约基线及 CORE-05–07 / SEC-06 / 07 / 08 / WS-01 / 02 / 06 / MODEL-01 和 SESSION-01 / 02 / 03 / 11 / 12 自动回归已接入；当前完整门禁为 **209 项单元 / 集成、67 项浏览器 / Electron 测试通过**，SDK 冒烟及本次 frozen 干净目录复现通过，新增真实提供商请求为 0。SESSION-11 的真实 Windows IME 与原生重启、WS-02 的最近 / 重命名 / 移除 / 同身份重新定位及 WS-06 的项目整理 / 默认目录 / 运行中解散 / 原生重启均已补验；OPS-08 整体仍为进行中，M2 其余真实交互与后续回滚门禁待随功能补齐；[阶段矩阵与证据](docs/development/tooling.md#ops-08-契约回归门禁)说明限制。
+OPS-08 的 M1 契约基线及已交付 M1／M2 自动回归已接入；本次完整 **251 项单元／集成、93 项浏览器／Electron 测试**与 SDK 冒烟通过，frozen 干净目录复现通过，新增真实提供商请求 0。OBS-03 工具时间线及 Windows 原生鼠标／键盘、同 data/profile 重启和菜单退出已验收。OPS-08 整体继续进行，生产业务／双端审批、M3 回滚及平台门禁继续待验；[阶段矩阵与证据](docs/development/tooling.md#ops-08-契约回归门禁)说明各类来源与限制。
 
 CORE-06 已验收：`GET /api/sessions` 发现受管索引，`http://127.0.0.1:5173/?history=<sessionId>` 查看只读原生历史与恢复记录。默认最新 100 条 / 页，每条预览最多 64 KiB，全文按需读取，展示与导出经过 SEC-06 脱敏；损坏记录保留原件，无法安全解析的内容不导出。独立 inflight 检查点以 1.5 秒为目标间隔，崩溃回复仅标为中断；重启不创建 SDK 进程、不重发队列或恢复旧授权。队列 / 审批 / 变更引用的存储用明确标记的合成记录验证，真实业务服务与 M3 回滚尚未接入。说明与证据见[实施方案](docs/architecture/implementation-plan.md#core-06-已交付边界)。
 
@@ -202,3 +202,9 @@ Electron流式与安全内容展示已验收：每帧累计全部delta，非delt
 ## OBS-04 已验收
 
 OBS-04 已验收：Electron 回看不强拉、按消息计数、显式／键盘返回最新、消息锚点与偏移跨分页／3 视图淘汰／renderer 刷新恢复；长文展开保持现场、收起不留空白，后台完成或合成审批观察不抢当前焦点与面板。新增 2 项 Vitest／4 项实际 Electron 回归，完整 31 文件／240 项 Vitest、90 项 E2E、SDK 和 frozen clean 通过；60 条 Windows 原生观察、明暗窄窗、后台同 PID／epoch、同 data/profile 重启 0 内核／0 新请求及两次正常菜单退出补证。304 文件与 clean 一致，原生后复用门禁；当前本地 26 / 133，OPS-08 继续 in_progress。分页行／审批观察均明确为合成样本，完整应用重启不承诺窗口书签；真实提供商 0，配置／canonical 预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](docs/validation/obs-04-evidence/acceptance.md)。
+
+## OBS-03 工具时间线
+
+OBS-03 已验收 Electron 工具时间线：调用身份／最终参数与父子关联、拒绝／失败／取消／结果未知、乱序终态保护、脱敏长文明确展开和可验证摘要；未知指标显示未知，Diff 仅观察。原生 Windows 工具卡／长输出／逐轮隔离、后台同 PID／epoch 与焦点、明暗窄窗、同 data/profile 重启不重发和正常退出均已补证，两项勾选。真实提供商 0，工具／扩展继续禁用，不改 pi 配置／canonical 预算，无安装包，网页独立功能暂缓；OPS-08 继续 in_progress。[实现、验证来源与继续提示词](docs/validation/obs-03-evidence/acceptance.md)。
+
+OBS-03 已验收：完整 35 文件／251 项 Vitest、93 项浏览器及 Electron E2E、SDK 冒烟与 frozen clean 通过；Windows 原生工具身份／摘要／长输出脱敏与收起、跨会话及逐轮展开隔离、后台同 PID／epoch 和焦点、明暗 802px 窄窗、同 data/profile 只读重启 0 内核／0 新发送／0 注入、历史哈希不变及正常菜单退出已补证。316 文件与 CI／clean 一致，原生后复用门禁；仅文档模板另更新。两项勾选，当前本地 27 / 133，OPS-08 继续 in_progress。合成工具观察与真实 SDK 禁用工具错误分开，未开启生产工具／审批／MCP／回滚；真实提供商 0，配置／预算／锁未改。

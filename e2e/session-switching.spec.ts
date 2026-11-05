@@ -435,8 +435,12 @@ test('SESSION-02 Electron isolates evicted draft-directory and A-B-A history res
       reference: 'synthetic-ledger:A-只读引用',
     })
     await pane.getByRole('button', { name: '返回对话', exact: true }).click()
-    await expect(pane.getByText('合成只读工具 · completed · 只读过程')).toBeVisible()
-    await pane.getByText('合成只读工具 · completed · 只读过程').click()
+    await expect(
+      pane.getByRole('button', { name: '合成只读工具 · 已完成 · synthetic-tool', exact: true }),
+    ).toBeVisible()
+    await pane
+      .getByRole('button', { name: '合成只读工具 · 已完成 · synthetic-tool', exact: true })
+      .click()
     await pane.getByTitle(b.title, { exact: true }).click()
     await pane.getByTitle(c.title, { exact: true }).click()
     await pane.getByTitle(d.title, { exact: true }).click()

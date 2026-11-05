@@ -1,10 +1,17 @@
 import { z } from 'zod'
 
+import {
+  interruptToolObservations,
+  mergeToolObservation,
+  runtimeToolSchema,
+} from './tool-observation.js'
+
 export const runtimeCapabilities = [
   'snapshots',
   'replay',
   'tool-observation',
   'redacted-observation',
+  'tool-timeline-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),
@@ -14,12 +21,6 @@ export const runtimeHelloSchema = z.strictObject({
   mutations: z.boolean(),
   realProviderEnabled: z.boolean(),
 })
-const toolSchema = z.strictObject({
-  id: z.string().min(1),
-  name: z.string(),
-  status: z.enum(['running', 'completed', 'error']),
-  summary: z.string(),
-})
 const approvalSchema = z.strictObject({ id: z.string(), command: z.string(), cwd: z.string() })
 const outcomeSchema = z.enum(['completed', 'aborted', 'error'])
 const turnSchema = z.strictObject({
@@ -28,7 +29,7 @@ const turnSchema = z.strictObject({
   prompt: z.string(),
   text: z.string(),
   phase: z.enum(['running', 'stopping', 'completed', 'aborted', 'error', 'interrupted']),
-  tools: z.array(toolSchema),
+  tools: z.array(runtimeToolSchema),
   approval: approvalSchema.nullable(),
   error: z.string().nullable(),
 })
@@ -81,7 +82,7 @@ export const runtimeEventSchema = z
         messageId: z.string(),
         text: z.string(),
       }),
-      z.strictObject({ type: z.literal('tool.updated'), tool: toolSchema }),
+      z.strictObject({ type: z.literal('tool.updated'), tool: runtimeToolSchema }),
       z.strictObject({ type: z.literal('approval.requested'), approval: approvalSchema }),
       z.strictObject({ type: z.literal('approval.resolved'), approvalId: z.string() }),
       z.strictObject({ type: z.literal('turn.stopping') }),
@@ -195,12 +196,10 @@ export function applyRuntimeEvent(state: RuntimeSnapshot, event: RuntimeEvent): 
       break
     case 'tool.updated': {
       const prior = turn.tools.find((tool) => tool.id === payload.tool.id)
-      if (prior && prior.status !== 'running') {
-        break
-      }
+      const tool = mergeToolObservation(prior, payload.tool)
       turn.tools = prior
-        ? turn.tools.map((tool) => (tool.id === payload.tool.id ? payload.tool : tool))
-        : [...turn.tools, payload.tool]
+        ? turn.tools.map((item) => (item.id === tool.id ? tool : item))
+        : [...turn.tools, tool]
       break
     }
     case 'approval.requested':
@@ -221,6 +220,7 @@ export function applyRuntimeEvent(state: RuntimeSnapshot, event: RuntimeEvent): 
         phase: payload.outcome,
         error: payload.error ?? null,
         approval: null,
+        tools: interruptToolObservations(turn.tools),
       }
       break
   }

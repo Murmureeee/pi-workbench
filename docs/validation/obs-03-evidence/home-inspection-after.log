@@ -1,0 +1,26 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:29120) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:18660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-project-failed","detail":{"name":"SqliteError","message":"fixture disk failure"}}
+  ok 1 e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution (7.3s)
+  ok 2 e2e\session-switching.spec.ts:136:1 › SESSION-02 Electron evicts after three views and restores per-session drafts, anchors and panel after reload (13.8s)
+(node:13068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-project-failed","detail":{"name":"SqliteError","message":"fixture disk failure"}}
+  ok 3 e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution (7.1s)
+  ok 4 e2e\session-switching.spec.ts:136:1 › SESSION-02 Electron evicts after three views and restores per-session drafts, anchors and panel after reload (13.7s)
+(node:2520) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-project-failed","detail":{"name":"SqliteError","message":"fixture disk failure"}}
+  ok 5 e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution (9.3s)
+  ok 6 e2e\session-switching.spec.ts:136:1 › SESSION-02 Electron evicts after three views and restores per-session drafts, anchors and panel after reload (13.5s)
+
+  6 passed (1.4m)

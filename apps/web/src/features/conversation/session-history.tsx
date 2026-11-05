@@ -23,6 +23,7 @@ import { LatestMessagesButton } from './latest-messages-button.js'
 import { MessageBody } from './message-body.js'
 import { useReadingLayout } from './reading-layout.js'
 import { RememberedViewport } from './remembered-viewport.js'
+import { ToolTimeline } from './tool-timeline.js'
 
 function HistoryEntry({
   sessionId,
@@ -368,6 +369,18 @@ export function SessionHistory({
                     message={message}
                     located={around === message.id}
                   />
+                  {message.turnId &&
+                  page.messages.findLast((item) => item.turnId === message.turnId)?.id ===
+                    message.id ? (
+                    <ToolTimeline
+                      sessionId={sessionId}
+                      turnId={message.turnId}
+                      tools={
+                        page.toolTimelines?.find((timeline) => timeline.turnId === message.turnId)
+                          ?.tools ?? []
+                      }
+                    />
+                  ) : null}
                 </MessageScrollerItem>
               ))}
               {page &&
