@@ -1,0 +1,471 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 365ms on 281 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+$ knip
+$ node scripts/planning/verify-roadmap.mjs && node scripts/docs/verify.mjs
+PASS current backlog definitions, dependencies and progress are valid
+PASS design coverage does not count as implementation
+PASS cannot mark done without acceptance or evidence
+PASS unmet prerequisites prevent false completion
+PASS batch import checks the whole resulting graph, regardless of row order
+PASS failed import is atomic and cannot corrupt existing definitions
+PASS unknown IDs and changed acceptance definitions are rejected
+PASS blocked status requires a cause and invalid dates are rejected
+PASS cycles and dependencies in later stages are detected
+PASS downgrading a prerequisite cannot leave dependent completion valid
+PASS generated HTML embeds exactly the canonical scope and compiles
+PASS generated Markdown includes every stable feature and acceptance criterion
+Verified 12 checks. Product progress unchanged.
+PASS documentation structure: 29 documents, 836 local links, legacy redirects and PRD data
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+Switched to a new branch '功能/中文'
+HEAD is now at 806ffb8 offline baseline
+ ❯ apps/daemon/test/workspace-recents.test.ts (7 tests | 1 failed) 4601ms
+   ❯ WS-02 actual SQLite, directory, HTTP and SDK/local fixture boundaries (7)
+     × migrates the actual previous registry without inventing recency or losing original identity/name and session data 114ms
+ ❯ apps/daemon/test/workspaces.test.ts (5 tests | 1 failed) 4632ms
+   ❯ WS-01 actual directory identity, SQLite and SDK isolation (no provider) (5)
+     × fails closed on SQLite registration failure and preserves existing sessions, native history and resource trust across migration 3553ms
+ ❯ apps/daemon/test/events.test.ts (4 tests | 1 failed) 5679ms
+   ❯ CORE-05 real SDK + local fixture over REST and native WebSocket (2)
+     × keeps two TCP observers consistent through replay, abort, unknown tool, error and generation replacement 5504ms
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-HkMxM0/中文仓库/modules/child'...
+done.
+ ❯ apps/daemon/test/session-search.test.ts (8 tests | 1 failed) 6548ms
+   ❯ SESSION-12 actual SQLite / native JSONL read-only search (8)
+     × migrates an existing database and rebuilds derived search without starting SDK or changing native history 441ms
+Preparing worktree (new branch 'linked-head')
+ ❯ apps/daemon/test/model-requests.test.ts (2 tests | 1 failed) 8002ms
+   × mODEL-07 actual deny-all unknown tool failure cannot be replayed through whole-task retry or changed configuration 3937ms
+ ❯ apps/daemon/test/bootstrap.test.ts (3 tests | 1 failed) 310ms
+   ❯ OPS-01 service and native SQLite baseline (3)
+     × applies reviewed migrations once and reopens persisted metadata 64ms
+ ❯ apps/daemon/test/project-organization.test.ts (9 tests | 1 failed) 17790ms
+   ❯ WS-06 actual SQLite/default directory/SDK local fixture boundaries (9)
+     × upgrades existing project identities/defaults in insertion order without creating sessions or opening directories 412ms
+ ❯ apps/daemon/test/session-titles.test.ts (6 tests | 1 failed) 19448ms
+   ❯ SESSION-11 actual SQLite / SDK-local HTTP / authenticated TCP metadata (6)
+     × migrates existing local titles without replacing text or creating a new session 1891ms
+ ❯ apps/daemon/test/trust.test.ts (7 tests | 1 failed) 19419ms
+   ❯ SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) (7)
+     × fails closed on a SQLite consent write failure and migrates existing history without changing its ownership 3964ms
+ ❯ apps/daemon/test/session-organization.test.ts (7 tests | 1 failed) 19518ms
+   ❯ SESSION-03 daemon-owned library; actual SQLite and SDK/local HTTP fixture (7)
+     × migrates an existing library with old results read, and makes only newly recovered interruptions unread 1760ms
+ ❯ apps/daemon/test/session-spaces.test.ts (6 tests | 1 failed) 22371ms
+   ❯ SESSION-07 real standalone directories, SQLite, SDK/local fixture and source boundaries (6)
+     × migrates an actual previous schema as observed provenance, preserving files and JSONL without inventing an original project 1423ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 11 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/bootstrap.test.ts > OPS-01 service and native SQLite baseline > applies reviewed migrations once and reopens persisted metadata
+AssertionError: expected { n: 12 } to deeply equal { n: 11 }
+
+- Expected
++ Received
+
+  {
+-   "n": 11,
++   "n": 12,
+  }
+
+ ❯ apps/daemon/test/bootstrap.test.ts:30:93
+     28|         second.sqlite.prepare('SELECT value FROM workspace_meta WHERE …
+     29|       ).toEqual({ value: 'preserved' })
+     30|       expect(second.sqlite.prepare('SELECT count(*) AS n FROM __drizzl…
+       |                                                                                             ^
+     31|         { n: 11 },
+     32|       )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  apps/daemon/test/events.test.ts > CORE-05 real SDK + local fixture over REST and native WebSocket > keeps two TCP observers consistent through replay, abort, unknown tool, error and generation replacement
+AssertionError: expected { version: 1, …(6) } to deeply equal { version: 1, …(6) }
+
+- Expected
++ Received
+
+@@ -47,16 +47,16 @@
+        "text": "OFFLINE_",
+        "tools": [],
+      },
+      {
+        "approval": null,
+-       "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=fixture-model-error-secret\"}",
++       "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}",
+        "id": "4a42e47f-5220-45a0-b20c-09c7905d9481",
+        "messageId": "4a42e47f-5220-45a0-b20c-09c7905d9481:assistant",
+        "modelRequest": {
+          "attempts": 2,
+-         "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=fixture-model-error-secret\"}",
++         "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}",
+          "retryCount": 0,
+          "retryLimit": 0,
+          "state": "settled",
+          "waitUntil": null,
+        },
+@@ -79,16 +79,16 @@
+          },
+        ],
+      },
+      {
+        "approval": null,
+-       "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=fixture-model-error-secret\"}",
++       "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}",
+        "id": "834534a5-046c-4819-b20c-e811e96ac0c8",
+        "messageId": "834534a5-046c-4819-b20c-e811e96ac0c8:assistant",
+        "modelRequest": {
+          "attempts": 1,
+-         "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=fixture-model-error-secret\"}",
++         "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}",
+          "retryCount": 0,
+          "retryLimit": 0,
+          "state": "settled",
+          "waitUntil": null,
+        },
+
+ ❯ apps/daemon/test/events.test.ts:197:52
+    195|         fixture: 'error',
+    196|       })
+    197|       await expect.poll(() => reconnected.value()).toEqual(events.snap…
+       |                                                    ^
+    198|       expect(reconnected.value().turns.at(-1)?.phase).toBe('error')
+    199|       const toolTurn = reconnected.value().turns[2]
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/daemon/test/events.test.ts:197:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+ FAIL  apps/daemon/test/model-requests.test.ts > mODEL-07 actual deny-all unknown tool failure cannot be replayed through whole-task retry or changed configuration
+AssertionError: expected [Function] to throw error including '不能在发送时静默切换环境' but got '所选模型当前不可用，请刷新模型目录。'
+
+Expected: "不能在发送时静默切换环境"
+Received: "所选模型当前不可用，请刷新模型目录。"
+
+ ❯ apps/daemon/test/model-requests.test.ts:138:6
+    136|         },
+    137|       }),
+    138|     ).rejects.toThrow('不能在发送时静默切换环境')
+       |      ^
+    139|     expect(calls).toBe(1)
+    140|     const tools = app.get(EventService).snapshot(receipt.session.id)?.…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  apps/daemon/test/project-organization.test.ts > WS-06 actual SQLite/default directory/SDK local fixture boundaries > upgrades existing project identities/defaults in insertion order without creating sessions or opening directories
+DrizzleError: Failed to run the query 'ALTER TABLE session_turns ADD COLUMN model_request TEXT;
+'
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:271:10
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/dialect.ts:978:15
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/migrator.ts:10:13
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/project-organization.test.ts:45:21
+     43|   mkdirSync(first, { recursive: true })
+     44|   mkdirSync(second, { recursive: true })
+     45|   const app = await createApp({ dataDir: join(directory, 'data'), port…
+       |                     ^
+     46|   apps.push(app)
+     47|   const projects = app.get(ProjectService),
+ ❯ apps/daemon/test/project-organization.test.ts:131:24
+
+Caused by: SqliteError: duplicate column name: model_request
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:154:19
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/dialect.js:662:21
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/migrator.js:4:14
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/project-organization.test.ts:45:21
+ ❯ apps/daemon/test/project-organization.test.ts:131:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'SQLITE_ERROR' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  apps/daemon/test/session-organization.test.ts > SESSION-03 daemon-owned library; actual SQLite and SDK/local HTTP fixture > migrates an existing library with old results read, and makes only newly recovered interruptions unread
+DrizzleError: Failed to run the query 'ALTER TABLE session_turns ADD COLUMN model_request TEXT;
+'
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:271:10
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/dialect.ts:978:15
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/migrator.ts:10:13
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/session-organization.test.ts:45:21
+     43| async function fixture(directory = mkdtempSync(join(tmpdir(), 'piw-lib…
+     44|   directories.push(directory)
+     45|   const app = await createApp({ dataDir: join(directory, 'data'), port…
+       |                     ^
+     46|   apps.push(app)
+     47|   const ticket = app.get(AccessService).issueTicket('desktop')
+ ❯ apps/daemon/test/session-organization.test.ts:403:24
+
+Caused by: SqliteError: duplicate column name: model_request
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:154:19
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/dialect.js:662:21
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/migrator.js:4:14
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/session-organization.test.ts:45:21
+ ❯ apps/daemon/test/session-organization.test.ts:403:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'SQLITE_ERROR' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  apps/daemon/test/session-search.test.ts > SESSION-12 actual SQLite / native JSONL read-only search > migrates an existing database and rebuilds derived search without starting SDK or changing native history
+DrizzleError: Failed to run the query 'ALTER TABLE session_turns ADD COLUMN model_request TEXT;
+'
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:271:10
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/dialect.ts:978:15
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/migrator.ts:10:13
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/session-search.test.ts:27:21
+     25| async function fixture(directory = mkdtempSync(join(tmpdir(), 'piw-sea…
+     26|   directories.push(directory)
+     27|   const app = await createApp({ dataDir: directory, port: 24418, devel…
+       |                     ^
+     28|   apps.push(app)
+     29|   const store = app.get(SessionStore),
+ ❯ apps/daemon/test/session-search.test.ts:62:24
+
+Caused by: SqliteError: duplicate column name: model_request
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:154:19
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/dialect.js:662:21
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/migrator.js:4:14
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/session-search.test.ts:27:21
+ ❯ apps/daemon/test/session-search.test.ts:62:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'SQLITE_ERROR' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  apps/daemon/test/session-spaces.test.ts > SESSION-07 real standalone directories, SQLite, SDK/local fixture and source boundaries > migrates an actual previous schema as observed provenance, preserving files and JSONL without inventing an original project
+DrizzleError: Failed to run the query 'ALTER TABLE session_turns ADD COLUMN model_request TEXT;
+'
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:271:10
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/dialect.ts:978:15
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/migrator.ts:10:13
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/session-spaces.test.ts:62:21
+     60|   mkdirSync(pi, { recursive: true })
+     61|   mkdirSync(projectPath, { recursive: true })
+     62|   const app = await createApp({
+       |                     ^
+     63|     dataDir: join(directory, 'data'),
+     64|     piAgentDir: pi,
+ ❯ apps/daemon/test/session-spaces.test.ts:333:24
+
+Caused by: SqliteError: duplicate column name: model_request
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:154:19
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/dialect.js:662:21
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/migrator.js:4:14
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/session-spaces.test.ts:62:21
+ ❯ apps/daemon/test/session-spaces.test.ts:333:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'SQLITE_ERROR' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  apps/daemon/test/session-titles.test.ts > SESSION-11 actual SQLite / SDK-local HTTP / authenticated TCP metadata > migrates existing local titles without replacing text or creating a new session
+DrizzleError: Failed to run the query 'ALTER TABLE session_turns ADD COLUMN model_request TEXT;
+'
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:271:10
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/dialect.ts:978:15
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/migrator.ts:10:13
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/session-titles.test.ts:33:21
+     31| async function fixture(directory = mkdtempSync(join(tmpdir(), 'piw-tit…
+     32|   directories.push(directory)
+     33|   const app = await createApp({ dataDir: join(directory, 'data'), port…
+       |                     ^
+     34|   apps.push(app)
+     35|   const pair = async (kind: 'desktop' | 'browser') => {
+ ❯ apps/daemon/test/session-titles.test.ts:320:24
+
+Caused by: SqliteError: duplicate column name: model_request
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:154:19
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/dialect.js:662:21
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/migrator.js:4:14
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/session-titles.test.ts:33:21
+ ❯ apps/daemon/test/session-titles.test.ts:320:24
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'SQLITE_ERROR' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > fails closed on a SQLite consent write failure and migrates existing history without changing its ownership
+DrizzleError: Failed to run the query 'ALTER TABLE session_turns ADD COLUMN model_request TEXT;
+'
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:271:10
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/dialect.ts:978:15
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/migrator.ts:10:13
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ apps/daemon/test/trust.test.ts:132:19
+    130|       )
+    131|       await app.close()
+    132|       app = await createApp({ dataDir, port: 4337 })
+       |                   ^
+    133|       expect(app.get(TrustService).inspect().records).toEqual([])
+    134|       expect(app.get(SessionStore).history(sessionId)?.messages).toEqu…
+
+Caused by: SqliteError: duplicate column name: model_request
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:154:19
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/dialect.js:662:21
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/migrator.js:4:14
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ apps/daemon/test/trust.test.ts:132:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'SQLITE_ERROR' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  apps/daemon/test/workspace-recents.test.ts > WS-02 actual SQLite, directory, HTTP and SDK/local fixture boundaries > migrates the actual previous registry without inventing recency or losing original identity/name and session data
+DrizzleError: Failed to run the query 'ALTER TABLE session_turns ADD COLUMN model_request TEXT;
+'
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:271:10
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/dialect.ts:978:15
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/migrator.ts:10:13
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/workspace-recents.test.ts:46:21
+     44|   mkdirSync(first, { recursive: true })
+     45|   mkdirSync(second, { recursive: true })
+     46|   const app = await createApp({ dataDir: join(directory, 'data'), port…
+       |                     ^
+     47|   apps.push(app)
+     48|   const service = app.get(WorkspaceService),
+ ❯ apps/daemon/test/workspace-recents.test.ts:381:29
+
+Caused by: SqliteError: duplicate column name: model_request
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:154:19
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/dialect.js:662:21
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/migrator.js:4:14
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ fixture apps/daemon/test/workspace-recents.test.ts:46:21
+ ❯ apps/daemon/test/workspace-recents.test.ts:381:29
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'SQLITE_ERROR' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  apps/daemon/test/workspaces.test.ts > WS-01 actual directory identity, SQLite and SDK isolation (no provider) > fails closed on SQLite registration failure and preserves existing sessions, native history and resource trust across migration
+DrizzleError: Failed to run the query 'ALTER TABLE session_turns ADD COLUMN model_request TEXT;
+'
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:271:10
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/dialect.ts:978:15
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/migrator.ts:10:13
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ apps/daemon/test/workspaces.test.ts:220:19
+    218|       )
+    219|       await app.close()
+    220|       app = await createApp({ dataDir: f.dataDir, port: 4339 })
+       |                   ^
+    221|       expect(app.get(SessionStore).list()).toHaveLength(1)
+    222|       expect(readFileSync(native)).toEqual(bytes)
+
+Caused by: SqliteError: duplicate column name: model_request
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/session.js:23:30
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:141:17
+ ❯ BetterSQLiteSession.run node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/session.js:154:19
+ ❯ SQLiteSyncDialect.migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/sqlite-core/dialect.js:662:21
+ ❯ migrate node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/drizzle-orm/better-sqlite3/migrator.js:4:14
+ ❯ new WorkspaceDatabase apps/daemon/src/infrastructure/database/database.ts:33:7
+ ❯ createApp apps/daemon/src/bootstrap/app.ts:56:20
+ ❯ apps/daemon/test/workspaces.test.ts:220:19
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+Serialized Error: { code: 'SQLITE_ERROR' }
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  11 failed | 28 passed (39)
+      Tests  11 failed | 250 passed (261)
+   Start at  20:45:41
+   Duration  42.70s (tests 74%, import 26%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+[ELIFECYCLE] Command failed with exit code 1.

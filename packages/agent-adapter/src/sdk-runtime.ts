@@ -22,6 +22,7 @@ export async function createOfflineRuntime(
   cwd: string,
   runtimeDir: string,
   resume?: { sessionFile: string; nativeSessionId: string },
+  onModelRequest?: () => void,
 ) {
   const agentDir = join(runtimeDir, 'agent')
   mkdirSync(agentDir, { recursive: true })
@@ -42,7 +43,10 @@ export async function createOfflineRuntime(
         maxRetries: 0,
         transport: 'sse',
         cacheRetention: 'none',
-        fetch: (input, init) => globalThis.fetch(input, { ...init, redirect: 'error' }),
+        fetch: (input, init) => {
+          onModelRequest?.()
+          return globalThis.fetch(input, { ...init, redirect: 'error' })
+        },
       })
     runtime.registerProvider('piw-offline', {
       api: 'openai-completions',

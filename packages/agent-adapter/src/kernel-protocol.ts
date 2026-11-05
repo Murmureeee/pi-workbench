@@ -1,6 +1,11 @@
 import { z } from 'zod'
 
-import { reasoningSchema, runtimeToolSchema, trustedContextSchema } from '@pi-workbench/shared'
+import {
+  modelRequestSchema,
+  reasoningSchema,
+  runtimeToolSchema,
+  trustedContextSchema,
+} from '@pi-workbench/shared'
 
 const identity = {
   protocol: z.literal(1),
@@ -69,6 +74,7 @@ export const kernelMessageSchema = z.discriminatedUnion('type', [
   z.strictObject({ ...envelope, type: z.literal('running') }),
   z.strictObject({ ...envelope, type: z.literal('delta'), text: z.string().max(65536) }),
   z.strictObject({ ...envelope, type: z.literal('reasoning'), reasoning: reasoningSchema }),
+  z.strictObject({ ...envelope, type: z.literal('model'), modelRequest: modelRequestSchema }),
   z.strictObject({
     ...envelope,
     type: z.literal('tool'),

@@ -28,7 +28,7 @@ describe('OPS-01 service and native SQLite baseline', () => {
         second.sqlite.prepare('SELECT value FROM workspace_meta WHERE key = ?').get('test-marker'),
       ).toEqual({ value: 'preserved' })
       expect(second.sqlite.prepare('SELECT count(*) AS n FROM __drizzle_migrations').get()).toEqual(
-        { n: 11 },
+        { n: 12 },
       )
       second.close()
     } finally {

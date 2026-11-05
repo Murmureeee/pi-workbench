@@ -49,6 +49,7 @@ export const sessionTurns = sqliteTable('session_turns', {
     enum: ['running', 'completed', 'aborted', 'error', 'interrupted'],
   }).notNull(),
   tools: text('tools').notNull().default('[]'),
+  modelRequest: text('model_request'),
   createdAt: integer('created_at').notNull(),
 })
 // These are durable workbench records, not SDK message copies or active authorization grants.

@@ -22,6 +22,7 @@ import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { LatestMessagesButton } from './latest-messages-button.js'
 import { MessageBody } from './message-body.js'
 import { messageStamp, updatedMessages } from './message-updates.js'
+import { ModelRequestStatus } from './model-request-status.js'
 import { ReasoningCard } from './reasoning-card.js'
 import { RememberedViewport } from './remembered-viewport.js'
 import { ToolTimeline } from './tool-timeline.js'
@@ -201,6 +202,16 @@ export function ManagedThread({
                 (message) => message.turnId === submission.turnId && message.role === 'assistant',
               )
               const text = turn?.text ?? committed?.text ?? ''
+              const observedTools =
+                turn?.tools ??
+                history.data?.toolTimelines?.find(
+                  (timeline) => timeline.turnId === submission.turnId,
+                )?.tools ??
+                []
+              const request =
+                turn?.modelRequest ??
+                history.data?.modelRequests?.find((item) => item.turnId === submission.turnId)
+                  ?.request
               return (
                 <MessageScrollerItem
                   key={submission.messageId}
@@ -274,13 +285,17 @@ export function ManagedThread({
                           </AlertDescription>
                         </Alert>
                       ) : null}
-                      {submission.error ? (
-                        <Alert variant="destructive">
-                          <AlertTitle>任务未完成</AlertTitle>
-                          <AlertDescription>{submission.error}</AlertDescription>
-                        </Alert>
-                      ) : null}
-                      {submission.status === 'failed' ? (
+                      <ModelRequestStatus
+                        request={request}
+                        error={
+                          submission.status === 'interrupted'
+                            ? (submission.error ?? turn?.error ?? null)
+                            : submission.status === 'failed' || turn?.phase === 'error'
+                              ? (turn?.error ?? submission.error ?? request?.error ?? null)
+                              : null
+                        }
+                      />
+                      {submission.status === 'failed' && !observedTools.length ? (
                         <Button
                           variant="outline"
                           disabled={retryDisabled}
@@ -288,6 +303,11 @@ export function ManagedThread({
                         >
                           明确重试此任务
                         </Button>
+                      ) : null}
+                      {submission.status === 'failed' && observedTools.length ? (
+                        <p className="phase-note">
+                          此任务含工具记录，不能重放整项任务。请检查历史与现场，再明确输入新任务；旧拒绝不会重新授权。
+                        </p>
                       ) : null}
                       {submission.status === 'interrupted' ? (
                         <p className="phase-note">

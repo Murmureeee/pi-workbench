@@ -283,6 +283,12 @@ export class SessionService {
         )
       }
       input = { ...input, text: failed.submission.text }
+      if (this.store.retryRequiresReview(failed.session.id, failed.submission.turnId)) {
+        throw new HttpException(
+          '此任务含工具或审批记录，不能重放整项任务。请检查历史与现场，再明确输入新的任务；旧拒绝不会重新授权。',
+          409,
+        )
+      }
     }
     if (!existing) {
       this.projects.assertDefault(input.configuration.projectId, input.configuration.workspaceId)

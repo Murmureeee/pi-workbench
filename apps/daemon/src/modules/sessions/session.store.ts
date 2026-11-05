@@ -42,8 +42,10 @@ import {
   historyPageSchema,
   historyPageSize,
   historyPreviewBytes,
+  interruptModelRequest,
   interruptToolObservations,
   managedSessionSchema,
+  modelRequestSchema,
   queueRecordSchema,
   runtimeSnapshotSchema,
   sessionOrganizationSchema,
@@ -818,6 +820,7 @@ export class SessionStore {
       .update(sessionTurns)
       .set({
         tools: JSON.stringify(turn.tools),
+        modelRequest: turn.modelRequest ? JSON.stringify(turn.modelRequest) : null,
         phase: turn.phase === 'stopping' ? 'running' : turn.phase,
       })
       .where(eq(sessionTurns.id, turn.id))
@@ -951,6 +954,33 @@ export class SessionStore {
     } catch {
       return null
     }
+  }
+
+  /** Whole-task retry is unsafe after any tool/approval observation, including denial or an
+   * unknown record. This check grants no execution permission and never touches native history. */
+  retryRequiresReview(sessionId: string, turnId: string): boolean {
+    const row = this.database.db
+      .select()
+      .from(sessionTurns)
+      .where(and(eq(sessionTurns.sessionId, sessionId), eq(sessionTurns.id, turnId)))
+      .get()
+    if (row) {
+      const tools = runtimeSnapshotSchema.shape.turns.element.shape.tools.safeParse(
+        this.parse(row.tools),
+      )
+      if (!tools.success || tools.data.length > 0) {
+        return true
+      }
+    }
+    return this.database.db
+      .select()
+      .from(sessionApprovals)
+      .where(eq(sessionApprovals.sessionId, sessionId))
+      .all()
+      .some((approvalRow) => {
+        const approval = approvalRecordSchema.safeParse(this.parse(approvalRow.data))
+        return !approval.success || approval.data.turnId === turnId
+      })
   }
 
   private nativePath(runtime: RuntimeRow) {
@@ -1341,35 +1371,50 @@ export class SessionStore {
     ]
     // Page-owned observations are indexed metadata, not reconstructed tool execution.
     // Do not expose other turns merely because their records share the same session.
-    const toolTimelines = turnIds.length
+    const observations = turnIds.length
       ? this.database.db
           .select()
           .from(sessionTurns)
           .where(and(eq(sessionTurns.sessionId, sessionId), inArray(sessionTurns.id, turnIds)))
           .orderBy(asc(sessionTurns.createdAt), asc(sessionTurns.id))
           .all()
-          .flatMap((turn) => {
-            const parsed = runtimeSnapshotSchema.shape.turns.element.shape.tools.safeParse(
-              this.parse(turn.tools),
-            )
-            return parsed.success && parsed.data.length
-              ? [
-                  {
-                    epoch: turn.epoch,
-                    turnId: turn.id,
-                    tools: ['running', 'stopping'].includes(turn.phase)
-                      ? parsed.data
-                      : interruptToolObservations(parsed.data),
-                  },
-                ]
-              : []
-          })
       : []
+    const toolTimelines = observations.flatMap((turn) => {
+      const parsed = runtimeSnapshotSchema.shape.turns.element.shape.tools.safeParse(
+        this.parse(turn.tools),
+      )
+      return parsed.success && parsed.data.length
+        ? [
+            {
+              epoch: turn.epoch,
+              turnId: turn.id,
+              tools: ['running', 'stopping'].includes(turn.phase)
+                ? parsed.data
+                : interruptToolObservations(parsed.data),
+            },
+          ]
+        : []
+    })
+    const modelRequests = observations.flatMap((turn) => {
+      const parsed = modelRequestSchema.safeParse(this.parse(turn.modelRequest ?? 'null'))
+      return parsed.success
+        ? [
+            {
+              epoch: turn.epoch,
+              turnId: turn.id,
+              request: ['running', 'stopping'].includes(turn.phase)
+                ? parsed.data
+                : interruptModelRequest(parsed.data),
+            },
+          ]
+        : []
+    })
     return historyPageSchema.parse({
       sessionId,
       source: runtime?.source ?? 'synthetic-ipc-fixture',
       messages,
       toolTimelines,
+      modelRequests,
       nextCursor: start > 0 ? loaded.messages[start]?.message.id : null,
       diagnostics,
       queue,
@@ -1450,6 +1495,7 @@ export class SessionStore {
       const tools = runtimeSnapshotSchema.shape.turns.element.shape.tools.safeParse(
         this.parse(turn?.tools ?? '[]'),
       )
+      const modelRequest = modelRequestSchema.safeParse(this.parse(turn?.modelRequest ?? 'null'))
       return [
         runtimeSnapshotSchema.parse({
           version: 1,
@@ -1470,10 +1516,15 @@ export class SessionStore {
                     .join(''),
                   phase,
                   ...(last?.message.reasoning ? { reasoning: last.message.reasoning } : {}),
+                  ...(modelRequest.success
+                    ? { modelRequest: interruptModelRequest(modelRequest.data) }
+                    : {}),
                   tools: tools.success ? interruptToolObservations(tools.data) : [],
                   approval: null,
                   error:
-                    phase === 'interrupted' ? '任务已中断；仅恢复观察记录，未自动继续。' : null,
+                    phase === 'interrupted'
+                      ? '任务已中断；仅恢复观察记录，未自动继续。'
+                      : (last?.message.error ?? null),
                 },
               ]
             : [],

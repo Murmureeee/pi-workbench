@@ -1,6 +1,6 @@
 import type { KernelCommand, KernelIdentity, KernelMessage } from './kernel-protocol.js'
 import type { createOfflineRuntime } from './sdk-runtime.js'
-import type { Reasoning } from '@pi-workbench/shared'
+import type { ModelRequest, Reasoning } from '@pi-workbench/shared'
 
 import process from 'node:process'
 
@@ -18,6 +18,14 @@ let closing = false
 let unsubscribe: (() => void) | undefined
 const tools = new ToolObserver(process.cwd())
 let reasoning: Reasoning | undefined
+let modelRequest: ModelRequest = {
+  attempts: 0,
+  retryCount: 0,
+  retryLimit: 0,
+  state: 'requesting',
+  waitUntil: null,
+  error: null,
+}
 
 type Payload = KernelMessage extends infer Message
   ? Message extends KernelMessage
@@ -61,7 +69,16 @@ async function handle(command: KernelCommand) {
     }
     identity = { protocol: 1, sessionId: command.sessionId, epoch: command.epoch }
     const { createOfflineRuntime: create } = await import('./sdk-runtime.js')
-    runtime = await create(command.cwd, command.runtimeDir, command.resume)
+    runtime = await create(command.cwd, command.runtimeDir, command.resume, () => {
+      modelRequest = {
+        ...modelRequest,
+        attempts: (modelRequest.attempts ?? 0) + 1,
+        state: 'requesting',
+        waitUntil: null,
+        error: null,
+      }
+      send({ type: 'model', modelRequest })
+    })
     if (closing || !process.connected) {
       // Parent disappeared during initialization; this process must not become an orphan.
       runtime.session.dispose()
@@ -69,6 +86,29 @@ async function handle(command: KernelCommand) {
       return
     }
     unsubscribe = runtime.session.subscribe((event) => {
+      if (event.type === 'auto_retry_start') {
+        modelRequest = {
+          ...modelRequest,
+          retryCount: event.attempt,
+          retryLimit: event.maxAttempts,
+          state: 'waiting',
+          waitUntil:
+            Number.isFinite(event.delayMs) && event.delayMs >= 0
+              ? Date.now() + Math.ceil(event.delayMs)
+              : null,
+          error: event.errorMessage.slice(0, 65536),
+        }
+        send({ type: 'model', modelRequest })
+      }
+      if (event.type === 'auto_retry_end') {
+        modelRequest = {
+          ...modelRequest,
+          state: 'requesting',
+          waitUntil: null,
+          error: event.finalError?.slice(0, 65536) ?? null,
+        }
+        send({ type: 'model', modelRequest })
+      }
       if (event.type === 'message_end' && event.message.role === 'assistant') {
         reasoning = mergeReasoning(
           reasoning,
@@ -135,6 +175,14 @@ async function handle(command: KernelCommand) {
     currentTurn = command.turnId
     tools.reset()
     reasoning = undefined
+    modelRequest = {
+      attempts: 0,
+      retryCount: 0,
+      retryLimit: 0,
+      state: 'requesting',
+      waitUntil: null,
+      error: null,
+    }
     const activeRuntime = runtime
     if (
       activeRuntime.session.getActiveToolNames().length ||
@@ -153,6 +201,7 @@ async function handle(command: KernelCommand) {
       messageId: `${command.turnId}:assistant`,
     })
     send({ type: 'running' })
+    send({ type: 'model', modelRequest })
     run = (async () => {
       let outcome: 'completed' | 'aborted' | 'error' = 'completed'
       let error: string | undefined
@@ -170,6 +219,13 @@ async function handle(command: KernelCommand) {
         outcome = 'error'
         error = failure instanceof Error ? failure.message : 'SDK prompt failed'
       }
+      modelRequest = {
+        ...modelRequest,
+        state: 'settled',
+        waitUntil: null,
+        error: error?.slice(0, 65536) ?? null,
+      }
+      send({ type: 'model', modelRequest })
       send({
         type: 'finished',
         outcome,

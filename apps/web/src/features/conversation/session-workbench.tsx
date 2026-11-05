@@ -150,6 +150,9 @@ function SessionPane({
     [error, setError] = useState(''),
     [notice, setNotice] = useState('')
   const [stopping, setStopping] = useState<string | null>(null)
+  const [requestError, setRequestError] = useState<{ requestId: string; message: string } | null>(
+    null,
+  )
   const [renaming, setRenaming] = useState<{ session: ManagedSession; token: string } | null>(null)
   const beginRenaming = (session: ManagedSession) =>
     setRenaming({ session, token: crypto.randomUUID() })
@@ -368,6 +371,7 @@ function SessionPane({
     setPending(true)
     setError('')
     setNotice('正在保存任务…')
+    setRequestError(null)
     update(originKey, { pending: input, lastAttempt: input })
     try {
       await showReceipt(await submitSession(input, csrf), input, originKey, originSearch)
@@ -376,7 +380,10 @@ function SessionPane({
         update(originKey, { pending: null })
       }
       if (activeKey.current === originKey) {
-        setError(cause instanceof Error ? cause.message : '保存失败，草稿保留。')
+        setRequestError({
+          requestId: input.requestId,
+          message: cause instanceof Error ? cause.message : '保存失败，草稿保留。',
+        })
         setNotice('')
       }
     } finally {
@@ -728,10 +735,14 @@ function SessionPane({
                     </AlertDescription>
                   </Alert>
                 ) : null}
-                {error ? (
+                {error ||
+                (requestError &&
+                  !submissions.data?.submissions.some(
+                    (item) => item.requestId === requestError.requestId,
+                  )) ? (
                   <Alert variant="destructive">
                     <AlertTitle>任务尚未完成</AlertTitle>
-                    <AlertDescription>{error}</AlertDescription>
+                    <AlertDescription>{error || requestError?.message}</AlertDescription>
                   </Alert>
                 ) : null}
                 {notice ? <output aria-label="发送反馈">{notice}</output> : null}
@@ -922,6 +933,9 @@ function SessionPane({
                         disabled={stopping === activeSubmission.requestId}
                         onClick={() => {
                           const originKey = key
+                          setError('')
+                          setRequestError(null)
+                          setNotice('')
                           setStopping(activeSubmission.requestId)
                           void sessionJson(
                             `/api/chat/sessions/${sessionId}/abort`,

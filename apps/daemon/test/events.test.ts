@@ -194,7 +194,8 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
         text: 'error fixture',
         fixture: 'error',
       })
-      await expect.poll(() => reconnected.value()).toEqual(events.snapshot(sessionId))
+      await expect.poll(() => reconnected.value()).toEqual(events.visibleSnapshot(sessionId))
+      expect(JSON.stringify(reconnected.value())).not.toContain('fixture-model-error-secret')
       expect(reconnected.value().turns.at(-1)?.phase).toBe('error')
       const toolTurn = reconnected.value().turns[2]
       expect(toolTurn?.tools).toMatchObject([

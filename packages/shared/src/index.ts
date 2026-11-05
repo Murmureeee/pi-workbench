@@ -187,3 +187,10 @@ export { sessionProjectSchema, sessionOriginSchema, sessionSpaceSchema } from '.
 export type { SessionProject, SessionSpace } from './session-space.js'
 export { workspaceAvailabilitySchema } from './workspace-availability.js'
 export type { WorkspaceAvailability } from './workspace-availability.js'
+export {
+  modelRequestSchema,
+  interruptModelRequest,
+  visibleModelRequest,
+  modelWaitLabel,
+} from './model-request.js'
+export type { ModelRequest } from './model-request.js'

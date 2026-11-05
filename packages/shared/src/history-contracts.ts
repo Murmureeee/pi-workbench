@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { modelRequestSchema } from './model-request.js'
 import { reasoningSchema } from './reasoning-observation.js'
 import { runtimeToolSchema } from './tool-observation.js'
 
@@ -78,6 +79,10 @@ export const historyPageSchema = z.strictObject({
     .max(historyPageSize)
     .optional(),
   canResume: z.literal(false),
+  modelRequests: z
+    .array(z.strictObject({ epoch: z.uuid(), turnId: z.uuid(), request: modelRequestSchema }))
+    .max(historyPageSize)
+    .optional(),
 })
 export type HistoryPage = z.infer<typeof historyPageSchema>
 export type HistoryMessage = z.infer<typeof historyMessageSchema>

@@ -126,7 +126,7 @@ describe('SEC-07 metadata discovery, content consent and real SDK isolation (loc
       // An actual pre-SEC-07 database schema: preserve old tables/history and remove only
       // this and later migrations from the isolated fixture, then run the real upgrade.
       database.sqlite.exec(
-        'DROP TABLE session_origins; DROP TABLE session_organization; DROP TABLE session_submissions; DROP TABLE session_configurations; DROP TABLE projects; DROP TABLE resource_trust; DROP TABLE workspaces; DELETE FROM __drizzle_migrations WHERE created_at >= 1793604179859',
+        'DROP TABLE session_origins; DROP TABLE session_organization; DROP TABLE session_submissions; DROP TABLE session_configurations; DROP TABLE projects; DROP TABLE resource_trust; DROP TABLE workspaces; ALTER TABLE session_turns DROP COLUMN model_request; DELETE FROM __drizzle_migrations WHERE created_at >= 1793604179859',
       )
       await app.close()
       app = await createApp({ dataDir, port: 4337 })

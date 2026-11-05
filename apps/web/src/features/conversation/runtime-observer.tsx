@@ -8,6 +8,7 @@ import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
 
 import { RuntimeClient } from '../../services/runtime-client.js'
 import { MessageBody } from './message-body.js'
+import { ModelRequestStatus } from './model-request-status.js'
 import { ReasoningCard } from './reasoning-card.js'
 import { ToolTimeline } from './tool-timeline.js'
 
@@ -111,12 +112,10 @@ export function RuntimeObserver({ sessionId }: { sessionId: string }) {
                 <AlertDescription>{turn.approval.command}</AlertDescription>
               </Alert>
             ) : null}
-            {turn.error && turn.phase === 'error' ? (
-              <Alert variant="destructive">
-                <AlertTitle>本轮未完成</AlertTitle>
-                <AlertDescription>{turn.error}</AlertDescription>
-              </Alert>
-            ) : null}
+            <ModelRequestStatus
+              request={turn.modelRequest}
+              error={turn.phase === 'error' ? turn.error : null}
+            />
           </article>
         ))}
       </section>

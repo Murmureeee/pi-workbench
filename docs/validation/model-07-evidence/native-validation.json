@@ -1,0 +1,14 @@
+{
+  "feature": "MODEL-07",
+  "verifiedAt": "2026-11-05T13:45:23.767Z",
+  "observations": 55,
+  "firstPrompts": 4,
+  "restartPrompts": 0,
+  "restartKernels": 0,
+  "normalExits": 2,
+  "ownedProcessesExited": true,
+  "historiesUnchanged": true,
+  "protectedUnchanged": true,
+  "providerRequests": 0,
+  "source": "Actual Windows SendInput/UIA, Electron/daemon/SQLite/installed SDK with local HTTP error/reply/hold fixtures. No CDP, synthetic waiting or real provider."
+}

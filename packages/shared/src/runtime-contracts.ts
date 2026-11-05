@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { modelRequestSchema } from './model-request.js'
 import { reasoningSchema } from './reasoning-observation.js'
 import {
   interruptToolObservations,
@@ -14,6 +15,7 @@ export const runtimeCapabilities = [
   'redacted-observation',
   'tool-timeline-v1',
   'reasoning-observation-v1',
+  'model-request-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),
@@ -31,6 +33,7 @@ const turnSchema = z.strictObject({
   prompt: z.string(),
   text: z.string(),
   reasoning: reasoningSchema.optional(),
+  modelRequest: modelRequestSchema.optional(),
   phase: z.enum(['running', 'stopping', 'completed', 'aborted', 'error', 'interrupted']),
   tools: z.array(runtimeToolSchema),
   approval: approvalSchema.nullable(),
@@ -87,6 +90,7 @@ export const runtimeEventSchema = z
       }),
       z.strictObject({ type: z.literal('tool.updated'), tool: runtimeToolSchema }),
       z.strictObject({ type: z.literal('reasoning.updated'), reasoning: reasoningSchema }),
+      z.strictObject({ type: z.literal('model.updated'), modelRequest: modelRequestSchema }),
       z.strictObject({ type: z.literal('approval.requested'), approval: approvalSchema }),
       z.strictObject({ type: z.literal('approval.resolved'), approvalId: z.string() }),
       z.strictObject({ type: z.literal('turn.stopping') }),
@@ -191,6 +195,20 @@ export function applyRuntimeEvent(state: RuntimeSnapshot, event: RuntimeEvent): 
   }
   let turn = { ...active }
   switch (payload.type) {
+    case 'model.updated':
+      if (
+        turn.modelRequest?.state === 'settled' ||
+        (turn.modelRequest?.attempts != null &&
+          payload.modelRequest.attempts !== null &&
+          payload.modelRequest.attempts < turn.modelRequest.attempts) ||
+        (turn.modelRequest?.retryCount != null &&
+          payload.modelRequest.retryCount !== null &&
+          payload.modelRequest.retryCount < turn.modelRequest.retryCount)
+      ) {
+        break
+      }
+      turn.modelRequest = payload.modelRequest
+      break
     case 'reasoning.updated':
       turn.reasoning = payload.reasoning
       break
@@ -226,6 +244,18 @@ export function applyRuntimeEvent(state: RuntimeSnapshot, event: RuntimeEvent): 
         text: payload.text ?? turn.text,
         phase: payload.outcome,
         error: payload.error ?? null,
+        ...(turn.modelRequest
+          ? {
+              modelRequest: {
+                ...turn.modelRequest,
+                state: 'settled' as const,
+                waitUntil: null,
+                // The model observation already passed its own conservative redaction.
+                // A terminal error must not replace it with a differently filtered string.
+                error: payload.outcome === 'completed' ? null : turn.modelRequest.error,
+              },
+            }
+          : {}),
         approval: null,
         tools: interruptToolObservations(turn.tools),
       }

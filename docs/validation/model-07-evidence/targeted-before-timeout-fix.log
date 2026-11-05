@@ -1,0 +1,56 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+stderr | apps/daemon/test/model-requests.test.ts > mODEL-07 actual deny-all unknown tool failure cannot be replayed through whole-task retry or changed configuration
+{"event":"session-run-failed","detail":{"name":"Error","message":"Kernel is busy or unavailable"}}
+
+ ❯ apps/daemon/test/model-requests.test.ts (2 tests | 2 failed) 2407ms
+   × mODEL-07 actual SDK errors have one request, zero retries, sanitized replay/history and restart without executing again 1326ms
+   × mODEL-07 actual deny-all unknown tool failure cannot be replayed through whole-task retry or changed configuration 1081ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/model-requests.test.ts > mODEL-07 actual SDK errors have one request, zero retries, sanitized replay/history and restart without executing again
+AssertionError: expected 'executing' to be 'failed' // Object.is equality
+
+Expected: "failed"
+Received: "executing"
+
+ ❯ apps/daemon/test/model-requests.test.ts:44:8
+     42|     await expect
+     43|       .poll(() => app.get(SessionStore).submission(receipt.submission.…
+     44|       .toBe('failed')
+       |        ^
+     45|     const events = app.get(EventService),
+     46|       snapshot = events.visibleSnapshot(receipt.session.id)!
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/daemon/test/model-requests.test.ts:42:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/daemon/test/model-requests.test.ts > mODEL-07 actual deny-all unknown tool failure cannot be replayed through whole-task retry or changed configuration
+AssertionError: expected 'executing' to be 'failed' // Object.is equality
+
+Expected: "failed"
+Received: "executing"
+
+ ❯ apps/daemon/test/model-requests.test.ts:115:8
+    113|     await expect
+    114|       .poll(() => app.get(SessionStore).submission(receipt.submission.…
+    115|       .toBe('failed')
+       |        ^
+    116|     expect(
+    117|       app.get(SessionStore).retryRequiresReview(receipt.session.id, re…
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/daemon/test/model-requests.test.ts:113:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  2 failed | 45 passed (47)
+   Start at  20:36:12
+   Duration  22.18s (tests 89%, import 10%, transform 1%)
+

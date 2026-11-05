@@ -145,6 +145,12 @@ export class KernelService {
           reasoning: message.reasoning,
         })
       }
+      if (message.type === 'model') {
+        this.events.publish(sessionId, epoch, message.turnId, {
+          type: 'model.updated',
+          modelRequest: message.modelRequest,
+        })
+      }
       if (message.type === 'finished') {
         this.events.publish(sessionId, epoch, message.turnId, {
           type: 'turn.finished',

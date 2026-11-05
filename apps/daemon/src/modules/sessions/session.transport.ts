@@ -3,7 +3,7 @@ import type { SessionStore } from './session.store.js'
 import type { HistoryMessage } from '@pi-workbench/shared'
 import type { FastifyInstance } from 'fastify'
 
-import { visibleReasoning, visibleToolObservation } from '@pi-workbench/shared'
+import { visibleModelRequest, visibleReasoning, visibleToolObservation } from '@pi-workbench/shared'
 
 function incomplete(message: Pick<HistoryMessage, 'origin' | 'outcome'>): boolean {
   return (
@@ -48,6 +48,12 @@ export function registerSessionTransport(
         request.query.around,
       )
       if (page) {
+        if (page.modelRequests) {
+          page.modelRequests = page.modelRequests.map((item) => ({
+            ...item,
+            request: visibleModelRequest(item.request, security.redactor),
+          }))
+        }
         if (page.toolTimelines) {
           page.toolTimelines = page.toolTimelines.map((timeline) => ({
             ...timeline,

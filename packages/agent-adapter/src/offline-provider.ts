@@ -21,7 +21,11 @@ export async function createOfflineProvider() {
     requests += 1
     if (mode === 'error' || requests > requestLimit) {
       response.writeHead(503, { 'content-type': 'application/json' })
-      response.end(JSON.stringify({ error: { message: 'Offline fixture error; no retry' } }))
+      response.end(
+        JSON.stringify({
+          error: { message: 'Offline fixture error; no retry; api_key=fixture-model-error-secret' },
+        }),
+      )
       return
     }
     if (mode === 'context' || mode === 'trust-context') {

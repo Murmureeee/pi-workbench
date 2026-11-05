@@ -327,7 +327,7 @@ describe('SESSION-07 real standalone directories, SQLite, SDK/local fixture and 
     const history = f.store.history(a.session.id)?.messages
     writeFileSync(join(a.session.cwd, 'kept.txt'), 'old artifact')
     f.db.exec(
-      'DROP TABLE session_origins; ALTER TABLE session_configurations DROP COLUMN membership_version; DELETE FROM __drizzle_migrations WHERE created_at >= 1793780000000',
+      'DROP TABLE session_origins; ALTER TABLE session_configurations DROP COLUMN membership_version; ALTER TABLE session_turns DROP COLUMN model_request; DELETE FROM __drizzle_migrations WHERE created_at >= 1793780000000',
     )
     await f.app.close()
     const next = await fixture(f.directory)

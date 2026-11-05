@@ -1,0 +1,15 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:26596) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:31180) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\model-requests.spec.ts:9:1 › MODEL-07 actual Electron merges a lost request and pushed model error, exposes zero retry policy and reconciles without resending (6.7s)
+  ok 2 e2e\model-requests.spec.ts:57:1 › MODEL-07 synthetic wait deadlines never retry, preserve completed/denied tools, isolate focus and remain stoppable in actual Electron (11.8s)
+
+  2 passed (30.4s)
