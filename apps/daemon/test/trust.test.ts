@@ -21,6 +21,7 @@ import { KernelService } from '../dist/modules/kernels/kernel.service.js'
 import { TrustService } from '../dist/modules/security/trust.service.js'
 import { SessionStore } from '../dist/modules/sessions/session.store.js'
 import { authorizedHeaders } from './helpers/access.js'
+import { denyFixtureApprovals } from './helpers/decisions.js'
 
 function fixture() {
   const directory = mkdtempSync(join(tmpdir(), 'piw-trust-')),
@@ -141,6 +142,7 @@ describe('SEC-07 metadata discovery, content consent and real SDK isolation (loc
   it('distinguishes sources and impacts, rejects outside references/links, never imports extensions or runs scripts', async () => {
     const f = fixture(),
       app = await createApp({ dataDir: join(f.directory, 'data'), piAgentDir: f.user, port: 4337 })
+    denyFixtureApprovals(app)
     try {
       const trust = app.get(TrustService),
         before = readFileSync(join(f.project, '.pi', 'settings.json'))
@@ -189,7 +191,7 @@ describe('SEC-07 metadata discovery, content consent and real SDK isolation (loc
       ).toBe(true)
       const handle = await kernels.open(sessionId, f.project)
       expect(readFileSync(handle.snapshot.sessionFile!, 'utf8')).toContain(
-        '当前未取得有效审批，未执行',
+        'Test fixture explicit refusal 未执行',
       )
       // Directory junctions need no Windows symlink privilege; do not follow them in discovery.
       const linked = join(f.project, '.pi', 'scripts')

@@ -433,3 +433,7 @@ SessionService 在准入前后检查之外，为每项已接受任务传入只�
 重新定位复用 WS-02 CAS／物理指纹：仅改登记位置，不改已保存会话 cwd、JSONL、项目归属或信任。原会话恢复原物理目录和登记路径后可明确发送；在新位置明确新建会话是独立选择。SESSION-13 的环境迁移未开放。信任指纹新增项目与来源目录 dev／inode／birthtime 绑定，原路径同内容的替换目录不继承；旧格式记录保留但需重新确认。自动与原生证据分开，见 [WS-07 记录](../validation/ws-07-evidence/acceptance.md)。
 
 后台目录检查每项最多等待 3 秒，超时停止本任务并释放无效 runtime；关闭确认丢失保持 KernelExecutionUncertain／interrupted，不能误记已知失败而提供直接重放。WS-07 已验收：完整230项Vitest／82项浏览器及Electron E2E、SDK与frozen clean通过；68条原生观察补齐未信任资源、真实路径丢失与Windows ACL后台停止、原cwd／历史／草稿保留、同物理目录重新定位与明确恢复、明暗800px窄窗、同data/profile重启0内核／0新请求及两次正常菜单退出。288个代码文件与clean一致，原生后复用门禁；本地24／133，OPS-08继续in_progress。真实提供商0、pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。
+
+## SEC-02 已交付边界
+
+最终参数等待由 daemon ApprovalService 独占；REST 决定继续 desktop 配对／Host／Origin／JSON／CSRF／能力门禁。许可仅单次，持久保存先于放行；断线无倒计时，运行和策略失效唤醒，重启不恢复执行。固定文件变更审批前后物理检查，最终异步检查后再核对代际；写入基线未交付，另行二次确认不可回滚。完整自动与原生验收已补齐，来源和限制见 [验收记录](../validation/sec-02-evidence/acceptance.md)。

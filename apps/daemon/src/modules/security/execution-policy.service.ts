@@ -33,8 +33,87 @@ const within = (root: string, target: string) => {
  */
 export class ExecutionPolicyService {
   private version = 1
+  private readonly invalidation = new Set<() => void>()
+  get policyVersion(): number {
+    return this.version
+  }
+  onInvalidate(listener: () => void): () => void {
+    this.invalidation.add(listener)
+    return () => {
+      this.invalidation.delete(listener)
+    }
+  }
   invalidate(): void {
     this.version++
+    for (const listener of this.invalidation) {
+      listener()
+    }
+  }
+
+  /** Only the fixed mutation/command loadout can request a one-shot decision. A failed
+   * bounded read cannot fall back to SDK IO, and unknown/linked/private paths stay blocked.
+   * This validates the directory again after waiting, never grants an OS sandbox. */
+  async explicitTarget(binding: Binding, request: ExecutionRequest): Promise<string> {
+    if (
+      !['write', 'edit', 'bash', 'powershell'].includes(request.tool) ||
+      request.digest !== executionDigest(binding, request)
+    ) {
+      throw new Error('这个调用没有可批准的受管执行能力。')
+    }
+    const root = await realpath(binding.cwd),
+      rootStat = await lstat(binding.cwd)
+    if (root !== binding.cwd || !rootStat.isDirectory() || rootStat.isSymbolicLink()) {
+      throw new Error('执行目录的物理身份已改变。')
+    }
+    const identities = [JSON.stringify([rootStat.dev, rootStat.ino, rootStat.birthtimeMs])]
+    if (request.tool === 'bash' || request.tool === 'powershell') {
+      return identities.join('|')
+    }
+    const fields = object.parse(JSON.parse(request.parameters))
+    if (
+      typeof fields.path !== 'string' ||
+      credential.test(fields.path) ||
+      Array.from(fields.path).some((c) => c.charCodeAt(0) < 32) ||
+      /^\\\\|:[^\\/]/.test(fields.path.replace(/^[A-Za-z]:[\\/]/, ''))
+    ) {
+      throw new Error('私密、设备、网络或无效文件路径当前不开放执行。')
+    }
+    const target = resolve(root, fields.path)
+    if (!within(root, target)) {
+      throw new Error('附加目录授权尚未开放；不能批准 cwd 外的文件变更。')
+    }
+    const components = relative(root, target).split(sep)
+    const paths = await Promise.all(
+      components.map(async (_component, i) => {
+        const path = resolve(root, ...components.slice(0, i + 1))
+        let stat: Stats
+        try {
+          stat = await lstat(path)
+        } catch (error) {
+          if (
+            i === components.length - 1 &&
+            request.tool === 'write' &&
+            error instanceof Error &&
+            'code' in error &&
+            error.code === 'ENOENT'
+          ) {
+            return 'missing'
+          }
+          throw error
+        }
+        if (
+          stat.isSymbolicLink() ||
+          (await realpath(path)) !== path ||
+          (i === components.length - 1 ? !stat.isFile() || stat.nlink !== 1 : !stat.isDirectory())
+        ) {
+          throw new Error('链接、硬链接或非普通文件当前不开放执行。')
+        }
+        return i === components.length - 1
+          ? fingerprint(stat)
+          : JSON.stringify([stat.dev, stat.ino, stat.birthtimeMs])
+      }),
+    )
+    return [...identities, ...paths].join('|')
   }
 
   async decide(

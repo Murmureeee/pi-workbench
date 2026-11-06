@@ -26,6 +26,7 @@ import { RuntimeClient } from '../../services/runtime-client.js'
 import { sessionJson } from '../../services/session-client.js'
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { CurrentRunStatus } from './current-run-status.js'
+import { ExecutionApprovals } from './execution-approvals.js'
 import { LatestMessagesButton } from './latest-messages-button.js'
 import { MessageBody } from './message-body.js'
 import { messageStamp, updatedMessages } from './message-updates.js'
@@ -49,6 +50,7 @@ export function ManagedThread({
   queue,
   stop,
   submissionsSynchronized,
+  csrf,
 }: {
   sessionId: string
   submissions: SessionSubmission[]
@@ -61,6 +63,7 @@ export function ManagedThread({
   queue: ReturnType<typeof useInputQueue>
   stop: StopIntent | null
   submissionsSynchronized: boolean
+  csrf: string
 }) {
   const seen = useSessionViews((state) => state.views[sessionId]?.seenMessages ?? null)
   const follow = useSessionViews(
@@ -336,6 +339,12 @@ export function ManagedThread({
           </RememberedViewport>
         </MessageScroller>
       </MessageScrollerProvider>
+      <ExecutionApprovals
+        sessionId={sessionId}
+        csrf={csrf}
+        active={active}
+        synchronized={view?.status === 'connected' && submissionsSynchronized}
+      />
       {currentSubmission ? (
         <CurrentRunStatus
           submission={currentSubmission}

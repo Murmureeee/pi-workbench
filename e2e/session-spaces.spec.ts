@@ -250,7 +250,19 @@ test('SESSION-07 Electron isolates late inspection, recovers read failure, and k
     { page, context } = f.desktop
   let release: (() => void) | undefined
   try {
-    await send(page, '独立空间甲')
+    try {
+      await send(page, '独立空间甲')
+    } catch (error) {
+      console.error('SESSION07_STARTUP_DIAGNOSTIC', {
+        kernels: f.app.get(KernelService).list(),
+        submissions: f.app
+          .get(SessionStore)
+          .managedSessions()
+          .flatMap((s) => f.app.get(SessionStore).submissions(s.id)),
+        resources: f.app.get(KernelService).resources(),
+      })
+      throw error
+    }
     await active(page).getByRole('button', { name: '新会话', exact: true }).click()
     await send(page, '独立空间乙')
     const [a, b] = f.app.get(SessionStore).managedSessions()

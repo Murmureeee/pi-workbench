@@ -1,0 +1,49 @@
+{
+  "feature": "SEC-02",
+  "verifiedAt": "2026-11-06T05:14:46.962Z",
+  "source": "Windows SendInput / UIA, actual Electron + daemon + SQLite + managed SDK private IPC and local HTTP fixture. No CDP or renderer request routing.",
+  "observationCount": 56,
+  "excludedScreenshots": 1,
+  "providerRequests": 0,
+  "firstPrompts": 5,
+  "restartPrompts": 0,
+  "restartKernels": 0,
+  "restartPending": 0,
+  "historicalDecisions": [
+    {
+      "id": "834cd605-fb8f-4dac-a0f4-bc66dd73dbff",
+      "decision": "denied",
+      "executable": false
+    },
+    {
+      "id": "55d432f7-787b-448b-bb18-87dc467c3bf2",
+      "decision": "allowed",
+      "executable": false
+    },
+    {
+      "id": "d0f73c00-dc58-4e9b-88e4-5a66ebcfe0f2",
+      "decision": "cancelled",
+      "executable": false
+    },
+    {
+      "id": "af91e3e3-b335-40b6-9258-7c2a8d7f20da",
+      "decision": "invalidated",
+      "executable": false
+    }
+  ],
+  "samePendingKernel": {
+    "sessionId": "5ade5422-7f24-4f1c-92ca-7bf79d82897e",
+    "pid": 31000,
+    "epoch": "043bcab5-2d6a-4ea4-a1e9-fff97e2a55c2"
+  },
+  "historyFilesUnchangedAcrossRestart": 3,
+  "normalExits": 2,
+  "protectedUnchanged": true,
+  "limitations": [
+    "One explicit fail-once host fault before decision consumption; not a physical disk failure. Durable save failure is separately covered by service tests.",
+    "A separate hold fixture ended with actual error / terminated; this is not recorded as an explicit abort success.",
+    "Pending command was inspected in a native dark 802px confirmation and Escape cancelled; it was invalidated on normal exit and never executed. Actual command execution is covered by Electron automated tests.",
+    "No new physical IME evidence.",
+    "Application restart does not promise per-window draft persistence."
+  ]
+}

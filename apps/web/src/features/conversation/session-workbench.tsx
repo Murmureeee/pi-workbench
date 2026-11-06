@@ -695,6 +695,7 @@ function SessionPane({
                   queue={inputQueue}
                   stop={stopping}
                   submissionsSynchronized={submissions.isSuccess && !submissions.isError}
+                  csrf={csrf}
                 />
               ) : (
                 <div className="new-conversation new-session">

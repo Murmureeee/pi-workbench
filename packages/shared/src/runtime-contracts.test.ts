@@ -119,6 +119,7 @@ describe('CORE-05 authoritative observation contract', () => {
         'input-queue-v1',
         'run-stage-v1',
         'tool-risk-v1',
+        'execution-approval-v1',
       ],
       mutations: false,
       realProviderEnabled: false,

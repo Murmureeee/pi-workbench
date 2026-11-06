@@ -26,7 +26,7 @@ pnpm 12.16.1 通过 `devEngines.runtime` 使用 Node 24.22.2，首次安装可�
                                                   └─ 受管 pi SDK 子进程（本地夹具）
 ```
 
-CORE-04 已实现每会话单进程、守卫握手、流式、中止、销毁与故障隔离。SEC-01 已接入固定工具的最终 execute 守卫：仅核验实际 cwd 内的有界普通 UTF-8 文本读取自动执行，宿主捕获快照后 SDK 不重新打开路径；写入、命令及未知能力没有有效审批一律拒绝。最终门禁与原生验收已通过，边界见下方 SEC-01 记录。扩展和真实提供商继续关闭，SDK 使用隔离配置，不读取用户模型认证。SEC-06 可在显式指定来源后由宿主读取现有 pi 凭证状态，不向 SDK 或页面发送凭证。`GET /api/kernels` 只读核对 daemon 管理的会话、代际、PID、cwd 和原生 sessionFile；SESSION-01 的 `/api/chat` 仅接受已配对桌面身份，提交和停止均经 KernelService，未开放审批交互或真实提供商传输。当前启动器不复用已运行的服务；前端热更新不重载 daemon，修改服务后重新构建并重启开发入口。验收边界见[实施方案](docs/architecture/implementation-plan.md)，常见问题见[工具规范与排障](docs/development/tooling.md)。
+CORE-04 已实现每会话单进程、守卫握手、流式、中止、销毁与故障隔离。SEC-01 已接入固定工具的最终 execute 守卫：仅核验实际 cwd 内的有界普通 UTF-8 文本读取自动执行，宿主捕获快照后 SDK 不重新打开路径；写入、命令及未知能力没有有效审批一律拒绝。最终门禁与原生验收已通过，边界见下方 SEC-01 记录。扩展和真实提供商继续关闭，SDK 使用隔离配置，不读取用户模型认证。SEC-06 可在显式指定来源后由宿主读取现有 pi 凭证状态，不向 SDK 或页面发送凭证。`GET /api/kernels` 只读核对 daemon 管理的会话、代际、PID、cwd 和原生 sessionFile；SESSION-01 的 `/api/chat` 仅接受已配对桌面身份，提交和停止均经 KernelService，SEC-02 已开放最终参数单次审批，真实提供商传输仍关闭。当前启动器不复用已运行的服务；前端热更新不重载 daemon，修改服务后重新构建并重启开发入口。验收边界见[实施方案](docs/architecture/implementation-plan.md)，常见问题见[工具规范与排障](docs/development/tooling.md)。
 
 CORE-05 已验收：`GET /api/protocol` 核对版本与能力，`GET /api/sessions/:sessionId/snapshot` 读取完整观察快照，`WS /api/events` 按游标重放并订阅。已存在运行时可用 `http://127.0.0.1:5173/?observe=<sessionId>` 只读查看，关闭观察不停止任务；不会自动创建会话或调用模型。缺口 / 缓冲不足重新同步，重连不重发任务；不兼容保留内容并禁用变更入口。CORE-06 已补齐重启后的只读历史与中断恢复，CORE-07 已补齐资源调度，接着进入 M2。协议与边界见[实施方案](docs/architecture/implementation-plan.md#core-05-已交付边界)。
 
@@ -228,3 +228,7 @@ OBS-02 已验收：单一主阶段、按操作合并错误、终态消隐及停�
 ## SEC-01 已验收
 
 SEC-01 已验收：固定工具在 SDK 最终 execute 处冻结参数并经宿主私有 IPC 裁决，多个规则取最高风险；仅实际 cwd 内核验后的有界 UTF-8 快照读取自动，写入与命令无有效审批拒绝，参数改写／嵌套不继承许可。完整44文件／281项Vitest、104项E2E、SDK与frozen clean通过；80条Windows原生观察（含中间态与重试）、后台同PID／epoch、明暗802px窄窗、同data/profile重启0发送／0内核、三份JSONL哈希不变及两次正常菜单退出补证。扩展、MCP、真实提供商关闭；审批交互、会话授权、写入基线仍属后续。当前本地32／133，OPS-08继续in_progress。真实提供商0，pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](docs/validation/sec-01-evidence/acceptance.md)。
+
+## SEC-02 已验收
+
+SEC-02 已验收：daemon 独占无倒计时的最终参数单次审批，首个有效多端决定生效，保存先于许可；取消、停止、IPC／内核／策略及退出失效，重启不恢复旧授权。完整45文件／292项Vitest、107项E2E、SDK与frozen clean通过；56条Windows原生观察（含中间态，另排除1张非产品截图）、两次正常退出、同data/profile重启0发送／0内核／0待审批，3份JSONL哈希不变。347文件与clean一致，原生后复用门禁；此前两次完整失败与安装命令记录分别保留。原生命令仅核对／取消，实际执行由自动Electron覆盖；没有新增真实IME证据。当前本地33／133，OPS-08继续in_progress；真实提供商0，pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](docs/validation/sec-02-evidence/acceptance.md)。

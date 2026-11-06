@@ -1,5 +1,11 @@
 export { eventSchema, fixtureSchema, healthSchema, sceneSchema } from './contracts.js'
 export { inputQueueCommandSchema, inputQueueSchema } from './input-queue.js'
+export {
+  executionApprovalSchema,
+  executionApprovalListSchema,
+  executionApprovalCommandSchema,
+} from './approvals.js'
+export type { ExecutionApproval, ExecutionApprovalCommand } from './approvals.js'
 export type { InputQueueCommand, InputQueueRecord } from './input-queue.js'
 export { runStageSchema, selectRunActivity, submissionStatusNames } from './run-activity.js'
 export type { RunStage, StopIntent, RunActivity } from './run-activity.js'

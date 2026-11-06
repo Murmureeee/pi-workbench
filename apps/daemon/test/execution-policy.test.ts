@@ -24,6 +24,7 @@ import { EventService } from '../dist/modules/events/event.service.js'
 import { KernelService } from '../dist/modules/kernels/kernel.service.js'
 import { ExecutionPolicyService } from '../dist/modules/security/execution-policy.service.js'
 import { SessionStore } from '../dist/modules/sessions/session.store.js'
+import { denyFixtureApprovals } from './helpers/decisions.js'
 
 const directories: string[] = []
 function setup() {
@@ -182,6 +183,7 @@ test('sEC-01 real SDK/IPC reads the host snapshot and denies four dangerous fina
   try {
     const kernels = app.get(KernelService),
       events = app.get(EventService)
+    denyFixtureApprovals(app)
     const read = await kernels.prompt(binding.sessionId, binding.cwd, {
       turnId: binding.turnId,
       text: '受限读取',
@@ -213,12 +215,12 @@ test('sEC-01 real SDK/IPC reads the host snapshot and denies four dangerous fina
     })
     const tools = events.snapshot(binding.sessionId)?.turns.at(-1)?.tools
     expect(tools).toHaveLength(4)
-    expect(tools?.map((t) => [t.status, t.risk?.level])).toEqual([
-      ['denied', 'L2'],
-      ['denied', 'L3'],
-      ['denied', 'L3'],
-      ['denied', 'L3'],
-    ])
+    expect(Object.fromEntries(tools?.map((t) => [t.id, [t.status, t.risk?.level]]) ?? [])).toEqual({
+      'guard-0': ['denied', 'L2'],
+      'guard-1': ['denied', 'L3'],
+      'guard-2': ['denied', 'L3'],
+      'guard-3': ['denied', 'L3'],
+    })
     expect(new Set(tools?.map((t) => t.risk?.digest)).size).toBe(4)
     expect(existsSync(join(binding.cwd, 'MUST-NOT-EXIST'))).toBe(false)
     const file = kernels.list()[0]?.sessionFile

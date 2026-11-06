@@ -24,6 +24,7 @@ import { ModelService } from '../modules/models/model.service.js'
 import { SearchService } from '../modules/search/search.service.js'
 import { AccessService } from '../modules/security/access.service.js'
 import { registerAccessTransport } from '../modules/security/access.transport.js'
+import { ApprovalService } from '../modules/security/approval.service.js'
 import { ExecutionPolicyService } from '../modules/security/execution-policy.service.js'
 import { SecurityService } from '../modules/security/security.service.js'
 import { TrustService } from '../modules/security/trust.service.js'
@@ -75,6 +76,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const legacy = new LegacyHistoryService(options.piAgentDir)
   const projects = new ProjectService(database, workspaces)
   const executionPolicy = new ExecutionPolicyService()
+  const approvals = new ApprovalService(store, events, executionPolicy, security.redactor)
   const kernels = new KernelService(
     options.dataDir,
     events,
@@ -82,6 +84,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     resourceLimits,
     trust,
     executionPolicy,
+    approvals,
   )
   const sessionService = new SessionService(
     options.dataDir,
@@ -114,6 +117,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: AccessService, useValue: access },
       { provide: TrustService, useValue: trust },
       { provide: ExecutionPolicyService, useValue: executionPolicy },
+      { provide: ApprovalService, useValue: approvals },
       { provide: WorkspaceService, useValue: workspaces },
       { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: WorkspaceAvailabilityService, useValue: availability },
@@ -230,6 +234,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     kernels,
     access,
     events,
+    approvals,
   )
   adapter.getInstance().get('/api/chat/search', (request, reply) => {
     const query = sessionSearchQuerySchema.safeParse(request.query)

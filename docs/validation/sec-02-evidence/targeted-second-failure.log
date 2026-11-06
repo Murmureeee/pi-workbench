@@ -1,0 +1,36 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/approvals.test.ts (9 tests | 1 failed) 11977ms
+   × sEC-02 rejection reason reaches SDK and blocks alternate forms without more approval or side effects 1082ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 rejection reason reaches SDK and blocks alternate forms without more approval or side effects
+AssertionError: expected +0 to be 2 // Object.is equality
+
+- Expected
++ Received
+
+- 2
++ 0
+
+ ❯ apps/daemon/test/approvals.test.ts:183:56
+    181|   try {
+    182|     const t = f.run('guard-denied')
+    183|     await expect.poll(() => f.approvals.list().length).toBe(2)
+       |                                                        ^
+    184|     const p = f.approvals.list().find(item => item.tool === 'write')
+    185|     if (!p) { throw new Error('Missing parallel write approval') }
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/daemon/test/approvals.test.ts:183:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 26 passed (27)
+   Start at  11:41:57
+   Duration  14.32s (tests 74%, import 25%, transform 1%)
+

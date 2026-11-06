@@ -110,7 +110,7 @@ export function selectRunActivity({
     return result('syncing', '运行状态待同步', '已保存结果保留；断线或队列未同步不代表完成或停止。')
   }
   if (current?.approval) {
-    return result('approval', '等待审批', '此处仅观察；未裁决，不设倒计时。')
+    return result('approval', '等待审批', '未裁决，不设倒计时；离开页面不自动执行。')
   }
   if (current?.stage === 'compacting' && ['running', 'stopping'].includes(current.phase)) {
     return result('compacting', stages.compacting)

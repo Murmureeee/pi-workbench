@@ -8,6 +8,7 @@ import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
 import { EventService } from '../apps/daemon/dist/modules/events/event.service.js'
 import { KernelService } from '../apps/daemon/dist/modules/kernels/kernel.service.js'
 import { SessionStore } from '../apps/daemon/dist/modules/sessions/session.store.js'
+import { denyFixtureApprovals } from '../apps/daemon/test/helpers/decisions.js'
 import { launchWorkspaceDesktop } from './helpers/desktop.js'
 
 /** Fixture selects only the local model response and seeds owned text before dispatch.
@@ -16,6 +17,7 @@ async function setup() {
   const directory = mkdtempSync(join(tmpdir(), 'piw-guard-ui-'))
   const app = await createApp({ dataDir: join(directory, 'data'), port: 4318, development: true })
   await app.listen(4318, '127.0.0.1')
+  denyFixtureApprovals(app)
   const kernels = app.get(KernelService),
     original = kernels.prompt.bind(kernels),
     store = app.get(SessionStore),

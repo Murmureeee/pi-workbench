@@ -181,9 +181,33 @@ test('WS-07 Electron untrusted resource notice, moved-directory recovery, physic
         total: element.scrollHeight,
       }))
     expect(viewport.height).toBeGreaterThanOrEqual(120)
-    // Resizing retains the reading anchor. Explicitly scroll to inspect the older reply.
+    // A real reading gesture first releases automatic follow; End would instead
+    // align the process metadata below the reply with this small reading viewport.
+    const readingArea = pane(f).getByLabel('受管会话消息')
+    await readingArea.focus()
+    await readingArea.press('Home')
+    await expect(readingArea).toBeFocused()
     await pane(f).getByText('OFFLINE_OK', { exact: true }).scrollIntoViewIfNeeded()
-    await expect(pane(f).getByText('OFFLINE_OK', { exact: true })).toBeInViewport({ ratio: 1 })
+    try {
+      await expect(pane(f).getByText('OFFLINE_OK', { exact: true })).toBeInViewport({ ratio: 1 })
+    } catch (error) {
+      console.error(
+        'WS07_READING_GEOMETRY',
+        await readingArea.evaluate((element) => ({
+          viewport: { top: element.getBoundingClientRect().top, height: element.clientHeight },
+          top: element.scrollTop,
+          total: element.scrollHeight,
+          focused: document.activeElement === element,
+          items: [...element.querySelectorAll('[data-reading-id]')].map((item) => ({
+            text: item.textContent?.slice(0, 150),
+            top: item.getBoundingClientRect().top,
+            height: item.getBoundingClientRect().height,
+          })),
+        })),
+      )
+      await page.screenshot({ path: `${evidence}/sec02-ws07-reading-failure.png` })
+      throw error
+    }
     await page.screenshot({
       path: `${evidence}/workspace-recovery-dark-800.png`,
       animations: 'disabled',

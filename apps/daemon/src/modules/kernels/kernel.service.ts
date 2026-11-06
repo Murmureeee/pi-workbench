@@ -1,4 +1,5 @@
 import type { EventService } from '../events/event.service.js'
+import type { ApprovalService } from '../security/approval.service.js'
 import type { TrustService } from '../security/trust.service.js'
 import type { SessionStore } from '../sessions/session.store.js'
 import type { KernelSnapshot } from '@pi-workbench/agent-adapter'
@@ -39,6 +40,8 @@ const promptSchema = z.strictObject({
       'queue-fast',
       'guard-read',
       'guard-denied',
+      'approval-write',
+      'approval-command',
     ])
     .optional(),
 })
@@ -118,6 +121,7 @@ export class KernelService {
     limits: Partial<ResourceLimits> = {},
     private readonly trust?: TrustService,
     private readonly executionPolicy: ExecutionPolicyService = new ExecutionPolicyService(),
+    private readonly approvals?: ApprovalService,
   ) {
     this.limits = resourceLimitsSchema.parse(limits)
     this.pool = new KernelPool(
@@ -147,6 +151,7 @@ export class KernelService {
         const task = this.tasks.get(sessionId)
         const current = () =>
           !signal.aborted &&
+          !task?.controller.signal.aborted &&
           !this.closing &&
           this.tasks.get(sessionId) === task &&
           task?.input.turnId === turnId &&
@@ -155,11 +160,70 @@ export class KernelService {
           throw new Error('Final tool task unavailable')
         }
         await task?.directoryCheck?.()
-        const decision = await this.executionPolicy.decide(
+        let decision = await this.executionPolicy.decide(
           { sessionId, epoch, turnId, cwd },
           request,
           current,
         )
+        if (this.approvals?.rejectedTurn(turnId)) {
+          decision = {
+            ...decision,
+            allowed: false,
+            risk: { ...decision.risk, automatic: false },
+            reason: '本轮已有拒绝或取消；未执行，不会自动改换形式执行工具。',
+            readText: undefined,
+          }
+        } else if (!decision.allowed && this.approvals && current()) {
+          try {
+            const target = await this.executionPolicy.explicitTarget(
+              { sessionId, epoch, turnId, cwd },
+              request,
+            )
+            this.events.publish(sessionId, epoch, turnId, {
+              type: 'tool.updated',
+              tool: {
+                id: request.callId,
+                name: request.tool,
+                status: 'pending',
+                parameters: request.parameters,
+                parentId: request.parentId,
+                cwd,
+                origin: 'sdk',
+                summary: '等待明确审批；未执行，无倒计时。',
+                risk: decision.risk,
+              },
+            })
+            decision = await this.approvals.wait(
+              { sessionId, epoch, turnId, cwd },
+              request,
+              decision,
+              task ? AbortSignal.any([signal, task.controller.signal]) : signal,
+              current,
+            )
+            if (decision.allowed) {
+              await task?.directoryCheck?.()
+              const finalTarget = await this.executionPolicy.explicitTarget(
+                { sessionId, epoch, turnId, cwd },
+                request,
+              )
+              if (
+                !current() ||
+                decision.risk.policyVersion !== this.executionPolicy.policyVersion ||
+                this.approvals.rejectedTurn(turnId) ||
+                target !== finalTarget
+              ) {
+                throw new Error('批准后的目录、文件、策略或任务已改变；未执行。')
+              }
+            }
+          } catch (error) {
+            decision = {
+              ...decision,
+              allowed: false,
+              readText: undefined,
+              reason: error instanceof Error ? error.message : '最终审批不可用；未执行。',
+            }
+          }
+        }
         this.events.publish(sessionId, epoch, turnId, {
           type: 'tool.updated',
           tool: {
@@ -548,6 +612,7 @@ export class KernelService {
       throw error
     } finally {
       clearTimeout(task.directoryTimer)
+      this.approvals?.endTurn(task.input.turnId)
       this.trust?.endTurn(task.input.turnId)
       release?.()
       this.tasks.delete(task.sessionId)
@@ -613,6 +678,7 @@ export class KernelService {
 
   private async close(): Promise<void> {
     this.closing = true
+    this.approvals?.close()
     this.unsubscribeResources()
     for (const task of this.modelQueue.splice(0)) {
       clearTimeout(task.directoryTimer)

@@ -12,17 +12,17 @@ shadcn/ui 按源码分发：通过官方 CLI 将组件加入项目，由项目�
 
 ## 当前采用程度
 
-| 区域                     | 当前代码                                              | 采用情况与后续要求                                                                                             |
-| ------------------------ | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------- |
-| 按钮、输入、徽标、提示   | Button、Input / Textarea、InputGroup、Badge、Alert    | 已采用官方组件源码                                                                                             |
-| 消息与滚动               | Message、Bubble、MessageScroller                      | 已用于 Conversation；与官方 Chat 模式使用相同的核心组件，完整会话恢复仍按 OBS / SESSION 验收                   |
-| 输入区                   | InputGroupTextarea、InputGroupAddon、InputGroupButton | 已采用 Prompt Input 的核心结构；附件、模型菜单等待对应功能接入                                                 |
-| 过程展示                 | Trace / TraceLine / TraceCollapsible                  | OBS-03 候选已接入受管对话、只读观察和历史；调用独立展开与状态映射，原生验收待授权                              |
-| 执行前审批               | 自定义 section / dl / pre + 官方 Button               | 当前结构手写；应参照 Confirmation，以 Item / ItemActions / Button 组合，保留命令、目录、影响范围与授权绑定信息 |
-| 项目与会话侧栏、窄窗导航 | 自定义 aside、布局 CSS、遮罩和 Button                 | 目前未采用 Sidebar / Sheet；正式导航应优先使用官方组件并复用其键盘、焦点和弹层行为                             |
-| 开发场景 / 主题选择      | 原生 select + 自定义 CSS                              | 应优先采用官方 Native Select 或 Select，按原生选择框或自定义选择需求决定                                       |
-| 新会话空状态、加载状态   | 页面 HTML 和布局样式                                  | 正式实现优先使用 Empty / Spinner / Skeleton，按真实状态选择                                                    |
-| 命令与 Diff 样本         | 自定义 pre                                            | 应复用 CodeBlock；正式 Diff 的比较、定位和交互按 CHANGE 功能评估专用渲染器                                     |
+| 区域                     | 当前代码                                              | 采用情况与后续要求                                                                           |
+| ------------------------ | ----------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| 按钮、输入、徽标、提示   | Button、Input / Textarea、InputGroup、Badge、Alert    | 已采用官方组件源码                                                                           |
+| 消息与滚动               | Message、Bubble、MessageScroller                      | 已用于 Conversation；与官方 Chat 模式使用相同的核心组件，完整会话恢复仍按 OBS / SESSION 验收 |
+| 输入区                   | InputGroupTextarea、InputGroupAddon、InputGroupButton | 已采用 Prompt Input 的核心结构；附件、模型菜单等待对应功能接入                               |
+| 过程展示                 | Trace / TraceLine / TraceCollapsible                  | OBS-03 候选已接入受管对话、只读观察和历史；调用独立展开与状态映射，原生验收待授权            |
+| 执行前审批               | 官方 Alert／Trace／Field／Input／Button／AlertDialog  | SEC-02 已验收真实单次决定，命令、目录、风险与最终参数绑定；旧样本仍仅展示                    |
+| 项目与会话侧栏、窄窗导航 | 自定义 aside、布局 CSS、遮罩和 Button                 | 目前未采用 Sidebar / Sheet；正式导航应优先使用官方组件并复用其键盘、焦点和弹层行为           |
+| 开发场景 / 主题选择      | 原生 select + 自定义 CSS                              | 应优先采用官方 Native Select 或 Select，按原生选择框或自定义选择需求决定                     |
+| 新会话空状态、加载状态   | 页面 HTML 和布局样式                                  | 正式实现优先使用 Empty / Spinner / Skeleton，按真实状态选择                                  |
+| 命令与 Diff 样本         | 自定义 pre                                            | 应复用 CodeBlock；正式 Diff 的比较、定位和交互按 CHANGE 功能评估专用渲染器                   |
 
 2026-11-02 的 Electron 控制栏与统一设置复用现有 Button / buttonVariants、Field / FieldContent / FieldDescription、Input、Separator、Alert 与 Badge，未增加依赖或自制公共 primitive。设置分类是业务导航的普通链接，窄窗使用横向滚动；菜单使用 Electron 原生 Menu，窗口按钮由 Windows 原生 overlay 提供。外观主题沿用原生 select；后续按上表统一采用官方选择组件。布局与中性灰通过现有 tokens / 应用 CSS 调整，主题展示小图只作预览，不是可交互控件。设置仍调用原 daemon 服务，不接入示例 AI transport。
 
@@ -96,3 +96,5 @@ MessageBody／MarkdownBody／HighlightedCode为conversation业务组合；复用
 ## OBS-02 运行状态组合
 
 CurrentRunStatus 与 ModelRequestStatus 复用既有官方 Trace／TraceCollapsible、Alert 和 Button，业务阶段选择位于 shared 纯函数；无新增 primitive、依赖或 AI transport。ManagedThread 保留原 RuntimeClient，输入队列编辑与状态区共用同一 pane 查询，不新增第二份执行权威。当前阶段固定在输入区上方，旧行保留历史状态；同操作错误仅此处展示可折叠脱敏详情。终态消隐只改本窗口状态，held／未知／审批／执行中无消隐入口。语义 tokens、内部滚动及 800px 明暗布局与现有工作台一致，实际来源见 [OBS-02 记录](../validation/obs-02-evidence/acceptance.md)。
+
+SEC-02 已验收审批复用既有 Alert／Badge／TraceCollapsible／Field／Input／Button／AlertDialog；无新 primitive、依赖或锁变更。业务组合在 conversation feature，最终参数为脱敏纯文本，允许二次确认默认焦点“返回核对”。审批区有界滚动，失败保留说明，断线禁用决定，隐藏不提交决定。完整和原生验收见对应记录。

@@ -14,6 +14,7 @@ import { createApp } from '../dist/bootstrap/app.js'
 import { EventService } from '../dist/modules/events/event.service.js'
 import { KernelService } from '../dist/modules/kernels/kernel.service.js'
 import { authorizedHeaders } from './helpers/access.js'
+import { denyFixtureApprovals } from './helpers/decisions.js'
 
 function request(snapshot: RuntimeSnapshot) {
   return {
@@ -120,6 +121,7 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
     const directory = mkdtempSync(join(tmpdir(), 'piw-events-'))
     const port = 4328
     const app = await createApp({ dataDir: directory, port, development: true })
+    denyFixtureApprovals(app)
     const sockets: WebSocket[] = []
     try {
       await app.listen(port, '127.0.0.1')

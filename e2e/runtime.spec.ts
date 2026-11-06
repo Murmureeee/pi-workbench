@@ -49,6 +49,8 @@ test('CORE-05 real local SDK: two browser clients reconnect to the same complete
 }) => {
   const directory = mkdtempSync(join(tmpdir(), 'piw-browser-events-'))
   const app = await createApp({ dataDir: directory, port, development: true })
+  const { denyFixtureApprovals } = await import('../apps/daemon/test/helpers/decisions.js')
+  denyFixtureApprovals(app)
   const second = await context.newPage()
   try {
     await app.listen(port, '127.0.0.1')

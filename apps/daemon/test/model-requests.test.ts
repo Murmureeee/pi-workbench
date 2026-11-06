@@ -15,6 +15,7 @@ import { KernelService } from '../dist/modules/kernels/kernel.service.js'
 import { SessionService } from '../dist/modules/sessions/session.service.js'
 import { SessionStore } from '../dist/modules/sessions/session.store.js'
 import { authorizedHeaders } from './helpers/access.js'
+import { denyFixtureApprovals } from './helpers/decisions.js'
 
 const input = (text: string): SessionSubmit => ({
   requestId: randomUUID(),
@@ -102,6 +103,7 @@ test('mODEL-07 actual guarded write rejection cannot be replayed through whole-t
   const directory = mkdtempSync(join(tmpdir(), 'piw-model-retry-')),
     port = 24392
   const app = await createApp({ dataDir: directory, port, development: true })
+  denyFixtureApprovals(app)
   try {
     const kernels = app.get(KernelService),
       original = kernels.prompt.bind(kernels)

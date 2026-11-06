@@ -102,20 +102,34 @@ export async function createOfflineProvider() {
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
-    if (mode === 'guard-read' || mode === 'guard-denied') {
+    if (['guard-read', 'guard-denied', 'approval-write', 'approval-command'].includes(mode)) {
       if (turnRequests === 1) {
         const calls =
-          mode === 'guard-read'
-            ? [{ name: 'read', args: { path: 'readme.txt', limit: 20 } }]
-            : [
-                { name: 'write', args: { path: 'MUST-NOT-EXIST', content: 'denied' } },
-                {
-                  name: 'powershell',
-                  args: { command: 'Get-Content readme.txt; Set-Content MUST-NOT-EXIST denied' },
-                },
-                { name: 'read', args: { path: '.env' } },
-                { name: 'read', args: { path: '../outside.txt' } },
-              ]
+          mode === 'approval-write'
+            ? [{ name: 'write', args: { path: 'APPROVED.txt', content: 'SEC02_APPROVED_ONCE' } }]
+            : mode === 'approval-command'
+              ? [
+                  {
+                    name: 'powershell',
+                    args: {
+                      command:
+                        'Set-Content -LiteralPath APPROVAL-COMMAND.txt -Value SEC02_COMMAND_ONCE',
+                    },
+                  },
+                ]
+              : mode === 'guard-read'
+                ? [{ name: 'read', args: { path: 'readme.txt', limit: 20 } }]
+                : [
+                    { name: 'write', args: { path: 'MUST-NOT-EXIST', content: 'denied' } },
+                    {
+                      name: 'powershell',
+                      args: {
+                        command: 'Get-Content readme.txt; Set-Content MUST-NOT-EXIST denied',
+                      },
+                    },
+                    { name: 'read', args: { path: '.env' } },
+                    { name: 'read', args: { path: '../outside.txt' } },
+                  ]
         response.end(
           frame({
             tool_calls: calls.map((call, index) => ({
@@ -265,7 +279,7 @@ export async function createOfflineProvider() {
         requests +
         (fixture === 'queue' || fixture === 'queue-fast'
           ? 32
-          : fixture.startsWith('guard-')
+          : fixture.startsWith('guard-') || fixture.startsWith('approval-')
             ? 2
             : 1)
     },

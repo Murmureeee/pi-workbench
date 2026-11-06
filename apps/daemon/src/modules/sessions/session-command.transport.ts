@@ -1,6 +1,7 @@
 import type { EventService } from '../events/event.service.js'
 import type { KernelService } from '../kernels/kernel.service.js'
 import type { AccessService } from '../security/access.service.js'
+import type { ApprovalService } from '../security/approval.service.js'
 import type { ProjectService } from '../workspaces/project.service.js'
 import type { SessionService } from './session.service.js'
 import type { SessionStore } from './session.store.js'
@@ -10,6 +11,7 @@ import { HttpException } from '@nestjs/common'
 import { z } from 'zod'
 
 import {
+  executionApprovalCommandSchema,
   inputQueueCommandSchema,
   projectCommandSchema,
   projectCreateSchema,
@@ -42,6 +44,7 @@ export function registerSessionCommands(
   kernels: KernelService,
   access: AccessService,
   events: EventService,
+  approvals: ApprovalService,
 ): void {
   server.addHook('preHandler', async (request, reply) => {
     if (!request.url.startsWith('/api/chat/')) {
@@ -58,6 +61,20 @@ export function registerSessionCommands(
     }
   })
   server.get('/api/chat/options', () => service.options())
+  server.get('/api/chat/approvals', () => ({ approvals: approvals.list() }))
+  server.post<{ Params: { id: string } }>('/api/chat/approvals/:id/decision', (request, reply) => {
+    const command = executionApprovalCommandSchema.safeParse(request.body)
+    const client = access.authenticate(request.headers.cookie)
+    if (!z.uuid().safeParse(request.params.id).success || !command.success || !client) {
+      return reply.code(400).send({ message: '审批决定、对象或版本无效；未执行。' })
+    }
+    try {
+      approvals.decide(request.params.id, command.data, client.info.id)
+      return { decided: true }
+    } catch (error) {
+      return failure(reply, error)
+    }
+  })
   server.get<{ Params: { sessionId: string } }>(
     '/api/chat/sessions/:sessionId/queue',
     (request, reply) => {

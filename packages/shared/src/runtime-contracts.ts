@@ -20,6 +20,7 @@ export const runtimeCapabilities = [
   'input-queue-v1',
   'run-stage-v1',
   'tool-risk-v1',
+  'execution-approval-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),
