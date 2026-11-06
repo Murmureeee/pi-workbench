@@ -1,0 +1,47 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/session-grants.test.ts (8 tests | 2 failed) 14429ms
+   × sEC-03 real SDK session permission is explicit, exact and reused only with this invocation irreversible consent 1441ms
+   × sEC-03 revoke does not claim to stop a command already executing; separate SDK abort actually ends it 1293ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 real SDK session permission is explicit, exact and reused only with this invocation irreversible consent
+AssertionError: expected [Function] to throw error including '不可回滚' but got '尚未明确接受本次无回滚基线的执行；未执行。'
+
+Expected: "不可回滚"
+Received: "尚未明确接受本次无回滚基线的执行；未执行。"
+
+ ❯ apps/daemon/test/session-grants.test.ts:107:7
+    105|     expect(() =>
+    106|       f.approvals.decide(p.id, { ...decision(p), acceptIrreversible: f…
+    107|     ).toThrow('不可回滚')
+       |       ^
+    108|     expect(f.grants.list().grants).toHaveLength(0)
+    109|     f.approvals.decide(p.id, decision(p), 'desktop-a')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 revoke does not claim to stop a command already executing; separate SDK abort actually ends it
+AssertionError: expected 'error' to be 'aborted' // Object.is equality
+
+Expected: "aborted"
+Received: "error"
+
+ ❯ apps/daemon/test/session-grants.test.ts:320:38
+    318|     expect(f.events.snapshot(turn.sessionId)?.turns.at(-1)?.phase).toB…
+    319|     await f.kernels.abort(turn.sessionId, turn.turnId)
+    320|     expect((await turn.run).outcome).toBe('aborted')
+       |                                      ^
+    321|     expect(f.grants.list().grants).toHaveLength(0)
+    322|   } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  2 failed | 17 passed (19)
+   Start at  13:57:27
+   Duration  16.87s (tests 89%, import 11%, transform 1%)
+

@@ -102,18 +102,28 @@ export async function createOfflineProvider() {
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
-    if (['guard-read', 'guard-denied', 'approval-write', 'approval-command'].includes(mode)) {
+    if (
+      [
+        'guard-read',
+        'guard-denied',
+        'approval-write',
+        'approval-command',
+        'approval-running',
+      ].includes(mode)
+    ) {
       if (turnRequests === 1) {
         const calls =
           mode === 'approval-write'
             ? [{ name: 'write', args: { path: 'APPROVED.txt', content: 'SEC02_APPROVED_ONCE' } }]
-            : mode === 'approval-command'
+            : mode === 'approval-command' || mode === 'approval-running'
               ? [
                   {
                     name: 'powershell',
                     args: {
                       command:
-                        'Set-Content -LiteralPath APPROVAL-COMMAND.txt -Value SEC02_COMMAND_ONCE',
+                        mode === 'approval-running'
+                          ? 'Start-Sleep -Seconds 8'
+                          : 'Set-Content -LiteralPath APPROVAL-COMMAND.txt -Value SEC02_COMMAND_ONCE',
                     },
                   },
                 ]

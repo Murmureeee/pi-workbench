@@ -1,0 +1,500 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/session-grants.test.ts (8 tests | 8 failed) 120955ms
+   × sEC-03 real SDK session permission is explicit, exact and reused only with this invocation irreversible consent 15201ms
+   × sEC-03 session, tool, canonical parameter, exact target and physical directory changes never match a grant 15113ms
+   × sEC-03 L3 and nested calls cannot create a session permission even with a forged eligible display field 15123ms
+   × sEC-03 individual/all revoke rejects stale reuse; revocation during final asynchronous preflight prevents the already-decided execution 15096ms
+   × sEC-03 audit failure never installs a grant; revoke remains effective even if saving its audit fails 15095ms
+   × sEC-03 revoke does not claim to stop a command already executing; separate SDK abort actually ends it 15100ms
+   × sEC-03 policy invalidation and same-data daemon restart preserve audit but restore zero live grants or model tasks 15113ms
+   × sEC-03 grants list/revoke retain desktop, CSRF, origin, protocol and immutable-scope gates 15115ms
+ ❯ apps/daemon/test/approvals.test.ts (11 tests | 11 failed) 166223ms
+   × sEC-02 actual SDK waits without side effects across observer disconnect; first valid desktop decision wins, history cannot reauthorize 15202ms
+   × sEC-02 rejection reason reaches SDK and blocks alternate forms without more approval or side effects 15141ms
+   × sEC-02 cancel wakes waiters and forbids stale decisions 15101ms
+   × sEC-02 stop wakes waiters and forbids stale decisions 15099ms
+   × sEC-02 policy wakes waiters and forbids stale decisions 15096ms
+   × sEC-02 child wakes waiters and forbids stale decisions 15096ms
+   × sEC-02 malformed/stale commands preserve the current waiter; durable decision failure never permits execution 15103ms
+   × sEC-02 shutdown invalidates pending durable records; restart has zero permits or kernels 15118ms
+   × sEC-02 final path identity changes and blocked private/link/outside targets cannot be approved 15092ms
+   × sEC-02 approval reads and decisions retain desktop pairing, Origin, CSRF, JSON and capability gates 15095ms
+   × sEC-02 policy invalidation during the final asynchronous path recheck cannot release an already allowed call 15078ms
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 19 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 actual SDK waits without side effects across observer disconnect; first valid desktop decision wins, history cannot reauthorize
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/approvals.test.ts:79:74
+     77| }
+     78| async function pending(f: Awaited<ReturnType<typeof setup>>): Promise<…
+     79|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     80|   const p = f.approvals.list()[0]
+     81|   if (!p) {
+ ❯ apps/daemon/test/approvals.test.ts:91:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/approvals.test.ts:79:3
+ ❯ apps/daemon/test/approvals.test.ts:91:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/19]⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 rejection reason reaches SDK and blocks alternate forms without more approval or side effects
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  },
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      1,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ apps/daemon/test/approvals.test.ts:183:76
+    181|   try {
+    182|     const t = f.run('guard-denied')
+    183|     await expect.poll(() => f.approvals.list().length, { timeout: 1500…
+       |                                                                            ^
+    184|     const p = f.approvals.list().find((item) => item.tool === 'write')
+    185|     if (!p) {
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/daemon/test/approvals.test.ts:183:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/19]⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 cancel wakes waiters and forbids stale decisions
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 stop wakes waiters and forbids stale decisions
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 policy wakes waiters and forbids stale decisions
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 child wakes waiters and forbids stale decisions
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/approvals.test.ts:79:74
+     77| }
+     78| async function pending(f: Awaited<ReturnType<typeof setup>>): Promise<…
+     79|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     80|   const p = f.approvals.list()[0]
+     81|   if (!p) {
+ ❯ apps/daemon/test/approvals.test.ts:215:19
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/approvals.test.ts:79:3
+ ❯ apps/daemon/test/approvals.test.ts:215:13
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/19]⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 malformed/stale commands preserve the current waiter; durable decision failure never permits execution
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/approvals.test.ts:79:74
+     77| }
+     78| async function pending(f: Awaited<ReturnType<typeof setup>>): Promise<…
+     79|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     80|   const p = f.approvals.list()[0]
+     81|   if (!p) {
+ ❯ apps/daemon/test/approvals.test.ts:247:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/approvals.test.ts:79:3
+ ❯ apps/daemon/test/approvals.test.ts:247:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/19]⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 shutdown invalidates pending durable records; restart has zero permits or kernels
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/approvals.test.ts:79:74
+     77| }
+     78| async function pending(f: Awaited<ReturnType<typeof setup>>): Promise<…
+     79|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     80|   const p = f.approvals.list()[0]
+     81|   if (!p) {
+ ❯ apps/daemon/test/approvals.test.ts:278:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/approvals.test.ts:79:3
+ ❯ apps/daemon/test/approvals.test.ts:278:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/19]⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 final path identity changes and blocked private/link/outside targets cannot be approved
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/approvals.test.ts:79:74
+     77| }
+     78| async function pending(f: Awaited<ReturnType<typeof setup>>): Promise<…
+     79|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     80|   const p = f.approvals.list()[0]
+     81|   if (!p) {
+ ❯ apps/daemon/test/approvals.test.ts:307:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/approvals.test.ts:79:3
+ ❯ apps/daemon/test/approvals.test.ts:307:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/19]⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 approval reads and decisions retain desktop pairing, Origin, CSRF, JSON and capability gates
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/approvals.test.ts:79:74
+     77| }
+     78| async function pending(f: Awaited<ReturnType<typeof setup>>): Promise<…
+     79|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     80|   const p = f.approvals.list()[0]
+     81|   if (!p) {
+ ❯ apps/daemon/test/approvals.test.ts:348:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/approvals.test.ts:79:3
+ ❯ apps/daemon/test/approvals.test.ts:348:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/19]⎯
+
+ FAIL  apps/daemon/test/approvals.test.ts > sEC-02 policy invalidation during the final asynchronous path recheck cannot release an already allowed call
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/approvals.test.ts:79:74
+     77| }
+     78| async function pending(f: Awaited<ReturnType<typeof setup>>): Promise<…
+     79|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     80|   const p = f.approvals.list()[0]
+     81|   if (!p) {
+ ❯ apps/daemon/test/approvals.test.ts:416:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/approvals.test.ts:79:3
+ ❯ apps/daemon/test/approvals.test.ts:416:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/19]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 real SDK session permission is explicit, exact and reused only with this invocation irreversible consent
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:74
+     93| }
+     94| async function pending(f: Awaited<ReturnType<typeof setup>>) {
+     95|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     96|   return f.approvals.list()[0]
+     97| }
+ ❯ apps/daemon/test/session-grants.test.ts:102:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:3
+ ❯ apps/daemon/test/session-grants.test.ts:102:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/19]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 session, tool, canonical parameter, exact target and physical directory changes never match a grant
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:74
+     93| }
+     94| async function pending(f: Awaited<ReturnType<typeof setup>>) {
+     95|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     96|   return f.approvals.list()[0]
+     97| }
+ ❯ apps/daemon/test/session-grants.test.ts:147:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:3
+ ❯ apps/daemon/test/session-grants.test.ts:147:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/19]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 L3 and nested calls cannot create a session permission even with a forged eligible display field
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  },
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      1,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ apps/daemon/test/session-grants.test.ts:199:8
+    197|     await expect
+    198|       .poll(() => f.approvals.list().some((p) => p.risk.level === 'L3'…
+    199|       .toBe(true)
+       |        ^
+    200|     const high = f.approvals.list().find((p) => p.risk.level === 'L3')!
+    201|     expect(high.authorization.eligible).toBe(false)
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/daemon/test/session-grants.test.ts:197:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/19]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 individual/all revoke rejects stale reuse; revocation during final asynchronous preflight prevents the already-decided execution
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:74
+     93| }
+     94| async function pending(f: Awaited<ReturnType<typeof setup>>) {
+     95|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     96|   return f.approvals.list()[0]
+     97| }
+ ❯ apps/daemon/test/session-grants.test.ts:236:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:3
+ ❯ apps/daemon/test/session-grants.test.ts:236:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/19]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 audit failure never installs a grant; revoke remains effective even if saving its audit fails
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:74
+     93| }
+     94| async function pending(f: Awaited<ReturnType<typeof setup>>) {
+     95|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     96|   return f.approvals.list()[0]
+     97| }
+ ❯ apps/daemon/test/session-grants.test.ts:282:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:3
+ ❯ apps/daemon/test/session-grants.test.ts:282:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/19]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 revoke does not claim to stop a command already executing; separate SDK abort actually ends it
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:74
+     93| }
+     94| async function pending(f: Awaited<ReturnType<typeof setup>>) {
+     95|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     96|   return f.approvals.list()[0]
+     97| }
+ ❯ apps/daemon/test/session-grants.test.ts:308:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:3
+ ❯ apps/daemon/test/session-grants.test.ts:308:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/19]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 policy invalidation and same-data daemon restart preserve audit but restore zero live grants or model tasks
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:74
+     93| }
+     94| async function pending(f: Awaited<ReturnType<typeof setup>>) {
+     95|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     96|   return f.approvals.list()[0]
+     97| }
+ ❯ apps/daemon/test/session-grants.test.ts:326:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:3
+ ❯ apps/daemon/test/session-grants.test.ts:326:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/19]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 grants list/revoke retain desktop, CSRF, origin, protocol and immutable-scope gates
+ZodError: [
+  {
+    "expected": "object",
+    "code": "invalid_type",
+    "path": [
+      "approvals",
+      0,
+      "authorization"
+    ],
+    "message": "Invalid input: expected object, received string"
+  }
+]
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:74
+     93| }
+     94| async function pending(f: Awaited<ReturnType<typeof setup>>) {
+     95|   await expect.poll(() => f.approvals.list().length, { timeout: 15000 …
+       |                                                                          ^
+     96|   return f.approvals.list()[0]
+     97| }
+ ❯ apps/daemon/test/session-grants.test.ts:365:17
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ pending apps/daemon/test/session-grants.test.ts:95:3
+ ❯ apps/daemon/test/session-grants.test.ts:365:11
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/19]⎯
+
+
+ Test Files  2 failed (2)
+      Tests  19 failed (19)
+   Start at  13:52:21
+   Duration  168.28s (tests 99%, import 1%)
+

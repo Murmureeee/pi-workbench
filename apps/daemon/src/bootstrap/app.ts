@@ -27,6 +27,7 @@ import { registerAccessTransport } from '../modules/security/access.transport.js
 import { ApprovalService } from '../modules/security/approval.service.js'
 import { ExecutionPolicyService } from '../modules/security/execution-policy.service.js'
 import { SecurityService } from '../modules/security/security.service.js'
+import { SessionGrantService } from '../modules/security/session-grant.service.js'
 import { TrustService } from '../modules/security/trust.service.js'
 import { registerTrustTransport } from '../modules/security/trust.transport.js'
 import { LegacyHistoryService } from '../modules/sessions/legacy-history.service.js'
@@ -76,7 +77,8 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const legacy = new LegacyHistoryService(options.piAgentDir)
   const projects = new ProjectService(database, workspaces)
   const executionPolicy = new ExecutionPolicyService()
-  const approvals = new ApprovalService(store, events, executionPolicy, security.redactor)
+  const grants = new SessionGrantService(store, executionPolicy, security.redactor)
+  const approvals = new ApprovalService(store, events, executionPolicy, security.redactor, grants)
   const kernels = new KernelService(
     options.dataDir,
     events,
@@ -118,6 +120,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: TrustService, useValue: trust },
       { provide: ExecutionPolicyService, useValue: executionPolicy },
       { provide: ApprovalService, useValue: approvals },
+      { provide: SessionGrantService, useValue: grants },
       { provide: WorkspaceService, useValue: workspaces },
       { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: WorkspaceAvailabilityService, useValue: availability },

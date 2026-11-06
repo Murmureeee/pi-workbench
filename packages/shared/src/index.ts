@@ -210,3 +210,9 @@ export {
   executionDecisionSchema,
 } from './execution-policy.js'
 export type { ToolRisk, ExecutionRequest, ExecutionDecision } from './execution-policy.js'
+export {
+  sessionGrantSchema,
+  sessionGrantListSchema,
+  sessionGrantRevokeSchema,
+} from './session-grants.js'
+export type { SessionGrant } from './session-grants.js'

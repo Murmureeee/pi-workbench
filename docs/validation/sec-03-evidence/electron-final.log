@@ -1,0 +1,20 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:27340) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 7 tests using 1 worker
+
+(node:17056) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\approvals.spec.ts:68:1 › SEC-02 actual Electron preserves an unexecuted pending call across settings, reload and connection loss; explicit irreversible confirmation executes once (9.5s)
+  ok 2 e2e\approvals.spec.ts:135:1 › SEC-02 actual Electron preserves a failed decision reason; background refusal does not steal draft focus or run an alternate tool (4.6s)
+  ok 3 e2e\approvals.spec.ts:196:1 › SEC-02 actual Electron cancellation and stopped approvals never run; a new explicit command decision works with light/dark narrow keyboard controls (10.3s)
+  ok 4 e2e\session-grants.spec.ts:105:1 › SEC-03 actual Electron explicit grant scope, failed save/escape, exact reuse consent and individual/all revoke (11.2s)
+  ok 5 e2e\session-grants.spec.ts:183:1 › SEC-03 actual Electron offline/reload preserve live scope, background focus is isolated and L3 has no session action (10.7s)
+  ok 6 e2e\session-grants.spec.ts:245:1 › SEC-03 actual Electron pending approval actions remain reachable beside composer in a short narrow window (4.6s)
+  ok 7 e2e\session-grants.spec.ts:269:1 › SEC-03 actual Electron grant viewer fits light/dark 800px; full restart keeps audit/history and restores no authority or execution (7.8s)
+
+  7 passed (1.2m)

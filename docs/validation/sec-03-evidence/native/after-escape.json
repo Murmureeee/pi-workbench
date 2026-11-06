@@ -1,0 +1,204 @@
+{
+  "feature": "SEC-03",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local HTTP tool fixtures. No CDP, renderer routes or synthetic tool events. An owned fail-once file requests one host decision failure before consumption (HTTP 500).",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\sec03-native-bwC6Nw",
+  "desktopPid": 34136,
+  "prompts": 1,
+  "decisionFailures": 0,
+  "revokeFailures": 0,
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "results": [],
+  "sessions": [
+    {
+      "id": "91262db4-5e29-468f-b5ac-bef9cdb3e919",
+      "title": "授权中文文件",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "d27c7fba-0913-46f6-bdef-98739755fc93",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "7f6df370-3b59-46a0-b065-fe8d96fe4ae4",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec03-native-bwC6Nw\\data\\standalone\\91262db4-5e29-468f-b5ac-bef9cdb3e919",
+      "createdAt": 1793946637386
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "d27c7fba-0913-46f6-bdef-98739755fc93",
+      "sessionId": "91262db4-5e29-468f-b5ac-bef9cdb3e919",
+      "messageId": "8e14807a-5bb9-4487-ba1d-46177eff3ae9",
+      "turnId": "aec6f44a-16aa-47d6-a4c9-4e41cbf9a5fb",
+      "status": "executing",
+      "text": "授权中文文件",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793946637388
+    }
+  ],
+  "pending": [
+    {
+      "id": "ad4a78f4-b19e-49a1-bac1-d693af9c2603",
+      "sessionId": "91262db4-5e29-468f-b5ac-bef9cdb3e919",
+      "epoch": "8b788283-aa4e-416d-821e-c1d44115ee99",
+      "turnId": "aec6f44a-16aa-47d6-a4c9-4e41cbf9a5fb",
+      "callId": "guard-0",
+      "parentId": null,
+      "tool": "write",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec03-native-bwC6Nw\\data\\standalone\\91262db4-5e29-468f-b5ac-bef9cdb3e919",
+      "parameters": "{\"content\":\"SEC02_APPROVED_ONCE\",\"path\":\"APPROVED.txt\"}",
+      "risk": {
+        "level": "L2",
+        "reasons": [
+          "文件变更须先批准最终参数，并满足写入基线。"
+        ],
+        "policyVersion": 1,
+        "digest": "ce4a04d72eafd9b89b2c7be35222495a2efff28ddcceab2a7645e53ea15ad064",
+        "automatic": false
+      },
+      "createdAt": 1793946638597,
+      "irreversible": true,
+      "sessionPermission": {
+        "eligible": true,
+        "matchingGrantId": null,
+        "targetPath": "D:\\Project\\pi-workbench\\.workbench\\sec03-native-bwC6Nw\\data\\standalone\\91262db4-5e29-468f-b5ac-bef9cdb3e919\\APPROVED.txt",
+        "physicalIdentity": "4797fd4fafbf078cd49b2b906ce3f59b0f9848b1859c335a552c0f43e9b225f4",
+        "parameterDigest": "b13598c0e720f19c7efeb84826d35de1e0e7c79d31a787f75faaa37e4a5f7d54"
+      }
+    }
+  ],
+  "approvalHistoryBefore": {},
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "b8d64f92-6e7e-4b09-921a-1c8b1be66bfe",
+      "sessionId": "91262db4-5e29-468f-b5ac-bef9cdb3e919",
+      "epoch": "8b788283-aa4e-416d-821e-c1d44115ee99",
+      "seq": 9,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "aec6f44a-16aa-47d6-a4c9-4e41cbf9a5fb",
+          "messageId": "aec6f44a-16aa-47d6-a4c9-4e41cbf9a5fb:assistant",
+          "prompt": "授权中文文件",
+          "text": "",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "requesting",
+            "waitUntil": null,
+            "error": null
+          },
+          "stage": "preparing-tools",
+          "phase": "running",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "write",
+              "status": "pending",
+              "summary": "等待明确审批；未执行，无倒计时。",
+              "parameters": "{\"content\":\"SEC02_APPROVED_ONCE\",\"path\":\"APPROVED.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec03-native-bwC6Nw\\data\\standalone\\91262db4-5e29-468f-b5ac-bef9cdb3e919",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "ce4a04d72eafd9b89b2c7be35222495a2efff28ddcceab2a7645e53ea15ad064",
+                "automatic": false
+              }
+            }
+          ],
+          "approval": {
+            "id": "ad4a78f4-b19e-49a1-bac1-d693af9c2603",
+            "command": "write · L2 · 最终参数待明确审批",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec03-native-bwC6Nw\\data\\standalone\\91262db4-5e29-468f-b5ac-bef9cdb3e919"
+          },
+          "error": null
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 1,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "91262db4-5e29-468f-b5ac-bef9cdb3e919",
+        "epoch": "8b788283-aa4e-416d-821e-c1d44115ee99",
+        "state": "running",
+        "pid": 34548,
+        "pins": 1,
+        "lastUsedAt": 1793946638423,
+        "waitingApproval": true,
+        "retiring": false
+      }
+    ],
+    "queue": [
+      {
+        "id": "aec6f44a-16aa-47d6-a4c9-4e41cbf9a5fb",
+        "sessionId": "91262db4-5e29-468f-b5ac-bef9cdb3e919",
+        "kind": "model",
+        "stage": "running",
+        "position": 0,
+        "reason": "running",
+        "cancellable": true
+      }
+    ]
+  },
+  "sideEffects": [
+    {
+      "id": "91262db4-5e29-468f-b5ac-bef9cdb3e919",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec03-native-bwC6Nw\\data\\standalone\\91262db4-5e29-468f-b5ac-bef9cdb3e919",
+      "approvedFile": null,
+      "commandFile": null
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "91262db4-5e29-468f-b5ac-bef9cdb3e919\\8b788283-aa4e-416d-821e-c1d44115ee99\\sessions\\2026-11-06T06-30-38-414Z_01a1af8d-584d-769f-899c-67566ac2af8f.jsonl": "168aa3e5c9772dfacac01eb184a1c41a12b080a02602d6fbf942388b9e7e3610"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

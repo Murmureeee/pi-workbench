@@ -1,0 +1,24 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:8700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 10 tests using 1 worker
+
+(node:3872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\input-queue.spec.ts:8:1 › INPUT-06 actual Electron explains append/steer order and only delivers after the real SDK boundary (53.7s)
+  ok  2 e2e\input-queue.spec.ts:52:1 › INPUT-06 Electron edit failures/CAS retain text; stop and reload hold queue, background updates never steal focus (7.8s)
+  ok  3 e2e\session-grants.spec.ts:105:1 › SEC-03 actual Electron explicit grant scope, failed save/escape, exact reuse consent and individual/all revoke (11.1s)
+  ok  4 e2e\session-grants.spec.ts:183:1 › SEC-03 actual Electron offline/reload preserve live scope, background focus is isolated and L3 has no session action (11.2s)
+  ok  5 e2e\session-grants.spec.ts:245:1 › SEC-03 actual Electron pending approval actions remain reachable beside composer in a short narrow window (4.7s)
+  ok  6 e2e\session-grants.spec.ts:269:1 › SEC-03 actual Electron grant viewer fits light/dark 800px; full restart keeps audit/history and restores no authority or execution (8.2s)
+  ok  7 e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts (9.1s)
+{"event":"session-run-failed","detail":{"name":"Error","message":"执行目录不可用：当前 Windows 用户无法读取这个目录。 本轮已中断，请核对历史与现场后明确发送；未自动重发。"}}
+  ok  8 e2e\workspace-recovery.spec.ts:236:1 › WS-07 actual Electron background task stops on real OS directory access loss; recovery and full restart never replay (10.4s)
+  ok  9 e2e\workspace-recovery.spec.ts:306:1 › WS-07 Electron failed and late recovery checks keep drafts, isolate targets and allow explicit retry (5.6s)
+  ok 10 e2e\workspace-recovery.spec.ts:353:1 › WS-07 Electron unavailable new-draft directory blocks sending but permits explicit replacement and project changes without creating a session (5.4s)
+
+  10 passed (2.4m)

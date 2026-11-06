@@ -52,33 +52,34 @@ export function ExecutionApprovals({
     retry: false,
   })
   const approvals = list.data?.approvals.filter((a) => a.sessionId === sessionId) ?? []
-  if (!approvals.length && !list.isError) {
-    return null
-  }
   return (
-    <section className="execution-approvals" aria-label="执行前审批">
-      {list.isError ? (
-        <Alert>
-          <AlertTitle>审批状态待同步</AlertTitle>
-          <AlertDescription>
-            连接中断不会执行工具；请恢复连接后核对当前请求。
-            <Button variant="outline" size="sm" onClick={() => void list.refetch()}>
-              刷新审批状态
-            </Button>
-          </AlertDescription>
-        </Alert>
+    <>
+      {approvals.length || list.isError ? (
+        <section className="execution-approvals" aria-label="执行前审批">
+          {list.isError ? (
+            <Alert>
+              <AlertTitle>审批状态待同步</AlertTitle>
+              <AlertDescription>
+                连接中断不会执行工具；请恢复连接后核对当前请求。
+                <Button variant="outline" size="sm" onClick={() => void list.refetch()}>
+                  刷新审批状态
+                </Button>
+              </AlertDescription>
+            </Alert>
+          ) : null}
+          {approvals.map((approval) => (
+            <ApprovalCard
+              key={approval.id}
+              approval={approval}
+              csrf={csrf}
+              available={active && synchronized && !list.isError && list.isSuccess}
+              active={active}
+              refresh={() => void list.refetch()}
+            />
+          ))}
+        </section>
       ) : null}
-      {approvals.map((approval) => (
-        <ApprovalCard
-          key={approval.id}
-          approval={approval}
-          csrf={csrf}
-          available={active && synchronized && !list.isError && list.isSuccess}
-          active={active}
-          refresh={() => void list.refetch()}
-        />
-      ))}
-    </section>
+    </>
   )
 }
 
@@ -100,7 +101,8 @@ function ApprovalCard({
   const [reason, setReason] = useState(''),
     [error, setError] = useState(''),
     [busy, setBusy] = useState(false),
-    [confirm, setConfirm] = useState(false)
+    [confirm, setConfirm] = useState<'once' | 'session' | 'reuse' | null>(null),
+    [confirmGrant, setConfirmGrant] = useState<string | null>(null)
   const live = useRef(true),
     cancel = useRef<HTMLButtonElement>(null),
     lock = useRef(false)
@@ -112,10 +114,12 @@ function ApprovalCard({
   }, [])
   useEffect(() => {
     if (!active) {
-      setConfirm(false)
+      setConfirm(null)
     }
   }, [active])
-  const decide = async (action: 'allow-once' | 'deny' | 'cancel') => {
+  const decide = async (
+    action: 'allow-once' | 'allow-session' | 'use-grant' | 'deny' | 'cancel',
+  ) => {
     if (lock.current || !available) {
       return
     }
@@ -134,12 +138,13 @@ function ApprovalCard({
           policyVersion: approval.risk.policyVersion,
           action,
           reason,
-          acceptIrreversible: action === 'allow-once',
+          acceptIrreversible: ['allow-once', 'allow-session', 'use-grant'].includes(action),
+          ...(action === 'use-grant' && confirmGrant ? { grantId: confirmGrant } : {}),
         },
         csrf,
       )
       if (live.current) {
-        setConfirm(false)
+        setConfirm(null)
         refresh()
       }
     } catch (cause) {
@@ -213,32 +218,91 @@ function ApprovalCard({
           >
             取消本次调用
           </Button>
-          <Button disabled={!available || busy} onClick={() => setConfirm(true)}>
+          <Button disabled={!available || busy} onClick={() => setConfirm('once')}>
             允许本次…
           </Button>
+          {approval.sessionPermission.eligible ? (
+            <Button
+              variant="outline"
+              disabled={!available || busy}
+              onClick={() => {
+                setConfirmGrant(approval.sessionPermission.matchingGrantId)
+                setConfirm(approval.sessionPermission.matchingGrantId ? 'reuse' : 'session')
+              }}
+            >
+              {approval.sessionPermission.matchingGrantId ? '使用会话授权…' : '授权此会话相同参数…'}
+            </Button>
+          ) : (
+            <p>L3 或未验证能力仅单次确认，不能生成会话授权。</p>
+          )}
         </div>
         <p>
-          当前未建立可回滚基线。允许需再次明确接受本次不可回滚执行；不生成会话授权，也不授予系统沙箱权限。
+          当前未建立可回滚基线。每次允许仍须明确接受本次不可回滚执行；会话授权只匹配所展示的完整参数，不授予系统沙箱权限。
         </p>
       </AlertDescription>
-      <AlertDialog open={confirm && active} onOpenChange={setConfirm}>
-        <AlertDialogContent initialFocus={cancel}>
+      <AlertDialog
+        open={Boolean(confirm) && active}
+        onOpenChange={(open) => {
+          if (!open) {
+            setConfirm(null)
+          }
+        }}
+      >
+        <AlertDialogContent initialFocus={cancel} className="execution-confirm-dialog">
           <AlertDialogHeader>
-            <AlertDialogTitle>允许本次不可回滚调用？</AlertDialogTitle>
+            <AlertDialogTitle>
+              {confirm === 'session'
+                ? '授予此会话相同参数的授权？'
+                : confirm === 'reuse'
+                  ? '使用已有会话授权并确认本次执行？'
+                  : '允许本次不可回滚调用？'}
+            </AlertDialogTitle>
             <AlertDialogDescription>
-              尚无可回滚基线。{approval.tool}{' '}
-              可能修改文件或产生外部副作用；仅允许指纹对应的这一次调用，不允许后续或嵌套调用。请先核对目录与参数。
+              尚无可回滚基线。{approval.tool} 可能修改文件或产生外部副作用。
+              {confirm === 'once'
+                ? '仅允许指纹对应的这一次调用。'
+                : '会话授权仅匹配此工具、物理目录、目标路径和完整最终参数；不包括其他参数或嵌套调用。撤销不停止已执行动作。'}
+              请先核对目录与参数；本次不可回滚确认不能用于后续动作。
             </AlertDialogDescription>
           </AlertDialogHeader>
           <p className="approval-path">{approval.cwd}</p>
           <pre className="approval-parameters">{approval.parameters}</pre>
+          {confirm !== 'once' ? (
+            <>
+              <p className="approval-path">
+                物理目录指纹 {approval.sessionPermission.physicalIdentity}
+              </p>
+              <p className="approval-path">
+                目标：{approval.sessionPermission.targetPath ?? '此完整命令及工作目录'}
+              </p>
+              <p className="approval-path">
+                最终参数指纹 {approval.sessionPermission.parameterDigest}
+              </p>
+              <p>服务重启／策略变化即失效；每次仍需确认本次不可回滚风险。不会自动批准 L3。</p>
+            </>
+          ) : null}
           {error ? <output>{error}</output> : null}
           <AlertDialogFooter>
             <AlertDialogCancel ref={cancel} disabled={busy}>
               返回核对
             </AlertDialogCancel>
-            <Button disabled={!available || busy} onClick={() => void decide('allow-once')}>
-              明确允许本次不可回滚执行
+            <Button
+              disabled={!available || busy}
+              onClick={() =>
+                void decide(
+                  confirm === 'session'
+                    ? 'allow-session'
+                    : confirm === 'reuse'
+                      ? 'use-grant'
+                      : 'allow-once',
+                )
+              }
+            >
+              {confirm === 'session'
+                ? '明确授予授权并允许本次不可回滚执行'
+                : confirm === 'reuse'
+                  ? '确认本次不可回滚执行并使用授权'
+                  : '明确允许本次不可回滚执行'}
             </Button>
           </AlertDialogFooter>
         </AlertDialogContent>

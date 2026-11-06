@@ -65,6 +65,7 @@ import { useWorkspaceAvailability } from '../workspaces/use-workspace-availabili
 import { WorkspaceEnvironment } from '../workspaces/workspace-environment.js'
 import { WorkspaceSafety } from '../workspaces/workspace-safety.js'
 import { ManagedThread } from './managed-thread.js'
+import { SessionAuthorizations } from './session-authorizations.js'
 import { SessionHistory } from './session-history.js'
 import { SessionInputQueue } from './session-input-queue.js'
 import { SessionLibrary } from './session-library.js'
@@ -627,6 +628,9 @@ function SessionPane({
                   : `${project?.name ?? '无项目'} · ${project?.directory ?? draft.workspace?.canonicalPath ?? '独立目录（首次发送时创建）'}`}
               </span>
             </div>
+            {current && authorized ? (
+              <SessionAuthorizations sessionId={current.id} csrf={csrf} active={active} />
+            ) : null}
             {current ? (
               <Button
                 variant="ghost"

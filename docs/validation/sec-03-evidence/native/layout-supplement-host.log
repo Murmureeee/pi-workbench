@@ -1,0 +1,5 @@
+{"ready":true,"directory":"D:\\Project\\pi-workbench\\.workbench\\sec03-layout-native-GAS7tG","desktopPid":17040}
+15:33:15 [vite] (client) hmr update /@fs/D:/Project/pi-workbench/packages/ui/src/styles.css, /src/features/conversation/execution-approvals.tsx
+15:33:15 [vite] (client) hmr update /@fs/D:/Project/pi-workbench/packages/ui/src/styles.css, /src/features/conversation/session-workbench.css
+15:35:09 [vite] (client) hmr update /@fs/D:/Project/pi-workbench/packages/ui/src/styles.css, /src/features/conversation/session-workbench.css
+NATIVE_CLOSED_OK

@@ -36,6 +36,7 @@ async function observer() {
       'run-stage-v1',
       'tool-risk-v1',
       'execution-approval-v1',
+      'session-authorization-v1',
     ],
     mutations: false,
     realProviderEnabled: false,

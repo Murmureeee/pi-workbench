@@ -1,6 +1,8 @@
+import type { GrantScope } from './session-grant.service.js'
 import type { ExecutionDecision, ExecutionRequest, ToolRisk } from '@pi-workbench/shared'
 import type { Stats } from 'node:fs'
 
+import { createHash } from 'node:crypto'
 import { constants } from 'node:fs'
 import { lstat, open, realpath } from 'node:fs/promises'
 import { isAbsolute, relative, resolve, sep } from 'node:path'
@@ -21,6 +23,8 @@ const credential =
   /(?:^|[\\/])(?:\.env(?:\..*)?|auth\.json|credentials?(?:\..*)?|id_(?:rsa|ed25519)|\.ssh|\.aws|\.gnupg|\.git)(?:$|[\\/])/i
 const fingerprint = (s: Stats) =>
   [s.dev, s.ino, s.birthtimeMs, s.size, s.mtimeMs, s.ctimeMs, s.nlink].join(':')
+const scopeHash = (value: unknown) =>
+  createHash('sha256').update(JSON.stringify(value)).digest('hex')
 const within = (root: string, target: string) => {
   const r = relative(root, target)
   return r !== '' && !r.startsWith('..' + sep) && r !== '..' && !isAbsolute(r)
@@ -47,6 +51,42 @@ export class ExecutionPolicyService {
     this.version++
     for (const listener of this.invalidation) {
       listener()
+    }
+  }
+
+  /** Captures a narrow reusable scope separately from per-invocation file preflight. It
+   * binds all actual directory ancestors and exact canonical parameters, never a prefix.
+   * Call only after explicitTarget succeeds, and recompute after the user has decided. */
+  async sessionScope(binding: Binding, request: ExecutionRequest): Promise<GrantScope> {
+    const fields = object.parse(JSON.parse(request.parameters)),
+      targetPath = typeof fields.path === 'string' ? resolve(binding.cwd, fields.path) : null,
+      components = targetPath ? relative(binding.cwd, targetPath).split(sep).slice(0, -1) : [],
+      paths = [
+        binding.cwd,
+        ...components.map((_c, i) => resolve(binding.cwd, ...components.slice(0, i + 1))),
+      ]
+    const identities = await Promise.all(
+      paths.map(async (path) => {
+        const stat = await lstat(path)
+        if (!stat.isDirectory() || stat.isSymbolicLink() || (await realpath(path)) !== path) {
+          throw new Error('授权目录物理身份不可核验。')
+        }
+        return [path, stat.dev, stat.ino, stat.birthtimeMs]
+      }),
+    )
+    const physicalIdentity = scopeHash(identities),
+      parameterDigest = scopeHash([request.tool, request.parameters])
+    return {
+      targetPath,
+      physicalIdentity,
+      parameterDigest,
+      key: scopeHash([
+        binding.sessionId,
+        binding.cwd,
+        targetPath,
+        physicalIdentity,
+        parameterDigest,
+      ]),
     }
   }
 

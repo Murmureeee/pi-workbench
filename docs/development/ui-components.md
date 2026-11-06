@@ -98,3 +98,5 @@ MessageBody／MarkdownBody／HighlightedCode为conversation业务组合；复用
 CurrentRunStatus 与 ModelRequestStatus 复用既有官方 Trace／TraceCollapsible、Alert 和 Button，业务阶段选择位于 shared 纯函数；无新增 primitive、依赖或 AI transport。ManagedThread 保留原 RuntimeClient，输入队列编辑与状态区共用同一 pane 查询，不新增第二份执行权威。当前阶段固定在输入区上方，旧行保留历史状态；同操作错误仅此处展示可折叠脱敏详情。终态消隐只改本窗口状态，held／未知／审批／执行中无消隐入口。语义 tokens、内部滚动及 800px 明暗布局与现有工作台一致，实际来源见 [OBS-02 记录](../validation/obs-02-evidence/acceptance.md)。
 
 SEC-02 已验收审批复用既有 Alert／Badge／TraceCollapsible／Field／Input／Button／AlertDialog；无新 primitive、依赖或锁变更。业务组合在 conversation feature，最终参数为脱敏纯文本，允许二次确认默认焦点“返回核对”。审批区有界滚动，失败保留说明，断线禁用决定，隐藏不提交决定。完整和原生验收见对应记录。
+
+SEC-03 已验收沿用 Dialog／AlertDialog／Alert／Trace／Button／Badge，Empty 经官方 shadcn CLI 的 base-nova 注册表获取。仅将 cn 接到既有相对 ESM 工具、补 React 类型和实际 div props，无新增 cn 包或其他运行依赖。会话授权显示范围与来源；关闭恢复触发焦点，断线禁用撤销，原始参数不进入 renderer 或授权审计。布局复用已确认中性主题与字号，无新设计系统。

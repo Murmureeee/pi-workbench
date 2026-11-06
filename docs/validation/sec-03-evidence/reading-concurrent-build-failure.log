@@ -1,0 +1,49 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:35560) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:32648) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts (9.7s)
+(node:31964) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts (14.3s)
+(node:34468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts (9.5s)
+
+
+  1) e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts 
+
+    Error: Persisted session cwd cannot change
+
+       at ..\apps\daemon\src\modules\sessions\session.store.ts:677
+
+      675 |     }
+      676 |     if (session.cwd !== cwd) {
+    > 677 |       throw new Error('Persisted session cwd cannot change')
+          |             ^
+      678 |     }
+      679 |     const runtime = this.database.db
+      680 |       .select()
+        at SessionStore.resumeRuntime (D:\Project\pi-workbench\apps\daemon\src\modules\sessions\session.store.ts:677:13)
+        at D:\Project\pi-workbench\e2e\workspace-recovery.spec.ts:127:44
+
+    Error Context: test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts-repeat1\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts-repeat1\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\workspace-recovery-WS-07-E-13b58-d-light-dark-narrow-layouts-repeat1\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts 
+  2 passed (53.8s)

@@ -437,3 +437,7 @@ SessionService 在准入前后检查之外，为每项已接受任务传入只�
 ## SEC-02 已交付边界
 
 最终参数等待由 daemon ApprovalService 独占；REST 决定继续 desktop 配对／Host／Origin／JSON／CSRF／能力门禁。许可仅单次，持久保存先于放行；断线无倒计时，运行和策略失效唤醒，重启不恢复执行。固定文件变更审批前后物理检查，最终异步检查后再核对代际；写入基线未交付，另行二次确认不可回滚。完整自动与原生验收已补齐，来源和限制见 [验收记录](../validation/sec-02-evidence/acceptance.md)。
+
+## SEC-03 已交付边界
+
+SessionGrantService 仅内存持有实际授权，完整参数／物理祖先／会话／工具／路径／策略匹配；L3、子调用不继承。grant 创建与每次不可回滚确认分开，撤销先失效再审计，最后异步检查后重查，重启不从历史恢复。desktop-only grants 端点沿用配对与变更守卫，新增 session-authorization-v1 能力；完整自动及原生验收、初轮失败和限制见 [验收记录](../validation/sec-03-evidence/acceptance.md)。

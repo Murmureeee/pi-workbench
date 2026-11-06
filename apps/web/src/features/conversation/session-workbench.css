@@ -18,15 +18,20 @@
   flex-direction: column;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
 }
 .execution-approvals {
-  flex: none;
+  flex: 0 1 auto;
+  min-height: 0;
   max-height: 32vh;
   overflow: auto;
   display: flex;
   flex-direction: column;
   gap: 8px;
   padding: 8px 16px;
+}
+.execution-approvals > [data-slot='alert'] {
+  flex-shrink: 0;
 }
 .approval-path {
   overflow-wrap: anywhere;
@@ -43,10 +48,28 @@
   flex-wrap: wrap;
   gap: 8px;
 }
+.execution-confirm-dialog {
+  width: min(680px, calc(100vw - 48px));
+  max-width: min(680px, calc(100vw - 48px));
+  max-height: calc(100dvh - 64px);
+  overflow-y: auto;
+}
+.execution-confirm-dialog [data-slot='alert-dialog-footer'] {
+  flex-wrap: wrap;
+}
+.execution-confirm-dialog [data-slot='alert-dialog-footer'] > button {
+  max-width: 100%;
+  min-height: 32px;
+  height: auto;
+  white-space: normal;
+}
 .managed-thread > [data-slot='message-scroller'] {
   flex: 1;
   height: auto;
   min-height: 120px;
+}
+.managed-thread:has(.execution-approvals) > [data-slot='message-scroller'] {
+  min-height: 0;
 }
 .current-run-status {
   flex: 0 1 auto;
@@ -479,6 +502,17 @@
 .search-result-snippet {
   overflow-wrap: anywhere;
   font-weight: 400;
+}
+.session-grants-dialog {
+  width: min(680px, calc(100vw - 32px));
+  max-width: min(680px, calc(100vw - 32px));
+  max-height: calc(100dvh - 32px);
+  overflow-y: auto;
+}
+.session-grants-list {
+  display: grid;
+  gap: 12px;
+  min-width: 0;
 }
 .search-empty {
   display: flex;

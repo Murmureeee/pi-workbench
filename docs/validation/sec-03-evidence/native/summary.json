@@ -1,0 +1,18 @@
+{
+  "feature": "SEC-03",
+  "source": "Windows UIA/SendInput, actual Electron, daemon, SQLite, SDK local HTTP tools; no real provider",
+  "observations": 102,
+  "initialPrompts": 4,
+  "supplementalPrompts": 1,
+  "restartPrompts": 0,
+  "restartKernels": 0,
+  "normalExits": 3,
+  "lifecycleNormalExits": 2,
+  "supplementalNormalExits": 1,
+  "liveGrantsBeforeExit": 1,
+  "liveGrantsAfterExit": 0,
+  "historyStable": true,
+  "protectedFilesUnchanged": true,
+  "realProviderRequests": 0,
+  "limits": "Native IME and UIA focused-element could not independently establish focused input; keyboard/focus, cross-session, L3, revoke running tool and stop have automated Electron/service evidence. Failures are explicit host HTTP500 fixtures before mutation, not disk failure. Native 802px approval overlap and a 1267x600 confirmation overflow were observed and fixed. Final supplemental phase confirms header grant viewer, independent approval scroll, bounded confirmation and Escape, then explicit tool cancellation with no file and a third normal exit. Supplemental native narrow resizing attempts did not establish an 800px window; final 800x760 layout has automated Electron evidence."
+}

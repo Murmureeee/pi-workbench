@@ -21,6 +21,7 @@ export const runtimeCapabilities = [
   'run-stage-v1',
   'tool-risk-v1',
   'execution-approval-v1',
+  'session-authorization-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),

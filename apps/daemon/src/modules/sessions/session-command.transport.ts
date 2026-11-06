@@ -16,6 +16,7 @@ import {
   projectCommandSchema,
   projectCreateSchema,
   runtimeCapabilities,
+  sessionGrantRevokeSchema,
   sessionOrganizeSchema,
   sessionProjectSchema,
   sessionRenameSchema,
@@ -62,6 +63,30 @@ export function registerSessionCommands(
   })
   server.get('/api/chat/options', () => service.options())
   server.get('/api/chat/approvals', () => ({ approvals: approvals.list() }))
+  server.get<{ Querystring: { sessionId?: string } }>('/api/chat/grants', (request, reply) => {
+    if (request.query.sessionId && !z.uuid().safeParse(request.query.sessionId).success) {
+      return reply.code(400).send({ message: '会话身份无效。' })
+    }
+    return approvals.grants.list(request.query.sessionId)
+  })
+  server.post('/api/chat/grants/revoke', (request, reply) => {
+    const command = sessionGrantRevokeSchema.safeParse(request.body),
+      client = access.authenticate(request.headers.cookie)
+    if (!command.success || !client) {
+      return reply.code(400).send({ message: '撤销对象或会话无效。' })
+    }
+    try {
+      approvals.grants.revoke(
+        command.data.sessionId,
+        command.data.grantId,
+        '用户明确撤销',
+        client.info.id,
+      )
+      return approvals.grants.list(command.data.sessionId)
+    } catch (error) {
+      return failure(reply, error)
+    }
+  })
   server.post<{ Params: { id: string } }>('/api/chat/approvals/:id/decision', (request, reply) => {
     const command = executionApprovalCommandSchema.safeParse(request.body)
     const client = access.authenticate(request.headers.cookie)

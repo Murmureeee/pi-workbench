@@ -42,6 +42,7 @@ const promptSchema = z.strictObject({
       'guard-denied',
       'approval-write',
       'approval-command',
+      'approval-running',
     ])
     .optional(),
 })
@@ -179,6 +180,10 @@ export class KernelService {
               { sessionId, epoch, turnId, cwd },
               request,
             )
+            const scope = await this.executionPolicy.sessionScope(
+              { sessionId, epoch, turnId, cwd },
+              request,
+            )
             this.events.publish(sessionId, epoch, turnId, {
               type: 'tool.updated',
               tool: {
@@ -193,16 +198,22 @@ export class KernelService {
                 risk: decision.risk,
               },
             })
-            decision = await this.approvals.wait(
+            const approved = await this.approvals.wait(
               { sessionId, epoch, turnId, cwd },
               request,
               decision,
               task ? AbortSignal.any([signal, task.controller.signal]) : signal,
               current,
+              scope,
             )
+            decision = approved.decision
             if (decision.allowed) {
               await task?.directoryCheck?.()
               const finalTarget = await this.executionPolicy.explicitTarget(
+                { sessionId, epoch, turnId, cwd },
+                request,
+              )
+              const finalScope = await this.executionPolicy.sessionScope(
                 { sessionId, epoch, turnId, cwd },
                 request,
               )
@@ -210,7 +221,9 @@ export class KernelService {
                 !current() ||
                 decision.risk.policyVersion !== this.executionPolicy.policyVersion ||
                 this.approvals.rejectedTurn(turnId) ||
-                target !== finalTarget
+                target !== finalTarget ||
+                scope.key !== finalScope.key ||
+                !approved.authorizationCurrent()
               ) {
                 throw new Error('批准后的目录、文件、策略或任务已改变；未执行。')
               }

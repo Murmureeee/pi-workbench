@@ -34,6 +34,7 @@ const fixtureModeSchema = z.enum([
   'guard-denied',
   'approval-write',
   'approval-command',
+  'approval-running',
 ])
 const resumeSchema = z.strictObject({
   sessionFile: z.string().min(1),

@@ -17,6 +17,13 @@ export const executionApprovalSchema = z.strictObject({
   risk: toolRiskSchema,
   createdAt: z.number().int().nonnegative(),
   irreversible: z.literal(true),
+  sessionPermission: z.strictObject({
+    eligible: z.boolean(),
+    matchingGrantId: z.uuid().nullable(),
+    targetPath: z.string().nullable(),
+    physicalIdentity: z.string().regex(/^[a-f0-9]{64}$/),
+    parameterDigest: z.string().regex(/^[a-f0-9]{64}$/),
+  }),
 })
 export const executionApprovalListSchema = z.strictObject({
   approvals: z.array(executionApprovalSchema).max(64),
@@ -27,9 +34,10 @@ export const executionApprovalCommandSchema = z.strictObject({
   turnId: z.uuid(),
   digest: z.string().regex(/^[a-f0-9]{64}$/),
   policyVersion: z.number().int().positive(),
-  action: z.enum(['allow-once', 'deny', 'cancel']),
+  action: z.enum(['allow-once', 'allow-session', 'use-grant', 'deny', 'cancel']),
   reason: z.string().trim().max(500),
   acceptIrreversible: z.boolean(),
+  grantId: z.uuid().optional(),
 })
 export type ExecutionApproval = z.infer<typeof executionApprovalSchema>
 export type ExecutionApprovalCommand = z.infer<typeof executionApprovalCommandSchema>

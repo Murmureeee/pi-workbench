@@ -181,13 +181,37 @@ test('WS-07 Electron untrusted resource notice, moved-directory recovery, physic
         total: element.scrollHeight,
       }))
     expect(viewport.height).toBeGreaterThanOrEqual(120)
-    // A real reading gesture first releases automatic follow; End would instead
-    // align the process metadata below the reply with this small reading viewport.
+    // Read with the keyboard in this small viewport. DOM scrollIntoView does not
+    // express user scroll intent and can race lazy item layout; End aligns the
+    // metadata below the reply instead of verifying that the reply is readable.
     const readingArea = pane(f).getByLabel('受管会话消息')
     await readingArea.focus()
     await readingArea.press('Home')
     await expect(readingArea).toBeFocused()
-    await pane(f).getByText('OFFLINE_OK', { exact: true }).scrollIntoViewIfNeeded()
+    await expect
+      .poll(
+        async () => {
+          const visible = await pane(f)
+            .getByText('OFFLINE_OK', { exact: true })
+            .evaluate((element) => {
+              const bounds = element.getBoundingClientRect()
+              const readerBounds = element
+                .closest('[data-slot="message-scroller-viewport"]')
+                ?.getBoundingClientRect()
+              return Boolean(
+                readerBounds &&
+                bounds.top >= readerBounds.top &&
+                bounds.bottom <= readerBounds.bottom,
+              )
+            })
+          if (!visible) {
+            await readingArea.press('ArrowDown')
+          }
+          return visible
+        },
+        { intervals: [100], timeout: 4000 },
+      )
+      .toBe(true)
     try {
       await expect(pane(f).getByText('OFFLINE_OK', { exact: true })).toBeInViewport({ ratio: 1 })
     } catch (error) {
