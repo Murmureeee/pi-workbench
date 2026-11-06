@@ -1,6 +1,6 @@
 import type { CreateModelRuntimeOptions } from '@earendil-works/pi-coding-agent'
 
-import { getApiProvider } from '@earendil-works/pi-ai/compat'
+import { getApiProvider, getSupportedThinkingLevels } from '@earendil-works/pi-ai/compat'
 import { builtinProviders } from '@earendil-works/pi-ai/providers/all'
 import { ModelRuntime, VERSION } from '@earendil-works/pi-coding-agent'
 
@@ -51,6 +51,10 @@ export async function discoverModelCatalog(modelsPath?: string) {
         api: model.api,
         input: [...model.input],
         reasoning: 'reasoning' in model && model.reasoning,
+        thinkingLevels:
+          (model.type ?? 'chat') === 'chat' && 'reasoning' in model
+            ? getSupportedThinkingLevels(model)
+            : ['off' as const],
         contextWindow: 'contextWindow' in model ? model.contextWindow : null,
         maxTokens: 'maxTokens' in model ? model.maxTokens : null,
         endpointValid: validEndpoint(model.baseUrl),

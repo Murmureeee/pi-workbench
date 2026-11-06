@@ -1,0 +1,188 @@
+{
+  "feature": "MODEL-03",
+  "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP; no CDP or renderer routing. Owned fixture maps tool input to approval-write.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\model03-native-klj1Z1",
+  "desktopPid": 25036,
+  "prompts": 2,
+  "results": [
+    {
+      "sessionId": "a5eced13-8a49-49d5-b080-2dad71a8607b",
+      "protocol": 1,
+      "epoch": "aa1ff1f6-ec2f-4eee-9f98-ef5f6262ed4c",
+      "seq": 16,
+      "turnId": "1615d95a-8d96-4bc3-8541-e32695be77b5",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "a5eced13-8a49-49d5-b080-2dad71a8607b",
+      "protocol": 1,
+      "epoch": "6fa7de2a-6ab1-4404-bb6a-ac65ec100e67",
+      "seq": 25,
+      "turnId": "87f039aa-1fe0-4193-b1c7-d7c96f9cbb94",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 2,
+      "blockedNetworkAttempts": 0
+    }
+  ],
+  "faults": [
+    {
+      "action": "fail-save",
+      "time": "2026-11-06T12:13:17.006Z"
+    },
+    {
+      "action": "recover-save",
+      "time": "2026-11-06T12:13:45.052Z"
+    }
+  ],
+  "pending": [],
+  "sessions": [
+    {
+      "id": "a5eced13-8a49-49d5-b080-2dad71a8607b",
+      "title": "模型切换原生验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "25e9f11c-ed00-4b38-9a16-c7804cf01223",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture-reasoning"
+        },
+        "thinking": "medium"
+      },
+      "workspaceId": "ea188982-13d6-44b8-8432-c0c1af5e32bc",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\model03-native-klj1Z1\\data\\standalone\\a5eced13-8a49-49d5-b080-2dad71a8607b",
+      "createdAt": 1793966980694
+    }
+  ],
+  "models": [
+    {
+      "sessionId": "a5eced13-8a49-49d5-b080-2dad71a8607b",
+      "revision": 4,
+      "requested": {
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture-reasoning"
+        },
+        "thinking": "medium"
+      },
+      "effective": {
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture-reasoning"
+        },
+        "thinking": "medium"
+      },
+      "effectiveRevision": 4
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "8576a445-ae4d-44de-9cc2-5616190a1435",
+      "sessionId": "a5eced13-8a49-49d5-b080-2dad71a8607b",
+      "epoch": "6fa7de2a-6ab1-4404-bb6a-ac65ec100e67",
+      "seq": 21,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "87f039aa-1fe0-4193-b1c7-d7c96f9cbb94",
+          "messageId": "87f039aa-1fe0-4193-b1c7-d7c96f9cbb94:assistant",
+          "prompt": "保存失败也保留这段中文草稿 工具连续请求",
+          "text": "GUARD_FIXTURE_DONE",
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "write",
+              "status": "denied",
+              "summary": "用户拒绝本次调用 未执行；本轮不自动改换形式重试。",
+              "parameters": "{\"content\":\"SEC02_APPROVED_ONCE\",\"path\":\"APPROVED.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\model03-native-klj1Z1\\data\\standalone\\a5eced13-8a49-49d5-b080-2dad71a8607b",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "ab611771f0754ca9009bd4225c0de2f9a05e4ae135da5b9484d2d95683042f23",
+                "automatic": false
+              }
+            }
+          ],
+          "approval": null,
+          "error": null,
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 2,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "not-provided"
+          }
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 1,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "historyBefore": {},
+  "historyAfter": {
+    "a5eced13-8a49-49d5-b080-2dad71a8607b\\aa1ff1f6-ec2f-4eee-9f98-ef5f6262ed4c\\sessions\\2026-11-06T12-09-41-762Z_01a1b0c3-c281-75ee-bc0b-900b6f56ce58.jsonl": "8aff3714bdb04ad80d5c35c086e4fb0fc1bd5f34688819c4b4866d098596214f"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "historyAtClose": {
+    "a5eced13-8a49-49d5-b080-2dad71a8607b\\aa1ff1f6-ec2f-4eee-9f98-ef5f6262ed4c\\sessions\\2026-11-06T12-09-41-762Z_01a1b0c3-c281-75ee-bc0b-900b6f56ce58.jsonl": "8aff3714bdb04ad80d5c35c086e4fb0fc1bd5f34688819c4b4866d098596214f"
+  },
+  "protectedAfterClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  }
+}

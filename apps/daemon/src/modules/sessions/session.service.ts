@@ -9,7 +9,9 @@ import type { SessionStore } from './session.store.js'
 import type {
   InputQueueCommand,
   ManagedSession,
+  ModelSelection,
   ProjectCommand,
+  SessionModelCommand,
   SessionOrganize,
   SessionProject,
   SessionReceipt,
@@ -248,6 +250,43 @@ export class SessionService {
     }
   }
 
+  /** Host capabilities are checked before persistence. Selecting a catalog entry never
+   * authorizes real transport, resolves credentials or substitutes the offline fixture. */
+  private validateModel(selection: ModelSelection): void {
+    if (selection.model.kind === 'provider') {
+      throw new HttpException('真实提供商传输仍关闭，不能切换；原模型和草稿保留。', 409)
+    }
+    const levels =
+      selection.model.model === 'fixture-reasoning' ? ['off', 'low', 'medium', 'high'] : ['off']
+    if (!this.development || !levels.includes(selection.thinking)) {
+      throw new HttpException('所选模型不支持这个思考级别；原配置保留。', 409)
+    }
+  }
+
+  /** CAS is rechecked after capability validation. Running includes admission/queued work;
+   * the next actual SDK request, including tool continuations, consumes the latest revision. */
+  changeModel(sessionId: string, input: SessionModelCommand) {
+    this.store.assertWritable(sessionId)
+    if (!this.store.managedSessions().some((row) => row.id === sessionId)) {
+      throw new HttpException('会话不存在。', 404)
+    }
+    this.validateModel(input)
+    try {
+      return this.store.changeModel(
+        sessionId,
+        { model: input.model, thinking: input.thinking },
+        input.expectedRevision,
+        Boolean(this.activity().find((row) => row.id === sessionId)?.running),
+      )
+    } catch (error) {
+      if (error instanceof SessionOrganizationConflict) {
+        throw new HttpException(error.message, 409)
+      }
+      this.security.log('session-model-save-failed', error)
+      throw new HttpException('模型未能保存；原模型与草稿保留，请刷新核对后重试。', 503)
+    }
+  }
+
   /** Read-only policy/source inspection binds the persisted execution cwd, never a project's
    * current default. No grants, model admission, config merge or source body is returned. */
   async space(sessionId: string) {
@@ -451,6 +490,7 @@ export class SessionService {
     if (!this.development) {
       throw new HttpException('离线验收模型仅用于开发验证。', 403)
     }
+    this.validateModel(input.configuration)
     const existing = input.sessionId
       ? this.store.managedSessions().find((item) => item.id === input.sessionId)
       : undefined

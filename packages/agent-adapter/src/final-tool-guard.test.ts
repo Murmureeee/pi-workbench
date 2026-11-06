@@ -69,11 +69,11 @@ test('sEC-01 actual SDK abort wakes final guard waiters and late host permits ca
     expect(existsSync(join(cwd, 'MUST-NOT-EXIST'))).toBe(false)
     await kernel.abort(binding.turnId)
     const stopped = await running
-    // Installed SDK persists an error assistant after cancelled tool waits. Preserve
-    // that actual terminal result; a requested abort does not fabricate "aborted".
+    // MODEL-03's awaited request boundary blocks the cancelled tool continuation before
+    // transport. The installed SDK now commits an aborted assistant; retain that outcome.
     expect(stopped).toMatchObject({
-      outcome: 'error',
-      error: 'This operation was aborted',
+      outcome: 'aborted',
+      error: 'Model request cancelled',
       localRequests: 1,
     })
     expect(requests.every((r) => r.signal.aborted)).toBe(true)

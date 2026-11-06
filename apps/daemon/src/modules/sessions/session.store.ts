@@ -5,7 +5,9 @@ import type {
   HistoryMessage,
   InputQueueRecord,
   ManagedSession,
+  ModelSelection,
   RuntimeSnapshot,
+  SessionModelState,
   SessionOrganization,
   SessionOrganize,
   SessionRename,
@@ -48,8 +50,10 @@ import {
   interruptToolObservations,
   managedSessionSchema,
   modelRequestSchema,
+  modelSelectionSchema,
   queueRecordSchema,
   runtimeSnapshotSchema,
+  sessionModelStateSchema,
   sessionOrganizationSchema,
   submissionSchema,
 } from '@pi-workbench/shared'
@@ -58,6 +62,7 @@ import {
   sessionApprovals,
   sessionChanges,
   sessionConfigurations,
+  sessionModelSettings,
   sessionOrganization,
   sessionOrigins,
   sessionQueue,
@@ -190,6 +195,93 @@ export class SessionStore {
       .from(sessionOrigins)
       .where(eq(sessionOrigins.sessionId, sessionId))
       .get()
+  }
+
+  /** Legacy sessions derive their initial selection without writing or opening a kernel. */
+  modelState(sessionId: string): SessionModelState {
+    const session = this.managedSessions().find((row) => row.id === sessionId)
+    if (!session) {
+      throw new Error('会话不存在。')
+    }
+    const row = this.database.db
+      .select()
+      .from(sessionModelSettings)
+      .where(eq(sessionModelSettings.sessionId, sessionId))
+      .get()
+    const initial = modelSelectionSchema.parse({
+      model: session.configuration.model,
+      thinking: session.configuration.thinking,
+    })
+    return sessionModelStateSchema.parse(
+      row
+        ? {
+            ...row,
+            requested: this.parse(row.requested),
+            effective: this.parse(row.effective),
+          }
+        : { sessionId, revision: 1, requested: initial, effective: initial, effectiveRevision: 1 },
+    )
+  }
+
+  /** Selection and saved configuration change in one CAS transaction. Active requests keep
+   * their immutable selection; no runtime is started and no source configuration is edited. */
+  changeModel(
+    sessionId: string,
+    selection: ModelSelection,
+    expectedRevision: number,
+    running: boolean,
+  ) {
+    return this.database.db.transaction((tx) => {
+      const state = this.modelState(sessionId)
+      if (this.closed || state.revision !== expectedRevision) {
+        throw new SessionOrganizationConflict('模型配置已变化，请刷新核对；原模型保留。')
+      }
+      const session = this.managedSessions().find((row) => row.id === sessionId)!
+      const revision = state.revision + 1
+      const next = {
+        ...state,
+        requested: selection,
+        revision,
+        ...(!running ? { effective: selection, effectiveRevision: revision } : {}),
+      }
+      tx.insert(sessionModelSettings)
+        .values({
+          sessionId,
+          revision,
+          requested: JSON.stringify(selection),
+          effective: JSON.stringify(next.effective),
+          effectiveRevision: next.effectiveRevision,
+        })
+        .onConflictDoUpdate({
+          target: sessionModelSettings.sessionId,
+          set: {
+            revision,
+            requested: JSON.stringify(selection),
+            effective: JSON.stringify(next.effective),
+            effectiveRevision: next.effectiveRevision,
+          },
+        })
+        .run()
+      tx.update(sessionConfigurations)
+        .set({ configuration: JSON.stringify({ ...session.configuration, ...selection }) })
+        .where(eq(sessionConfigurations.sessionId, sessionId))
+        .run()
+      return sessionModelStateSchema.parse(next)
+    })
+  }
+
+  /** Only a matched SDK request acknowledgement advances the effective selection. A newer
+   * requested revision stays pending; stale acknowledgements cannot replace its intent. */
+  modelApplied(sessionId: string, revision: number, selection: ModelSelection): void {
+    const state = this.modelState(sessionId)
+    if (revision < state.effectiveRevision || revision > state.revision) {
+      return
+    }
+    this.database.db
+      .update(sessionModelSettings)
+      .set({ effective: JSON.stringify(selection), effectiveRevision: revision })
+      .where(eq(sessionModelSettings.sessionId, sessionId))
+      .run()
   }
 
   /** Atomic, metadata-only CAS. The caller synchronously validates the target project.

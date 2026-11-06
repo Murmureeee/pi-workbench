@@ -1,0 +1,3 @@
+{"ready":true,"directory":"D:\\Project\\pi-workbench\\.workbench\\model03-native-klj1Z1","desktopPid":25036}
+{"event":"session-model-save-failed","detail":{"name":"SqliteError","message":"native fixture disk failure"}}
+NATIVE_CLOSED_OK

@@ -1,10 +1,11 @@
 import type { FinalToolGuard } from './final-tool-guard.js'
 import type { ResourceLoader } from '@earendil-works/pi-coding-agent'
-import type { TrustedContext } from '@pi-workbench/shared'
+import type { ModelSelection, TrustedContext } from '@pi-workbench/shared'
 
 import { mkdirSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 
+import { getSupportedThinkingLevels } from '@earendil-works/pi-ai/compat'
 import {
   createAgentSession,
   createBashToolDefinition,
@@ -66,6 +67,16 @@ export async function createOfflineRuntime(
           id: 'fixture',
           name: 'Local fixture (not a real model)',
           reasoning: false,
+          input: ['text'],
+          cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
+          contextWindow: 8192,
+          maxTokens: 512,
+        },
+        {
+          id: 'fixture-reasoning',
+          name: 'Local reasoning fixture (not a real model)',
+          reasoning: true,
+          thinkingLevelMap: { minimal: null, xhigh: null, max: null },
           input: ['text'],
           cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
           contextWindow: 8192,
@@ -138,6 +149,7 @@ export async function createOfflineRuntime(
       agentDir,
       modelRuntime: runtime,
       model,
+      thinkingLevel: 'off',
       tools: activeTools,
       noTools: 'all',
       customTools: guardedTools,
@@ -158,6 +170,35 @@ export async function createOfflineRuntime(
       session,
       provider,
       activeTools,
+      /** Applies only host-selected, locally registered models at an awaited SDK request
+       * boundary. SDK defaults and ambient credential/configuration sources stay untouched.
+       * An application error restores in-memory state and prevents the provider request. */
+      async selectModel(selection: ModelSelection) {
+        const previous = session.model,
+          thinking = session.thinkingLevel
+        const target =
+          selection.model.kind === 'local-fixture'
+            ? runtime.getModel('piw-offline', selection.model.model)
+            : undefined
+        if (!target || !getSupportedThinkingLevels(target).includes(selection.thinking)) {
+          throw new Error('Unsupported offline model selection')
+        }
+        try {
+          if (previous?.id !== target.id || previous.provider !== target.provider) {
+            await session.setModel(target, { persist: false })
+          }
+          session.setThinkingLevel(selection.thinking, { persist: false })
+          if (session.thinkingLevel !== selection.thinking) {
+            throw new Error('Thinking level was not applied')
+          }
+        } catch (error) {
+          if (previous) {
+            session.agent.state.model = previous
+          }
+          session.agent.state.thinkingLevel = thinking
+          throw error
+        }
+      },
       /** Replaces, never appends to the previous turn. Revoked/changed files cannot survive
        * as a cached system prompt. Prior conversation history remains an honest record.
        */

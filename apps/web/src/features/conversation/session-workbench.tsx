@@ -29,6 +29,7 @@ import {
   sessionModelSchema,
   sessionOptionsSchema,
   submissionListSchema,
+  thinkingLevelSchema,
 } from '@pi-workbench/shared'
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
 import { Badge } from '@pi-workbench/ui/components/badge'
@@ -69,6 +70,7 @@ import { SessionAuthorizations } from './session-authorizations.js'
 import { SessionHistory } from './session-history.js'
 import { SessionInputQueue } from './session-input-queue.js'
 import { SessionLibrary } from './session-library.js'
+import { SessionModelControl } from './session-model-control.js'
 import { SessionRenameDialog } from './session-rename-dialog.js'
 import { SessionSearchDialog } from './session-search-dialog.js'
 import { SessionSpaceDialog } from './session-space-dialog.js'
@@ -256,7 +258,7 @@ function SessionPane({
     projectId: draft.projectId,
     workspaceId: project ? project.workspaceId : (draft.workspace?.id ?? null),
     model: draft.model,
-    thinking: 'off' as const,
+    thinking: draft.thinking,
   }
   const directoryTarget = sessionId
     ? { sessionId }
@@ -808,20 +810,8 @@ function SessionPane({
                       value={selectedModel}
                       disabled={locked || Boolean(current)}
                       onChange={(event) => {
-                        const option = modelOptions.find((item) => item.key === event.target.value)
-                        if (option) {
-                          const parsed: unknown = JSON.parse(option.key)
-                          const model = sessionOptionsModel(parsed)
-                          update(key, { model })
-                        } else {
-                          update(key, {
-                            model: {
-                              kind: 'local-fixture',
-                              provider: 'piw-offline',
-                              model: 'fixture',
-                            },
-                          })
-                        }
+                        const parsed: unknown = JSON.parse(event.target.value)
+                        update(key, { model: sessionOptionsModel(parsed), thinking: 'off' })
                       }}
                     >
                       <option
@@ -833,6 +823,16 @@ function SessionPane({
                         })}
                       >
                         离线验收模型 · pi SDK 本地夹具
+                      </option>
+                      <option
+                        value={JSON.stringify({
+                          kind: 'local-fixture',
+                          provider: 'piw-offline',
+                          model: 'fixture-reasoning',
+                        })}
+                        disabled={!options.data?.localFixtureEnabled}
+                      >
+                        离线思考夹具 · 仅文本
                       </option>
                       {missingModel ? (
                         <option value={selectedModel}>
@@ -848,6 +848,42 @@ function SessionPane({
                     </select>
                   </Field>
                 </FieldGroup>
+                {current ? (
+                  <SessionModelControl
+                    sessionId={current.id}
+                    csrf={csrf}
+                    active={active}
+                    enabled={Boolean(
+                      authorized && !currentOrganization?.archived && !draft.pending,
+                    )}
+                  />
+                ) : (
+                  <Field>
+                    <FieldLabel htmlFor="new-session-thinking">思考级别</FieldLabel>
+                    <select
+                      id="new-session-thinking"
+                      value={draft.thinking}
+                      disabled={locked || configuration.model.kind === 'provider'}
+                      onChange={(event) =>
+                        update(key, { thinking: thinkingLevelSchema.parse(event.target.value) })
+                      }
+                    >
+                      {thinkingLevelSchema.options.map((level) => (
+                        <option
+                          key={level}
+                          value={level}
+                          disabled={
+                            configuration.model.model === 'fixture-reasoning'
+                              ? !['off', 'low', 'medium', 'high'].includes(level)
+                              : level !== 'off'
+                          }
+                        >
+                          {level}
+                        </option>
+                      ))}
+                    </select>
+                  </Field>
+                )}
                 {!current && !project ? (
                   <details className="directory-options">
                     <summary>执行目录：{draft.workspace?.canonicalPath ?? '独立目录'}</summary>
@@ -899,7 +935,8 @@ function SessionPane({
                   </p>
                 ) : options.data?.localFixtureEnabled ? (
                   <p className="phase-note">
-                    离线验收：固定样本回复，思考关闭；受限读取经宿主守卫，写入与命令未批准不执行。
+                    离线验收：固定样本回复，思考 {configuration.thinking}
+                    ；仅文本，附件未开放。受限读取经宿主守卫，写入与命令未批准不执行。
                   </p>
                 ) : (
                   <p className="phase-note">当前环境未启用离线验收模型；草稿保留，发送关闭。</p>

@@ -375,7 +375,7 @@ describe('WS-02 actual SQLite, directory, HTTP and SDK/local fixture boundaries'
       'DROP TABLE session_origins; ALTER TABLE session_configurations DROP COLUMN membership_version',
     )
     f.db.exec(
-      'ALTER TABLE projects DROP COLUMN pinned; ALTER TABLE projects DROP COLUMN position; ALTER TABLE projects DROP COLUMN revision; ALTER TABLE projects DROP COLUMN removed; ALTER TABLE projects DROP COLUMN creation_input; DROP INDEX workspaces_recent_order; ALTER TABLE workspaces DROP COLUMN custom_name; ALTER TABLE workspaces DROP COLUMN last_opened_at; ALTER TABLE workspaces DROP COLUMN revision; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DELETE FROM __drizzle_migrations WHERE created_at >= 1793702779063',
+      'ALTER TABLE projects DROP COLUMN pinned; ALTER TABLE projects DROP COLUMN position; ALTER TABLE projects DROP COLUMN revision; ALTER TABLE projects DROP COLUMN removed; ALTER TABLE projects DROP COLUMN creation_input; DROP INDEX workspaces_recent_order; ALTER TABLE workspaces DROP COLUMN custom_name; ALTER TABLE workspaces DROP COLUMN last_opened_at; ALTER TABLE workspaces DROP COLUMN revision; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DROP TABLE session_model_settings; DELETE FROM __drizzle_migrations WHERE created_at >= 1793702779063',
     )
     await f.app.close()
     const restarted = await fixture(f.directory)

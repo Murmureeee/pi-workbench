@@ -106,6 +106,15 @@ export const projects = sqliteTable('projects', {
   removed: integer('removed', { mode: 'boolean' }).notNull().default(false),
   creationInput: text('creation_input'),
 })
+export const sessionModelSettings = sqliteTable('session_model_settings', {
+  sessionId: text('session_id')
+    .primaryKey()
+    .references(() => sessions.id),
+  revision: integer('revision').notNull(),
+  requested: text('requested').notNull(),
+  effective: text('effective').notNull(),
+  effectiveRevision: integer('effective_revision').notNull(),
+})
 export const sessionConfigurations = sqliteTable('session_configurations', {
   sessionId: text('session_id')
     .primaryKey()

@@ -4,7 +4,12 @@ import type {
   KernelIdentity,
   KernelMessage,
 } from './kernel-protocol.js'
-import type { ExecutionDecision, ExecutionRequest, TrustedContext } from '@pi-workbench/shared'
+import type {
+  ExecutionDecision,
+  ExecutionRequest,
+  ModelSelection,
+  TrustedContext,
+} from '@pi-workbench/shared'
 
 import { fork } from 'node:child_process'
 import { realpathSync } from 'node:fs'
@@ -70,6 +75,10 @@ export class SessionKernel {
     | ((request: ExecutionRequest, signal: AbortSignal) => Promise<ExecutionDecision>)
     | undefined
   private guardController = new AbortController()
+  private modelChoiceValue:
+    | { boundaryId: string; revision: number; selection: ModelSelection }
+    | undefined
+  private readonly selectModel: () => { revision: number; selection: ModelSelection }
 
   constructor(
     options: KernelIdentity & {
@@ -79,6 +88,7 @@ export class SessionKernel {
       childEntry?: URL
       resume?: { sessionFile: string; nativeSessionId: string }
       authorize?: (request: ExecutionRequest, signal: AbortSignal) => Promise<ExecutionDecision>
+      selectModel?: () => { revision: number; selection: ModelSelection }
     },
   ) {
     this.identity = kernelIdentitySchema.parse({
@@ -89,6 +99,15 @@ export class SessionKernel {
     this.runtimeDir = resolve(options.runtimeDir)
     this.resume = options.resume
     this.authorize = options.authorize
+    this.selectModel =
+      options.selectModel ??
+      (() => ({
+        revision: 1,
+        selection: {
+          model: { kind: 'local-fixture', provider: 'piw-offline', model: 'fixture' },
+          thinking: 'off',
+        },
+      }))
     this.timeoutMs = options.timeoutMs ?? 15000
     const cwd = realpathSync(options.cwd)
     this.snapshotValue = {
@@ -212,6 +231,30 @@ export class SessionKernel {
     this.guardController = new AbortController()
     this.send(command)
     return promise
+  }
+
+  /** Replies to an active request boundary with one immutable host selection. The matched
+   * acknowledgement may advance only this generation/turn and selected revision. */
+  modelChoice(
+    turnId: string,
+    boundaryId: string,
+    revision: number,
+    selection: ModelSelection,
+  ): void {
+    if (this.active?.id !== turnId || this.snapshotValue.state !== 'running') {
+      return
+    }
+    this.modelChoiceValue = { boundaryId, revision, selection }
+    this.send(
+      kernelCommandSchema.parse({
+        ...this.identity,
+        type: 'model-choice',
+        turnId,
+        boundaryId,
+        revision,
+        selection,
+      }),
+    )
   }
 
   /** Replies to one awaited SDK boundary with a host-selected immutable input or no input. */
@@ -395,6 +438,34 @@ export class SessionKernel {
         }
         this.active.resolve(message)
         this.active = undefined
+      }
+      if (message.type === 'model-applied') {
+        const choice = this.modelChoiceValue
+        if (
+          !choice ||
+          choice.boundaryId !== message.boundaryId ||
+          choice.revision !== message.revision ||
+          (!message.failed &&
+            JSON.stringify(choice.selection) !== JSON.stringify(message.selection))
+        ) {
+          this.fail(new Error('Model boundary acknowledgement mismatch'))
+          return
+        }
+        this.modelChoiceValue = undefined
+      }
+      if (message.type === 'model-boundary' && message.turnId) {
+        try {
+          const selected = this.selectModel()
+          this.modelChoice(
+            message.turnId,
+            message.boundaryId,
+            selected.revision,
+            selected.selection,
+          )
+        } catch {
+          this.fail(new Error('Host model selection unavailable'))
+          return
+        }
       }
       if (message.type === 'guard-request') {
         const active = this.active,

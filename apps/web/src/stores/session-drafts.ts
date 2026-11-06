@@ -8,6 +8,7 @@ const empty = (): SessionDraft => ({
   text: '',
   projectId: null,
   model: { kind: 'local-fixture', provider: 'piw-offline', model: 'fixture' },
+  thinking: 'off',
   workspace: null,
   pending: null,
   lastAttempt: null,

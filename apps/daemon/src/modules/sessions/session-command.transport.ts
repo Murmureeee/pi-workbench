@@ -17,6 +17,7 @@ import {
   projectCreateSchema,
   runtimeCapabilities,
   sessionGrantRevokeSchema,
+  sessionModelCommandSchema,
   sessionOrganizeSchema,
   sessionProjectSchema,
   sessionRenameSchema,
@@ -125,6 +126,32 @@ export function registerSessionCommands(
     },
   )
   server.get('/api/chat/sessions', () => ({ sessions: store.managedSessions() }))
+  server.get<{ Params: { sessionId: string } }>(
+    '/api/chat/sessions/:sessionId/model',
+    (request, reply) => {
+      if (
+        !z.uuid().safeParse(request.params.sessionId).success ||
+        !store.managedSessions().some((row) => row.id === request.params.sessionId)
+      ) {
+        return reply.code(404).send({ message: '会话不存在。' })
+      }
+      return store.modelState(request.params.sessionId)
+    },
+  )
+  server.post<{ Params: { sessionId: string } }>(
+    '/api/chat/sessions/:sessionId/model',
+    (request, reply) => {
+      const input = sessionModelCommandSchema.safeParse(request.body)
+      if (!z.uuid().safeParse(request.params.sessionId).success || !input.success) {
+        return reply.code(400).send({ message: '模型配置或版本无效。' })
+      }
+      try {
+        return service.changeModel(request.params.sessionId, input.data)
+      } catch (error) {
+        return failure(reply, error)
+      }
+    },
+  )
   server.get<{ Params: { sessionId: string } }>(
     '/api/chat/sessions/:sessionId/space',
     async (request, reply) => {

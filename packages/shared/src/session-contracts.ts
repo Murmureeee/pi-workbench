@@ -6,7 +6,7 @@ export const sessionModelSchema = z.discriminatedUnion('kind', [
   z.strictObject({
     kind: z.literal('local-fixture'),
     provider: z.literal('piw-offline'),
-    model: z.literal('fixture'),
+    model: z.enum(['fixture', 'fixture-reasoning']),
   }),
   z.strictObject({
     kind: z.literal('provider'),
@@ -47,11 +47,42 @@ export const projectCommandSchema = z.discriminatedUnion('action', [
   projectEdit.extend({ action: z.literal('remove') }),
 ])
 export type ProjectCommand = z.infer<typeof projectCommandSchema>
+export const thinkingLevelSchema = z.enum([
+  'off',
+  'minimal',
+  'low',
+  'medium',
+  'high',
+  'xhigh',
+  'max',
+])
+export const modelSelectionSchema = z.strictObject({
+  model: sessionModelSchema,
+  thinking: thinkingLevelSchema,
+})
+/** Host-owned selection. Effective identifies a request boundary, never a provider entitlement. */
+export const sessionModelStateSchema = z.strictObject({
+  sessionId: z.uuid(),
+  revision: z.number().int().positive(),
+  requested: modelSelectionSchema,
+  effective: modelSelectionSchema,
+  effectiveRevision: z.number().int().positive(),
+})
+export const sessionModelCommandSchema = modelSelectionSchema.extend({
+  expectedRevision: z
+    .number()
+    .int()
+    .positive()
+    .max(Number.MAX_SAFE_INTEGER - 1),
+})
+export type ModelSelection = z.infer<typeof modelSelectionSchema>
+export type SessionModelState = z.infer<typeof sessionModelStateSchema>
+export type SessionModelCommand = z.infer<typeof sessionModelCommandSchema>
 export const sessionConfigurationSchema = z.strictObject({
   projectId: z.uuid().nullable(),
   workspaceId: z.uuid().nullable(),
   model: sessionModelSchema,
-  thinking: z.literal('off'),
+  thinking: thinkingLevelSchema,
 })
 /** A request ID binds immutable input. HTTP retries reconcile that ID; they never create a
  * second session/turn. A manual retry is a new command, explicitly linked to the failed one.
@@ -110,6 +141,7 @@ export const sessionDraftSchema = z.strictObject({
   text: z.string().max(16000),
   projectId: z.uuid().nullable(),
   model: sessionModelSchema,
+  thinking: thinkingLevelSchema.default('off'),
   workspace: z
     .strictObject({ id: z.uuid(), name: z.string(), canonicalPath: z.string() })
     .nullable(),

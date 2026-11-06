@@ -21,6 +21,9 @@ const modelSchema = z.strictObject({
   origin: z.enum(['pi-sdk', 'models.json']),
   input: z.array(z.string()),
   reasoning: z.boolean(),
+  thinkingLevels: z
+    .array(z.enum(['off', 'minimal', 'low', 'medium', 'high', 'xhigh', 'max']))
+    .default(['off']),
   contextWindow: z.number().positive().nullable(),
   maxTokens: z.number().positive().nullable(),
   sdkSupported: z.boolean(),

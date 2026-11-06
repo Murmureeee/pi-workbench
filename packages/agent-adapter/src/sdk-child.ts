@@ -1,6 +1,12 @@
 import type { KernelCommand, KernelIdentity, KernelMessage } from './kernel-protocol.js'
 import type { createOfflineRuntime } from './sdk-runtime.js'
-import type { ExecutionDecision, ModelRequest, Reasoning, RunStage } from '@pi-workbench/shared'
+import type {
+  ExecutionDecision,
+  ModelRequest,
+  ModelSelection,
+  Reasoning,
+  RunStage,
+} from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
 import process from 'node:process'
@@ -24,6 +30,13 @@ let boundary:
   | undefined
 let deliveredInput: { id: string; timestamp: number } | undefined
 let queueEnabled = false
+let modelBoundary:
+  | {
+      id: string
+      resolve: (choice: { revision: number; selection: ModelSelection }) => void
+      reject: (error: Error) => void
+    }
+  | undefined
 const tools = new ToolObserver(process.cwd())
 let reasoning: Reasoning | undefined
 let stage: RunStage | undefined
@@ -69,6 +82,7 @@ async function dispose() {
   }
   closing = true
   boundary?.resolve(null)
+  modelBoundary?.reject(new Error('Model boundary closed'))
   for (const pending of decisions.values()) {
     pending.reject(new Error('Final guard runtime closed'))
   }
@@ -154,6 +168,72 @@ async function handle(command: KernelCommand) {
       runtime.session.dispose()
       await runtime.provider.close()
       return
+    }
+    const requestPreparation = runtime.session.agent.prepareRequest
+    // This SDK hook precedes every conversational request, including tool continuations.
+    // Await host intent without polling steering input or starting an extra model call.
+    runtime.session.agent.prepareRequest = async (context, signal) => {
+      const prepared = await requestPreparation?.(context, signal)
+      const activeRuntime = runtime
+      if (!activeRuntime || !currentTurn || signal?.aborted || closing) {
+        throw new Error('Model request cancelled')
+      }
+      const id = randomUUID()
+      let timer: ReturnType<typeof setTimeout> | undefined
+      const cancel = () => {
+        if (modelBoundary?.id === id) {
+          modelBoundary.reject(new Error('Model request cancelled'))
+        }
+      }
+      const choice = await new Promise<{ revision: number; selection: ModelSelection }>(
+        (resolve, reject) => {
+          modelBoundary = { id, resolve, reject }
+          signal?.addEventListener('abort', cancel, { once: true })
+          timer = setTimeout(() => reject(new Error('Host model boundary timed out')), 10000)
+          send({ type: 'model-boundary', boundaryId: id })
+        },
+      ).finally(() => {
+        clearTimeout(timer)
+        signal?.removeEventListener('abort', cancel)
+        modelBoundary = undefined
+      })
+      if (signal?.aborted || closing) {
+        throw new Error('Model request cancelled')
+      }
+      const previous: ModelSelection = {
+        model: {
+          kind: 'local-fixture',
+          provider: 'piw-offline',
+          model:
+            activeRuntime.session.model?.id === 'fixture-reasoning'
+              ? 'fixture-reasoning'
+              : 'fixture',
+        },
+        thinking: activeRuntime.session.thinkingLevel,
+      }
+      try {
+        await activeRuntime.selectModel(choice.selection)
+        activeRuntime.session.sessionManager.appendCustomEntry('pi-workbench.model.v1', {
+          turnId: currentTurn,
+          revision: choice.revision,
+          selection: choice.selection,
+        })
+        send({ type: 'model-applied', boundaryId: id, ...choice, failed: false })
+      } catch (error) {
+        send({
+          type: 'model-applied',
+          boundaryId: id,
+          revision: choice.revision,
+          selection: previous,
+          failed: true,
+        })
+        throw error
+      }
+      return {
+        ...prepared,
+        model: activeRuntime.session.model,
+        thinkingLevel: activeRuntime.session.thinkingLevel,
+      }
     }
     unsubscribe = runtime.session.subscribe((event) => {
       if (event.type === 'compaction_start') {
@@ -317,11 +397,16 @@ async function handle(command: KernelCommand) {
     if (command.turnId === currentTurn && command.boundaryId === boundary?.id) {
       boundary.resolve(command.item)
     }
+  } else if (command.type === 'model-choice') {
+    if (command.turnId === currentTurn && command.boundaryId === modelBoundary?.id) {
+      modelBoundary.resolve({ revision: command.revision, selection: command.selection })
+    }
   } else if (command.type === 'abort') {
     if (command.turnId !== currentTurn || !run) {
       throw new Error('Abort turn mismatch')
     }
     boundary?.resolve(null)
+    modelBoundary?.reject(new Error('Model request cancelled'))
     runtime.session.agent.clearAllQueues()
     await runtime.session.abort()
   } else {

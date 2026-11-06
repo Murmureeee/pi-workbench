@@ -4,6 +4,7 @@ import {
   executionDecisionSchema,
   executionRequestSchema,
   modelRequestSchema,
+  modelSelectionSchema,
   reasoningSchema,
   runStageSchema,
   runtimeToolSchema,
@@ -64,6 +65,14 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
   z.strictObject({ ...identity, type: z.literal('abort'), turnId: z.uuid() }),
   z.strictObject({
     ...identity,
+    type: z.literal('model-choice'),
+    turnId: z.uuid(),
+    boundaryId: z.uuid(),
+    revision: z.number().int().positive(),
+    selection: modelSelectionSchema,
+  }),
+  z.strictObject({
+    ...identity,
     type: z.literal('guard-result'),
     turnId: z.uuid(),
     decision: executionDecisionSchema,
@@ -98,6 +107,15 @@ export const kernelMessageSchema = z.discriminatedUnion('type', [
     guard: guardSchema,
   }),
   z.strictObject({ ...envelope, type: z.literal('running') }),
+  z.strictObject({ ...envelope, type: z.literal('model-boundary'), boundaryId: z.uuid() }),
+  z.strictObject({
+    ...envelope,
+    type: z.literal('model-applied'),
+    boundaryId: z.uuid(),
+    revision: z.number().int().positive(),
+    selection: modelSelectionSchema,
+    failed: z.boolean(),
+  }),
   z.strictObject({
     ...envelope,
     type: z.literal('guard-request'),

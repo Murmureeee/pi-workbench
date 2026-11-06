@@ -143,6 +143,18 @@ export class KernelService {
       protocol: 1,
       sessionId,
       epoch,
+      selectModel: () => {
+        const state = this.store.managedSessions().some((row) => row.id === sessionId)
+          ? this.store.modelState(sessionId)
+          : null
+        return {
+          revision: state?.revision ?? 1,
+          selection: state?.requested ?? {
+            model: { kind: 'local-fixture', provider: 'piw-offline', model: 'fixture' },
+            thinking: 'off',
+          },
+        }
+      },
       cwd,
       runtimeDir: join(this.dataDir, 'kernels', sessionId, epoch),
       authorize: async (request, signal) => {
@@ -258,6 +270,19 @@ export class KernelService {
     })
     this.events.attach(sessionId, epoch, kernel.snapshot.source)
     kernel.subscribe((message) => {
+      if (
+        message.type === 'model-applied' &&
+        this.store.managedSessions().some((row) => row.id === sessionId)
+      ) {
+        if (message.failed) {
+          const state = this.store.modelState(sessionId)
+          if (state.revision === message.revision) {
+            this.store.changeModel(sessionId, message.selection, state.revision, false)
+          }
+        } else {
+          this.store.modelApplied(sessionId, message.revision, message.selection)
+        }
+      }
       if (!message.turnId) {
         return
       }

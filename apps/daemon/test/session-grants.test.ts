@@ -327,9 +327,9 @@ test('sEC-03 revoke does not claim to stop a command already executing; separate
     expect(f.events.snapshot(turn.sessionId)?.turns.at(-1)?.phase).toBe('running')
     await f.kernels.abort(turn.sessionId, turn.turnId)
     const result = await turn.run
-    expect(result.outcome).toBe('error')
-    expect(result.error).toContain('aborted')
-    expect(f.events.snapshot(turn.sessionId)?.turns.at(-1)?.phase).toBe('error')
+    expect(result.outcome).toBe('aborted')
+    expect(result.error).toContain('cancelled')
+    expect(f.events.snapshot(turn.sessionId)?.turns.at(-1)?.phase).toBe('aborted')
     expect(f.grants.list().grants).toHaveLength(0)
   } finally {
     await f.close()

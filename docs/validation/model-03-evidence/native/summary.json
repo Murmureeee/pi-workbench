@@ -1,0 +1,11 @@
+{
+  "feature": "MODEL-03",
+  "observations": 85,
+  "normalExits": 2,
+  "providerRequests": 0,
+  "restartPrompts": 0,
+  "restartKernels": 0,
+  "historyUnchangedOnRestart": true,
+  "protectedFilesUnchanged": true,
+  "description": "实际验证预填、fixture非off禁选、配置写失败保留high选项与原模型、明确重试恢复且不新增请求；运行中改为fixture/off显示待生效，拒绝写工具后同PID9860／epoch／cwd的后续模型请求使用新配置。两轮用户发送共3次本地HTTP请求，原生JSONL的assistant模型依次fixture/off、fixture-reasoning/high、fixture/off。最后空闲保存reasoning/medium为revision4，设置往返草稿保留，802px明暗窄窗对话框与操作可见、Escape取消不更改。首次内核在两轮之间被300秒空闲LRU正常回收，不声称两轮同PID。重启后预填reasoning/medium，0发送／0内核。部分UIA慢一帧按后续只读观察确认；非产品桌面UIA已省略；RootWebArea焦点不证明DOM元素焦点，Unicode注入不冒充真实IME。"
+}

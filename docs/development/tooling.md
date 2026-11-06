@@ -235,3 +235,7 @@ SEC-09 已验收：daemon追加审计、审批与新授权同事务，撤销先�
 ## SEC-10 已验收
 
 SEC-10 已验收：受管文件工具按真实物理 cwd 逐级核验，统一拒绝设备／数据流／歧义路径、链接及目录外目标，不开放附加根。文件命令、bash、引用／展开／重定向／控制运算符和未知命令均单次；少量无文件目标的 PowerShell 字面量才可精确参数会话授权，界面明确没有 OS 文件／网络沙箱。完整47文件／311项Vitest、115项E2E、SDK与frozen clean通过；59条Windows原生观察、明暗窄窗、两次正常退出和同data/profile重启零发送／零内核／零待审批／零授权，JSONL与配置／预算／锁哈希不变。361文件与clean一致；真实提供商0，无安装包，网页独立暂缓，OPS-08继续in_progress。 当前本地36／133。见[逐项证据与下一步提示词](../validation/sec-10-evidence/acceptance.md)。
+
+## MODEL-03 已验收
+
+MODEL-03 已验收：0013会话模型CAS与安装SDK逐请求prepareRequest边界；空闲保存不请求，运行中对下一次模型请求（含工具续请求）生效并展示待生效，SDK确认后更新实际配置。固定离线模型按能力禁用思考选项，保存失败保留、版本冲突须明确核对，附件和真实提供商传输仍关闭。完整48文件／315项Vitest、117项E2E、SDK与frozen clean通过；85条Windows原生观察、明暗窄窗、两次正常退出及同data/profile重启0发送／0内核，JSONL与pi配置／预算／锁哈希不变。365文件与clean一致，原生后复用门禁；真实提供商0，无安装包，网页独立暂缓，OPS-08继续in_progress。 当前本地37／133。见[逐项证据与下一步提示词](../validation/model-03-evidence/acceptance.md)。

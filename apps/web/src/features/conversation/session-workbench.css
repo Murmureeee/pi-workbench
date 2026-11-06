@@ -544,3 +544,11 @@
     gap: 4px;
   }
 }
+.session-model-control {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
