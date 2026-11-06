@@ -8,6 +8,7 @@ export const desktopPageSchema = z.enum([
   'workspaces',
   'models',
   'clients',
+  'audit',
 ])
 
 export type DesktopTheme = z.infer<typeof desktopThemeSchema>

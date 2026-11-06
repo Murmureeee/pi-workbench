@@ -131,6 +131,7 @@ async function createDesktop() {
           accelerator: 'CmdOrCtrl+,',
           click: () => navigate('settings'),
         },
+        { label: '操作审计', click: () => navigate('audit') },
         { type: 'separator' },
         { label: '退出应用', click: () => app.quit() },
       ],

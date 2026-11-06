@@ -1,0 +1,400 @@
+{
+  "feature": "SEC-09",
+  "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP. No CDP or renderer routing. Owned flag files inject one explicit audit read/export failure before read.",
+  "normalExits": 2,
+  "observations": 58,
+  "omittedObservations": [
+    {
+      "label": "save-dialog",
+      "at": "2026-11-06T09:05:28.026Z",
+      "reason": "System Save As listed unrelated user download files; omitted for privacy. Native save was cancelled."
+    },
+    {
+      "label": "export-result",
+      "at": "2026-11-06T09:04:45.123Z",
+      "reason": "System Save As included unrelated user file listing. Native save was cancelled."
+    },
+    {
+      "label": "save-name-focus",
+      "at": "2026-11-06T09:05:53.494Z",
+      "reason": "System Save As included unrelated user file listing. Native save was cancelled."
+    },
+    {
+      "label": "save-name-selected",
+      "at": "2026-11-06T09:06:10.171Z",
+      "reason": "System Save As included unrelated user file listing. Native save was cancelled."
+    }
+  ],
+  "excludedScreenshot": "01-initial-0.png showed another foreground app before activation",
+  "first": {
+    "feature": "SEC-09",
+    "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP. No CDP or renderer routing. Owned flag files inject one explicit audit read/export failure before read.",
+    "directory": "D:\\Project\\pi-workbench\\.workbench\\sec09-native-JEhpNS",
+    "desktopPid": 35368,
+    "prompts": 1,
+    "readFailures": 0,
+    "exportFailures": 1,
+    "results": [
+      {
+        "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+        "protocol": 1,
+        "epoch": "a235e976-995f-46f6-9404-3ff9b5580aca",
+        "seq": 22,
+        "turnId": "623905b7-c0da-40ae-b821-48bf96b82cbe",
+        "type": "finished",
+        "outcome": "completed",
+        "localRequests": 2,
+        "blockedNetworkAttempts": 0
+      }
+    ],
+    "grants": {
+      "grants": [
+        {
+          "id": "0612389c-b2e7-47dc-83cb-0c45ef264098",
+          "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "tool": "write",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec09-native-JEhpNS\\data\\standalone\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "targetPath": "D:\\Project\\pi-workbench\\.workbench\\sec09-native-JEhpNS\\data\\standalone\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\APPROVED.txt",
+          "physicalIdentity": "dd4f1e7836584e68e0a9e4b0dd6bec45be565750a45cd21de62c18983a8ded68",
+          "parameterDigest": "b13598c0e720f19c7efeb84826d35de1e0e7c79d31a787f75faaa37e4a5f7d54",
+          "parameters": "{\"content\":\"SEC02_APPROVED_ONCE\",\"path\":\"APPROVED.txt\"}",
+          "policyVersion": 1,
+          "createdAt": 1793955620249,
+          "actor": "a8096864-0461-48e0-9d6e-df26fbdf01f7"
+        }
+      ],
+      "auditWarning": null
+    },
+    "pending": [],
+    "audit": {
+      "entries": [
+        {
+          "sequence": 4,
+          "id": "ddc62e18-1bad-4e2b-90f1-f79fe7ccfc30",
+          "kind": "approval",
+          "objectId": "33b39198-84d8-45b4-a733-4920294a127d",
+          "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "source": "human",
+          "actor": "a8096864-0461-48e0-9d6e-df26fbdf01f7",
+          "risk": "L2",
+          "decision": "allowed",
+          "scope": "{\"epoch\":\"a235e976-995f-46f6-9404-3ff9b5580aca\",\"turnId\":\"623905b7-c0da-40ae-b821-48bf96b82cbe\",\"tool\":\"write\",\"callId\":\"guard-0\",\"parentId\":null,\"cwd\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"parameters\":\"{\\\"content\\\":\\\"SEC02_APPROVED_ONCE\\\",\\\"path\\\":\\\"APPROVED.txt\\\"}\",\"risk\":{\"level\":\"L2\",\"reasons\":[\"文件变更须先批准最终参数，并满足写入基线。\"],\"policyVersion\":1,\"digest\":\"a98d77ebaf2c3e46f83ff48e089859354177c6fe9b599eda6c6b0ea1b2eea79f\",\"automatic\":false},\"createdAt\":1793955557974,\"decidedAt\":1793955620253,\"actor\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\",\"grantId\":\"0612389c-b2e7-47dc-83cb-0c45ef264098\",\"irreversible\":true}",
+          "reason": "明确允许本次不可回滚调用",
+          "at": 1793955620256
+        },
+        {
+          "sequence": 3,
+          "id": "54b4488d-9d43-48dc-a9d9-0ed7ab75e328",
+          "kind": "session-grant",
+          "objectId": "0612389c-b2e7-47dc-83cb-0c45ef264098",
+          "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "source": "human",
+          "actor": "a8096864-0461-48e0-9d6e-df26fbdf01f7",
+          "risk": "L2",
+          "decision": "created",
+          "scope": "{\"epoch\":\"a235e976-995f-46f6-9404-3ff9b5580aca\",\"turnId\":\"623905b7-c0da-40ae-b821-48bf96b82cbe\",\"kind\":\"session-grant\",\"event\":\"created\",\"grant\":{\"id\":\"0612389c-b2e7-47dc-83cb-0c45ef264098\",\"sessionId\":\"4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"tool\":\"write\",\"cwd\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"targetPath\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\\\APPROVED.txt\",\"physicalIdentity\":\"dd4f1e7836584e68e0a9e4b0dd6bec45be565750a45cd21de62c18983a8ded68\",\"parameterDigest\":\"b13598c0e720f19c7efeb84826d35de1e0e7c79d31a787f75faaa37e4a5f7d54\",\"parameters\":\"{\\\"content\\\":\\\"SEC02_APPROVED_ONCE\\\",\\\"path\\\":\\\"APPROVED.txt\\\"}\",\"policyVersion\":1,\"createdAt\":1793955620249,\"actor\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\"},\"actor\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\",\"at\":1793955620249,\"scope\":\"exact-final-parameters\",\"irreversibleConsent\":\"per-invocation\"}",
+          "reason": "显式授予相同最终参数的会话授权",
+          "at": 1793955620251
+        },
+        {
+          "sequence": 2,
+          "id": "3d8fa60c-dd46-4662-83aa-3085a6c8a3d9",
+          "kind": "approval",
+          "objectId": "33b39198-84d8-45b4-a733-4920294a127d",
+          "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "source": "host",
+          "actor": null,
+          "risk": "L2",
+          "decision": "pending",
+          "scope": "{\"epoch\":\"a235e976-995f-46f6-9404-3ff9b5580aca\",\"turnId\":\"623905b7-c0da-40ae-b821-48bf96b82cbe\",\"tool\":\"write\",\"callId\":\"guard-0\",\"parentId\":null,\"cwd\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"parameters\":\"{\\\"content\\\":\\\"SEC02_APPROVED_ONCE\\\",\\\"path\\\":\\\"APPROVED.txt\\\"}\",\"risk\":{\"level\":\"L2\",\"reasons\":[\"文件变更须先批准最终参数，并满足写入基线。\"],\"policyVersion\":1,\"digest\":\"a98d77ebaf2c3e46f83ff48e089859354177c6fe9b599eda6c6b0ea1b2eea79f\",\"automatic\":false},\"createdAt\":1793955557974,\"decidedAt\":null,\"actor\":null,\"grantId\":null,\"irreversible\":true}",
+          "reason": "等待明确决定；无倒计时。",
+          "at": 1793955557980
+        },
+        {
+          "sequence": 1,
+          "id": "eebf19da-816d-4b04-a76a-054e822d9925",
+          "kind": "client-access",
+          "objectId": "a8096864-0461-48e0-9d6e-df26fbdf01f7",
+          "sessionId": null,
+          "source": "human",
+          "actor": "a8096864-0461-48e0-9d6e-df26fbdf01f7",
+          "risk": "L2",
+          "decision": "paired",
+          "scope": "{\"id\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\",\"label\":\"Windows 桌面\",\"kind\":\"desktop\",\"createdAt\":1793955461626,\"expiresAt\":1793984261626}",
+          "reason": "宿主主动签发的一次性票据已兑换；不开放真实模型传输。",
+          "at": 1793955461626
+        }
+      ],
+      "snapshot": 4,
+      "nextBefore": null,
+      "checkedAt": 1793956222242,
+      "startedAt": 1793955461213,
+      "warning": null,
+      "retention": "originals-retained-no-delete-api",
+      "exportScope": "filtered-page-max-50"
+    },
+    "sessions": [
+      {
+        "id": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+        "title": "审计中文文件 «redacted»",
+        "titleSource": "local",
+        "titleVersion": 1,
+        "membershipVersion": 1,
+        "creationRequestId": "20361433-c993-4a2a-9930-f4caba761154",
+        "configuration": {
+          "projectId": null,
+          "workspaceId": null,
+          "model": {
+            "kind": "local-fixture",
+            "provider": "piw-offline",
+            "model": "fixture"
+          },
+          "thinking": "off"
+        },
+        "workspaceId": "aa48a453-8831-458c-949b-4116ba7ff527",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec09-native-JEhpNS\\data\\standalone\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+        "createdAt": 1793955556743
+      }
+    ],
+    "resources": {
+      "version": 1,
+      "source": "real-sdk/local-fixture",
+      "realProviderEnabled": false,
+      "limits": {
+        "kernels": 3,
+        "modelTasks": 2,
+        "terminals": 6,
+        "idleMs": 300000
+      },
+      "modelTasks": 0,
+      "terminalEnforcement": "reserved-until-M4",
+      "viewCacheIndependent": true,
+      "kernels": [],
+      "queue": []
+    },
+    "historyBefore": {},
+    "historyAfter": {
+      "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\a235e976-995f-46f6-9404-3ff9b5580aca\\sessions\\2026-11-06T08-59-17-789Z_01a1b015-719d-71bf-9921-1b351f888c85.jsonl": "e668fe9eb4957edbab64a74ec3a00eb599802f3b41bfcec0383f49693b163c2c"
+    },
+    "protectedBefore": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    },
+    "protectedAfter": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    },
+    "providerRequests": 0,
+    "closed": true,
+    "closedPending": [],
+    "closedGrants": {
+      "grants": [],
+      "auditWarning": null
+    },
+    "historyAtClose": {
+      "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\a235e976-995f-46f6-9404-3ff9b5580aca\\sessions\\2026-11-06T08-59-17-789Z_01a1b015-719d-71bf-9921-1b351f888c85.jsonl": "e668fe9eb4957edbab64a74ec3a00eb599802f3b41bfcec0383f49693b163c2c"
+    },
+    "protectedAfterClose": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  },
+  "restart": {
+    "feature": "SEC-09",
+    "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP. No CDP or renderer routing. Owned flag files inject one explicit audit read/export failure before read.",
+    "directory": "D:\\Project\\pi-workbench\\.workbench\\sec09-native-JEhpNS",
+    "desktopPid": 34096,
+    "prompts": 0,
+    "readFailures": 0,
+    "exportFailures": 0,
+    "results": [],
+    "grants": {
+      "grants": [],
+      "auditWarning": null
+    },
+    "pending": [],
+    "audit": {
+      "entries": [
+        {
+          "sequence": 6,
+          "id": "77eb131c-fc2b-45cd-ab35-23715ca5de3d",
+          "kind": "client-access",
+          "objectId": "4e2d560d-fdec-412e-bb24-6580c029f339",
+          "sessionId": null,
+          "source": "human",
+          "actor": "4e2d560d-fdec-412e-bb24-6580c029f339",
+          "risk": "L2",
+          "decision": "paired",
+          "scope": "{\"id\":\"4e2d560d-fdec-412e-bb24-6580c029f339\",\"label\":\"Windows 桌面\",\"kind\":\"desktop\",\"createdAt\":1793956242084,\"expiresAt\":1793985042084}",
+          "reason": "宿主主动签发的一次性票据已兑换；不开放真实模型传输。",
+          "at": 1793956242084
+        },
+        {
+          "sequence": 5,
+          "id": "65b0fd64-560d-4a65-a977-5206469bc8b9",
+          "kind": "session-grant",
+          "objectId": "0612389c-b2e7-47dc-83cb-0c45ef264098",
+          "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "source": "host",
+          "actor": null,
+          "risk": "L2",
+          "decision": "revoked",
+          "scope": "{\"epoch\":\"a235e976-995f-46f6-9404-3ff9b5580aca\",\"turnId\":\"623905b7-c0da-40ae-b821-48bf96b82cbe\",\"kind\":\"session-grant\",\"event\":\"revoked\",\"grant\":{\"id\":\"0612389c-b2e7-47dc-83cb-0c45ef264098\",\"sessionId\":\"4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"tool\":\"write\",\"cwd\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"targetPath\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\\\APPROVED.txt\",\"physicalIdentity\":\"dd4f1e7836584e68e0a9e4b0dd6bec45be565750a45cd21de62c18983a8ded68\",\"parameterDigest\":\"b13598c0e720f19c7efeb84826d35de1e0e7c79d31a787f75faaa37e4a5f7d54\",\"parameters\":\"{\\\"content\\\":\\\"SEC02_APPROVED_ONCE\\\",\\\"path\\\":\\\"APPROVED.txt\\\"}\",\"policyVersion\":1,\"createdAt\":1793955620249,\"actor\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\"},\"actor\":null,\"at\":1793956222247,\"scope\":\"exact-final-parameters\",\"irreversibleConsent\":\"per-invocation\"}",
+          "reason": "服务退出；重启不恢复会话授权",
+          "at": 1793956222248
+        },
+        {
+          "sequence": 4,
+          "id": "ddc62e18-1bad-4e2b-90f1-f79fe7ccfc30",
+          "kind": "approval",
+          "objectId": "33b39198-84d8-45b4-a733-4920294a127d",
+          "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "source": "human",
+          "actor": "a8096864-0461-48e0-9d6e-df26fbdf01f7",
+          "risk": "L2",
+          "decision": "allowed",
+          "scope": "{\"epoch\":\"a235e976-995f-46f6-9404-3ff9b5580aca\",\"turnId\":\"623905b7-c0da-40ae-b821-48bf96b82cbe\",\"tool\":\"write\",\"callId\":\"guard-0\",\"parentId\":null,\"cwd\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"parameters\":\"{\\\"content\\\":\\\"SEC02_APPROVED_ONCE\\\",\\\"path\\\":\\\"APPROVED.txt\\\"}\",\"risk\":{\"level\":\"L2\",\"reasons\":[\"文件变更须先批准最终参数，并满足写入基线。\"],\"policyVersion\":1,\"digest\":\"a98d77ebaf2c3e46f83ff48e089859354177c6fe9b599eda6c6b0ea1b2eea79f\",\"automatic\":false},\"createdAt\":1793955557974,\"decidedAt\":1793955620253,\"actor\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\",\"grantId\":\"0612389c-b2e7-47dc-83cb-0c45ef264098\",\"irreversible\":true}",
+          "reason": "明确允许本次不可回滚调用",
+          "at": 1793955620256
+        },
+        {
+          "sequence": 3,
+          "id": "54b4488d-9d43-48dc-a9d9-0ed7ab75e328",
+          "kind": "session-grant",
+          "objectId": "0612389c-b2e7-47dc-83cb-0c45ef264098",
+          "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "source": "human",
+          "actor": "a8096864-0461-48e0-9d6e-df26fbdf01f7",
+          "risk": "L2",
+          "decision": "created",
+          "scope": "{\"epoch\":\"a235e976-995f-46f6-9404-3ff9b5580aca\",\"turnId\":\"623905b7-c0da-40ae-b821-48bf96b82cbe\",\"kind\":\"session-grant\",\"event\":\"created\",\"grant\":{\"id\":\"0612389c-b2e7-47dc-83cb-0c45ef264098\",\"sessionId\":\"4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"tool\":\"write\",\"cwd\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"targetPath\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\\\APPROVED.txt\",\"physicalIdentity\":\"dd4f1e7836584e68e0a9e4b0dd6bec45be565750a45cd21de62c18983a8ded68\",\"parameterDigest\":\"b13598c0e720f19c7efeb84826d35de1e0e7c79d31a787f75faaa37e4a5f7d54\",\"parameters\":\"{\\\"content\\\":\\\"SEC02_APPROVED_ONCE\\\",\\\"path\\\":\\\"APPROVED.txt\\\"}\",\"policyVersion\":1,\"createdAt\":1793955620249,\"actor\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\"},\"actor\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\",\"at\":1793955620249,\"scope\":\"exact-final-parameters\",\"irreversibleConsent\":\"per-invocation\"}",
+          "reason": "显式授予相同最终参数的会话授权",
+          "at": 1793955620251
+        },
+        {
+          "sequence": 2,
+          "id": "3d8fa60c-dd46-4662-83aa-3085a6c8a3d9",
+          "kind": "approval",
+          "objectId": "33b39198-84d8-45b4-a733-4920294a127d",
+          "sessionId": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+          "source": "host",
+          "actor": null,
+          "risk": "L2",
+          "decision": "pending",
+          "scope": "{\"epoch\":\"a235e976-995f-46f6-9404-3ff9b5580aca\",\"turnId\":\"623905b7-c0da-40ae-b821-48bf96b82cbe\",\"tool\":\"write\",\"callId\":\"guard-0\",\"parentId\":null,\"cwd\":\"D:\\\\Project\\\\pi-workbench\\\\.workbench\\\\sec09-native-JEhpNS\\\\data\\\\standalone\\\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\",\"parameters\":\"{\\\"content\\\":\\\"SEC02_APPROVED_ONCE\\\",\\\"path\\\":\\\"APPROVED.txt\\\"}\",\"risk\":{\"level\":\"L2\",\"reasons\":[\"文件变更须先批准最终参数，并满足写入基线。\"],\"policyVersion\":1,\"digest\":\"a98d77ebaf2c3e46f83ff48e089859354177c6fe9b599eda6c6b0ea1b2eea79f\",\"automatic\":false},\"createdAt\":1793955557974,\"decidedAt\":null,\"actor\":null,\"grantId\":null,\"irreversible\":true}",
+          "reason": "等待明确决定；无倒计时。",
+          "at": 1793955557980
+        },
+        {
+          "sequence": 1,
+          "id": "eebf19da-816d-4b04-a76a-054e822d9925",
+          "kind": "client-access",
+          "objectId": "a8096864-0461-48e0-9d6e-df26fbdf01f7",
+          "sessionId": null,
+          "source": "human",
+          "actor": "a8096864-0461-48e0-9d6e-df26fbdf01f7",
+          "risk": "L2",
+          "decision": "paired",
+          "scope": "{\"id\":\"a8096864-0461-48e0-9d6e-df26fbdf01f7\",\"label\":\"Windows 桌面\",\"kind\":\"desktop\",\"createdAt\":1793955461626,\"expiresAt\":1793984261626}",
+          "reason": "宿主主动签发的一次性票据已兑换；不开放真实模型传输。",
+          "at": 1793955461626
+        }
+      ],
+      "snapshot": 6,
+      "nextBefore": null,
+      "checkedAt": 1793956990400,
+      "startedAt": 1793955461213,
+      "warning": null,
+      "retention": "originals-retained-no-delete-api",
+      "exportScope": "filtered-page-max-50"
+    },
+    "sessions": [
+      {
+        "id": "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+        "title": "审计中文文件 «redacted»",
+        "titleSource": "local",
+        "titleVersion": 1,
+        "membershipVersion": 1,
+        "creationRequestId": "20361433-c993-4a2a-9930-f4caba761154",
+        "configuration": {
+          "projectId": null,
+          "workspaceId": null,
+          "model": {
+            "kind": "local-fixture",
+            "provider": "piw-offline",
+            "model": "fixture"
+          },
+          "thinking": "off"
+        },
+        "workspaceId": "aa48a453-8831-458c-949b-4116ba7ff527",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec09-native-JEhpNS\\data\\standalone\\4b3b4cf4-170e-4ad8-b0fc-b79fce51312c",
+        "createdAt": 1793955556743
+      }
+    ],
+    "resources": {
+      "version": 1,
+      "source": "real-sdk/local-fixture",
+      "realProviderEnabled": false,
+      "limits": {
+        "kernels": 3,
+        "modelTasks": 2,
+        "terminals": 6,
+        "idleMs": 300000
+      },
+      "modelTasks": 0,
+      "terminalEnforcement": "reserved-until-M4",
+      "viewCacheIndependent": true,
+      "kernels": [],
+      "queue": []
+    },
+    "historyBefore": {
+      "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\a235e976-995f-46f6-9404-3ff9b5580aca\\sessions\\2026-11-06T08-59-17-789Z_01a1b015-719d-71bf-9921-1b351f888c85.jsonl": "e668fe9eb4957edbab64a74ec3a00eb599802f3b41bfcec0383f49693b163c2c"
+    },
+    "historyAfter": {
+      "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\a235e976-995f-46f6-9404-3ff9b5580aca\\sessions\\2026-11-06T08-59-17-789Z_01a1b015-719d-71bf-9921-1b351f888c85.jsonl": "e668fe9eb4957edbab64a74ec3a00eb599802f3b41bfcec0383f49693b163c2c"
+    },
+    "protectedBefore": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    },
+    "protectedAfter": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    },
+    "providerRequests": 0,
+    "closed": true,
+    "closedPending": [],
+    "closedGrants": {
+      "grants": [],
+      "auditWarning": null
+    },
+    "historyAtClose": {
+      "4b3b4cf4-170e-4ad8-b0fc-b79fce51312c\\a235e976-995f-46f6-9404-3ff9b5580aca\\sessions\\2026-11-06T08-59-17-789Z_01a1b015-719d-71bf-9921-1b351f888c85.jsonl": "e668fe9eb4957edbab64a74ec3a00eb599802f3b41bfcec0383f49693b163c2c"
+    },
+    "protectedAfterClose": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  },
+  "nativeSave": "System Save As opened; Escape cancelled. Downloaded file parsing/redaction covered by actual Electron E2E.",
+  "narrow": "49-dark-narrow-native-0.png and 56-light-narrow-native-0.png: actual native width 802px; previous drag attempts did not resize.",
+  "retainedObservations": 54
+}

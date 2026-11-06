@@ -1,0 +1,35 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:36528) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:37732) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\operation-audit.spec.ts:57:1 › SEC-09 actual Electron shows real final approval audit, redacted bounded export and immutable history after restart (8.8s)
+  x  2 e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools (30.0s)
+(node:14152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 e2e\operation-audit.spec.ts:190:1 › SEC-09 Electron read/export failures preserve filters; late export after navigation cannot download (3.9s)
+
+
+  1) e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools 
+  2 passed (58.7s)

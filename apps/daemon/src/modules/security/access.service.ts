@@ -1,3 +1,4 @@
+import type { AuditService } from './audit.service.js'
 import type { ClientInfo, Redactor } from '@pi-workbench/shared'
 
 import { createHash, randomBytes, randomUUID } from 'node:crypto'
@@ -24,6 +25,7 @@ export class AccessService {
     port: number,
     private readonly redactor: Redactor,
     private readonly now: () => number = Date.now,
+    private readonly audit?: AuditService,
   ) {
     this.cookieName = `piw_client_${port}`
     this.timer = setInterval(() => this.sweep(), 1000)
@@ -81,6 +83,17 @@ export class AccessService {
       csrf: randomBytes(24).toString('hex'),
       close: new Set(),
     }
+    this.audit?.record({
+      kind: 'client-access',
+      objectId: client.info.id,
+      sessionId: null,
+      source: 'human',
+      actor: client.info.id,
+      risk: 'L2',
+      decision: 'paired',
+      scope: JSON.stringify(client.info),
+      reason: '宿主主动签发的一次性票据已兑换；不开放真实模型传输。',
+    })
     this.clients.set(this.hash(bearer), client)
     return { cookie: `${this.cookieName}=${bearer}; Path=/api; HttpOnly; SameSite=Strict`, client }
   }
@@ -114,12 +127,23 @@ export class AccessService {
     return [...this.clients.values()].map((client) => Object.assign({}, client.info))
   }
 
-  revoke(id: string): boolean {
+  revoke(id: string, actor: string | null = null): boolean {
     const entry = [...this.clients.entries()].find(([, client]) => client.info.id === id)
     if (!entry || entry[1].info.kind !== 'browser') {
       return false
     }
     this.remove(entry[0], entry[1])
+    this.audit?.recordRevocation({
+      kind: 'client-access',
+      objectId: id,
+      sessionId: null,
+      source: actor ? 'human' : 'host',
+      actor,
+      risk: 'L2',
+      decision: 'revoked',
+      scope: JSON.stringify(entry[1].info),
+      reason: '撤销已断开该客户端观察；后台任务继续，旧授权不恢复。',
+    })
     return true
   }
 

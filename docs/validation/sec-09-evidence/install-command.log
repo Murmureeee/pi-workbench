@@ -1,0 +1,43 @@
+Removing node_modules
+Removing apps\daemon\node_modules
+Removing apps\desktop\node_modules
+Removing apps\web\node_modules
+Removing packages\agent-adapter\node_modules
+Removing packages\shared\node_modules
+Removing packages\ui\node_modules
+[WARN] The store at C:\Users\Murmure\AppData\Local\pnpm\store\v11 is not used because packages cannot be hard linked from it into this project. Using the store at D:\.pnpm-store\v11 instead. Set storeDir to choose the store.
+✓ Lockfile passes supply-chain policies (verified 1d ago)
+Lockfile is up to date, resolution step is skipped
+Packages are hard linked from the content-addressable store to the virtual store.
+  Content-addressable store is at: D:\.pnpm-store\v11
+  Virtual store is at:             node_modules/.pnpm
+Progress: resolved 147, reused 147, downloaded 0, added 132
+Progress: resolved 247, reused 247, downloaded 0, added 232
+Progress: resolved 332, reused 332, downloaded 0, added 317
+Progress: resolved 386, reused 386, downloaded 0, added 375
+Progress: resolved 425, reused 424, downloaded 0, added 414
+Progress: resolved 437, reused 437, downloaded 0, added 427
+Progress: resolved 438, reused 438, downloaded 0, added 437
+Packages: +439
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+Progress: resolved 439, reused 439, downloaded 0, added 439, done
+.../esbuild@0.25.12/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.28.2/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.18.20/node_modules/esbuild postinstall$ node install.js
+.../esbuild@0.28.2/node_modules/esbuild postinstall: Done
+.../esbuild@0.25.12/node_modules/esbuild postinstall: Done
+.../esbuild@0.18.20/node_modules/esbuild postinstall: Done
+
+devDependencies:
++ @playwright/test 1.64.1
++ @types/node 24.19.2
++ knip 6.44.1
++ node 24.22.2
++ oxfmt 0.75.0
++ oxlint 1.90.0
++ oxlint-tsgolint 7.0.2005
++ typescript 6.0.3
++ vite 8.3.5
++ vitest 5.0.5
+
+Done in 15.9s using pnpm v12.16.1

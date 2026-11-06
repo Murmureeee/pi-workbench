@@ -1,0 +1,66 @@
+.operation-audit {
+  max-width: 1040px;
+  width: 100%;
+  min-width: 0;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-wrap: anywhere;
+}
+.operation-audit h1 {
+  font-size: 22px;
+  font-weight: 600;
+}
+.operation-audit header p,
+.audit-caption {
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.audit-filters {
+  display: grid;
+  grid-template-columns: minmax(140px, 0.5fr) minmax(200px, 1fr);
+  gap: 16px;
+}
+.audit-actions,
+.audit-record-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+}
+.audit-actions {
+  margin-block: 8px;
+}
+.audit-record {
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+}
+.audit-record-meta {
+  margin-top: 8px;
+  font-size: 12px;
+  color: var(--muted-foreground);
+}
+.audit-record dl {
+  margin-block: 12px;
+}
+.audit-record dt {
+  color: var(--muted-foreground);
+  font-size: 12px;
+  margin-top: 10px;
+}
+.audit-record dd {
+  margin-top: 4px;
+}
+.audit-record pre {
+  max-height: 32vh;
+  overflow: auto;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  font-size: 12px;
+}
+@media (max-width: 800px) {
+  .audit-filters {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}

@@ -100,3 +100,5 @@ CurrentRunStatus 与 ModelRequestStatus 复用既有官方 Trace／TraceCollapsi
 SEC-02 已验收审批复用既有 Alert／Badge／TraceCollapsible／Field／Input／Button／AlertDialog；无新 primitive、依赖或锁变更。业务组合在 conversation feature，最终参数为脱敏纯文本，允许二次确认默认焦点“返回核对”。审批区有界滚动，失败保留说明，断线禁用决定，隐藏不提交决定。完整和原生验收见对应记录。
 
 SEC-03 已验收沿用 Dialog／AlertDialog／Alert／Trace／Button／Badge，Empty 经官方 shadcn CLI 的 base-nova 注册表获取。仅将 cn 接到既有相对 ESM 工具、补 React 类型和实际 div props，无新增 cn 包或其他运行依赖。会话授权显示范围与来源；关闭恢复触发焦点，断线禁用撤销，原始参数不进入 renderer 或授权审计。布局复用已确认中性主题与字号，无新设计系统。
+
+SEC-09已验收复用现有Field／Input／DropdownMenu／Button／Badge／Alert／Trace／Empty；无新primitive、依赖或锁文件变化。Electron设置只读审计按需加载，文本范围受控渲染，展开／筛选／分页／导出由业务feature组合。语义tokens、明暗、800px、键盘及迟到下载隔离分别验收；本机UX数据库脚本未运行成功，沿用已确认布局与组件规范。

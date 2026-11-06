@@ -1,0 +1,59 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:25372) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:32408) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools (4.0s)
+
+
+  1) e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  - 1
+    + Received  + 1
+
+    @@ -1,6 +1,7 @@
+      Array [
+    +   "8a2a7d9a-005d-4111-b2aa-d287e35e0050",
+        "1bfc9605-6f09-484a-b4a7-7f561e9b914f",
+        "6e1eeebc-9806-461c-bf9f-3c13ef2870a6",
+        "d1f10c5a-cbce-45a2-954d-1250f4a564f2",
+        "5751e459-8f71-49b2-912f-1b0ae18cd3f1",
+        "92cbeda2-7f0e-4818-92f3-2ac4133347ce",
+    @@ -46,7 +47,6 @@
+        "d06ba43f-fce4-4c6d-9a3c-0418eb0964a4",
+        "78cf3bb9-eb3e-47c4-b499-99f81664d992",
+        "a0181475-f358-474a-a076-ea9dae6d6083",
+        "33dd63a3-d65c-4ed8-8918-e3b6909bf043",
+        "1f5b463d-e52b-413e-97f6-4d520a823798",
+    -   "d905459f-dbbc-467b-bb82-548f6933e1fc",
+      ]
+
+      174 |         .locator('[data-audit-id]')
+      175 |         .evaluateAll((nodes) => nodes.map((n) => n.getAttribute('data-audit-id'))),
+    > 176 |     ).toEqual(firstIds)
+          |       ^
+      177 |     await page.getByRole('button', { name: '审计事件类别' }).click()
+      178 |     await page.getByRole('menuitemradio', { name: '资源信任' }).click()
+      179 |     await page.getByRole('button', { name: '应用筛选' }).click()
+        at D:\Project\pi-workbench\e2e\operation-audit.spec.ts:176:7
+
+    Error Context: test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools 

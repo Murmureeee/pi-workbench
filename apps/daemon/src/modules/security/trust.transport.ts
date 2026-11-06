@@ -48,7 +48,10 @@ export function registerTrustTransport(
     if (!parsed.success) {
       return reply.code(400).send({ message: '信任记录无效。' })
     }
-    const revoked = trust.revoke(parsed.data.recordId)
+    const revoked = trust.revoke(
+      parsed.data.recordId,
+      access.authenticate(request.headers.cookie)?.info.id ?? null,
+    )
     return reply.code(revoked ? 200 : 404).send({ revoked, effective: 'next-turn' })
   })
 }

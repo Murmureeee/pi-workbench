@@ -259,3 +259,8 @@ SEC-02 已验收：daemon 独占无倒计时的最终参数单次审批，首个
 ## SEC-03 已验收
 
 SEC-03 已验收：daemon 独占显式完整参数／物理目录会话授权，L3与嵌套始终单次；单条／全部撤销先同步失效，最终异步检查后重查，重启不恢复授权。无CHANGE基线时每次仍须单独确认本次不可回滚执行，撤销不停止已运行动作。完整46文件／300项Vitest、111项E2E、SDK与frozen clean通过；102条Windows原生观察含802px审批遮挡缺陷及修复、三次正常菜单退出、同data/profile重启0授权／0待审批／0内核／0发送，JSONL哈希不变。353文件与clean一致；三轮CI失败与定向受干扰失败、HTTP500夹具及原生IME／焦点限制见证据。当前本地34／133，OPS-08继续in_progress；真实提供商0，pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/sec-03-evidence/acceptance.md)。
+
+
+## SEC-09 已验收
+
+SEC-09 已验收：daemon追加审计、审批与新授权同事务，撤销先失效且失败不复活。Electron设置及原生菜单只读筛选、固定快照分页和本页脱敏导出，原件保留无删除入口。完整47文件／307项Vitest、114项E2E、SDK与frozen clean通过；58条Windows原生观察中4条系统文件列表为隐私省略，明暗802px窄窗、两次正常退出和同data/profile重启0发送／0内核／0授权通过，JSONL与pi配置／预算／锁哈希不变。361文件与clean一致；原生保存框取消，实际导出文件由自动Electron验证。真实提供商0，无安装包，网页独立功能暂缓，OPS-08继续in_progress。 当前本地35／133。见[逐项证据与下一步提示词](../validation/sec-09-evidence/acceptance.md)。

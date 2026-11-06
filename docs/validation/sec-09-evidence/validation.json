@@ -1,0 +1,33 @@
+{
+  "feature": "SEC-09",
+  "verifiedAt": "2026-11-06T10:00:12.237Z",
+  "source": "actual SQLite / SDK local HTTP / real Electron; synthetic pagination observations labelled separately",
+  "commands": [
+    "pnpm fix",
+    "pnpm run ci",
+    "pnpm verify:clean",
+    "pnpm check"
+  ],
+  "vitest": {
+    "files": 47,
+    "passed": 307
+  },
+  "e2e": {
+    "passed": 114
+  },
+  "native": {
+    "observed": 58,
+    "retained": 54,
+    "normalExits": 2,
+    "summary": "native/summary.json",
+    "saveCancelled": true
+  },
+  "codeFiles": 361,
+  "providerRequests": 0,
+  "piConfigurationChanged": false,
+  "canonicalBudgetChanged": false,
+  "lockChanged": false,
+  "installer": false,
+  "browserStandalone": "deferred",
+  "ops08": "in_progress"
+}

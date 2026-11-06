@@ -22,6 +22,9 @@ const ModelDiscovery = lazy(async () => {
   const module = await import('../features/settings/model-discovery.js')
   return { default: module.ModelDiscovery }
 })
+const OperationAudit = lazy(async () => ({
+  default: (await import('../features/settings/operation-audit.js')).OperationAudit,
+}))
 const SessionWorkbench = lazy(async () => {
   const module = await import('../features/conversation/session-workbench.js')
   return { default: module.SessionWorkbench }
@@ -46,21 +49,25 @@ export function App() {
     trustView = query.has('trust'),
     workspaceView = query.has('workspaces'),
     modelsView = query.has('models')
-  const legacyView = query.has('legacy')
-  const settingsSection = modelsView
-    ? 'models'
-    : trustView
-      ? 'trust'
-      : clientsView
-        ? 'clients'
-        : credentialsView
-          ? 'credentials'
-          : resourcesView
-            ? 'resources'
-            : query.has('settings')
-              ? 'appearance'
-              : null
+  const legacyView = query.has('legacy'),
+    auditView = query.has('audit')
+  const settingsSection = auditView
+    ? 'audit'
+    : modelsView
+      ? 'models'
+      : trustView
+        ? 'trust'
+        : clientsView
+          ? 'clients'
+          : credentialsView
+            ? 'credentials'
+            : resourcesView
+              ? 'resources'
+              : query.has('settings')
+                ? 'appearance'
+                : null
   const sensitive =
+    auditView ||
     clientsView ||
     modelsView ||
     workspaceView ||
@@ -70,7 +77,11 @@ export function App() {
     Boolean(historySession) ||
     Boolean(observedSession) ||
     legacyView
-  const content = legacyView ? (
+  const content = auditView ? (
+    <Suspense fallback={<output>正在加载操作审计…</output>}>
+      <OperationAudit />
+    </Suspense>
+  ) : legacyView ? (
     <Suspense
       fallback={
         <main className="p-6">

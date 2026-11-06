@@ -6,6 +6,19 @@ export const workspaceMeta = sqliteTable('workspace_meta', {
   version: integer('version').notNull().default(1),
 })
 
+// Immutable, redacted host records. Live permissions never read authority from this table.
+export const operationAudit = sqliteTable(
+  'operation_audit',
+  {
+    sequence: integer('sequence').primaryKey({ autoIncrement: true }),
+    id: text('id').notNull().unique(),
+    kind: text('kind').notNull(),
+    sessionId: text('session_id'),
+    data: text('data').notNull(),
+  },
+  (table) => [index('operation_audit_session').on(table.sessionId, table.sequence)],
+)
+
 // Directory registry only: opening a workspace never creates a session or loads project code.
 export const workspaces = sqliteTable(
   'workspaces',

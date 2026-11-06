@@ -1,4 +1,5 @@
 import type { WorkspaceDatabase } from '../../infrastructure/database/database.js'
+import type { AuditService } from '../security/audit.service.js'
 import type {
   HistoryDiagnostic,
   HistoryMessage,
@@ -106,6 +107,7 @@ export class SessionStore {
   constructor(
     private readonly database: WorkspaceDatabase,
     private readonly dataDir: string,
+    private readonly audit?: AuditService,
   ) {
     this.recoverRecords()
     this.recoverSubmissions()
@@ -930,22 +932,52 @@ export class SessionStore {
       }
     }
   }
+  /** A pending record may settle once. Durable decision and append-only audit commit in
+   * the same transaction; audit failure cannot create a permit or rewrite a terminal record. */
   saveApproval(value: unknown): void {
     const record = approvalRecordSchema.parse(value)
     this.assertRecordIdentity(record, sessionApprovals)
-    const prior = this.database.db
-      .select()
-      .from(sessionApprovals)
-      .where(eq(sessionApprovals.id, record.id))
-      .get()
-    if (prior && approvalRecordSchema.parse(JSON.parse(prior.data)).decision !== 'pending') {
-      return
-    }
-    this.database.db
-      .insert(sessionApprovals)
-      .values({ id: record.id, sessionId: record.sessionId, data: JSON.stringify(record) })
-      .onConflictDoUpdate({ target: sessionApprovals.id, set: { data: JSON.stringify(record) } })
-      .run()
+    this.database.sqlite.transaction(() => {
+      const prior = this.database.db
+        .select()
+        .from(sessionApprovals)
+        .where(eq(sessionApprovals.id, record.id))
+        .get()
+      if (prior && approvalRecordSchema.parse(JSON.parse(prior.data)).decision !== 'pending') {
+        return
+      }
+      this.database.db
+        .insert(sessionApprovals)
+        .values({ id: record.id, sessionId: record.sessionId, data: JSON.stringify(record) })
+        .onConflictDoUpdate({ target: sessionApprovals.id, set: { data: JSON.stringify(record) } })
+        .run()
+      const data = record.parameters
+      const grant =
+        data.grant && typeof data.grant === 'object' && 'id' in data.grant ? data.grant : null
+      const risk =
+        data.risk && typeof data.risk === 'object' && 'level' in data.risk ? data.risk.level : null
+      const actor = typeof data.actor === 'string' ? data.actor : null
+      this.audit?.record({
+        kind: data.kind === 'session-grant' ? 'session-grant' : 'approval',
+        objectId: grant && typeof grant.id === 'string' ? grant.id : record.id,
+        sessionId: record.sessionId,
+        source:
+          record.source === 'synthetic-fixture' ? 'synthetic-fixture' : actor ? 'human' : 'host',
+        actor,
+        risk:
+          risk === 'L0' || risk === 'L1' || risk === 'L2' || risk === 'L3'
+            ? risk
+            : grant
+              ? 'L2'
+              : 'unknown',
+        decision:
+          data.kind === 'session-grant' && typeof data.event === 'string'
+            ? data.event
+            : record.decision,
+        scope: JSON.stringify({ epoch: record.epoch, turnId: record.turnId, ...data }),
+        reason: record.reason,
+      })
+    })()
   }
   saveChangeReference(value: unknown): void {
     const record = changeReferenceSchema.parse(value)

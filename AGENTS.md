@@ -240,3 +240,8 @@ OBS-02 已验收：单一主阶段、按操作合并错误、终态消隐及停�
 ## SEC-01 已验收
 
 SEC-01 已验收：固定工具在 SDK 最终 execute 处冻结参数并经宿主私有 IPC 裁决，多个规则取最高风险；仅实际 cwd 内核验后的有界 UTF-8 快照读取自动，写入与命令无有效审批拒绝，参数改写／嵌套不继承许可。完整44文件／281项Vitest、104项E2E、SDK与frozen clean通过；80条Windows原生观察（含中间态与重试）、后台同PID／epoch、明暗802px窄窗、同data/profile重启0发送／0内核、三份JSONL哈希不变及两次正常菜单退出补证。扩展、MCP、真实提供商关闭；审批交互、会话授权、写入基线仍属后续。当前本地32／133，OPS-08继续in_progress。真实提供商0，pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](docs/validation/sec-01-evidence/acceptance.md)。
+
+
+## SEC-09 已验收
+
+SEC-09 已验收：daemon追加审计、审批与新授权同事务，撤销先失效且失败不复活。Electron设置及原生菜单只读筛选、固定快照分页和本页脱敏导出，原件保留无删除入口。完整47文件／307项Vitest、114项E2E、SDK与frozen clean通过；58条Windows原生观察中4条系统文件列表为隐私省略，明暗802px窄窗、两次正常退出和同data/profile重启0发送／0内核／0授权通过，JSONL与pi配置／预算／锁哈希不变。361文件与clean一致；原生保存框取消，实际导出文件由自动Electron验证。真实提供商0，无安装包，网页独立功能暂缓，OPS-08继续in_progress。 当前本地35／133。见[逐项证据与下一步提示词](docs/validation/sec-09-evidence/acceptance.md)。

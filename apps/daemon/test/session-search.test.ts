@@ -56,7 +56,7 @@ describe('SESSION-12 actual SQLite / native JSONL read-only search', () => {
       'DROP TABLE session_origins; ALTER TABLE session_configurations DROP COLUMN membership_version',
     )
     f.db.exec(
-      'DROP TABLE session_search_documents; ALTER TABLE session_turns DROP COLUMN model_request; DELETE FROM __drizzle_migrations WHERE created_at >= 1793728000000',
+      'DROP TABLE session_search_documents; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DELETE FROM __drizzle_migrations WHERE created_at >= 1793728000000',
     )
     await f.app.close()
     const next = await fixture(f.directory)

@@ -25,6 +25,8 @@ import { SearchService } from '../modules/search/search.service.js'
 import { AccessService } from '../modules/security/access.service.js'
 import { registerAccessTransport } from '../modules/security/access.transport.js'
 import { ApprovalService } from '../modules/security/approval.service.js'
+import { AuditService } from '../modules/security/audit.service.js'
+import { registerAuditTransport } from '../modules/security/audit.transport.js'
 import { ExecutionPolicyService } from '../modules/security/execution-policy.service.js'
 import { SecurityService } from '../modules/security/security.service.js'
 import { SessionGrantService } from '../modules/security/session-grant.service.js'
@@ -58,8 +60,10 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const events = new EventService(1024, 2 * 1024 * 1024, security.redactor)
   const database = new WorkspaceDatabase(options.dataDir)
   let store: SessionStore
+  let audit: AuditService
   try {
-    store = new SessionStore(database, options.dataDir)
+    audit = new AuditService(database, security.redactor)
+    store = new SessionStore(database, options.dataDir, audit)
     for (const snapshot of store.observations(events.daemonId)) {
       events.restore(snapshot)
     }
@@ -68,8 +72,8 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     database.close()
     throw error
   }
-  const access = new AccessService(options.port, security.redactor)
-  const trust = new TrustService(database, options.piAgentDir)
+  const access = new AccessService(options.port, security.redactor, Date.now, audit)
+  const trust = new TrustService(database, options.piAgentDir, audit)
   const workspaces = new WorkspaceService(database)
   const environment = new WorkspaceEnvironmentService(workspaces, store)
   const availability = new WorkspaceAvailabilityService(workspaces, store, trust)
@@ -121,6 +125,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: ExecutionPolicyService, useValue: executionPolicy },
       { provide: ApprovalService, useValue: approvals },
       { provide: SessionGrantService, useValue: grants },
+      { provide: AuditService, useValue: audit },
       { provide: WorkspaceService, useValue: workspaces },
       { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: WorkspaceAvailabilityService, useValue: availability },
@@ -162,6 +167,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     security.refresh()
   })
   registerAccessTransport(adapter.getInstance(), access, options.port, Boolean(options.development))
+  registerAuditTransport(adapter.getInstance(), audit, access)
   registerTrustTransport(adapter.getInstance(), trust, access)
   registerWorkspaceTransport(adapter.getInstance(), workspaces, access, environment, availability)
   adapter.getInstance().addHook('preHandler', async (request, reply) => {

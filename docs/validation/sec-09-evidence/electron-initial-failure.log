@@ -1,0 +1,90 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:35304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:30224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\operation-audit.spec.ts:57:1 › SEC-09 actual Electron shows real final approval audit, redacted bounded export and immutable history after restart (1.5m)
+(node:32432) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  2 e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools (2.2s)
+(node:2700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  3 e2e\operation-audit.spec.ts:190:1 › SEC-09 Electron read/export failures preserve filters; late export after navigation cannot download (1.8s)
+
+
+  1) e2e\operation-audit.spec.ts:57:1 › SEC-09 actual Electron shows real final approval audit, redacted bounded export and immutable history after restart 
+
+    Test timeout of 90000ms exceeded.
+
+    Error Context: test-results\operation-audit-SEC-09-act-d2685-table-history-after-restart\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\operation-audit-SEC-09-act-d2685-table-history-after-restart\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\operation-audit-SEC-09-act-d2685-table-history-after-restart\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools 
+
+    Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+    Call log:
+      - navigating to "/?audit", waiting until "load"
+
+
+      150 |       })
+      151 |     }
+    > 152 |     await page.goto('/?audit')
+          |                ^
+      153 |     await expect(page.locator('[data-audit-id]')).toHaveCount(50)
+      154 |     const firstIds = await page
+      155 |       .locator('[data-audit-id]')
+        at D:\Project\pi-workbench\e2e\operation-audit.spec.ts:152:16
+
+    Error Context: test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\operation-audit-SEC-09-Ele-10ad3-layout-do-not-execute-tools\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) e2e\operation-audit.spec.ts:190:1 › SEC-09 Electron read/export failures preserve filters; late export after navigation cannot download 
+
+    Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
+    Call log:
+      - navigating to "/?audit", waiting until "load"
+
+
+      192 |     { page } = f.desktop
+      193 |   try {
+    > 194 |     await page.goto('/?audit')
+          |                ^
+      195 |     await expect(page.locator('[data-audit-id]')).toHaveCount(1)
+      196 |     const exportRoute = '**/api/audit/export?**'
+      197 |     await page.route(exportRoute, (route) =>
+        at D:\Project\pi-workbench\e2e\operation-audit.spec.ts:194:16
+
+    Error Context: test-results\operation-audit-SEC-09-Ele-6fdb6--navigation-cannot-download\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\operation-audit-SEC-09-Ele-6fdb6--navigation-cannot-download\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\operation-audit-SEC-09-Ele-6fdb6--navigation-cannot-download\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    e2e\operation-audit.spec.ts:57:1 › SEC-09 actual Electron shows real final approval audit, redacted bounded export and immutable history after restart 
+    e2e\operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools 
+    e2e\operation-audit.spec.ts:190:1 › SEC-09 Electron read/export failures preserve filters; late export after navigation cannot download 

@@ -1,4 +1,11 @@
 export { eventSchema, fixtureSchema, healthSchema, sceneSchema } from './contracts.js'
+export {
+  auditEntrySchema,
+  auditQuerySchema,
+  auditPageSchema,
+  auditExportSchema,
+} from './audit-contracts.js'
+export type { AuditEntry, AuditKind, AuditQuery, AuditPage } from './audit-contracts.js'
 export { inputQueueCommandSchema, inputQueueSchema } from './input-queue.js'
 export {
   executionApprovalSchema,

@@ -3,6 +3,7 @@ import type { ReactNode } from 'react'
 import {
   ArrowLeftIcon,
   BlocksIcon,
+  ClipboardListIcon,
   KeyRoundIcon,
   MonitorIcon,
   PaletteIcon,
@@ -18,6 +19,14 @@ import { Input } from '@pi-workbench/ui/components/input'
 import { useNavigation } from '../../services/navigation.js'
 
 const sections = [
+  {
+    id: 'audit',
+    label: '操作审计',
+    group: '安全与运行',
+    href: '/?audit',
+    icon: ClipboardListIcon,
+    keywords: '审批 授权 决定 导出 记录',
+  },
   {
     id: 'appearance',
     label: '外观',
@@ -87,7 +96,7 @@ export function SettingsShell({
   const visible = sections.filter(
     (item) =>
       (!term || `${item.label} ${item.keywords}`.toLowerCase().includes(term)) &&
-      (item.id !== 'models' || Boolean(window.piWorkbench)),
+      (!['models', 'audit'].includes(item.id) || Boolean(window.piWorkbench)),
   )
   useEffect(() => {
     content.current?.scrollTo(0, 0)

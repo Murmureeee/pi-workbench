@@ -71,7 +71,10 @@ export function registerAccessTransport(
     if (!parsed.success) {
       return reply.code(400).send({ message: 'Invalid client identity' })
     }
-    const removed = access.revoke(parsed.data.id)
+    const removed = access.revoke(
+      parsed.data.id,
+      access.authenticate(request.headers.cookie)?.info.id ?? null,
+    )
     return reply.code(removed ? 200 : 404).send({ revoked: removed })
   })
   server.addHook('onClose', async () => access.close())

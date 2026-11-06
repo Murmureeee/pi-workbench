@@ -1,0 +1,4 @@
+{"ready":true,"directory":"D:\\Project\\pi-workbench\\.workbench\\sec09-native-JEhpNS","desktopPid":35368}
+17:02:59 [vite] (client) hmr update /@fs/D:/Project/pi-workbench/packages/ui/src/styles.css, /src/features/settings/operation-audit.css
+17:07:16 [vite] (client) hmr update /src/features/settings/operation-audit.tsx, /@fs/D:/Project/pi-workbench/packages/ui/src/styles.css
+NATIVE_CLOSED_OK

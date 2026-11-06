@@ -1,4 +1,5 @@
 import type { WorkspaceDatabase } from '../../infrastructure/database/database.js'
+import type { AuditService } from './audit.service.js'
 import type { TrustedContext, TrustRecord, TrustSnapshot } from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
@@ -20,6 +21,7 @@ export class TrustService {
   constructor(
     private readonly database: WorkspaceDatabase,
     private readonly userDirectory?: string,
+    private readonly audit?: AuditService,
   ) {}
 
   private records(): TrustRecord[] {
@@ -94,15 +96,28 @@ export class TrustService {
       grantedBy: clientId,
       revokedAt: null,
     })
-    this.database.db
-      .insert(resourceTrust)
-      .values({ id: record.recordId, data: JSON.stringify(record) })
-      .run()
+    this.database.sqlite.transaction(() => {
+      this.database.db
+        .insert(resourceTrust)
+        .values({ id: record.recordId, data: JSON.stringify(record) })
+        .run()
+      this.audit?.record({
+        kind: 'resource-trust',
+        objectId: record.recordId,
+        sessionId: null,
+        source: 'human',
+        actor: clientId,
+        risk: 'L2',
+        decision: 'granted',
+        scope: JSON.stringify({ ...record, executionPermission: false, effective: 'next-turn' }),
+        reason: '用户明确确认该物理来源与内容指纹；只允许文本上下文，不授予执行权限。',
+      })
+    })()
     return record
   }
 
   /** Idempotent single-record revoke; no restoration of old execution/approval permissions. */
-  revoke(recordId: string): boolean {
+  revoke(recordId: string, actor: string | null = null): boolean {
     const record = this.records().find((item) => item.recordId === recordId)
     if (!record) {
       return false
@@ -113,6 +128,21 @@ export class TrustService {
         .set({ data: JSON.stringify({ ...record, revokedAt: Date.now() }) })
         .where(eq(resourceTrust.id, recordId))
         .run()
+      this.audit?.recordRevocation({
+        kind: 'resource-trust',
+        objectId: record.recordId,
+        sessionId: null,
+        source: actor ? 'human' : 'host',
+        actor,
+        risk: 'L2',
+        decision: 'revoked',
+        scope: JSON.stringify({
+          path: record.path,
+          fingerprint: record.fingerprint,
+          effective: 'next-turn',
+        }),
+        reason: '撤销只影响后续轮次，已开始的文本快照与历史保留。',
+      })
     }
     return true
   }
