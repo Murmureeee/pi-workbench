@@ -13,6 +13,30 @@
   max-height: 60%;
   overflow-y: auto;
 }
+.managed-thread {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+.managed-thread > [data-slot='message-scroller'] {
+  flex: 1;
+  height: auto;
+  min-height: 120px;
+}
+.current-run-status {
+  flex: 0 1 auto;
+  min-height: 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-height: 26vh;
+  overflow-y: auto;
+  overflow-wrap: anywhere;
+  padding: 8px 24px;
+  border-top: 1px solid var(--border);
+  font-size: 12px;
+}
 .session-title {
   flex: 1;
   min-width: 0;

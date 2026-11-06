@@ -1,0 +1,12 @@
+{
+  "feature": "OBS-02",
+  "at": "2026-11-05T17:42:05.125Z",
+  "source": "Computer Use tool reported user physical Escape before the first native window observation; no further app input.",
+  "observations": 0,
+  "prompts": 0,
+  "kernels": 0,
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\obs02-native-g9vMhZ",
+  "desktopPid": 27020,
+  "hostPid": 35016,
+  "providerRequests": 0
+}

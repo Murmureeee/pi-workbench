@@ -1,0 +1,198 @@
+{
+  "feature": "OBS-02",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local HTTP error/reply/hold fixtures. No CDP, renderer routing, synthetic injection or real providers.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\obs02-native-g9vMhZ",
+  "desktopPid": 27020,
+  "prompts": 2,
+  "results": [
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "protocol": 1,
+      "epoch": "70d5beb9-e44c-4f1d-9912-82334c037c9b",
+      "seq": 14,
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    }
+  ],
+  "stageEvents": [
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 1,
+      "stage": null,
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 2,
+      "stage": "starting",
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 5,
+      "stage": "waiting-model",
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 6,
+      "stage": "streaming",
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 10,
+      "stage": "settling",
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 12,
+      "stage": "settling",
+      "phase": "completed"
+    }
+  ],
+  "stopFailures": [],
+  "queues": [
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "records": []
+    }
+  ],
+  "sessions": [
+    {
+      "id": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "title": "OBS-02 正常终态 · 原生验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "b9c00d89-df57-4635-bec4-5a691fb786c2",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "ef2cee12-a31f-4c02-ac2a-b2239fa6a6e7",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs02-native-g9vMhZ\\data\\standalone\\7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "createdAt": 1793925767755
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "b9c00d89-df57-4635-bec4-5a691fb786c2",
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "messageId": "69553dcb-e123-4420-9b46-3dbd9adc05c6",
+      "turnId": "0554649c-0688-4714-9833-04515094be89",
+      "status": "failed",
+      "text": "OBS-02 正常终态 · 原生验收",
+      "retryOf": null,
+      "error": "内核未能完成任务。原会话与首条消息保留，请检查目录和本地服务后明确重试。",
+      "createdAt": 1793925767758
+    },
+    {
+      "requestId": "f61bdafa-ca93-4f94-8473-50952af1e421",
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "messageId": "bff7a95b-75f0-446b-8ec8-0473117e4b97",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "status": "completed",
+      "text": "OBS-02 正常终态 · 原生验收",
+      "retryOf": "b9c00d89-df57-4635-bec4-5a691fb786c2",
+      "error": null,
+      "createdAt": 1793925911295
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+        "epoch": "70d5beb9-e44c-4f1d-9912-82334c037c9b",
+        "state": "ready",
+        "pid": 31864,
+        "pins": 0,
+        "lastUsedAt": 1793925919577,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "0b1aebd4-f6f5-406d-9735-a0ab093ec647",
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "epoch": "70d5beb9-e44c-4f1d-9912-82334c037c9b",
+      "seq": 12,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+          "messageId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91:assistant",
+          "prompt": "OBS-02 正常终态 · 原生验收",
+          "text": "OFFLINE_OK",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "stage": "settling",
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "7bcb74c4-2561-4a0a-af26-f3b83bc5a984\\70d5beb9-e44c-4f1d-9912-82334c037c9b\\sessions\\2026-11-06T00-45-17-304Z_01a1ae51-2a78-7250-ad40-6a991b62f2bf.jsonl": "309392abe06ad1cb553def3ce1d47154c3e81b3363a1bc51b8ecacd9411f1b0e"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

@@ -1,6 +1,6 @@
 import type { KernelCommand, KernelIdentity, KernelMessage } from './kernel-protocol.js'
 import type { createOfflineRuntime } from './sdk-runtime.js'
-import type { ModelRequest, Reasoning } from '@pi-workbench/shared'
+import type { ModelRequest, Reasoning, RunStage } from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
 import process from 'node:process'
@@ -25,6 +25,7 @@ let deliveredInput: { id: string; timestamp: number } | undefined
 let queueEnabled = false
 const tools = new ToolObserver(process.cwd())
 let reasoning: Reasoning | undefined
+let stage: RunStage | undefined
 let modelRequest: ModelRequest = {
   attempts: 0,
   retryCount: 0,
@@ -45,6 +46,14 @@ function send(payload: Payload, turnId = currentTurn) {
     return
   }
   process.send?.({ ...identity, seq: ++seq, turnId, ...payload })
+}
+
+/** Stages come from actual SDK lifecycle boundaries, deduplicated across text chunks. */
+function setStage(next: RunStage) {
+  if (next !== stage) {
+    stage = next
+    send({ type: 'stage', stage: next })
+  }
 }
 
 /** Stop work before acknowledging disposal; IPC loss also revokes the runtime. */
@@ -87,6 +96,7 @@ async function handle(command: KernelCommand) {
         error: null,
       }
       send({ type: 'model', modelRequest })
+      setStage('waiting-model')
     })
     if (closing || !process.connected) {
       // Parent disappeared during initialization; this process must not become an orphan.
@@ -95,6 +105,24 @@ async function handle(command: KernelCommand) {
       return
     }
     unsubscribe = runtime.session.subscribe((event) => {
+      if (event.type === 'compaction_start') {
+        setStage('compacting')
+      }
+      if (event.type === 'compaction_end') {
+        setStage('settling')
+      }
+      if (event.type === 'tool_execution_start') {
+        setStage('executing-tools')
+      }
+      if (event.type === 'tool_execution_end') {
+        setStage('settling')
+      }
+      if (
+        event.type === 'message_update' &&
+        event.assistantMessageEvent.type === 'toolcall_start'
+      ) {
+        setStage('preparing-tools')
+      }
       if (
         event.type === 'message_start' &&
         event.message.role === 'user' &&
@@ -135,6 +163,7 @@ async function handle(command: KernelCommand) {
         send({ type: 'reasoning', reasoning })
       }
       if (event.type === 'message_update' && event.assistantMessageEvent.type === 'text_delta') {
+        setStage('streaming')
         send({ type: 'delta', text: event.assistantMessageEvent.delta })
       } else {
         const tool = tools.observe(event)
@@ -159,6 +188,7 @@ async function handle(command: KernelCommand) {
         return
       }
       const id = randomUUID()
+      setStage('settling')
       let timer: ReturnType<typeof setTimeout> | undefined
       const item = await new Promise<{ id: string; text: string } | null>((resolve, reject) => {
         boundary = { id, resolve }
@@ -238,6 +268,7 @@ async function handle(command: KernelCommand) {
     deliveredInput = undefined
     tools.reset()
     reasoning = undefined
+    stage = undefined
     modelRequest = {
       attempts: 0,
       retryCount: 0,
@@ -264,6 +295,7 @@ async function handle(command: KernelCommand) {
       messageId: `${command.turnId}:assistant`,
     })
     send({ type: 'running' })
+    setStage('starting')
     send({ type: 'model', modelRequest })
     run = (async () => {
       let outcome: 'completed' | 'aborted' | 'error' = 'completed'
@@ -289,8 +321,10 @@ async function handle(command: KernelCommand) {
         error: error?.slice(0, 65536) ?? null,
       }
       send({ type: 'model', modelRequest })
+      setStage('settling')
       send({
         type: 'finished',
+        // This is sent only after session.prompt has settled, never on abort request.
         outcome,
         ...(error ? { error } : {}),
         ...activeRuntime.provider.stats(),

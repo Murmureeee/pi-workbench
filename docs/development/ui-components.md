@@ -92,3 +92,7 @@ SESSION-07继续复用既有官方Dialog、DropdownMenuRadioGroup/RadioItem、Fi
 ## OBS-01 安全消息展示
 
 MessageBody／MarkdownBody／HighlightedCode为conversation业务组合；复用既有MessageScroller／Message／Bubble／Button和经官方CLI获取的Base UI/base-nova CodeBlock。后者仅适配本地cn、移除未用复制动作，不另造primitive。CommonMark/GFM转换为安全React节点，未引入raw HTML插件，禁止图片自动请求与本地／自定义协议；Shiki仅完整受支持且不超12k代码按需加载，token用文本span展示。16k可展开预览与64k纯文本回退只影响视图。失败／迟到／原文不变、实际Electron及原生证据见[OBS-01验收](../validation/obs-01-evidence/acceptance.md)。
+
+## OBS-02 运行状态组合
+
+CurrentRunStatus 与 ModelRequestStatus 复用既有官方 Trace／TraceCollapsible、Alert 和 Button，业务阶段选择位于 shared 纯函数；无新增 primitive、依赖或 AI transport。ManagedThread 保留原 RuntimeClient，输入队列编辑与状态区共用同一 pane 查询，不新增第二份执行权威。当前阶段固定在输入区上方，旧行保留历史状态；同操作错误仅此处展示可折叠脱敏详情。终态消隐只改本窗口状态，held／未知／审批／执行中无消隐入口。语义 tokens、内部滚动及 800px 明暗布局与现有工作台一致，实际来源见 [OBS-02 记录](../validation/obs-02-evidence/acceptance.md)。

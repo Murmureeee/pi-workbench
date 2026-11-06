@@ -3,6 +3,7 @@ import type {
   SessionReceipt,
   SessionSubmission,
   SessionSubmit,
+  StopIntent,
 } from '@pi-workbench/shared'
 
 import { useQuery, useQueryClient } from '@tanstack/react-query'
@@ -70,6 +71,7 @@ import { SessionLibrary } from './session-library.js'
 import { SessionRenameDialog } from './session-rename-dialog.js'
 import { SessionSearchDialog } from './session-search-dialog.js'
 import { SessionSpaceDialog } from './session-space-dialog.js'
+import { useInputQueue } from './use-input-queue.js'
 import { useSessionOrganization } from './use-session-organization.js'
 import './session-workbench.css'
 
@@ -150,7 +152,7 @@ function SessionPane({
   const [pending, setPending] = useState(false),
     [error, setError] = useState(''),
     [notice, setNotice] = useState('')
-  const [stopping, setStopping] = useState<string | null>(null)
+  const [stopping, setStopping] = useState<StopIntent | null>(null)
   const [requestError, setRequestError] = useState<{ requestId: string; message: string } | null>(
     null,
   )
@@ -196,6 +198,7 @@ function SessionPane({
   const authorized =
     access.data?.authenticated && access.data.client?.kind === 'desktop' && !access.isError
   const csrf = access.data?.csrf ?? ''
+  const inputQueue = useInputQueue(sessionId, Boolean(authorized))
   const options = useQuery({
     queryKey: ['chat-options'],
     queryFn: async ({ signal }) =>
@@ -689,6 +692,9 @@ function SessionPane({
                   organization={currentOrganization}
                   changeOrganization={organization.change}
                   organizationAvailable={authorized && !organization.isError}
+                  queue={inputQueue}
+                  stop={stopping}
+                  submissionsSynchronized={submissions.isSuccess && !submissions.isError}
                 />
               ) : (
                 <div className="new-conversation new-session">
@@ -931,27 +937,54 @@ function SessionPane({
                         size="icon-sm"
                         variant="secondary"
                         aria-label="停止本轮"
-                        disabled={stopping === activeSubmission.requestId}
+                        disabled={
+                          stopping?.requestId === activeSubmission.requestId &&
+                          stopping.state === 'sending'
+                        }
                         onClick={() => {
                           const originKey = key
                           setError('')
                           setRequestError(null)
                           setNotice('')
-                          setStopping(activeSubmission.requestId)
+                          const intent: StopIntent = {
+                            requestId: activeSubmission.requestId,
+                            turnId: activeSubmission.turnId,
+                            state: 'sending',
+                            error: null,
+                          }
+                          setStopping(intent)
                           void sessionJson(
                             `/api/chat/sessions/${sessionId}/abort`,
                             undefined,
                             { requestId: activeSubmission.requestId },
                             csrf,
                           )
+                            .then(() => {
+                              if (activeKey.current === originKey) {
+                                setStopping((prior) =>
+                                  prior?.requestId === intent.requestId
+                                    ? { ...intent, state: 'requested' }
+                                    : prior,
+                                )
+                              }
+                              return undefined
+                            })
                             .catch((cause: unknown) => {
                               if (activeKey.current === originKey) {
-                                setError(
-                                  cause instanceof Error ? cause.message : '停止结果待确认。',
+                                setStopping((prior) =>
+                                  prior?.requestId === intent.requestId
+                                    ? {
+                                        ...intent,
+                                        state: 'unknown',
+                                        error:
+                                          cause instanceof Error
+                                            ? cause.message
+                                            : '停止结果待确认。',
+                                      }
+                                    : prior,
                                 )
                               }
                             })
-                            .finally(() => setStopping(null))
                         }}
                       >
                         <SquareIcon />
@@ -975,6 +1008,7 @@ function SessionPane({
                 </InputGroup>
                 {current ? (
                   <SessionInputQueue
+                    query={inputQueue}
                     sessionId={current.id}
                     turnId={activeSubmission?.turnId ?? null}
                     csrf={csrf}

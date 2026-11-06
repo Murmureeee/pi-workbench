@@ -195,10 +195,17 @@ export class KernelService {
         })
       }
       if (message.type === 'finished') {
+        // SDK finished acknowledges its awaited prompt; transport abort alone does not.
         this.events.publish(sessionId, epoch, message.turnId, {
           type: 'turn.finished',
           outcome: message.outcome,
           ...(message.error ? { error: message.error } : {}),
+        })
+      }
+      if (message.type === 'stage') {
+        this.events.publish(sessionId, epoch, message.turnId, {
+          type: 'stage.updated',
+          stage: message.stage,
         })
       }
     })
@@ -465,13 +472,6 @@ export class KernelService {
       }
       return result
     } catch (error) {
-      if (started && kernel && !settled) {
-        this.events.publish(task.sessionId, kernel.snapshot.epoch, task.input.turnId, {
-          type: 'turn.finished',
-          outcome: task.controller.signal.aborted ? 'aborted' : 'error',
-          error: error instanceof Error ? error.message : 'Kernel failed',
-        })
-      }
       if (task.directoryFailure) {
         try {
           // Preserve observations/history, releasing only this invalid runtime's OS handles.
@@ -482,10 +482,21 @@ export class KernelService {
             { cause },
           )
         }
-        throw task.directoryFailure
       }
       if (kernel?.snapshot.state === 'failed') {
         await this.pool.destroy(task.sessionId)
+      }
+      // A failed IPC/abort is not an SDK acknowledgement. Reap failed runtimes before
+      // publishing a fallback; dispatched work with no result stays uncertain to callers.
+      if (started && kernel && !settled) {
+        this.events.publish(task.sessionId, kernel.snapshot.epoch, task.input.turnId, {
+          type: 'turn.finished',
+          outcome: !dispatched && task.controller.signal.aborted ? 'aborted' : 'error',
+          error: error instanceof Error ? error.message : 'Kernel failed',
+        })
+      }
+      if (task.directoryFailure) {
+        throw task.directoryFailure
       }
       if (dispatched) {
         throw new KernelExecutionUncertain(

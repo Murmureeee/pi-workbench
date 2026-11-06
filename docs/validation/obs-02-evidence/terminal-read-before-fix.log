@@ -1,0 +1,51 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:29400) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:23700) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\run-stages.spec.ts:12:1 › OBS-02 actual Electron observes one current stage, synthetic tool/approval/compaction/retry cannot complete or dismiss, late updates preserve focus (15.4s)
+
+
+  1) e2e\run-stages.spec.ts:12:1 › OBS-02 actual Electron observes one current stage, synthetic tool/approval/compaction/retry cannot complete or dismiss, late updates preserve focus 
+
+    Error: expect(locator).not.toContainText(expected) failed
+
+    Locator: locator('.retained-session:not([hidden])').getByRole('region', { name: '当前运行阶段', exact: true })
+    Expected substring: not "本轮已结束"
+    Received string: "本轮已结束 · 压缩上下文"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "not toContainText" locator('.retained-session:not([hidden])').getByRole('region', { name: '当前运行阶段', exact: true }) with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').getByRole('region', { name: '当前运行阶段', exact: true })
+        14 × locator resolved to <section aria-live="polite" aria-label="当前运行阶段" data-stage="compacting" class="current-run-status" data-operation-id="84bb76db-1c50-41f4-877f-36940d558805">…</section>
+           - unexpected value "本轮已结束 · 压缩上下文"
+
+
+      68 |     await expect.poll(() => terminalReads).toBeGreaterThan(0)
+      69 |     await expect(page.getByRole('button', { name: '停止本轮', exact: true })).toHaveCount(0)
+    > 70 |     await expect(stage).not.toContainText('本轮已结束')
+         |                             ^
+      71 |     await expect(stage.getByRole('button', { name: '隐藏状态提示' })).toHaveCount(0)
+      72 |     await page.unroute(submissionRoute)
+      73 |     await expect(page.getByRole('button', { name: '停止本轮', exact: true })).toBeVisible()
+        at D:\Project\pi-workbench\e2e\run-stages.spec.ts:70:29
+
+    Error Context: test-results\run-stages-OBS-02-actual-E-f4657-late-updates-preserve-focus\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\run-stages-OBS-02-actual-E-f4657-late-updates-preserve-focus\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\run-stages-OBS-02-actual-E-f4657-late-updates-preserve-focus\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\run-stages.spec.ts:12:1 › OBS-02 actual Electron observes one current stage, synthetic tool/approval/compaction/retry cannot complete or dismiss, late updates preserve focus 

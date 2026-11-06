@@ -1,0 +1,588 @@
+{
+  "feature": "OBS-02",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local HTTP error/reply/hold fixtures. No CDP, renderer routing, synthetic injection or real providers.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\obs02-native-g9vMhZ",
+  "desktopPid": 27020,
+  "prompts": 5,
+  "results": [
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "protocol": 1,
+      "epoch": "70d5beb9-e44c-4f1d-9912-82334c037c9b",
+      "seq": 14,
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "protocol": 1,
+      "epoch": "d09313f6-fca6-4edc-9813-a9b51b8aec20",
+      "seq": 12,
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "Request was aborted"
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "protocol": 1,
+      "epoch": "15152a66-7a3a-4e93-9959-0182e9df6482",
+      "seq": 12,
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "Request was aborted"
+    },
+    {
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "protocol": 1,
+      "epoch": "d2ff6033-f841-4b35-a1b3-c62f75888ffd",
+      "seq": 10,
+      "turnId": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1",
+      "type": "finished",
+      "outcome": "error",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}"
+    }
+  ],
+  "stageEvents": [
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 1,
+      "stage": null,
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 2,
+      "stage": "starting",
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 5,
+      "stage": "waiting-model",
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 6,
+      "stage": "streaming",
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 10,
+      "stage": "settling",
+      "phase": "running"
+    },
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "seq": 12,
+      "stage": "settling",
+      "phase": "completed"
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "seq": 1,
+      "stage": null,
+      "phase": "running"
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "seq": 2,
+      "stage": "starting",
+      "phase": "running"
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "seq": 5,
+      "stage": "waiting-model",
+      "phase": "running"
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "seq": 6,
+      "stage": "streaming",
+      "phase": "running"
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "seq": 8,
+      "stage": "streaming",
+      "phase": "stopping"
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "seq": 11,
+      "stage": "settling",
+      "phase": "stopping"
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "seq": 12,
+      "stage": "settling",
+      "phase": "aborted"
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "seq": 1,
+      "stage": null,
+      "phase": "running"
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "seq": 2,
+      "stage": "starting",
+      "phase": "running"
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "seq": 5,
+      "stage": "waiting-model",
+      "phase": "running"
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "seq": 6,
+      "stage": "streaming",
+      "phase": "running"
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "seq": 8,
+      "stage": "streaming",
+      "phase": "stopping"
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "seq": 11,
+      "stage": "settling",
+      "phase": "stopping"
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "seq": 12,
+      "stage": "settling",
+      "phase": "aborted"
+    },
+    {
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "turnId": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1",
+      "seq": 1,
+      "stage": null,
+      "phase": "running"
+    },
+    {
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "turnId": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1",
+      "seq": 2,
+      "stage": "starting",
+      "phase": "running"
+    },
+    {
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "turnId": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1",
+      "seq": 5,
+      "stage": "waiting-model",
+      "phase": "running"
+    },
+    {
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "turnId": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1",
+      "seq": 8,
+      "stage": "settling",
+      "phase": "running"
+    },
+    {
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "turnId": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1",
+      "seq": 9,
+      "stage": "settling",
+      "phase": "error"
+    }
+  ],
+  "stopFailures": [
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "pid": 12584,
+      "source": "Explicit host failure injection; SDK keeps running. No renderer routing."
+    }
+  ],
+  "queues": [
+    {
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "records": []
+    },
+    {
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "records": []
+    },
+    {
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "records": [
+        {
+          "id": "aecaf1cd-12ae-4561-b9e4-4906a8d16716",
+          "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+          "epoch": "15152a66-7a3a-4e93-9959-0182e9df6482",
+          "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+          "source": "workbench",
+          "kind": "follow-up",
+          "position": 0,
+          "text": "停止后应保留且不自动执行的追加输入",
+          "status": "held",
+          "revision": 1,
+          "deliveredTurnId": null,
+          "error": null,
+          "inputDigest": "c7036029499e1f3a8fd3afd8d9b0c0b6e83343a152f9e35b12f66dd7afd086f0"
+        }
+      ]
+    },
+    {
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "records": []
+    }
+  ],
+  "sessions": [
+    {
+      "id": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "title": "OBS-02 正常终态 · 原生验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "b9c00d89-df57-4635-bec4-5a691fb786c2",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "ef2cee12-a31f-4c02-ac2a-b2239fa6a6e7",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs02-native-g9vMhZ\\data\\standalone\\7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "createdAt": 1793925767755
+    },
+    {
+      "id": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "title": "保持运行 · 停止未知",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "56eda0eb-409c-4f0d-9758-e1508b0703d7",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "39ab6d89-165b-474e-b1d0-ade4464444b4",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs02-native-g9vMhZ\\data\\standalone\\382a313a-ede1-45b1-86b8-93cb9883942e",
+      "createdAt": 1793926141644
+    },
+    {
+      "id": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "title": "保持运行 · 队列保留",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "9a71def0-b494-4622-bbf0-fa4828fe6228",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "cf4b9e7c-746a-4372-b3b3-520c04d19c0f",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs02-native-g9vMhZ\\data\\standalone\\f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "createdAt": 1793926601222
+    },
+    {
+      "id": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "title": "模型错误 · 原生阶段",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "f90795e0-d517-49e4-bb51-158536de405f",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "e998673c-cbcc-4830-b619-f5883de1a858",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\obs02-native-g9vMhZ\\data\\standalone\\29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "createdAt": 1793926983000
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "b9c00d89-df57-4635-bec4-5a691fb786c2",
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "messageId": "69553dcb-e123-4420-9b46-3dbd9adc05c6",
+      "turnId": "0554649c-0688-4714-9833-04515094be89",
+      "status": "failed",
+      "text": "OBS-02 正常终态 · 原生验收",
+      "retryOf": null,
+      "error": "内核未能完成任务。原会话与首条消息保留，请检查目录和本地服务后明确重试。",
+      "createdAt": 1793925767758
+    },
+    {
+      "requestId": "f61bdafa-ca93-4f94-8473-50952af1e421",
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "messageId": "bff7a95b-75f0-446b-8ec8-0473117e4b97",
+      "turnId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+      "status": "completed",
+      "text": "OBS-02 正常终态 · 原生验收",
+      "retryOf": "b9c00d89-df57-4635-bec4-5a691fb786c2",
+      "error": null,
+      "createdAt": 1793925911295
+    },
+    {
+      "requestId": "56eda0eb-409c-4f0d-9758-e1508b0703d7",
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "messageId": "40a1f877-69d4-4aa7-bc0d-aca0c53093a4",
+      "turnId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+      "status": "aborted",
+      "text": "保持运行 · 停止未知",
+      "retryOf": null,
+      "error": "Request was aborted",
+      "createdAt": 1793926141646
+    },
+    {
+      "requestId": "9a71def0-b494-4622-bbf0-fa4828fe6228",
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "messageId": "431bd173-f293-4335-abe6-9426e988fa20",
+      "turnId": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+      "status": "aborted",
+      "text": "保持运行 · 队列保留",
+      "retryOf": null,
+      "error": "Request was aborted",
+      "createdAt": 1793926601223
+    },
+    {
+      "requestId": "f90795e0-d517-49e4-bb51-158536de405f",
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "messageId": "91e3bb24-0a92-4d8d-8d07-2d1a90654e3e",
+      "turnId": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1",
+      "status": "failed",
+      "text": "模型错误 · 原生阶段",
+      "retryOf": null,
+      "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}",
+      "createdAt": 1793926983001
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "0b1aebd4-f6f5-406d-9735-a0ab093ec647",
+      "sessionId": "7bcb74c4-2561-4a0a-af26-f3b83bc5a984",
+      "epoch": "70d5beb9-e44c-4f1d-9912-82334c037c9b",
+      "seq": 12,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91",
+          "messageId": "9762cb8c-5549-4c85-8ca9-cc1e28db6d91:assistant",
+          "prompt": "OBS-02 正常终态 · 原生验收",
+          "text": "OFFLINE_OK",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "stage": "settling",
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "0b1aebd4-f6f5-406d-9735-a0ab093ec647",
+      "sessionId": "382a313a-ede1-45b1-86b8-93cb9883942e",
+      "epoch": "d09313f6-fca6-4edc-9813-a9b51b8aec20",
+      "seq": 12,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "4ab6c526-6cc2-407d-985a-25ad19b35b7b",
+          "messageId": "4ab6c526-6cc2-407d-985a-25ad19b35b7b:assistant",
+          "prompt": "保持运行 · 停止未知",
+          "text": "OFFLINE_",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "stage": "settling",
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted"
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "0b1aebd4-f6f5-406d-9735-a0ab093ec647",
+      "sessionId": "f1979e20-9907-4aa8-af8b-6b30dc779f0b",
+      "epoch": "15152a66-7a3a-4e93-9959-0182e9df6482",
+      "seq": 12,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "f2606c3d-6b56-44d1-9f79-03cd519fb127",
+          "messageId": "f2606c3d-6b56-44d1-9f79-03cd519fb127:assistant",
+          "prompt": "保持运行 · 队列保留",
+          "text": "OFFLINE_",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "stage": "settling",
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted"
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "0b1aebd4-f6f5-406d-9735-a0ab093ec647",
+      "sessionId": "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c",
+      "epoch": "d2ff6033-f841-4b35-a1b3-c62f75888ffd",
+      "seq": 9,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1",
+          "messageId": "be7ac46e-3472-4c7f-8bb3-19094a8bd5b1:assistant",
+          "prompt": "模型错误 · 原生阶段",
+          "text": "",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}"
+          },
+          "stage": "settling",
+          "phase": "error",
+          "tools": [],
+          "approval": null,
+          "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}"
+        }
+      ]
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "29f405ad-9c4d-4c2b-b470-e7b4f29bcd9c\\d2ff6033-f841-4b35-a1b3-c62f75888ffd\\sessions\\2026-11-06T01-03-03-992Z_01a1ae61-7138-76c4-bc30-58de0f06b223.jsonl": "05d144ff43296fd7627ae7c8864d1bb4eefb788539cae51b5e12cffb48d43a01",
+    "382a313a-ede1-45b1-86b8-93cb9883942e\\d09313f6-fca6-4edc-9813-a9b51b8aec20\\sessions\\2026-11-06T00-49-02-676Z_01a1ae54-9ad3-732f-967a-352d8b1c81a0.jsonl": "c4968e2e92947016ae8af74cf68d0e2a6e70357593b2f9e5eb4a3acfefefed83",
+    "7bcb74c4-2561-4a0a-af26-f3b83bc5a984\\70d5beb9-e44c-4f1d-9912-82334c037c9b\\sessions\\2026-11-06T00-45-17-304Z_01a1ae51-2a78-7250-ad40-6a991b62f2bf.jsonl": "309392abe06ad1cb553def3ce1d47154c3e81b3363a1bc51b8ecacd9411f1b0e",
+    "f1979e20-9907-4aa8-af8b-6b30dc779f0b\\15152a66-7a3a-4e93-9959-0182e9df6482\\sessions\\2026-11-06T00-56-42-230Z_01a1ae5b-9df6-7472-9373-00435ce5a430.jsonl": "d8c083d584f6653e8955577ebabe3b79b84c1b6951d07e53049f12be447636fe"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "ownedProcessesExited": true
+}

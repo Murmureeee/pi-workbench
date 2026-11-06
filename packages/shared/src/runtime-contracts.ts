@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 import { modelRequestSchema } from './model-request.js'
 import { reasoningSchema } from './reasoning-observation.js'
+import { runStageSchema } from './run-activity.js'
 import {
   interruptToolObservations,
   mergeToolObservation,
@@ -17,6 +18,7 @@ export const runtimeCapabilities = [
   'reasoning-observation-v1',
   'model-request-v1',
   'input-queue-v1',
+  'run-stage-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),
@@ -35,6 +37,7 @@ const turnSchema = z.strictObject({
   text: z.string(),
   reasoning: reasoningSchema.optional(),
   modelRequest: modelRequestSchema.optional(),
+  stage: runStageSchema.optional(),
   phase: z.enum(['running', 'stopping', 'completed', 'aborted', 'error', 'interrupted']),
   tools: z.array(runtimeToolSchema),
   approval: approvalSchema.nullable(),
@@ -92,6 +95,7 @@ export const runtimeEventSchema = z
       z.strictObject({ type: z.literal('tool.updated'), tool: runtimeToolSchema }),
       z.strictObject({ type: z.literal('reasoning.updated'), reasoning: reasoningSchema }),
       z.strictObject({ type: z.literal('model.updated'), modelRequest: modelRequestSchema }),
+      z.strictObject({ type: z.literal('stage.updated'), stage: runStageSchema }),
       z.strictObject({ type: z.literal('approval.requested'), approval: approvalSchema }),
       z.strictObject({ type: z.literal('approval.resolved'), approvalId: z.string() }),
       z.strictObject({ type: z.literal('turn.stopping') }),
@@ -196,6 +200,9 @@ export function applyRuntimeEvent(state: RuntimeSnapshot, event: RuntimeEvent): 
   }
   let turn = { ...active }
   switch (payload.type) {
+    case 'stage.updated':
+      turn.stage = payload.stage
+      break
     case 'model.updated':
       if (
         turn.modelRequest?.state === 'settled' ||

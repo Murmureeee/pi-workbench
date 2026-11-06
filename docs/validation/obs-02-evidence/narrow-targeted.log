@@ -1,0 +1,25 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:30064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+(node:29668) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\model-requests.spec.ts:9:1 › MODEL-07 actual Electron merges a lost request and pushed model error, exposes zero retry policy and reconciles without resending (7.5s)
+  ok  2 e2e\model-requests.spec.ts:57:1 › MODEL-07 synthetic wait deadlines never retry, preserve completed/denied tools, isolate focus and remain stoppable in actual Electron (13.7s)
+  ok  3 e2e\reasoning.spec.ts:10:1 › OBS-06 actual Electron/SDK public reasoning is collapsed, redacted, copyable and downloadable; privacy survives refresh (8.4s)
+  ok  4 e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows (8.4s)
+  ok  5 e2e\run-stages.spec.ts:10:1 › OBS-02 actual Electron observes one current stage, synthetic tool/approval/compaction/retry cannot complete or dismiss, late updates preserve focus (10.1s)
+  ok  6 e2e\run-stages.spec.ts:125:1 › OBS-02 Electron failed stop remains unknown with same SDK PID; confirmation and terminal dismissal never change durable results (6.7s)
+  ok  7 e2e\run-stages.spec.ts:174:1 › OBS-02 Electron queued follow-up handoff has no false completed phase and terminal feedback is keyed by operation (51.5s)
+  ok  8 e2e\workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts (8.8s)
+{"event":"session-run-failed","detail":{"name":"Error","message":"执行目录不可用：当前 Windows 用户无法读取这个目录。 本轮已中断，请核对历史与现场后明确发送；未自动重发。"}}
+  ok  9 e2e\workspace-recovery.spec.ts:212:1 › WS-07 actual Electron background task stops on real OS directory access loss; recovery and full restart never replay (10.4s)
+  ok 10 e2e\workspace-recovery.spec.ts:282:1 › WS-07 Electron failed and late recovery checks keep drafts, isolate targets and allow explicit retry (5.9s)
+  ok 11 e2e\workspace-recovery.spec.ts:329:1 › WS-07 Electron unavailable new-draft directory blocks sending but permits explicit replacement and project changes without creating a session (5.8s)
+
+  11 passed (2.5m)

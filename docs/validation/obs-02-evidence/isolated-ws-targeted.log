@@ -1,0 +1,28 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:19044) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 11 tests using 1 worker
+
+(node:7984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok  1 e2e\session-creation.spec.ts:84:1 › SESSION-01 Electron drafts, composition Enter, durable first send and continuing the same session (8.8s)
+{"event":"session-accept-failed","detail":{"name":"SqliteError","message":"injected write failure"}}
+  ok  2 e2e\session-creation.spec.ts:156:1 › SESSION-01 Electron preserves drafts on SQL failure and reconciles a lost accepted response after refresh without a second prompt (5.0s)
+  ok  3 e2e\session-creation.spec.ts:219:1 › SESSION-01 Electron project entry preselects its verified directory, global new resets attribution, themes and narrow layout stay usable (5.2s)
+  ok  4 e2e\session-creation.spec.ts:269:1 › SESSION-01 existing provider selection remains configured/unverified and disabled; no config write or external model request (4.5s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok  5 e2e\session-creation.spec.ts:316:1 › SESSION-01 actual SDK error keeps the session and offers explicit retry; a late successful save does not leave settings (5.6s)
+  ok  6 e2e\session-creation.spec.ts:366:1 › INPUT-01 Electron rejects whitespace and composition Enter, preserves line breaks and submits once (4.0s)
+  ok  7 e2e\session-creation.spec.ts:412:1 › INPUT-01 Electron restores project/model/new draft through navigation and reload without sending another session draft (11.6s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok  8 e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart (12.6s)
+{"event":"session-project-failed","detail":{"name":"SqliteError","message":"fixture disk failure"}}
+  ok  9 e2e\session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution (7.1s)
+  ok 10 e2e\session-spaces.spec.ts:248:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows (10.3s)
+  ok 11 e2e\session-spaces.spec.ts:317:1 › SESSION-07 a late association receipt preserves a newer membership and cannot close a reopened dialog (10.2s)
+
+  11 passed (1.7m)

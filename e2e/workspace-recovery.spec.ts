@@ -162,8 +162,17 @@ test('WS-07 Electron untrusted resource notice, moved-directory recovery, physic
     await page.emulateMedia({ colorScheme: 'dark' })
     await page.setViewportSize({ width: 800, height: 760 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await page.screenshot({
+      path: `${evidence}/obs-02-directory-recovery-dark-800.png`,
+      animations: 'disabled',
+    })
     await expect(pane(f).getByRole('button', { name: '重新校验执行目录' })).toBeInViewport()
     await expect(pane(f).getByRole('button', { name: '发送任务' })).toBeInViewport({ ratio: 1 })
+    await expect(pane(f).getByRole('region', { name: '当前运行阶段', exact: true })).toBeInViewport(
+      {
+        ratio: 1,
+      },
+    )
     const viewport = await pane(f)
       .getByLabel('受管会话消息')
       .evaluate((element) => ({

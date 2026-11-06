@@ -85,6 +85,12 @@ test('MODEL-07 synthetic wait deadlines never retry, preserve completed/denied t
       type: 'tool.updated',
       tool: { id: 'denied', name: 'bash', status: 'denied', summary: '合成观察：拒绝保持有效' },
     })
+    // The synthetic replacement resets the cursor; retain the real client's monotonic
+    // protection and establish a fresh read-only observer before timed fixture updates.
+    await page.reload()
+    await expect(
+      page.locator('.retained-session:not([hidden])').getByLabel('会话同步状态'),
+    ).toHaveText('已同步')
     const request = {
       attempts: 2,
       retryCount: 1,

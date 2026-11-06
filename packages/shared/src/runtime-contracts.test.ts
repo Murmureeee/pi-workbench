@@ -117,6 +117,7 @@ describe('CORE-05 authoritative observation contract', () => {
         'reasoning-observation-v1',
         'model-request-v1',
         'input-queue-v1',
+        'run-stage-v1',
       ],
       mutations: false,
       realProviderEnabled: false,

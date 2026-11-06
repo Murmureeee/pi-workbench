@@ -1,6 +1,6 @@
+import type { useInputQueue } from './use-input-queue.js'
 import type { InputQueueCommand, InputQueueRecord } from '@pi-workbench/shared'
 
-import { useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 
 import { inputQueueSchema } from '@pi-workbench/shared'
@@ -27,6 +27,7 @@ export function SessionInputQueue({
   text,
   enabled,
   onQueued,
+  query,
 }: {
   sessionId: string
   turnId: string | null
@@ -34,15 +35,8 @@ export function SessionInputQueue({
   text: string
   enabled: boolean
   onQueued: (text: string) => void
+  query: ReturnType<typeof useInputQueue>
 }) {
-  const query = useQuery({
-    queryKey: ['input-queue', sessionId],
-    queryFn: async ({ signal }) =>
-      inputQueueSchema.parse(await sessionJson(`/api/chat/sessions/${sessionId}/queue`, signal)),
-    enabled,
-    refetchInterval: 600,
-    gcTime: 0,
-  })
   const [pending, setPending] = useState(false),
     [error, setError] = useState('')
   const [editing, setEditing] = useState<{ record: InputQueueRecord; text: string } | null>(null)

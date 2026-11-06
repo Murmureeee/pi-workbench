@@ -99,6 +99,20 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     if (!context) {
       throw new Error('Missing Electron context')
     }
+    // REST and the real TCP observation stream must share this fixture's daemon.
+    // HTTP routing alone leaves WebSocket on the unrelated development instance.
+    await context.addInitScript(() => {
+      const NativeWebSocket = window.WebSocket
+      window.WebSocket = class extends NativeWebSocket {
+        constructor(url: string | URL, protocols?: string | string[]) {
+          const streamUrl = new URL(url)
+          if (streamUrl.pathname === '/api/events') {
+            streamUrl.port = '4318'
+          }
+          super(streamUrl, protocols)
+        }
+      }
+    })
     await context.route('**/api/**', async (route) => {
       const url = new URL(route.request().url())
       const response = await route.fetch({
