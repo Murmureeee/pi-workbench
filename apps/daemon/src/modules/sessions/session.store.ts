@@ -6,6 +6,7 @@ import type {
   InputQueueRecord,
   ManagedSession,
   ModelSelection,
+  ModelUsageRecord,
   RuntimeSnapshot,
   SessionModelState,
   SessionOrganization,
@@ -39,6 +40,7 @@ import {
   readNativeHistory,
   readNativeMessage,
   readNativeRange,
+  recordedContextWindow,
 } from '@pi-workbench/agent-adapter'
 import {
   approvalRecordSchema,
@@ -55,7 +57,9 @@ import {
   runtimeSnapshotSchema,
   sessionModelStateSchema,
   sessionOrganizationSchema,
+  sessionUsageSchema,
   submissionSchema,
+  sumRecordedTokens,
 } from '@pi-workbench/shared'
 
 import {
@@ -77,6 +81,7 @@ type TurnRow = typeof sessionTurns.$inferSelect
 interface LoadedMessage {
   message: HistoryMessage
   text: () => string
+  usage?: ModelUsageRecord
 }
 interface LoadedHistory {
   messages: LoadedMessage[]
@@ -1368,7 +1373,24 @@ export class SessionStore {
           outcome: entry.message.outcome,
           error: entry.message.error,
         }
-        result.messages.push({ message, text: () => readNativeMessage(runtime.sessionFile, entry) })
+        result.messages.push({
+          message,
+          text: () => readNativeMessage(runtime.sessionFile, entry),
+          ...(entry.message.usage
+            ? {
+                usage: {
+                  ...entry.message.usage,
+                  messageId: message.id,
+                  epoch: message.epoch,
+                  turnId: message.turnId,
+                  contextWindow: recordedContextWindow(
+                    entry.message.usage.provider,
+                    entry.message.usage.model,
+                  ),
+                },
+              }
+            : {}),
+        })
         if (
           binding &&
           message.role === 'assistant' &&
@@ -1491,9 +1513,53 @@ export class SessionStore {
     return result
   }
 
+  /** Read-only usage from identity-checked committed records. Partial counters/diagnostics
+   * stay visible; paging returns 20 turns and at most 100 requests each, without model calls. */
+  usage(sessionId: string, cursor?: string) {
+    if (!this.managedSessions().some((session) => session.id === sessionId)) {
+      return undefined
+    }
+    const stamp = this.searchStamp(sessionId)
+    const loaded = this.load(sessionId)
+    const submissions = this.database.db
+      .select()
+      .from(sessionSubmissions)
+      .where(eq(sessionSubmissions.sessionId, sessionId))
+      .orderBy(asc(sessionSubmissions.createdAt), asc(sessionSubmissions.requestId))
+      .all()
+    const end = cursor ? submissions.findIndex((row) => row.turnId === cursor) : submissions.length
+    if (end < 0) {
+      throw new Error('用量分页位置已失效，请刷新。')
+    }
+    const start = Math.max(0, end - 20)
+    const records = loaded.messages.flatMap((item) => (item.usage ? [item.usage] : []))
+    if (this.searchStamp(sessionId) !== stamp) {
+      throw new Error('历史正在更新，请刷新用量；未混合统计。')
+    }
+    return sessionUsageSchema.parse({
+      sessionId,
+      observedAt: Date.now(),
+      source: 'sdk-jsonl',
+      totals: sumRecordedTokens(records),
+      latest: records.at(-1) ?? null,
+      turns: submissions.slice(start, end).map((row) => {
+        const requests = records.filter((record) => record.turnId === row.turnId)
+        return {
+          turnId: row.turnId,
+          status: row.status,
+          createdAt: row.createdAt,
+          requests: requests.slice(-100),
+          totalRequests: requests.length,
+        }
+      }),
+      nextCursor: start > 0 ? (submissions[start]?.turnId ?? null) : null,
+      totalTurns: submissions.length,
+      diagnostics: loaded.diagnostics.map((item) => item.code),
+    })
+  }
+
   /** Newest page by default, at most 100 messages, 64 KiB UTF-8 preview each. Stable IDs anchor
-   * earlier pages. A vanished cursor is an explicit refresh error, never a silent history splice.
-   */
+   * earlier pages. A vanished cursor is an explicit refresh error, never a silent history splice. */
   history(sessionId: string, cursor?: string, limit = historyPageSize, around?: string) {
     if (!this.list().some((session) => session.id === sessionId)) {
       return undefined

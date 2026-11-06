@@ -1,0 +1,28 @@
+{
+  "feature": "MODEL-05",
+  "verifiedAt": "2026-11-06T13:45:31.899Z",
+  "vitest": {
+    "files": 50,
+    "passed": 317
+  },
+  "e2e": {
+    "passed": 118
+  },
+  "codeFiles": 371,
+  "native": {
+    "feature": "MODEL-05",
+    "observations": 54,
+    "normalExits": 2,
+    "providerRequests": 0,
+    "restartPrompts": 0,
+    "restartKernels": 0,
+    "description": "实际首次发送使用明确的本地SSE usage夹具，原生展开核对input96／output16／cacheRead32／total144、消息／代际／轮次及未知价格来源与时间；第二轮未提供usage，SDK默认0显示未知，会话合计保留已记录144和未知1次。宿主注入只读服务异常后显示未同步与过期数据提示，在故障仍存在时点击重新读取保留错误及旧数据，恢复后由定时刷新重新同步，不冒充实际磁盘故障或恢复后手动重试，不新增模型请求。同一内核的localRequests累计从1到2，每轮各一次。草稿与设置返回保留，明暗802px窄窗可展开消息，深色双展开后内部滚动至底并以Escape关闭，浅色单展开通过关闭按钮返回；同data/profile重启保留两轮统计、历史哈希不变且0发送／0内核。两次文件菜单正常退出；Unicode注入不冒充真实IME，UIA慢一帧通过后续只读观察确认，RootWebArea焦点不等同具体DOM焦点。窗口第一次右边缘拖动未改变宽度，调整至实际边缘后截图确认802px。"
+  },
+  "providerRequests": 0,
+  "piConfigurationChanged": false,
+  "canonicalBudgetChanged": false,
+  "lockChanged": false,
+  "installer": false,
+  "browserStandalone": "deferred",
+  "ops08": "in_progress"
+}

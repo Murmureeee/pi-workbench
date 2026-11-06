@@ -1,0 +1,288 @@
+{
+  "feature": "MODEL-05",
+  "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP; no CDP or renderer routing. Owned local HTTP fixture reports deterministic usage only for explicit usage input; unknown input omits usage.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\model05-native-lNoXLy",
+  "desktopPid": 6744,
+  "prompts": 2,
+  "results": [
+    {
+      "sessionId": "5aa2a633-9444-4a31-9c68-5b9ab2867ec2",
+      "protocol": 1,
+      "epoch": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e",
+      "seq": 15,
+      "turnId": "979ecb0f-95e5-4b1a-b2fb-053e70acf564",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "5aa2a633-9444-4a31-9c68-5b9ab2867ec2",
+      "protocol": 1,
+      "epoch": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e",
+      "seq": 30,
+      "turnId": "c4fe8ea0-81f1-43ef-892d-c63a502ee983",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 2,
+      "blockedNetworkAttempts": 0
+    }
+  ],
+  "faults": [
+    {
+      "action": "fail-usage",
+      "time": "2026-11-06T13:26:39.572Z"
+    },
+    {
+      "action": "recover-usage",
+      "time": "2026-11-06T13:27:42.613Z"
+    }
+  ],
+  "usages": [
+    {
+      "sessionId": "5aa2a633-9444-4a31-9c68-5b9ab2867ec2",
+      "observedAt": 1793972287906,
+      "source": "sdk-jsonl",
+      "totals": {
+        "input": {
+          "known": 96,
+          "unknown": 1
+        },
+        "output": {
+          "known": 16,
+          "unknown": 1
+        },
+        "cacheRead": {
+          "known": 32,
+          "unknown": 1
+        },
+        "cacheWrite": {
+          "known": 0,
+          "unknown": 2
+        },
+        "total": {
+          "known": 144,
+          "unknown": 1
+        }
+      },
+      "turns": [
+        {
+          "turnId": "979ecb0f-95e5-4b1a-b2fb-053e70acf564",
+          "status": "completed",
+          "createdAt": 1793971233855,
+          "requests": [
+            {
+              "messageId": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e:e62bf664",
+              "epoch": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e",
+              "turnId": "979ecb0f-95e5-4b1a-b2fb-053e70acf564",
+              "provider": "piw-offline",
+              "model": "fixture",
+              "at": 1793971235067,
+              "tokens": {
+                "input": 96,
+                "output": 16,
+                "cacheRead": 32,
+                "cacheWrite": null,
+                "total": 144
+              },
+              "contextWindow": 8192
+            }
+          ],
+          "totalRequests": 1
+        },
+        {
+          "turnId": "c4fe8ea0-81f1-43ef-892d-c63a502ee983",
+          "status": "completed",
+          "createdAt": 1793971520157,
+          "requests": [
+            {
+              "messageId": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e:9d95c60e",
+              "epoch": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e",
+              "turnId": "c4fe8ea0-81f1-43ef-892d-c63a502ee983",
+              "provider": "piw-offline",
+              "model": "fixture",
+              "at": 1793971520337,
+              "tokens": {
+                "input": null,
+                "output": null,
+                "cacheRead": null,
+                "cacheWrite": null,
+                "total": null
+              },
+              "contextWindow": 8192
+            }
+          ],
+          "totalRequests": 1
+        }
+      ],
+      "latest": {
+        "messageId": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e:9d95c60e",
+        "epoch": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e",
+        "turnId": "c4fe8ea0-81f1-43ef-892d-c63a502ee983",
+        "provider": "piw-offline",
+        "model": "fixture",
+        "at": 1793971520337,
+        "tokens": {
+          "input": null,
+          "output": null,
+          "cacheRead": null,
+          "cacheWrite": null,
+          "total": null
+        },
+        "contextWindow": 8192
+      },
+      "nextCursor": null,
+      "totalTurns": 2,
+      "diagnostics": []
+    }
+  ],
+  "pending": [],
+  "sessions": [
+    {
+      "id": "5aa2a633-9444-4a31-9c68-5b9ab2867ec2",
+      "title": "用量原生验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "e11cce9f-5dc3-4a94-b531-821bdd5d2967",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "69fe999a-7ea2-49c0-bc1b-6cc81e4e72b3",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\model05-native-lNoXLy\\data\\standalone\\5aa2a633-9444-4a31-9c68-5b9ab2867ec2",
+      "createdAt": 1793971233853
+    }
+  ],
+  "models": [
+    {
+      "sessionId": "5aa2a633-9444-4a31-9c68-5b9ab2867ec2",
+      "revision": 1,
+      "requested": {
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "effective": {
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "effectiveRevision": 1
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "5b6c8a68-3379-462a-83a4-3e258afac897",
+      "sessionId": "5aa2a633-9444-4a31-9c68-5b9ab2867ec2",
+      "epoch": "345e1cb4-1ef0-478b-8a93-99dbc971cd4e",
+      "seq": 23,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "979ecb0f-95e5-4b1a-b2fb-053e70acf564",
+          "messageId": "979ecb0f-95e5-4b1a-b2fb-053e70acf564:assistant",
+          "prompt": "用量原生验收",
+          "text": "USAGE_FIXTURE_OK",
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null,
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        },
+        {
+          "id": "c4fe8ea0-81f1-43ef-892d-c63a502ee983",
+          "messageId": "c4fe8ea0-81f1-43ef-892d-c63a502ee983:assistant",
+          "prompt": "未知用量报告",
+          "text": "OFFLINE_OK",
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null,
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 1,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "historyBefore": {},
+  "historyAfter": {
+    "5aa2a633-9444-4a31-9c68-5b9ab2867ec2\\345e1cb4-1ef0-478b-8a93-99dbc971cd4e\\sessions\\2026-11-06T13-20-34-903Z_01a1b104-a857-762e-899b-8a96224f341f.jsonl": "1c17bf2dcd1310e24f4c2e9ce6830804386d94e0dde9a07337fb748f9fb4102b"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "historyAtClose": {
+    "5aa2a633-9444-4a31-9c68-5b9ab2867ec2\\345e1cb4-1ef0-478b-8a93-99dbc971cd4e\\sessions\\2026-11-06T13-20-34-903Z_01a1b104-a857-762e-899b-8a96224f341f.jsonl": "1c17bf2dcd1310e24f4c2e9ce6830804386d94e0dde9a07337fb748f9fb4102b"
+  },
+  "protectedAfterClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  }
+}

@@ -102,6 +102,14 @@ export async function createOfflineProvider() {
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
+    if (mode === 'usage') {
+      // Explicit local fixture reports deterministic counters; never presented as real billing.
+      response.end(
+        frame({ content: 'USAGE_FIXTURE_OK' }, 'stop') +
+          `data: ${JSON.stringify({ id: 'piw-offline', choices: [], usage: { prompt_tokens: 128, completion_tokens: 16, total_tokens: 144, prompt_tokens_details: { cached_tokens: 32 } } })}\n\ndata: [DONE]\n\n`,
+      )
+      return
+    }
     if (
       [
         'guard-read',

@@ -230,3 +230,11 @@ export {
   sessionGrantRevokeSchema,
 } from './session-grants.js'
 export type { SessionGrant } from './session-grants.js'
+export {
+  modelTokensSchema,
+  modelUsageRecordSchema,
+  sessionUsageSchema,
+  recordedTokens,
+  sumRecordedTokens,
+} from './model-usage.js'
+export type { ModelTokens, ModelUsageRecord, SessionUsage } from './model-usage.js'

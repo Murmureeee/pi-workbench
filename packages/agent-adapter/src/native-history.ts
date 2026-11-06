@@ -1,10 +1,15 @@
-import type { Reasoning, TurnBinding } from '@pi-workbench/shared'
+import type { ModelTokens, Reasoning, TurnBinding } from '@pi-workbench/shared'
 
 import { closeSync, fstatSync, openSync, readSync } from 'node:fs'
 
 import { z } from 'zod'
 
-import { historyPreviewBytes, publicReasoning, turnBindingSchema } from '@pi-workbench/shared'
+import {
+  historyPreviewBytes,
+  publicReasoning,
+  recordedTokens,
+  turnBindingSchema,
+} from '@pi-workbench/shared'
 
 const headerSchema = z.object({
   type: z.literal('session'),
@@ -27,6 +32,12 @@ const markerSchema = z.object({
   customType: z.literal('pi-workbench.turn.v1'),
   data: turnBindingSchema,
 })
+const usageMetadataSchema = z.object({
+  provider: z.string().max(200).catch('').optional(),
+  model: z.string().max(200).catch('').optional(),
+  timestamp: z.number().finite().catch(0).optional(),
+  usage: z.unknown().optional(),
+})
 export interface NativeRecord {
   id: string
   parentId: string | null
@@ -42,6 +53,12 @@ export interface NativeRecord {
     truncated: boolean
     outcome: string | null
     error: string | null
+    usage?: {
+      provider: string | null
+      model: string | null
+      at: number | null
+      tokens: ModelTokens
+    }
   }
 }
 export interface NativeDiagnostic {
@@ -184,14 +201,22 @@ export function readNativeHistory(
           throw new Error('Invalid workbench turn binding')
         }
         if (entry.type === 'message') {
-          const message = messageSchema.parse(
-            z.object({ message: z.unknown() }).parse(value).message,
-          )
+          const rawMessage = z.object({ message: z.unknown() }).parse(value).message
+          const message = messageSchema.parse(rawMessage)
+          const metadata = usageMetadataSchema.parse(rawMessage)
           const text = contentText(message.content)
           if (message.role !== 'system') {
             record.message = {
               ...(message.role === 'assistant'
-                ? { reasoning: publicReasoning(message.content) }
+                ? {
+                    reasoning: publicReasoning(message.content),
+                    usage: {
+                      provider: metadata.provider || null,
+                      model: metadata.model || null,
+                      at: metadata.timestamp || null,
+                      tokens: recordedTokens(metadata.usage),
+                    },
+                  }
                 : {}),
               role: message.role,
               text: previewText(text),

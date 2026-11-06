@@ -1,0 +1,30 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+stderr | apps/daemon/test/model-usage.test.ts > mODEL-05 actual SDK counters retain per-message/turn identity, unknown zeros, cold history and read-only access
+{"event":"session-run-failed","detail":{"name":"ZodError","message":"[\n  {\n    \"code\": \"invalid_value\",\n    \"values\": [\n      \"reply\",\n      \"hold\",\n      \"error\",\n      \"unknown-tool\",\n      \"context\",\n      \"trust-context\",\n      \"rendering\",\n      \"rendering-long\",\n      \"scrolling\",\n      \"reasoning\",\n      \"queue\",\n      \"queue-fast\",\n      \"guard-read\",\n      \"guard-denied\",\n      \"approval-write\",\n      \"approval-command\",\n      \"approval-running\",\n      \"approval-boundary\"\n    ],\n    \"path\": [\n      \"fixture\"\n    ],\n    \"message\": \"Invalid option: expected one of \\\"reply\\\"|\\\"hold\\\"|\\\"error\\\"|\\\"unknown-tool\\\"|\\\"context\\\"|\\\"trust-context\\\"|\\\"rendering\\\"|\\\"rendering-long\\\"|\\\"scrolling\\\"|\\\"reasoning\\\"|\\\"queue\\\"|\\\"queue-fast\\\"|\\\"guard-read\\\"|\\\"guard-denied\\\"|\\\"approval-write\\\"|\\\"approval-command\\\"|\\\"approval-running\\\"|\\\"approval-boundary\\\"\"\n  }\n]"}}
+
+ ❯ apps/daemon/test/model-usage.test.ts (1 test | 1 failed) 20003ms
+   × mODEL-05 actual SDK counters retain per-message/turn identity, unknown zeros, cold history and read-only access 20003ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/model-usage.test.ts > mODEL-05 actual SDK counters retain per-message/turn identity, unknown zeros, cold history and read-only access
+Error: Test timed out in 20000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/daemon/test/model-usage.test.ts:16:1
+     14| import { authorizedHeaders } from './helpers/access.js'
+     15|
+     16| test('mODEL-05 actual SDK counters retain per-message/turn identity, u…
+       | ^
+     17|   const directory = mkdtempSync(join(tmpdir(), 'piw-usage-'))
+     18|   const app = await createApp({ dataDir: directory, port: 24613, devel…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 1 passed (2)
+   Start at  20:46:31
+   Duration  21.94s (tests 91%, import 8%, transform 1%)
+

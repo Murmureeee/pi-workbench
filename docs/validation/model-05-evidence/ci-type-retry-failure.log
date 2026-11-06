@@ -1,0 +1,54 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 372ms on 325 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+apps/daemon/test/model-usage.test.ts(40,7): error TS2322: Type '{ projectId: null; workspaceId: null; model: { kind: "local-fixture"; provider: string; model: "fixture"; }; thinking: "off"; }' is not assignable to type '{ projectId: string | null; workspaceId: string | null; model: { kind: "local-fixture"; provider: "piw-offline"; model: "fixture" | "fixture-reasoning"; } | { kind: "provider"; provider: string; model: string; }; thinking: "off" | ... 5 more ... | "max"; }'.
+  Types of property 'model' are incompatible.
+    Type '{ kind: "local-fixture"; provider: string; model: "fixture"; }' is not assignable to type '{ kind: "local-fixture"; provider: "piw-offline"; model: "fixture" | "fixture-reasoning"; } | { kind: "provider"; provider: string; model: string; }'.
+      Type '{ kind: "local-fixture"; provider: string; model: "fixture"; }' is not assignable to type '{ kind: "local-fixture"; provider: "piw-offline"; model: "fixture" | "fixture-reasoning"; }'.
+        Types of property 'provider' are incompatible.
+          Type 'string' is not assignable to type '"piw-offline"'.
+apps/daemon/test/model-usage.test.ts(58,7): error TS2322: Type '{ projectId: null; workspaceId: null; model: { kind: "local-fixture"; provider: string; model: "fixture"; }; thinking: "off"; }' is not assignable to type '{ projectId: string | null; workspaceId: string | null; model: { kind: "local-fixture"; provider: "piw-offline"; model: "fixture" | "fixture-reasoning"; } | { kind: "provider"; provider: string; model: string; }; thinking: "off" | ... 5 more ... | "max"; }'.
+  Types of property 'model' are incompatible.
+    Type '{ kind: "local-fixture"; provider: string; model: "fixture"; }' is not assignable to type '{ kind: "local-fixture"; provider: "piw-offline"; model: "fixture" | "fixture-reasoning"; } | { kind: "provider"; provider: string; model: string; }'.
+      Type '{ kind: "local-fixture"; provider: string; model: "fixture"; }' is not assignable to type '{ kind: "local-fixture"; provider: "piw-offline"; model: "fixture" | "fixture-reasoning"; }'.
+        Types of property 'provider' are incompatible.
+          Type 'string' is not assignable to type '"piw-offline"'.
+[ELIFECYCLE] Command failed with exit code 2.
+[ELIFECYCLE] Command failed with exit code 2.
+[ELIFECYCLE] Command failed with exit code 2.

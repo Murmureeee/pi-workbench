@@ -27,6 +27,7 @@ const promptSchema = z.strictObject({
   fixture: z
     .enum([
       'reply',
+      'usage',
       'hold',
       'error',
       'unknown-tool',

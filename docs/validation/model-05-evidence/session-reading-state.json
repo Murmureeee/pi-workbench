@@ -1,0 +1,16 @@
+{
+  "before": "{\"3ebff2d2-a23e-402b-a982-36abffba828b\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"b419da0e-3083-494b-a354-16340ac50dcd\":\"1518:1134430163:\",\"b419da0e-3083-494b-a354-16340ac50dcd:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"b419da0e-3083-494b-a354-16340ac50dcd\",\"offset\":-816.8125,\"top\":900,\"follow\":false}}}}",
+  "after": "{\"3ebff2d2-a23e-402b-a982-36abffba828b\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"b419da0e-3083-494b-a354-16340ac50dcd\":\"1518:1134430163:\",\"b419da0e-3083-494b-a354-16340ac50dcd:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"b419da0e-3083-494b-a354-16340ac50dcd\",\"offset\":-816.8125,\"top\":900,\"follow\":false}}},\"7e3cc004-3c56-4dc5-a898-8fb73014c76c\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"a5cc867b-1952-4dd2-abca-13e0a7853120\":\"1518:4048832866:\",\"a5cc867b-1952-4dd2-abca-13e0a7853120:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"a5cc867b-1952-4dd2-abca-13e0a7853120\",\"offset\":-2024.8125,\"top\":2108,\"follow\":true}}},\"3c1f096c-323b-4165-858f-914ce469251c\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"a1215ceb-ec23-4145-8357-9b43f7d892b7\":\"1518:1511967185:\",\"a1215ceb-ec23-4145-8357-9b43f7d892b7:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"a1215ceb-ec23-4145-8357-9b43f7d892b7\",\"offset\":-2024.8125,\"top\":2108,\"follow\":true}}},\"b16dbf2a-bbea-496d-b2e5-b862befd8f2a\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"64a20b3d-2079-473b-ab13-029bd19d92be\":\"1518:1567066992:\",\"64a20b3d-2079-473b-ab13-029bd19d92be:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"64a20b3d-2079-473b-ab13-029bd19d92be\",\"offset\":-2024.8125,\"top\":2108,\"follow\":true}}}}",
+  "geometry": {
+    "top": 900,
+    "height": 330,
+    "scrollHeight": 2528,
+    "anchors": [
+      {
+        "id": "b419da0e-3083-494b-a354-16340ac50dcd",
+        "top": -604.625,
+        "height": 2414.78125
+      }
+    ]
+  }
+}

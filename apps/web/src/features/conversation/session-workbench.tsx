@@ -74,6 +74,7 @@ import { SessionModelControl } from './session-model-control.js'
 import { SessionRenameDialog } from './session-rename-dialog.js'
 import { SessionSearchDialog } from './session-search-dialog.js'
 import { SessionSpaceDialog } from './session-space-dialog.js'
+import { SessionUsage } from './session-usage.js'
 import { useInputQueue } from './use-input-queue.js'
 import { useSessionOrganization } from './use-session-organization.js'
 import './session-workbench.css'
@@ -632,6 +633,9 @@ function SessionPane({
             </div>
             {current && authorized ? (
               <SessionAuthorizations sessionId={current.id} csrf={csrf} active={active} />
+            ) : null}
+            {current && authorized ? (
+              <SessionUsage key={current.id} sessionId={current.id} active={active} />
             ) : null}
             {current ? (
               <Button

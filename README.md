@@ -248,3 +248,7 @@ SEC-10 已验收：受管文件工具按真实物理 cwd 逐级核验，统一�
 ## MODEL-03 已验收
 
 MODEL-03 已验收：0013会话模型CAS与安装SDK逐请求prepareRequest边界；空闲保存不请求，运行中对下一次模型请求（含工具续请求）生效并展示待生效，SDK确认后更新实际配置。固定离线模型按能力禁用思考选项，保存失败保留、版本冲突须明确核对，附件和真实提供商传输仍关闭。完整48文件／315项Vitest、117项E2E、SDK与frozen clean通过；85条Windows原生观察、明暗窄窗、两次正常退出及同data/profile重启0发送／0内核，JSONL与pi配置／预算／锁哈希不变。365文件与clean一致，原生后复用门禁；真实提供商0，无安装包，网页独立暂缓，OPS-08继续in_progress。 当前本地37／133。见[逐项证据与下一步提示词](docs/validation/model-03-evidence/acceptance.md)。
+
+## MODEL-05 已验收
+
+MODEL-05 已验收：只读SDK原生历史，按会话／轮次／模型消息追溯输入、输出、缓存与总量，部分和保留未知次数；SDK默认零值不冒充实际报告。最近请求只作上下文参考，窗口来自同源离线模型元数据，未知模型／价格来源／价格时间及费用明确未知，不造账单。完整50文件／317项Vitest、118项E2E、SDK及frozen clean通过；54条Windows原生观察、明暗802px窄窗、故障恢复、两次正常退出及同data/profile重启0发送／0内核，JSONL与pi配置／预算／锁哈希不变。371文件与clean一致，原生后复用门禁；真实提供商0，无安装包，网页独立暂缓，OPS-08继续in_progress。 当前本地38／133。见[逐项证据](docs/validation/model-05-evidence/acceptance.md)。

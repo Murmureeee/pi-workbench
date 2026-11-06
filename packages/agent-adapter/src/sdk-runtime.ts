@@ -21,6 +21,7 @@ import {
 } from '@earendil-works/pi-coding-agent'
 
 import { readNativeHistory } from './native-history.js'
+import { offlineContextWindow } from './offline-models.js'
 import { createOfflineProvider } from './offline-provider.js'
 
 /** Owns one isolated SDK session. No ambient configuration, extensions or remote transport.
@@ -69,7 +70,7 @@ export async function createOfflineRuntime(
           reasoning: false,
           input: ['text'],
           cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-          contextWindow: 8192,
+          contextWindow: offlineContextWindow,
           maxTokens: 512,
         },
         {
@@ -79,7 +80,7 @@ export async function createOfflineRuntime(
           thinkingLevelMap: { minimal: null, xhigh: null, max: null },
           input: ['text'],
           cost: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 },
-          contextWindow: 8192,
+          contextWindow: offlineContextWindow,
           maxTokens: 512,
         },
       ],

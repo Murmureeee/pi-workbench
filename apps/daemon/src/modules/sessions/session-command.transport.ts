@@ -126,6 +126,22 @@ export function registerSessionCommands(
     },
   )
   server.get('/api/chat/sessions', () => ({ sessions: store.managedSessions() }))
+  server.get<{ Params: { sessionId: string }; Querystring: { cursor?: string } }>(
+    '/api/chat/sessions/:sessionId/usage',
+    (request, reply) => {
+      if (
+        !z.uuid().safeParse(request.params.sessionId).success ||
+        (request.query.cursor && !z.uuid().safeParse(request.query.cursor).success)
+      ) {
+        return reply.code(400).send({ message: '用量会话或分页身份无效。' })
+      }
+      try {
+        return service.usage(request.params.sessionId, request.query.cursor)
+      } catch (error) {
+        return failure(reply, error)
+      }
+    },
+  )
   server.get<{ Params: { sessionId: string } }>(
     '/api/chat/sessions/:sessionId/model',
     (request, reply) => {

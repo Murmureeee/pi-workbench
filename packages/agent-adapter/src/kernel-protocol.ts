@@ -20,6 +20,7 @@ const identity = {
 export const kernelIdentitySchema = z.object(identity)
 const fixtureModeSchema = z.enum([
   'reply',
+  'usage',
   'hold',
   'error',
   'unknown-tool',

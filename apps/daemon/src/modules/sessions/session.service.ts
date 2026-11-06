@@ -35,6 +35,15 @@ import { SessionOrganizationConflict, SessionTitleConflict } from './session.sto
  * Only the existing isolated SDK/local fixture can execute; provider transport stays shut.
  */
 export class SessionService {
+  /** Read only committed, identity-checked SDK records. Reading usage never opens a kernel,
+   * invokes model/stat APIs, reads credentials or changes a request budget. */
+  usage(sessionId: string, cursor?: string) {
+    const result = this.store.usage(sessionId, cursor)
+    if (!result) {
+      throw new HttpException('会话不存在。', 404)
+    }
+    return this.security.redactor.value(result)
+  }
   private readonly accepting = new Map<
     string,
     { digest: string; promise: Promise<SessionReceipt> }
