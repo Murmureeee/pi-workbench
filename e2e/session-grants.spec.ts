@@ -33,11 +33,13 @@ async function setup() {
         cwd,
         {
           ...input,
-          fixture: input.text.includes('高危')
-            ? 'guard-denied'
-            : input.text.includes('命令')
-              ? 'approval-command'
-              : 'approval-write',
+          fixture: input.text.includes('边界')
+            ? 'approval-boundary'
+            : input.text.includes('高危')
+              ? 'guard-denied'
+              : input.text.includes('命令')
+                ? 'approval-running'
+                : 'approval-write',
         },
         options,
       )
@@ -102,6 +104,69 @@ async function setup() {
   }
   return f
 }
+
+test('SEC-10 actual Electron uncertain redirection is one-shot only, discloses real cwd/network limits and preserves pending work across settings', async () => {
+  const f = await setup(),
+    { page } = f.desktop
+  try {
+    const { p, session } = await f.send('命令边界：只核对，不执行'),
+      region = page.getByRole('region', { name: '执行前审批' })
+    expect(p.risk.level).toBe('L3')
+    expect(p.sessionPermission.eligible).toBe(false)
+    await expect(region).toContainText(session.cwd)
+    await expect(region).toContainText('网络目标未验证')
+    await expect(region).toContainText('没有 OS 网络沙箱')
+    await expect(region).toContainText('附加根目录授权未开放')
+    await expect(region.getByRole('button', { name: '授权此会话相同参数…' })).toHaveCount(0)
+    expect(() =>
+      f.approvals.decide(
+        p.id,
+        {
+          sessionId: p.sessionId,
+          epoch: p.epoch,
+          turnId: p.turnId,
+          digest: p.risk.digest,
+          policyVersion: p.risk.policyVersion,
+          action: 'allow-session',
+          reason: 'forged reusable command request',
+          acceptIrreversible: true,
+        },
+        'desktop-fixture',
+      ),
+    ).toThrow('单次')
+    await page.getByRole('textbox', { name: '任务内容' }).fill('返回后保留的中文草稿')
+    await page.getByRole('link', { name: '设置', exact: true }).click()
+    expect(f.approvals.list()).toHaveLength(1)
+    const pid = f.kernels.list()[0]?.pid
+    await page.getByRole('link', { name: '返回工作台', exact: true }).click()
+    await expect(page.getByRole('textbox', { name: '任务内容' })).toHaveValue(
+      '返回后保留的中文草稿',
+    )
+    expect(f.kernels.list()[0]?.pid).toBe(pid)
+    await region.getByRole('button', { name: '允许本次…', exact: true }).click()
+    const confirm = page.getByRole('alertdialog', { name: '允许本次不可回滚调用？' })
+    await expect(confirm).toContainText('Write-Output SEC10_CONTROL > MUST-NOT-EXIST')
+    await expect(confirm.getByRole('button', { name: '返回核对' })).toBeFocused()
+    await page.keyboard.press('Escape')
+    expect(f.approvals.list()).toHaveLength(1)
+    await page.emulateMedia({ colorScheme: 'dark' })
+    await page.setViewportSize({ width: 800, height: 760 })
+    await region.getByRole('button', { name: '取消本次调用', exact: true }).scrollIntoViewIfNeeded()
+    await page.screenshot({ path: `${evidence}/sec-10-command-dark-narrow.png` })
+    await page.emulateMedia({ colorScheme: 'light' })
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
+    await region.getByRole('button', { name: '取消本次调用', exact: true }).click()
+    await expect(region).not.toBeVisible()
+    await expect
+      .poll(() => f.store.submissions(session.id)[0]?.status, { timeout: 20000 })
+      .toBe('completed')
+    expect(f.grants.list().grants).toHaveLength(0)
+    expect(existsSync(join(session.cwd, 'MUST-NOT-EXIST'))).toBe(false)
+    expect(f.prompts()).toBe(1)
+  } finally {
+    await f.close()
+  }
+})
 test('SEC-03 actual Electron explicit grant scope, failed save/escape, exact reuse consent and individual/all revoke', async () => {
   test.setTimeout(90000)
   const f = await setup(),

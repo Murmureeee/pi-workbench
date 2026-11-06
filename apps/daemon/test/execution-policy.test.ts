@@ -132,8 +132,8 @@ test('sEC-01 highest risk wins for paths, shell composition, credentials, networ
       [
         ['write', { path: 'output.txt', content: 'no' }, 'L2'],
         ['edit', { path: 'output.txt', oldText: 'old', newText: 'new' }, 'L2'],
-        ['bash', { command: 'pwd' }, 'L2'],
-        ['powershell', { command: 'Get-Content readme.txt' }, 'L2'],
+        ['bash', { command: 'pwd' }, 'L3'],
+        ['powershell', { command: 'Get-Content readme.txt' }, 'L3'],
         ['powershell', { command: 'Get-Content readme.txt; Set-Content marker.txt denied' }, 'L3'],
         ['bash', { command: 'echo $(curl https://invalid.example)' }, 'L3'],
         ['read', { path: '.env' }, 'L3'],
@@ -172,6 +172,155 @@ test('sEC-01 invalid digest, canonical input, cancelled identity and changed pol
   expect(
     await policy.decide(binding, request(binding, 'read', { path: 'readme.txt' })),
   ).toMatchObject({ allowed: true, risk: { policyVersion: 2 } })
+})
+
+test('sEC-10 final file boundary rejects traversal, prefix neighbours, links and Windows aliases before any approval', async () => {
+  const { binding, directory } = setup(),
+    policy = new ExecutionPolicyService(),
+    sibling = join(directory, 'workspace-extra')
+  mkdirSync(sibling)
+  writeFileSync(join(sibling, 'outside.txt'), 'outside unchanged')
+  mkdirSync(join(binding.cwd, 'inside'))
+  writeFileSync(join(binding.cwd, 'inside', 'Exact.txt'), 'inside')
+  symlinkSync(sibling, join(binding.cwd, 'junction'), 'junction')
+  linkSync(join(sibling, 'outside.txt'), join(binding.cwd, 'hard.txt'))
+  const paths = [
+    '../workspace-extra/outside.txt',
+    join(sibling, 'new.txt'),
+    'inside/../../workspace-extra/outside.txt',
+    'junction/new.txt',
+    'hard.txt',
+    'missing-parent/new.txt',
+    ...(process.platform === 'win32'
+      ? ['inside/exact.txt', 'INSIDE/new.txt', 'C:relative.txt', '\\\\server\\share\\new.txt']
+      : []),
+  ]
+  await Promise.all(
+    paths.map(async (path) => {
+      await expect(
+        policy.explicitTarget(binding, request(binding, 'write', { path, content: 'denied' })),
+      ).rejects.toThrow(/cwd|链接|ENOENT|路径|目录/)
+    }),
+  )
+  await expect(
+    policy.explicitTarget(
+      binding,
+      request(binding, 'write', { path: 'inside/new.txt', content: 'ok' }),
+    ),
+  ).resolves.toContain('missing')
+  expect(readFileSync(join(sibling, 'outside.txt'), 'utf8')).toBe('outside unchanged')
+  expect(existsSync(join(sibling, 'new.txt'))).toBe(false)
+})
+
+test('sEC-10 Windows device, data stream and ambiguous spelling cannot become a new approved file', async () => {
+  const { binding } = setup(),
+    policy = new ExecutionPolicyService()
+  await Promise.all(
+    [
+      'CON',
+      'NUL.txt',
+      'aux.log',
+      'COM1',
+      'LPT9.txt',
+      'CONIN$',
+      'conout$',
+      'output.',
+      'output ',
+      'readme.txt:stream',
+    ].map(async (path) => {
+      const r = request(binding, 'write', { path, content: 'must not write' })
+      expect((await policy.decide(binding, r)).risk.level).toBe('L3')
+      await expect(policy.explicitTarget(binding, r)).rejects.toThrow('路径')
+      expect((await policy.decide(binding, request(binding, 'read', { path }))).allowed).toBe(false)
+    }),
+  )
+})
+
+test('sEC-10 opaque commands, operators, quoting, expansion and network targets are single-use; literal subset is still exact and never automatic', async () => {
+  const { binding } = setup(),
+    policy = new ExecutionPolicyService()
+  await Promise.all(
+    [
+      'Write-Output one & Write-Output two',
+      'Write-Output one > out.txt',
+      'Get-Content < in.txt',
+      'Write-Output one | Write-Output two',
+      'Write-Output one\nWrite-Output two',
+      'Write-Output $env:VALUE',
+      'Write-Output $(Get-Content x)',
+      'Write-Output `x',
+      'Write-Output "one two"',
+      "Write-Output 'one two'",
+      'Write-Output @args',
+      'Write-Output (Get-Content x)',
+      'Write-Output {Get-Content x}',
+      'Write-Output *',
+      'python task.py',
+      'cmd /c echo hi',
+      'powershell -EncodedCommand ZQBjAGgAbwA=',
+      'Invoke-WebRequest https://invalid.example',
+      'nslookup invalid.example',
+      'curl ftp://invalid.example',
+      'Get-Content readme.txt',
+      'Get-Content .env',
+      'Set-Content -LiteralPath exact.txt -Value one',
+      '',
+    ].map(async (command) => {
+      expect(
+        await policy.decide(binding, request(binding, 'powershell', { command })),
+      ).toMatchObject({
+        allowed: false,
+        risk: { level: 'L3', automatic: false },
+      })
+    }),
+  )
+  await Promise.all(
+    ['Get-Location', 'Write-Output one two', 'Start-Sleep -Seconds 1'].map(async (command) => {
+      expect(
+        (await policy.decide(binding, request(binding, 'powershell', { command }))).risk.level,
+      ).toBe('L2')
+    }),
+  )
+  expect(
+    (await policy.decide(binding, request(binding, 'bash', { command: 'python task.py' }))).risk
+      .level,
+  ).toBe('L3')
+  expect(
+    (
+      await policy.decide(
+        binding,
+        request(binding, 'powershell', { command: 'Get-Location', cwd: '../other' }),
+      )
+    ).risk.level,
+  ).toBe('L3')
+})
+
+test('sEC-10 command permission keys bind full canonical input, argument boundaries and physical cwd without prefix matching', async () => {
+  const { binding, directory } = setup(),
+    policy = new ExecutionPolicyService(),
+    command = 'Write-Output one',
+    scope = await policy.sessionScope(
+      binding,
+      request(binding, 'powershell', { command, timeout: 5 }),
+    )
+  await Promise.all(
+    [
+      { command: command + 'two', timeout: 5 },
+      { command: command.replace('one', 'one two'), timeout: 5 },
+      { command, timeout: 6 },
+      { command: command + ' & Write-Output two', timeout: 5 },
+    ].map(async (parameters) => {
+      expect(
+        (await policy.sessionScope(binding, request(binding, 'powershell', parameters))).key,
+      ).not.toBe(scope.key)
+    }),
+  )
+  const otherCwd = join(directory, 'workspace-other')
+  mkdirSync(otherCwd)
+  const other = { ...binding, cwd: realpathSync(otherCwd) }
+  expect(
+    (await policy.sessionScope(other, request(other, 'powershell', { command, timeout: 5 }))).key,
+  ).not.toBe(scope.key)
 })
 
 test('sEC-01 real SDK/IPC reads the host snapshot and denies four dangerous final calls; restart preserves evidence without execution', async () => {

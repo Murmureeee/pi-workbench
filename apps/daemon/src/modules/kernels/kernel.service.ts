@@ -43,6 +43,7 @@ const promptSchema = z.strictObject({
       'approval-write',
       'approval-command',
       'approval-running',
+      'approval-boundary',
     ])
     .optional(),
 })

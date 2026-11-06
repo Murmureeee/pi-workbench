@@ -30,10 +30,52 @@ const within = (root: string, target: string) => {
   return r !== '' && !r.startsWith('..' + sep) && r !== '..' && !isAbsolute(r)
 }
 
+/** Reject ambiguous portable spellings before IO, including Win32's device aliases for
+ * nonexistent write targets. Physical containment is checked separately; this never grants
+ * an additional root or relies on lowercasing a path. */
+const ambiguousPath = (path: string) =>
+  path.length === 0 ||
+  /[\p{Cc}\p{Cf}]/u.test(path) ||
+  /^(?:\\\\|\/\/)|^[A-Za-z]:(?![\\/])/.test(path) ||
+  /[:<>"|?*]/.test(path.replace(/^[A-Za-z]:[\\/]/, '')) ||
+  path
+    .split(/[\\/]/)
+    .some(
+      (part) =>
+        /^(?:con|prn|aux|nul|conin\$|conout\$|com[1-9¹²³]|lpt[1-9¹²³])(?:[ .]|$)/i.test(part) ||
+        (part !== '.' && part !== '..' && /[ .]$/.test(part)),
+    )
+
+const commandInput = z.strictObject({
+  command: z.string().min(1).max(65536),
+  timeout: z.number().positive().finite().optional(),
+})
+/** A deliberately small literal-command grammar, not a shell parser. Everything outside
+ * these known single-command shapes needs L3 one-shot approval, including quotes, variables,
+ * script interpreters, redirection and control operators. Even these shapes can have side
+ * effects under OS permissions: exact argv text/cwd binding is not a filesystem/network jail.
+ * File commands are one-shot too: shell/provider path semantics cannot inherit the file
+ * tool's physical-root proof. Bash may read BASH_ENV, so it has no reusable subset here.
+ * The installed SDK's fixed PowerShell tool uses -NoProfile; no custom shell hooks are loaded.
+ */
+const literalCommand = (tool: string, parameters: unknown) => {
+  const input = commandInput.safeParse(parameters)
+  if (!input.success) {
+    return false
+  }
+  const command = input.data.command
+  return (
+    tool === 'powershell' &&
+    /^(?:Get-Location|Write-Output [A-Za-z0-9_][A-Za-z0-9_. +-]*|Start-Sleep -Seconds [0-9]+)$/i.test(
+      command,
+    )
+  )
+}
+
 /** Host-owned final-parameter policy. Only registered read is automatic and only after a
  * bounded physical file snapshot; read-only annotations never confer authority. Risk is the
  * maximum of all matching rules. This class owns no durable grants, shell or model transport.
- * Mutation/unknown calls fail closed until the separate approval/execution services exist.
+ * Mutation calls need separate approvals; unknown capabilities stay blocked.
  */
 export class ExecutionPolicyService {
   private version = 1
@@ -113,8 +155,7 @@ export class ExecutionPolicyService {
     if (
       typeof fields.path !== 'string' ||
       credential.test(fields.path) ||
-      Array.from(fields.path).some((c) => c.charCodeAt(0) < 32) ||
-      /^\\\\|:[^\\/]/.test(fields.path.replace(/^[A-Za-z]:[\\/]/, ''))
+      ambiguousPath(fields.path)
     ) {
       throw new Error('私密、设备、网络或无效文件路径当前不开放执行。')
     }
@@ -191,15 +232,29 @@ export class ExecutionPolicyService {
     }
     if (['bash', 'powershell'].includes(request.tool)) {
       add('L2', '任意 Shell 命令须审批；不按命令名称推断只读。')
+      if (!literalCommand(request.tool, parameters)) {
+        add(
+          'L3',
+          '无法核验为受支持的单条字面量命令；组合、引用、展开或未知结构仅允许单次高风险审批。',
+        )
+      }
+      reasons.push(
+        '命令以实际 cwd 启动，但可访问系统权限允许的其他目录或网络；当前没有 OS 文件／网络沙箱，网络目标未验证。',
+      )
     }
     if (command && /[;\n\r|]|&&|\$\(|`|(?:rm|del|remove-item|format|shutdown)\b/i.test(command)) {
       add('L3', '组合、嵌套或破坏性命令按单次高风险裁决。')
     }
-    if (/https?:\/\/|\b(?:curl|wget|invoke-webrequest|ssh|scp)\b/i.test(command)) {
+    if (
+      /[a-z][a-z0-9+.-]*:\/\/|\\\\|\b(?:curl|wget|invoke-webrequest|invoke-restmethod|ssh|scp|sftp|nc|ncat|nslookup)\b/i.test(
+        command,
+      )
+    ) {
       add('L3', '调用可能访问外部服务或传输数据。')
     }
     if (
       credential.test(filename ?? '') ||
+      command.split(' ').some((token) => credential.test(token)) ||
       /\b(?:api[_-]?key|authorization|password|credential|token)\b/i.test(command)
     ) {
       add('L3', '涉及凭证、私密配置或仓库控制数据。')
@@ -207,11 +262,7 @@ export class ExecutionPolicyService {
     let readText: string | undefined
     if (filename !== null) {
       const target = resolve(binding.cwd, filename)
-      if (
-        !within(binding.cwd, target) ||
-        Array.from(filename).some((char) => char.charCodeAt(0) < 32) ||
-        /^\\\\|:[^\\/]/.test(filename.replace(/^[A-Za-z]:[\\/]/, ''))
-      ) {
+      if (!within(binding.cwd, target) || ambiguousPath(filename)) {
         add('L3', '路径越出实际 cwd，或包含设备／网络／数据流形式。')
       }
     }

@@ -1,0 +1,160 @@
+{
+  "feature": "SEC-10",
+  "verifiedAt": "2026-11-06T10:57:58.761Z",
+  "vitest": {
+    "files": 47,
+    "passed": 311
+  },
+  "e2e": {
+    "passed": 115
+  },
+  "codeFiles": 361,
+  "native": {
+    "feature": "SEC-10",
+    "observations": 59,
+    "intermediateObservationsIncluded": true,
+    "normalExits": 2,
+    "providerRequests": 0,
+    "restartPrompts": 0,
+    "restartKernels": 0,
+    "restartApprovals": 0,
+    "restartGrants": 0,
+    "historyUnchanged": true,
+    "protectedHashesUnchanged": true,
+    "images": [
+      {
+        "path": "02-foreground-0.jpg",
+        "width": 1442,
+        "height": 961
+      },
+      {
+        "path": "05-boundary-pending-0.jpg",
+        "width": 1442,
+        "height": 961
+      },
+      {
+        "path": "08-settings-pending-0.jpg",
+        "width": 1442,
+        "height": 961
+      },
+      {
+        "path": "17-return-dark-0.jpg",
+        "width": 1442,
+        "height": 961
+      },
+      {
+        "path": "21-system-menu-image-0.jpg",
+        "width": 1442,
+        "height": 961
+      },
+      {
+        "path": "21-system-menu-image-1.jpg",
+        "width": 189,
+        "height": 147
+      },
+      {
+        "path": "24-size-left-0.jpg",
+        "width": 1431,
+        "height": 961
+      },
+      {
+        "path": "25-dark-narrow-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "26-narrow-approval-actions-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "27-narrow-actions-visible-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "28-narrow-once-dialog-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "35-return-light-narrow-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "39-file-command-pending-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "40-file-command-actions-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "41-file-once-dialog-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "43-file-command-settled-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "46-literal-wait-pending-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "48-literal-grant-confirm-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "50-literal-result-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "51-file-exit-menu-0.jpg",
+        "width": 802,
+        "height": 961
+      },
+      {
+        "path": "51-file-exit-menu-1.jpg",
+        "width": 318,
+        "height": 302
+      },
+      {
+        "path": "54-same-data-restart-0.jpg",
+        "width": 1442,
+        "height": 961
+      },
+      {
+        "path": "56-restart-history-stable-0.jpg",
+        "width": 1442,
+        "height": 961
+      },
+      {
+        "path": "57-restart-exit-menu-0.jpg",
+        "width": 1442,
+        "height": 961
+      },
+      {
+        "path": "57-restart-exit-menu-1.jpg",
+        "width": 318,
+        "height": 302
+      }
+    ],
+    "description": "实际观察重定向L3只能单次、完整参数与物理cwd、设置返回中文草稿、Escape取消二次确认和明确取消后无目标文件；明暗802px窄窗可滚动到审批按钮，真实单次文件命令明确确认后写出夹具内容，Start-Sleep字面量L2经二次确认产生1条精确授权。三轮保持同一cwd／SDK epoch，实际执行的等待已完成后才观察终态，未声称捕获了其执行中后台画面。首次截图为非产品前台已排除；一次UIA返回桌面范围的非产品文字为隐私省略。原生选择器列表鼠标选择被辅助接口拒绝，改用键盘End／Up与Return成功选择主题，不记拒绝为产品失败。"
+  },
+  "providerRequests": 0,
+  "piConfigurationChanged": false,
+  "canonicalBudgetChanged": false,
+  "lockChanged": false,
+  "installer": false,
+  "browserStandalone": "deferred",
+  "ops08": "in_progress"
+}

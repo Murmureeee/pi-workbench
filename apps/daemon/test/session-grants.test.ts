@@ -273,7 +273,7 @@ test('sEC-03 individual/all revoke rejects stale reuse; revocation during final 
     ).toThrow('已撤销')
     f.approvals.decide(last.id, decision(last), 'desktop')
     await third.run
-    const fourth = f.run(undefined, 'approval-command'),
+    const fourth = f.run(undefined, 'approval-running'),
       other = await pending(f)
     f.approvals.decide(other.id, decision(other), 'desktop')
     await fourth.run

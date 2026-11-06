@@ -171,6 +171,15 @@ function ApprovalCard({
         <p>尚未执行 · 无倒计时 · 来源：受管 SDK 最终调用</p>
         <p className="approval-path">执行目录：{approval.cwd}</p>
         <p>{approval.risk.reasons.join(' ')}</p>
+        {approval.tool === 'bash' || approval.tool === 'powershell' ? (
+          <p>
+            目录边界仅约束受管文件工具；Shell
+            可访问系统权限允许的其他目录与网络。网络目标未验证，当前没有 OS
+            网络沙箱；附加根目录授权未开放。
+          </p>
+        ) : (
+          <p>文件工具仅限当前物理 cwd，附加根目录授权未开放；目录可用不等于执行许可。</p>
+        )}
         <Trace>
           <TraceCollapsible>
             <TraceCollapsibleTrigger>

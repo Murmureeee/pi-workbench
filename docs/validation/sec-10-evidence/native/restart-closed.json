@@ -1,0 +1,151 @@
+{
+  "feature": "SEC-10",
+  "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP. No CDP or renderer routing. Owned kernel fixture selects deterministic local provider response.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\sec10-native-tyiRbe",
+  "desktopPid": 7280,
+  "prompts": 0,
+  "results": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "pending": [],
+  "sessions": [
+    {
+      "id": "adeb83ed-e22a-439d-bfb9-3ca6975ca14e",
+      "title": "命令边界核对，不执行",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "4ca830f5-ec70-42c1-808b-4c6f4cb1da57",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "e14e8eec-9cdd-440e-973e-67fb925bd660",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec10-native-tyiRbe\\data\\standalone\\adeb83ed-e22a-439d-bfb9-3ca6975ca14e",
+      "createdAt": 1793961273379
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "9cb34403-56bb-46c6-9d1a-f1d99110a2a0",
+      "sessionId": "adeb83ed-e22a-439d-bfb9-3ca6975ca14e",
+      "epoch": "364e3b2c-444b-4e40-b91b-b50b90607ba9",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "ccab26d5-6964-4469-844b-a835338a288b",
+          "messageId": "ccab26d5-6964-4469-844b-a835338a288b:assistant",
+          "prompt": "等待命令，验证精确会话授权",
+          "text": "{\"type\":\"toolCall\",\"id\":\"guard-0\",\"name\":\"powershell\",\"arguments\":{\"command\":\"Start-Sleep -Seconds 8\"}}GUARD_FIXTURE_DONE",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 2,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "powershell",
+              "status": "completed",
+              "summary": "{\"content\":[{\"type\":\"text\",\"text\":\"(no output)\"}],\"structuredContent\":{\"output\":\"\",\"truncated\":false,\"exit_code\":0,\"wall_time_seconds\":8.4}}",
+              "parameters": "{\"command\":\"Start-Sleep -Seconds 8\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec10-native-tyiRbe\\data\\standalone\\adeb83ed-e22a-439d-bfb9-3ca6975ca14e",
+              "durationMs": 65699,
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "任意 Shell 命令须审批；不按命令名称推断只读。",
+                  "命令以实际 cwd 启动，但可访问系统权限允许的其他目录或网络；当前没有 OS 文件／网络沙箱，网络目标未验证。"
+                ],
+                "policyVersion": 1,
+                "digest": "f6baa664e2756bb609a63d8af4340c8c7327d9f4f95182c06042e5f00fd77a03",
+                "automatic": false
+              }
+            }
+          ],
+          "approval": null,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "files": [
+    {
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec10-native-tyiRbe\\data\\standalone\\adeb83ed-e22a-439d-bfb9-3ca6975ca14e",
+      "forbidden": false,
+      "approvedFile": "SEC02_COMMAND_ONCE\r\n"
+    }
+  ],
+  "historyBefore": {
+    "adeb83ed-e22a-439d-bfb9-3ca6975ca14e\\364e3b2c-444b-4e40-b91b-b50b90607ba9\\sessions\\2026-11-06T10-34-34-492Z_01a1b06c-ac7b-7539-8aaf-2d465ca8005a.jsonl": "6c091b6542c6d97f3edf043e062af2ce9713f0c3b5bdf81c4c9d896c1775796d"
+  },
+  "historyAfter": {
+    "adeb83ed-e22a-439d-bfb9-3ca6975ca14e\\364e3b2c-444b-4e40-b91b-b50b90607ba9\\sessions\\2026-11-06T10-34-34-492Z_01a1b06c-ac7b-7539-8aaf-2d465ca8005a.jsonl": "6c091b6542c6d97f3edf043e062af2ce9713f0c3b5bdf81c4c9d896c1775796d"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "closedPending": [],
+  "closedGrants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "historyAtClose": {
+    "adeb83ed-e22a-439d-bfb9-3ca6975ca14e\\364e3b2c-444b-4e40-b91b-b50b90607ba9\\sessions\\2026-11-06T10-34-34-492Z_01a1b06c-ac7b-7539-8aaf-2d465ca8005a.jsonl": "6c091b6542c6d97f3edf043e062af2ce9713f0c3b5bdf81c4c9d896c1775796d"
+  },
+  "protectedAfterClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  }
+}
