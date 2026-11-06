@@ -1,0 +1,267 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: runtime.spec.ts >> CORE-05 real local SDK: two browser clients reconnect to the same complete messages and tools
+- Location: e2e\runtime.spec.ts:46:1
+
+# Error details
+
+```
+Error: expect(locator).toBeVisible() failed
+
+Locator: getByLabel('实时会话消息').getByRole('button', { name: 'write · 失败 · offline-untrusted', exact: true })
+Expected: visible
+Timeout: 5000ms
+Error: element(s) not found
+
+Call log:
+  - Expect "toBeVisible" getByLabel('实时会话消息').getByRole('button', { name: 'write · 失败 · offline-untrusted', exact: true }) with timeout 5000ms
+  - waiting for getByLabel('实时会话消息').getByRole('button', { name: 'write · 失败 · offline-untrusted', exact: true })
+
+```
+
+```yaml
+- main:
+  - heading "会话实时观察 · 只读" [level=1]
+  - paragraph: 真实 SDK + 本地模型夹具；受限读取经宿主核验，写入和命令未批准不执行，真实提供商关闭。关闭观察不会停止后台任务。
+  - alert:
+    - status "同步状态": 已同步
+    - text: 已同步
+  - button "断开观察"
+  - button "重新连接"
+  - button "发送任务（尚未开放）" [disabled]
+  - link "资源状态":
+    - /url: /?resources
+  - link "历史与恢复记录":
+    - /url: /?history=6c97ab1d-640d-484c-a276-7b133f7f9877
+  - status "会话游标": 640e72f5-50a3-40fc-8c05-bd16559c9772 / 29
+  - region "实时会话消息":
+    - article:
+      - text: 真实 SDK 本地流式与中止
+      - paragraph: OFFLINE_
+      - button "纯文本显示"
+      - status "轮次状态": 本轮已停止
+      - paragraph: 当前模型未声明支持思考信息
+      - region "模型请求状态":
+        - status "模型重试策略": 模型请求 1 次 · 自动重试 0 次 · 重试上限 0
+    - article:
+      - text: 未知工具拒绝
+      - button "纯文本显示"
+      - status "轮次状态": 本轮失败
+      - region "工具时间线":
+        - paragraph: 工具过程 · 1 次调用 · 只读
+        - region "工具调用 offline-untrusted":
+          - button "write · 已拒绝 · offline-untrusted": write 已拒绝
+      - paragraph: 当前模型未声明支持思考信息
+      - region "模型请求状态":
+        - status "模型重试策略": 模型请求 2 次 · 自动重试 0 次 · 重试上限 0
+        - alert:
+          - text: 任务未完成
+          - button "错误详情" [expanded]
+          - paragraph: "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}"
+```
+
+# Test source
+
+```ts
+  1   | import type { Page } from '@playwright/test'
+  2   | 
+  3   | import { randomUUID } from 'node:crypto'
+  4   | import { mkdtempSync, rmSync } from 'node:fs'
+  5   | import { tmpdir } from 'node:os'
+  6   | import { join } from 'node:path'
+  7   | 
+  8   | import { expect, test } from '@playwright/test'
+  9   | 
+  10  | import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
+  11  | import { EventService } from '../apps/daemon/dist/modules/events/event.service.js'
+  12  | import { KernelService } from '../apps/daemon/dist/modules/kernels/kernel.service.js'
+  13  | import { authorizePage } from './helpers/access.js'
+  14  | 
+  15  | const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
+  16  | const port = 4318
+  17  | 
+  18  | /** Test-only URL routing: REST is forwarded to an isolated daemon, browser WebSocket remains
+  19  |  * native TCP to that same daemon. No generated frame or fake client reducer is used here.
+  20  |  */
+  21  | async function routeObserver(page: Page) {
+  22  |   await page.route('**/api/**', async (route) => {
+  23  |     const path = new URL(route.request().url()).pathname
+  24  |     const response = await route.fetch({
+  25  |       url: `http://127.0.0.1:${port}${path}`,
+  26  |       headers: {
+  27  |         ...route.request().headers(),
+  28  |         host: `127.0.0.1:${port}`,
+  29  |         origin: 'http://127.0.0.1:5173',
+  30  |       },
+  31  |     })
+  32  |     await route.fulfill({ response })
+  33  |   })
+  34  |   await page.addInitScript((socketPort) => {
+  35  |     const NativeWebSocket = window.WebSocket
+  36  |     window.WebSocket = class extends NativeWebSocket {
+  37  |       constructor(url: string | URL, protocols?: string | string[]) {
+  38  |         const endpoint = new URL(url)
+  39  |         endpoint.port = String(socketPort)
+  40  |         super(endpoint, protocols)
+  41  |       }
+  42  |     }
+  43  |   }, port)
+  44  | }
+  45  | 
+  46  | test('CORE-05 real local SDK: two browser clients reconnect to the same complete messages and tools', async ({
+  47  |   page,
+  48  |   context,
+  49  | }) => {
+  50  |   const directory = mkdtempSync(join(tmpdir(), 'piw-browser-events-'))
+  51  |   const app = await createApp({ dataDir: directory, port, development: true })
+  52  |   const second = await context.newPage()
+  53  |   try {
+  54  |     await app.listen(port, '127.0.0.1')
+  55  |     await authorizePage(page, app)
+  56  |     const kernels = app.get(KernelService),
+  57  |       sessionId = randomUUID()
+  58  |     await kernels.open(sessionId, directory)
+  59  |     await Promise.all([routeObserver(page), routeObserver(second)])
+  60  |     await Promise.all([page.goto(`/?observe=${sessionId}`), second.goto(`/?observe=${sessionId}`)])
+  61  |     await expect(page.getByLabel('同步状态')).toHaveText('已同步')
+  62  |     await expect(second.getByLabel('同步状态')).toHaveText('已同步')
+  63  |     const turnId = randomUUID()
+  64  |     const run = kernels.prompt(sessionId, directory, {
+  65  |       turnId,
+  66  |       text: '真实 SDK 本地流式与中止',
+  67  |       fixture: 'hold',
+  68  |     })
+  69  |     await expect(page.getByLabel('实时会话消息')).toContainText('OFFLINE_')
+  70  |     await page.getByRole('button', { name: '断开观察', exact: true }).click()
+  71  |     await second.getByRole('button', { name: '断开观察', exact: true }).click()
+  72  |     expect(kernels.list()[0]?.state).toBe('running')
+  73  |     await kernels.abort(sessionId, turnId)
+  74  |     expect(await run).toMatchObject({ outcome: 'aborted' })
+  75  |     await kernels.prompt(sessionId, directory, {
+  76  |       turnId: randomUUID(),
+  77  |       text: '未知工具拒绝',
+  78  |       fixture: 'unknown-tool',
+  79  |     })
+  80  |     await Promise.all([
+  81  |       page.getByRole('button', { name: '重新连接', exact: true }).click(),
+  82  |       second.getByRole('button', { name: '重新连接', exact: true }).click(),
+  83  |     ])
+  84  |     await expect(page.getByLabel('同步状态')).toHaveText('已同步')
+  85  |     await expect(second.getByLabel('同步状态')).toHaveText('已同步')
+  86  |     await expect(page.getByLabel('实时会话消息').locator('article')).toHaveCount(2)
+  87  |     await expect(
+  88  |       page.getByLabel('实时会话消息').getByText('OFFLINE_', { exact: true }),
+  89  |     ).toHaveCount(1)
+  90  |     await expect(
+  91  |       page
+  92  |         .getByLabel('实时会话消息')
+  93  |         .getByRole('button', { name: 'write · 失败 · offline-untrusted', exact: true }),
+> 94  |     ).toBeVisible()
+      |       ^ Error: expect(locator).toBeVisible() failed
+  95  |     await expect
+  96  |       .poll(() => second.getByLabel('实时会话消息').innerText())
+  97  |       .toBe(await page.getByLabel('实时会话消息').innerText())
+  98  |     await expect(page.getByRole('button', { name: '发送任务（尚未开放）' })).toBeDisabled()
+  99  |     await page.screenshot({ path: `${evidence}/runtime-two-clients.png`, animations: 'disabled' })
+  100 |     await second.emulateMedia({ colorScheme: 'dark' })
+  101 |     await second.setViewportSize({ width: 390, height: 844 })
+  102 |     expect(await second.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(
+  103 |       true,
+  104 |     )
+  105 |     await second.getByRole('button', { name: '断开观察', exact: true }).focus()
+  106 |     await second.keyboard.press('Enter')
+  107 |     await expect(second.getByLabel('同步状态')).toHaveText('观察已断开')
+  108 |     await second.screenshot({ path: `${evidence}/runtime-dark-390.png`, animations: 'disabled' })
+  109 |   } finally {
+  110 |     await second.close()
+  111 |     await page.goto('about:blank')
+  112 |     await app.close()
+  113 |     rmSync(directory, { recursive: true, force: true })
+  114 |   }
+  115 | })
+  116 | 
+  117 | test('CORE-05 synthetic observations: buffer exhaustion and live gap resync complete Unicode content; automatic reconnect retains cursor', async ({
+  118 |   page,
+  119 | }) => {
+  120 |   const directory = mkdtempSync(join(tmpdir(), 'piw-browser-resync-'))
+  121 |   const app = await createApp({ dataDir: directory, port, development: true })
+  122 |   try {
+  123 |     await app.listen(port, '127.0.0.1')
+  124 |     await authorizePage(page, app)
+  125 |     const events = app.get(EventService),
+  126 |       sessionId = randomUUID(),
+  127 |       epoch = randomUUID(),
+  128 |       turnId = randomUUID()
+  129 |     events.attach(sessionId, epoch, 'synthetic-ipc-fixture')
+  130 |     events.publish(sessionId, epoch, turnId, {
+  131 |       type: 'turn.started',
+  132 |       prompt: '合成契约样本，不执行工具',
+  133 |       messageId: 'm',
+  134 |     })
+  135 |     await routeObserver(page)
+  136 |     await page.goto(`/?observe=${sessionId}`)
+  137 |     await expect(page.getByLabel('同步状态')).toHaveText('已同步')
+  138 |     await page.getByRole('button', { name: '断开观察', exact: true }).click()
+  139 |     const long = '你👩‍💻\ne\u0301'.repeat(12000)
+  140 |     events.publish(sessionId, epoch, turnId, { type: 'message.delta', messageId: 'm', text: long })
+  141 |     // Exhaust retained records while offline: current snapshot remains complete.
+  142 |     for (let i = 0; i < 1025; i++) {
+  143 |       events.publish(sessionId, epoch, turnId, { type: 'message.delta', messageId: 'm', text: 'x' })
+  144 |     }
+  145 |     await page.getByRole('button', { name: '重新连接', exact: true }).click()
+  146 |     await expect(page.getByLabel('同步状态')).toHaveText('已同步')
+  147 |     // OBS-01 now bounds the visual preview; expanding still proves the complete snapshot.
+  148 |     await expect(page.getByLabel('实时会话消息')).not.toContainText('x'.repeat(1025))
+  149 |     await page.getByRole('button', { name: '展开完整消息', exact: true }).click()
+  150 |     await expect(page.getByLabel('实时会话消息')).toContainText('x'.repeat(1025))
+  151 |     // Bypass only the journal callback to simulate a dropped live network envelope.
+  152 |     let dropped = false
+  153 |     const webSockets = app.getHttpAdapter().getInstance().websocketServer.clients
+  154 |     for (const socket of webSockets) {
+  155 |       const send = socket.send.bind(socket)
+  156 |       socket.send = (data) => {
+  157 |         if (!dropped && typeof data === 'string' && data.includes('message.delta')) {
+  158 |           dropped = true
+  159 |           return
+  160 |         }
+  161 |         send(data)
+  162 |       }
+  163 |     }
+  164 |     events.publish(sessionId, epoch, turnId, {
+  165 |       type: 'message.delta',
+  166 |       messageId: 'm',
+  167 |       text: '丢失后仍应恢复',
+  168 |     })
+  169 |     events.publish(sessionId, epoch, turnId, { type: 'turn.finished', outcome: 'completed' })
+  170 |     await expect(page.getByLabel('同步状态')).toHaveText('已同步')
+  171 |     await expect(page.getByLabel('实时会话消息')).toContainText('丢失后仍应恢复')
+  172 |     const snapshot = events.snapshot(sessionId)
+  173 |     await expect(
+  174 |       page
+  175 |         .getByLabel('实时会话消息')
+  176 |         .getByText(`${long}${'x'.repeat(1025)}丢失后仍应恢复`, { exact: true }),
+  177 |     ).toHaveCount(1)
+  178 |     // A real TCP close (without the user pressing disconnect) exercises automatic reconnect.
+  179 |     for (const socket of webSockets) {
+  180 |       socket.close(1012, 'synthetic network disconnect')
+  181 |     }
+  182 |     await expect(page.getByLabel('同步状态')).toHaveText('观察已断开')
+  183 |     await expect(page.getByLabel('同步状态')).toHaveText('已同步', { timeout: 10000 })
+  184 |     await expect(page.getByLabel('会话游标')).toHaveText(`${epoch} / ${snapshot?.seq}`)
+  185 |     await page.screenshot({ path: `${evidence}/runtime-resync.png`, animations: 'disabled' })
+  186 |   } finally {
+  187 |     await page.goto('about:blank')
+  188 |     await app.close()
+  189 |     rmSync(directory, { recursive: true, force: true })
+  190 |   }
+  191 | })
+  192 | 
+  193 | test('CORE-05 incompatible version/capabilities blocks observation changes and keeps existing content', async ({
+  194 |   page,
+```

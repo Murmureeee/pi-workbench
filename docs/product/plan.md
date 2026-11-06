@@ -247,3 +247,7 @@ INPUT-06 已验收：daemon持久有界引导／追加队列、实际SDK边界FI
 ## OBS-02 已验收
 
 OBS-02 已验收：单一主阶段、按操作合并错误、终态消隐及停止请求／确认／未知分开。完整42文件／270项Vitest、102项E2E、SDK与frozen clean通过；88条Windows原生观察补齐正常终态消隐、停止失败同PID后台、SDK aborted确认、held不能消隐、脱敏错误详情、设置返回与明暗802px窄窗。两次正常退出；同data/profile重启0发送／0内核，四份JSONL哈希不变。335文件与clean一致，原生后复用门禁；首发握手超时与明确重试分开记录。当前本地31／133，OPS-08继续in_progress；真实提供商0，pi配置／预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/obs-02-evidence/acceptance.md)。
+
+## SEC-01 已验收
+
+SEC-01 已验收：固定工具在 SDK 最终 execute 处冻结参数并经宿主私有 IPC 裁决，多个规则取最高风险；仅实际 cwd 内核验后的有界 UTF-8 快照读取自动，写入与命令无有效审批拒绝，参数改写／嵌套不继承许可。完整44文件／281项Vitest、104项E2E、SDK与frozen clean通过；80条Windows原生观察（含中间态与重试）、后台同PID／epoch、明暗802px窄窗、同data/profile重启0发送／0内核、三份JSONL哈希不变及两次正常菜单退出补证。扩展、MCP、真实提供商关闭；审批交互、会话授权、写入基线仍属后续。当前本地32／133，OPS-08继续in_progress。真实提供商0，pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/sec-01-evidence/acceptance.md)。

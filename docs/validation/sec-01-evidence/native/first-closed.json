@@ -1,0 +1,413 @@
+{
+  "feature": "SEC-01",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local HTTP tool fixtures. Host seeds only owned readme/.env text and selects fixture. No CDP, renderer routes or synthetic tool events.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO",
+  "desktopPid": 23168,
+  "prompts": 3,
+  "results": [
+    {
+      "sessionId": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "protocol": 1,
+      "epoch": "5d5e3f8c-231c-4da8-a469-082ec31927ae",
+      "seq": 22,
+      "turnId": "4861f0f6-b9ca-4f19-b462-c01bc7a9aff1",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 2,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+      "protocol": 1,
+      "epoch": "ba820b7e-3b3c-4ca8-b067-7cfafabd3b2f",
+      "seq": 27,
+      "turnId": "d484d1a8-3b7b-4f5b-9e35-bfb86ca71970",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 2,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "770cad20-baec-4359-a686-1a83355d5f8e",
+      "protocol": 1,
+      "epoch": "c5ac17cf-0a5d-4483-9387-7a6f3a468fee",
+      "seq": 12,
+      "turnId": "27c31e78-103f-4d6d-b57a-ee4fb6313aee",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "Request was aborted"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "title": "验证中文受限读取",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "fa29492a-eb4b-4681-9a35-96abada2b86a",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "d1bfe8ab-fcdd-446d-9188-13e10c20338f",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "createdAt": 1793932626183
+    },
+    {
+      "id": "7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+      "title": "拒绝写入、组合命令、凭证与越界",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "a85f4fb9-e257-4f12-8663-b594c172fdca",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "282e02d8-ce84-4658-855f-d655baf6368e",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+      "createdAt": 1793932760660
+    },
+    {
+      "id": "770cad20-baec-4359-a686-1a83355d5f8e",
+      "title": "保持运行，验证后台隔离",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "6b506035-1ad5-49d4-a893-b2a1cd8c5eff",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "06f19dc8-858b-40c8-8718-0a3d43099c19",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\770cad20-baec-4359-a686-1a83355d5f8e",
+      "createdAt": 1793934188579
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "fa29492a-eb4b-4681-9a35-96abada2b86a",
+      "sessionId": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "messageId": "92651357-6376-4af9-913e-6c23e5491320",
+      "turnId": "4861f0f6-b9ca-4f19-b462-c01bc7a9aff1",
+      "status": "completed",
+      "text": "验证中文受限读取",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793932626185
+    },
+    {
+      "requestId": "a85f4fb9-e257-4f12-8663-b594c172fdca",
+      "sessionId": "7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+      "messageId": "5b8e7f3d-ae5a-4d23-9be4-3c019d18d558",
+      "turnId": "d484d1a8-3b7b-4f5b-9e35-bfb86ca71970",
+      "status": "completed",
+      "text": "拒绝写入、组合命令、凭证与越界",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793932760662
+    },
+    {
+      "requestId": "6b506035-1ad5-49d4-a893-b2a1cd8c5eff",
+      "sessionId": "770cad20-baec-4359-a686-1a83355d5f8e",
+      "messageId": "ed97569d-2db8-4858-961d-727c9364a629",
+      "turnId": "27c31e78-103f-4d6d-b57a-ee4fb6313aee",
+      "status": "aborted",
+      "text": "保持运行，验证后台隔离",
+      "retryOf": null,
+      "error": "Request was aborted",
+      "createdAt": 1793934188581
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "6df147ce-77ec-4fe3-834a-737dfff5917b",
+      "sessionId": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "epoch": "5d5e3f8c-231c-4da8-a469-082ec31927ae",
+      "seq": 19,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "4861f0f6-b9ca-4f19-b462-c01bc7a9aff1",
+          "messageId": "4861f0f6-b9ca-4f19-b462-c01bc7a9aff1:assistant",
+          "prompt": "验证中文受限读取",
+          "text": "GUARD_FIXTURE_DONE",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 2,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "stage": "settling",
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "read",
+              "status": "completed",
+              "summary": "{\"content\":[{\"type\":\"text\",\"text\":\"真实中文受限读取\\nSEC01_NATIVE_SNAPSHOT api_key=«redacted»}]}",
+              "parameters": "{\"limit\":20,\"path\":\"readme.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\66e4e853-8574-4fd0-a59d-9b30912e7a26",
+              "durationMs": 28,
+              "origin": "sdk",
+              "risk": {
+                "level": "L0",
+                "reasons": [
+                  "已核验 cwd 内普通文本文件；使用宿主捕获的只读快照。"
+                ],
+                "policyVersion": 1,
+                "digest": "bdd3ad9635576e0d1939c416b741d13b3f0988554f01ed7c245606ac06b3c59a",
+                "automatic": true
+              }
+            }
+          ],
+          "approval": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "6df147ce-77ec-4fe3-834a-737dfff5917b",
+      "sessionId": "7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+      "epoch": "ba820b7e-3b3c-4ca8-b067-7cfafabd3b2f",
+      "seq": 24,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "d484d1a8-3b7b-4f5b-9e35-bfb86ca71970",
+          "messageId": "d484d1a8-3b7b-4f5b-9e35-bfb86ca71970:assistant",
+          "prompt": "拒绝写入、组合命令、凭证与越界",
+          "text": "GUARD_FIXTURE_DONE",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 2,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "stage": "settling",
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "write",
+              "status": "denied",
+              "summary": "L2：文件变更须先批准最终参数，并满足写入基线。 当前未取得有效审批，未执行。",
+              "parameters": "{\"content\":\"denied\",\"path\":\"MUST-NOT-EXIST\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "95d988c9ff208b3d5bb1dc376f9ee85eb38364a886484418291374d9d3566c19",
+                "automatic": false
+              }
+            },
+            {
+              "id": "guard-1",
+              "name": "powershell",
+              "status": "denied",
+              "summary": "L3：任意 Shell 命令须审批；不按命令名称推断只读。 组合、嵌套或破坏性命令按单次高风险裁决。 当前未取得有效审批，未执行。",
+              "parameters": "{\"command\":\"Get-Content readme.txt; Set-Content MUST-NOT-EXIST denied\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+              "origin": "sdk",
+              "risk": {
+                "level": "L3",
+                "reasons": [
+                  "任意 Shell 命令须审批；不按命令名称推断只读。",
+                  "组合、嵌套或破坏性命令按单次高风险裁决。"
+                ],
+                "policyVersion": 1,
+                "digest": "63b9b39bce7bc3b13774262834de5db09fa4d0e3bd231adc4ca3c889131c158f",
+                "automatic": false
+              }
+            },
+            {
+              "id": "guard-2",
+              "name": "read",
+              "status": "denied",
+              "summary": "L3：涉及凭证、私密配置或仓库控制数据。 当前未取得有效审批，未执行。",
+              "parameters": "{\"path\":\".env\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+              "origin": "sdk",
+              "risk": {
+                "level": "L3",
+                "reasons": [
+                  "涉及凭证、私密配置或仓库控制数据。"
+                ],
+                "policyVersion": 1,
+                "digest": "dae79cec1fadad879c97fdd078307295fb447d6ec51784d0fbeebff69f3c6b21",
+                "automatic": false
+              }
+            },
+            {
+              "id": "guard-3",
+              "name": "read",
+              "status": "denied",
+              "summary": "L3：路径越出实际 cwd，或包含设备／网络／数据流形式。 当前未取得有效审批，未执行。",
+              "parameters": "{\"path\":\"../outside.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+              "origin": "sdk",
+              "risk": {
+                "level": "L3",
+                "reasons": [
+                  "路径越出实际 cwd，或包含设备／网络／数据流形式。"
+                ],
+                "policyVersion": 1,
+                "digest": "f794dd28ccd5696a403d7426c189375422ea82b6a9a6d1a1789423b622352933",
+                "automatic": false
+              }
+            }
+          ],
+          "approval": null,
+          "error": null
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "6df147ce-77ec-4fe3-834a-737dfff5917b",
+      "sessionId": "770cad20-baec-4359-a686-1a83355d5f8e",
+      "epoch": "c5ac17cf-0a5d-4483-9387-7a6f3a468fee",
+      "seq": 12,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "27c31e78-103f-4d6d-b57a-ee4fb6313aee",
+          "messageId": "27c31e78-103f-4d6d-b57a-ee4fb6313aee:assistant",
+          "prompt": "保持运行，验证后台隔离",
+          "text": "OFFLINE_",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "stage": "settling",
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted"
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "770cad20-baec-4359-a686-1a83355d5f8e",
+        "epoch": "c5ac17cf-0a5d-4483-9387-7a6f3a468fee",
+        "state": "stopped",
+        "pid": 572,
+        "pins": 0,
+        "lastUsedAt": 1793934305584,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "sideEffects": [
+    {
+      "id": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "forbiddenFileExists": false,
+      "readmeHash": "8aa2038a2c4088993ee4fa4800cdbae14fbd101387d25cb8a36854343e289e66",
+      "privateHash": "578d0a9d03c5fdef02e827e2c20b2c8f42aef39f27113ff3c47857a4c3716006"
+    },
+    {
+      "id": "7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+      "forbiddenFileExists": false,
+      "readmeHash": "8aa2038a2c4088993ee4fa4800cdbae14fbd101387d25cb8a36854343e289e66",
+      "privateHash": "578d0a9d03c5fdef02e827e2c20b2c8f42aef39f27113ff3c47857a4c3716006"
+    },
+    {
+      "id": "770cad20-baec-4359-a686-1a83355d5f8e",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\770cad20-baec-4359-a686-1a83355d5f8e",
+      "forbiddenFileExists": false,
+      "readmeHash": "8aa2038a2c4088993ee4fa4800cdbae14fbd101387d25cb8a36854343e289e66",
+      "privateHash": "578d0a9d03c5fdef02e827e2c20b2c8f42aef39f27113ff3c47857a4c3716006"
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "66e4e853-8574-4fd0-a59d-9b30912e7a26\\5d5e3f8c-231c-4da8-a469-082ec31927ae\\sessions\\2026-11-06T02-37-07-207Z_01a1aeb7-8d07-7207-9795-bc47ed2c6490.jsonl": "12965e3bbfe2f3ecb460ac3280dfcc72a784957c260a55006714a874af61ab7b",
+    "770cad20-baec-4359-a686-1a83355d5f8e\\c5ac17cf-0a5d-4483-9387-7a6f3a468fee\\sessions\\2026-11-06T03-03-09-592Z_01a1aecf-6417-75cd-ab84-b903a74a0004.jsonl": "c15f5b70c7b92c4a7bec862b8bdfe46c6564995bb73834e1399c8445296bf3b0",
+    "7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a\\ba820b7e-3b3c-4ca8-b067-7cfafabd3b2f\\sessions\\2026-11-06T02-39-21-658Z_01a1aeb9-9a39-758b-bc9c-00184265d9d8.jsonl": "e103ee7d49bba06cec5075231df76b7b16faafbb9bce6df083322b48ad0cfda3"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "ownedProcessesExited": true
+}

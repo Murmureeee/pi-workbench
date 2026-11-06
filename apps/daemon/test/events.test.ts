@@ -199,7 +199,12 @@ describe('CORE-05 real SDK + local fixture over REST and native WebSocket', () =
       expect(reconnected.value().turns.at(-1)?.phase).toBe('error')
       const toolTurn = reconnected.value().turns[2]
       expect(toolTurn?.tools).toMatchObject([
-        { id: 'offline-untrusted', name: 'write', status: 'error' },
+        {
+          id: 'offline-untrusted',
+          name: 'write',
+          status: 'denied',
+          risk: { level: 'L2', automatic: false },
+        },
       ])
       expect(toolTurn?.tools).toHaveLength(1)
       const delivered = reconnected.frames.flatMap((frame) =>

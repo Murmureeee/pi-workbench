@@ -1,0 +1,16 @@
+{
+  "before": "{\"87c55244-f3fb-41f7-8291-c76e0da9e2c7\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"8696a223-24e0-428b-ab87-7bea474d7d62\":\"1518:1134430163:\",\"8696a223-24e0-428b-ab87-7bea474d7d62:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"8696a223-24e0-428b-ab87-7bea474d7d62\",\"offset\":83.1875,\"top\":0,\"follow\":false}}}}",
+  "after": "{\"87c55244-f3fb-41f7-8291-c76e0da9e2c7\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"8696a223-24e0-428b-ab87-7bea474d7d62\":\"1518:1134430163:\",\"8696a223-24e0-428b-ab87-7bea474d7d62:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"8696a223-24e0-428b-ab87-7bea474d7d62\",\"offset\":-816.8125,\"top\":900,\"follow\":false}}},\"565f71a7-8126-4d87-807f-5a7f63493b7e\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"d9c325a5-636d-4e5a-a462-a30b8ff9bf75\":\"1518:4048832866:\",\"d9c325a5-636d-4e5a-a462-a30b8ff9bf75:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"d9c325a5-636d-4e5a-a462-a30b8ff9bf75\",\"offset\":-1996.8125,\"top\":2080,\"follow\":true}}},\"320c62cc-3954-4055-bf4d-ade84f5c58e5\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"49ba5f37-7bc2-484a-ab90-4bbea6531383\":\"1518:1511967185:\",\"49ba5f37-7bc2-484a-ab90-4bbea6531383:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"49ba5f37-7bc2-484a-ab90-4bbea6531383\",\"offset\":-1996.8125,\"top\":2080,\"follow\":true}}},\"264a7110-b9e1-4ac5-9889-88eae290d8f9\":{\"panel\":\"conversation\",\"cursor\":null,\"historyTrail\":[],\"expanded\":[],\"seenMessages\":{\"6a47289a-c9ca-4568-a727-94277aa1a0f2\":\"1518:1567066992:\",\"6a47289a-c9ca-4568-a727-94277aa1a0f2:reply\":\"completed\"},\"selectedReference\":null,\"reading\":{\"conversation\":{\"anchor\":\"6a47289a-c9ca-4568-a727-94277aa1a0f2\",\"offset\":-1996.8125,\"top\":2080,\"follow\":true}}}}",
+  "geometry": {
+    "top": 900,
+    "height": 358,
+    "scrollHeight": 2528,
+    "anchors": [
+      {
+        "id": "8696a223-24e0-428b-ab87-7bea474d7d62",
+        "top": -604.625,
+        "height": 2414.78125
+      }
+    ]
+  }
+}

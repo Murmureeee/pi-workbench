@@ -414,6 +414,14 @@ SessionStore独占0010来源记录和归属CAS；ProjectService公开同步目�
 
 上述SESSION-07边界已通过6项服务／4项Electron回归、最终223／78、SDK和frozen clean；29条Windows原生观察及重启退出补证，282文件与clean一致，原生后复用。[逐项证据](../validation/session-07-evidence/acceptance.md)区分外部产物夹具与禁用SDK工具；SESSION-13完整迁移未交付。
 
+## SEC-01 最终工具执行边界
+
+SEC-01 已验收，把固定 read／write／edit／bash／powershell 定义统一包装在 SDK 最终 execute；显式 tools、customTools 与 noTools 阻止默认工具进入未包装路径，创建及逐轮检查实际工具集合。SDK 独立底层模式仍默认 deny-all，daemon 模式只自动允许经宿主核验的受限读取。扩展、MCP、外部设置和真实提供商仍关闭；原 CORE 验收中的空工具集合属于当时证据，不代表当前 daemon 的受限读取能力。
+
+私有 guard-request／guard-result 绑定会话、epoch、turnId、requestId、callId、parentId、canonical JSON 参数和 SHA-256。最终参数深冻结，许可只用于该调用，改写与子调用重新检查。取消／IPC 失效／重复及迟到许可失败关闭；共享工具投影不允许风险摘要的版本或指纹重绑，公开观察与业务准入通过 tool-risk-v1 能力协商拒绝旧服务／客户端。宿主 ExecutionPolicyService 按最高命中风险裁决，不根据只读注解放行 Shell。当前没有有效人类审批或会话授权，写入、edit、命令均拒绝，审批与写入基线不得由本边界冒充完成。
+
+受限读取限实际 cwd 内普通 UTF-8 文本，文件最大 256 KiB、最多 2000 行，offset／limit 有界。宿主拒绝链接、硬链接、设备、二进制、凭证及越界路径，核对目录祖先／文件 descriptor／路径前后物理身份；只传捕获文本，SDK 不重新打开路径。该守卫不声称是 OS 沙箱。来源、门禁与原生验证记录在 [SEC-01 验收](../validation/sec-01-evidence/acceptance.md)。
+
 ## WS-07 已交付与恢复边界
 
 WorkspaceAvailabilityService 只接受已登记工作区／会话身份，读取保存 cwd、登记 revision 与物理身份；最多四项检查，前后校验，desktop-only GET /api/workspaces/availability 和 POST /api/workspaces/recover 沿用 Host／Origin／JSON／CSRF。GET 不写探针或元数据；明确恢复检查复用现有 4 字节探针，不更新最近顺序、cwd 或授权。

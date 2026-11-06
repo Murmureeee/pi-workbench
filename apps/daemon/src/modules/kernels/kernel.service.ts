@@ -17,6 +17,7 @@ import {
   runtimeToolSchema,
 } from '@pi-workbench/shared'
 
+import { ExecutionPolicyService } from '../security/execution-policy.service.js'
 import { KernelPool } from './kernel-pool.js'
 
 const promptSchema = z.strictObject({
@@ -36,6 +37,8 @@ const promptSchema = z.strictObject({
       'reasoning',
       'queue',
       'queue-fast',
+      'guard-read',
+      'guard-denied',
     ])
     .optional(),
 })
@@ -114,6 +117,7 @@ export class KernelService {
     private readonly store: SessionStore,
     limits: Partial<ResourceLimits> = {},
     private readonly trust?: TrustService,
+    private readonly executionPolicy: ExecutionPolicyService = new ExecutionPolicyService(),
   ) {
     this.limits = resourceLimitsSchema.parse(limits)
     this.pool = new KernelPool(
@@ -135,6 +139,43 @@ export class KernelService {
       epoch,
       cwd,
       runtimeDir: join(this.dataDir, 'kernels', sessionId, epoch),
+      authorize: async (request, signal) => {
+        const turnId = kernel.snapshot.turnId
+        if (!turnId) {
+          throw new Error('Final tool turn unavailable')
+        }
+        const task = this.tasks.get(sessionId)
+        const current = () =>
+          !signal.aborted &&
+          !this.closing &&
+          this.tasks.get(sessionId) === task &&
+          task?.input.turnId === turnId &&
+          kernel.snapshot.state === 'running'
+        if (!current()) {
+          throw new Error('Final tool task unavailable')
+        }
+        await task?.directoryCheck?.()
+        const decision = await this.executionPolicy.decide(
+          { sessionId, epoch, turnId, cwd },
+          request,
+          current,
+        )
+        this.events.publish(sessionId, epoch, turnId, {
+          type: 'tool.updated',
+          tool: {
+            id: request.callId,
+            name: request.tool,
+            status: decision.allowed ? 'running' : 'denied',
+            parameters: request.parameters,
+            parentId: request.parentId,
+            cwd,
+            origin: 'sdk',
+            summary: decision.reason,
+            risk: decision.risk,
+          },
+        })
+        return decision
+      },
       ...(resume ? { resume } : {}),
     })
     this.events.attach(sessionId, epoch, kernel.snapshot.source)

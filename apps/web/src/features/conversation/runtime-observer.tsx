@@ -34,7 +34,7 @@ export function RuntimeObserver({ sessionId }: { sessionId: string }) {
         {view.snapshot?.source === 'synthetic-ipc-fixture'
           ? '合成契约样本；不代表真实 SDK 执行。'
           : view.snapshot
-            ? '真实 SDK + 本地模型夹具；真实提供商与工具执行禁用。'
+            ? '真实 SDK + 本地模型夹具；受限读取经宿主核验，写入和命令未批准不执行，真实提供商关闭。'
             : '正在确认会话来源。'}
         关闭观察不会停止后台任务。
       </p>

@@ -118,11 +118,18 @@ describe('CORE-05 authoritative observation contract', () => {
         'model-request-v1',
         'input-queue-v1',
         'run-stage-v1',
+        'tool-risk-v1',
       ],
       mutations: false,
       realProviderEnabled: false,
     }
     expect(compatibleRuntime(hello)).toBe(true)
+    expect(
+      compatibleRuntime({
+        ...hello,
+        capabilities: hello.capabilities.filter((capability) => capability !== 'tool-risk-v1'),
+      }),
+    ).toBe(false)
     expect(
       compatibleRuntime({
         ...hello,

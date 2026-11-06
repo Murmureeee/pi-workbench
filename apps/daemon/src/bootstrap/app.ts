@@ -24,6 +24,7 @@ import { ModelService } from '../modules/models/model.service.js'
 import { SearchService } from '../modules/search/search.service.js'
 import { AccessService } from '../modules/security/access.service.js'
 import { registerAccessTransport } from '../modules/security/access.transport.js'
+import { ExecutionPolicyService } from '../modules/security/execution-policy.service.js'
 import { SecurityService } from '../modules/security/security.service.js'
 import { TrustService } from '../modules/security/trust.service.js'
 import { registerTrustTransport } from '../modules/security/trust.transport.js'
@@ -73,7 +74,15 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const models = new ModelService(security)
   const legacy = new LegacyHistoryService(options.piAgentDir)
   const projects = new ProjectService(database, workspaces)
-  const kernels = new KernelService(options.dataDir, events, store, resourceLimits, trust)
+  const executionPolicy = new ExecutionPolicyService()
+  const kernels = new KernelService(
+    options.dataDir,
+    events,
+    store,
+    resourceLimits,
+    trust,
+    executionPolicy,
+  )
   const sessionService = new SessionService(
     options.dataDir,
     Boolean(options.development),
@@ -104,6 +113,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: SecurityService, useValue: security },
       { provide: AccessService, useValue: access },
       { provide: TrustService, useValue: trust },
+      { provide: ExecutionPolicyService, useValue: executionPolicy },
       { provide: WorkspaceService, useValue: workspaces },
       { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: WorkspaceAvailabilityService, useValue: availability },

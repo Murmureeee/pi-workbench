@@ -1,0 +1,43 @@
+{
+  "feature": "OPS-01",
+  "verifiedAt": "2026-11-06T02:33:37.451Z",
+  "node": "v24.22.2",
+  "destination": "D:\\Project\\.piw-clean-caMGBo",
+  "commands": [
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm smoke:sdk",
+      "exitCode": 0
+    }
+  ],
+  "lockSha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+  "cleanLockSha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+  "health": {
+    "status": "ok",
+    "kernel": "fake",
+    "protocolVersion": 1,
+    "node": "v24.22.2",
+    "storage": "sqlite",
+    "realProviderEnabled": false
+  },
+  "uiStatus": 200,
+  "uiModuleStatus": 200,
+  "gracefulShutdown": true,
+  "serverOutput": "Pi Workbench http://127.0.0.1:5173; offline fake kernel; no model calls\n",
+  "providerRequests": 0
+}

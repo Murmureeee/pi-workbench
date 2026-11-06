@@ -16,7 +16,7 @@
 | `pnpm run ci`         | check → 单元 / 集成 → SDK 离线冒烟 → 浏览器 / Electron E2E 和构建 |
 | `pnpm verify:clean`   | 全新目录 frozen 安装、check、构建、测试、SDK 冒烟及服务启动       |
 
-运行 E2E 和 clean 验证前核对本项目服务归属，释放 5173 / 4317；CORE-05 浏览器隔离 daemon 使用 4318，原生事件 TCP 集成测试使用 4328、SEC-08 使用 24348，不停止无关服务。检查默认离线，不调用真实提供商。`pnpm smoke:sdk` 使用真实 SDK 子进程与本地 HTTP 夹具，验证握手、prompt 流式、abort 和 dispose；输出区分 localRequests 与真实 providerRequests。工具 / 扩展全部禁用，不读取用户认证。合成 IPC 故障夹具单独标记为 synthetic-ipc-fixture，不作为真实 SDK 对话证据。
+运行 E2E 和 clean 验证前核对本项目服务归属，释放 5173 / 4317；CORE-05 浏览器隔离 daemon 使用 4318，原生事件 TCP 集成测试使用 4328、SEC-08 使用 24348，不停止无关服务。检查默认离线，不调用真实提供商。`pnpm smoke:sdk` 使用真实 SDK 子进程与本地 HTTP 夹具，验证握手、prompt 流式、abort 和 dispose；输出区分 localRequests 与真实 providerRequests。独立 SDK 冒烟默认 deny-all；daemon 的 SEC-01 工具夹具仅开放最终守卫核验的受限读取，其余没有有效审批均拒绝。扩展禁用，不读取用户认证。合成 IPC 故障夹具单独标记为 synthetic-ipc-fixture，不作为真实 SDK 对话证据。
 
 `lint` 先构建 workspace 声明及 daemon：类型感知规则需要解析跨包导出，daemon 测试也使用编译后的 Nest 模块。保留 TypeScript 6.0.3 的 `tsc` 为正式类型检查，Oxlint 不替代它；`options.typeCheck` 关闭，`options.typeAware` 开启。升级任一类型工具时，重跑类型规则反例和全量检查。
 
@@ -215,3 +215,7 @@ INPUT-06 已验收：daemon持久有界引导／追加队列、实际SDK边界FI
 ## OBS-02 已验收
 
 OBS-02 已验收：单一主阶段、按操作合并错误、终态消隐及停止请求／确认／未知分开。完整42文件／270项Vitest、102项E2E、SDK与frozen clean通过；88条Windows原生观察补齐正常终态消隐、停止失败同PID后台、SDK aborted确认、held不能消隐、脱敏错误详情、设置返回与明暗802px窄窗。两次正常退出；同data/profile重启0发送／0内核，四份JSONL哈希不变。335文件与clean一致，原生后复用门禁；首发握手超时与明确重试分开记录。当前本地31／133，OPS-08继续in_progress；真实提供商0，pi配置／预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/obs-02-evidence/acceptance.md)。
+
+## SEC-01 已验收
+
+SEC-01 已验收：固定工具在 SDK 最终 execute 处冻结参数并经宿主私有 IPC 裁决，多个规则取最高风险；仅实际 cwd 内核验后的有界 UTF-8 快照读取自动，写入与命令无有效审批拒绝，参数改写／嵌套不继承许可。完整44文件／281项Vitest、104项E2E、SDK与frozen clean通过；80条Windows原生观察（含中间态与重试）、后台同PID／epoch、明暗802px窄窗、同data/profile重启0发送／0内核、三份JSONL哈希不变及两次正常菜单退出补证。扩展、MCP、真实提供商关闭；审批交互、会话授权、写入基线仍属后续。当前本地32／133，OPS-08继续in_progress。真实提供商0，pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](../validation/sec-01-evidence/acceptance.md)。

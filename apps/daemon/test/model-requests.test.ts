@@ -98,7 +98,7 @@ test('mODEL-07 actual SDK errors have one request, zero retries, sanitized repla
   }
 })
 
-test('mODEL-07 actual deny-all unknown tool failure cannot be replayed through whole-task retry or changed configuration', async () => {
+test('mODEL-07 actual guarded write rejection cannot be replayed through whole-task retry or changed configuration', async () => {
   const directory = mkdtempSync(join(tmpdir(), 'piw-model-retry-')),
     port = 24392
   const app = await createApp({ dataDir: directory, port, development: true })
@@ -138,7 +138,7 @@ test('mODEL-07 actual deny-all unknown tool failure cannot be replayed through w
     ).rejects.toThrow('所选模型当前不可用')
     expect(calls).toBe(1)
     const tools = app.get(EventService).snapshot(receipt.session.id)?.turns[0]?.tools
-    expect(tools?.some((tool) => tool.status === 'error')).toBe(true)
+    expect(tools?.some((tool) => tool.status === 'denied' && tool.risk?.level === 'L2')).toBe(true)
   } finally {
     await app.close()
     rmSync(directory, { recursive: true, force: true, maxRetries: 10, retryDelay: 100 })

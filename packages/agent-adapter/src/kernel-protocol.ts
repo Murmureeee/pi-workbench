@@ -1,6 +1,8 @@
 import { z } from 'zod'
 
 import {
+  executionDecisionSchema,
+  executionRequestSchema,
   modelRequestSchema,
   reasoningSchema,
   runStageSchema,
@@ -28,6 +30,8 @@ const fixtureModeSchema = z.enum([
   'reasoning',
   'queue',
   'queue-fast',
+  'guard-read',
+  'guard-denied',
 ])
 const resumeSchema = z.strictObject({
   sessionFile: z.string().min(1),
@@ -42,6 +46,7 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
     cwd: z.string().min(1),
     runtimeDir: z.string().min(1),
     resume: resumeSchema.optional(),
+    guarded: z.boolean().default(false),
   }),
   z.strictObject({
     ...identity,
@@ -55,6 +60,12 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
   z.strictObject({ ...identity, type: z.literal('abort'), turnId: z.uuid() }),
   z.strictObject({
     ...identity,
+    type: z.literal('guard-result'),
+    turnId: z.uuid(),
+    decision: executionDecisionSchema,
+  }),
+  z.strictObject({
+    ...identity,
     type: z.literal('queue-boundary'),
     turnId: z.uuid(),
     boundaryId: z.uuid(),
@@ -65,8 +76,8 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
 
 const guardSchema = z.strictObject({
   version: z.literal(1),
-  mode: z.literal('deny-all'),
-  activeTools: z.array(z.never()).length(0),
+  mode: z.enum(['deny-all', 'final-parameters-v1']),
+  activeTools: z.array(z.enum(['read', 'write', 'edit', 'bash', 'powershell'])).max(5),
   extensionsEnabled: z.literal(false),
   realProviderEnabled: z.literal(false),
 })
@@ -83,6 +94,11 @@ export const kernelMessageSchema = z.discriminatedUnion('type', [
     guard: guardSchema,
   }),
   z.strictObject({ ...envelope, type: z.literal('running') }),
+  z.strictObject({
+    ...envelope,
+    type: z.literal('guard-request'),
+    request: executionRequestSchema,
+  }),
   z.strictObject({ ...envelope, type: z.literal('queue-boundary'), boundaryId: z.uuid() }),
   z.strictObject({ ...envelope, type: z.literal('queue-delivered'), id: z.uuid() }),
   z.strictObject({ ...envelope, type: z.literal('delta'), text: z.string().max(65536) }),

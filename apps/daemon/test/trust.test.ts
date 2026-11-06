@@ -188,7 +188,9 @@ describe('SEC-07 metadata discovery, content consent and real SDK isolation (loc
           .every((item) => item.capability === 'disabled'),
       ).toBe(true)
       const handle = await kernels.open(sessionId, f.project)
-      expect(readFileSync(handle.snapshot.sessionFile!, 'utf8')).toContain('not found')
+      expect(readFileSync(handle.snapshot.sessionFile!, 'utf8')).toContain(
+        '当前未取得有效审批，未执行',
+      )
       // Directory junctions need no Windows symlink privilege; do not follow them in discovery.
       const linked = join(f.project, '.pi', 'scripts')
       symlinkSync(f.user, linked, 'junction')

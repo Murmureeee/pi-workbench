@@ -2,6 +2,8 @@ import type { Redactor } from './redaction.js'
 
 import { z } from 'zod'
 
+import { toolRiskSchema } from './execution-policy.js'
+
 /** Read-only tool observations. Parameters are the producer's final JSON/text snapshot,
  * not an executable request. Optional fields keep older persisted observations readable. */
 export const runtimeToolSchema = z.strictObject({
@@ -25,6 +27,7 @@ export const runtimeToolSchema = z.strictObject({
   mcp: z.strictObject({ server: z.string().min(1), tool: z.string().min(1) }).optional(),
   origin: z.enum(['sdk', 'synthetic-fixture']).optional(),
   diagnostic: z.string().optional(),
+  risk: toolRiskSchema.optional(),
 })
 export type RuntimeTool = z.infer<typeof runtimeToolSchema>
 
@@ -63,6 +66,12 @@ export function mergeToolObservation(
     (prior.origin !== undefined &&
       incoming.origin !== undefined &&
       prior.origin !== incoming.origin) ||
+    (prior.risk &&
+      incoming.risk &&
+      (prior.risk.digest !== incoming.risk.digest ||
+        prior.risk.policyVersion !== incoming.risk.policyVersion ||
+        prior.risk.level !== incoming.risk.level ||
+        prior.risk.automatic !== incoming.risk.automatic)) ||
     (prior.mcp &&
       incoming.mcp &&
       (prior.mcp.server !== incoming.mcp.server || prior.mcp.tool !== incoming.mcp.tool))
@@ -83,6 +92,7 @@ export function mergeToolObservation(
       ...(prior.origin === undefined && incoming.origin !== undefined
         ? { origin: incoming.origin }
         : {}),
+      ...(prior.risk === undefined && incoming.risk !== undefined ? { risk: incoming.risk } : {}),
       ...(incoming.diagnostic ? { diagnostic: incoming.diagnostic } : {}),
     }
   }

@@ -17,8 +17,10 @@ export async function createOfflineProvider() {
   let mode: FixtureMode = 'reply'
   let requests = 0
   let blockedNetworkAttempts = 0
+  let turnRequests = 0
   const server = createServer((request, response) => {
     requests += 1
+    turnRequests++
     if (mode === 'error' || requests > requestLimit) {
       response.writeHead(503, { 'content-type': 'application/json' })
       response.end(
@@ -100,6 +102,39 @@ export async function createOfflineProvider() {
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
+    if (mode === 'guard-read' || mode === 'guard-denied') {
+      if (turnRequests === 1) {
+        const calls =
+          mode === 'guard-read'
+            ? [{ name: 'read', args: { path: 'readme.txt', limit: 20 } }]
+            : [
+                { name: 'write', args: { path: 'MUST-NOT-EXIST', content: 'denied' } },
+                {
+                  name: 'powershell',
+                  args: { command: 'Get-Content readme.txt; Set-Content MUST-NOT-EXIST denied' },
+                },
+                { name: 'read', args: { path: '.env' } },
+                { name: 'read', args: { path: '../outside.txt' } },
+              ]
+        response.end(
+          frame({
+            tool_calls: calls.map((call, index) => ({
+              index,
+              id: `guard-${index}`,
+              type: 'function',
+              function: { name: call.name, arguments: JSON.stringify(call.args) },
+            })),
+          }) +
+            frame({}, 'tool_calls') +
+            'data: [DONE]\n\n',
+        )
+      } else {
+        response.end(
+          frame({ content: 'GUARD_FIXTURE_DONE' }) + frame({}, 'stop') + 'data: [DONE]\n\n',
+        )
+      }
+      return
+    }
     if (mode === 'reasoning') {
       // Explicit upstream public-text fixture, parsed and persisted by the real installed SDK.
       response.write(
@@ -224,8 +259,15 @@ export async function createOfflineProvider() {
     baseUrl,
     prepare(fixture: FixtureMode) {
       mode = fixture
+      turnRequests = 0
       // Unknown tool completion may cause a second SDK model round. Bound it locally.
-      requestLimit = requests + (fixture === 'queue' || fixture === 'queue-fast' ? 32 : 1)
+      requestLimit =
+        requests +
+        (fixture === 'queue' || fixture === 'queue-fast'
+          ? 32
+          : fixture.startsWith('guard-')
+            ? 2
+            : 1)
     },
     stats: () => ({ localRequests: requests, blockedNetworkAttempts }),
     async close() {

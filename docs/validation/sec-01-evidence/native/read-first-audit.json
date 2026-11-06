@@ -1,0 +1,166 @@
+{
+  "feature": "SEC-01",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local HTTP tool fixtures. Host seeds only owned readme/.env text and selects fixture. No CDP, renderer routes or synthetic tool events.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO",
+  "desktopPid": 23168,
+  "prompts": 1,
+  "results": [
+    {
+      "sessionId": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "protocol": 1,
+      "epoch": "5d5e3f8c-231c-4da8-a469-082ec31927ae",
+      "seq": 22,
+      "turnId": "4861f0f6-b9ca-4f19-b462-c01bc7a9aff1",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 2,
+      "blockedNetworkAttempts": 0
+    }
+  ],
+  "sessions": [
+    {
+      "id": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "title": "验证中文受限读取",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "fa29492a-eb4b-4681-9a35-96abada2b86a",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "d1bfe8ab-fcdd-446d-9188-13e10c20338f",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "createdAt": 1793932626183
+    }
+  ],
+  "submissions": [
+    {
+      "requestId": "fa29492a-eb4b-4681-9a35-96abada2b86a",
+      "sessionId": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "messageId": "92651357-6376-4af9-913e-6c23e5491320",
+      "turnId": "4861f0f6-b9ca-4f19-b462-c01bc7a9aff1",
+      "status": "completed",
+      "text": "验证中文受限读取",
+      "retryOf": null,
+      "error": null,
+      "createdAt": 1793932626185
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "6df147ce-77ec-4fe3-834a-737dfff5917b",
+      "sessionId": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "epoch": "5d5e3f8c-231c-4da8-a469-082ec31927ae",
+      "seq": 19,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "4861f0f6-b9ca-4f19-b462-c01bc7a9aff1",
+          "messageId": "4861f0f6-b9ca-4f19-b462-c01bc7a9aff1:assistant",
+          "prompt": "验证中文受限读取",
+          "text": "GUARD_FIXTURE_DONE",
+          "reasoning": {
+            "status": "unsupported"
+          },
+          "modelRequest": {
+            "attempts": 2,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "stage": "settling",
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "read",
+              "status": "completed",
+              "summary": "{\"content\":[{\"type\":\"text\",\"text\":\"真实中文受限读取\\nSEC01_NATIVE_SNAPSHOT api_key=«redacted»}]}",
+              "parameters": "{\"limit\":20,\"path\":\"readme.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\66e4e853-8574-4fd0-a59d-9b30912e7a26",
+              "durationMs": 28,
+              "origin": "sdk",
+              "risk": {
+                "level": "L0",
+                "reasons": [
+                  "已核验 cwd 内普通文本文件；使用宿主捕获的只读快照。"
+                ],
+                "policyVersion": 1,
+                "digest": "bdd3ad9635576e0d1939c416b741d13b3f0988554f01ed7c245606ac06b3c59a",
+                "automatic": true
+              }
+            }
+          ],
+          "approval": null,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 3,
+      "modelTasks": 2,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+        "epoch": "5d5e3f8c-231c-4da8-a469-082ec31927ae",
+        "state": "ready",
+        "pid": 34352,
+        "pins": 0,
+        "lastUsedAt": 1793932627491,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "sideEffects": [
+    {
+      "id": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\sec01-native-kscKNO\\data\\standalone\\66e4e853-8574-4fd0-a59d-9b30912e7a26",
+      "forbiddenFileExists": false,
+      "readmeHash": "8aa2038a2c4088993ee4fa4800cdbae14fbd101387d25cb8a36854343e289e66",
+      "privateHash": "578d0a9d03c5fdef02e827e2c20b2c8f42aef39f27113ff3c47857a4c3716006"
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "66e4e853-8574-4fd0-a59d-9b30912e7a26\\5d5e3f8c-231c-4da8-a469-082ec31927ae\\sessions\\2026-11-06T02-37-07-207Z_01a1aeb7-8d07-7207-9795-bc47ed2c6490.jsonl": "12965e3bbfe2f3ecb460ac3280dfcc72a784957c260a55006714a874af61ab7b"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

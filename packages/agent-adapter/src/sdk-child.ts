@@ -1,12 +1,13 @@
 import type { KernelCommand, KernelIdentity, KernelMessage } from './kernel-protocol.js'
 import type { createOfflineRuntime } from './sdk-runtime.js'
-import type { ModelRequest, Reasoning, RunStage } from '@pi-workbench/shared'
+import type { ExecutionDecision, ModelRequest, Reasoning, RunStage } from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
 import process from 'node:process'
 
 import { mergeReasoning, publicReasoning } from '@pi-workbench/shared'
 
+import { FinalToolGuard } from './final-tool-guard.js'
 import { kernelCommandSchema } from './kernel-protocol.js'
 import { ToolObserver } from './tool-observer.js'
 
@@ -26,6 +27,11 @@ let queueEnabled = false
 const tools = new ToolObserver(process.cwd())
 let reasoning: Reasoning | undefined
 let stage: RunStage | undefined
+let guard: FinalToolGuard | undefined
+const decisions = new Map<
+  string,
+  { resolve: (decision: ExecutionDecision) => void; reject: (error: Error) => void }
+>()
 let modelRequest: ModelRequest = {
   attempts: 0,
   retryCount: 0,
@@ -63,6 +69,10 @@ async function dispose() {
   }
   closing = true
   boundary?.resolve(null)
+  for (const pending of decisions.values()) {
+    pending.reject(new Error('Final guard runtime closed'))
+  }
+  decisions.clear()
   if (runtime) {
     await runtime.session.abort()
     await run
@@ -86,18 +96,59 @@ async function handle(command: KernelCommand) {
       throw new Error('Duplicate initialization')
     }
     identity = { protocol: 1, sessionId: command.sessionId, epoch: command.epoch }
+    if (command.guarded) {
+      guard = new FinalToolGuard(
+        () => {
+          if (!identity || !currentTurn || closing || !process.connected) {
+            throw new Error('Final guard runtime unavailable')
+          }
+          return { ...identity, turnId: currentTurn, cwd: process.cwd() }
+        },
+        (request, signal) =>
+          new Promise((resolve, reject) => {
+            if (signal?.aborted || !process.connected) {
+              reject(new Error('Final guard cancelled'))
+              return
+            }
+            const cancel = () => {
+              decisions.delete(request.id)
+              reject(new Error('Final guard cancelled'))
+            }
+            signal?.addEventListener('abort', cancel, { once: true })
+            decisions.set(request.id, {
+              resolve: (decision) => {
+                signal?.removeEventListener('abort', cancel)
+                resolve(decision)
+              },
+              reject: (error) => {
+                signal?.removeEventListener('abort', cancel)
+                reject(error)
+              },
+            })
+            send({ type: 'guard-request', request })
+          }),
+        (request) => tools.final(request.callId, request.parameters, request.parentId),
+        () => setStage('executing-tools'),
+      )
+    }
     const { createOfflineRuntime: create } = await import('./sdk-runtime.js')
-    runtime = await create(command.cwd, command.runtimeDir, command.resume, () => {
-      modelRequest = {
-        ...modelRequest,
-        attempts: (modelRequest.attempts ?? 0) + 1,
-        state: 'requesting',
-        waitUntil: null,
-        error: null,
-      }
-      send({ type: 'model', modelRequest })
-      setStage('waiting-model')
-    })
+    runtime = await create(
+      command.cwd,
+      command.runtimeDir,
+      command.resume,
+      () => {
+        modelRequest = {
+          ...modelRequest,
+          attempts: (modelRequest.attempts ?? 0) + 1,
+          state: 'requesting',
+          waitUntil: null,
+          error: null,
+        }
+        send({ type: 'model', modelRequest })
+        setStage('waiting-model')
+      },
+      guard,
+    )
     if (closing || !process.connected) {
       // Parent disappeared during initialization; this process must not become an orphan.
       runtime.session.dispose()
@@ -112,7 +163,8 @@ async function handle(command: KernelCommand) {
         setStage('settling')
       }
       if (event.type === 'tool_execution_start') {
-        setStage('executing-tools')
+        guard?.observe(event.toolCallId, event.parentToolCallId ?? null)
+        setStage(guard ? 'preparing-tools' : 'executing-tools')
       }
       if (event.type === 'tool_execution_end') {
         setStage('settling')
@@ -166,7 +218,11 @@ async function handle(command: KernelCommand) {
         setStage('streaming')
         send({ type: 'delta', text: event.assistantMessageEvent.delta })
       } else {
-        const tool = tools.observe(event)
+        const guardedStart =
+          guard &&
+          event.type === 'tool_execution_start' &&
+          runtime?.activeTools.includes(event.toolName)
+        const tool = guardedStart ? undefined : tools.observe(event)
         if (tool) {
           const { id, ...observation } = tool
           send({ type: 'tool', toolId: id, ...observation })
@@ -227,8 +283,8 @@ async function handle(command: KernelCommand) {
       nativeSessionId: runtime.session.sessionId,
       guard: {
         version: 1,
-        mode: 'deny-all',
-        activeTools: [],
+        mode: guard ? 'final-parameters-v1' : 'deny-all',
+        activeTools: guard ? ['read', 'write', 'edit', 'bash', 'powershell'] : [],
         extensionsEnabled: false,
         realProviderEnabled: false,
       },
@@ -248,6 +304,15 @@ async function handle(command: KernelCommand) {
       throw new Error('Disposal turn mismatch')
     }
     await dispose()
+  } else if (command.type === 'guard-result') {
+    if (command.turnId !== currentTurn) {
+      throw new Error('Final guard turn mismatch')
+    }
+    const pending = decisions.get(command.decision.id)
+    if (pending) {
+      decisions.delete(command.decision.id)
+      pending.resolve(command.decision)
+    }
   } else if (command.type === 'queue-boundary') {
     if (command.turnId === currentTurn && command.boundaryId === boundary?.id) {
       boundary.resolve(command.item)
@@ -267,6 +332,7 @@ async function handle(command: KernelCommand) {
     queueEnabled = command.inputQueue
     deliveredInput = undefined
     tools.reset()
+    guard?.reset()
     reasoning = undefined
     stage = undefined
     modelRequest = {
@@ -279,8 +345,10 @@ async function handle(command: KernelCommand) {
     }
     const activeRuntime = runtime
     if (
-      activeRuntime.session.getActiveToolNames().length ||
-      activeRuntime.session.agent.state.tools.length
+      activeRuntime.session.getActiveToolNames().join(',') !==
+        activeRuntime.activeTools.join(',') ||
+      activeRuntime.session.agent.state.tools.map((tool) => tool.name).join(',') !==
+        activeRuntime.activeTools.join(',')
     ) {
       throw new Error('Execution guard changed')
     }

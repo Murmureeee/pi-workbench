@@ -1,0 +1,58 @@
+{
+  "feature": "SEC-01",
+  "source": "Windows SendInput/UIA + actual Electron/daemon/SQLite/SDK local HTTP tool fixtures. Host seeds only owned readme/.env text and selects fixture. No CDP, renderer routes or synthetic tool events.",
+  "observations": 80,
+  "first": {
+    "prompts": 3,
+    "results": [
+      {
+        "sessionId": "66e4e853-8574-4fd0-a59d-9b30912e7a26",
+        "outcome": "completed",
+        "localRequests": 2
+      },
+      {
+        "sessionId": "7a3cf5f4-f6ba-484b-94af-6e5236d3ea8a",
+        "outcome": "completed",
+        "localRequests": 2
+      },
+      {
+        "sessionId": "770cad20-baec-4359-a686-1a83355d5f8e",
+        "outcome": "aborted",
+        "localRequests": 1
+      }
+    ],
+    "closed": true,
+    "ownedProcessesExited": true
+  },
+  "restart": {
+    "prompts": 0,
+    "kernels": 0,
+    "historyHashesUnchanged": true,
+    "closed": true,
+    "ownedProcessesExited": true
+  },
+  "background": {
+    "sessionId": "770cad20-baec-4359-a686-1a83355d5f8e",
+    "pid": 572,
+    "epoch": "c5ac17cf-0a5d-4483-9387-7a6f3a468fee",
+    "samePidAndEpoch": true
+  },
+  "noForbiddenSideEffects": true,
+  "protectedHashesUnchanged": true,
+  "providerRequests": 0,
+  "excludedScreenshots": [
+    {
+      "file": "01-initial.png",
+      "reason": "Captured another foreground app; not product evidence."
+    },
+    {
+      "file": "03-maximized.png",
+      "reason": "Window maximize animation mixed with preceding foreground; not stable product evidence."
+    }
+  ],
+  "limits": [
+    "Unicode SendInput and UIA set_value are not new real IME evidence.",
+    "Final-guard cancellation SDK error is separately covered by automated tests; native hold stop is SDK aborted.",
+    "No production approval UI, session grant, extension, MCP, write baseline or OS sandbox claim."
+  ]
+}

@@ -52,7 +52,7 @@ export function ResourceObserver() {
   return (
     <main className="settings-page">
       <h1>资源运行状态 · 只读</h1>
-      <p>真实 SDK + 本地模型夹具；真实提供商与工具执行禁用。</p>
+      <p>真实 SDK + 本地模型夹具；受限读取经宿主核验，写入和命令未批准不执行，真实提供商关闭。</p>
       <div className="flex flex-wrap gap-2">
         <Button
           variant="outline"

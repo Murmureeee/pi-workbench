@@ -94,11 +94,24 @@ const ToolRow = memo(function ToolRow({
           <div className="flex min-w-0 flex-col gap-3">
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline">{presentation.kind}</Badge>
+              {tool.risk ? (
+                <Badge variant="outline">
+                  {tool.risk.level} · {tool.risk.automatic ? '受限读取自动' : '须明确审批'}
+                </Badge>
+              ) : null}
               {tool.origin === 'synthetic-fixture' ? (
                 <Badge variant="secondary">合成观察 · 未执行</Badge>
               ) : null}
             </div>
             <p className="wrap-anywhere whitespace-pre-wrap">{presentation.text}</p>
+            {tool.risk ? (
+              <section aria-label="宿主风险裁决">
+                <p>{tool.risk.reasons.join(' ')}</p>
+                <p className="text-xs wrap-anywhere text-muted-foreground">
+                  最终参数指纹 {tool.risk.digest} · 策略版本 {tool.risk.policyVersion}
+                </p>
+              </section>
+            ) : null}
             <dl className="grid min-w-0 grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 text-xs">
               <dt>调用 ID</dt>
               <dd className="wrap-anywhere">{tool.id}</dd>

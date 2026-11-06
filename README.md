@@ -26,7 +26,7 @@ pnpm 12.16.1 通过 `devEngines.runtime` 使用 Node 24.22.2，首次安装可�
                                                   └─ 受管 pi SDK 子进程（本地夹具）
 ```
 
-CORE-04 已实现每会话单进程、守卫握手、流式、中止、销毁与故障隔离；工具 / 扩展全部禁用，SDK 使用隔离配置，不读取用户模型认证。SEC-06 可在显式指定来源后由宿主读取现有 pi 凭证状态，不向 SDK 或页面发送凭证。`GET /api/kernels` 只读核对 daemon 管理的会话、代际、PID、cwd 和原生 sessionFile；SESSION-01 的 `/api/chat` 仅接受已配对桌面身份，提交和停止均经 KernelService，未开放工具审批或真实提供商传输。当前启动器不复用已运行的服务；前端热更新不重载 daemon，修改服务后重新构建并重启开发入口。验收边界见[实施方案](docs/architecture/implementation-plan.md)，常见问题见[工具规范与排障](docs/development/tooling.md)。
+CORE-04 已实现每会话单进程、守卫握手、流式、中止、销毁与故障隔离。SEC-01 已接入固定工具的最终 execute 守卫：仅核验实际 cwd 内的有界普通 UTF-8 文本读取自动执行，宿主捕获快照后 SDK 不重新打开路径；写入、命令及未知能力没有有效审批一律拒绝。最终门禁与原生验收已通过，边界见下方 SEC-01 记录。扩展和真实提供商继续关闭，SDK 使用隔离配置，不读取用户模型认证。SEC-06 可在显式指定来源后由宿主读取现有 pi 凭证状态，不向 SDK 或页面发送凭证。`GET /api/kernels` 只读核对 daemon 管理的会话、代际、PID、cwd 和原生 sessionFile；SESSION-01 的 `/api/chat` 仅接受已配对桌面身份，提交和停止均经 KernelService，未开放审批交互或真实提供商传输。当前启动器不复用已运行的服务；前端热更新不重载 daemon，修改服务后重新构建并重启开发入口。验收边界见[实施方案](docs/architecture/implementation-plan.md)，常见问题见[工具规范与排障](docs/development/tooling.md)。
 
 CORE-05 已验收：`GET /api/protocol` 核对版本与能力，`GET /api/sessions/:sessionId/snapshot` 读取完整观察快照，`WS /api/events` 按游标重放并订阅。已存在运行时可用 `http://127.0.0.1:5173/?observe=<sessionId>` 只读查看，关闭观察不停止任务；不会自动创建会话或调用模型。缺口 / 缓冲不足重新同步，重连不重发任务；不兼容保留内容并禁用变更入口。CORE-06 已补齐重启后的只读历史与中断恢复，CORE-07 已补齐资源调度，接着进入 M2。协议与边界见[实施方案](docs/architecture/implementation-plan.md#core-05-已交付边界)。
 
@@ -84,7 +84,7 @@ Electron 侧栏“搜索会话”或 Ctrl+K 搜索中文标题和已保存的用
 
 正文、项目、模型、目录和待核对的请求标识在当前窗口保存，切换或刷新可恢复；关闭窗口后的未发送草稿恢复未在本次范围内。Enter 发送、Shift+Enter 换行，中文选词 Enter 不发送。SQLite 原子保存稳定会话 ID、首消息及配置后才启动 SDK；双击和同一请求重试复用原结果。落库前失败保留草稿，落库后的已知失败保留会话；没有工具／审批记录时提供“明确重试此任务”，含工具或审批记录时阻止整任务重放；断线 / 子进程中断等结果未知时先核对原请求，不自动重放。标题使用本地脱敏摘要，不额外调用模型。
 
-当前成功路径仅使用“离线验收模型 · pi SDK 本地夹具”，固定样本回复，工具 / 扩展关闭；仅开发环境可用。已有 pi 模型可选并保留，但全部未联网验证，真实传输关闭时不能发送；模型消失也不会自动改成夹具。配置不改写，独立网页发送暂缓；SESSION-02 的会话恢复与阅读位置见下文。
+当前成功路径仅使用“离线验收模型 · pi SDK 本地夹具”，固定样本回复；SEC-01 的工具夹具通过真实 SDK 和最终守卫验证受限读取与拒绝，扩展关闭，仅开发环境可用。已有 pi 模型可选并保留，但全部未联网验证，真实传输关闭时不能发送；模型消失也不会自动改成夹具。配置不改写，独立网页发送暂缓；SESSION-02 的会话恢复与阅读位置见下文。
 
 SESSION-01 已验收：真实 Windows 微软拼音组合态提交 / 中文选词不误发、原生首发与同会话续发、独立草稿 / 设置返回、目录和明暗窄窗均已补齐。修复同项目新草稿重入丢失显式目录，修复前失败 / 修复后通过；最终完整离线 CI 为 **164 项 Vitest / 40 项浏览器与 Electron E2E**，SDK 冒烟通过。复用修复前 clean 的未变依赖 / 原生模块 / 构建与启停证据，锁哈希一致。真实请求 0；[逐项证据与限制](docs/validation/session-01-evidence/acceptance.md)保留，OPS-08 继续进行中。SESSION-02 的后续验收见下文。
 
@@ -224,3 +224,7 @@ INPUT-06 已验收：daemon持久有界引导／追加队列、实际SDK边界FI
 ## OBS-02 已验收
 
 OBS-02 已验收：单一主阶段、按操作合并错误、终态消隐及停止请求／确认／未知分开。完整42文件／270项Vitest、102项E2E、SDK与frozen clean通过；88条Windows原生观察补齐正常终态消隐、停止失败同PID后台、SDK aborted确认、held不能消隐、脱敏错误详情、设置返回与明暗802px窄窗。两次正常退出；同data/profile重启0发送／0内核，四份JSONL哈希不变。335文件与clean一致，原生后复用门禁；首发握手超时与明确重试分开记录。当前本地31／133，OPS-08继续in_progress；真实提供商0，pi配置／预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](docs/validation/obs-02-evidence/acceptance.md)。
+
+## SEC-01 已验收
+
+SEC-01 已验收：固定工具在 SDK 最终 execute 处冻结参数并经宿主私有 IPC 裁决，多个规则取最高风险；仅实际 cwd 内核验后的有界 UTF-8 快照读取自动，写入与命令无有效审批拒绝，参数改写／嵌套不继承许可。完整44文件／281项Vitest、104项E2E、SDK与frozen clean通过；80条Windows原生观察（含中间态与重试）、后台同PID／epoch、明暗802px窄窗、同data/profile重启0发送／0内核、三份JSONL哈希不变及两次正常菜单退出补证。扩展、MCP、真实提供商关闭；审批交互、会话授权、写入基线仍属后续。当前本地32／133，OPS-08继续in_progress。真实提供商0，pi配置／canonical预算／锁未改，无安装包，网页独立功能暂缓。[逐项证据与下一步提示词](docs/validation/sec-01-evidence/acceptance.md)。

@@ -19,6 +19,34 @@ const call: RuntimeTool = {
   parentId: 'parent',
 }
 
+test('sEC-01 risk generation and digest remain attached to the first final invocation even after terminal results', () => {
+  const risk = {
+    level: 'L2' as const,
+    reasons: ['approval required'],
+    digest: 'a'.repeat(64),
+    policyVersion: 1,
+    automatic: false,
+  }
+  const final = { ...call, status: 'denied' as const, risk }
+  for (const change of [
+    { digest: 'b'.repeat(64) },
+    { policyVersion: 2 },
+    { level: 'L0' as const },
+    { automatic: true },
+  ]) {
+    const merged = mergeToolObservation(final, {
+      ...final,
+      risk: { ...risk, ...change },
+      status: 'completed',
+    })
+    expect(merged).toMatchObject(final)
+    expect(merged.diagnostic).toContain('冲突')
+  }
+  expect(mergeToolObservation({ ...call, status: 'completed' }, { ...call, risk }).risk).toEqual(
+    risk,
+  )
+})
+
 test('out-of-order results retain terminal text and late starts only fill missing call identity', () => {
   const completed: RuntimeTool = {
     id: call.id,

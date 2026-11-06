@@ -893,7 +893,9 @@ function SessionPane({
                     模型未联网验证，真实传输关闭；选择已保留，未调用提供商。可在模型设置中检查来源。
                   </p>
                 ) : options.data?.localFixtureEnabled ? (
-                  <p className="phase-note">离线验收：固定样本回复，思考关闭，不执行工具或扩展。</p>
+                  <p className="phase-note">
+                    离线验收：固定样本回复，思考关闭；受限读取经宿主守卫，写入与命令未批准不执行。
+                  </p>
                 ) : (
                   <p className="phase-note">当前环境未启用离线验收模型；草稿保留，发送关闭。</p>
                 )}

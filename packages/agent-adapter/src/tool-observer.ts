@@ -20,6 +20,11 @@ export class ToolObserver {
     this.calls.clear()
   }
 
+  /** Guarded tools replace early preparation arguments with the final executor snapshot. */
+  final(callId: string, parameters: string, parentId: string | null): void {
+    this.calls.set(callId, { parameters, parentId })
+  }
+
   observe(event: AgentSessionEvent): RuntimeTool | undefined {
     if (
       event.type !== 'tool_execution_start' &&

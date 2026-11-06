@@ -34,6 +34,7 @@ async function observer() {
       'model-request-v1',
       'input-queue-v1',
       'run-stage-v1',
+      'tool-risk-v1',
     ],
     mutations: false,
     realProviderEnabled: false,

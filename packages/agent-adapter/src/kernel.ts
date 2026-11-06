@@ -4,7 +4,7 @@ import type {
   KernelIdentity,
   KernelMessage,
 } from './kernel-protocol.js'
-import type { TrustedContext } from '@pi-workbench/shared'
+import type { ExecutionDecision, ExecutionRequest, TrustedContext } from '@pi-workbench/shared'
 
 import { fork } from 'node:child_process'
 import { realpathSync } from 'node:fs'
@@ -66,6 +66,10 @@ export class SessionKernel {
   private cancelledStartup = false
   private readonly listeners = new Set<(message: KernelMessage) => void>()
   private readonly startupTimer: NodeJS.Timeout
+  private readonly authorize:
+    | ((request: ExecutionRequest, signal: AbortSignal) => Promise<ExecutionDecision>)
+    | undefined
+  private guardController = new AbortController()
 
   constructor(
     options: KernelIdentity & {
@@ -74,6 +78,7 @@ export class SessionKernel {
       timeoutMs?: number
       childEntry?: URL
       resume?: { sessionFile: string; nativeSessionId: string }
+      authorize?: (request: ExecutionRequest, signal: AbortSignal) => Promise<ExecutionDecision>
     },
   ) {
     this.identity = kernelIdentitySchema.parse({
@@ -83,6 +88,7 @@ export class SessionKernel {
     })
     this.runtimeDir = resolve(options.runtimeDir)
     this.resume = options.resume
+    this.authorize = options.authorize
     this.timeoutMs = options.timeoutMs ?? 15000
     const cwd = realpathSync(options.cwd)
     this.snapshotValue = {
@@ -146,6 +152,7 @@ export class SessionKernel {
       type: 'init',
       cwd,
       runtimeDir: this.runtimeDir,
+      guarded: Boolean(this.authorize),
       ...(this.resume ? { resume: this.resume } : {}),
     })
   }
@@ -202,6 +209,7 @@ export class SessionKernel {
     this.turns.add(input.turnId)
     this.snapshotValue.turnId = input.turnId
     this.snapshotValue.state = 'running'
+    this.guardController = new AbortController()
     this.send(command)
     return promise
   }
@@ -237,6 +245,7 @@ export class SessionKernel {
       throw new Error('No matching active turn to abort')
     }
     if (this.snapshotValue.state !== 'stopping') {
+      this.guardController.abort()
       this.snapshotValue.state = 'stopping'
       this.send({ ...this.identity, type: 'abort', turnId })
     }
@@ -251,6 +260,7 @@ export class SessionKernel {
 
   private async disposeProcess() {
     clearTimeout(this.startupTimer)
+    this.guardController.abort()
     if (this.hasExited) {
       return
     }
@@ -308,6 +318,7 @@ export class SessionKernel {
   }
 
   private fail(error: Error) {
+    this.guardController.abort()
     clearTimeout(this.startupTimer)
     this.snapshotValue.state = 'failed'
     this.snapshotValue.error ??= error.message
@@ -346,6 +357,9 @@ export class SessionKernel {
         message.turnId !== null ||
         message.pid !== this.child.pid ||
         message.cwd !== this.snapshotValue.cwd ||
+        message.guard.mode !== (this.authorize ? 'final-parameters-v1' : 'deny-all') ||
+        message.guard.activeTools.join(',') !==
+          (this.authorize ? 'read,write,edit,bash,powershell' : '') ||
         (this.resume
           ? resolve(message.sessionFile) !== resolve(this.resume.sessionFile) ||
             message.nativeSessionId !== this.resume.nativeSessionId
@@ -375,11 +389,45 @@ export class SessionKernel {
         return
       }
       if (message.type === 'finished') {
+        this.guardController.abort()
         if (this.snapshotValue.state !== 'disposing') {
           this.snapshotValue.state = message.outcome === 'aborted' ? 'stopped' : 'ready'
         }
         this.active.resolve(message)
         this.active = undefined
+      }
+      if (message.type === 'guard-request') {
+        const active = this.active,
+          controller = this.guardController,
+          authorize = this.authorize,
+          turnId = message.turnId
+        if (!authorize || !turnId) {
+          this.fail(new Error('Final guard transport missing'))
+          return
+        }
+        void authorize(message.request, controller.signal)
+          .then((decision) => {
+            if (
+              this.active === active &&
+              !controller.signal.aborted &&
+              this.snapshotValue.state === 'running'
+            ) {
+              this.send(
+                kernelCommandSchema.parse({
+                  ...this.identity,
+                  type: 'guard-result',
+                  turnId,
+                  decision,
+                }),
+              )
+            }
+            return undefined
+          })
+          .catch(() => {
+            if (!controller.signal.aborted) {
+              this.fail(new Error('Final guard decision unavailable'))
+            }
+          })
       }
     }
     for (const listener of this.listeners) {
