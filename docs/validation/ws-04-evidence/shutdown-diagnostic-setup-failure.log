@@ -1,0 +1,9 @@
+file:///D:/Project/pi-workbench/.workbench/ws04-shutdown-diagnostic.mjs:18
+  for(const k of [first,second]){const child=k.child;child.on('exit',(code,signal)=>note(k,{event:'exit',code,signal}));child.on('disconnect',()=>note(k,{event:'disconnect'}));child.on('close',(code,signal)=>note(k,{event:'close',code,signal}));}
+                                                           ^
+
+TypeError: Cannot read properties of undefined (reading 'on')
+    at file:///D:/Project/pi-workbench/.workbench/ws04-shutdown-diagnostic.mjs:18:60
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.22.2

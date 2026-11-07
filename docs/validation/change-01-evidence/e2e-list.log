@@ -1,0 +1,128 @@
+Listing tests:
+  access.spec.ts:58:1 › SEC-08 actual pairing form: fragment is removed, keyboard/IME guard, HttpOnly identity, revocation and one-use error in light/dark narrow layouts
+  access.spec.ts:126:1 › SEC-08 independent browsers: live WS revocation keeps actual SDK task alive; daemon restart requires fresh pairing for both identities
+  approvals.spec.ts:68:1 › SEC-02 actual Electron preserves an unexecuted pending call across settings, reload and connection loss; explicit irreversible confirmation executes once
+  approvals.spec.ts:135:1 › SEC-02 actual Electron preserves a failed decision reason; background refusal does not steal draft focus or run an alternate tool
+  approvals.spec.ts:196:1 › SEC-02 actual Electron cancellation and stopped approvals never run; a new explicit command decision works with light/dark narrow keyboard controls
+  change-snapshots.spec.ts:133:1 › CHANGE-01 Electron shows actual baseline and final references without exposing Diff or rollback, retains versions after same-profile restart
+  change-snapshots.spec.ts:164:1 › CHANGE-01 Electron baseline failure is visible before explicit one-shot irreversible approval; cancel leaves actual files unchanged
+  change-snapshots.spec.ts:190:1 › CHANGE-01 Electron queued cancellation creates no version, background round retains PID and captures external mixed files on stop
+  change-snapshots.spec.ts:223:1 › CHANGE-01 Electron read failure recovers and saved outcome is legible in light/dark narrow windows
+  contracts.spec.ts:9:1 › OPS-08 offline fixture: duplicate deltas preserve Unicode and output beyond 64 KiB
+  contracts.spec.ts:27:1 › OPS-08 offline fixture: a sequence gap pauses input and explicit resync restores content
+  contracts.spec.ts:61:1 › OPS-08 offline fixture: a delayed response cannot replace the selected view or its draft
+  contracts.spec.ts:92:1 › OPS-08 offline fixture: unknown payload fails validation without changing the draft
+  contracts.spec.ts:123:1 › OPS-08 synthetic renderer fault: actual boundary keeps composer usable and returns to new view
+  contracts.spec.ts:154:1 › OPS-08 offline fixture: an unknown command is shown as literal text and causes no execution requests
+  desktop.spec.ts:14:1 › Electron native chrome, settings navigation, theme and isolated renderer retain tray lifecycle
+  desktop.spec.ts:185:1 › SEC-08 actual Electron parent IPC authorizes isolated renderer; native menu issues one-use browser link
+  directory-writes.spec.ts:135:1 › WS-04 Electron shows actual competing owner and queue, cancels without dispatch and keeps independent directories running
+  directory-writes.spec.ts:177:1 › WS-04 Electron pending approval keeps occupancy; real approved write hands off only after settled and records uncertain provenance
+  directory-writes.spec.ts:209:1 › WS-04 Electron external file edit, stale read failure, target isolation and 800px light/dark retain stop and composer
+  directory-writes.spec.ts:259:1 › WS-04 full Electron restart preserves original provenance and SDK history with zero sends, kernels or authority
+  execution-policy.spec.ts:55:1 › SEC-01 actual Electron safe-read card shows host risk/final digest and redacted SDK result; settings and reload do not repeat execution
+  execution-policy.spec.ts:100:1 › SEC-01 actual Electron dangerous final calls stay denied without files, disclose highest risk and fit light/dark narrow layouts
+  history.spec.ts:41:1 › CORE-06 real local SDK: restart reads exact native history and expands full Unicode content without writes
+  history.spec.ts:83:1 › CORE-06 actual hard crash: partial text stays interrupted, records cannot execute and corrupt native bytes download intact
+  history.spec.ts:157:1 › CORE-06 synthetic file fixture: newest 100 messages and earlier page have stable nonduplicated identities
+  input-queue.spec.ts:8:1 › INPUT-06 actual Electron explains append/steer order and only delivers after the real SDK boundary
+  input-queue.spec.ts:52:1 › INPUT-06 Electron edit failures/CAS retain text; stop and reload hold queue, background updates never steal focus
+  message-rendering.spec.ts:12:1 › OBS-01 actual Electron/SDK safe Markdown, tables, lazy highlighting, unknown and incomplete fences
+  message-rendering.spec.ts:71:1 › OBS-01 long SDK content expands and collapses without changing original history or requests
+  message-rendering.spec.ts:98:1 › OBS-01 optional highlighting failure and late module load preserve new safe source
+  message-rendering.spec.ts:131:1 › OBS-01 failed optional Markdown chunk keeps escaped original text readable
+  model-requests.spec.ts:9:1 › MODEL-07 actual Electron merges a lost request and pushed model error, exposes zero retry policy and reconciles without resending
+  model-requests.spec.ts:57:1 › MODEL-07 synthetic wait deadlines never retry, preserve completed/denied tools, isolate focus and remain stoppable in actual Electron
+  model-usage.spec.ts:12:1 › MODEL-05 Electron verifies per-turn counters, unknown reports, failure recovery, draft, keyboard and narrow layout
+  models.spec.ts:101:1 › MODEL-01 Electron discovers actual SDK/config sources, capabilities, expiry and command refusal; search, keyboard, themes and bounded lists
+  models.spec.ts:179:1 › MODEL-01 Electron retains stale data on disconnect, recovers updated/invalid config and ignores results after leaving the view
+  models.spec.ts:227:1 › MODEL-01 unconnected Electron stays offline and offers SDK catalog without inferring other-product account access
+  operation-audit.spec.ts:57:1 › SEC-09 actual Electron shows real final approval audit, redacted bounded export and immutable history after restart
+  operation-audit.spec.ts:134:1 › SEC-09 Electron pagination/filter ownership, safe text and dark narrow layout do not execute tools
+  operation-audit.spec.ts:206:1 › SEC-09 Electron read/export failures preserve filters; late export after navigation cannot download
+  project-organization.spec.ts:78:1 › WS-06 Electron disambiguates same-name projects, searches name/path/ID, expands groups and keeps global/project attribution explicit
+  project-organization.spec.ts:121:1 › WS-06 Electron editor prefill/cancel, Unicode/IME, storage failure recovery, concurrent revisions and invalid default retain input
+  project-organization.spec.ts:200:1 › WS-06 Electron creates optional validated default and reconciles uncertain create identity without duplicates
+  project-organization.spec.ts:249:1 › WS-06 Electron persists create/rename/pin/manual order across a complete restart and supports dark/narrow layouts
+  project-organization.spec.ts:333:1 › WS-06 Electron default edits and confirmed removal preserve the running SDK PID/cwd, files and session, including continuation after detach
+  project-organization.spec.ts:410:1 › WS-06 Electron late project creation after unmount refreshes metadata without selecting a newer draft
+  reasoning.spec.ts:10:1 › OBS-06 actual Electron/SDK public reasoning is collapsed, redacted, copyable and downloadable; privacy survives refresh
+  reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows
+  resources.spec.ts:31:1 › CORE-07 actual SDK queue: browser shows limits, FIFO positions and cancellation without owning execution
+  resources.spec.ts:101:1 › CORE-07 actual components preserve stale state on failed/incompatible reads and keyboard refresh recovers
+  run-stages.spec.ts:11:1 › OBS-02 actual Electron observes one current stage, synthetic tool/approval/compaction/retry cannot complete or dismiss, late updates preserve focus
+  run-stages.spec.ts:150:1 › OBS-02 Electron failed stop remains unknown with same SDK PID; confirmation and terminal dismissal never change durable results
+  run-stages.spec.ts:199:1 › OBS-02 Electron queued follow-up handoff has no false completed phase and terminal feedback is keyed by operation
+  runtime.spec.ts:46:1 › CORE-05 real local SDK: two browser clients reconnect to the same complete messages and tools
+  runtime.spec.ts:119:1 › CORE-05 synthetic observations: buffer exhaustion and live gap resync complete Unicode content; automatic reconnect retains cursor
+  runtime.spec.ts:195:1 › CORE-05 incompatible version/capabilities blocks observation changes and keeps existing content
+  runtime.spec.ts:233:1 › CORE-05 synthetic observations: a late snapshot cannot replace a newer request or runtime generation
+  scroll-reading.spec.ts:29:1 › OBS-04 actual Electron/SDK paced deltas preserve reading, count messages once, and resume follow only on explicit latest
+  scroll-reading.spec.ts:143:1 › OBS-04 Electron long-message expansion preserves anchor/offset and history bytes through eviction and reload
+  scroll-reading.spec.ts:200:1 › OBS-04 Electron history pagination restores each page bookmark through reload
+  scroll-reading.spec.ts:267:1 › OBS-04 Electron background synthetic approval never focuses, changes session or opens a panel
+  security.spec.ts:67:1 › SEC-06 actual credential status page shows metadata only, handles errors and keyboard refresh, dark/narrow layout
+  security.spec.ts:138:1 › SEC-06 synthetic split-secret, stopped output and approval observations stay redacted over actual WebSocket and reload
+  session-creation.spec.ts:84:1 › SESSION-01 Electron drafts, composition Enter, durable first send and continuing the same session
+  session-creation.spec.ts:156:1 › SESSION-01 Electron preserves drafts on SQL failure and reconciles a lost accepted response after refresh without a second prompt
+  session-creation.spec.ts:219:1 › SESSION-01 Electron project entry preselects its verified directory, global new resets attribution, themes and narrow layout stay usable
+  session-creation.spec.ts:269:1 › SESSION-01 existing provider selection remains configured/unverified and disabled; no config write or external model request
+  session-creation.spec.ts:316:1 › SESSION-01 actual SDK error keeps the session and offers explicit retry; a late successful save does not leave settings
+  session-creation.spec.ts:366:1 › INPUT-01 Electron rejects whitespace and composition Enter, preserves line breaks and submits once
+  session-creation.spec.ts:412:1 › INPUT-01 Electron restores project/model/new draft through navigation and reload without sending another session draft
+  session-grants.spec.ts:108:1 › SEC-10 actual Electron uncertain redirection is one-shot only, discloses real cwd/network limits and preserves pending work across settings
+  session-grants.spec.ts:170:1 › SEC-03 actual Electron explicit grant scope, failed save/escape, exact reuse consent and individual/all revoke
+  session-grants.spec.ts:248:1 › SEC-03 actual Electron offline/reload preserve live scope, background focus is isolated and L3 has no session action
+  session-grants.spec.ts:310:1 › SEC-03 actual Electron pending approval actions remain reachable beside composer in a short narrow window
+  session-grants.spec.ts:339:1 › SEC-03 actual Electron grant viewer fits light/dark 800px; full restart keeps audit/history and restores no authority or execution
+  session-library.spec.ts:108:1 › SESSION-03 Electron pin/unread/archive survive real daemon and Electron restart; restore keeps content and does not start kernels
+  session-library.spec.ts:149:1 › SESSION-03 Electron unread stays at the saved middle; latest and explicit read clear it, manual unread survives polling
+  session-library.spec.ts:224:1 › SESSION-03 Electron running archive cancel leaves the same SDK PID; explicit stop settles before separate confirmation
+  session-library.spec.ts:272:1 › SESSION-03 Electron failed saves stay honest; delayed lists cannot undo a saved pin and hidden view portals close
+  session-library.spec.ts:334:1 › SESSION-03 Electron a failed SDK result becomes unread in the background, clears when displayed and never retries automatically
+  session-models.spec.ts:55:1 › MODEL-03 actual Electron idle switch, supported levels, failed save retains input and focus, refresh retains selection
+  session-models.spec.ts:99:1 › MODEL-03 actual Electron pending tool request, CAS conflict, same process continuation, dark narrow dialog
+  session-search.spec.ts:104:1 › SESSION-12 Electron searches Chinese title/user/assistant and opens the precise old message without creating a run or losing the draft
+  session-search.spec.ts:143:1 › SESSION-12 Electron project/status/time/archive filters, empty clear and redacted snippets work in light/dark narrow layouts
+  session-search.spec.ts:192:1 › SESSION-12 Electron paginates recent results, resets page on filters and refreshes rename/archive/project removal while open
+  session-search.spec.ts:233:1 › SESSION-12 Electron debounces 200ms, isolates late A/B/A and closed queries, retains filters after failure, protects synthetic IME
+  session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart
+  session-spaces.spec.ts:179:1 › SESSION-07 Electron keeps choices on real SQLite failure and requires explicit version reconciliation for concurrent attribution
+  session-spaces.spec.ts:248:1 › SESSION-07 Electron isolates late inspection, recovers read failure, and keeps source controls usable in light/dark narrow windows
+  session-spaces.spec.ts:329:1 › SESSION-07 a late association receipt preserves a newer membership and cannot close a reopened dialog
+  session-switching.spec.ts:136:1 › SESSION-02 Electron evicts after three views and restores per-session drafts, anchors and panel after reload
+  session-switching.spec.ts:231:1 › SESSION-02 Electron keeps a real SDK task/PID across eviction, socket reconnect and renderer reload; only explicit stop aborts
+  session-switching.spec.ts:313:1 › SESSION-02 Electron isolates evicted draft-directory and A-B-A history responses, restoring synthetic tool/reference context
+  session-switching.spec.ts:467:1 › SESSION-02 Electron reads external pi history, handles concurrent append/partial/corrupt records without changing bytes or running kernels
+  session-titles.spec.ts:91:1 › SESSION-11 Electron prefill, Unicode limits, Enter/Escape, sidebar/header, theme and retained composer draft
+  session-titles.spec.ts:144:1 › SESSION-11 Electron failed/uncertain save retains input and old title until authority; synthetic composition never saves or cancels
+  session-titles.spec.ts:214:1 › SESSION-11 two real Electron clients and read-only browser synchronize, detect/rebase conflict and recover a missed notification
+  session-titles.spec.ts:297:1 › SESSION-11 Electron ignores stale title lists and an old continuation receipt after a committed manual rename
+  settings.spec.ts:5:1 › settings navigation keeps conversation state and theme; private views remain paired
+  settings.spec.ts:42:1 › settings search, keyboard and narrow navigation remain usable in light and dark
+  tool-timeline.spec.ts:36:1 › OBS-03 actual Electron read-only Trace: nested identity, result-before-start, explicit outcomes/unknown metrics, safe structures and keyboard
+  tool-timeline.spec.ts:94:1 › OBS-03 actual Electron long redacted output expands without changing source, Diff remains observation, light/dark narrow layouts stay bounded
+  tool-timeline.spec.ts:158:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn
+  trust.spec.ts:48:1 › SEC-07 actual UI reviews sources, confirms per version, persists across reload and revokes; light/dark/narrow and keyboard
+  trust.spec.ts:117:1 › SEC-07 stale preview cannot approve replacement; offline errors disable consent and late scope result cannot replace current directory
+  workbench.spec.ts:10:1 › first send respects composition and Shift Enter; all traffic stays local
+  workbench.spec.ts:38:1 › approval refusal and stop have distinct states; drafts survive switching
+  workbench.spec.ts:60:1 › review opens a wide panel and closing restores conversation width
+  workbench.spec.ts:78:1 › settling, error, and lost service are visible without losing drafts
+  workbench.spec.ts:99:1 › system, light and dark themes render at 1080p and 390px without overflow
+  workspace-environment.spec.ts:94:1 › WS-03 Electron observes actual cwd/repository, external branch and detached changes, non-Git, nested repositories, keyboard and themes
+  workspace-environment.spec.ts:148:1 › WS-03 Electron isolates delayed previous workspace responses and removes stale branch labels on failure/retry
+  workspace-environment.spec.ts:201:1 › WS-03 Electron keeps saved cwd and background SDK PID when viewing other repositories; return/reload uses current HEAD
+  workspace-environment.spec.ts:256:1 › WS-03 Electron permits actual first-send/continuation in a non-Git directory and does not invent a directory before send
+  workspace-environment.spec.ts:299:1 › WS-03 Electron distinguishes submodule, superproject and linked worktree; long branch labels remain bounded
+  workspace-recents.spec.ts:77:1 › WS-02 actual Electron persists recent order/custom names across full app restart, with prefill/cancel and light/dark/narrow layouts
+  workspace-recents.spec.ts:165:1 › WS-02 Electron retains failed rename and conflicts, validates Unicode and does not save or cancel during synthetic IME
+  workspace-recents.spec.ts:220:1 › WS-02 Electron diagnoses moved directories, rejects a different identity, explicitly saves picker relocation and hides/restores recent records without deleting files
+  workspace-recents.spec.ts:276:1 › WS-02 Electron remove/rename/switch and disconnected recent reads preserve a real background SDK task and its cwd
+  workspace-recovery.spec.ts:117:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts
+  workspace-recovery.spec.ts:260:1 › WS-07 actual Electron background task stops on real OS directory access loss; recovery and full restart never replay
+  workspace-recovery.spec.ts:330:1 › WS-07 Electron failed and late recovery checks keep drafts, isolate targets and allow explicit retry
+  workspace-recovery.spec.ts:377:1 › WS-07 Electron unavailable new-draft directory blocks sending but permits explicit replacement and project changes without creating a session
+  workspaces.spec.ts:65:1 › WS-01 real Electron picker bridge opens/deduplicates/switches; cancellation and invalid paths preserve current view and running SDK task
+  workspaces.spec.ts:148:1 › WS-01 Electron ignores stale responses, preserves selection on disconnect, and recovers a missing directory without phantom sessions
+Total: 126 tests in 37 files

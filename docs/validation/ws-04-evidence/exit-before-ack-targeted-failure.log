@@ -1,0 +1,35 @@
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/directory-writes.test.ts (13 tests | 1 failed) 69180ms
+   × wS-04 real SDK uses physical aliases and per-directory FIFO with independent work running on multiple model slots 23119ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/directory-writes.test.ts > wS-04 real SDK uses physical aliases and per-directory FIFO with independent work running on multiple model slots
+AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+ ❯ apps/daemon/test/directory-writes.test.ts:76:72
+     74|     start,
+     75|     stream: async (id: string) =>
+     76|       vi.waitFor(() => expect(events.snapshot(id)?.turns.at(-1)?.text)…
+       |                                                                        ^
+     77|     close: async () => {
+     78|       await app.close()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 44 passed (45)
+   Start at  15:57:20
+   Duration  71.14s (tests 96%, import 4%)
+

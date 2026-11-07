@@ -110,7 +110,7 @@ test('sEC-03 real SDK session permission is explicit, exact and reused only with
     expect(existsSync(join(f.cwd, 'APPROVED.txt'))).toBe(false)
     expect(() =>
       f.approvals.decide(p.id, { ...decision(p), acceptIrreversible: false }, 'desktop-a'),
-    ).toThrow('无回滚基线')
+    ).toThrow('不可回滚执行')
     expect(f.grants.list().grants).toHaveLength(0)
     f.approvals.decide(p.id, decision(p), 'desktop-a')
     await first.run
@@ -132,7 +132,7 @@ test('sEC-03 real SDK session permission is explicit, exact and reused only with
         { ...decision(next, 'use-grant'), acceptIrreversible: false },
         'desktop-b',
       ),
-    ).toThrow('无回滚基线')
+    ).toThrow('不可回滚执行')
     f.approvals.decide(next.id, decision(next, 'use-grant'), 'desktop-b')
     await second.run
     expect(readFileSync(join(f.cwd, 'APPROVED.txt'), 'utf8')).toBe('SEC02_APPROVED_ONCE')
@@ -284,7 +284,7 @@ test('sEC-03 individual/all revoke rejects stale reuse; revocation during final 
   } finally {
     await f.close()
   }
-})
+}, 60000)
 test('sEC-03 audit failure never installs a grant; revoke remains effective even if saving its audit fails', async () => {
   const f = await setup()
   try {

@@ -1,0 +1,406 @@
+{
+  "feature": "WS-04",
+  "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP; no CDP, renderer routing or fake kernel. Only explicit fixture selection and controlled external edits.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY",
+  "a": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录",
+  "b": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\独立中文目录",
+  "desktopPid": 21272,
+  "prompts": 3,
+  "results": [
+    {
+      "sessionId": "a6bc2ebc-2c4b-4fdc-92ad-6229bd83e759",
+      "error": "AbortError: Queued task cancelled"
+    },
+    {
+      "sessionId": "de8f59da-6a27-411d-a6f9-8293be72445a",
+      "protocol": 1,
+      "epoch": "531b03fb-5bf3-4251-a596-14a2c7e6723d",
+      "seq": 14,
+      "turnId": "0c1caa10-498f-473c-accd-d48c71a2e4b9",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "Request was aborted"
+    }
+  ],
+  "operations": [
+    {
+      "action": "external-edit",
+      "time": "2026-11-07T11:26:31.421Z"
+    }
+  ],
+  "pending": [
+    {
+      "id": "3b3b3854-f8b4-4b0f-91c1-f974c83e2aad",
+      "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+      "epoch": "5f742dfa-6b7e-4377-9056-c1a1d3d18fa3",
+      "turnId": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2",
+      "callId": "guard-0",
+      "parentId": null,
+      "tool": "write",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录",
+      "parameters": "{\"content\":\"SEC02_APPROVED_ONCE\",\"path\":\"APPROVED.txt\"}",
+      "risk": {
+        "level": "L2",
+        "reasons": [
+          "文件变更须先批准最终参数，并满足写入基线。"
+        ],
+        "policyVersion": 1,
+        "digest": "220e931e27fb3aab67b5d3aabcbd03b882a0a001d5eda55265357999ac00a134",
+        "automatic": false
+      },
+      "createdAt": 1794050209053,
+      "irreversible": true,
+      "sessionPermission": {
+        "eligible": true,
+        "matchingGrantId": null,
+        "targetPath": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录\\APPROVED.txt",
+        "physicalIdentity": "e7d17149abfa10896955f64d5ae2c37a1ddd071601a87d36d80d29303f868af9",
+        "parameterDigest": "b13598c0e720f19c7efeb84826d35de1e0e7c79d31a787f75faaa37e4a5f7d54"
+      }
+    }
+  ],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+      "title": "共享甲写入待审批",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "c8f57127-cbb9-4e4a-ab16-b3690a1f2a85",
+      "configuration": {
+        "projectId": "f9685253-9cc7-4326-9cc2-80a96f3e128a",
+        "workspaceId": "2cdf11da-8f0c-4256-ba35-1a14c39e2146",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "2cdf11da-8f0c-4256-ba35-1a14c39e2146",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录",
+      "createdAt": 1794050207818
+    },
+    {
+      "id": "a6bc2ebc-2c4b-4fdc-92ad-6229bd83e759",
+      "title": "共享乙等待目录",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "a077a583-9e76-46cb-9b56-974adb620071",
+      "configuration": {
+        "projectId": "f9685253-9cc7-4326-9cc2-80a96f3e128a",
+        "workspaceId": "2cdf11da-8f0c-4256-ba35-1a14c39e2146",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "2cdf11da-8f0c-4256-ba35-1a14c39e2146",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录",
+      "createdAt": 1794050321362
+    },
+    {
+      "id": "de8f59da-6a27-411d-a6f9-8293be72445a",
+      "title": "独立丙后台持续",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "522795d4-e32c-4801-ac2a-f13a67bef1b5",
+      "configuration": {
+        "projectId": "7ab393e2-1f10-48de-a524-159b6f8f0c13",
+        "workspaceId": "f78901b4-ce27-42da-88ea-0bc531fc9714",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "f78901b4-ce27-42da-88ea-0bc531fc9714",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\独立中文目录",
+      "createdAt": 1794050564115
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+      "items": [
+        {
+          "requestId": "c8f57127-cbb9-4e4a-ab16-b3690a1f2a85",
+          "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+          "messageId": "ba288004-1c06-4d2d-8057-018bb3fd64e2",
+          "turnId": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2",
+          "status": "executing",
+          "text": "共享甲写入待审批",
+          "retryOf": null,
+          "error": null,
+          "createdAt": 1794050207820
+        }
+      ]
+    },
+    {
+      "sessionId": "a6bc2ebc-2c4b-4fdc-92ad-6229bd83e759",
+      "items": [
+        {
+          "requestId": "a077a583-9e76-46cb-9b56-974adb620071",
+          "sessionId": "a6bc2ebc-2c4b-4fdc-92ad-6229bd83e759",
+          "messageId": "b7922c1b-8f7d-4fff-b348-d1f75afcd3e1",
+          "turnId": "6b31d0bb-8eee-4731-b59b-57f670bd0c39",
+          "status": "aborted",
+          "text": "共享乙等待目录",
+          "retryOf": null,
+          "error": "内核未能完成任务。原会话与首条消息保留，请检查目录和本地服务后明确重试。",
+          "createdAt": 1794050321363
+        }
+      ]
+    },
+    {
+      "sessionId": "de8f59da-6a27-411d-a6f9-8293be72445a",
+      "items": [
+        {
+          "requestId": "522795d4-e32c-4801-ac2a-f13a67bef1b5",
+          "sessionId": "de8f59da-6a27-411d-a6f9-8293be72445a",
+          "messageId": "a49db15c-a62e-4d9e-842f-9c8b683c7507",
+          "turnId": "0c1caa10-498f-473c-accd-d48c71a2e4b9",
+          "status": "aborted",
+          "text": "独立丙后台持续",
+          "retryOf": null,
+          "error": "Request was aborted",
+          "createdAt": 1794050564116
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "4f299cd1-f4da-47dd-974c-feaca3756b4d",
+      "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+      "epoch": "5f742dfa-6b7e-4377-9056-c1a1d3d18fa3",
+      "seq": 9,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2",
+          "messageId": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2:assistant",
+          "prompt": "共享甲写入待审批",
+          "text": "",
+          "phase": "running",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "write",
+              "status": "pending",
+              "summary": "等待明确审批；未执行，无倒计时。",
+              "parameters": "{\"content\":\"SEC02_APPROVED_ONCE\",\"path\":\"APPROVED.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "220e931e27fb3aab67b5d3aabcbd03b882a0a001d5eda55265357999ac00a134",
+                "automatic": false
+              }
+            }
+          ],
+          "approval": {
+            "id": "3b3b3854-f8b4-4b0f-91c1-f974c83e2aad",
+            "command": "write · L2 · 最终参数待明确审批",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录"
+          },
+          "error": null,
+          "stage": "preparing-tools",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "requesting",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    },
+    null,
+    {
+      "version": 1,
+      "daemonId": "4f299cd1-f4da-47dd-974c-feaca3756b4d",
+      "sessionId": "de8f59da-6a27-411d-a6f9-8293be72445a",
+      "epoch": "531b03fb-5bf3-4251-a596-14a2c7e6723d",
+      "seq": 12,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "0c1caa10-498f-473c-accd-d48c71a2e4b9",
+          "messageId": "0c1caa10-498f-473c-accd-d48c71a2e4b9:assistant",
+          "prompt": "独立丙后台持续",
+          "text": "OFFLINE_",
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    }
+  ],
+  "writes": [
+    {
+      "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+      "latest": {
+        "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+        "turnId": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录",
+        "state": "active",
+        "startedAt": 1794050207835,
+        "checkedAt": 1794051475629,
+        "endedAt": null,
+        "coverage": "bounded",
+        "changedPaths": [
+          "external.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": {
+        "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+        "turnId": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录",
+        "state": "active",
+        "startedAt": 1794050207835,
+        "checkedAt": 1794051475629,
+        "endedAt": null,
+        "coverage": "bounded",
+        "changedPaths": [
+          "external.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      }
+    },
+    {
+      "sessionId": "a6bc2ebc-2c4b-4fdc-92ad-6229bd83e759",
+      "latest": null,
+      "owner": null
+    },
+    {
+      "sessionId": "de8f59da-6a27-411d-a6f9-8293be72445a",
+      "latest": {
+        "sessionId": "de8f59da-6a27-411d-a6f9-8293be72445a",
+        "turnId": "0c1caa10-498f-473c-accd-d48c71a2e4b9",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\独立中文目录",
+        "state": "released",
+        "startedAt": 1794050564120,
+        "checkedAt": 1794050710189,
+        "endedAt": 1794050710191,
+        "coverage": "bounded",
+        "changedPaths": [],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 1,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+        "epoch": "5f742dfa-6b7e-4377-9056-c1a1d3d18fa3",
+        "state": "running",
+        "pid": 39584,
+        "pins": 1,
+        "lastUsedAt": 1794050208874,
+        "waitingApproval": true,
+        "retiring": false
+      }
+    ],
+    "queue": [
+      {
+        "id": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2",
+        "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+        "kind": "model",
+        "stage": "running",
+        "position": 0,
+        "reason": "running",
+        "directoryOwner": null,
+        "cancellable": true
+      }
+    ]
+  },
+  "kernels": [
+    {
+      "protocol": 1,
+      "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+      "epoch": "5f742dfa-6b7e-4377-9056-c1a1d3d18fa3",
+      "source": "real-sdk/local-fixture",
+      "state": "running",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\共享中文目录",
+      "turnId": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2",
+      "pid": 39584,
+      "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY\\data\\kernels\\ab3d3cca-8c59-4a97-bb68-ccae6f11560b\\5f742dfa-6b7e-4377-9056-c1a1d3d18fa3\\sessions\\2026-11-07T11-16-48-860Z_01a1b5b9-b45c-718d-8771-86329e399a22.jsonl",
+      "nativeSessionId": "01a1b5b9-b45c-718d-8771-86329e399a22"
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "ab3d3cca-8c59-4a97-bb68-ccae6f11560b\\5f742dfa-6b7e-4377-9056-c1a1d3d18fa3\\sessions\\2026-11-07T11-16-48-860Z_01a1b5b9-b45c-718d-8771-86329e399a22.jsonl": "c56cfb15c66e17637543c73693fef1e9dd1a69608af4995597f3f86735a25f54",
+    "de8f59da-6a27-411d-a6f9-8293be72445a\\531b03fb-5bf3-4251-a596-14a2c7e6723d\\sessions\\2026-11-07T11-22-45-135Z_01a1b5bf-240f-717c-933a-94babb3f6ab1.jsonl": "1dc9cfa3533798925324102c6534109998a1707d9d52ee6fd2ef8451ce9e8cfd"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

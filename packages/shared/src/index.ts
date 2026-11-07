@@ -238,3 +238,27 @@ export {
   sumRecordedTokens,
 } from './model-usage.js'
 export type { ModelTokens, ModelUsageRecord, SessionUsage } from './model-usage.js'
+export { directoryRoundSchema, directoryWriteStatusSchema } from './directory-write.js'
+export type { DirectoryRound, DirectoryWriteStatus } from './directory-write.js'
+export {
+  fileSnapshotSchema,
+  changeRoundSchema,
+  changeHistoryQuerySchema,
+  changeHistorySchema,
+} from './change-snapshots.js'
+export type { FileSnapshot, ChangeRound } from './change-snapshots.js'
+
+export {
+  changeToolObservationSchema,
+  changeSourcesSchema,
+  changeSourcesQuerySchema,
+  reconcileChangeSource,
+} from './change-provenance.js'
+export type { FileObservation, ChangeToolObservation, ChangeSource } from './change-provenance.js'
+export {
+  changeReviewSchema,
+  changeDiffSchema,
+  changeReviewQuerySchema,
+  changeDiffQuerySchema,
+} from './change-review.js'
+export type { ChangeFile, ChangeDiff } from './change-review.js'

@@ -243,3 +243,21 @@ MODEL-03 已验收：0013会话模型CAS与安装SDK逐请求prepareRequest边�
 ## MODEL-05 已验收
 
 MODEL-05 已验收：只读SDK原生历史，按会话／轮次／模型消息追溯输入、输出、缓存与总量，部分和保留未知次数；SDK默认零值不冒充实际报告。最近请求只作上下文参考，窗口来自同源离线模型元数据，未知模型／价格来源／价格时间及费用明确未知，不造账单。完整50文件／317项Vitest、118项E2E、SDK及frozen clean通过；54条Windows原生观察、明暗802px窄窗、故障恢复、两次正常退出及同data/profile重启0发送／0内核，JSONL与pi配置／预算／锁哈希不变。371文件与clean一致，原生后复用门禁；真实提供商0，无安装包，网页独立暂缓，OPS-08继续in_progress。 当前本地38／133。见[逐项证据](../validation/model-05-evidence/acceptance.md)。
+
+## WS-04 已验收门禁与来源
+
+13 项实际服务测试以 4 内核／3 模型槽产生目录竞争，覆盖物理别名／重叠根、同目录 FIFO 与独立目录并行、取消／停止／IPC／硬杀／退出及重启隔离；实际 SDK 批准写入同一文件后再由测试宿主混入外部编辑，最终保留混合内容并标来源不确定，不能作为回滚资格。最终静态检查、51 文件／332 项 Vitest、SDK 冒烟与 frozen clean 通过并按用户要求复用。授权后最终完整 122 项浏览器／Electron E2E 通过，含 WS-04 的 4 项与资源 2 项。完整 CI 各阶段已齐备，本轮未重复执行单条 pnpm run ci。
+
+[证据及来源](../validation/ws-04-evidence/acceptance.md)区分真实 SDK 本地 HTTP、实际文件／SQLite／IPC、明确合成旧 PID 记录、故障注入、自动窗口和实际 Windows UIA／SendInput。82 条原生观察含中间态，补齐所属排队取消、独立并行、同 PID／epoch／cwd 后台、实际外部编辑、明暗 802×761、同 data/profile 重启零发送／内核／待审批／授权与两次正常菜单退出；4 份 SDK JSONL 哈希不变。没有新 IME 证据，排队取消的无 SDK 面板仍显示等待连接；原生不是同文件混写或 IPC／硬杀故障证据。WS-04 两项已勾选，OPS-08 第二项仍须后续 M3 回滚及平台等阶段门，整体 in_progress。
+
+本轮完整 E2E 首次 121 过／1 失败，业务断言完成后 route.fetch 仍在途而请求上下文先退出；helper 在 quit 前 unrouteAll({behavior:wait})，保持错误可见。原用例连续 3 次、source fix／check、clean 补充 check 与完整 122 项通过。363 文件与补充后 clean 一致，只有 E2E helper 相比原 frozen 有改动，原 frozen 安装／构建／332 测试／SDK／启停复用，不声称第二次完整 frozen。实际 SDK exit／disposed 的受控顺序回归、10 次未改投递顺序的退出复核、所有历史失败均保留；临时夹具 Cookie 头从归档失败日志脱敏，原件留忽略目录。真实提供商 0，pi 配置／canonical 预算／锁文件未改，快照／Diff／回滚未交付。
+
+## CHANGE-01 已验收门禁
+
+change-snapshots 服务回归使用实际文件、独立 bare Git 账本、SQLite 与 SDK 本地 HTTP 夹具，已加入 test:contracts；4 项实际 Electron 回归检查版本、基线失败审批、排队与明暗窄窗。分页历史元数据、收尾屏障、SQLite 故障及 HTTP503 明确是夹具，不冒充 SDK 工具或原生观察。基线失败／审批期间引用失效都不能静默放行，收尾持久失败保留目录隔离。
+
+最终 52 文件／344 项 Vitest、完整 check、SDK、frozen clean 及完整 126 项 E2E 通过。80 条 Windows 原生观察、明暗窄窗、同 data/profile 重启零重放及两次正常菜单退出补齐。窗口测试定位修复同步 clean 并补 check，385 输入一致后复用未变门禁；历史失败与来源见[最终记录](../validation/change-01-evidence/acceptance.md)。OPS-08 继续 in_progress；真实提供商 0，配置／预算／锁未改。CHANGE-01 不含 Diff 或回滚。
+
+## CHANGE-02／03 已验收门禁与证据
+
+CHANGE-02／03 已验收：0016 持久最终守卫的实际工具前后字节与调用身份，连续可证实链只称工具观察一致，混合／缺证／命令保守未知，automaticRollback 始终 false。文件列表与 Diff 只读独立账本 baseline/final，不被当前文件替换，不提供接受／恢复／回滚。最终 54 文件／367 项 Vitest、SDK、frozen clean 和 130 项 E2E 通过；首轮 CI 窗口 127/130 的三项失败和中间修复保留，修复后完整窗口及源／clean check 通过。149 条 Windows 原生观察含中间态，明暗 802×961、实际工具／外部混合、同 PID／epoch 后台、两次正常菜单退出与同 data/profile 重启 0 发送／内核／待审批／授权通过；4 份 JSONL 与 7 轮版本／来源／列表／Diff 不变，398 输入与 clean 一致，5 保护文件不变。后台期限 failed 与明确重试后 aborted 分开；本次不新增真实 IME 或非 Git 原生证据。当前本地 42/133，OPS-08 继续 in_progress，真实提供商 0，pi 配置／canonical 预算／锁未改，无安装包，网页独立业务暂缓。来源、完整阶段与失败原文见[验收记录](../validation/change-02-03-evidence/acceptance.md)。源码未变时复用已通过的 367／SDK／frozen；仅文档收尾另运行 docs:build／docs:check／fix／check，不宣称第二次完整 frozen。

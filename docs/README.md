@@ -1,5 +1,7 @@
 # 文档索引与维护
 
+CHANGE-01 轮次基线与持久文件版本见[独立记录](validation/change-01-evidence/acceptance.md)。CHANGE-02 修改来源与 CHANGE-03 历史 Diff 也已验收：最终 367 项 Vitest／130 项 E2E、SDK、frozen clean、149 条 Windows 原生观察、两次正常退出及只读重启见[最新验收记录](validation/change-02-03-evidence/acceptance.md)。本地 42/133，OPS-08 继续跨阶段门；接受／回滚未交付。
+
 根 [README](../README.md) 负责运行和检查；本目录集中维护需求、方案、设计与验证。产品功能及进度的唯一数据源是 [product/backlog.json](product/backlog.json)，文档、原型和依赖安装不计为产品完成。
 
 ## 文档分区
@@ -111,6 +113,8 @@ INPUT-01 输入与独立草稿已验收，新增2项实际Electron回归和27条
 ## WS-07 验收记录
 
 [工作区信任与不可用恢复](validation/ws-07-evidence/acceptance.md)记录目录物理身份／后台停止／明确恢复、实际服务和 Electron 自动结果、68条原生观察、重启／正常退出与继续提示词；两项验收已通过。
+
+WS-04 的目录互斥、外部改动观察与两项验收见[记录](validation/ws-04-evidence/acceptance.md)。复用 332 项 Vitest／SDK／frozen clean，授权后最终完整 122 项 E2E、82 条 Windows 原生观察、同 data/profile 重启与两次正常退出补齐；来源、失败修复及 clean helper 补充检查分别记录。WS-04 本身仅提供元数据观察；持久文件版本随后由 CHANGE-01 交付，OPS-08 继续跨阶段判断。
 
 ## OBS-01 已验收
 

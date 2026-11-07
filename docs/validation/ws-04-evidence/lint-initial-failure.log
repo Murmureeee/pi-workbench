@@ -1,0 +1,29 @@
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+apps/daemon/src/modules/workspaces/workspace.service.ts:34:22: warning eslint(no-shadow): 'stat' is already declared in the upper scope. help: Consider renaming 'stat' to avoid shadowing the variable from the outer scope.
+apps/daemon/test/directory-writes.test.ts:132:41: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+apps/daemon/test/directory-writes.test.ts:134:40: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+apps/daemon/test/directory-writes.test.ts:233:40: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+e2e/directory-writes.spec.ts:28:23: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:30:19: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:135:7: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:136:7: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:137:7: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:138:7: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:139:7: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:140:14: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:141:7: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+e2e/directory-writes.spec.ts:44:32: error typescript(no-unsafe-assignment): Unsafe assignment of an any value. help: Assigned value has type `any`; the target has type `any`. Use a safely typed value or `unknown`, and narrow it before use.
+e2e/directory-writes.spec.ts:44:64: error typescript(no-unsafe-member-access): Unsafe member access .id on an `any` value.
+e2e/directory-writes.spec.ts:47:69: error typescript(no-unsafe-argument): Unsafe argument of type any assigned to a parameter of type string | ElementHandle<Node> | readonly string[] | readonly ElementHandle<Node>[] | readonly { value?: string | undefined; label?: string | undefined; index?: number | undefined; }[] | { ...; } | null.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

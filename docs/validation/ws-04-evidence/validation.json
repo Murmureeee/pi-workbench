@@ -1,0 +1,179 @@
+{
+  "feature": "WS-04",
+  "recordedAt": "2026-11-07T14:05:33.606Z",
+  "status": "verified",
+  "acceptanceChecked": [
+    true,
+    true
+  ],
+  "nonWindow": {
+    "status": "passed",
+    "commands": [
+      "pnpm fix",
+      "pnpm check",
+      "pnpm test",
+      "pnpm smoke:sdk"
+    ],
+    "vitest": {
+      "files": 51,
+      "passed": 332
+    },
+    "log": "non-ui-gates-terminal-final.log",
+    "source": "Actual SQLite/filesystem/IPC/SDK 1.4.0/local HTTP plus explicitly identified fault and synthetic fixtures",
+    "reused": true
+  },
+  "serviceFeature": {
+    "passed": 13,
+    "log": "non-ui-gates-terminal-final.log",
+    "kernelSlots": 4,
+    "modelSlots": 3,
+    "realCompetition": true,
+    "initialLog": "service-final.log",
+    "mixedSdkAndExternalFileVerified": true
+  },
+  "priorWindowRegression": {
+    "passed": 6,
+    "newFeatureTests": 4,
+    "existingResourceTests": 2,
+    "log": "electron-final.log",
+    "scope": "Historical pre-pause regression; superseded by final full 122-test window pass."
+  },
+  "finalWindowRegression": {
+    "status": "passed",
+    "passed": 122,
+    "newFeatureTests": 4,
+    "existingResourceTests": 2,
+    "log": "e2e-authorized-recheck.log",
+    "source": "Actual Playwright browser/Electron + paired daemon/SDK local HTTP. Test-only HTTP/WS routing and explicit 503/synthetic observations are separate from native evidence.",
+    "teardownRegression": {
+      "firstLog": "e2e-authorized-final.log",
+      "firstPassed": 121,
+      "firstFailed": 1,
+      "failedAt": "e2e/session-spaces.spec.ts:111 after business assertions during route.fetch teardown",
+      "fix": "e2e/helpers/desktop.ts waits for unrouteAll({behavior:wait}) before quit; errors remain visible.",
+      "targetedPassed": 3,
+      "targetedLog": "window-teardown-recheck.log",
+      "checkLog": "window-helper-fix-check.log",
+      "temporaryCookieHeadersRedacted": true,
+      "privateRawAndTrace": ".workbench/ws04-window-failure/"
+    }
+  },
+  "fullCI": {
+    "status": "passed",
+    "executionMode": "User-authorized stage reuse: check -> 332 tests -> SDK smoke reused, full final E2E executed.",
+    "singleNewCIInvocation": false,
+    "finalNonWindow": "non-ui-gates-terminal-final.log",
+    "finalWindows": "e2e-authorized-recheck.log",
+    "priorIncompleteLogs": [
+      "ci-first.log",
+      "ci-second.log",
+      "ci-pre-window-type-failure.log",
+      "e2e-authorized-final.log"
+    ]
+  },
+  "frozenClean": {
+    "status": "passed",
+    "report": "clean-workspace.json",
+    "commands": "clean-commands.json",
+    "log": "clean-terminal-final.log",
+    "windowLaunched": false,
+    "reportFeatureLabel": "OPS-01 generic verifier",
+    "providerRequests": 0,
+    "reused": true,
+    "amendment": {
+      "path": "e2e/helpers/desktop.ts",
+      "checkLog": "clean-window-helper-check.log",
+      "scope": "Only helper copied to existing clean directory and full pnpm check passed; original frozen installation/build/332 tests/SDK/service-start-stop reused.",
+      "newCompleteFrozenRun": false
+    }
+  },
+  "codeReuse": {
+    "status": "passed",
+    "fileCount": 363,
+    "differences": [],
+    "report": "code-reuse-audit.json",
+    "frozenCleanAmendment": "e2e/helpers/desktop.ts; see code-reuse-audit.json",
+    "productAndBuildInputsUnchanged": true
+  },
+  "native": {
+    "status": "passed",
+    "functionalAcceptancePassed": true,
+    "normalMenuExits": 2,
+    "observations": 82,
+    "includesIntermediateStates": true,
+    "report": "native-validation.json",
+    "directory": "native-authorized/",
+    "source": "Actual Windows UIA/SendInput and actual Electron/daemon/SDK local HTTP; no CDP or renderer routing.",
+    "historyFilesUnchanged": 4,
+    "restart": {
+      "prompts": 0,
+      "kernels": 0,
+      "pending": 0,
+      "grants": 0
+    },
+    "newIMEProof": false,
+    "previousSetupCleanup": "setup-cleanup-audit.json",
+    "limitations": "See native-validation.json and acceptance.md; no SDK runtime for cancelled queue still shows wait-for-reconnect wording."
+  },
+  "providerRequests": 0,
+  "protectedFiles": "protected-audit.json",
+  "dependencyCheck": "dependency-check.json",
+  "ops08": "in_progress",
+  "notDelivered": [
+    "recoverable file snapshots",
+    "Diff",
+    "automatic rollback",
+    "web standalone business flows",
+    "installer",
+    "OS sandbox"
+  ],
+  "docs": {
+    "status": "passed",
+    "log": "docs-authorized-final.log",
+    "commands": [
+      "pnpm docs:build",
+      "pnpm fix",
+      "pnpm check"
+    ],
+    "exitCode": 0,
+    "generated": [
+      "docs/product/roadmap.html",
+      "docs/product/prd.html",
+      "docs/product/feature-list.md"
+    ]
+  },
+  "gitDiffCheck": "passed",
+  "exitLifecycle": {
+    "status": "passed",
+    "realWindowsProcessTrace": "shutdown-diagnostic-failure.json",
+    "traceScope": "Actual SDK/local HTTP CLI process events, not Windows native UI acceptance",
+    "controlledDeliveryRegression": {
+      "red": "exit-before-ack-red.log",
+      "green": "exit-before-ack-green.log",
+      "relatedPassed": 46,
+      "source": "Actual SDK and OS exit, host message delivery explicitly controlled"
+    },
+    "missingAcknowledgement": "Explicit synthetic IPC fixture, remains failed",
+    "repeatedActualSdkExits": {
+      "passed": 10,
+      "log": "shutdown-repeated-green.log",
+      "deliveryOrderUnchanged": true
+    },
+    "historicalUnexplainedDirectoryTimeout": "One earlier targeted stream wait failed at the original deadline; diagnostic output added, deadline and assertions unchanged. Later related/full/clean runs pass; exact initial cause not proven."
+  },
+  "finalEvidenceAudit": {
+    "status": "passed",
+    "report": "native-validation.json",
+    "codeReuse": "code-reuse-audit.json",
+    "protectedFiles": "protected-audit.json",
+    "sourceFileCount": 363,
+    "local": {
+      "verified": 39,
+      "total": 133
+    },
+    "onlyChangedFeatureProgress": [
+      "OPS-08",
+      "WS-04"
+    ]
+  }
+}

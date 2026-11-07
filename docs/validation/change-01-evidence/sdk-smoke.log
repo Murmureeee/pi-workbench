@@ -1,0 +1,3 @@
+$ pnpm --filter @pi-workbench/agent-adapter smoke
+$ node dist/smoke.js
+{"feature":"CORE-04","source":"real-sdk/local-fixture","sdk":"1.4.0","node":"v24.22.2","pid":25680,"guard":"deny-all","reply":"completed","abort":"aborted","disposed":true,"localRequests":2,"providerRequests":0,"blockedNetworkAttempts":0}

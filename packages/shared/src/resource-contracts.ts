@@ -1,5 +1,7 @@
 import { z } from 'zod'
 
+import { directoryRoundSchema } from './directory-write.js'
+
 /** Startup configuration, independent of browser view caching. Terminals are a reserved budget
  * until M4 supplies a real PTY allocator; this schema does not claim terminal enforcement.
  */
@@ -38,7 +40,14 @@ export const resourceSnapshotSchema = z.strictObject({
       kind: z.enum(['kernel', 'model']),
       stage: z.enum(['queued', 'acquiring-kernel', 'running']),
       position: z.number().int().nonnegative(),
-      reason: z.enum(['kernel-limit', 'model-limit', 'starting-kernel', 'running']),
+      reason: z.enum([
+        'kernel-limit',
+        'model-limit',
+        'directory-busy',
+        'starting-kernel',
+        'running',
+      ]),
+      directoryOwner: directoryRoundSchema.nullable().optional(),
       cancellable: z.literal(true),
     }),
   ),

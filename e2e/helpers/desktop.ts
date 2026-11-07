@@ -80,7 +80,28 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     }
   })
   let browser: Awaited<ReturnType<typeof chromium.connectOverCDP>> | undefined
+  let closing = false
   const close = async () => {
+    closing = true
+    // Unmount pollers before removing the fixture's forwarding route. Otherwise new
+    // requests can escape to the unrelated development daemon during teardown.
+    await Promise.all(
+      browser
+        ?.contexts()
+        .flatMap((context) => context.pages().map((page) => page.goto('about:blank'))) ?? [],
+    )
+    // Polling can still be inside route.fetch when the renderer closes. Drain those
+    // callbacks before Electron disposes its request context; keep their errors visible.
+    await Promise.all(
+      browser
+        ?.contexts()
+        .flatMap((context) =>
+          context.pages().map((page) => page.unrouteAll({ behavior: 'wait' })),
+        ) ?? [],
+    )
+    await Promise.all(
+      browser?.contexts().map((context) => context.unrouteAll({ behavior: 'wait' })) ?? [],
+    )
     if (child.connected) {
       child.send('quit')
     }
@@ -115,15 +136,32 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     })
     await context.route('**/api/**', async (route) => {
       const url = new URL(route.request().url())
-      const response = await route.fetch({
-        url: `http://127.0.0.1:4318${url.pathname}${url.search}`,
-        headers: {
-          ...route.request().headers(),
-          host: '127.0.0.1:4318',
-          origin: 'http://127.0.0.1:5173',
-        },
-      })
-      await route.fulfill({ response })
+      try {
+        const response = await route.fetch({
+          url: `http://127.0.0.1:4318${url.pathname}${url.search}`,
+          headers: {
+            ...route.request().headers(),
+            host: '127.0.0.1:4318',
+            origin: 'http://127.0.0.1:5173',
+          },
+        })
+        await route.fulfill({ response })
+      } catch (error) {
+        // Chromium can have already completed an aborted poll while the detached fetch
+        // returns. Only that already-handled cancellation/fixture-exit case is expected;
+        // live request failures and every other transport error still fail the test.
+        if (
+          error instanceof Error &&
+          error.message.includes('Route is already handled') &&
+          (closing || route.request().failure()?.errorText.includes('ERR_ABORTED'))
+        ) {
+          // The server has continued the cancelled request, but the client handler
+          // still needs to complete its handling promise so unrouteAll(wait) drains.
+          await route.fallback()
+          return
+        }
+        throw error
+      }
     })
     await expect.poll(() => context.pages().length, { timeout: 15000 }).toBeGreaterThan(0)
     const page = context.pages()[0]

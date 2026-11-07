@@ -1,0 +1,58 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build[WebServer] 
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:3032) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:3984) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\reasoning.spec.ts:10:1 › OBS-06 actual Electron/SDK public reasoning is collapsed, redacted, copyable and downloadable; privacy survives refresh (10.1s)
+  ok 2 e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows (8.3s)
+  ok 3 e2e\tool-timeline.spec.ts:36:1 › OBS-03 actual Electron read-only Trace: nested identity, result-before-start, explicit outcomes/unknown metrics, safe structures and keyboard (7.3s)
+  x  4 e2e\tool-timeline.spec.ts:94:1 › OBS-03 actual Electron long redacted output expands without changing source, Diff remains observation, light/dark narrow layouts stay bounded (12.2s)
+(node:16268) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 5 e2e\tool-timeline.spec.ts:164:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn (15.6s)
+
+
+  1) e2e\tool-timeline.spec.ts:94:1 › OBS-03 actual Electron long redacted output expands without changing source, Diff remains observation, light/dark narrow layouts stay bounded 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator:  locator('.retained-session:not([hidden])').locator('[data-tool-id="edit"]').getByLabel('工具 Diff').getByRole('heading')
+    Expected: in viewport
+    Received: viewport ratio 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeInViewport" locator('.retained-session:not([hidden])').locator('[data-tool-id="edit"]').getByLabel('工具 Diff').getByRole('heading') with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').locator('[data-tool-id="edit"]').getByLabel('工具 Diff').getByRole('heading')
+        14 × locator resolved to <h4>工具返回的 Diff · 仅观察</h4>
+           - unexpected value "viewport ratio 0"
+
+
+      133 |       diffText = diff.locator('pre')
+      134 |     await diff.getByRole('heading').scrollIntoViewIfNeeded()
+    > 135 |     await expect(diff.getByRole('heading')).toBeInViewport()
+          |                                             ^
+      136 |     await diffText.scrollIntoViewIfNeeded()
+      137 |     await expect(diffText).toBeInViewport({ ratio: 0.7 })
+      138 |     await page.screenshot({
+        at D:\Project\pi-workbench\e2e\tool-timeline.spec.ts:135:45
+
+    Error Context: test-results\tool-timeline-OBS-03-actua-472ab-narrow-layouts-stay-bounded\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\tool-timeline-OBS-03-actua-472ab-narrow-layouts-stay-bounded\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\tool-timeline-OBS-03-actua-472ab-narrow-layouts-stay-bounded\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\tool-timeline.spec.ts:94:1 › OBS-03 actual Electron long redacted output expands without changing source, Diff remains observation, light/dark narrow layouts stay bounded 
+  4 passed (1.2m)

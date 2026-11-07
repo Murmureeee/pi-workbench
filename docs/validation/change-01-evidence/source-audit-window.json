@@ -1,0 +1,69 @@
+{
+  "files": 385,
+  "changed": [
+    "apps\\daemon\\migrations\\meta\\_journal.json",
+    "apps\\daemon\\src\\bootstrap\\app.ts",
+    "apps\\daemon\\src\\infrastructure\\database\\schema.ts",
+    "apps\\daemon\\src\\modules\\kernels\\kernel.service.ts",
+    "apps\\daemon\\src\\modules\\security\\approval.service.ts",
+    "apps\\daemon\\src\\modules\\workspaces\\directory-write.service.ts",
+    "apps\\daemon\\test\\bootstrap.test.ts",
+    "apps\\daemon\\test\\project-organization.test.ts",
+    "apps\\daemon\\test\\session-grants.test.ts",
+    "apps\\daemon\\test\\session-organization.test.ts",
+    "apps\\daemon\\test\\session-search.test.ts",
+    "apps\\daemon\\test\\session-spaces.test.ts",
+    "apps\\daemon\\test\\session-titles.test.ts",
+    "apps\\daemon\\test\\trust.test.ts",
+    "apps\\daemon\\test\\workspace-recents.test.ts",
+    "apps\\daemon\\test\\workspaces.test.ts",
+    "apps\\web\\src\\features\\conversation\\execution-approvals.tsx",
+    "apps\\web\\src\\features\\conversation\\session-workbench.tsx",
+    "apps\\web\\src\\services\\runtime-client.test.ts",
+    "packages\\shared\\src\\index.ts",
+    "packages\\shared\\src\\runtime-contracts.test.ts",
+    "packages\\shared\\src\\runtime-contracts.ts",
+    "e2e\\reasoning.spec.ts",
+    "e2e\\tool-timeline.spec.ts",
+    "package.json",
+    "docs/product/backlog.json",
+    "AGENTS.md"
+  ],
+  "added": [
+    "apps\\daemon\\migrations\\0015_change_rounds.sql",
+    "apps\\daemon\\src\\infrastructure\\ledger\\file-ledger.ts",
+    "apps\\daemon\\src\\modules\\changes\\change.service.ts",
+    "apps\\daemon\\src\\modules\\changes\\change.transport.ts",
+    "apps\\daemon\\test\\change-snapshots.test.ts",
+    "apps\\web\\src\\features\\conversation\\change-snapshots.tsx",
+    "packages\\shared\\src\\change-snapshots.ts",
+    "e2e\\change-snapshots.spec.ts"
+  ],
+  "protectedFiles": [
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "unchanged": true
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "unchanged": true
+    }
+  ],
+  "clean": {
+    "destination": "D:\\Project\\.piw-clean-EvxezH",
+    "count": 385,
+    "differences": []
+  }
+}

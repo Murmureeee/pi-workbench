@@ -1,0 +1,24 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+warning: Not updating refs/piw/d133ff07-f4f3-4a99-b66a-f59019768166/baseline (new tip 64f724843f81ccb1c8d32ae2f11222fd0c51e526 does not contain 0a021c14c3ee864d5b332d4cea24dab5f201cb9a)
+ ❯ apps/daemon/test/change-review.test.ts (15 tests | 1 failed) 53682ms
+   × CHANGE-01/03 verifies files tree against manifest before using immutable Git Diff 2244ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-review.test.ts > CHANGE-01/03 verifies files tree against manifest before using immutable Git Diff
+Error: Command failed: git --git-dir C:\Users\Murmure\AppData\Local\Temp\piw-review-JCbaao\data\ledger\b766edc4a330cccd54def16013e315e0d798550a8bd35b42e769270470abdbd9\objects.git fast-import --quiet --done
+warning: Not updating refs/piw/d133ff07-f4f3-4a99-b66a-f59019768166/baseline (new tip 64f724843f81ccb1c8d32ae2f11222fd0c51e526 does not contain 0a021c14c3ee864d5b332d4cea24dab5f201cb9a)
+
+ ❯ apps/daemon/test/change-review.test.ts:204:5
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 20 passed (21)
+   Start at  03:14:02
+   Duration  55.46s (tests 97%, import 3%)
+

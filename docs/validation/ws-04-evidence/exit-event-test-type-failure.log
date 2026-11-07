@@ -1,0 +1,43 @@
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 432ms on 330 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+packages/agent-adapter/src/kernel.test.ts(257,9): error TS2367: This comparison appears to be unintentional because the types '"spawn"' and '"message"' have no overlap.
+packages/agent-adapter/src/kernel.test.ts(266,11): error TS2367: This comparison appears to be unintentional because the types '"spawn"' and '"disconnect"' have no overlap.
+packages/agent-adapter/src/kernel.test.ts(271,11): error TS2367: This comparison appears to be unintentional because the types '"spawn"' and '"exit"' have no overlap.
+[ELIFECYCLE] Command failed with exit code 2.
+[ELIFECYCLE] Command failed with exit code 2.

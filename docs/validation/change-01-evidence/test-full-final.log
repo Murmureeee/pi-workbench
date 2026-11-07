@@ -1,0 +1,24 @@
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+Switched to a new branch '功能/中文'
+HEAD is now at c213df3 offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-h3aITB/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+
+ Test Files  52 passed (52)
+      Tests  344 passed (344)
+   Start at  22:59:17
+   Duration  99.77s (tests 85%, import 15%)
+

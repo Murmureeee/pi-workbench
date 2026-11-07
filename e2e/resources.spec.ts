@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test'
 
 import { randomUUID } from 'node:crypto'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 
@@ -34,6 +34,10 @@ test('CORE-07 actual SDK queue: browser shows limits, FIFO positions and cancell
   const directory = mkdtempSync(join(tmpdir(), 'piw-browser-resources-'))
   const app = await createApp({ dataDir: directory, port, development: true })
   try {
+    // This scenario proves model-slot FIFO. Directory contention has its own suite;
+    // independent roots prevent WS-04 from satisfying this test through another queue.
+    const roots = { a: join(directory, 'a'), b: join(directory, 'b'), c: join(directory, 'c') }
+    Object.values(roots).forEach((path) => mkdirSync(path))
     await app.listen(port, '127.0.0.1')
     await authorizePage(page, app)
     const kernels = app.get(KernelService),
@@ -43,7 +47,7 @@ test('CORE-07 actual SDK queue: browser shows limits, FIFO positions and cancell
       firstTurn = randomUUID(),
       secondTurn = randomUUID(),
       thirdTurn = randomUUID()
-    const run = kernels.prompt(first, directory, {
+    const run = kernels.prompt(first, roots.a, {
       turnId: firstTurn,
       text: 'real SDK held stream',
       fixture: 'hold',
@@ -52,9 +56,9 @@ test('CORE-07 actual SDK queue: browser shows limits, FIFO positions and cancell
       .poll(() => kernels.list().find((item) => item.sessionId === first)?.state)
       .toBe('running')
     const secondRun = kernels
-      .prompt(second, directory, { turnId: secondTurn, text: 'cancel before SDK admission' })
+      .prompt(second, roots.b, { turnId: secondTurn, text: 'cancel before SDK admission' })
       .catch((error: unknown) => error)
-    const thirdRun = kernels.prompt(third, directory, {
+    const thirdRun = kernels.prompt(third, roots.c, {
       turnId: thirdTurn,
       text: 'next real SDK task',
     })

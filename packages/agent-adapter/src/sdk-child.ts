@@ -45,6 +45,10 @@ const decisions = new Map<
   string,
   { resolve: (decision: ExecutionDecision) => void; reject: (error: Error) => void }
 >()
+const settlements = new Map<
+  string,
+  { digest: string; resolve: () => void; reject: (error: Error) => void }
+>()
 let modelRequest: ModelRequest = {
   attempts: 0,
   retryCount: 0,
@@ -87,6 +91,10 @@ async function dispose() {
     pending.reject(new Error('Final guard runtime closed'))
   }
   decisions.clear()
+  for (const pending of settlements.values()) {
+    pending.reject(new Error('Tool settlement runtime closed'))
+  }
+  settlements.clear()
   if (runtime) {
     await runtime.session.abort()
     await run
@@ -143,6 +151,17 @@ async function handle(command: KernelCommand) {
           }),
         (request) => tools.final(request.callId, request.parameters, request.parentId),
         () => setStage('executing-tools'),
+        (request, succeeded) =>
+          request.tool === 'read'
+            ? Promise.resolve()
+            : new Promise((resolve, reject) => {
+                if (closing || !process.connected) {
+                  reject(new Error('Tool settlement disconnected'))
+                  return
+                }
+                settlements.set(request.id, { digest: request.digest, resolve, reject })
+                send({ type: 'guard-finished', id: request.id, digest: request.digest, succeeded })
+              }),
       )
     }
     const { createOfflineRuntime: create } = await import('./sdk-runtime.js')
@@ -363,6 +382,7 @@ async function handle(command: KernelCommand) {
       nativeSessionId: runtime.session.sessionId,
       guard: {
         version: 1,
+        settlement: 'host-ack-v1',
         mode: guard ? 'final-parameters-v1' : 'deny-all',
         activeTools: guard ? ['read', 'write', 'edit', 'bash', 'powershell'] : [],
         extensionsEnabled: false,
@@ -393,6 +413,13 @@ async function handle(command: KernelCommand) {
       decisions.delete(command.decision.id)
       pending.resolve(command.decision)
     }
+  } else if (command.type === 'guard-settled') {
+    const pending = settlements.get(command.id)
+    if (command.turnId !== currentTurn || !pending || pending.digest !== command.digest) {
+      throw new Error('Tool settlement identity mismatch')
+    }
+    settlements.delete(command.id)
+    pending.resolve()
   } else if (command.type === 'queue-boundary') {
     if (command.turnId === currentTurn && command.boundaryId === boundary?.id) {
       boundary.resolve(command.item)

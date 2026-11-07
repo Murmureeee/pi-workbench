@@ -24,6 +24,10 @@ export const runtimeCapabilities = [
   'session-authorization-v1',
   'operation-audit-v1',
   'model-selection-v1',
+  'directory-write-v1',
+  'change-snapshots-v1',
+  'change-sources-v1',
+  'change-review-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),
@@ -119,7 +123,7 @@ export const runtimeEventSchema = z
 export const runtimeSubscribeSchema = z.strictObject({
   type: z.literal('subscribe'),
   protocolVersion: z.literal(1),
-  requiredCapabilities: z.array(z.string()).max(16),
+  requiredCapabilities: z.array(z.string()).max(64),
   sessionId: z.uuid(),
   epoch: z.uuid(),
   since: z.number().int().nonnegative(),

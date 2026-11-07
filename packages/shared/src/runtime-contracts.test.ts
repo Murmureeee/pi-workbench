@@ -5,8 +5,10 @@ import { describe, expect, it } from 'vitest'
 import {
   applyRuntimeEvent,
   compatibleRuntime,
+  runtimeCapabilities,
   runtimeEventSchema,
   runtimeSnapshotSchema,
+  runtimeSubscribeSchema,
 } from './runtime-contracts.js'
 
 const sessionId = '11111111-1111-4111-8111-111111111111'
@@ -36,6 +38,24 @@ const event = (seq: number, payload: RuntimeEvent['payload'], id = turnId): Runt
 const start = event(1, { type: 'turn.started', messageId: 'm1', prompt: 'fixture' })
 
 describe('CORE-05 authoritative observation contract', () => {
+  it('accepts all advertised observation capabilities in a bounded subscription', () => {
+    const subscription = {
+      type: 'subscribe',
+      protocolVersion: 1,
+      requiredCapabilities: [...runtimeCapabilities],
+      sessionId,
+      epoch,
+      since: 0,
+      daemonId,
+    }
+    expect(runtimeSubscribeSchema.parse(subscription)).toEqual(subscription)
+    expect(
+      runtimeSubscribeSchema.safeParse({
+        ...subscription,
+        requiredCapabilities: Array.from({ length: 65 }, () => 'snapshots'),
+      }).success,
+    ).toBe(false)
+  })
   it('accumulates every Unicode delta and deduplicates stable event and tool identities', () => {
     const text = '👩‍💻你\ne\u0301'.repeat(10000)
     const events = [
@@ -123,11 +143,21 @@ describe('CORE-05 authoritative observation contract', () => {
         'session-authorization-v1',
         'operation-audit-v1',
         'model-selection-v1',
+        'directory-write-v1',
+        'change-snapshots-v1',
+        'change-sources-v1',
+        'change-review-v1',
       ],
       mutations: false,
       realProviderEnabled: false,
     }
     expect(compatibleRuntime(hello)).toBe(true)
+    expect(
+      compatibleRuntime({
+        ...hello,
+        capabilities: hello.capabilities.filter((item) => item !== 'directory-write-v1'),
+      }),
+    ).toBe(false)
     expect(
       compatibleRuntime({
         ...hello,

@@ -1,0 +1,34 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ packages/agent-adapter/src/kernel.test.ts (30 tests | 1 failed | 29 skipped) 1090ms
+   ❯ CORE-04 real SDK + local HTTP fixture (zero real provider requests) (9)
+     × accepts a validated disposal acknowledgement delivered after actual process exit 1089ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/agent-adapter/src/kernel.test.ts > CORE-04 real SDK + local HTTP fixture (zero real provider requests) > accepts a validated disposal acknowledgement delivered after actual process exit
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ packages/agent-adapter/src/kernel.test.ts:281:28
+    279|       await kernel.dispose()
+    280|       expect(exitSeen).toBe(true)
+    281|       expect(ackDelivered).toBe(true)
+       |                            ^
+    282|       expect(stateAtExit).toBe('disposing')
+    283|       expect(kernel.snapshot.state).toBe('disposed')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 29 skipped (30)
+   Start at  15:56:10
+   Duration  1.38s (tests 86%, import 9%, transform 5%)
+

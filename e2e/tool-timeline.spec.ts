@@ -129,16 +129,24 @@ test('OBS-03 actual Electron long redacted output expands without changing sourc
     }
     const bytes = readFileSync(file)
     mkdirSync(evidence, { recursive: true })
-    await edit.getByLabel('工具 Diff').scrollIntoViewIfNeeded()
-    await expect(edit.getByLabel('工具 Diff')).toBeInViewport({ ratio: 0.7 })
+    const diff = edit.getByLabel('工具 Diff'),
+      diffText = diff.locator('pre')
+    await pane.getByLabel('受管会话消息').press('Home')
+    await diff.getByRole('heading').scrollIntoViewIfNeeded()
+    await expect(diff.getByRole('heading')).toBeInViewport()
+    await diffText.scrollIntoViewIfNeeded()
+    await expect(diffText).toBeInViewport({ ratio: 0.7 })
     await page.screenshot({
       path: join(evidence, 'tool-timeline-light.png'),
       animations: 'disabled',
     })
     await page.emulateMedia({ colorScheme: 'dark' })
     await page.setViewportSize({ width: 800, height: 760 })
-    await edit.getByLabel('工具 Diff').scrollIntoViewIfNeeded()
-    await expect(edit.getByLabel('工具 Diff')).toBeInViewport({ ratio: 0.7 })
+    await pane.getByLabel('受管会话消息').press('Home')
+    await diff.getByRole('heading').scrollIntoViewIfNeeded()
+    await expect(diff.getByRole('heading')).toBeInViewport()
+    await diffText.scrollIntoViewIfNeeded()
+    await expect(diffText).toBeInViewport({ ratio: 0.7 })
     expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true)
     await page.screenshot({
       path: join(evidence, 'tool-timeline-dark-800.png'),

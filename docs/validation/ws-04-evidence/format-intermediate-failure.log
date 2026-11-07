@@ -1,0 +1,10 @@
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+apps/daemon/test/directory-writes.test.ts (1ms)
+
+Format issues found in above 1 files. Run without `--check` to fix.
+Finished in 489ms on 330 files using 20 threads.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

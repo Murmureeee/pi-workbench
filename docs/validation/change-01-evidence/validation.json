@@ -1,0 +1,107 @@
+{
+  "feature": "CHANGE-01",
+  "status": "verified",
+  "realProviderRequests": 0,
+  "dependencies": {
+    "CORE-03": "verified",
+    "WS-04": "verified",
+    "CORE-06": "verified"
+  },
+  "acceptanceChecked": [
+    true,
+    true
+  ],
+  "cli": {
+    "fix": "passed",
+    "check": "passed",
+    "testFiles": 52,
+    "tests": 344,
+    "sdk": "passed_real_sdk_local_fixture",
+    "frozenClean": "passed",
+    "cleanTestFiles": 52,
+    "cleanTests": 344,
+    "cleanSupplementalCheck": "passed"
+  },
+  "e2e": {
+    "status": "passed",
+    "tests": 126,
+    "files": 37,
+    "added": 4,
+    "firstFull": {
+      "passed": 124,
+      "failed": 2
+    },
+    "repairedTargeted": {
+      "passed": 5,
+      "failed": 0
+    }
+  },
+  "native": {
+    "feature": "CHANGE-01",
+    "status": "passed",
+    "observations": 80,
+    "normalMenuExits": 2,
+    "hostExitCodes": [
+      0,
+      0
+    ],
+    "providerRequests": 0,
+    "source": "Actual Windows Electron UIA/SendInput, daemon, SQLite, independent Git ledger and SDK with local HTTP fixtures; controlled external edits are host fixture actions.",
+    "checks": {
+      "baselineReady": true,
+      "baselineFailurePaused": true,
+      "cancelledCallNoWrite": true,
+      "explicitSingleUnrecoverableConfirmation": true,
+      "persistedSuccessFailureAbort": true,
+      "queueOwnerAndCancellation": true,
+      "backgroundSamePidEpoch": true,
+      "externalBytesUncertain": true,
+      "lightDark802px": true,
+      "sameDataProfileReadOnlyRestart": true,
+      "versionsUnchanged": true,
+      "jsonlHashesUnchanged": true,
+      "protectedFiveHashesUnchanged": true,
+      "noRestartDispatchKernelApprovalGrant": true
+    },
+    "limits": [
+      "No new real IME evidence; Unicode input uses SendInput/UIA.",
+      "Observations include intermediate or ineffective actions, not individual acceptance assertions.",
+      "Observation 66 unrelated application accessibility attachment excluded.",
+      "Window dimensions are not claimed to persist across restart.",
+      "Queued session without an SDK runtime retains the pre-existing synchronization message.",
+      "No Diff or rollback in CHANGE-01."
+    ]
+  },
+  "ops08": "in_progress_cross_stage_gate",
+  "limitations": [
+    "no_diff",
+    "no_restore_or_rollback",
+    "uncertain_provenance_only",
+    "bounded_files_only",
+    "no_acl_or_external_side_effect_recovery"
+  ],
+  "at": "2026-11-07T19:02:01.610Z",
+  "sourceAudit": {
+    "matchedProductTestBuildFiles": 385,
+    "protectedFilesUnchanged": 5
+  },
+  "ci": {
+    "status": "passed_with_documented_stage_reuse",
+    "completed": [
+      "check",
+      "test",
+      "smoke:sdk",
+      "test:e2e"
+    ],
+    "pending": []
+  },
+  "failures": [
+    {
+      "stage": "first_full_test",
+      "passed": 340,
+      "failed": 3,
+      "reason": "Old 1-second submission wait and two 20-second multi-turn test budgets did not include durable file-version settlement; bounded waits adjusted without removing assertions."
+    }
+  ],
+  "reuse": "344 Vitest, SDK and full frozen clean passed. Two existing narrow-window E2E scroll selectors were repaired; full 126 E2E and supplemental source/clean checks passed. 385 product/test/build inputs match clean, five protected hashes unchanged. No second full frozen run claimed."
+}

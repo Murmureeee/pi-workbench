@@ -1,0 +1,26 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/change-review.test.ts (13 tests | 1 failed) 45553ms
+   × CHANGE-03 real non-Git immutable versions list add/modify/delete/unique rename/binary/empty; later current files never replace history 3670ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-review.test.ts > CHANGE-03 real non-Git immutable versions list add/modify/delete/unique rename/binary/empty; later current files never replace history
+Error: EPERM, Permission denied: 'C:\Users\Murmure\AppData\Local\Temp\piw-review-0TYXCU\中文目录'
+ ❯ apps/daemon/test/change-review.test.ts:188:5
+    186|     const binary=required(list.files.find(v=>v.binary));expect(binary.…
+    187|     expect((await f.get().review.diff(t.turnId,required(list.files.fin…
+    188|     rmSync(f.cwd,{recursive:true,force:true})
+       |     ^
+    189|     expect(await f.get().review.diff(t.turnId,selected.id)).toEqual(or…
+    190|     await f.restart();expect(await f.get().review.diff(t.turnId,select…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 12 passed (13)
+   Start at  03:12:26
+   Duration  48.58s (tests 94%, import 4%, transform 2%)
+

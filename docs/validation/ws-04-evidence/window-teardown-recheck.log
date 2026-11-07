@@ -1,0 +1,22 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:8144) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:17788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 1 e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart (11.5s)
+(node:20204) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart (14.3s)
+(node:2180) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 3 e2e\session-spaces.spec.ts:111:1 › SESSION-07 Electron global new never inherits project cwd; metadata association preserves artifacts and origin across real app restart (12.7s)
+
+  3 passed (56.5s)

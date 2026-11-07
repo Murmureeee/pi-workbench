@@ -1,0 +1,43 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:21148) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:17392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\change-review.spec.ts:176:1 › CHANGE-02/03 Electron links actual SDK write/edit source to historical Diff and preserves the selected turn after read-only restart (17.3s)
+  x  2 e2e\change-review.spec.ts:225:1 › CHANGE-03 Electron shows actual non-Git external file types, redaction and accessible light/dark narrow drawers with focus return (2.0m)
+(node:29376) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 e2e\change-review.spec.ts:276:1 › CHANGE-02/03 Electron late file response and closed or hidden review cannot replace another session or stop an independent background SDK (13.6s)
+  ok 4 e2e\change-review.spec.ts:337:1 › CHANGE-03 Electron list and Diff read failures preserve target and recover explicitly without replay (7.0s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Queued task cancelled"}}
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 5 e2e\directory-writes.spec.ts:135:1 › WS-04 Electron shows actual competing owner and queue, cancels without dispatch and keeps independent directories running (8.8s)
+  ok 6 e2e\directory-writes.spec.ts:177:1 › WS-04 Electron pending approval keeps occupancy; real approved write hands off only after settled and records uncertain provenance (9.0s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 7 e2e\directory-writes.spec.ts:209:1 › WS-04 Electron external file edit, stale read failure, target isolation and 800px light/dark retain stop and composer (7.9s)
+  ok 8 e2e\directory-writes.spec.ts:259:1 › WS-04 full Electron restart preserves original provenance and SDK history with zero sends, kernels or authority (7.7s)
+
+
+  1) e2e\change-review.spec.ts:225:1 › CHANGE-03 Electron shows actual non-Git external file types, redaction and accessible light/dark narrow drawers with focus return 
+
+    Test timeout of 120000ms exceeded.
+
+    Error Context: test-results\change-review-CHANGE-03-El-74f7a-w-drawers-with-focus-return\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\change-review-CHANGE-03-El-74f7a-w-drawers-with-focus-return\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\change-review-CHANGE-03-El-74f7a-w-drawers-with-focus-return\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\change-review.spec.ts:225:1 › CHANGE-03 Electron shows actual non-Git external file types, redaction and accessible light/dark narrow drawers with focus return 
+  7 passed (3.5m)

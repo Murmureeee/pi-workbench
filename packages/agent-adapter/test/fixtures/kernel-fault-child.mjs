@@ -55,6 +55,7 @@ process.on('message', (/** @type {unknown} */ message) => {
       nativeSessionId: randomUUID(),
       guard: {
         version: 1,
+        settlement: 'host-ack-v1',
         mode: 'deny-all',
         activeTools: [],
         extensionsEnabled: false,
@@ -107,6 +108,10 @@ process.on('message', (/** @type {unknown} */ message) => {
     previousTurn = command.turnId
   } else if (command.type === 'dispose') {
     if (mode === 'hang-dispose') {
+      return
+    }
+    if (mode === 'missing-dispose-ack') {
+      process.disconnect()
       return
     }
     emit('disposed')

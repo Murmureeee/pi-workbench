@@ -1,0 +1,120 @@
+{
+  "features": [
+    "CHANGE-02",
+    "CHANGE-03"
+  ],
+  "status": "passed",
+  "at": "2026-11-07T21:20:25.366Z",
+  "source": "Windows native UIA/SendInput; actual Electron/daemon/SQLite/independent Git/installed SDK + local HTTP. No CDP, renderer injection or synthetic source records. Controlled external edits explicitly identified.",
+  "observations": 149,
+  "normalMenuExits": 2,
+  "hostExitCodes": [
+    0,
+    0
+  ],
+  "localManagedPrompts": 7,
+  "realProviderRequests": 0,
+  "checks": {
+    "actualWriteEditLinkedToTurnAndCall": true,
+    "mixedExternalBytesKeepConfirmedSection": true,
+    "deniedCallCreatesNoPositiveSource": true,
+    "immutableHistoryAfterCurrentFileEditAndRestart": true,
+    "addedModifiedDeletedUniqueRenameBinary": true,
+    "emptyRound": true,
+    "redactedInertTextDiff": true,
+    "backgroundSamePidEpochDuringViewAndReview": true,
+    "explicitRetryThenAbort": true,
+    "lightDark802px": true,
+    "sameDataProfileReadOnlyRestart": true,
+    "zeroRestartDispatchKernelApprovalGrant": true,
+    "versionsSourcesListsDiffsUnchanged": true,
+    "fourJsonlHashesUnchanged": true,
+    "fiveProtectedHashesUnchanged": true,
+    "managedProcessesExited": true,
+    "noAutomaticRollback": true
+  },
+  "restart": {
+    "prompts": 0,
+    "kernels": 0,
+    "pending": 0,
+    "grants": 0
+  },
+  "historySha256": {
+    "8c642558-397c-4520-ada3-b7ee9c84e6bd\\1c5be507-eca1-4463-af7e-c622128ea321\\sessions\\2026-11-07T20-42-51-643Z_01a1b7bf-ef7a-7218-96b7-587a0e989336.jsonl": "b0cd68e53439bfb1485bb0de493dffe95373cd9de7bcbaf00fa98cc46a317de3",
+    "c5d38364-04c9-4a6f-a5d9-49a8aded14f5\\db8a050f-757c-401f-a4d8-d909feff57da\\sessions\\2026-11-07T20-59-57-998Z_01a1b7cf-98ae-74b7-a11b-74860dd6e711.jsonl": "dbac4153bbfc1603cec01cf8d53f43cf44450b8933bf2810f99b2aa5a5620b5e",
+    "df2150db-9b87-45af-b56d-ffbc20a91fea\\639d82c0-a7db-44ee-b605-fabcd09a5abd\\sessions\\2026-11-07T20-50-37-678Z_01a1b7c7-0bee-7487-bfc3-620faebb871a.jsonl": "281086efad3d1d7f5ff03eebb8040ea25d558d22ec56510cc59e3b4dba49d056",
+    "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b\\1c6bc5b0-586c-467a-9d02-bdf3919860de\\sessions\\2026-11-07T21-02-06-123Z_01a1b7d1-8d2b-77b6-afc8-24848301f1aa.jsonl": "42d6e3db3c8d706203cf12383207e0c2f4c7f0a018858b38a3aa8957d55dba59"
+  },
+  "dimensions": {
+    "light": {
+      "width": 802,
+      "height": 961
+    },
+    "dark": {
+      "width": 802,
+      "height": 961
+    }
+  },
+  "rounds": [
+    {
+      "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+      "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+      "outcome": "completed",
+      "baseline": "0276a1ecabafc79b4fdaa5c89fff969571ee4fbc",
+      "final": "296968936642d884607cb62c4267fb515c3e9ad9"
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+      "outcome": "aborted",
+      "baseline": "7b38d519556aab1cf628f6a413cf6cb47e0cbd63",
+      "final": "6307f6c5691d8a4ca0e8db2b039696a994ca3671"
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+      "outcome": "completed",
+      "baseline": "08ec4f4cf992a6313e9bd7746465d045cad9968e",
+      "final": "74ed671dccd5276caa4d34bf05f04677c5fb423a"
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+      "outcome": "aborted",
+      "baseline": "278e6059f7324cb9080195f28b86086b31b3b3a8",
+      "final": "e1fcfbed7f258cdc398e2822661a9e374aa1039d"
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "turnId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+      "outcome": "failed",
+      "baseline": "fa4f929d7ba560b0fc0a2b305045270f78457217",
+      "final": "ba8470af5e0de85d019f94e0741b62c749247e0c"
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "turnId": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+      "outcome": "completed",
+      "baseline": "5bdcc8bccbcd148e10ea0787ca70a1a5a960016c",
+      "final": "4533775d5244bded91d8aa2e216cd688c01e7a5b"
+    },
+    {
+      "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+      "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+      "outcome": "aborted",
+      "baseline": "48166083e3458b7835c192befd05558f118e064b",
+      "final": "310b1e386f93dc11726d86d881d6b39f449f8d1a"
+    }
+  ],
+  "limits": [
+    "149 observations include intermediate or ineffective actions, not 149 acceptance assertions. Observation 1 non-product screenshot excluded; metadata retained.",
+    "Initial hidden startup was interrupted and does not count as a normal exit; two later visible runs exited normally through the product menu.",
+    "Native directories are under the parent Git repository; native non-Git operation is not claimed. Actual non-Git coverage is in service and Electron automated tests.",
+    "Background hold reached the local fixture five-minute deadline and persisted failed. A later explicit retry was separately stopped and persisted aborted; no automatic replay.",
+    "Background PID/epoch continuity is evidenced while running at observations 80 and 89; later ready state after the deadline is not claimed as continuous running.",
+    "External editing and file-type mutations are host-controlled real file writes, not SDK tool execution or synthetic tool events.",
+    "No new real IME evidence; UIA often reports RootWebArea, so individual native focus identity is not claimed. Automated Electron checks cover focus return.",
+    "Observation 98 drag selected text rather than resizing; actual system-menu resize is evidenced by 802x961 screenshots.",
+    "Tool-observed means an observed consistent byte chain, not OS authorship proof. Automatic rollback remains false; no accept, restore or rollback endpoint."
+  ]
+}

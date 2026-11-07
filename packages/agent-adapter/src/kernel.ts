@@ -62,6 +62,9 @@ export class SessionKernel {
   private resolveReady!: () => void
   private rejectReady!: (error: Error) => void
   private readonly exited: Promise<void>
+  private readonly disposalAcknowledgement: Promise<void>
+  private resolveDisposalAcknowledgement!: () => void
+  private rejectDisposalAcknowledgement!: (error: Error) => void
   private seq = 0
   private active: PendingTurn | undefined
   private readonly turns = new Set<string>()
@@ -75,6 +78,9 @@ export class SessionKernel {
     | ((request: ExecutionRequest, signal: AbortSignal) => Promise<ExecutionDecision>)
     | undefined
   private guardController = new AbortController()
+  private readonly settleExecution:
+    | ((id: string, digest: string, succeeded: boolean) => Promise<void>)
+    | undefined
   private modelChoiceValue:
     | { boundaryId: string; revision: number; selection: ModelSelection }
     | undefined
@@ -88,6 +94,7 @@ export class SessionKernel {
       childEntry?: URL
       resume?: { sessionFile: string; nativeSessionId: string }
       authorize?: (request: ExecutionRequest, signal: AbortSignal) => Promise<ExecutionDecision>
+      settleExecution?: (id: string, digest: string, succeeded: boolean) => Promise<void>
       selectModel?: () => { revision: number; selection: ModelSelection }
     },
   ) {
@@ -99,6 +106,7 @@ export class SessionKernel {
     this.runtimeDir = resolve(options.runtimeDir)
     this.resume = options.resume
     this.authorize = options.authorize
+    this.settleExecution = options.settleExecution
     this.selectModel =
       options.selectModel ??
       (() => ({
@@ -123,6 +131,11 @@ export class SessionKernel {
     })
     // A caller may dispose before awaiting readiness; still handle the rejection.
     void this.readyPromise.catch(() => undefined)
+    this.disposalAcknowledgement = new Promise((resolveAck, rejectAck) => {
+      this.resolveDisposalAcknowledgement = resolveAck
+      this.rejectDisposalAcknowledgement = rejectAck
+    })
+    void this.disposalAcknowledgement.catch(() => undefined)
     const env: NodeJS.ProcessEnv = { PI_CODING_AGENT_DIR: resolve(this.runtimeDir, 'agent') }
     for (const name of ['SystemRoot', 'WINDIR', 'PATH', 'TEMP', 'TMP', 'COMSPEC', 'PATHEXT']) {
       if (process.env[name]) {
@@ -141,19 +154,30 @@ export class SessionKernel {
     // Drain child diagnostics without leaking prompts or configuration into UI state.
     this.child.stderr?.resume()
     this.exited = new Promise((resolveExit) => {
-      this.child.once('close', (code) => {
+      // IPC disconnect can strand Node's close bookkeeping on Windows after the OS
+      // process has exited. Exit is the process-lifetime proof; stderr is diagnostics
+      // only and must not retain shutdown or a directory lease after that proof.
+      const exited = (code: number | null) => {
+        if (this.hasExited) {
+          return
+        }
         this.hasExited = true
+        this.child.stderr?.destroy()
         clearTimeout(this.startupTimer)
-        if (
-          this.snapshotValue.state === 'disposing' &&
-          ((this.acknowledgedDisposal && code === 0) || this.cancelledStartup)
-        ) {
-          this.snapshotValue.state = 'disposed'
+        if (this.snapshotValue.state === 'disposing' && (code === 0 || this.cancelledStartup)) {
+          // Windows can report OS exit before delivering the final queued IPC message.
+          // disposeProcess waits for both proofs; only startup cancellation needs no ack.
+          if (this.cancelledStartup) {
+            this.snapshotValue.state = 'disposed'
+          }
         } else {
           this.fail(new Error(`Kernel exited (${code ?? 'signal'})`))
         }
         resolveExit()
-      })
+      }
+      this.child.once('exit', exited)
+      // Failed spawn can emit close without exit; no live child exists in that case.
+      this.child.once('close', exited)
     })
     this.startupTimer = setTimeout(
       () => this.fail(new Error('Kernel guard handshake timed out')),
@@ -319,6 +343,12 @@ export class SessionKernel {
     }
     try {
       await this.bounded(this.exited, 'Kernel disposal timed out')
+      if (this.snapshotValue.state === 'disposing' && !this.cancelledStartup) {
+        await this.bounded(this.disposalAcknowledgement, 'Kernel disposal acknowledgement missing')
+        if (this.snapshotValue.state === 'disposing') {
+          this.snapshotValue.state = 'disposed'
+        }
+      }
     } finally {
       this.listeners.clear()
     }
@@ -366,6 +396,7 @@ export class SessionKernel {
     this.snapshotValue.state = 'failed'
     this.snapshotValue.error ??= error.message
     this.rejectReady(error)
+    this.rejectDisposalAcknowledgement(error)
     this.active?.reject(error)
     this.active = undefined
     if (!this.hasExited) {
@@ -425,6 +456,7 @@ export class SessionKernel {
         return
       }
       this.acknowledgedDisposal = true
+      this.resolveDisposalAcknowledgement()
     } else {
       if (!this.active || message.turnId !== this.active.id) {
         // Old-turn output must never update a later turn, including terminal state.
@@ -466,6 +498,32 @@ export class SessionKernel {
           this.fail(new Error('Host model selection unavailable'))
           return
         }
+      }
+      if (message.type === 'guard-finished') {
+        const active = this.active,
+          turnId = message.turnId
+        if (!turnId) {
+          this.fail(new Error('Tool settlement turn missing'))
+          return
+        }
+        void (
+          this.settleExecution?.(message.id, message.digest, message.succeeded) ?? Promise.resolve()
+        )
+          .then(() => {
+            if (this.active === active && !this.hasExited) {
+              this.send(
+                kernelCommandSchema.parse({
+                  ...this.identity,
+                  type: 'guard-settled',
+                  turnId,
+                  id: message.id,
+                  digest: message.digest,
+                }),
+              )
+            }
+            return undefined
+          })
+          .catch(() => this.fail(new Error('Tool settlement unavailable')))
       }
       if (message.type === 'guard-request') {
         const active = this.active,

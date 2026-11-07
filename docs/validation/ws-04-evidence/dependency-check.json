@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-11-07T14:05:33.607Z",
+  "canonical": "docs/product/backlog.json",
+  "features": [
+    {
+      "id": "WS-04",
+      "status": "verified",
+      "acceptanceChecked": [
+        true,
+        true
+      ],
+      "dependencies": [
+        {
+          "id": "CORE-03",
+          "status": "verified"
+        },
+        {
+          "id": "WS-01",
+          "status": "verified"
+        }
+      ],
+      "allPrerequisitesVerified": true
+    },
+    {
+      "id": "CHANGE-01",
+      "status": "not_started",
+      "acceptanceChecked": [
+        false,
+        false
+      ],
+      "dependencies": [
+        {
+          "id": "CORE-03",
+          "status": "verified"
+        },
+        {
+          "id": "WS-04",
+          "status": "verified"
+        },
+        {
+          "id": "CORE-06",
+          "status": "verified"
+        }
+      ],
+      "allPrerequisitesVerified": true
+    }
+  ],
+  "nextTask": "CHANGE-01 轮次基线与持久快照: CORE-03 / WS-04 / CORE-06 all verified. Recommendation only; implementation not started in WS-04.",
+  "ops08": {
+    "status": "in_progress",
+    "acceptanceChecked": [
+      true,
+      false
+    ]
+  },
+  "local": {
+    "verified": 39,
+    "total": 133
+  }
+}

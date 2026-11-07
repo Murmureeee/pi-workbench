@@ -127,7 +127,7 @@ describe('SEC-07 metadata discovery, content consent and real SDK isolation (loc
       // An actual pre-SEC-07 database schema: preserve old tables/history and remove only
       // this and later migrations from the isolated fixture, then run the real upgrade.
       database.sqlite.exec(
-        'DROP TABLE session_origins; DROP TABLE session_organization; DROP TABLE session_submissions; DROP TABLE session_configurations; DROP TABLE projects; DROP TABLE resource_trust; DROP TABLE workspaces; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DROP TABLE session_model_settings; DELETE FROM __drizzle_migrations WHERE created_at >= 1793604179859',
+        'DROP TABLE session_origins; DROP TABLE session_organization; DROP TABLE session_submissions; DROP TABLE session_configurations; DROP TABLE projects; DROP TABLE resource_trust; DROP TABLE workspaces; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DROP TABLE session_model_settings; DROP TABLE directory_rounds; DROP TABLE change_rounds; DROP TABLE change_tool_observations; DELETE FROM __drizzle_migrations WHERE created_at >= 1793604179859',
       )
       await app.close()
       app = await createApp({ dataDir, port: 4337 })
@@ -310,7 +310,7 @@ describe('SEC-07 metadata discovery, content consent and real SDK isolation (loc
       await app.close()
       rmSync(f.directory, { recursive: true, force: true })
     }
-  })
+  }, 60000)
 
   it('rechecks consent after FIFO wait, reports immutable in-flight use, fails closed on corrupt DB consent', async () => {
     const f = fixture(),

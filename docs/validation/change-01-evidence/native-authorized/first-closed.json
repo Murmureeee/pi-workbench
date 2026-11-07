@@ -1,0 +1,690 @@
+{
+  "feature": "CHANGE-01",
+  "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP; no CDP, renderer routing or fake kernel. Only explicit fixture selection and controlled external edits.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM",
+  "a": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\共享中文目录",
+  "b": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\独立中文目录",
+  "desktopPid": 39268,
+  "prompts": 6,
+  "results": [
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "protocol": 1,
+      "epoch": "0290d684-a1c4-476f-a2a6-8c3a1a7c52bd",
+      "seq": 16,
+      "turnId": "5d9e451a-e3c6-424b-b1cd-d681fbeab4fe",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "protocol": 1,
+      "epoch": "2ec5b7ab-8eb5-4169-bae9-b3256e4e82ca",
+      "seq": 25,
+      "turnId": "70808657-83d2-4790-9335-a4fc1d4dc1f4",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 2,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "protocol": 1,
+      "epoch": "2ec5b7ab-8eb5-4169-bae9-b3256e4e82ca",
+      "seq": 50,
+      "turnId": "c2caa597-fc25-46e2-ab25-7dd00f79e46e",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 4,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "076a797c-635b-4ea6-8983-cae342b6db26",
+      "error": "AbortError: Queued task cancelled"
+    },
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "protocol": 1,
+      "epoch": "a4354556-53bb-4d4a-ac7a-c256fb2e1894",
+      "seq": 14,
+      "turnId": "4add3a4a-f797-40d6-aced-c0c956f187ff",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "Request was aborted"
+    },
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "protocol": 1,
+      "epoch": "a4354556-53bb-4d4a-ac7a-c256fb2e1894",
+      "seq": 25,
+      "turnId": "1b08ebf9-3163-4db1-affe-90c7441b7e17",
+      "type": "finished",
+      "outcome": "error",
+      "localRequests": 2,
+      "blockedNetworkAttempts": 0,
+      "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}"
+    }
+  ],
+  "operations": [
+    {
+      "action": "external-edit",
+      "time": "2026-11-07T18:43:57.179Z"
+    }
+  ],
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "title": "基线成功原生验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "2475d4a5-f450-4bc1-8d83-0020104e4c1c",
+      "configuration": {
+        "projectId": "95468b1a-7fb1-4d2d-bdad-47f182dd3751",
+        "workspaceId": "6302a29d-403d-4f40-8627-468a012e390d",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "6302a29d-403d-4f40-8627-468a012e390d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\共享中文目录",
+      "createdAt": 1794076391318
+    },
+    {
+      "id": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "title": "写入前基线失败先取消",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "506f70e7-3dea-436b-b049-6e12c74ffd16",
+      "configuration": {
+        "projectId": "ab8827ef-fb07-4758-8f1a-4ceddb4585ff",
+        "workspaceId": "0ec75466-6047-46dd-bd6f-4901ec16ebd9",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "0ec75466-6047-46dd-bd6f-4901ec16ebd9",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\独立中文目录",
+      "createdAt": 1794076502580
+    },
+    {
+      "id": "076a797c-635b-4ea6-8983-cae342b6db26",
+      "title": "同目录排队不建基线",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "f0cac132-bc58-49ed-8b61-1e694128b26a",
+      "configuration": {
+        "projectId": "95468b1a-7fb1-4d2d-bdad-47f182dd3751",
+        "workspaceId": "6302a29d-403d-4f40-8627-468a012e390d",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "6302a29d-403d-4f40-8627-468a012e390d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\共享中文目录",
+      "createdAt": 1794076996297
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "items": [
+        {
+          "requestId": "2475d4a5-f450-4bc1-8d83-0020104e4c1c",
+          "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+          "messageId": "997c595e-bc12-4581-a7a5-eaecce333c8c",
+          "turnId": "5d9e451a-e3c6-424b-b1cd-d681fbeab4fe",
+          "status": "completed",
+          "text": "基线成功原生验收",
+          "retryOf": null,
+          "error": null,
+          "createdAt": 1794076391320
+        },
+        {
+          "requestId": "75aa8f38-c562-4fbe-b8a9-70ac8020e517",
+          "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+          "messageId": "2d46394d-50c7-421f-86e4-cec0968dbff9",
+          "turnId": "4add3a4a-f797-40d6-aced-c0c956f187ff",
+          "status": "aborted",
+          "text": "保持运行以检查外部文件改动",
+          "retryOf": null,
+          "error": "Request was aborted",
+          "createdAt": 1794076883315
+        },
+        {
+          "requestId": "05295f64-7ae1-4d96-82cb-b221f54e9b16",
+          "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+          "messageId": "bcab030e-ac49-4513-b87d-3b615bae56bc",
+          "turnId": "1b08ebf9-3163-4db1-affe-90c7441b7e17",
+          "status": "failed",
+          "text": "失败轮次持久记录",
+          "retryOf": null,
+          "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}",
+          "createdAt": 1794077178725
+        }
+      ]
+    },
+    {
+      "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "items": [
+        {
+          "requestId": "506f70e7-3dea-436b-b049-6e12c74ffd16",
+          "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+          "messageId": "a5164bf3-bb3f-4c7d-bf5c-fac0614c4f7f",
+          "turnId": "70808657-83d2-4790-9335-a4fc1d4dc1f4",
+          "status": "completed",
+          "text": "写入前基线失败先取消",
+          "retryOf": null,
+          "error": null,
+          "createdAt": 1794076502582
+        },
+        {
+          "requestId": "4d453481-7ddf-4a86-8b4a-1a1935863b28",
+          "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+          "messageId": "da52a2e5-e73e-4827-8894-1178be4ba635",
+          "turnId": "c2caa597-fc25-46e2-ab25-7dd00f79e46e",
+          "status": "completed",
+          "text": "写入前基线失败单次明确确认",
+          "retryOf": null,
+          "error": null,
+          "createdAt": 1794076656565
+        }
+      ]
+    },
+    {
+      "sessionId": "076a797c-635b-4ea6-8983-cae342b6db26",
+      "items": [
+        {
+          "requestId": "f0cac132-bc58-49ed-8b61-1e694128b26a",
+          "sessionId": "076a797c-635b-4ea6-8983-cae342b6db26",
+          "messageId": "eb4c8030-544d-4d01-aaba-d18d5576f732",
+          "turnId": "08e20a84-3d00-40e5-bf0b-873f4a470203",
+          "status": "aborted",
+          "text": "同目录排队不建基线",
+          "retryOf": null,
+          "error": "内核未能完成任务。原会话与首条消息保留，请检查目录和本地服务后明确重试。",
+          "createdAt": 1794076996298
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "93dfe7c6-c39f-448c-acd3-4804b6a1d38b",
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "epoch": "a4354556-53bb-4d4a-ac7a-c256fb2e1894",
+      "seq": 21,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "4add3a4a-f797-40d6-aced-c0c956f187ff",
+          "messageId": "4add3a4a-f797-40d6-aced-c0c956f187ff:assistant",
+          "prompt": "保持运行以检查外部文件改动",
+          "text": "OFFLINE_",
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        },
+        {
+          "id": "1b08ebf9-3163-4db1-affe-90c7441b7e17",
+          "messageId": "1b08ebf9-3163-4db1-affe-90c7441b7e17:assistant",
+          "prompt": "失败轮次持久记录",
+          "text": "",
+          "phase": "error",
+          "tools": [],
+          "approval": null,
+          "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "503: {\"message\":\"Offline fixture error; no retry; api_key=«redacted»}"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "93dfe7c6-c39f-448c-acd3-4804b6a1d38b",
+      "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "epoch": "2ec5b7ab-8eb5-4169-bae9-b3256e4e82ca",
+      "seq": 43,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "70808657-83d2-4790-9335-a4fc1d4dc1f4",
+          "messageId": "70808657-83d2-4790-9335-a4fc1d4dc1f4:assistant",
+          "prompt": "写入前基线失败先取消",
+          "text": "GUARD_FIXTURE_DONE",
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "write",
+              "status": "denied",
+              "summary": "用户取消本次调用 未执行；本轮不自动改换形式重试。",
+              "parameters": "{\"content\":\"SEC02_APPROVED_ONCE\",\"path\":\"APPROVED.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\独立中文目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。",
+                  "写入前基线不可用；写入已暂停，仅本次明确确认可接受不可回滚执行。"
+                ],
+                "policyVersion": 1,
+                "digest": "39379906721e4c392f35b5b8058a220756c577012726196ef0e771f034c66bf5",
+                "automatic": false
+              }
+            }
+          ],
+          "approval": null,
+          "error": null,
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 2,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        },
+        {
+          "id": "c2caa597-fc25-46e2-ab25-7dd00f79e46e",
+          "messageId": "c2caa597-fc25-46e2-ab25-7dd00f79e46e:assistant",
+          "prompt": "写入前基线失败单次明确确认",
+          "text": "GUARD_FIXTURE_DONE",
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "guard-0",
+              "name": "write",
+              "status": "completed",
+              "summary": "{\"content\":[{\"type\":\"text\",\"text\":\"Successfully wrote to APPROVED.txt\"}]}",
+              "parameters": "{\"content\":\"SEC02_APPROVED_ONCE\",\"path\":\"APPROVED.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\独立中文目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。",
+                  "写入前基线不可用；写入已暂停，仅本次明确确认可接受不可回滚执行。"
+                ],
+                "policyVersion": 1,
+                "digest": "adb4a9c9405d03f046db7794988d08676236516f34b9fb0917cb9535e1df814e",
+                "automatic": false
+              },
+              "durationMs": 115605
+            }
+          ],
+          "approval": null,
+          "error": null,
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 2,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    },
+    null
+  ],
+  "writes": [
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "latest": {
+        "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+        "turnId": "1b08ebf9-3163-4db1-affe-90c7441b7e17",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\共享中文目录",
+        "state": "released",
+        "startedAt": 1794077178741,
+        "checkedAt": 1794077179838,
+        "endedAt": 1794077179841,
+        "coverage": "bounded",
+        "changedPaths": [],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "latest": {
+        "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+        "turnId": "c2caa597-fc25-46e2-ab25-7dd00f79e46e",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\独立中文目录",
+        "state": "released",
+        "startedAt": 1794076656583,
+        "checkedAt": 1794076772704,
+        "endedAt": 1794076772706,
+        "coverage": "bounded",
+        "changedPaths": [
+          "APPROVED.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "076a797c-635b-4ea6-8983-cae342b6db26",
+      "latest": null,
+      "owner": null
+    }
+  ],
+  "changes": [
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "rounds": [
+        {
+          "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+          "turnId": "1b08ebf9-3163-4db1-affe-90c7441b7e17",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\共享中文目录",
+          "startedAt": 1794077178744,
+          "endedAt": 1794077179835,
+          "outcome": "failed",
+          "baseline": {
+            "status": "ready",
+            "reference": "21cf32ba7b2b80c90af78c45afe9980b3562a9f6",
+            "capturedAt": 1794077179370,
+            "files": 1,
+            "bytes": 47,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "52dc0bce5a9703f1f286d046998606cc08eb1a1a",
+            "capturedAt": 1794077179835,
+            "files": 1,
+            "bytes": 47,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+          "turnId": "4add3a4a-f797-40d6-aced-c0c956f187ff",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\共享中文目录",
+          "startedAt": 1794076883325,
+          "endedAt": 1794077099809,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "87a7db813115e7cdefc49b12a61dbfb12624773e",
+            "capturedAt": 1794076884823,
+            "files": 1,
+            "bytes": 23,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "377a47b1a4587e56f8524dec6a0adab361e8a5ff",
+            "capturedAt": 1794077099809,
+            "files": 1,
+            "bytes": 47,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+          "turnId": "5d9e451a-e3c6-424b-b1cd-d681fbeab4fe",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\共享中文目录",
+          "startedAt": 1794076391332,
+          "endedAt": 1794076393525,
+          "outcome": "completed",
+          "baseline": {
+            "status": "ready",
+            "reference": "58a1e2899a585d2b91dc7d4b94af76ca310d109f",
+            "capturedAt": 1794076392934,
+            "files": 1,
+            "bytes": 23,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "83053a57a1a5bb305498e60660e95cb1f6310c82",
+            "capturedAt": 1794076393524,
+            "files": 1,
+            "bytes": 23,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "rounds": [
+        {
+          "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+          "turnId": "c2caa597-fc25-46e2-ab25-7dd00f79e46e",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\独立中文目录",
+          "startedAt": 1794076656585,
+          "endedAt": 1794076772699,
+          "outcome": "completed",
+          "baseline": {
+            "status": "failed",
+            "reference": null,
+            "capturedAt": null,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": "文件超过 5 MiB 或总计 32 MiB 限额。"
+          },
+          "final": {
+            "status": "failed",
+            "reference": null,
+            "capturedAt": null,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": "文件超过 5 MiB 或总计 32 MiB 限额。"
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+          "turnId": "70808657-83d2-4790-9335-a4fc1d4dc1f4",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\change01-native-nOQDLM\\独立中文目录",
+          "startedAt": 1794076502589,
+          "endedAt": 1794076604947,
+          "outcome": "completed",
+          "baseline": {
+            "status": "failed",
+            "reference": null,
+            "capturedAt": null,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": "文件超过 5 MiB 或总计 32 MiB 限额。"
+          },
+          "final": {
+            "status": "failed",
+            "reference": null,
+            "capturedAt": null,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": "文件超过 5 MiB 或总计 32 MiB 限额。"
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "076a797c-635b-4ea6-8983-cae342b6db26",
+      "rounds": [],
+      "next": null
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "kernels": [],
+  "historyBefore": {},
+  "historyAfter": {
+    "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72\\2ec5b7ab-8eb5-4169-bae9-b3256e4e82ca\\sessions\\2026-11-07T18-35-03-670Z_01a1b74a-ee75-700e-8b16-692d4dc30f6d.jsonl": "850e6c1967175b29192d9585d0ba135f9743885a72029a26350daba746fca78e",
+    "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c\\0290d684-a1c4-476f-a2a6-8c3a1a7c52bd\\sessions\\2026-11-07T18-33-12-455Z_01a1b749-3c07-72ce-add2-65266a45d20d.jsonl": "1cde70e2d0601bbb2306411777c011b2c02c8c71c2accc4b4550a5021f880993"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "versionProof": [
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "turnId": "1b08ebf9-3163-4db1-affe-90c7441b7e17",
+      "baseline": "21cf32ba7b2b80c90af78c45afe9980b3562a9f6",
+      "final": "52dc0bce5a9703f1f286d046998606cc08eb1a1a",
+      "baselineBytes": "actual host external edit during managed round\n",
+      "finalBytes": "actual host external edit during managed round\n"
+    },
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "turnId": "4add3a4a-f797-40d6-aced-c0c956f187ff",
+      "baseline": "87a7db813115e7cdefc49b12a61dbfb12624773e",
+      "final": "377a47b1a4587e56f8524dec6a0adab361e8a5ff",
+      "baselineBytes": "original external file\n",
+      "finalBytes": "actual host external edit during managed round\n"
+    },
+    {
+      "sessionId": "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c",
+      "turnId": "5d9e451a-e3c6-424b-b1cd-d681fbeab4fe",
+      "baseline": "58a1e2899a585d2b91dc7d4b94af76ca310d109f",
+      "final": "83053a57a1a5bb305498e60660e95cb1f6310c82",
+      "baselineBytes": "original external file\n",
+      "finalBytes": "original external file\n"
+    },
+    {
+      "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "turnId": "c2caa597-fc25-46e2-ab25-7dd00f79e46e",
+      "baseline": null,
+      "final": null
+    },
+    {
+      "sessionId": "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72",
+      "turnId": "70808657-83d2-4790-9335-a4fc1d4dc1f4",
+      "baseline": null,
+      "final": null
+    }
+  ],
+  "closed": true,
+  "historyAtClose": {
+    "9ba8bc1c-9fe2-43c8-866b-ca6e28e92c72\\2ec5b7ab-8eb5-4169-bae9-b3256e4e82ca\\sessions\\2026-11-07T18-35-03-670Z_01a1b74a-ee75-700e-8b16-692d4dc30f6d.jsonl": "850e6c1967175b29192d9585d0ba135f9743885a72029a26350daba746fca78e",
+    "e8bddfbb-5197-4ba8-ba2f-fecf86e5eb0c\\0290d684-a1c4-476f-a2a6-8c3a1a7c52bd\\sessions\\2026-11-07T18-33-12-455Z_01a1b749-3c07-72ce-add2-65266a45d20d.jsonl": "1cde70e2d0601bbb2306411777c011b2c02c8c71c2accc4b4550a5021f880993"
+  },
+  "protectedAfterClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "files": {
+    "external": "actual host external edit during managed round\n",
+    "approved": null
+  }
+}

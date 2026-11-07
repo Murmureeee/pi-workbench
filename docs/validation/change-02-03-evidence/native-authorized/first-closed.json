@@ -1,0 +1,2032 @@
+{
+  "features": [
+    "CHANGE-02",
+    "CHANGE-03"
+  ],
+  "source": "Windows native UIA/SendInput; actual Electron/daemon/SQLite/independent Git/installed SDK + local HTTP. No CDP, renderer injection or synthetic source records. Controlled external edits explicitly identified.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe",
+  "a": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+  "b": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\独立后台目录",
+  "desktopPid": 22472,
+  "prompts": 7,
+  "results": [
+    {
+      "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+      "protocol": 1,
+      "epoch": "1c5be507-eca1-4463-af7e-c622128ea321",
+      "seq": 39,
+      "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 3,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "protocol": 1,
+      "epoch": "639d82c0-a7db-44ee-b605-fabcd09a5abd",
+      "seq": 35,
+      "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 3,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "protocol": 1,
+      "epoch": "639d82c0-a7db-44ee-b605-fabcd09a5abd",
+      "seq": 62,
+      "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 5,
+      "blockedNetworkAttempts": 0,
+      "error": "Model request cancelled"
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "protocol": 1,
+      "epoch": "db8a050f-757c-401f-a4d8-d909feff57da",
+      "seq": 16,
+      "turnId": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+      "type": "finished",
+      "outcome": "completed",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0
+    },
+    {
+      "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+      "protocol": 1,
+      "epoch": "1c6bc5b0-586c-467a-9d02-bdf3919860de",
+      "seq": 14,
+      "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "Request was aborted"
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "protocol": 1,
+      "epoch": "db8a050f-757c-401f-a4d8-d909feff57da",
+      "seq": 29,
+      "turnId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+      "type": "finished",
+      "outcome": "error",
+      "localRequests": 2,
+      "blockedNetworkAttempts": 0,
+      "error": "terminated"
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "protocol": 1,
+      "epoch": "db8a050f-757c-401f-a4d8-d909feff57da",
+      "seq": 42,
+      "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 3,
+      "blockedNetworkAttempts": 0,
+      "error": "Request was aborted"
+    }
+  ],
+  "operations": [
+    {
+      "action": "current-edit",
+      "time": "2026-11-07T20:48:59.490Z"
+    },
+    {
+      "action": "mixed-before",
+      "time": "2026-11-07T20:51:07.716Z"
+    },
+    {
+      "action": "current-edit",
+      "time": "2026-11-07T20:55:50.905Z"
+    },
+    {
+      "action": "external-types",
+      "time": "2026-11-07T21:02:23.351Z"
+    }
+  ],
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+      "title": "工具链原生一致",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "91153e30-89dd-472f-a5b8-1530d807b9ce",
+      "configuration": {
+        "projectId": "d5a356a9-fcaf-4ae4-9d78-f1d71f9c4420",
+        "workspaceId": "389c9208-dfff-4555-b5db-330c6cf88f25",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "389c9208-dfff-4555-b5db-330c6cf88f25",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+      "createdAt": 1794084170476
+    },
+    {
+      "id": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "title": "工具链原生混合",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "72231d69-51a5-4b6e-8690-6e5f69f91586",
+      "configuration": {
+        "projectId": "d5a356a9-fcaf-4ae4-9d78-f1d71f9c4420",
+        "workspaceId": "389c9208-dfff-4555-b5db-330c6cf88f25",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "389c9208-dfff-4555-b5db-330c6cf88f25",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+      "createdAt": 1794084636619
+    },
+    {
+      "id": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "title": "空轮次原生审查",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "717f7b28-fc99-4ed3-9456-7f49172c449b",
+      "configuration": {
+        "projectId": "455b2439-2a5c-4a60-99f3-111477f9847e",
+        "workspaceId": "905c696e-5e9a-46ab-a403-b16e3eb3ffac",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "905c696e-5e9a-46ab-a403-b16e3eb3ffac",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\独立后台目录",
+      "createdAt": 1794085196943
+    },
+    {
+      "id": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+      "title": "保持外部文件类型",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "6a4635c5-aed2-49ba-837f-9c1cf856cfc8",
+      "configuration": {
+        "projectId": "d5a356a9-fcaf-4ae4-9d78-f1d71f9c4420",
+        "workspaceId": "389c9208-dfff-4555-b5db-330c6cf88f25",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "389c9208-dfff-4555-b5db-330c6cf88f25",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+      "createdAt": 1794085325080
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+      "items": [
+        {
+          "requestId": "91153e30-89dd-472f-a5b8-1530d807b9ce",
+          "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+          "messageId": "932931b4-a26c-405d-ab47-ff75e767feae",
+          "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+          "status": "completed",
+          "text": "工具链原生一致",
+          "retryOf": null,
+          "error": null,
+          "createdAt": 1794084170477
+        }
+      ]
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "items": [
+        {
+          "requestId": "72231d69-51a5-4b6e-8690-6e5f69f91586",
+          "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+          "messageId": "b5d93ee4-2f6d-4fb8-8176-95ac1919c680",
+          "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+          "status": "completed",
+          "text": "工具链原生混合",
+          "retryOf": null,
+          "error": null,
+          "createdAt": 1794084636620
+        },
+        {
+          "requestId": "579d7868-6c9a-4bcd-8da0-d5de36c7c60a",
+          "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+          "messageId": "ef84c420-30cb-4577-bb18-061995228ea3",
+          "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+          "status": "aborted",
+          "text": "工具链先写后混入",
+          "retryOf": null,
+          "error": "Model request cancelled",
+          "createdAt": 1794084846328
+        }
+      ]
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "items": [
+        {
+          "requestId": "717f7b28-fc99-4ed3-9456-7f49172c449b",
+          "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+          "messageId": "f2adeeda-a6e6-4e37-8c4f-78a0989bd39f",
+          "turnId": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+          "status": "completed",
+          "text": "空轮次原生审查",
+          "retryOf": null,
+          "error": null,
+          "createdAt": 1794085196945
+        },
+        {
+          "requestId": "d5be091c-bf93-422a-af5a-9662b4257347",
+          "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+          "messageId": "2461689b-1b28-4b01-9d1a-56c3f138bd64",
+          "turnId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+          "status": "failed",
+          "text": "保持独立后台",
+          "retryOf": null,
+          "error": "terminated",
+          "createdAt": 1794085282868
+        },
+        {
+          "requestId": "c65c5c94-df53-47d4-bee5-343dae7d7aad",
+          "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+          "messageId": "29fdd0f3-5245-4753-957b-b20462ddcc20",
+          "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+          "status": "aborted",
+          "text": "保持独立后台",
+          "retryOf": "d5be091c-bf93-422a-af5a-9662b4257347",
+          "error": "Request was aborted",
+          "createdAt": 1794085744474
+        }
+      ]
+    },
+    {
+      "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+      "items": [
+        {
+          "requestId": "6a4635c5-aed2-49ba-837f-9c1cf856cfc8",
+          "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+          "messageId": "2806f700-3e1e-45ad-9c73-1bb516337360",
+          "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+          "status": "aborted",
+          "text": "保持外部文件类型",
+          "retryOf": null,
+          "error": "Request was aborted",
+          "createdAt": 1794085325081
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "2e0a6a66-cbb1-4414-9b0d-b01c059ee8e8",
+      "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+      "epoch": "1c5be507-eca1-4463-af7e-c622128ea321",
+      "seq": 33,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+          "messageId": "4373514f-1958-45c8-bbfb-e4d7a835cb16:assistant",
+          "prompt": "工具链原生一致",
+          "text": "CHANGE_CHAIN_DONE",
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "change-1",
+              "name": "write",
+              "status": "completed",
+              "summary": "{\"content\":[{\"type\":\"text\",\"text\":\"Successfully wrote to tracked.txt\"}]}",
+              "parameters": "{\"content\":\"first\\n\",\"path\":\"tracked.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "7f28b01fa26048cd9fe5ce642f30f99adf3c88135821a6b65a3c198f1944f3a1",
+                "automatic": false
+              },
+              "durationMs": 178094
+            },
+            {
+              "id": "change-2",
+              "name": "edit",
+              "status": "completed",
+              "summary": "{\"content\":[{\"type\":\"text\",\"text\":\"Successfully replaced 1 block(s) in tracked.txt.\"}],\"details\":{\"diff\":\"-1 first\\n+1 second\",\"patch\":\"--- tracked.txt\\n+++ tracked.txt\\n@@ -1,1 +1,1 @@\\n-first\\n+second\\n\",\"firstChangedLine\":1}}",
+              "parameters": "{\"edits\":[{\"newText\":\"second\\n\",\"oldText\":\"first\\n\"}],\"path\":\"tracked.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "2427b10097b389254085b73df5681a6fc029bb0a414b241fa325d18e70e588f3",
+                "automatic": false
+              },
+              "durationMs": 70659
+            }
+          ],
+          "approval": null,
+          "error": null,
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 3,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "2e0a6a66-cbb1-4414-9b0d-b01c059ee8e8",
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "epoch": "639d82c0-a7db-44ee-b605-fabcd09a5abd",
+      "seq": 59,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+          "messageId": "472b47f7-25ca-4dd2-b438-35747ba2d092:assistant",
+          "prompt": "工具链原生混合",
+          "text": "CHANGE_CHAIN_DONE",
+          "phase": "completed",
+          "tools": [
+            {
+              "id": "change-1",
+              "name": "write",
+              "status": "denied",
+              "summary": "批准后的目录、文件、策略或任务已改变；未执行。",
+              "parameters": "{\"content\":\"first\\n\",\"path\":\"tracked.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "c5c3366e101fe28d0e3cd20b294c9e74db25759b223c8255edd73a3f34974298",
+                "automatic": false
+              }
+            },
+            {
+              "id": "change-2",
+              "name": "edit",
+              "status": "denied",
+              "summary": "用户取消本次调用 未执行；本轮不自动改换形式重试。",
+              "parameters": "{\"edits\":[{\"newText\":\"second\\n\",\"oldText\":\"first\\n\"}],\"path\":\"tracked.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "153df558d846f31674153e8b5f957e2780b0eff862dcb59f11fe75f037ab1426",
+                "automatic": false
+              }
+            }
+          ],
+          "approval": null,
+          "error": null,
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 3,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        },
+        {
+          "id": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+          "messageId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc:assistant",
+          "prompt": "工具链先写后混入",
+          "text": "",
+          "phase": "aborted",
+          "tools": [
+            {
+              "id": "change-1",
+              "name": "write",
+              "status": "completed",
+              "summary": "{\"content\":[{\"type\":\"text\",\"text\":\"Successfully wrote to tracked.txt\"}]}",
+              "parameters": "{\"content\":\"first\\n\",\"path\":\"tracked.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "dd02e2b888a0f6e4053dab36ebbe051e3116b8f64be40f0b7084b9c04a974299",
+                "automatic": false
+              },
+              "durationMs": 60128
+            },
+            {
+              "id": "change-2",
+              "name": "edit",
+              "status": "denied",
+              "summary": "任务、IPC或内核已失效；未执行。 未执行；本轮不自动改换形式重试。",
+              "parameters": "{\"edits\":[{\"newText\":\"second\\n\",\"oldText\":\"first\\n\"}],\"path\":\"tracked.txt\"}",
+              "parentId": null,
+              "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+              "origin": "sdk",
+              "risk": {
+                "level": "L2",
+                "reasons": [
+                  "文件变更须先批准最终参数，并满足写入基线。"
+                ],
+                "policyVersion": 1,
+                "digest": "6bfde489024549d52d0c2e5bfabc6e17c1e754b0edddee2bae7f2ef721cb39b5",
+                "automatic": false
+              }
+            }
+          ],
+          "approval": null,
+          "error": "Model request cancelled",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 2,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Model request cancelled"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "2e0a6a66-cbb1-4414-9b0d-b01c059ee8e8",
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "epoch": "db8a050f-757c-401f-a4d8-d909feff57da",
+      "seq": 35,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+          "messageId": "b47f53be-07ea-4e9e-92c2-13f007833e0a:assistant",
+          "prompt": "空轮次原生审查",
+          "text": "OFFLINE_OK",
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null,
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        },
+        {
+          "id": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+          "messageId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe:assistant",
+          "prompt": "保持独立后台",
+          "text": "OFFLINE_",
+          "phase": "error",
+          "tools": [],
+          "approval": null,
+          "error": "terminated",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "terminated"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        },
+        {
+          "id": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+          "messageId": "2b592287-0e57-4bf3-b696-5f0075e8d698:assistant",
+          "prompt": "保持独立后台",
+          "text": "OFFLINE_",
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "2e0a6a66-cbb1-4414-9b0d-b01c059ee8e8",
+      "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+      "epoch": "1c6bc5b0-586c-467a-9d02-bdf3919860de",
+      "seq": 12,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+          "messageId": "34456b2e-0581-4b2f-ac7c-192921cf9713:assistant",
+          "prompt": "保持外部文件类型",
+          "text": "OFFLINE_",
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    }
+  ],
+  "writes": [
+    {
+      "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+      "latest": {
+        "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+        "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794084170495,
+        "checkedAt": 1794084421638,
+        "endedAt": 1794084421639,
+        "coverage": "bounded",
+        "changedPaths": [
+          "tracked.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "latest": {
+        "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+        "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794084846349,
+        "checkedAt": 1794084976749,
+        "endedAt": 1794084976751,
+        "coverage": "bounded",
+        "changedPaths": [
+          "tracked.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "latest": {
+        "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+        "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\独立后台目录",
+        "state": "released",
+        "startedAt": 1794085744492,
+        "checkedAt": 1794085769967,
+        "endedAt": 1794085769970,
+        "coverage": "bounded",
+        "changedPaths": [],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+      "latest": {
+        "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+        "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794085325087,
+        "checkedAt": 1794085349544,
+        "endedAt": 1794085349547,
+        "coverage": "bounded",
+        "changedPaths": [
+          "deleted.txt",
+          "old-name.txt",
+          "tracked.txt",
+          "added.txt",
+          "binary.bin",
+          "新名称.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    }
+  ],
+  "changes": [
+    {
+      "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+      "rounds": [
+        {
+          "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+          "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+          "startedAt": 1794084170498,
+          "endedAt": 1794084421635,
+          "outcome": "completed",
+          "baseline": {
+            "status": "ready",
+            "reference": "0276a1ecabafc79b4fdaa5c89fff969571ee4fbc",
+            "capturedAt": 1794084172189,
+            "files": 3,
+            "bytes": 51,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "296968936642d884607cb62c4267fb515c3e9ad9",
+            "capturedAt": 1794084421635,
+            "files": 3,
+            "bytes": 42,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "rounds": [
+        {
+          "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+          "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+          "startedAt": 1794084846351,
+          "endedAt": 1794084976740,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "7b38d519556aab1cf628f6a413cf6cb47e0cbd63",
+            "capturedAt": 1794084846970,
+            "files": 3,
+            "bytes": 63,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "6307f6c5691d8a4ca0e8db2b039696a994ca3671",
+            "capturedAt": 1794084976740,
+            "files": 3,
+            "bytes": 75,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+          "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+          "startedAt": 1794084636627,
+          "endedAt": 1794084807589,
+          "outcome": "completed",
+          "baseline": {
+            "status": "ready",
+            "reference": "08ec4f4cf992a6313e9bd7746465d045cad9968e",
+            "capturedAt": 1794084638152,
+            "files": 3,
+            "bytes": 75,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "74ed671dccd5276caa4d34bf05f04677c5fb423a",
+            "capturedAt": 1794084807589,
+            "files": 3,
+            "bytes": 63,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "rounds": [
+        {
+          "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+          "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\独立后台目录",
+          "startedAt": 1794085744495,
+          "endedAt": 1794085769960,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "278e6059f7324cb9080195f28b86086b31b3b3a8",
+            "capturedAt": 1794085745056,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "e1fcfbed7f258cdc398e2822661a9e374aa1039d",
+            "capturedAt": 1794085769959,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+          "turnId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\独立后台目录",
+          "startedAt": 1794085282890,
+          "endedAt": 1794085584586,
+          "outcome": "failed",
+          "baseline": {
+            "status": "ready",
+            "reference": "fa4f929d7ba560b0fc0a2b305045270f78457217",
+            "capturedAt": 1794085283462,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "ba8470af5e0de85d019f94e0741b62c749247e0c",
+            "capturedAt": 1794085584586,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+          "turnId": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\独立后台目录",
+          "startedAt": 1794085196953,
+          "endedAt": 1794085198935,
+          "outcome": "completed",
+          "baseline": {
+            "status": "ready",
+            "reference": "5bdcc8bccbcd148e10ea0787ca70a1a5a960016c",
+            "capturedAt": 1794085198402,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "4533775d5244bded91d8aa2e216cd688c01e7a5b",
+            "capturedAt": 1794085198935,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+      "rounds": [
+        {
+          "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+          "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\来源审查目录",
+          "startedAt": 1794085325089,
+          "endedAt": 1794085349540,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "48166083e3458b7835c192befd05558f118e064b",
+            "capturedAt": 1794085326594,
+            "files": 3,
+            "bytes": 75,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "310b1e386f93dc11726d86d881d6b39f449f8d1a",
+            "capturedAt": 1794085349540,
+            "files": 4,
+            "bytes": 117,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    }
+  ],
+  "observations": [
+    {
+      "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+      "items": [
+        {
+          "id": "3c0bea4e-20c3-40ed-bea8-195e4a091f58",
+          "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+          "epoch": "1c5be507-eca1-4463-af7e-c622128ea321",
+          "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+          "callId": "change-1",
+          "digest": "7f28b01fa26048cd9fe5ce642f30f99adf3c88135821a6b65a3c198f1944f3a1",
+          "tool": "write",
+          "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+          "path": "tracked.txt",
+          "status": "completed",
+          "before": {
+            "status": "ready",
+            "sha256": "565952a8dcb88cef294c166e5c41649dddd2e94f0d1998f48a84805c6640e368"
+          },
+          "after": {
+            "status": "ready",
+            "sha256": "b640e840b19d378660b32fb51ae18d67dccb4a8596a29e7bd72c1b2ae5928f41"
+          },
+          "expected": "b640e840b19d378660b32fb51ae18d67dccb4a8596a29e7bd72c1b2ae5928f41",
+          "startedAt": 1794084350422,
+          "endedAt": 1794084350440,
+          "diagnostic": null
+        },
+        {
+          "id": "03ee9d92-8082-4e0d-884d-47adca2703eb",
+          "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+          "epoch": "1c5be507-eca1-4463-af7e-c622128ea321",
+          "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+          "callId": "change-2",
+          "digest": "2427b10097b389254085b73df5681a6fc029bb0a414b241fa325d18e70e588f3",
+          "tool": "edit",
+          "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+          "path": "tracked.txt",
+          "status": "completed",
+          "before": {
+            "status": "ready",
+            "sha256": "b640e840b19d378660b32fb51ae18d67dccb4a8596a29e7bd72c1b2ae5928f41"
+          },
+          "after": {
+            "status": "ready",
+            "sha256": "480c2336b410f1ad5f8bf1b28944490255804b65350c527787e74ebdd511e3a4"
+          },
+          "expected": "480c2336b410f1ad5f8bf1b28944490255804b65350c527787e74ebdd511e3a4",
+          "startedAt": 1794084421105,
+          "endedAt": 1794084421121,
+          "diagnostic": null
+        }
+      ]
+    },
+    {
+      "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+      "items": [
+        {
+          "id": "ebe313f6-3b71-4918-95c8-eb6496c9a696",
+          "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+          "epoch": "639d82c0-a7db-44ee-b605-fabcd09a5abd",
+          "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+          "callId": "change-1",
+          "digest": "dd02e2b888a0f6e4053dab36ebbe051e3116b8f64be40f0b7084b9c04a974299",
+          "tool": "write",
+          "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+          "path": "tracked.txt",
+          "status": "completed",
+          "before": {
+            "status": "ready",
+            "sha256": "3add6f5cfdc3cf63ca9be655ed2a21a94b3f303415a38ac3a34d82fccb17c114"
+          },
+          "after": {
+            "status": "ready",
+            "sha256": "b640e840b19d378660b32fb51ae18d67dccb4a8596a29e7bd72c1b2ae5928f41"
+          },
+          "expected": "b640e840b19d378660b32fb51ae18d67dccb4a8596a29e7bd72c1b2ae5928f41",
+          "startedAt": 1794084907106,
+          "endedAt": 1794084907118,
+          "diagnostic": null
+        }
+      ]
+    },
+    {
+      "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+      "items": []
+    },
+    {
+      "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+      "items": []
+    },
+    {
+      "turnId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+      "items": []
+    },
+    {
+      "turnId": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+      "items": []
+    },
+    {
+      "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+      "items": []
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+        "epoch": "db8a050f-757c-401f-a4d8-d909feff57da",
+        "state": "stopped",
+        "pid": 22784,
+        "pins": 0,
+        "lastUsedAt": 1794085769972,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "kernels": [
+    {
+      "protocol": 1,
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "epoch": "db8a050f-757c-401f-a4d8-d909feff57da",
+      "source": "real-sdk/local-fixture",
+      "state": "stopped",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\独立后台目录",
+      "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+      "pid": 22784,
+      "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\changes-native-w64jVe\\data\\kernels\\c5d38364-04c9-4a6f-a5d9-49a8aded14f5\\db8a050f-757c-401f-a4d8-d909feff57da\\sessions\\2026-11-07T20-59-57-998Z_01a1b7cf-98ae-74b7-a11b-74860dd6e711.jsonl",
+      "nativeSessionId": "01a1b7cf-98ae-74b7-a11b-74860dd6e711"
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "8c642558-397c-4520-ada3-b7ee9c84e6bd\\1c5be507-eca1-4463-af7e-c622128ea321\\sessions\\2026-11-07T20-42-51-643Z_01a1b7bf-ef7a-7218-96b7-587a0e989336.jsonl": "b0cd68e53439bfb1485bb0de493dffe95373cd9de7bcbaf00fa98cc46a317de3",
+    "c5d38364-04c9-4a6f-a5d9-49a8aded14f5\\db8a050f-757c-401f-a4d8-d909feff57da\\sessions\\2026-11-07T20-59-57-998Z_01a1b7cf-98ae-74b7-a11b-74860dd6e711.jsonl": "dbac4153bbfc1603cec01cf8d53f43cf44450b8933bf2810f99b2aa5a5620b5e",
+    "df2150db-9b87-45af-b56d-ffbc20a91fea\\639d82c0-a7db-44ee-b605-fabcd09a5abd\\sessions\\2026-11-07T20-50-37-678Z_01a1b7c7-0bee-7487-bfc3-620faebb871a.jsonl": "281086efad3d1d7f5ff03eebb8040ea25d558d22ec56510cc59e3b4dba49d056",
+    "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b\\1c6bc5b0-586c-467a-9d02-bdf3919860de\\sessions\\2026-11-07T21-02-06-123Z_01a1b7d1-8d2b-77b6-afc8-24848301f1aa.jsonl": "42d6e3db3c8d706203cf12383207e0c2f4c7f0a018858b38a3aa8957d55dba59"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "versionProof": [
+    {
+      "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+      "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+      "baseline": "0276a1ecabafc79b4fdaa5c89fff969571ee4fbc",
+      "final": "296968936642d884607cb62c4267fb515c3e9ad9",
+      "sources": {
+        "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+        "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+        "files": [
+          {
+            "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+            "path": "tracked.txt",
+            "source": "tool-observed",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [
+              {
+                "id": "3c0bea4e-20c3-40ed-bea8-195e4a091f58",
+                "callId": "change-1",
+                "tool": "write",
+                "status": "completed",
+                "confirmed": true
+              },
+              {
+                "id": "03ee9d92-8082-4e0d-884d-47adca2703eb",
+                "callId": "change-2",
+                "tool": "edit",
+                "status": "completed",
+                "confirmed": true
+              }
+            ],
+            "reasons": [
+              "已关联最终参数及真实工具前后字节；观察一致不代表 OS 排他证明。"
+            ],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "complete": true,
+        "observations": 2,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+        "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+        "baselineReference": "0276a1ecabafc79b4fdaa5c89fff969571ee4fbc",
+        "finalReference": "296968936642d884607cb62c4267fb515c3e9ad9",
+        "available": true,
+        "diagnostic": null,
+        "files": [
+          {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 16,
+            "afterBytes": 7,
+            "additions": 1,
+            "deletions": 1,
+            "source": "tool-observed",
+            "reasons": [
+              "已关联最终参数及真实工具前后字节；观察一致不代表 OS 排他证明。"
+            ],
+            "tools": [
+              {
+                "id": "3c0bea4e-20c3-40ed-bea8-195e4a091f58",
+                "callId": "change-1",
+                "tool": "write",
+                "status": "completed",
+                "confirmed": true
+              },
+              {
+                "id": "03ee9d92-8082-4e0d-884d-47adca2703eb",
+                "callId": "change-2",
+                "tool": "edit",
+                "status": "completed",
+                "confirmed": true
+              }
+            ],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": [
+        {
+          "sessionId": "8c642558-397c-4520-ada3-b7ee9c84e6bd",
+          "turnId": "4373514f-1958-45c8-bbfb-e4d7a835cb16",
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "baselineReference": "0276a1ecabafc79b4fdaa5c89fff969571ee4fbc",
+          "finalReference": "296968936642d884607cb62c4267fb515c3e9ad9",
+          "file": {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 16,
+            "afterBytes": 7,
+            "additions": 1,
+            "deletions": 1,
+            "source": "tool-observed",
+            "reasons": [
+              "已关联最终参数及真实工具前后字节；观察一致不代表 OS 排他证明。"
+            ],
+            "tools": [
+              {
+                "id": "3c0bea4e-20c3-40ed-bea8-195e4a091f58",
+                "callId": "change-1",
+                "tool": "write",
+                "status": "completed",
+                "confirmed": true
+              },
+              {
+                "id": "03ee9d92-8082-4e0d-884d-47adca2703eb",
+                "callId": "change-2",
+                "tool": "edit",
+                "status": "completed",
+                "confirmed": true
+              }
+            ],
+            "automaticRollback": false
+          },
+          "diagnostic": null,
+          "hunks": [
+            {
+              "header": "@@ -1 +1 @@",
+              "lines": [
+                {
+                  "id": "1:1:1:delete",
+                  "kind": "delete",
+                  "text": "native baseline",
+                  "oldLine": 1,
+                  "newLine": null
+                },
+                {
+                  "id": "1:2:1:add",
+                  "kind": "add",
+                  "text": "second",
+                  "oldLine": null,
+                  "newLine": 1
+                }
+              ]
+            }
+          ],
+          "redacted": true,
+          "automaticRollback": false
+        }
+      ]
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+      "baseline": "7b38d519556aab1cf628f6a413cf6cb47e0cbd63",
+      "final": "6307f6c5691d8a4ca0e8db2b039696a994ca3671",
+      "sources": {
+        "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+        "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+        "files": [
+          {
+            "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+            "path": "tracked.txt",
+            "source": "mixed",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [
+              {
+                "id": "ebe313f6-3b71-4918-95c8-eb6496c9a696",
+                "callId": "change-1",
+                "tool": "write",
+                "status": "completed",
+                "confirmed": true
+              }
+            ],
+            "reasons": [
+              "已关联最终参数及真实工具前后字节；观察一致不代表 OS 排他证明。",
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。"
+            ],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "complete": true,
+        "observations": 1,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+        "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+        "baselineReference": "7b38d519556aab1cf628f6a413cf6cb47e0cbd63",
+        "finalReference": "6307f6c5691d8a4ca0e8db2b039696a994ca3671",
+        "available": true,
+        "diagnostic": null,
+        "files": [
+          {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 28,
+            "afterBytes": 40,
+            "additions": 1,
+            "deletions": 1,
+            "source": "mixed",
+            "reasons": [
+              "已关联最终参数及真实工具前后字节；观察一致不代表 OS 排他证明。",
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。"
+            ],
+            "tools": [
+              {
+                "id": "ebe313f6-3b71-4918-95c8-eb6496c9a696",
+                "callId": "change-1",
+                "tool": "write",
+                "status": "completed",
+                "confirmed": true
+              }
+            ],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": [
+        {
+          "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+          "turnId": "70dda70f-d6cd-4c87-ae90-f8e2594a6efc",
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "baselineReference": "7b38d519556aab1cf628f6a413cf6cb47e0cbd63",
+          "finalReference": "6307f6c5691d8a4ca0e8db2b039696a994ca3671",
+          "file": {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 28,
+            "afterBytes": 40,
+            "additions": 1,
+            "deletions": 1,
+            "source": "mixed",
+            "reasons": [
+              "已关联最终参数及真实工具前后字节；观察一致不代表 OS 排他证明。",
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。"
+            ],
+            "tools": [
+              {
+                "id": "ebe313f6-3b71-4918-95c8-eb6496c9a696",
+                "callId": "change-1",
+                "tool": "write",
+                "status": "completed",
+                "confirmed": true
+              }
+            ],
+            "automaticRollback": false
+          },
+          "diagnostic": null,
+          "hunks": [
+            {
+              "header": "@@ -1 +1 @@",
+              "lines": [
+                {
+                  "id": "1:1:1:delete",
+                  "kind": "delete",
+                  "text": "EXTERNAL_NATIVE_BEFORE_TOOL",
+                  "oldLine": 1,
+                  "newLine": null
+                },
+                {
+                  "id": "1:2:1:add",
+                  "kind": "add",
+                  "text": "CURRENT_NATIVE_MUST_NOT_REPLACE_HISTORY",
+                  "oldLine": null,
+                  "newLine": 1
+                }
+              ]
+            }
+          ],
+          "redacted": true,
+          "automaticRollback": false
+        }
+      ]
+    },
+    {
+      "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+      "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+      "baseline": "08ec4f4cf992a6313e9bd7746465d045cad9968e",
+      "final": "74ed671dccd5276caa4d34bf05f04677c5fb423a",
+      "sources": {
+        "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+        "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+        "files": [
+          {
+            "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+            "path": "tracked.txt",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "complete": true,
+        "observations": 0,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+        "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+        "baselineReference": "08ec4f4cf992a6313e9bd7746465d045cad9968e",
+        "finalReference": "74ed671dccd5276caa4d34bf05f04677c5fb423a",
+        "available": true,
+        "diagnostic": null,
+        "files": [
+          {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 40,
+            "afterBytes": 28,
+            "additions": 1,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": [
+        {
+          "sessionId": "df2150db-9b87-45af-b56d-ffbc20a91fea",
+          "turnId": "472b47f7-25ca-4dd2-b438-35747ba2d092",
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "baselineReference": "08ec4f4cf992a6313e9bd7746465d045cad9968e",
+          "finalReference": "74ed671dccd5276caa4d34bf05f04677c5fb423a",
+          "file": {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 40,
+            "afterBytes": 28,
+            "additions": 1,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          "diagnostic": null,
+          "hunks": [
+            {
+              "header": "@@ -1 +1 @@",
+              "lines": [
+                {
+                  "id": "1:1:1:delete",
+                  "kind": "delete",
+                  "text": "CURRENT_NATIVE_MUST_NOT_REPLACE_HISTORY",
+                  "oldLine": 1,
+                  "newLine": null
+                },
+                {
+                  "id": "1:2:1:add",
+                  "kind": "add",
+                  "text": "EXTERNAL_NATIVE_BEFORE_TOOL",
+                  "oldLine": null,
+                  "newLine": 1
+                }
+              ]
+            }
+          ],
+          "redacted": true,
+          "automaticRollback": false
+        }
+      ]
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+      "baseline": "278e6059f7324cb9080195f28b86086b31b3b3a8",
+      "final": "e1fcfbed7f258cdc398e2822661a9e374aa1039d",
+      "sources": {
+        "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+        "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+        "files": [],
+        "total": 0,
+        "next": null,
+        "complete": true,
+        "observations": 0,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+        "turnId": "2b592287-0e57-4bf3-b696-5f0075e8d698",
+        "baselineReference": "278e6059f7324cb9080195f28b86086b31b3b3a8",
+        "finalReference": "e1fcfbed7f258cdc398e2822661a9e374aa1039d",
+        "available": true,
+        "diagnostic": null,
+        "files": [],
+        "total": 0,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": []
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "turnId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+      "baseline": "fa4f929d7ba560b0fc0a2b305045270f78457217",
+      "final": "ba8470af5e0de85d019f94e0741b62c749247e0c",
+      "sources": {
+        "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+        "turnId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+        "files": [],
+        "total": 0,
+        "next": null,
+        "complete": true,
+        "observations": 0,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+        "turnId": "578df0f2-5f87-42d0-9cb6-3000af43c0fe",
+        "baselineReference": "fa4f929d7ba560b0fc0a2b305045270f78457217",
+        "finalReference": "ba8470af5e0de85d019f94e0741b62c749247e0c",
+        "available": true,
+        "diagnostic": null,
+        "files": [],
+        "total": 0,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": []
+    },
+    {
+      "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+      "turnId": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+      "baseline": "5bdcc8bccbcd148e10ea0787ca70a1a5a960016c",
+      "final": "4533775d5244bded91d8aa2e216cd688c01e7a5b",
+      "sources": {
+        "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+        "turnId": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+        "files": [],
+        "total": 0,
+        "next": null,
+        "complete": true,
+        "observations": 0,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "c5d38364-04c9-4a6f-a5d9-49a8aded14f5",
+        "turnId": "b47f53be-07ea-4e9e-92c2-13f007833e0a",
+        "baselineReference": "5bdcc8bccbcd148e10ea0787ca70a1a5a960016c",
+        "finalReference": "4533775d5244bded91d8aa2e216cd688c01e7a5b",
+        "available": true,
+        "diagnostic": null,
+        "files": [],
+        "total": 0,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": []
+    },
+    {
+      "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+      "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+      "baseline": "48166083e3458b7835c192befd05558f118e064b",
+      "final": "310b1e386f93dc11726d86d881d6b39f449f8d1a",
+      "sources": {
+        "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+        "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+        "files": [
+          {
+            "fileId": "005338a261920beed70d358c421c16850b4a5fb5e6ff7e97466a4a1b4126264b",
+            "path": "added.txt",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          },
+          {
+            "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+            "path": "tracked.txt",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          },
+          {
+            "fileId": "247270e4c8a64e011e873395c5e6a626c8672bc15acfb60228ddaefbb2d549e7",
+            "path": "old-name.txt",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          },
+          {
+            "fileId": "7bc5ef81f138c6a12a0da36a6582760957377e1bd4577615c3ad74601d1d50d7",
+            "path": "新名称.txt",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          },
+          {
+            "fileId": "bf8c9bd6631b7ab4034490d35ab3c26709594e74020b6d7fa5552273b3aa7381",
+            "path": "deleted.txt",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          },
+          {
+            "fileId": "c2e4e73b555d8eb59b823e16da52e8877b231c1e490e81f2c9b11054084a5abc",
+            "path": "binary.bin",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          }
+        ],
+        "total": 6,
+        "next": null,
+        "complete": true,
+        "observations": 0,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+        "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+        "baselineReference": "48166083e3458b7835c192befd05558f118e064b",
+        "finalReference": "310b1e386f93dc11726d86d881d6b39f449f8d1a",
+        "available": true,
+        "diagnostic": null,
+        "files": [
+          {
+            "id": "61ae8e6143269a8270bce53c9c29831c56f8945a60a03383a14d584609a14fca",
+            "path": "新名称.txt",
+            "previousPath": "old-name.txt",
+            "kind": "renamed",
+            "binary": false,
+            "beforeBytes": 21,
+            "afterBytes": 21,
+            "additions": 0,
+            "deletions": 0,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          {
+            "id": "8b075cb817c8347e315bf0e4c9f1a550fc63239ab151d3a3bd8f4be2a0b01b19",
+            "path": "binary.bin",
+            "previousPath": null,
+            "kind": "added",
+            "binary": true,
+            "beforeBytes": 0,
+            "afterBytes": 3,
+            "additions": null,
+            "deletions": null,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 40,
+            "afterBytes": 80,
+            "additions": 3,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          {
+            "id": "cba2d2ef84067fa0bdad77c1f802f64790bbf6e9b1d204dafcef58bec32f9781",
+            "path": "deleted.txt",
+            "previousPath": null,
+            "kind": "deleted",
+            "binary": false,
+            "beforeBytes": 14,
+            "afterBytes": 0,
+            "additions": 0,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          {
+            "id": "ce85564c5b58d277d95b6f672ac793f1004cc4ea39ec82cd7892460f53768693",
+            "path": "added.txt",
+            "previousPath": null,
+            "kind": "added",
+            "binary": false,
+            "beforeBytes": 0,
+            "afterBytes": 13,
+            "additions": 1,
+            "deletions": 0,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          }
+        ],
+        "total": 5,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": [
+        {
+          "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+          "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+          "fileId": "61ae8e6143269a8270bce53c9c29831c56f8945a60a03383a14d584609a14fca",
+          "baselineReference": "48166083e3458b7835c192befd05558f118e064b",
+          "finalReference": "310b1e386f93dc11726d86d881d6b39f449f8d1a",
+          "file": {
+            "id": "61ae8e6143269a8270bce53c9c29831c56f8945a60a03383a14d584609a14fca",
+            "path": "新名称.txt",
+            "previousPath": "old-name.txt",
+            "kind": "renamed",
+            "binary": false,
+            "beforeBytes": 21,
+            "afterBytes": 21,
+            "additions": 0,
+            "deletions": 0,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          "diagnostic": "唯一且字节完全相同的路径重命名；文件内容未改变。",
+          "hunks": [],
+          "redacted": true,
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+          "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+          "fileId": "8b075cb817c8347e315bf0e4c9f1a550fc63239ab151d3a3bd8f4be2a0b01b19",
+          "baselineReference": "48166083e3458b7835c192befd05558f118e064b",
+          "finalReference": "310b1e386f93dc11726d86d881d6b39f449f8d1a",
+          "file": {
+            "id": "8b075cb817c8347e315bf0e4c9f1a550fc63239ab151d3a3bd8f4be2a0b01b19",
+            "path": "binary.bin",
+            "previousPath": null,
+            "kind": "added",
+            "binary": true,
+            "beforeBytes": 0,
+            "afterBytes": 3,
+            "additions": null,
+            "deletions": null,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          "diagnostic": "二进制或非UTF-8文件：保存原始版本，仅展示字节数，不提供文本Diff或行数。",
+          "hunks": [],
+          "redacted": true,
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+          "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "baselineReference": "48166083e3458b7835c192befd05558f118e064b",
+          "finalReference": "310b1e386f93dc11726d86d881d6b39f449f8d1a",
+          "file": {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 40,
+            "afterBytes": 80,
+            "additions": 3,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          "diagnostic": null,
+          "hunks": [
+            {
+              "header": "@@ -1 +1,3 @@",
+              "lines": [
+                {
+                  "id": "1:1:1:delete",
+                  "kind": "delete",
+                  "text": "CURRENT_NATIVE_MUST_NOT_REPLACE_HISTORY",
+                  "oldLine": 1,
+                  "newLine": null
+                },
+                {
+                  "id": "1:2:1:add",
+                  "kind": "add",
+                  "text": "EXTERNAL_NATIVE_DIFF",
+                  "oldLine": null,
+                  "newLine": 1
+                },
+                {
+                  "id": "1:2:2:add",
+                  "kind": "add",
+                  "text": "api_key=«redacted»",
+                  "oldLine": null,
+                  "newLine": 2
+                },
+                {
+                  "id": "1:2:3:add",
+                  "kind": "add",
+                  "text": "<img src=x onerror=alert(1)>",
+                  "oldLine": null,
+                  "newLine": 3
+                }
+              ]
+            }
+          ],
+          "redacted": true,
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+          "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+          "fileId": "cba2d2ef84067fa0bdad77c1f802f64790bbf6e9b1d204dafcef58bec32f9781",
+          "baselineReference": "48166083e3458b7835c192befd05558f118e064b",
+          "finalReference": "310b1e386f93dc11726d86d881d6b39f449f8d1a",
+          "file": {
+            "id": "cba2d2ef84067fa0bdad77c1f802f64790bbf6e9b1d204dafcef58bec32f9781",
+            "path": "deleted.txt",
+            "previousPath": null,
+            "kind": "deleted",
+            "binary": false,
+            "beforeBytes": 14,
+            "afterBytes": 0,
+            "additions": 0,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          "diagnostic": null,
+          "hunks": [
+            {
+              "header": "@@ -1 +0,0 @@",
+              "lines": [
+                {
+                  "id": "1:1:0:delete",
+                  "kind": "delete",
+                  "text": "native delete",
+                  "oldLine": 1,
+                  "newLine": null
+                }
+              ]
+            }
+          ],
+          "redacted": true,
+          "automaticRollback": false
+        },
+        {
+          "sessionId": "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b",
+          "turnId": "34456b2e-0581-4b2f-ac7c-192921cf9713",
+          "fileId": "ce85564c5b58d277d95b6f672ac793f1004cc4ea39ec82cd7892460f53768693",
+          "baselineReference": "48166083e3458b7835c192befd05558f118e064b",
+          "finalReference": "310b1e386f93dc11726d86d881d6b39f449f8d1a",
+          "file": {
+            "id": "ce85564c5b58d277d95b6f672ac793f1004cc4ea39ec82cd7892460f53768693",
+            "path": "added.txt",
+            "previousPath": null,
+            "kind": "added",
+            "binary": false,
+            "beforeBytes": 0,
+            "afterBytes": 13,
+            "additions": 1,
+            "deletions": 0,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          "diagnostic": null,
+          "hunks": [
+            {
+              "header": "@@ -0,0 +1 @@",
+              "lines": [
+                {
+                  "id": "1:0:1:add",
+                  "kind": "add",
+                  "text": "native added",
+                  "oldLine": null,
+                  "newLine": 1
+                }
+              ]
+            }
+          ],
+          "redacted": true,
+          "automaticRollback": false
+        }
+      ]
+    }
+  ],
+  "closed": true,
+  "managedProcessesAfterClose": [
+    {
+      "pid": 22784,
+      "alive": false
+    }
+  ],
+  "historyAtClose": {
+    "8c642558-397c-4520-ada3-b7ee9c84e6bd\\1c5be507-eca1-4463-af7e-c622128ea321\\sessions\\2026-11-07T20-42-51-643Z_01a1b7bf-ef7a-7218-96b7-587a0e989336.jsonl": "b0cd68e53439bfb1485bb0de493dffe95373cd9de7bcbaf00fa98cc46a317de3",
+    "c5d38364-04c9-4a6f-a5d9-49a8aded14f5\\db8a050f-757c-401f-a4d8-d909feff57da\\sessions\\2026-11-07T20-59-57-998Z_01a1b7cf-98ae-74b7-a11b-74860dd6e711.jsonl": "dbac4153bbfc1603cec01cf8d53f43cf44450b8933bf2810f99b2aa5a5620b5e",
+    "df2150db-9b87-45af-b56d-ffbc20a91fea\\639d82c0-a7db-44ee-b605-fabcd09a5abd\\sessions\\2026-11-07T20-50-37-678Z_01a1b7c7-0bee-7487-bfc3-620faebb871a.jsonl": "281086efad3d1d7f5ff03eebb8040ea25d558d22ec56510cc59e3b4dba49d056",
+    "ef4c8f4c-c48d-4c89-bc27-ae88cf8a6c6b\\1c6bc5b0-586c-467a-9d02-bdf3919860de\\sessions\\2026-11-07T21-02-06-123Z_01a1b7d1-8d2b-77b6-afc8-24848301f1aa.jsonl": "42d6e3db3c8d706203cf12383207e0c2f4c7f0a018858b38a3aa8957d55dba59"
+  },
+  "protectedAfterClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "currentTracked": "EXTERNAL_NATIVE_DIFF\napi_key=«redacted»\n<img src=x onerror=alert(1)>\n",
+  "currentTrackedSha256": "a4e2c34d38b30988589d76e9323a78c3f0eb29d27806bb6313d10975fa1a2e11"
+}

@@ -38,6 +38,8 @@ const fixtureModeSchema = z.enum([
   'approval-command',
   'approval-running',
   'approval-boundary',
+  'directory-command',
+  'change-chain',
 ])
 const resumeSchema = z.strictObject({
   sessionFile: z.string().min(1),
@@ -80,6 +82,13 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
   }),
   z.strictObject({
     ...identity,
+    type: z.literal('guard-settled'),
+    turnId: z.uuid(),
+    id: z.uuid(),
+    digest: z.string().regex(/^[a-f0-9]{64}$/),
+  }),
+  z.strictObject({
+    ...identity,
     type: z.literal('queue-boundary'),
     turnId: z.uuid(),
     boundaryId: z.uuid(),
@@ -90,6 +99,7 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
 
 const guardSchema = z.strictObject({
   version: z.literal(1),
+  settlement: z.literal('host-ack-v1'),
   mode: z.enum(['deny-all', 'final-parameters-v1']),
   activeTools: z.array(z.enum(['read', 'write', 'edit', 'bash', 'powershell'])).max(5),
   extensionsEnabled: z.literal(false),
@@ -121,6 +131,13 @@ export const kernelMessageSchema = z.discriminatedUnion('type', [
     ...envelope,
     type: z.literal('guard-request'),
     request: executionRequestSchema,
+  }),
+  z.strictObject({
+    ...envelope,
+    type: z.literal('guard-finished'),
+    id: z.uuid(),
+    digest: z.string().regex(/^[a-f0-9]{64}$/),
+    succeeded: z.boolean(),
   }),
   z.strictObject({ ...envelope, type: z.literal('queue-boundary'), boundaryId: z.uuid() }),
   z.strictObject({ ...envelope, type: z.literal('queue-delivered'), id: z.uuid() }),

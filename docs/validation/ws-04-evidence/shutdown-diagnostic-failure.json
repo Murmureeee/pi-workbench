@@ -1,0 +1,376 @@
+{
+  "iteration": 0,
+  "result": {
+    "protocol": 1,
+    "sessionId": "824d7cc2-ce1e-481b-91f3-a2e6ae601603",
+    "epoch": "f48437c1-a18f-472d-97ee-561631eafea6",
+    "seq": 14,
+    "turnId": "b913ebf3-bd3e-4f42-b63f-9f545e6bbd6f",
+    "type": "finished",
+    "outcome": "aborted",
+    "localRequests": 1,
+    "blockedNetworkAttempts": 0,
+    "error": "Request was aborted"
+  },
+  "first": {
+    "protocol": 1,
+    "sessionId": "824d7cc2-ce1e-481b-91f3-a2e6ae601603",
+    "epoch": "f48437c1-a18f-472d-97ee-561631eafea6",
+    "source": "real-sdk/local-fixture",
+    "state": "failed",
+    "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-shutdown-diag-FSqliE\\workspace",
+    "turnId": "b913ebf3-bd3e-4f42-b63f-9f545e6bbd6f",
+    "pid": 35264,
+    "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\ws04-shutdown-diag-FSqliE\\kernels\\824d7cc2-ce1e-481b-91f3-a2e6ae601603\\f48437c1-a18f-472d-97ee-561631eafea6\\sessions\\2026-11-07T07-54-03-408Z_01a1b500-130f-7121-b6ce-cb43f5ae6bf0.jsonl",
+    "nativeSessionId": "01a1b500-130f-7121-b6ce-cb43f5ae6bf0",
+    "error": "Kernel exited (0)"
+  },
+  "second": {
+    "protocol": 1,
+    "sessionId": "f0838330-917f-4cc2-a649-cd08a1b7f696",
+    "epoch": "181c21bb-e122-412d-a2d6-a2a741c76d28",
+    "source": "real-sdk/local-fixture",
+    "state": "disposed",
+    "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-shutdown-diag-FSqliE\\workspace",
+    "turnId": null,
+    "pid": 22692,
+    "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\ws04-shutdown-diag-FSqliE\\kernels\\f0838330-917f-4cc2-a649-cd08a1b7f696\\181c21bb-e122-412d-a2d6-a2a741c76d28\\sessions\\2026-11-07T07-54-03-412Z_01a1b500-1313-71b1-80d0-8b9ce64ffbdc.jsonl",
+    "nativeSessionId": "01a1b500-1313-71b1-80d0-8b9ce64ffbdc"
+  },
+  "traces": [
+    {
+      "snapshot": {
+        "protocol": 1,
+        "sessionId": "824d7cc2-ce1e-481b-91f3-a2e6ae601603",
+        "epoch": "f48437c1-a18f-472d-97ee-561631eafea6",
+        "source": "real-sdk/local-fixture",
+        "state": "failed",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-shutdown-diag-FSqliE\\workspace",
+        "turnId": "b913ebf3-bd3e-4f42-b63f-9f545e6bbd6f",
+        "pid": 35264,
+        "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\ws04-shutdown-diag-FSqliE\\kernels\\824d7cc2-ce1e-481b-91f3-a2e6ae601603\\f48437c1-a18f-472d-97ee-561631eafea6\\sessions\\2026-11-07T07-54-03-408Z_01a1b500-130f-7121-b6ce-cb43f5ae6bf0.jsonl",
+        "nativeSessionId": "01a1b500-130f-7121-b6ce-cb43f5ae6bf0",
+        "error": "Kernel exited (0)"
+      },
+      "events": [
+        {
+          "at": 1794038042252,
+          "event": {
+            "send": "init"
+          },
+          "state": "starting",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043415,
+          "event": {
+            "receive": "ready",
+            "seq": 1
+          },
+          "state": "starting",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043456,
+          "event": {
+            "send": "prompt"
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043457,
+          "event": {
+            "receive": "running",
+            "seq": 2
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043458,
+          "event": {
+            "receive": "stage",
+            "seq": 3
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043463,
+          "event": {
+            "receive": "model",
+            "seq": 4
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043473,
+          "event": {
+            "receive": "model-boundary",
+            "seq": 5
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043475,
+          "event": {
+            "send": "model-choice"
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043476,
+          "event": {
+            "receive": "model-applied",
+            "seq": 6
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043605,
+          "event": {
+            "receive": "model",
+            "seq": 7
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043612,
+          "event": {
+            "receive": "stage",
+            "seq": 8
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043621,
+          "event": {
+            "receive": "stage",
+            "seq": 9
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043627,
+          "event": {
+            "receive": "delta",
+            "seq": 10
+          },
+          "state": "running",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043630,
+          "event": {
+            "send": "dispose"
+          },
+          "state": "disposing",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043634,
+          "event": {
+            "receive": "reasoning",
+            "seq": 11
+          },
+          "state": "disposing",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043639,
+          "event": {
+            "receive": "model",
+            "seq": 12
+          },
+          "state": "disposing",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043645,
+          "event": {
+            "receive": "stage",
+            "seq": 13
+          },
+          "state": "disposing",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043650,
+          "event": {
+            "receive": "finished",
+            "seq": 14
+          },
+          "state": "disposing",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043664,
+          "event": {
+            "fail": "Kernel exited (0)"
+          },
+          "state": "disposing",
+          "ack": false,
+          "exited": true
+        },
+        {
+          "at": 1794038043664,
+          "event": {
+            "event": "exit",
+            "code": 0,
+            "signal": null
+          },
+          "state": "failed"
+        },
+        {
+          "at": 1794038043664,
+          "event": {
+            "receive": "disposed",
+            "seq": 15
+          },
+          "state": "failed",
+          "ack": false,
+          "exited": true
+        },
+        {
+          "at": 1794038043664,
+          "event": {
+            "fail": "Unexpected disposal acknowledgement"
+          },
+          "state": "failed",
+          "ack": false,
+          "exited": true
+        },
+        {
+          "at": 1794038043664,
+          "event": {
+            "fail": "Kernel IPC disconnected"
+          },
+          "state": "failed",
+          "ack": false,
+          "exited": true
+        },
+        {
+          "at": 1794038043664,
+          "event": {
+            "event": "disconnect"
+          },
+          "state": "failed"
+        },
+        {
+          "at": 1794038043664,
+          "event": {
+            "event": "close",
+            "code": 0,
+            "signal": null
+          },
+          "state": "failed"
+        }
+      ]
+    },
+    {
+      "snapshot": {
+        "protocol": 1,
+        "sessionId": "f0838330-917f-4cc2-a649-cd08a1b7f696",
+        "epoch": "181c21bb-e122-412d-a2d6-a2a741c76d28",
+        "source": "real-sdk/local-fixture",
+        "state": "disposed",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\ws04-shutdown-diag-FSqliE\\workspace",
+        "turnId": null,
+        "pid": 22692,
+        "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\ws04-shutdown-diag-FSqliE\\kernels\\f0838330-917f-4cc2-a649-cd08a1b7f696\\181c21bb-e122-412d-a2d6-a2a741c76d28\\sessions\\2026-11-07T07-54-03-412Z_01a1b500-1313-71b1-80d0-8b9ce64ffbdc.jsonl",
+        "nativeSessionId": "01a1b500-1313-71b1-80d0-8b9ce64ffbdc"
+      },
+      "events": [
+        {
+          "at": 1794038042256,
+          "event": {
+            "send": "init"
+          },
+          "state": "starting",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043420,
+          "event": {
+            "receive": "ready",
+            "seq": 1
+          },
+          "state": "starting",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043630,
+          "event": {
+            "send": "dispose"
+          },
+          "state": "disposing",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043631,
+          "event": {
+            "receive": "disposed",
+            "seq": 2
+          },
+          "state": "disposing",
+          "ack": false,
+          "exited": false
+        },
+        {
+          "at": 1794038043632,
+          "event": {
+            "event": "disconnect"
+          },
+          "state": "disposing"
+        },
+        {
+          "at": 1794038043650,
+          "event": {
+            "event": "exit",
+            "code": 0,
+            "signal": null
+          },
+          "state": "disposed"
+        },
+        {
+          "at": 1794038043650,
+          "event": {
+            "event": "close",
+            "code": 0,
+            "signal": null
+          },
+          "state": "disposed"
+        }
+      ]
+    }
+  ]
+}

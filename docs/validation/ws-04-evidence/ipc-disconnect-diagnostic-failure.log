@@ -1,0 +1,47 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+stderr | apps/daemon/test/directory-writes.test.ts > wS-04 actual SDK IPC disconnect retains directory ownership until its process is reaped, then admits the queued round
+WS04 IPC before disconnect 3912 true
+WS04 IPC disconnected [
+  {
+    protocol: 1,
+    sessionId: '06646ede-a01b-4e39-81a1-e044645f00ca',
+    epoch: '3ab171e3-4f4a-40dd-a66e-d1c1cd680c93',
+    source: 'real-sdk/local-fixture',
+    state: 'running',
+    cwd: 'C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-directory-CCG2it\\a',
+    turnId: '43560242-38cc-4ca9-bba5-6bf42a5f76c7',
+    pid: 3912,
+    sessionFile: 'C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-directory-CCG2it\\data\\kernels\\06646ede-a01b-4e39-81a1-e044645f00ca\\3ab171e3-4f4a-40dd-a66e-d1c1cd680c93\\sessions\\2026-11-07T07-14-53-292Z_01a1b4dc-36ec-72de-9554-b9eb5b22a185.jsonl',
+    nativeSessionId: '01a1b4dc-36ec-72de-9554-b9eb5b22a185'
+  }
+]
+
+stderr | apps/daemon/test/directory-writes.test.ts > wS-04 actual SDK IPC disconnect retains directory ownership until its process is reaped, then admits the queued round
+WS04 IPC actual exit
+
+ ❯ apps/daemon/test/directory-writes.test.ts (11 tests | 1 failed | 10 skipped) 60021ms
+   × wS-04 actual SDK IPC disconnect retains directory ownership until its process is reaped, then admits the queued round 60020ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/directory-writes.test.ts > wS-04 actual SDK IPC disconnect retains directory ownership until its process is reaped, then admits the queued round
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/daemon/test/directory-writes.test.ts:222:1
+    220| }, 60000)
+    221|
+    222| test('wS-04 actual SDK IPC disconnect retains directory ownership unti…
+       | ^
+    223|   const f = await setup()
+    224|   let runtime: SessionKernel | undefined
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 skipped (11)
+   Start at  15:14:49
+   Duration  62.36s (tests 96%, import 3%)
+

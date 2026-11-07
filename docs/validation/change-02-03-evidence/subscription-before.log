@@ -1,0 +1,38 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ packages/shared/src/runtime-contracts.test.ts (6 tests | 1 failed) 10ms
+   ❯ CORE-05 authoritative observation contract (6)
+     × accepts all advertised observation capabilities in a bounded subscription 4ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/shared/src/runtime-contracts.test.ts > CORE-05 authoritative observation contract > accepts all advertised observation capabilities in a bounded subscription
+ZodError: [
+  {
+    "origin": "array",
+    "code": "too_big",
+    "maximum": 16,
+    "inclusive": true,
+    "path": [
+      "requiredCapabilities"
+    ],
+    "message": "Too big: expected array to have <=16 items"
+  }
+]
+ ❯ packages/shared/src/runtime-contracts.test.ts:51:35
+     49|       daemonId,
+     50|     }
+     51|     expect(runtimeSubscribeSchema.parse(subscription)).toEqual(subscri…
+       |                                   ^
+     52|     expect(
+     53|       runtimeSubscribeSchema.safeParse({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 5 passed (6)
+   Start at  03:41:44
+   Duration  295ms (import 48%, transform 45%, tests 6%, worker 2%)
+

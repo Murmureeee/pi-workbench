@@ -1,0 +1,27 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/directory-writes.test.ts (11 tests | 1 failed | 10 skipped) 60008ms
+   × wS-04 actual SDK IPC disconnect retains directory ownership until its process is reaped, then admits the queued round 60007ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/directory-writes.test.ts > wS-04 actual SDK IPC disconnect retains directory ownership until its process is reaped, then admits the queued round
+Error: Test timed out in 60000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/daemon/test/directory-writes.test.ts:222:1
+    220| }, 60000)
+    221|
+    222| test('wS-04 actual SDK IPC disconnect retains directory ownership unti…
+       | ^
+    223|   const f = await setup()
+    224|   let runtime: SessionKernel | undefined
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 10 skipped (11)
+   Start at  15:12:36
+   Duration  62.57s (tests 96%, import 4%)
+

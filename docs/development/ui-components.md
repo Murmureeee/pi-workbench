@@ -102,3 +102,9 @@ SEC-02 已验收审批复用既有 Alert／Badge／TraceCollapsible／Field／In
 SEC-03 已验收沿用 Dialog／AlertDialog／Alert／Trace／Button／Badge，Empty 经官方 shadcn CLI 的 base-nova 注册表获取。仅将 cn 接到既有相对 ESM 工具、补 React 类型和实际 div props，无新增 cn 包或其他运行依赖。会话授权显示范围与来源；关闭恢复触发焦点，断线禁用撤销，原始参数不进入 renderer 或授权审计。布局复用已确认中性主题与字号，无新设计系统。
 
 SEC-09已验收复用现有Field／Input／DropdownMenu／Button／Badge／Alert／Trace／Empty；无新primitive、依赖或锁文件变化。Electron设置只读审计按需加载，文本范围受控渲染，展开／筛选／分页／导出由业务feature组合。语义tokens、明暗、800px、键盘及迟到下载隔离分别验收；本机UX数据库脚本未运行成功，沿用已确认布局与组件规范。
+
+WS-04 的 WorkspaceWriteStatus 复用已有官方 base-nova Alert／Badge／Collapsible／Button，不新增 primitive 或依赖。业务策略留在 daemon，共享契约只承载只读状态，React Query 按目标身份取消与重入核对。shadcn CLI 已核对项目 base-nova／Base UI 及 alert／collapsible 文档；本机 UX 数据库 Python 启动失败，沿用已确认布局，不以检索失败冒充设计验证。
+
+CHANGE-01 文件版本展示复用官方 Alert／Badge／Button／Collapsible，不新增 primitive 或依赖。已核对 shadcn Base UI 文档与当前 exports；业务契约、会话隔离和查询分页在 conversation feature，renderer 不读取 Git 或 SQLite。明暗窄窗、窗口交互和原生重启见[验收记录](../validation/change-01-evidence/acceptance.md)。
+
+CHANGE-02／03 继续使用已有 Alert／Badge／Button／Collapsible 及官方 Base UI Dialog；宽屏 aside 与窄窗 Dialog 共用业务 ReviewBody。已核对安装的 Dialog 初始／最终焦点接口，业务关闭归还原触发焦点。Diff 使用 React 文本节点和原生表格，不引入第二套编辑器、Diff 依赖或 primitive；无依赖／锁文件变化。

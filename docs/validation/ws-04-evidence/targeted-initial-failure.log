@@ -1,0 +1,120 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/directory-writes.test.ts (8 tests | 1 failed) 20858ms
+   × WS-04 bounded sampling never follows junctions, and unavailable directories cannot confer source or rollback authority 2519ms
+ ❯ apps/daemon/test/resources.test.ts (12 tests | 2 failed) 37737ms
+   ❯ CORE-07 real SDK + local HTTP fixture resource admission (12)
+     × runs one model task by default, preserves FIFO, cancels queued input and exposes no raw prompt bypass 1284ms
+     × applies configurable model concurrency and admits the next task only after a killed SDK is reaped 10089ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/directory-writes.test.ts > WS-04 bounded sampling never follows junctions, and unavailable directories cannot confer source or rollback authority
+Error: EBUSY: resource busy or locked, rename 'C:\Users\Murmure\AppData\Local\Temp\piw-directory-OSmj0x\a' -> 'C:\Users\Murmure\AppData\Local\Temp\piw-directory-OSmj0x\a-moved'
+ ❯ apps/daemon/test/directory-writes.test.ts:177:5
+    175|     const next = f.start()
+    176|     await f.stream(next.sessionId)
+    177|     renameSync(f.a, `${f.a}-moved`)
+       |     ^
+    178|     await f.kernels.abort(next.sessionId, next.turnId)
+    179|     await next.promise
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  apps/daemon/test/resources.test.ts > CORE-07 real SDK + local HTTP fixture resource admission > runs one model task by default, preserves FIFO, cancels queued input and exposes no raw prompt bypass
+AssertionError: expected [ [ …(3) ], [ …(3) ], [ …(3) ] ] to deeply equal [ [ …(3) ], [ …(3) ], [ …(3) ] ]
+
+- Expected
++ Received
+
+  [
+    [
+      "6af2a8f6-a791-4f47-a424-56a64f66d306",
+      1,
+-     "model-limit",
++     "directory-busy",
+    ],
+    [
+      "6e69c6d0-3941-477a-9ca4-90185b9cec99",
+      2,
+-     "model-limit",
++     "directory-busy",
+    ],
+    [
+      "1c633cb9-5d55-454f-af60-9fafda945dd6",
+      3,
+-     "model-limit",
++     "directory-busy",
+    ],
+  ]
+
+ ❯ apps/daemon/test/resources.test.ts:241:9
+    239|           .queue.filter((item) => item.stage === 'queued')
+    240|           .map((item) => [item.sessionId, item.position, item.reason]),
+    241|       ).toEqual([
+       |         ^
+    242|         [second, 1, 'model-limit'],
+    243|         [third, 2, 'model-limit'],
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  apps/daemon/test/resources.test.ts > CORE-07 real SDK + local HTTP fixture resource admission > applies configurable model concurrency and admits the next task only after a killed SDK is reaped
+AssertionError: the given combination of arguments (undefined and string) is invalid for this assertion. You can use an array, a map, an object, a set, a string, or a weakset instead of a string
+ ❯ apps/daemon/test/resources.test.ts:63:68
+     61| async function streaming(f: Awaited<ReturnType<typeof fixture>>, sessi…
+     62|   await vi.waitFor(
+     63|     () => expect(f.events.snapshot(sessionId)?.turns.at(-1)?.text).toC…
+       |                                                                    ^
+     64|     wait,
+     65|   )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+⎯⎯⎯⎯⎯⎯ Unhandled Errors ⎯⎯⎯⎯⎯⎯
+
+Vitest caught 2 unhandled errors during the test run.
+This might cause false positive tests. Resolve unhandled errors to make sure your tests are not affected.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: Daemon is shutting down
+ ❯ KernelService.close apps/daemon/src/modules/kernels/kernel.service.ts:764:19
+ ❯ KernelService.onModuleDestroy apps/daemon/src/modules/kernels/kernel.service.ts:752:28
+ ❯ MapIterator.iteratee node_modules/.pnpm/@nestjs+core@12.3.2_@nestjs_eee6ff6edf52ede19f8bf01e887e3eef/node_modules/@nestjs/core/hooks/on-module-destroy.hook.js:21:43
+ ❯ MapIterator.next node_modules/.pnpm/iterare@1.2.1/node_modules/iterare/lib/map.js:13:39
+ ❯ IteratorWithOperators.next node_modules/.pnpm/iterare@1.2.1/node_modules/iterare/lib/iterate.js:21:28
+ ❯ IteratorWithOperators.toArray node_modules/.pnpm/iterare@1.2.1/node_modules/iterare/lib/iterate.js:180:22
+ ❯ callOperator node_modules/.pnpm/@nestjs+core@12.3.2_@nestjs_eee6ff6edf52ede19f8bf01e887e3eef/node_modules/@nestjs/core/hooks/on-module-destroy.hook.js:22:10
+ ❯ callModuleDestroyHook node_modules/.pnpm/@nestjs+core@12.3.2_@nestjs_eee6ff6edf52ede19f8bf01e887e3eef/node_modules/@nestjs/core/hooks/on-module-destroy.hook.js:38:50
+ ❯ NestApplication.callDestroyHook node_modules/.pnpm/@nestjs+core@12.3.2_@nestjs_eee6ff6edf52ede19f8bf01e887e3eef/node_modules/@nestjs/core/nest-application-context.js:292:13
+
+This error originated in "apps/daemon/test/resources.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "runs one model task by default, preserves FIFO, cancels queued input and exposes no raw prompt bypass". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+
+⎯⎯⎯⎯ Unhandled Rejection ⎯⎯⎯⎯⎯
+Error: Daemon is shutting down
+ ❯ KernelService.close apps/daemon/src/modules/kernels/kernel.service.ts:764:19
+ ❯ KernelService.onModuleDestroy apps/daemon/src/modules/kernels/kernel.service.ts:752:28
+ ❯ MapIterator.iteratee node_modules/.pnpm/@nestjs+core@12.3.2_@nestjs_eee6ff6edf52ede19f8bf01e887e3eef/node_modules/@nestjs/core/hooks/on-module-destroy.hook.js:21:43
+ ❯ MapIterator.next node_modules/.pnpm/iterare@1.2.1/node_modules/iterare/lib/map.js:13:39
+ ❯ IteratorWithOperators.next node_modules/.pnpm/iterare@1.2.1/node_modules/iterare/lib/iterate.js:21:28
+ ❯ IteratorWithOperators.toArray node_modules/.pnpm/iterare@1.2.1/node_modules/iterare/lib/iterate.js:180:22
+ ❯ callOperator node_modules/.pnpm/@nestjs+core@12.3.2_@nestjs_eee6ff6edf52ede19f8bf01e887e3eef/node_modules/@nestjs/core/hooks/on-module-destroy.hook.js:22:10
+ ❯ callModuleDestroyHook node_modules/.pnpm/@nestjs+core@12.3.2_@nestjs_eee6ff6edf52ede19f8bf01e887e3eef/node_modules/@nestjs/core/hooks/on-module-destroy.hook.js:38:50
+ ❯ NestApplication.callDestroyHook node_modules/.pnpm/@nestjs+core@12.3.2_@nestjs_eee6ff6edf52ede19f8bf01e887e3eef/node_modules/@nestjs/core/nest-application-context.js:292:13
+
+This error originated in "apps/daemon/test/resources.test.ts" test file. It doesn't mean the error was thrown inside the file itself, but while it was running.
+The last test to run before this error was "runs one model task by default, preserves FIFO, cancels queued input and exposes no raw prompt bypass". This means either:
+- the error was thrown while Vitest was running this test, or
+- the error was thrown after the test completed, and this was the most recent test at that point.
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯
+
+
+ Test Files  2 failed (2)
+      Tests  3 failed | 17 passed (20)
+     Errors  2 errors
+   Start at  13:11:57
+   Duration  63.21s (tests 54%, import 45%, transform 1%)
+

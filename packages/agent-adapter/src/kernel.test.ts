@@ -1,6 +1,6 @@
 import type { KernelMessage } from './kernel-protocol.js'
 
-import { fork } from 'node:child_process'
+import { ChildProcess, fork } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -8,7 +8,7 @@ import { join } from 'node:path'
 import process from 'node:process'
 import { setTimeout as delay } from 'node:timers/promises'
 
-import { afterEach, describe, expect, it } from 'vitest'
+import { afterEach, describe, expect, it, vi } from 'vitest'
 import { z } from 'zod'
 
 import { SessionKernel } from '../dist/kernel.js'
@@ -220,6 +220,81 @@ describe('CORE-04 real SDK + local HTTP fixture (zero real provider requests)', 
     await kernel.dispose()
     expect(await result).toMatchObject({ outcome: 'aborted' })
     expect(kernel.snapshot.state).toBe('disposed')
+    expect(alive(kernel.snapshot.pid)).toBe(false)
+  })
+
+  it('accepts a validated disposal acknowledgement delivered after actual process exit', async () => {
+    const kernel = create()
+    await kernel.ready()
+    const channel: unknown = Reflect.get(kernel, 'child')
+    if (!(channel instanceof ChildProcess)) {
+      throw new Error('Actual SDK process channel unavailable')
+    }
+    const emit = channel.emit.bind(channel)
+    let heldAck: unknown[] | undefined,
+      disconnected = false,
+      exitSeen = false,
+      ackDelivered = false,
+      scheduled = false,
+      stateAtExit: string | undefined
+    // Actual SDK messages and actual OS exit; only their host delivery order is
+    // controlled. No fake exit, fabricated acknowledgement or prompt replacement.
+    const flush = () => {
+      if (!exitSeen || !heldAck || scheduled) {
+        return
+      }
+      scheduled = true
+      setImmediate(() => {
+        emit('message', ...heldAck!)
+        ackDelivered = true
+        if (disconnected) {
+          emit('disconnect')
+        }
+      })
+    }
+    const delivery = vi
+      .spyOn(channel, 'emit')
+      .mockImplementation((event: string | symbol, ...args: unknown[]) => {
+        if (
+          event === 'message' &&
+          args[0] &&
+          typeof args[0] === 'object' &&
+          Reflect.get(args[0], 'type') === 'disposed'
+        ) {
+          heldAck = args
+          flush()
+          return true
+        }
+        if (event === 'disconnect' && !ackDelivered) {
+          disconnected = true
+          return true
+        }
+        const result = emit(event, ...args)
+        if (event === 'exit') {
+          exitSeen = true
+          stateAtExit = kernel.snapshot.state
+          flush()
+        }
+        return result
+      })
+    try {
+      await kernel.dispose()
+      expect(exitSeen).toBe(true)
+      expect(ackDelivered).toBe(true)
+      expect(stateAtExit).toBe('disposing')
+      expect(kernel.snapshot.state).toBe('disposed')
+      expect(alive(kernel.snapshot.pid)).toBe(false)
+    } finally {
+      delivery.mockRestore()
+    }
+  })
+
+  it('keeps disposal failed when IPC closes without a disposal acknowledgement', async () => {
+    const kernel = create('missing-dispose-ack')
+    await kernel.ready()
+    await kernel.dispose()
+    expect(kernel.snapshot.state).toBe('failed')
+    expect(kernel.snapshot.error).toContain('IPC disconnected')
     expect(alive(kernel.snapshot.pid)).toBe(false)
   })
 

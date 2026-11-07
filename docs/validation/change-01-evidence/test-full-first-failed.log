@@ -1,0 +1,78 @@
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+Switched to a new branch '功能/中文'
+HEAD is now at f984d58 offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-KarKAQ/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+ ❯ apps/daemon/test/project-organization.test.ts (9 tests | 1 failed) 31587ms
+   ❯ WS-06 actual SQLite/default directory/SDK local fixture boundaries (9)
+     × atomically dissolves project attribution while preserving live PID/cwd, files, permissions and history, with rollback on failure 5587ms
+ ❯ apps/daemon/test/trust.test.ts (7 tests | 1 failed) 45825ms
+   ❯ SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) (7)
+     × replaces actual provider system context per turn: untrusted, trusted, changed, revoked, cold-resumed 20005ms
+ ❯ apps/daemon/test/session-grants.test.ts (8 tests | 1 failed) 60159ms
+   × sEC-03 individual/all revoke rejects stale reuse; revocation during final asynchronous preflight prevents the already-decided execution 20005ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/project-organization.test.ts > WS-06 actual SQLite/default directory/SDK local fixture boundaries > atomically dissolves project attribution while preserving live PID/cwd, files, permissions and history, with rollback on failure
+AssertionError: expected 'executing' to be 'aborted' // Object.is equality
+
+Expected: "aborted"
+Received: "executing"
+
+ ❯ apps/daemon/test/project-organization.test.ts:410:72
+    408|     await f.kernels.abort(receipt.session.id, receipt.submission.turnI…
+    409|     await vi.waitFor(() =>
+    410|       expect(f.store.submission(receipt.submission.requestId)?.status)…
+       |                                                                        ^
+    411|     )
+    412|     promptSpy.mockImplementation(original)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  apps/daemon/test/session-grants.test.ts > sEC-03 individual/all revoke rejects stale reuse; revocation during final asynchronous preflight prevents the already-decided execution
+Error: Test timed out in 20000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/daemon/test/session-grants.test.ts:242:1
+    240|   }
+    241| })
+    242| test('sEC-03 individual/all revoke rejects stale reuse; revocation dur…
+       | ^
+    243|   const f = await setup()
+    244|   try {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > replaces actual provider system context per turn: untrusted, trusted, changed, revoked, cold-resumed
+Error: Test timed out in 20000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ apps/daemon/test/trust.test.ts:257:3
+    255|   })
+    256|
+    257|   it('replaces actual provider system context per turn: untrusted, tru…
+       |   ^
+    258|     const f = fixture(),
+    259|       dataDir = join(f.directory, 'data'),
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  3 failed | 49 passed (52)
+      Tests  3 failed | 340 passed (343)
+   Start at  22:52:14
+   Duration  97.46s (tests 85%, import 15%)
+
+[ELIFECYCLE] Test failed. See above for more details.

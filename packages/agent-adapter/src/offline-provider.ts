@@ -102,6 +102,35 @@ export async function createOfflineProvider() {
     }
     response.writeHead(200, { 'content-type': 'text/event-stream', 'cache-control': 'no-cache' })
     response.write(frame({ role: 'assistant', content: '' }))
+    if (mode === 'change-chain') {
+      // Real installed SDK executes two separately approved calls across model boundaries.
+      const call =
+        turnRequests === 1
+          ? { name: 'write', args: { path: 'tracked.txt', content: 'first\n' } }
+          : turnRequests === 2
+            ? {
+                name: 'edit',
+                args: { path: 'tracked.txt', edits: [{ oldText: 'first\n', newText: 'second\n' }] },
+              }
+            : null
+      response.end(
+        call
+          ? frame({
+              tool_calls: [
+                {
+                  index: 0,
+                  id: `change-${turnRequests}`,
+                  type: 'function',
+                  function: { name: call.name, arguments: JSON.stringify(call.args) },
+                },
+              ],
+            }) +
+              frame({}, 'tool_calls') +
+              'data: [DONE]\n\n'
+          : frame({ content: 'CHANGE_CHAIN_DONE' }) + frame({}, 'stop') + 'data: [DONE]\n\n',
+      )
+      return
+    }
     if (mode === 'usage') {
       // Explicit local fixture reports deterministic counters; never presented as real billing.
       response.end(
@@ -118,6 +147,7 @@ export async function createOfflineProvider() {
         'approval-command',
         'approval-running',
         'approval-boundary',
+        'directory-command',
       ].includes(mode)
     ) {
       if (turnRequests === 1) {
@@ -126,17 +156,20 @@ export async function createOfflineProvider() {
             ? [{ name: 'write', args: { path: 'APPROVED.txt', content: 'SEC02_APPROVED_ONCE' } }]
             : mode === 'approval-command' ||
                 mode === 'approval-running' ||
-                mode === 'approval-boundary'
+                mode === 'approval-boundary' ||
+                mode === 'directory-command'
               ? [
                   {
                     name: 'powershell',
                     args: {
                       command:
-                        mode === 'approval-boundary'
-                          ? 'Write-Output SEC10_CONTROL > MUST-NOT-EXIST'
-                          : mode === 'approval-running'
-                            ? 'Start-Sleep -Seconds 8'
-                            : 'Set-Content -LiteralPath APPROVAL-COMMAND.txt -Value SEC02_COMMAND_ONCE',
+                        mode === 'directory-command'
+                          ? 'Set-Content -LiteralPath WS04-RUNNING.txt -Value STARTED; Start-Sleep -Seconds 8; Set-Content -LiteralPath WS04-FINISHED.txt -Value FINISHED'
+                          : mode === 'approval-boundary'
+                            ? 'Write-Output SEC10_CONTROL > MUST-NOT-EXIST'
+                            : mode === 'approval-running'
+                              ? 'Start-Sleep -Seconds 8'
+                              : 'Set-Content -LiteralPath APPROVAL-COMMAND.txt -Value SEC02_COMMAND_ONCE',
                     },
                   },
                 ]
@@ -300,11 +333,13 @@ export async function createOfflineProvider() {
       // Unknown tool completion may cause a second SDK model round. Bound it locally.
       requestLimit =
         requests +
-        (fixture === 'queue' || fixture === 'queue-fast'
-          ? 32
-          : fixture.startsWith('guard-') || fixture.startsWith('approval-')
-            ? 2
-            : 1)
+        (fixture === 'change-chain'
+          ? 3
+          : fixture === 'queue' || fixture === 'queue-fast'
+            ? 32
+            : fixture.startsWith('guard-') || fixture.startsWith('approval-')
+              ? 2
+              : 1)
     },
     stats: () => ({ localRequests: requests, blockedNetworkAttempts }),
     async close() {

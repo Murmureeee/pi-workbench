@@ -246,7 +246,7 @@ function ApprovalCard({
           )}
         </div>
         <p>
-          当前未建立可回滚基线。每次允许仍须明确接受本次不可回滚执行；会话授权只匹配所展示的完整参数，不授予系统沙箱权限。
+          文件版本保存不等于可整轮回滚，当前尚无回滚入口。每次允许仍须明确接受本次不可回滚执行；会话授权只匹配所展示的完整参数，不授予系统沙箱权限。
         </p>
       </AlertDescription>
       <AlertDialog
@@ -267,7 +267,7 @@ function ApprovalCard({
                   : '允许本次不可回滚调用？'}
             </AlertDialogTitle>
             <AlertDialogDescription>
-              尚无可回滚基线。{approval.tool} 可能修改文件或产生外部副作用。
+              当前尚无整轮回滚入口。{approval.tool} 可能修改文件或产生外部副作用。
               {confirm === 'once'
                 ? '仅允许指纹对应的这一次调用。'
                 : '会话授权仅匹配此工具、物理目录、目标路径和完整最终参数；不包括其他参数或嵌套调用。撤销不停止已执行动作。'}

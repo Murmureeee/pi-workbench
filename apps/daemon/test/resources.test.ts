@@ -1,5 +1,12 @@
 import { randomUUID } from 'node:crypto'
-import { appendFileSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
+import {
+  appendFileSync,
+  mkdirSync,
+  mkdtempSync,
+  readFileSync,
+  rmSync,
+  writeFileSync,
+} from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import process from 'node:process'
@@ -239,9 +246,9 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
           .queue.filter((item) => item.stage === 'queued')
           .map((item) => [item.sessionId, item.position, item.reason]),
       ).toEqual([
-        [second, 1, 'model-limit'],
-        [third, 2, 'model-limit'],
-        [fourth, 3, 'model-limit'],
+        [second, 1, 'directory-busy'],
+        [third, 2, 'directory-busy'],
+        [fourth, 3, 'directory-busy'],
       ])
       const queuedTurn = f.kernels.resources().queue.find((item) => item.sessionId === second)!.id
       await f.kernels.abort(second, queuedTurn)
@@ -289,21 +296,25 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
   it('applies configurable model concurrency and admits the next task only after a killed SDK is reaped', async () => {
     const f = await fixture({ modelTasks: 2 })
     try {
+      const cwdA = join(f.directory, 'a'),
+        cwdB = join(f.directory, 'b')
+      mkdirSync(cwdA)
+      mkdirSync(cwdB)
       const ids = [randomUUID(), randomUUID(), randomUUID()] as const,
         turns = [randomUUID(), randomUUID()] as const
-      const first = f.kernels.prompt(ids[0], f.directory, {
+      const first = f.kernels.prompt(ids[0], cwdA, {
         turnId: turns[0],
         text: 'crash',
         fixture: 'hold',
       })
       const failed = first.catch((error: unknown) => error)
-      const second = f.kernels.prompt(ids[1], f.directory, {
+      const second = f.kernels.prompt(ids[1], cwdB, {
         turnId: turns[1],
         text: 'survivor',
         fixture: 'hold',
       })
       await Promise.all([streaming(f, ids[0]), streaming(f, ids[1])])
-      const last = f.kernels.prompt(ids[2], f.directory, {
+      const last = f.kernels.prompt(ids[2], cwdA, {
         turnId: randomUUID(),
         text: 'after crash',
       })

@@ -1,0 +1,34 @@
+{
+  "feature": "WS-04",
+  "checkedAt": "2026-11-07T14:04:49.154Z",
+  "source": "CLI hashes only; no credential values copied or displayed",
+  "baselineScope": "Hashes captured during isolated native fixture setup, before any native task submission; not a claimed start-of-development snapshot.",
+  "files": [
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "baselineSha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "finalSha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "pnpm-lock.yaml",
+      "baselineSha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "finalSha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "baselineSha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "finalSha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "baselineSha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "finalSha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "baselineSha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2",
+      "finalSha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ],
+  "differences": []
+}

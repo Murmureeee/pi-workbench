@@ -165,6 +165,17 @@ export const sessionViewSchema = z.strictObject({
   expanded: z.array(z.string()).default([]),
   seenMessages: z.record(z.string(), z.string()).nullable().default(null),
   selectedReference: z.string().nullable().default(null),
+  changeReview: z
+    .strictObject({
+      turnId: z.uuid(),
+      fileId: z
+        .string()
+        .regex(/^[a-f0-9]{64}$/)
+        .nullable(),
+    })
+    .nullable()
+    .default(null),
+  changeReviewOpen: z.boolean().default(false),
   reading: z.record(z.string(), readingPositionSchema).default({}),
 })
 export const sessionViewsSchema = z.record(z.string(), sessionViewSchema)

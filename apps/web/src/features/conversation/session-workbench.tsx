@@ -62,9 +62,12 @@ import { workspaceCommand } from '../../services/workspace-client.js'
 import { sessionDraft, useSessionDrafts } from '../../stores/session-drafts.js'
 import { retainSessionView, sessionView, useSessionViews } from '../../stores/session-views.js'
 import { useWorkbench } from '../../stores/workbench.js'
+import { HistoricalChanges } from '../changes/historical-changes.js'
 import { useWorkspaceAvailability } from '../workspaces/use-workspace-availability.js'
 import { WorkspaceEnvironment } from '../workspaces/workspace-environment.js'
 import { WorkspaceSafety } from '../workspaces/workspace-safety.js'
+import { WorkspaceWriteStatus } from '../workspaces/workspace-write-status.js'
+import { ChangeSnapshots } from './change-snapshots.js'
 import { ManagedThread } from './managed-thread.js'
 import { SessionAuthorizations } from './session-authorizations.js'
 import { SessionHistory } from './session-history.js'
@@ -139,6 +142,17 @@ function SessionPane({
   const historyVisible = view?.panel === 'history' || Boolean(targetMessage)
   const viewStorageFailed = useSessionViews((state) => state.storageFailed)
   const updateView = useSessionViews((state) => state.update)
+  const reviewTrigger = useRef<HTMLButtonElement | null>(null)
+  const closeReview = () => {
+    updateView(key, { changeReviewOpen: false })
+    if (activeView.current) {
+      requestAnimationFrame(() => {
+        if (activeView.current) {
+          ;(reviewTrigger.current?.isConnected ? reviewTrigger.current : textarea.current)?.focus()
+        }
+      })
+    }
+  }
   const draft = drafts[key] ?? sessionDraft(key)
   const navOpen = useWorkbench((state) => state.navOpen),
     toggleNav = useWorkbench((state) => state.toggleNav)
@@ -670,6 +684,19 @@ function SessionPane({
                       : null
                 }
               />
+              {active ? <WorkspaceWriteStatus target={directoryTarget} /> : null}
+              {active && sessionId ? (
+                <ChangeSnapshots
+                  sessionId={sessionId}
+                  review={(turnId, trigger) => {
+                    reviewTrigger.current = trigger
+                    updateView(key, {
+                      changeReview: { turnId, fileId: null },
+                      changeReviewOpen: true,
+                    })
+                  }}
+                />
+              ) : null}
               {active ? (
                 <WorkspaceSafety
                   key={JSON.stringify(directoryTarget)}
@@ -1088,6 +1115,17 @@ function SessionPane({
             <span>真实传输关闭</span>
           </footer>
         </main>
+        {active && sessionId && view?.changeReviewOpen && view.changeReview ? (
+          <HistoricalChanges
+            sessionId={sessionId}
+            turnId={view.changeReview.turnId}
+            fileId={view.changeReview.fileId}
+            close={closeReview}
+            selectFile={(fileId) =>
+              updateView(key, { changeReview: { turnId: view.changeReview!.turnId, fileId } })
+            }
+          />
+        ) : null}
       </div>
       {renaming && active ? (
         <SessionRenameDialog

@@ -1,0 +1,36 @@
+{
+  "feature": "CHANGE-01",
+  "status": "passed",
+  "observations": 80,
+  "normalMenuExits": 2,
+  "hostExitCodes": [
+    0,
+    0
+  ],
+  "providerRequests": 0,
+  "source": "Actual Windows Electron UIA/SendInput, daemon, SQLite, independent Git ledger and SDK with local HTTP fixtures; controlled external edits are host fixture actions.",
+  "checks": {
+    "baselineReady": true,
+    "baselineFailurePaused": true,
+    "cancelledCallNoWrite": true,
+    "explicitSingleUnrecoverableConfirmation": true,
+    "persistedSuccessFailureAbort": true,
+    "queueOwnerAndCancellation": true,
+    "backgroundSamePidEpoch": true,
+    "externalBytesUncertain": true,
+    "lightDark802px": true,
+    "sameDataProfileReadOnlyRestart": true,
+    "versionsUnchanged": true,
+    "jsonlHashesUnchanged": true,
+    "protectedFiveHashesUnchanged": true,
+    "noRestartDispatchKernelApprovalGrant": true
+  },
+  "limits": [
+    "No new real IME evidence; Unicode input uses SendInput/UIA.",
+    "Observations include intermediate or ineffective actions, not individual acceptance assertions.",
+    "Observation 66 unrelated application accessibility attachment excluded.",
+    "Window dimensions are not claimed to persist across restart.",
+    "Queued session without an SDK runtime retains the pre-existing synchronization message.",
+    "No Diff or rollback in CHANGE-01."
+  ]
+}

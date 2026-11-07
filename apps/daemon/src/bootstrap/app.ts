@@ -14,6 +14,10 @@ import {
 } from '@pi-workbench/shared'
 
 import { WorkspaceDatabase } from '../infrastructure/database/database.js'
+import { ChangeProvenanceService } from '../modules/changes/change-provenance.service.js'
+import { ChangeReviewService } from '../modules/changes/change-review.service.js'
+import { ChangeService } from '../modules/changes/change.service.js'
+import { registerChangeTransport } from '../modules/changes/change.transport.js'
 import { EventService } from '../modules/events/event.service.js'
 import { registerEventTransport } from '../modules/events/event.transport.js'
 import { HealthController } from '../modules/health/health.controller.js'
@@ -37,6 +41,7 @@ import { registerSessionCommands } from '../modules/sessions/session-command.tra
 import { SessionService } from '../modules/sessions/session.service.js'
 import { SessionStore } from '../modules/sessions/session.store.js'
 import { registerSessionTransport } from '../modules/sessions/session.transport.js'
+import { DirectoryWriteService } from '../modules/workspaces/directory-write.service.js'
 import { ProjectService } from '../modules/workspaces/project.service.js'
 import { WorkspaceAvailabilityService } from '../modules/workspaces/workspace-availability.service.js'
 import { WorkspaceEnvironmentService } from '../modules/workspaces/workspace-environment.service.js'
@@ -75,6 +80,21 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const access = new AccessService(options.port, security.redactor, Date.now, audit)
   const trust = new TrustService(database, options.piAgentDir, audit)
   const workspaces = new WorkspaceService(database)
+  const writes = new DirectoryWriteService(database, workspaces, security.redactor)
+  let changes: ChangeService
+  let provenance: ChangeProvenanceService
+  let review: ChangeReviewService
+  try {
+    changes = new ChangeService(database, options.dataDir, writes, security.redactor)
+    provenance = new ChangeProvenanceService(database, changes, security.redactor)
+    review = new ChangeReviewService(changes, provenance, security.redactor)
+  } catch (error) {
+    writes.close()
+    access.close()
+    events.close()
+    store.close()
+    throw error
+  }
   const environment = new WorkspaceEnvironmentService(workspaces, store)
   const availability = new WorkspaceAvailabilityService(workspaces, store, trust)
   const models = new ModelService(security)
@@ -87,10 +107,13 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     options.dataDir,
     events,
     store,
+    writes,
+    changes,
     resourceLimits,
     trust,
     executionPolicy,
     approvals,
+    provenance,
   )
   const sessionService = new SessionService(
     options.dataDir,
@@ -127,6 +150,10 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: SessionGrantService, useValue: grants },
       { provide: AuditService, useValue: audit },
       { provide: WorkspaceService, useValue: workspaces },
+      { provide: DirectoryWriteService, useValue: writes },
+      { provide: ChangeService, useValue: changes },
+      { provide: ChangeProvenanceService, useValue: provenance },
+      { provide: ChangeReviewService, useValue: review },
       { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: WorkspaceAvailabilityService, useValue: availability },
       { provide: ModelService, useValue: models },
@@ -168,8 +195,18 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   })
   registerAccessTransport(adapter.getInstance(), access, options.port, Boolean(options.development))
   registerAuditTransport(adapter.getInstance(), audit, access)
+  registerChangeTransport(adapter.getInstance(), changes, store, access, provenance, review)
   registerTrustTransport(adapter.getInstance(), trust, access)
-  registerWorkspaceTransport(adapter.getInstance(), workspaces, access, environment, availability)
+  registerWorkspaceTransport(
+    adapter.getInstance(),
+    workspaces,
+    access,
+    environment,
+    availability,
+    writes,
+    kernels,
+    store,
+  )
   adapter.getInstance().addHook('preHandler', async (request, reply) => {
     if (
       request.url.startsWith('/api/legacy-history') &&

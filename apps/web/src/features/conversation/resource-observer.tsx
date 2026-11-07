@@ -8,6 +8,7 @@ import { Button } from '@pi-workbench/ui/components/button'
 const reasons = {
   'kernel-limit': '内核名额已满，等待空闲内核释放',
   'model-limit': '模型任务名额已满',
+  'directory-busy': '同一物理目录或重叠目录仍被另一轮占用',
   'starting-kernel': '正在等待或启动内核',
   running: '运行中',
 }
@@ -95,16 +96,27 @@ export function ResourceObserver() {
           </section>
           <section aria-label="资源等待队列" className="flex flex-col gap-2">
             <h2>等待队列 · {queued.length}</h2>
-            <p>内核和模型各自按先后顺序排队。取消由任务入口处理；本页仅观察。</p>
+            <p>
+              内核和模型各自按先后顺序排队。目录等待不占用名额，独立目录可继续执行。取消由任务入口处理；本页仅观察。
+            </p>
             {queued.length ? (
               <ul className="flex flex-col gap-3">
                 {queued.map((item) => (
                   <li key={item.id} className="flex flex-col gap-1 wrap-anywhere">
                     <span>
-                      {item.kind === 'kernel' ? '内核' : '模型'}队列 · 第 {item.position} 位 ·{' '}
-                      {reasons[item.reason]}
+                      {item.reason === 'directory-busy'
+                        ? '目录'
+                        : item.kind === 'kernel'
+                          ? '内核'
+                          : '模型'}
+                      队列 · 第 {item.position} 位 · {reasons[item.reason]}
                     </span>
                     <span className="text-muted-foreground">会话 {item.sessionId}</span>
+                    {item.directoryOwner ? (
+                      <span className="text-muted-foreground">
+                        占用会话 {item.directoryOwner.sessionId} · 轮次 {item.directoryOwner.turnId}
+                      </span>
+                    ) : null}
                   </li>
                 ))}
               </ul>

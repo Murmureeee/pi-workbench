@@ -1,0 +1,265 @@
+{
+  "feature": "WS-04",
+  "checkedAt": "2026-11-07T14:04:49.160Z",
+  "status": "passed",
+  "source": "Windows native UIA/SendInput + actual Electron/daemon/SQLite/SDK local HTTP; no CDP, renderer routing or fake kernel. Only explicit fixture selection and controlled external edits.",
+  "environment": "D:\\Project\\pi-workbench\\.workbench\\ws04-native-I53KbY",
+  "kernelSlots": 4,
+  "modelSlots": 3,
+  "observationCount": 82,
+  "observationMeaning": "82 observations include setup, intermediate states and tool failures; they are not 82 independently passed criteria.",
+  "observationFile": "native-authorized/observations.json",
+  "scenarios": [
+    {
+      "name": "queued task names its actual directory owner and turn without dispatch",
+      "passed": true,
+      "observations": [
+        9,
+        16
+      ]
+    },
+    {
+      "name": "queue cancellation leaves owner active and creates no queued SDK runtime",
+      "passed": true,
+      "observations": [
+        18,
+        19
+      ]
+    },
+    {
+      "name": "independent directories run concurrently and retain PID epoch cwd through settings",
+      "passed": true,
+      "observations": [
+        24,
+        27,
+        29
+      ]
+    },
+    {
+      "name": "explicit stop settles independent task and releases its directory",
+      "passed": true,
+      "observations": [
+        31
+      ]
+    },
+    {
+      "name": "actual host edit is detected as uncertain and cannot qualify for automatic rollback",
+      "passed": true,
+      "observations": [
+        33,
+        36,
+        44
+      ]
+    },
+    {
+      "name": "pending approval keeps next same-directory turn queued until settled handoff",
+      "passed": true,
+      "observations": [
+        52,
+        56,
+        61,
+        63,
+        65
+      ]
+    },
+    {
+      "name": "handoff task explicitly stops before exit test",
+      "passed": true,
+      "observations": [
+        67
+      ]
+    },
+    {
+      "name": "same data/profile restart opens history without old authorization or model replay",
+      "passed": true,
+      "observations": [
+        72,
+        75,
+        77,
+        79,
+        82
+      ]
+    }
+  ],
+  "sessions": [
+    {
+      "sessionId": "ab3d3cca-8c59-4a97-bb68-ccae6f11560b",
+      "title": "共享甲写入待审批",
+      "turnId": "edcb9f6f-8e19-40dc-b139-3f7f8b2893a2",
+      "outcome": "completed"
+    },
+    {
+      "sessionId": "a6bc2ebc-2c4b-4fdc-92ad-6229bd83e759",
+      "title": "共享乙等待目录",
+      "turnId": "6b31d0bb-8eee-4731-b59b-57f670bd0c39",
+      "outcome": "aborted"
+    },
+    {
+      "sessionId": "de8f59da-6a27-411d-a6f9-8293be72445a",
+      "title": "独立丙后台持续",
+      "turnId": "0c1caa10-498f-473c-accd-d48c71a2e4b9",
+      "outcome": "aborted"
+    },
+    {
+      "sessionId": "138c47d0-cee8-4d9c-9f5d-2f53798430ba",
+      "title": "共享丁等前轮收尾",
+      "turnId": "15bf5af0-82e6-40d0-9a04-71f7c53e5950",
+      "outcome": "aborted"
+    },
+    {
+      "sessionId": "846d0496-03ad-4bd9-a26c-3e4ea62b5433",
+      "title": "退出前写入待审批",
+      "turnId": "f8a1aa74-908d-4922-8f49-fb9176a8c61e",
+      "outcome": "aborted"
+    }
+  ],
+  "normalMenuExits": 2,
+  "menuEvidence": [
+    "native-authorized/first-menu-exit.json",
+    "native-authorized/second-menu-exit.json"
+  ],
+  "closeEvidence": [
+    "native-authorized/first-closed.json",
+    "native-authorized/restart-closed.json"
+  ],
+  "closeRecordScope": "Most first-closed fields are the last live pre-exit audit (including its pending approval). closed/historyAtClose/protectedAfterClose were collected after exit. Restart audits separately prove authorization invalidation and no replay.",
+  "restart": {
+    "sameDataProfile": true,
+    "prompts": 0,
+    "kernels": 0,
+    "queue": 0,
+    "pendingApprovals": 0,
+    "grants": 0,
+    "historyFiles": 4,
+    "hashesUnchanged": true,
+    "historySha256": {
+      "138c47d0-cee8-4d9c-9f5d-2f53798430ba\\134eb169-ab2b-4663-83f2-60b285fc5216\\sessions\\2026-11-07T11-41-55-619Z_01a1b5d0-b223-74f8-b8e1-8d4ca5a23310.jsonl": "fc7bdc90d21fd1948efb24afa352e665a383387cccbabcf5f76bbc152ade9858",
+      "846d0496-03ad-4bd9-a26c-3e4ea62b5433\\6cf47b88-e16e-4db5-a7af-f4b319be3335\\sessions\\2026-11-07T11-46-16-378Z_01a1b5d4-acba-722b-9ebd-1488a55bf86d.jsonl": "eaf33e390515b8be5d810228be1ff77b0383614d0993dfe26dc53887fd89f41a",
+      "ab3d3cca-8c59-4a97-bb68-ccae6f11560b\\5f742dfa-6b7e-4377-9056-c1a1d3d18fa3\\sessions\\2026-11-07T11-16-48-860Z_01a1b5b9-b45c-718d-8771-86329e399a22.jsonl": "1f04ee73f9470bc81c36ad1f0a62320a9973ae07f18389daa84932ffef2a90fa",
+      "de8f59da-6a27-411d-a6f9-8293be72445a\\531b03fb-5bf3-4251-a596-14a2c7e6723d\\sessions\\2026-11-07T11-22-45-135Z_01a1b5bf-240f-717c-933a-94babb3f6ab1.jsonl": "1dc9cfa3533798925324102c6534109998a1707d9d52ee6fd2ef8451ce9e8cfd"
+    }
+  },
+  "postExit": {
+    "ownedProcesses": 8,
+    "alive": 0,
+    "listeners": 0,
+    "evidence": "native-authorized/final-process-inspection.json"
+  },
+  "images": [
+    {
+      "path": "native-authorized/before-menu-exit-0.jpg",
+      "width": 1920,
+      "height": 1032,
+      "sha256": "e3588c973423e70e83683f583647ba852d81a1d6ff3a9c0f6a69061ead162c8b"
+    },
+    {
+      "path": "native-authorized/dark-802x761-0.jpg",
+      "width": 802,
+      "height": 761,
+      "sha256": "c1246aff19393f77070cd88380a4622ee47fe19b88bb895b92f15d443934ede6"
+    },
+    {
+      "path": "native-authorized/external-edit-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "5ce61af1aac3d0e7c10a9c279f9e1889b42fb48fb4fc25df7d541ffe14b47000"
+    },
+    {
+      "path": "native-authorized/final-parameters-0.jpg",
+      "width": 1920,
+      "height": 1032,
+      "sha256": "f1c865ec7cb64da5f1d4360096a8a89e1fd6e1e5b1b14aef6aa30038e24d077d"
+    },
+    {
+      "path": "native-authorized/independent-running-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "fb44d59fbae57d283946f58e088f4cf6a8ec414fd90c2733b744c6e666d27006"
+    },
+    {
+      "path": "native-authorized/light-802x761-0.jpg",
+      "width": 802,
+      "height": 761,
+      "sha256": "4bc65fa007c9079c8822427d9501d46c7efb999c2b8c25a208cbc0fe6247d880"
+    },
+    {
+      "path": "native-authorized/owner-completed-0.jpg",
+      "width": 1920,
+      "height": 1032,
+      "sha256": "057701034aeaf8deb9aa54ceef8ab894c8af13fbcedd6b8cda1afefdcce6b9f9"
+    },
+    {
+      "path": "native-authorized/owner-pending-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "f31ad753f03a3948eaa3a58cff38f531db5bbfe19453de58f834fbc1b489b19a"
+    },
+    {
+      "path": "native-authorized/queue-cancel-result-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "5719f2edde6a67fcd0861d92292de51979d466422b5e0481b953577c898bf02c"
+    },
+    {
+      "path": "native-authorized/queue-details-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "5a96d38890658f4114c17679e93b015a748b473e6232c1d0797a0f15255c5c43"
+    },
+    {
+      "path": "native-authorized/restart-initial-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "55d287a0afbd3e01f592998ffb813ac5737a2a5731fc8a32099f90854c96790d"
+    },
+    {
+      "path": "native-authorized/restart-old-approval-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "535d83661a4efc1115d94162d1d4fbd746b642d175e853f003ecb52fb14aecbe"
+    },
+    {
+      "path": "native-authorized/restart-provenance-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "362566e35e6f67ef03019e1a30bea8e254d61a834160db2d971524f51d9305f1"
+    },
+    {
+      "path": "native-authorized/shared-queue-0.jpg",
+      "width": 1442,
+      "height": 961,
+      "sha256": "238b013dc26e07b28282bd81026e4324e71eddaadee83e486997391c1c145f8d"
+    }
+  ],
+  "protectedFiles": "protected-audit.json",
+  "providerRequests": 0,
+  "limitations": [
+    "Chinese text entered with Windows UIA set_value; no new real IME evidence.",
+    "Cancelled queued session has no SDK runtime; directory queue and stop control clear, while runtime panel retains waiting-for-reconnect wording. Do not claim it displays stopped.",
+    "Same-file SDK/external mixed bytes and IPC/hard-kill failure cleanup are actual service integration evidence, not manually repeated native scenarios.",
+    "External edit in native test was an explicit host fixture edit to external.txt; SDK separately wrote APPROVED.txt.",
+    "Initial coordinate geometry and theme popup targeting failures were recovered by new observation; drag selection and out-of-window drag refusal were intermediate tool states.",
+    "Maximize animation image included background Codex and is excluded from archived visual evidence; stable product window measured 1920x1032.",
+    "Previous unauthorized-stage setup activation failures and non-menu cleanup remain historical evidence and do not count toward the two native exits.",
+    "Bounded metadata observation cannot prove ownership; no recoverable snapshot, Diff, rollback, OS sandbox, installer or standalone web workflow delivered."
+  ],
+  "automaticValidation": {
+    "vitest": {
+      "files": 51,
+      "passed": 332,
+      "reused": true
+    },
+    "e2e": {
+      "passed": 122,
+      "ws04": 4,
+      "resources": 2,
+      "log": "e2e-authorized-recheck.log"
+    },
+    "fullCI": "All stages passed by reuse plus final full E2E; no new single pnpm run ci invocation.",
+    "frozenClean": "Original frozen install/check/build/332 tests/SDK/start-stop reused; only E2E helper amended with clean check, separately recorded.",
+    "cookieRedaction": {
+      "log": "e2e-authorized-final.log",
+      "scope": "Only temporary fixture cookie header values redacted; original bytes and trace retained in ignored .workbench/ws04-window-failure."
+    }
+  }
+}

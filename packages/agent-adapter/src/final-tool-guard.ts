@@ -98,6 +98,10 @@ export class FinalToolGuard {
     ) => Promise<ExecutionDecision>,
     private readonly final: (request: ExecutionRequest) => void = () => {},
     private readonly executing: (request: ExecutionRequest) => void = () => {},
+    private readonly settled: (
+      request: ExecutionRequest,
+      succeeded: boolean,
+    ) => Promise<void> = async () => {},
   ) {}
 
   observe(callId: string, parentId: string | null): void {
@@ -189,11 +193,15 @@ export class FinalToolGuard {
       }
       this.reads.set(callId, decision.readText)
     }
+    let succeeded = false
     try {
       this.executing(request)
-      return await operation(snapshot)
+      const result = await operation(snapshot)
+      succeeded = true
+      return result
     } finally {
       this.reads.delete(callId)
+      await this.settled(request, succeeded)
     }
   }
 }

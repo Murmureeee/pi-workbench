@@ -1,5 +1,36 @@
 import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
+// Independent file-version references; raw bytes belong only to the private Git ledger.
+export const changeRounds = sqliteTable(
+  'change_rounds',
+  {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    turnId: text('turn_id').notNull().unique(),
+    sessionId: text('session_id').notNull(),
+    directoryKey: text('directory_key').notNull(),
+    cwd: text('cwd').notNull(),
+    outcome: text('outcome').notNull(),
+    data: text('data').notNull(),
+  },
+  (table) => [index('change_rounds_session').on(table.sessionId, table.id)],
+)
+
+// Provenance observations only; live directory leases are never restored from SQLite.
+export const directoryRounds = sqliteTable(
+  'directory_rounds',
+  {
+    turnId: text('turn_id').primaryKey(),
+    sessionId: text('session_id').notNull(),
+    directoryKey: text('directory_key').notNull(),
+    cwd: text('cwd').notNull(),
+    runtimePid: integer('runtime_pid'),
+    state: text('state', { enum: ['active', 'released', 'interrupted', 'quarantined'] }).notNull(),
+    data: text('data').notNull(),
+    startedAt: integer('started_at').notNull(),
+  },
+  (table) => [index('directory_rounds_session').on(table.sessionId, table.startedAt)],
+)
+
 export const workspaceMeta = sqliteTable('workspace_meta', {
   key: text('key').primaryKey(),
   value: text('value').notNull(),
@@ -194,4 +225,16 @@ export const sessionSearchDocuments = sqliteTable(
     folded: text('folded').notNull(),
   },
   (table) => [index('session_search_owner').on(table.sessionId)],
+)
+
+// Host execution observations, never a stored permit; raw parameters and bytes stay private.
+export const changeToolObservations = sqliteTable(
+  'change_tool_observations',
+  {
+    id: integer('id').primaryKey({ autoIncrement: true }),
+    requestId: text('request_id').notNull().unique(),
+    turnId: text('turn_id').notNull(),
+    data: text('data').notNull(),
+  },
+  (table) => [index('change_tool_observations_turn').on(table.turnId, table.id)],
 )

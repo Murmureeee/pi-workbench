@@ -1,7 +1,10 @@
+import type { ChangeProvenanceService } from '../changes/change-provenance.service.js'
+import type { ChangeService } from '../changes/change.service.js'
 import type { EventService } from '../events/event.service.js'
 import type { ApprovalService } from '../security/approval.service.js'
 import type { TrustService } from '../security/trust.service.js'
 import type { SessionStore } from '../sessions/session.store.js'
+import type { DirectoryWriteService } from '../workspaces/directory-write.service.js'
 import type { KernelSnapshot } from '@pi-workbench/agent-adapter'
 import type { ResourceLimits, ResourceSnapshot } from '@pi-workbench/shared'
 
@@ -45,6 +48,8 @@ const promptSchema = z.strictObject({
       'approval-command',
       'approval-running',
       'approval-boundary',
+      'directory-command',
+      'change-chain',
     ])
     .optional(),
 })
@@ -53,6 +58,7 @@ type Result = Awaited<ReturnType<SessionKernel['prompt']>>
 interface Task {
   sessionId: string
   cwd: string
+  directory: { canonicalPath: string; directoryKey: string }
   input: Prompt
   stage: 'queued' | 'acquiring-kernel' | 'running'
   controller: AbortController
@@ -101,6 +107,7 @@ export class KernelService {
   private closing = false
   private disposal: Promise<void> | undefined
   private readonly unsubscribeResources: () => void
+  private readonly directoryTimer: ReturnType<typeof setInterval>
   private inputQueue:
     | {
         take: (
@@ -121,10 +128,13 @@ export class KernelService {
     private readonly dataDir: string,
     private readonly events: EventService,
     private readonly store: SessionStore,
+    private readonly writes: DirectoryWriteService,
+    private readonly changes: ChangeService,
     limits: Partial<ResourceLimits> = {},
     private readonly trust?: TrustService,
     private readonly executionPolicy: ExecutionPolicyService = new ExecutionPolicyService(),
     private readonly approvals?: ApprovalService,
+    private readonly provenance?: ChangeProvenanceService,
   ) {
     this.limits = resourceLimitsSchema.parse(limits)
     this.pool = new KernelPool(
@@ -135,6 +145,10 @@ export class KernelService {
         this.store.hasPendingApproval(sessionId),
     )
     this.unsubscribeResources = this.events.onChange(() => this.pool.changed())
+    // A quarantined prior child may finish after this daemon starts. Poll only admission;
+    // no task is recreated or sent unless the user already explicitly queued it here.
+    this.directoryTimer = setInterval(() => this.drainModels(), 1000)
+    this.directoryTimer.unref()
   }
 
   private create(sessionId: string, cwd: string) {
@@ -174,12 +188,14 @@ export class KernelService {
         if (!current()) {
           throw new Error('Final tool task unavailable')
         }
+        this.writes.assertOwner(turnId, cwd)
         await task?.directoryCheck?.()
         let decision = await this.executionPolicy.decide(
           { sessionId, epoch, turnId, cwd },
           request,
           current,
         )
+        let authorizationCurrent: (() => boolean) | undefined
         if (this.approvals?.rejectedTurn(turnId)) {
           decision = {
             ...decision,
@@ -190,6 +206,19 @@ export class KernelService {
           }
         } else if (!decision.allowed && this.approvals && current()) {
           try {
+            const baseline = await this.changes.baselineBinding(turnId)
+            if (baseline === 'failed' || baseline === 'unavailable') {
+              decision = {
+                ...decision,
+                risk: {
+                  ...decision.risk,
+                  reasons: [
+                    ...decision.risk.reasons.slice(0, 15),
+                    '写入前基线不可用；写入已暂停，仅本次明确确认可接受不可回滚执行。',
+                  ],
+                },
+              }
+            }
             const target = await this.executionPolicy.explicitTarget(
               { sessionId, epoch, turnId, cwd },
               request,
@@ -221,6 +250,7 @@ export class KernelService {
               scope,
             )
             decision = approved.decision
+            authorizationCurrent = approved.authorizationCurrent
             if (decision.allowed) {
               await task?.directoryCheck?.()
               const finalTarget = await this.executionPolicy.explicitTarget(
@@ -231,12 +261,14 @@ export class KernelService {
                 { sessionId, epoch, turnId, cwd },
                 request,
               )
+              const finalBaseline = await this.changes.baselineBinding(turnId)
               if (
                 !current() ||
                 decision.risk.policyVersion !== this.executionPolicy.policyVersion ||
                 this.approvals.rejectedTurn(turnId) ||
                 target !== finalTarget ||
                 scope.key !== finalScope.key ||
+                baseline !== finalBaseline ||
                 !approved.authorizationCurrent()
               ) {
                 throw new Error('批准后的目录、文件、策略或任务已改变；未执行。')
@@ -265,7 +297,37 @@ export class KernelService {
             risk: decision.risk,
           },
         })
+        if (decision.allowed && request.tool !== 'read') {
+          this.writes.assertOwner(turnId, cwd)
+          const target = await this.executionPolicy.explicitTarget(
+            { sessionId, epoch, turnId, cwd },
+            request,
+          )
+          await this.provenance?.begin(turnId, epoch, request, current)
+          const finalTarget = await this.executionPolicy.explicitTarget(
+            { sessionId, epoch, turnId, cwd },
+            request,
+          )
+          if (
+            !current() ||
+            target !== finalTarget ||
+            decision.risk.policyVersion !== this.executionPolicy.policyVersion ||
+            (authorizationCurrent && !authorizationCurrent())
+          ) {
+            throw new Error('工具观察期间目标或许可已失效；未执行。')
+          }
+          this.writes.assertOwner(turnId, cwd)
+        }
         return decision
+      },
+      settleExecution: async (id, digest, succeeded) => {
+        const task = this.tasks.get(sessionId),
+          turnId = kernel.snapshot.turnId
+        if (!task || !turnId || task.input.turnId !== turnId || task.kernel !== kernel) {
+          throw new Error('工具收尾所属轮次无效。')
+        }
+        this.writes.assertOwner(turnId, cwd)
+        await this.provenance?.complete(turnId, id, digest, succeeded)
       },
       ...(resume ? { resume } : {}),
     })
@@ -410,6 +472,18 @@ export class KernelService {
     return this.pool.list()
   }
 
+  /** Host-only view of queued directory ownership. It performs no filesystem IO and never
+   * consumes slots; per-directory positions include model waits as well as occupied roots. */
+  directoryQueue(identity: Task['directory']) {
+    return this.modelQueue
+      .filter((task) => this.writes.overlaps(identity, task.directory))
+      .map((task, index) => ({
+        sessionId: task.sessionId,
+        turnId: task.input.turnId,
+        position: index + 1,
+      }))
+  }
+
   /** Read-only diagnostics. Positions are per resource queue, never a claimed finish time. */
   resources(): ResourceSnapshot {
     const pool = this.pool.snapshot()
@@ -444,11 +518,14 @@ export class KernelService {
           position: task.stage === 'queued' ? this.modelQueue.indexOf(task) + 1 : 0,
           reason:
             task.stage === 'queued'
-              ? 'model-limit'
+              ? this.writes.blocker(task.directory)
+                ? 'directory-busy'
+                : 'model-limit'
               : task.stage === 'running'
                 ? 'running'
                 : 'starting-kernel',
           cancellable: true,
+          directoryOwner: task.stage === 'queued' ? this.writes.blocker(task.directory) : null,
         })),
       ],
     })
@@ -489,6 +566,7 @@ export class KernelService {
       const task: Task = {
         sessionId,
         cwd: canonicalCwd,
+        directory: this.writes.identify(canonicalCwd),
         input: parsed,
         stage: 'queued',
         controller: new AbortController(),
@@ -562,11 +640,33 @@ export class KernelService {
     }
     let count = [...this.tasks.values()].filter((task) => task.stage !== 'queued').length
     while (count < this.limits.modelTasks && this.modelQueue.length) {
-      const task = this.modelQueue.shift()!
+      // Preserve FIFO within an overlapping directory, skipping blocked directories so
+      // they cannot consume a model/kernel slot or starve an independent workspace.
+      const index = this.modelQueue.findIndex(
+        (task, position) =>
+          !this.writes.blocker(task.directory) &&
+          !this.modelQueue.slice(0, position).some((prior) => this.directoriesOverlap(prior, task)),
+      )
+      if (index < 0) {
+        break
+      }
+      const task = this.modelQueue.splice(index, 1)[0]!
+      try {
+        this.writes.reserve(task.directory, task.sessionId, task.input.turnId)
+      } catch (error) {
+        clearTimeout(task.directoryTimer)
+        this.tasks.delete(task.sessionId)
+        task.reject(error)
+        continue
+      }
       task.stage = 'acquiring-kernel'
       count += 1
       void this.run(task).then(task.resolve, task.reject)
     }
+  }
+
+  private directoriesOverlap(first: Task, second: Task): boolean {
+    return this.writes.overlaps(first.directory, second.directory)
   }
 
   private async run(task: Task): Promise<Result> {
@@ -575,7 +675,12 @@ export class KernelService {
     let started = false
     let dispatched = false
     let settled = false
+    let reaped = false
+    let recorded = false
+    let outcome: 'completed' | 'failed' | 'aborted' | 'interrupted' = 'failed'
     try {
+      this.changes.start(task.directory, task.sessionId, task.input.turnId)
+      recorded = true
       if (task.preflight) {
         await task.preflight()
       }
@@ -602,6 +707,16 @@ export class KernelService {
         throw new DOMException('Task cancelled', 'AbortError')
       }
       task.kernel = kernel
+      const pid = kernel.snapshot.pid
+      if (!pid) {
+        throw new Error('Kernel process identity missing')
+      }
+      await this.writes.begin(task.input.turnId, pid)
+      await this.changes.prepare(task.input.turnId)
+      this.writes.assertOwner(task.input.turnId, task.cwd)
+      if (this.closing || task.controller.signal.aborted) {
+        throw new DOMException('Task cancelled', 'AbortError')
+      }
       task.stage = 'running'
       const trustedContext =
         this.trust?.beginTurn(task.cwd, task.sessionId, task.input.turnId) ?? []
@@ -612,24 +727,32 @@ export class KernelService {
         inputQueue: Boolean(this.inputQueue),
       })
       settled = true
+      outcome = result.outcome === 'error' ? 'failed' : result.outcome
       if (task.directoryFailure) {
         throw task.directoryFailure
       }
       return result
     } catch (error) {
-      if (task.directoryFailure) {
+      outcome =
+        (dispatched && !settled) || task.directoryFailure?.dispatched
+          ? 'interrupted'
+          : task.controller.signal.aborted
+            ? 'aborted'
+            : 'failed'
+      if (
+        task.directoryFailure ||
+        (dispatched && !settled) ||
+        kernel?.snapshot.state === 'failed'
+      ) {
         try {
-          // Preserve observations/history, releasing only this invalid runtime's OS handles.
           await this.pool.destroy(task.sessionId)
+          reaped = true
         } catch (cause) {
           throw new KernelExecutionUncertain(
-            'Directory loss runtime shutdown was not acknowledged',
+            'Runtime shutdown was not acknowledged; directory remains quarantined',
             { cause },
           )
         }
-      }
-      if (kernel?.snapshot.state === 'failed') {
-        await this.pool.destroy(task.sessionId)
       }
       // A failed IPC/abort is not an SDK acknowledgement. Reap failed runtimes before
       // publishing a fallback; dispatched work with no result stays uncertain to callers.
@@ -654,9 +777,23 @@ export class KernelService {
       clearTimeout(task.directoryTimer)
       this.approvals?.endTurn(task.input.turnId)
       this.trust?.endTurn(task.input.turnId)
-      release?.()
-      this.tasks.delete(task.sessionId)
-      this.drainModels()
+      try {
+        const safe = settled || !dispatched || reaped
+        let saved = !recorded
+        try {
+          if (recorded) {
+            this.provenance?.settle(task.input.turnId)
+            await this.changes.finish(task.input.turnId, safe, outcome)
+          }
+          saved = true
+        } finally {
+          await this.writes.finish(task.input.turnId, safe && saved)
+        }
+      } finally {
+        release?.()
+        this.tasks.delete(task.sessionId)
+        this.drainModels()
+      }
     }
   }
 
@@ -718,6 +855,7 @@ export class KernelService {
 
   private async close(): Promise<void> {
     this.closing = true
+    clearInterval(this.directoryTimer)
     this.approvals?.close()
     this.unsubscribeResources()
     for (const task of this.modelQueue.splice(0)) {
@@ -733,6 +871,7 @@ export class KernelService {
       this.pool.close(),
       ...[...this.tasks.values()].map((task) => task.promise),
     ])
+    this.writes.close()
     this.events.close()
     this.store.close()
     if (result[0]?.status === 'rejected') {

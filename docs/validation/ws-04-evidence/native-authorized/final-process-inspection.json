@@ -1,0 +1,39 @@
+{
+  "processes": [
+    {
+      "pid": 16172,
+      "alive": false
+    },
+    {
+      "pid": 18540,
+      "alive": false
+    },
+    {
+      "pid": 21272,
+      "alive": false
+    },
+    {
+      "pid": 26256,
+      "alive": false
+    },
+    {
+      "pid": 31336,
+      "alive": false
+    },
+    {
+      "pid": 33016,
+      "alive": false
+    },
+    {
+      "pid": 35324,
+      "alive": false
+    },
+    {
+      "pid": 39584,
+      "alive": false
+    }
+  ],
+  "at": "2026-11-07T11:54:03.8218384Z",
+  "source": "Read-only process and TCP inspection after two native File-menu exits",
+  "listeners": []
+}

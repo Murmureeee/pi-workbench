@@ -1,0 +1,84 @@
+$ pnpm build:packages && node scripts/verify-clean.mjs
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+Clean workspace: pnpm install --frozen-lockfile
+Clean workspace: pnpm check
+Clean workspace: pnpm build
+Clean workspace: pnpm test
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: $ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/.piw-clean-v9M6C3
+
+Switched to a new branch '功能/中文'
+HEAD is now at 5386a11 offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-GAMQBW/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+ ❯ apps/daemon/test/tool-observations.test.ts (2 tests | 1 failed) 1614ms
+   × oBS-03 real HTTP/TCP snapshots/live/replay share safe nested calls; conflicting identities and partial secrets never rebind or leak 1397ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/tool-observations.test.ts > oBS-03 real HTTP/TCP snapshots/live/replay share safe nested calls; conflicting identities and partial secrets never rebind or leak
+AssertionError: expected false to be true // Object.is equality
+
+- Expected
++ Received
+
+- true
++ false
+
+ ❯ apps/daemon/test/tool-observations.test.ts:126:81
+    124|       }
+    125|     })
+    126|     await expect.poll(() => frames.some((frame) => frame.type === 'cau…
+       |                                                                                 ^
+    127|     const initial = view
+    128|     events.publish(f.sessionId, f.epoch, f.turnId, {
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/daemon/test/tool-observations.test.ts:126:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 53 passed (54)
+      Tests  1 failed | 365 passed (366)
+   Start at  03:34:24
+   Duration  115.01s (tests 82%, import 17%, transform 1%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+
+1 !== 0
+
+    at file:///D:/Project/pi-workbench/scripts/verify-clean.mjs:80:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+[ELIFECYCLE] Command failed with exit code 1.

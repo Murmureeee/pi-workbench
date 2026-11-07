@@ -8,8 +8,10 @@ import type {
   WorkspaceRename,
   WorkspaceResult,
 } from '@pi-workbench/shared'
+import type { BigIntStats } from 'node:fs'
 
 import { createHash, randomUUID } from 'node:crypto'
+import { realpathSync, statSync } from 'node:fs'
 import { open, opendir, realpath, stat, unlink } from 'node:fs/promises'
 import { basename, isAbsolute, join, parse, resolve } from 'node:path'
 import process from 'node:process'
@@ -29,6 +31,14 @@ type FailureCode = Extract<WorkspaceResult, { ok: false }>['code']
 type Failure = Extract<WorkspaceResult, { ok: false }>
 type WorkspaceRow = typeof workspaces.$inferSelect
 type DirectoryInspection = { ok: true; canonicalPath: string; directoryKey: string } | Failure
+function physicalKey(info: BigIntStats): string {
+  if (!info.isDirectory() || info.ino === 0n) {
+    throw new Error('目录物理身份不可核验。')
+  }
+  return createHash('sha256')
+    .update(`${process.platform}:${info.dev}:${info.ino}:${info.birthtimeNs}`)
+    .digest('hex')
+}
 const diagnostics: Record<FailureCode, [string, string]> = {
   invalid_path: ['目录路径无效。', '请输入完整的本机绝对路径，或重新选择文件夹。'],
   not_found: ['目录不存在或已被移动。', '恢复原目录后重试，或选择其他目录；原记录与会话保留。'],
@@ -98,6 +108,13 @@ function classify(error: unknown, stage: 'resolve' | 'read' | 'write'): Failure 
  */
 export class WorkspaceService {
   constructor(private readonly database: WorkspaceDatabase) {}
+
+  /** Host-only admission identity, using the registry's exact OS fingerprint. No probe,
+   * registration, recency or authorization changes. A later guard must recheck it. */
+  executionIdentity(path: string): { canonicalPath: string; directoryKey: string } {
+    const canonicalPath = realpathSync(path)
+    return { canonicalPath, directoryKey: physicalKey(statSync(canonicalPath, { bigint: true })) }
+  }
 
   /** Display metadata only; callers must validate identity/access before execution. */
   lookup(id: string) {
@@ -392,9 +409,7 @@ export class WorkspaceService {
       if (before.ino === 0n) {
         return failed('unavailable')
       }
-      directoryKey = createHash('sha256')
-        .update(`${process.platform}:${before.dev}:${before.ino}:${before.birthtimeNs}`)
-        .digest('hex')
+      directoryKey = physicalKey(before)
       if (expectedKey && expectedKey !== directoryKey) {
         return failed('directory_changed')
       }

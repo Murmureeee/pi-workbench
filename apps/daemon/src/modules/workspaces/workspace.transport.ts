@@ -1,4 +1,7 @@
+import type { KernelService } from '../kernels/kernel.service.js'
 import type { AccessService } from '../security/access.service.js'
+import type { SessionStore } from '../sessions/session.store.js'
+import type { DirectoryWriteService } from './directory-write.service.js'
 import type { WorkspaceAvailabilityService } from './workspace-availability.service.js'
 import type { WorkspaceEnvironmentService } from './workspace-environment.service.js'
 import type { WorkspaceService } from './workspace.service.js'
@@ -7,6 +10,7 @@ import type { FastifyInstance } from 'fastify'
 import { HttpException, NotFoundException } from '@nestjs/common'
 
 import {
+  directoryWriteStatusSchema,
   workspaceEditSchema,
   workspaceEnvironmentTargetSchema,
   workspaceOpenSchema,
@@ -24,6 +28,9 @@ export function registerWorkspaceTransport(
   access: AccessService,
   environment: WorkspaceEnvironmentService,
   availability: WorkspaceAvailabilityService,
+  writes: DirectoryWriteService,
+  kernels: KernelService,
+  sessions: SessionStore,
 ) {
   const desktopPaths = new Set(
     [
@@ -35,8 +42,49 @@ export function registerWorkspaceTransport(
       'environment',
       'availability',
       'recover',
+      'write-status',
     ].map((operation) => `/api/workspaces/${operation}`),
   )
+  server.get('/api/workspaces/write-status', async (request, reply) => {
+    const parsed = workspaceEnvironmentTargetSchema.safeParse(request.query)
+    if (!parsed.success) {
+      return reply.code(400).send({ message: '目录观察身份无效。' })
+    }
+    const target = parsed.data
+    const session = 'sessionId' in target ? sessions.executionEnvironment(target.sessionId) : null
+    if ('sessionId' in target && !session) {
+      return reply.code(404).send({ message: '会话不存在。' })
+    }
+    const workspace = workspaces.lookupRecord(
+      session?.workspaceId ?? ('workspaceId' in target ? target.workspaceId : ''),
+    )
+    if (!workspace) {
+      return reply.code(404).send({ message: '工作区记录不存在。' })
+    }
+    const cwd = session?.cwd ?? workspace.canonicalPath
+    try {
+      const checked = await workspaces.environmentDirectory(workspace.id, cwd)
+      const available = checked.ok && cwd === workspace.canonicalPath
+      let identity: ReturnType<DirectoryWriteService['identify']> | undefined
+      if (checked.ok) {
+        identity = { canonicalPath: checked.canonicalPath, directoryKey: checked.directoryKey }
+      }
+      return directoryWriteStatusSchema.parse({
+        target,
+        cwd,
+        available,
+        owner: identity
+          ? writes.blocker(identity)
+          : 'sessionId' in target
+            ? writes.ownerForSession(target.sessionId)
+            : null,
+        queue: identity ? kernels.directoryQueue(identity) : [],
+        latest: session ? writes.latest('sessionId' in target ? target.sessionId : '') : null,
+      })
+    } catch {
+      return reply.code(503).send({ message: '目录占用与来源暂未同步；保留原任务，请稍后刷新。' })
+    }
+  })
   server.addHook('preHandler', async (request, reply) => {
     if (
       desktopPaths.has(request.url.split('?')[0]!) &&

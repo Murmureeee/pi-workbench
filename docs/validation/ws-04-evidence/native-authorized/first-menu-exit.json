@@ -1,0 +1,18 @@
+{
+  "at": "2026-11-07T11:48:10.057Z",
+  "action": "Native File menu -> End -> Return",
+  "window": {
+    "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+    "id": 788434,
+    "title": "退出前写入待审批 · Pi Workbench"
+  },
+  "remaining": [
+    {
+      "app": "process:D:\\Project\\pi-workbench\\node_modules\\.pnpm\\electron@45.2.1\\node_modules\\electron\\dist\\electron.exe",
+      "id": 788434,
+      "title": "退出前写入待审批 · Pi Workbench"
+    }
+  ],
+  "completedAt": "2026-11-07T11:48:50.670Z",
+  "remainingAfterClose": []
+}

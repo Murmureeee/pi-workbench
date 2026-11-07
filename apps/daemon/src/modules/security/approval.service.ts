@@ -160,7 +160,9 @@ export class ApprovalService {
     }
     const allowing = ['allow-once', 'allow-session', 'use-grant'].includes(command.action)
     if (allowing && !command.acceptIrreversible) {
-      throw new ConflictException('尚未明确接受本次无回滚基线的执行；未执行。')
+      throw new ConflictException(
+        '尚未明确接受本次不可回滚执行；文件版本保存不提供回滚入口，未执行。',
+      )
     }
     let grantId: string | null = null
     if (command.action === 'use-grant') {

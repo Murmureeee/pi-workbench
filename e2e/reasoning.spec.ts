@@ -110,8 +110,8 @@ test('OBS-06 actual Electron states, late/cross-session isolation, background fo
     const capture = async (colorScheme: 'light' | 'dark') => {
       await page.emulateMedia({ colorScheme })
       await page.setViewportSize({ width: 800, height: 760 })
+      await trigger.scrollIntoViewIfNeeded()
       await trigger.focus()
-      await page.keyboard.press('End')
       await expect(trigger).toBeVisible()
       await expect(trigger).toBeInViewport()
       expect(
