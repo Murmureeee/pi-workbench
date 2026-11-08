@@ -17,6 +17,7 @@ import {
 } from '@pi-workbench/ui/components/dialog'
 
 import { sessionJson } from '../../services/session-client.js'
+import { ChangeCoveragePanel } from './change-coverage.js'
 import { sourceLabel } from './change-labels.js'
 import { ReviewDecisions } from './review-decisions.js'
 import { RollbackActions } from './rollback-actions.js'
@@ -195,6 +196,7 @@ function ReviewBody({
         </p>
       </section>
       {list.isPending ? <output>正在核对历史文件版本…</output> : null}
+      <ChangeCoveragePanel sessionId={sessionId} turnId={turnId} />
       {list.isError ? (
         <Alert variant="destructive">
           <AlertTitle>历史文件列表未同步</AlertTitle>

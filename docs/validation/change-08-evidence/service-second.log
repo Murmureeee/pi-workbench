@@ -1,0 +1,26 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/change-coverage.test.ts (9 tests | 1 failed) 28233ms
+   × cHANGE-08 corrupt-object disables restore and preserves immutable metadata, decisions and current files 2530ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-coverage.test.ts > cHANGE-08 corrupt-object disables restore and preserves immutable metadata, decisions and current files
+Error: EPERM: operation not permitted, open 'C:\Users\Murmure\AppData\Local\Temp\piw-change-chain-hTwUuL\data\ledger\e5da4027c1559846bb762d58bd391f8e2ee9b1564b76144ce16dd99ed43b7cd2\objects.git\objects\8d\c35dbb0f20a03e058b12c8cc3bcb84f8e0964c'
+ ❯ apps/daemon/test/change-coverage.test.ts:302:9
+    300|           bytes = readFileSync(path)
+    301|         bytes[0] = 0
+    302|         writeFileSync(path, bytes)
+       |         ^
+    303|       }
+    304|       expect(await changes(f).coverage(t.turnId)).toMatchObject({
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  21:04:29
+   Duration  30.01s (tests 94%, import 5%)
+

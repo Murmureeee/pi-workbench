@@ -90,7 +90,16 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   let provenance: ChangeProvenanceService
   let review: ChangeReviewService
   try {
-    changes = new ChangeService(database, options.dataDir, writes, security.redactor)
+    if (options.ledgerCapacityBytes !== undefined && !options.development) {
+      throw new Error('Ledger capacity overrides require an isolated development host')
+    }
+    changes = new ChangeService(
+      database,
+      options.dataDir,
+      writes,
+      security.redactor,
+      options.ledgerCapacityBytes,
+    )
     provenance = new ChangeProvenanceService(database, changes, security.redactor)
     review = new ChangeReviewService(changes, provenance, security.redactor)
   } catch (error) {

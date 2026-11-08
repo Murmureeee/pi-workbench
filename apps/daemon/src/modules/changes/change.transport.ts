@@ -39,7 +39,7 @@ export function registerChangeTransport(
       return reply.code(503).send({ message: '文件版本记录暂不可读，现场与任务保留，请重新同步。' })
     }
   })
-  for (const mode of ['sources', 'review', 'diff', 'availability'] as const) {
+  for (const mode of ['sources', 'review', 'diff', 'availability', 'coverage'] as const) {
     server.get(`/api/changes/${mode}`, async (request, reply) => {
       if (access.authenticate(request.headers.cookie)?.info.kind !== 'desktop') {
         return reply.code(403).send({ message: '修改审查目前仅向已配对Electron开放。' })
@@ -63,6 +63,9 @@ export function registerChangeTransport(
         return reply.code(404).send({ message: '会话或轮次不存在。' })
       }
       try {
+        if (mode === 'coverage') {
+          return await changes.coverage(turnId)
+        }
         if (mode === 'sources') {
           return await provenance.sources(turnId, 'offset' in query.data ? query.data.offset : 0)
         }

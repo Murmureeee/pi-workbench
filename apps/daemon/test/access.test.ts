@@ -326,7 +326,14 @@ describe('SEC-08 actual daemon REST and native TCP WebSocket boundary', () => {
         text: 'held SDK local fixture',
         fixture: 'hold',
       })
-      await expect.poll(() => events.snapshot(sessionId)?.turns[0]?.text).toBe('OFFLINE_')
+      // Prompt now includes the protected baseline and capacity checks before SDK output.
+      // Give real disk/child IO time under the full suite; keep the streaming assertion.
+      await expect
+        .poll(() => events.snapshot(sessionId)?.turns[0]?.text, {
+          timeout: 15000,
+          interval: 50,
+        })
+        .toBe('OFFLINE_')
       const closed = new Promise<number>((resolve) =>
         a.socket.once('close', (code) => resolve(code)),
       )

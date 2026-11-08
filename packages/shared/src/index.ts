@@ -273,3 +273,4 @@ export {
 export type { RollbackRecord, RollbackTarget, RollbackCommand } from './change-rollback.js'
 export * from './change-availability.js'
 export * from './change-decisions.js'
+export * from './change-coverage.js'

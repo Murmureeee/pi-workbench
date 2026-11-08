@@ -1,0 +1,3 @@
+$ node scripts/planning/build-roadmap.mjs && node scripts/planning/build-prd.mjs
+{"validated":true,"revision":"d6be541ae726","total":146,"core":133,"optional":13,"verified":47,"percent":35,"active":5,"blocked":0,"detailed":60,"generated":["docs/product/roadmap.html","docs/product/feature-list.md"],"imported":false}
+{"generated":"docs/product/prd.html","revision":"6639f3865f37","selfContained":true,"featureSections":11,"journeys":16,"modules":19,"mappedFeatures":146,"verified":47}

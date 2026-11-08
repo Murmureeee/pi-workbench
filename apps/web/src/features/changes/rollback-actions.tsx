@@ -19,6 +19,7 @@ import {
   DialogTitle,
 } from '@pi-workbench/ui/components/dialog'
 
+import { useChangeCoverage } from '../../services/change-coverage.js'
 import { sessionJson } from '../../services/session-client.js'
 import { rollbackStateLabel } from './rollback-labels.js'
 
@@ -36,6 +37,7 @@ export function RollbackActions({
 }) {
   const cache = useQueryClient(),
     access = accessSnapshotSchema.parse(cache.getQueryData(['client-access']))
+  const coverage = useChangeCoverage(sessionId, turnId)
   const [record, setRecord] = useState<RollbackRecord | null>(null),
     [confirmationId, setConfirmationId] = useState<string | null>(null)
   const [busy, setBusy] = useState(false),
@@ -119,6 +121,7 @@ export function RollbackActions({
       setOpen(false)
       void cache.invalidateQueries({ queryKey: ['change-rollback', sessionId] })
       void cache.invalidateQueries({ queryKey: ['change-availability'] })
+      void cache.invalidateQueries({ queryKey: ['change-coverage', sessionId, turnId] })
       void cache.invalidateQueries({ queryKey: ['change-decisions', sessionId, turnId] })
     } catch (e) {
       if (alive.current && version === attempt.current) {
@@ -153,6 +156,7 @@ export function RollbackActions({
         }
         store(value)
         void cache.invalidateQueries({ queryKey: ['change-availability'] })
+        void cache.invalidateQueries({ queryKey: ['change-coverage', sessionId, turnId] })
         void cache.invalidateQueries({ queryKey: ['change-decisions', sessionId, turnId] })
       }
     } catch (e) {
@@ -166,10 +170,17 @@ export function RollbackActions({
     }
   }
   const conflict = record?.files.some((f) => f.conflict) ?? false
+  const scopeUnavailable =
+    coverage.isError || coverage.isFetching || !coverage.data?.rollbackAvailable
   return (
     <section aria-label={fileId ? '整文件回滚' : '整轮回滚'} className="rollback-actions">
       <div className="flex flex-wrap gap-2">
-        <Button variant="outline" size="sm" disabled={busy} onClick={() => void prepare()}>
+        <Button
+          variant="outline"
+          size="sm"
+          disabled={busy || scopeUnavailable}
+          onClick={() => void prepare()}
+        >
           {fileId ? '预检整文件回滚' : '预检整轮回滚'}
         </Button>
         <Button variant="ghost" size="sm" disabled={busy} onClick={() => void reconcile()}>
@@ -232,6 +243,7 @@ export function RollbackActions({
               </AlertDescription>
             </Alert>
           ) : null}
+          {scopeUnavailable ? <p>回滚范围已失效或尚未同步；请返回重新核对范围与版本。</p> : null}
           <DialogFooter>
             <Button variant="outline" disabled={busy} onClick={() => void command('cancel')}>
               取消本次回滚
@@ -239,17 +251,25 @@ export function RollbackActions({
             {external ? (
               <Button
                 variant="destructive"
-                disabled={busy}
+                disabled={busy || scopeUnavailable}
                 onClick={() => void command('confirm-external')}
               >
                 明确覆盖以上外部或未知内容并回滚
               </Button>
             ) : conflict ? (
-              <Button variant="outline" disabled={busy} onClick={() => setExternal(true)}>
+              <Button
+                variant="outline"
+                disabled={busy || scopeUnavailable}
+                onClick={() => setExternal(true)}
+              >
                 单独确认覆盖…
               </Button>
             ) : (
-              <Button variant="destructive" disabled={busy} onClick={() => void command('confirm')}>
+              <Button
+                variant="destructive"
+                disabled={busy || scopeUnavailable}
+                onClick={() => void command('confirm')}
+              >
                 确认回到本轮基线
               </Button>
             )}

@@ -28,6 +28,7 @@ import {
 } from '@pi-workbench/ui/components/trace'
 
 import { sessionJson } from '../../services/session-client.js'
+import { CoverageSummary } from '../changes/change-coverage.js'
 
 /** Live authority is always fetched, never rebuilt from historical approvals. Unloading this
  * view releases only its query; no decision, timeout or execution follows from losing a UI. */
@@ -248,6 +249,7 @@ function ApprovalCard({
         <p>
           文件版本保存不保证本次调用可整轮回滚。每次允许仍须明确接受本次不可回滚执行；会话授权只匹配所展示的完整参数，不授予系统沙箱权限。
         </p>
+        <CoverageSummary value={approval.rollbackCoverage} />
       </AlertDescription>
       <AlertDialog
         open={Boolean(confirm) && active}

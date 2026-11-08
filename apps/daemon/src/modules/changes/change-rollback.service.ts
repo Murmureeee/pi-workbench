@@ -379,6 +379,24 @@ export class ChangeRollbackService {
       reserved = true
       await this.writes.begin(record.id, process.pid)
       this.writes.assertOwner(record.id, identity.canonicalPath)
+      // Preflight buffers are not a surviving authorization to use a lost version.
+      // Verify the originally bound refs inside the physical lease, before new capture/IO.
+      try {
+        if (!record.baselineReference || !record.finalReference) {
+          throw new Error('缺少原版本引用。')
+        }
+        await this.changes.ledger.verify(
+          identity,
+          record.turnId,
+          'baseline',
+          record.baselineReference,
+        )
+        await this.changes.ledger.verify(identity, record.turnId, 'final', record.finalReference)
+      } catch (error) {
+        throw new ConflictException(
+          `历史版本失效或无法核对，整批未写入；${this.redactor.text(error instanceof Error ? error.message : '版本不可读。')}`,
+        )
+      }
       await this.changes.ledger.assertRestoreTargets(
         identity,
         targets.map((t) => t.path),

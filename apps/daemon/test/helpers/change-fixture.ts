@@ -12,7 +12,7 @@ import { KernelService } from '../../dist/modules/kernels/kernel.service.js'
 
 /** Actual SQLite, independent ledger and installed SDK + local HTTP. Mutations supplied
  * by collect are explicitly external fixture writes, never synthetic agent provenance. */
-export async function setupChangeFixture() {
+export async function setupChangeFixture(ledgerCapacityBytes?: number) {
   const root = mkdtempSync(join(tmpdir(), 'piw-change-chain-')),
     cwd = join(root, '中文目录'),
     dataDir = join(root, 'data')
@@ -22,6 +22,7 @@ export async function setupChangeFixture() {
     port: 24477,
     development: true,
     resourceLimits: { kernels: 4, modelTasks: 3 },
+    ledgerCapacityBytes,
   })
   const start = (sessionId: string = randomUUID(), path = cwd) => {
     const turnId = randomUUID(),
@@ -76,6 +77,7 @@ export async function setupChangeFixture() {
         port: 24477,
         development: true,
         resourceLimits: { kernels: 4, modelTasks: 3 },
+        ledgerCapacityBytes,
       })
     },
     close: async () => {

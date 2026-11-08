@@ -1,0 +1,63 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/change-coverage.test.ts (13 tests | 2 failed | 11 skipped) 6919ms
+   × cHANGE-08 baseline reference lost after preflight rejects the consumed confirmation before any workspace write 3599ms
+   × cHANGE-08 final reference lost after preflight rejects the consumed confirmation before any workspace write 3319ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-coverage.test.ts > cHANGE-08 baseline reference lost after preflight rejects the consumed confirmation before any workspace write
+AssertionError: expected { …(19) } to match object { state: 'conflict', …(1) }
+(17 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "beforeReference": null,
+-   "state": "conflict",
++   "beforeReference": "73a3a1fe3513888765c3421625374d00b27af98b",
++   "state": "succeeded",
+  }
+
+ ❯ apps/daemon/test/change-coverage.test.ts:472:20
+    470|     git(f, 'update-ref', '-d', `refs/piw/${t.turnId}/${phase}`)
+    471|     const result = await f.app.get(ChangeRollbackService).command({ se…
+    472|     expect(result).toMatchObject({ state: 'conflict', beforeReference:…
+       |                    ^
+    473|     expect(result.diagnostic).toContain('历史版本失效')
+    474|     expect(result.files.every(file => !file.written)).toBe(true)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/daemon/test/change-coverage.test.ts > cHANGE-08 final reference lost after preflight rejects the consumed confirmation before any workspace write
+AssertionError: expected { …(19) } to match object { state: 'conflict', …(1) }
+(17 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "beforeReference": null,
+-   "state": "conflict",
++   "beforeReference": "4c3c8b1dab84de2b5f820e985b83305f57277160",
++   "state": "succeeded",
+  }
+
+ ❯ apps/daemon/test/change-coverage.test.ts:472:20
+    470|     git(f, 'update-ref', '-d', `refs/piw/${t.turnId}/${phase}`)
+    471|     const result = await f.app.get(ChangeRollbackService).command({ se…
+    472|     expect(result).toMatchObject({ state: 'conflict', beforeReference:…
+       |                    ^
+    473|     expect(result.diagnostic).toContain('历史版本失效')
+    474|     expect(result.files.every(file => !file.written)).toBe(true)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 11 skipped (13)
+   Start at  21:41:50
+   Duration  8.71s (tests 80%, import 18%, transform 1%)
+

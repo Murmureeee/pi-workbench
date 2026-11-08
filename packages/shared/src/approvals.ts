@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { changeCoverageSchema } from './change-coverage.js'
 import { toolRiskSchema } from './execution-policy.js'
 
 /** Display-only approval snapshot. The digest binds the original final parameters even when
@@ -17,6 +18,7 @@ export const executionApprovalSchema = z.strictObject({
   risk: toolRiskSchema,
   createdAt: z.number().int().nonnegative(),
   irreversible: z.literal(true),
+  rollbackCoverage: changeCoverageSchema.nullable().default(null),
   sessionPermission: z.strictObject({
     eligible: z.boolean(),
     matchingGrantId: z.uuid().nullable(),

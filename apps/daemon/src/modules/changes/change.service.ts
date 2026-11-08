@@ -1,10 +1,17 @@
 import type { WorkspaceDatabase } from '../../infrastructure/database/database.js'
 import type { DirectoryWriteService } from '../workspaces/directory-write.service.js'
-import type { ChangeRound, FileSnapshot, Redactor } from '@pi-workbench/shared'
+import type { ChangeCoverage, ChangeRound, FileSnapshot, Redactor } from '@pi-workbench/shared'
+
+import { isAbsolute, relative, sep } from 'node:path'
 
 import { and, desc, eq, gt, lt } from 'drizzle-orm'
 
-import { changeHistorySchema, changeRoundSchema } from '@pi-workbench/shared'
+import {
+  changeCoverageSchema,
+  changeHistorySchema,
+  changeRoundSchema,
+  fileLedgerPolicy,
+} from '@pi-workbench/shared'
 
 import { changeRounds } from '../../infrastructure/database/schema.js'
 import { FileLedger } from '../../infrastructure/ledger/file-ledger.js'
@@ -30,8 +37,9 @@ export class ChangeService {
     dataDir: string,
     private readonly writes: DirectoryWriteService,
     private readonly redactor: Redactor,
+    capacityBytes?: number,
   ) {
-    this.ledger = new FileLedger(dataDir)
+    this.ledger = new FileLedger(dataDir, capacityBytes)
     writes.setSettlementCheck((turnId) => {
       try {
         return (
@@ -220,6 +228,121 @@ export class ChangeService {
   /** Host-only immutable context. Never accepts a client filesystem path. */
   context(turnId: string) {
     return this.row(turnId)
+  }
+
+  /** Display-only scope from verified immutable versions. No permission or source proof.
+   * A missing version disables restoration, without replacing its historical metadata.
+   * Invocation paths come only from the final host guard, never a renderer path query. */
+  async coverage(
+    turnId: string,
+    invocation?: { tool: string; targetPath: string | null; parameters: string },
+  ): Promise<ChangeCoverage> {
+    const { record, identity } = this.row(turnId),
+      storage = await this.ledger.capacity(identity)
+    const reasons: string[] = []
+    let valid = true,
+      targetProtected = true,
+      files = record.baseline.files,
+      checking = '写入前基线版本／引用'
+    const phase = invocation ? 'baseline' : 'round'
+    try {
+      const before = await this.snapshotFiles(turnId, 'baseline')
+      if (!invocation) {
+        checking = '轮次收尾版本／引用'
+        const after = await this.snapshotFiles(turnId, 'final')
+        files = new Set([...before.keys(), ...after.keys()]).size
+      } else if (!['write', 'edit'].includes(invocation.tool)) {
+        targetProtected = false
+        reasons.push('仅部分文件字节可能受保护；命令的目录外文件、网络、进程等外部副作用不可回滚。')
+      } else if (!invocation.targetPath) {
+        targetProtected = false
+        reasons.push('目标路径未获得物理目录证明，不在可回滚范围。')
+      } else {
+        checking = '本次目标范围'
+        const path = relative(identity.canonicalPath, invocation.targetPath).split(sep).join('/')
+        if (!path || path.startsWith('../') || isAbsolute(path)) {
+          throw new Error('目录外目标不在可回滚范围。')
+        }
+        await this.ledger.assertRestoreTargets(identity, [path])
+        const excluded = record.baseline.exclusions.find(
+          (e) => path === e.path || path.startsWith(e.path + '/'),
+        )
+        if (excluded) {
+          throw new Error(`目标未进入基线：${excluded.reason}。`)
+        }
+        if (invocation.tool === 'write') {
+          const parameters: unknown = JSON.parse(invocation.parameters)
+          if (
+            parameters &&
+            typeof parameters === 'object' &&
+            'content' in parameters &&
+            typeof parameters.content === 'string' &&
+            Buffer.byteLength(parameters.content) > fileLedgerPolicy.fileBytes
+          ) {
+            throw new Error('新内容超过单文件5 MiB限制，不保证收尾可恢复。')
+          }
+        }
+        reasons.push('目标属于受限普通文件字节；基线已验证，收尾成功后仍须重新预检和明确确认。')
+      }
+    } catch (error) {
+      valid = false
+      reasons.push(
+        `${checking}无法验证；${this.redactor.text(error instanceof Error ? error.message : '文件版本不可读。')}`,
+      )
+    }
+    const excluded = record.baseline.excluded > 0 || (!invocation && record.final.excluded > 0)
+    if (excluded) {
+      reasons.push('存在忽略、链接或其他排除项；版本只覆盖实际收录的文件字节。')
+    }
+    if (record.baseline.status !== 'ready') {
+      reasons.push(
+        record.baseline.diagnostic ?? '基线不可用，写入暂停；仅单次明确确认可进入不可回滚模式。',
+      )
+    }
+    if (!invocation && record.final.status !== 'ready') {
+      reasons.push(record.final.diagnostic ?? '轮次尚未落稳或收尾不可用，禁止回滚。')
+    }
+    if (storage.state === 'warning') {
+      reasons.push('账本容量达到80%预警；旧版本全部保留，不自动回收。')
+    }
+    if (storage.state === 'full') {
+      reasons.push('账本容量已满，新采集暂停；回滚需要保存操作前版本，当前不可执行。')
+    }
+    if (storage.state === 'unavailable') {
+      reasons.push(storage.diagnostic!)
+    }
+    return changeCoverageSchema.parse(
+      this.redactor.value({
+        sessionId: record.sessionId,
+        turnId,
+        checkedAt: Date.now(),
+        basis: phase,
+        state: !valid ? 'none' : excluded || !targetProtected ? 'partial' : 'full',
+        rollbackAvailable:
+          !invocation &&
+          valid &&
+          record.outcome !== 'active' &&
+          !['full', 'unavailable'].includes(storage.state),
+        files,
+        reasons,
+        exclusions: [
+          ...new Map(
+            [...record.baseline.exclusions, ...(!invocation ? record.final.exclusions : [])].map(
+              (e) => [JSON.stringify([e.path, e.reason]), e],
+            ),
+          ).values(),
+        ],
+        baselineExcluded: record.baseline.excluded,
+        finalExcluded: invocation ? 0 : record.final.excluded,
+        limits: {
+          fileBytes: fileLedgerPolicy.fileBytes,
+          snapshotBytes: fileLedgerPolicy.snapshotBytes,
+          entries: fileLedgerPolicy.entries,
+          depth: fileLedgerPolicy.depth,
+        },
+        storage,
+      }),
+    )
   }
 
   /** Bounded physical-directory chain, including other sessions and interrupted rounds.

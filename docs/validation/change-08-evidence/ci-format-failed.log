@@ -1,0 +1,13 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+apps/daemon/test/change-coverage.test.ts (1ms)
+e2e/change-coverage.spec.ts (0ms)
+
+Format issues found in above 2 files. Run without `--check` to fix.
+Finished in 378ms on 378 files using 20 threads.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

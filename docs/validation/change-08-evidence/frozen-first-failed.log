@@ -1,0 +1,86 @@
+$ pnpm build:packages && node scripts/verify-clean.mjs
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+Clean workspace: pnpm install --frozen-lockfile
+Clean workspace: pnpm check
+Clean workspace: pnpm build
+Clean workspace: pnpm test
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: $ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/.piw-clean-n6sQRL
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+ ❯ apps/daemon/test/access.test.ts (7 tests | 1 failed) 6480ms
+   ❯ SEC-08 actual daemon REST and native TCP WebSocket boundary (4)
+     × rejects unpaired TCP upgrades; revocation disconnects one live observer without cancelling SDK work or another client 4603ms
+Switched to a new branch '功能/中文'
+HEAD is now at da6af0b offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-QOSH45/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/access.test.ts > SEC-08 actual daemon REST and native TCP WebSocket boundary > rejects unpaired TCP upgrades; revocation disconnects one live observer without cancelling SDK work or another client
+AssertionError: expected '' to be 'OFFLINE_' // Object.is equality
+
+- Expected
++ Received
+
+- OFFLINE_
+
+ ❯ apps/daemon/test/access.test.ts:329:75
+    327|         fixture: 'hold',
+    328|       })
+    329|       await expect.poll(() => events.snapshot(sessionId)?.turns[0]?.te…
+       |                                                                           ^
+    330|       const closed = new Promise<number>((resolve) =>
+    331|         a.socket.once('close', (code) => resolve(code)),
+
+Caused by: Error: Matcher did not succeed in time.
+ ❯ apps/daemon/test/access.test.ts:329:7
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 58 passed (59)
+      Tests  1 failed | 397 passed (398)
+   Start at  22:12:39
+   Duration  125.43s (tests 87%, import 13%, transform 1%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+
+1 !== 0
+
+    at file:///D:/Project/pi-workbench/scripts/verify-clean.mjs:80:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+[ELIFECYCLE] Command failed with exit code 1.

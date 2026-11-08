@@ -1,0 +1,653 @@
+{
+  "feature": "CHANGE-08",
+  "source": "Windows native UIA/SendInput; real Electron, daemon, SQLite, independent Git and installed SDK local HTTP. CLI seeds and disk/ref faults explicitly separated. No CDP or renderer injection.",
+  "at": "2026-11-08T15:06:59.810Z",
+  "observations": 78,
+  "sourceDistinctions": {
+    "seeds": "CLI-seeded actual SessionService/SDK local HTTP; controlled external file changes; no synthetic agent provenance. Native UI observations are recorded separately.",
+    "faults": "CLI control file created actual unreferenced random Git objects and removed one baseline ref in isolated data only; native UI independently refreshed and displayed the result.",
+    "synthetic": "No synthetic kernel, tool event or renderer injection in these native sessions. Local HTTP model replies remain fixtures, not real-provider responses.",
+    "ui": "@oai/sky UIA/SendInput. No CDP, page evaluate or hidden renderer API.",
+    "omitted": "Initial wrong foreground Chrome image excluded. A later foreground change was refreshed and reactivated. Unsuccessful sizing drag and intermediate UI states are retained as observations."
+  },
+  "checks": {
+    "fullPartialNoneApproval": true,
+    "cancellationsNoFileWrite": true,
+    "commandCancelledBeforeExecution": true,
+    "warning80Percent": true,
+    "fullCapacityDisablesRollback": true,
+    "fillerRemovedRecovers": true,
+    "missingRefDisablesRollback": true,
+    "exclusionsPersist": true,
+    "immutableMetadataAndFilesAcrossRestart": true,
+    "historiesUnchanged": 5,
+    "refsUnchangedAcrossRestart": true,
+    "themesAndNarrow": {
+      "light": [
+        802,
+        961
+      ],
+      "dark": [
+        802,
+        961
+      ]
+    },
+    "nativeMenuExitCodes": [
+      0,
+      0
+    ],
+    "restart": {
+      "prompts": 0,
+      "kernels": 0,
+      "pending": 0,
+      "grants": 0
+    }
+  },
+  "background": {
+    "runningObservations": [
+      {
+        "label": "01-initial",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "02-activated-initial",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "03-background-open",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "04-background-ready",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "05-switch-to-scope",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "06-scope-session-ready",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "07-expand-versions",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "08-versions-ready",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "09-partial-review",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "10-version-pane-scroll",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "11-partial-review-ready",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      },
+      {
+        "label": "12-partial-verified",
+        "pid": 34964,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc"
+      }
+    ],
+    "finalResult": {
+      "sessionId": "7b286923-64dd-409f-aa24-d61cb7ac92f8",
+      "protocol": 1,
+      "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc",
+      "seq": 14,
+      "turnId": "b04f7818-f0fa-4d4b-9899-0cfe387862e2",
+      "type": "finished",
+      "outcome": "error",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "terminated"
+    },
+    "note": "Background remained same PID/epoch across the observed view switches; later the hold reached its fixture timeout and failed. No claim of uninterrupted background execution through the whole acceptance."
+  },
+  "operations": [
+    {
+      "action": "warning",
+      "at": "2026-11-08T14:43:18.030Z",
+      "coverage": {
+        "sessionId": "8d768b21-9045-486f-89fa-03cf84bec998",
+        "turnId": "f328b271-ce9b-47df-8b95-7f05e27cd16a",
+        "checkedAt": 1794148998285,
+        "basis": "round",
+        "state": "partial",
+        "rollbackAvailable": true,
+        "files": 3,
+        "reasons": [
+          "存在忽略、链接或其他排除项；版本只覆盖实际收录的文件字节。",
+          "账本容量达到80%预警；旧版本全部保留，不自动回收。"
+        ],
+        "exclusions": [
+          {
+            "path": "linked",
+            "reason": "链接或非普通独占文件"
+          },
+          {
+            "path": "ignored.txt",
+            "reason": ".gitignore"
+          }
+        ],
+        "baselineExcluded": 2,
+        "finalExcluded": 2,
+        "limits": {
+          "fileBytes": 5242880,
+          "snapshotBytes": 33554432,
+          "entries": 2048,
+          "depth": 8
+        },
+        "storage": {
+          "state": "warning",
+          "usedBytes": 871424,
+          "limitBytes": 1048576,
+          "warningBytes": 838861,
+          "measurement": "git-object-kib",
+          "automaticCleanup": false,
+          "retention": "keep-all-published",
+          "diagnostic": null
+        }
+      }
+    },
+    {
+      "action": "full",
+      "at": "2026-11-08T14:44:33.689Z",
+      "coverage": {
+        "sessionId": "8d768b21-9045-486f-89fa-03cf84bec998",
+        "turnId": "f328b271-ce9b-47df-8b95-7f05e27cd16a",
+        "checkedAt": 1794149073948,
+        "basis": "round",
+        "state": "partial",
+        "rollbackAvailable": false,
+        "files": 3,
+        "reasons": [
+          "存在忽略、链接或其他排除项；版本只覆盖实际收录的文件字节。",
+          "账本容量已满，新采集暂停；回滚需要保存操作前版本，当前不可执行。"
+        ],
+        "exclusions": [
+          {
+            "path": "linked",
+            "reason": "链接或非普通独占文件"
+          },
+          {
+            "path": "ignored.txt",
+            "reason": ".gitignore"
+          }
+        ],
+        "baselineExcluded": 2,
+        "finalExcluded": 2,
+        "limits": {
+          "fileBytes": 5242880,
+          "snapshotBytes": 33554432,
+          "entries": 2048,
+          "depth": 8
+        },
+        "storage": {
+          "state": "full",
+          "usedBytes": 1049600,
+          "limitBytes": 1048576,
+          "warningBytes": 838861,
+          "measurement": "git-object-kib",
+          "automaticCleanup": false,
+          "retention": "keep-all-published",
+          "diagnostic": null
+        }
+      }
+    },
+    {
+      "action": "clear-fill",
+      "at": "2026-11-08T14:45:50.689Z",
+      "coverage": {
+        "sessionId": "8d768b21-9045-486f-89fa-03cf84bec998",
+        "turnId": "f328b271-ce9b-47df-8b95-7f05e27cd16a",
+        "checkedAt": 1794149150952,
+        "basis": "round",
+        "state": "partial",
+        "rollbackAvailable": true,
+        "files": 3,
+        "reasons": [
+          "存在忽略、链接或其他排除项；版本只覆盖实际收录的文件字节。"
+        ],
+        "exclusions": [
+          {
+            "path": "linked",
+            "reason": "链接或非普通独占文件"
+          },
+          {
+            "path": "ignored.txt",
+            "reason": ".gitignore"
+          }
+        ],
+        "baselineExcluded": 2,
+        "finalExcluded": 2,
+        "limits": {
+          "fileBytes": 5242880,
+          "snapshotBytes": 33554432,
+          "entries": 2048,
+          "depth": 8
+        },
+        "storage": {
+          "state": "normal",
+          "usedBytes": 1024,
+          "limitBytes": 1048576,
+          "warningBytes": 838861,
+          "measurement": "git-object-kib",
+          "automaticCleanup": false,
+          "retention": "keep-all-published",
+          "diagnostic": null
+        }
+      }
+    },
+    {
+      "action": "missing-ref",
+      "at": "2026-11-08T14:46:46.057Z",
+      "coverage": {
+        "sessionId": "8d768b21-9045-486f-89fa-03cf84bec998",
+        "turnId": "f328b271-ce9b-47df-8b95-7f05e27cd16a",
+        "checkedAt": 1794149206124,
+        "basis": "round",
+        "state": "none",
+        "rollbackAvailable": false,
+        "files": 2,
+        "reasons": [
+          "写入前基线版本／引用无法验证；独立账本 rev-parse 失败（128）。",
+          "存在忽略、链接或其他排除项；版本只覆盖实际收录的文件字节。"
+        ],
+        "exclusions": [
+          {
+            "path": "linked",
+            "reason": "链接或非普通独占文件"
+          },
+          {
+            "path": "ignored.txt",
+            "reason": ".gitignore"
+          }
+        ],
+        "baselineExcluded": 2,
+        "finalExcluded": 2,
+        "limits": {
+          "fileBytes": 5242880,
+          "snapshotBytes": 33554432,
+          "entries": 2048,
+          "depth": 8
+        },
+        "storage": {
+          "state": "normal",
+          "usedBytes": 1024,
+          "limitBytes": 1048576,
+          "warningBytes": 838861,
+          "measurement": "git-object-kib",
+          "automaticCleanup": false,
+          "retention": "keep-all-published",
+          "diagnostic": null
+        }
+      }
+    }
+  ],
+  "first": {
+    "exitInfo": {
+      "code": 0,
+      "signal": null
+    },
+    "prompts": 5,
+    "results": [
+      {
+        "sessionId": "8d768b21-9045-486f-89fa-03cf84bec998",
+        "protocol": 1,
+        "epoch": "fb60a140-3b05-4227-8d9d-e56d42b60582",
+        "seq": 12,
+        "turnId": "f328b271-ce9b-47df-8b95-7f05e27cd16a",
+        "type": "finished",
+        "outcome": "aborted",
+        "localRequests": 0,
+        "blockedNetworkAttempts": 0,
+        "error": "Request aborted"
+      },
+      {
+        "sessionId": "7b286923-64dd-409f-aa24-d61cb7ac92f8",
+        "protocol": 1,
+        "epoch": "f68e92fe-5e9b-4582-8f4b-4d01584a95fc",
+        "seq": 14,
+        "turnId": "b04f7818-f0fa-4d4b-9899-0cfe387862e2",
+        "type": "finished",
+        "outcome": "error",
+        "localRequests": 1,
+        "blockedNetworkAttempts": 0,
+        "error": "terminated"
+      },
+      {
+        "sessionId": "bba97b23-31a8-421a-a7f2-5f20dd42c8a1",
+        "protocol": 1,
+        "epoch": "3878773c-3e26-49ba-9215-1da4f46c9c91",
+        "seq": 25,
+        "turnId": "3d320a1c-f5bb-47bb-aaf6-ae5969450bc1",
+        "type": "finished",
+        "outcome": "completed",
+        "localRequests": 2,
+        "blockedNetworkAttempts": 0
+      },
+      {
+        "sessionId": "56aa147c-2162-49e6-879a-62f72b21288f",
+        "protocol": 1,
+        "epoch": "30d0da8d-19a7-4b91-82c1-a7413b5ca64b",
+        "seq": 25,
+        "turnId": "79aebaa6-272c-4226-99a6-bb2aca95eea9",
+        "type": "finished",
+        "outcome": "completed",
+        "localRequests": 2,
+        "blockedNetworkAttempts": 0
+      },
+      {
+        "sessionId": "579009c9-b6fa-4b9c-91c8-9e0271a79591",
+        "protocol": 1,
+        "epoch": "e3057c65-4479-4354-b3cd-54c4b0997107",
+        "seq": 25,
+        "turnId": "a36d5374-62f6-4ff5-87ae-572bcecc70c6",
+        "type": "finished",
+        "outcome": "completed",
+        "localRequests": 2,
+        "blockedNetworkAttempts": 0
+      }
+    ],
+    "historyAtClose": {
+      "56aa147c-2162-49e6-879a-62f72b21288f\\30d0da8d-19a7-4b91-82c1-a7413b5ca64b\\sessions\\2026-11-08T14-24-24-835Z_01a1bb8b-d102-74d9-81e3-77d782c74c8c.jsonl": "dcda6743f8dc46914a1e0dcaaff8808d8ad653cd66045571bd65ea04b8579e3d",
+      "579009c9-b6fa-4b9c-91c8-9e0271a79591\\e3057c65-4479-4354-b3cd-54c4b0997107\\sessions\\2026-11-08T14-24-24-846Z_01a1bb8b-d10e-7499-829c-a47843e5f12c.jsonl": "b175c188eb34630fe7dc19798cb02adfb31a91088537e54f4b22ef5b886c7be6",
+      "7b286923-64dd-409f-aa24-d61cb7ac92f8\\f68e92fe-5e9b-4582-8f4b-4d01584a95fc\\sessions\\2026-11-08T14-24-24-800Z_01a1bb8b-d0df-73a1-a70d-6995b43bf549.jsonl": "e7688b3a0c7ed69b9ed738bf212ecea1a6313da962ab4cf3cef977f6623d6f1a",
+      "8d768b21-9045-486f-89fa-03cf84bec998\\fb60a140-3b05-4227-8d9d-e56d42b60582\\sessions\\2026-11-08T14-24-22-525Z_01a1bb8b-c7fd-7596-b251-11a8ecdd1711.jsonl": "b9690c3a23c8caf37483ec2e6c263b66188da6d77da61e8b756d817c9b322fa6",
+      "bba97b23-31a8-421a-a7f2-5f20dd42c8a1\\3878773c-3e26-49ba-9215-1da4f46c9c91\\sessions\\2026-11-08T14-24-24-831Z_01a1bb8b-d0fe-705d-99e1-bb66201815a7.jsonl": "600622177266be3fa12cc73642ab49c11c0313adb646986b939c8162c832fae9"
+    },
+    "refsAtClose": "aa9b8fbc97ffcc0067d7ad8209933b8d12af9f0d refs/piw/f328b271-ce9b-47df-8b95-7f05e27cd16a/final\n",
+    "files": {
+      "tracked": "653fd7b0eb7e018f0d2aadd644f4b5ccefe6202378d219818cb048cba58cc318",
+      "ignored": "e3c929135a6e6a07a1e4af5d156419da4052dd76f8fd7b2ffe4823a4e26ac73c",
+      "outside": "d4c40469905ebe7bd828beae2a3d12f9431efae71cd8734e9b408f4d06c1e4ad",
+      "binary": "44e62a660aec1b26788b1e2acbc41d69d8f3543f90ed5c87a3b0718cf0827871"
+    },
+    "changes": [
+      {
+        "sessionId": "8d768b21-9045-486f-89fa-03cf84bec998",
+        "rounds": [
+          {
+            "sessionId": "8d768b21-9045-486f-89fa-03cf84bec998",
+            "turnId": "f328b271-ce9b-47df-8b95-7f05e27cd16a",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\change08\\native-YT0zT3\\部分范围目录",
+            "startedAt": 1794147861541,
+            "endedAt": 1794147863572,
+            "outcome": "aborted",
+            "baseline": {
+              "status": "ready",
+              "reference": "2c4a29c77bdf5e44be11b6060caee4fabaf89289",
+              "capturedAt": 1794147862981,
+              "files": 2,
+              "bytes": 28,
+              "excluded": 2,
+              "exclusions": [
+                {
+                  "path": "linked",
+                  "reason": "链接或非普通独占文件"
+                },
+                {
+                  "path": "ignored.txt",
+                  "reason": ".gitignore"
+                }
+              ],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "aa9b8fbc97ffcc0067d7ad8209933b8d12af9f0d",
+              "capturedAt": 1794147863572,
+              "files": 3,
+              "bytes": 38,
+              "excluded": 2,
+              "exclusions": [
+                {
+                  "path": "linked",
+                  "reason": "链接或非普通独占文件"
+                },
+                {
+                  "path": "ignored.txt",
+                  "reason": ".gitignore"
+                }
+              ],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      },
+      {
+        "sessionId": "7b286923-64dd-409f-aa24-d61cb7ac92f8",
+        "rounds": [
+          {
+            "sessionId": "7b286923-64dd-409f-aa24-d61cb7ac92f8",
+            "turnId": "b04f7818-f0fa-4d4b-9899-0cfe387862e2",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\change08\\native-YT0zT3\\独立后台目录",
+            "startedAt": 1794147863630,
+            "endedAt": 1794148166536,
+            "outcome": "failed",
+            "baseline": {
+              "status": "ready",
+              "reference": "293a4c9f0e04e0965dee929a4f72511ac6b21b75",
+              "capturedAt": 1794147865250,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "604ae035c50042b35ea7b054b3b6427e1a2e63d6",
+              "capturedAt": 1794148166536,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      },
+      {
+        "sessionId": "bba97b23-31a8-421a-a7f2-5f20dd42c8a1",
+        "rounds": [
+          {
+            "sessionId": "bba97b23-31a8-421a-a7f2-5f20dd42c8a1",
+            "turnId": "3d320a1c-f5bb-47bb-aaf6-ae5969450bc1",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\change08\\native-YT0zT3\\普通写入目录",
+            "startedAt": 1794147863650,
+            "endedAt": 1794148371005,
+            "outcome": "completed",
+            "baseline": {
+              "status": "ready",
+              "reference": "ca7befaf6be28260582beca95e32e9681a7eb6ec",
+              "capturedAt": 1794147865275,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "463ec8eb8ab6db89831fd7d8867ba855c9343543",
+              "capturedAt": 1794148371005,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      },
+      {
+        "sessionId": "56aa147c-2162-49e6-879a-62f72b21288f",
+        "rounds": [
+          {
+            "sessionId": "56aa147c-2162-49e6-879a-62f72b21288f",
+            "turnId": "79aebaa6-272c-4226-99a6-bb2aca95eea9",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\change08\\native-YT0zT3\\命令目录",
+            "startedAt": 1794147863668,
+            "endedAt": 1794148795312,
+            "outcome": "completed",
+            "baseline": {
+              "status": "ready",
+              "reference": "8c2b81a4c5240c6e7fad9c57c1fe145d30f2dc1d",
+              "capturedAt": 1794147865301,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "1337fb63de330a2f55be91f9f6839effd347f5cd",
+              "capturedAt": 1794148795311,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      },
+      {
+        "sessionId": "579009c9-b6fa-4b9c-91c8-9e0271a79591",
+        "rounds": [
+          {
+            "sessionId": "579009c9-b6fa-4b9c-91c8-9e0271a79591",
+            "turnId": "a36d5374-62f6-4ff5-87ae-572bcecc70c6",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\change08\\native-YT0zT3\\超限目录",
+            "startedAt": 1794147863696,
+            "endedAt": 1794148886156,
+            "outcome": "completed",
+            "baseline": {
+              "status": "failed",
+              "reference": null,
+              "capturedAt": null,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": "文件超过 5 MiB 或总计 32 MiB 限额。"
+            },
+            "final": {
+              "status": "failed",
+              "reference": null,
+              "capturedAt": null,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": "文件超过 5 MiB 或总计 32 MiB 限额。"
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      }
+    ],
+    "decisions": []
+  },
+  "restart": {
+    "exitInfo": {
+      "code": 0,
+      "signal": null
+    },
+    "prompts": 0,
+    "kernels": [],
+    "pending": [],
+    "grants": {
+      "grants": [],
+      "auditWarning": null
+    },
+    "historyBefore": {
+      "56aa147c-2162-49e6-879a-62f72b21288f\\30d0da8d-19a7-4b91-82c1-a7413b5ca64b\\sessions\\2026-11-08T14-24-24-835Z_01a1bb8b-d102-74d9-81e3-77d782c74c8c.jsonl": "dcda6743f8dc46914a1e0dcaaff8808d8ad653cd66045571bd65ea04b8579e3d",
+      "579009c9-b6fa-4b9c-91c8-9e0271a79591\\e3057c65-4479-4354-b3cd-54c4b0997107\\sessions\\2026-11-08T14-24-24-846Z_01a1bb8b-d10e-7499-829c-a47843e5f12c.jsonl": "b175c188eb34630fe7dc19798cb02adfb31a91088537e54f4b22ef5b886c7be6",
+      "7b286923-64dd-409f-aa24-d61cb7ac92f8\\f68e92fe-5e9b-4582-8f4b-4d01584a95fc\\sessions\\2026-11-08T14-24-24-800Z_01a1bb8b-d0df-73a1-a70d-6995b43bf549.jsonl": "e7688b3a0c7ed69b9ed738bf212ecea1a6313da962ab4cf3cef977f6623d6f1a",
+      "8d768b21-9045-486f-89fa-03cf84bec998\\fb60a140-3b05-4227-8d9d-e56d42b60582\\sessions\\2026-11-08T14-24-22-525Z_01a1bb8b-c7fd-7596-b251-11a8ecdd1711.jsonl": "b9690c3a23c8caf37483ec2e6c263b66188da6d77da61e8b756d817c9b322fa6",
+      "bba97b23-31a8-421a-a7f2-5f20dd42c8a1\\3878773c-3e26-49ba-9215-1da4f46c9c91\\sessions\\2026-11-08T14-24-24-831Z_01a1bb8b-d0fe-705d-99e1-bb66201815a7.jsonl": "600622177266be3fa12cc73642ab49c11c0313adb646986b939c8162c832fae9"
+    },
+    "historyAtClose": {
+      "56aa147c-2162-49e6-879a-62f72b21288f\\30d0da8d-19a7-4b91-82c1-a7413b5ca64b\\sessions\\2026-11-08T14-24-24-835Z_01a1bb8b-d102-74d9-81e3-77d782c74c8c.jsonl": "dcda6743f8dc46914a1e0dcaaff8808d8ad653cd66045571bd65ea04b8579e3d",
+      "579009c9-b6fa-4b9c-91c8-9e0271a79591\\e3057c65-4479-4354-b3cd-54c4b0997107\\sessions\\2026-11-08T14-24-24-846Z_01a1bb8b-d10e-7499-829c-a47843e5f12c.jsonl": "b175c188eb34630fe7dc19798cb02adfb31a91088537e54f4b22ef5b886c7be6",
+      "7b286923-64dd-409f-aa24-d61cb7ac92f8\\f68e92fe-5e9b-4582-8f4b-4d01584a95fc\\sessions\\2026-11-08T14-24-24-800Z_01a1bb8b-d0df-73a1-a70d-6995b43bf549.jsonl": "e7688b3a0c7ed69b9ed738bf212ecea1a6313da962ab4cf3cef977f6623d6f1a",
+      "8d768b21-9045-486f-89fa-03cf84bec998\\fb60a140-3b05-4227-8d9d-e56d42b60582\\sessions\\2026-11-08T14-24-22-525Z_01a1bb8b-c7fd-7596-b251-11a8ecdd1711.jsonl": "b9690c3a23c8caf37483ec2e6c263b66188da6d77da61e8b756d817c9b322fa6",
+      "bba97b23-31a8-421a-a7f2-5f20dd42c8a1\\3878773c-3e26-49ba-9215-1da4f46c9c91\\sessions\\2026-11-08T14-24-24-831Z_01a1bb8b-d0fe-705d-99e1-bb66201815a7.jsonl": "600622177266be3fa12cc73642ab49c11c0313adb646986b939c8162c832fae9"
+    },
+    "refsAtClose": "aa9b8fbc97ffcc0067d7ad8209933b8d12af9f0d refs/piw/f328b271-ce9b-47df-8b95-7f05e27cd16a/final\n",
+    "files": {
+      "tracked": "653fd7b0eb7e018f0d2aadd644f4b5ccefe6202378d219818cb048cba58cc318",
+      "ignored": "e3c929135a6e6a07a1e4af5d156419da4052dd76f8fd7b2ffe4823a4e26ac73c",
+      "outside": "d4c40469905ebe7bd828beae2a3d12f9431efae71cd8734e9b408f4d06c1e4ad",
+      "binary": "44e62a660aec1b26788b1e2acbc41d69d8f3543f90ed5c87a3b0718cf0827871"
+    }
+  },
+  "protectedInputs": [
+    {
+      "path": "pnpm-lock.yaml",
+      "expected": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "actual": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "expected": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "actual": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "user-pi/auth.json",
+      "expected": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "actual": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "user-pi/models.json",
+      "expected": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "actual": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "user-pi/settings.json",
+      "expected": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2",
+      "actual": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ],
+  "providerRequests": 0,
+  "limitations": [
+    "No new Windows IME evidence.",
+    "Original hidden-window launcher attempt was terminated and excluded from both successful normal menu exits.",
+    "Native command tool was inspected/cancelled; actual tool execution and stale preflight protection are covered by service/Electron automation.",
+    "Full app restart restores persisted data, not a prior transient view or authorization."
+  ]
+}

@@ -1,0 +1,74 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/change-coverage.test.ts (9 tests | 3 failed) 25140ms
+   × cHANGE-08 actual Git object disk warning/full admission preserves all refs, SQLite decisions and bytes across restart 2942ms
+   × cHANGE-08 conservative new-capture estimate refuses before publication; an unknown object root never becomes zero capacity 2436ms
+   × cHANGE-08 corrupt-object disables restore and preserves immutable metadata, decisions and current files 2402ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 3 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-coverage.test.ts > cHANGE-08 actual Git object disk warning/full admission preserves all refs, SQLite decisions and bytes across restart
+AssertionError: expected 'normal' to be 'warning' // Object.is equality
+
+Expected: "warning"
+Received: "normal"
+
+ ❯ apps/daemon/test/change-coverage.test.ts:197:65
+    195|     // it is not a provider response or an SDK-generated modification.
+    196|     writeFileSync(filler, Buffer.alloc(850 * 1024, 3))
+    197|     expect((await changes(f).coverage(t.turnId)).storage.state).toBe('…
+       |                                                                 ^
+    198|     writeFileSync(filler, Buffer.alloc(1024 * 1024, 3))
+    199|     const full = await changes(f).coverage(t.turnId)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/3]⎯
+
+ FAIL  apps/daemon/test/change-coverage.test.ts > cHANGE-08 conservative new-capture estimate refuses before publication; an unknown object root never becomes zero capacity
+AssertionError: promise resolved "{ status: 'ready', …(7) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "bytes": 5,
++   "capturedAt": 1794142937480,
++   "diagnostic": null,
++   "excluded": 0,
++   "exclusions": [],
++   "files": 1,
++   "reference": "0422c4a4e1f78471c34afe10631d5bc0cf60a8a5",
++   "status": "ready",
+  }
+
+ ❯ apps/daemon/test/change-coverage.test.ts:236:80
+    234|     const filler = join(repo(f), 'objects', 'capacity-fault-fixture')
+    235|     writeFileSync(filler, Buffer.alloc(850 * 1024, 1))
+    236|     await expect(changes(f).ledger.capture(identity, randomUUID(), 'ba…
+       |                                                                                ^
+    237|       '预计新增',
+    238|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/3]⎯
+
+ FAIL  apps/daemon/test/change-coverage.test.ts > cHANGE-08 corrupt-object disables restore and preserves immutable metadata, decisions and current files
+Error: Coverage fixture missing
+ ❯ required apps/daemon/test/change-coverage.test.ts:35:11
+     33| function required<T>(v: T | undefined): T {
+     34|   if (v === undefined) {
+     35|     throw new Error('Coverage fixture missing')
+       |           ^
+     36|   }
+     37|   return v
+ ❯ apps/daemon/test/change-coverage.test.ts:294:30
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/3]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  3 failed | 6 passed (9)
+   Start at  21:02:00
+   Duration  27.09s (tests 93%, import 6%, transform 1%)
+

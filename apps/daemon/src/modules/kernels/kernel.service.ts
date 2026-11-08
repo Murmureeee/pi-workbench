@@ -250,6 +250,11 @@ export class KernelService {
               task ? AbortSignal.any([signal, task.controller.signal]) : signal,
               current,
               scope,
+              await this.changes.coverage(turnId, {
+                tool: request.tool,
+                targetPath: scope.targetPath,
+                parameters: request.parameters,
+              }),
             )
             decision = approved.decision
             authorizationCurrent = approved.authorizationCurrent

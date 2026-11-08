@@ -279,3 +279,7 @@ MODEL-03 已验收：0013会话模型CAS与安装SDK逐请求prepareRequest边�
 ## MODEL-05 已验收
 
 MODEL-05 已验收：只读SDK原生历史，按会话／轮次／模型消息追溯输入、输出、缓存与总量，部分和保留未知次数；SDK默认零值不冒充实际报告。最近请求只作上下文参考，窗口来自同源离线模型元数据，未知模型／价格来源／价格时间及费用明确未知，不造账单。完整50文件／317项Vitest、118项E2E、SDK及frozen clean通过；54条Windows原生观察、明暗802px窄窗、故障恢复、两次正常退出及同data/profile重启0发送／0内核，JSONL与pi配置／预算／锁哈希不变。371文件与clean一致，原生后复用门禁；真实提供商0，无安装包，网页独立暂缓，OPS-08继续in_progress。 当前本地38／133。见[逐项证据](../validation/model-05-evidence/acceptance.md)。
+
+## CHANGE-08 已验收与当前阶段
+
+CHANGE-08 已验收：审批与历史详情共用可回滚／部分／不可回滚范围，沿用 5 MiB／32 MiB／2048 项／8 层限制；每物理目录 512 MiB Git 对象估算、80% 预警，容量未知／不足暂停且保留所有已发布版本。失效诊断禁用回滚，执行在物理租约内重验原引用，预检后失效整批零写。最终 59 文件／398 项 Vitest、SDK、144 项 E2E 与完整 frozen clean 通过；78 条 Windows 原生观察含中间态，明暗 802×961、容量及引用故障、两次正常菜单退出和同 data/profile 重启零重放通过，5 份 JSONL 哈希不变。429 输入与 clean 一致，最终 CI 仅另有既有 SEC-08 测试等待修正，完整 clean 已覆盖，复用未变产品／窗口阶段。真实提供商 0，pi 配置／canonical 预算／锁未改；OPS-08 仍 in_progress [true,false]。代码块回滚和清理／删除版本未交付。 canonical计算本地47/133、M3共9项均verified，整体OPS-08继续跨阶段判断。下一步建议M4 GIT-01，依赖WS-03、CHANGE-03已verified；CHANGE-06属于M6，不在本次范围。来源、失败与限制见[验收记录](../validation/change-08-evidence/acceptance.md)。

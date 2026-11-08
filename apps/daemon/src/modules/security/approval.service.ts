@@ -3,6 +3,7 @@ import type { SessionStore } from '../sessions/session.store.js'
 import type { ExecutionPolicyService } from './execution-policy.service.js'
 import type { GrantScope, SessionGrantService } from './session-grant.service.js'
 import type {
+  ChangeCoverage,
   ExecutionApproval,
   ExecutionApprovalCommand,
   ExecutionDecision,
@@ -70,6 +71,7 @@ export class ApprovalService {
     signal: AbortSignal,
     current: () => boolean,
     scope: GrantScope,
+    rollbackCoverage: ChangeCoverage | null = null,
   ): Promise<ApprovalOutcome> {
     if (signal.aborted || !current() || this.rejected.has(binding.turnId)) {
       return {
@@ -94,6 +96,7 @@ export class ApprovalService {
       risk: decision.risk,
       createdAt: Date.now(),
       irreversible: true,
+      rollbackCoverage,
       sessionPermission: {
         eligible: decision.risk.level === 'L2' && request.parentId === null,
         matchingGrantId: null,

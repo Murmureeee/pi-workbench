@@ -1,0 +1,11 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+
+ Test Files  5 passed (5)
+      Tests  31 passed (31)
+   Start at  21:43:30
+   Duration  49.05s (tests 94%, import 5%)
+

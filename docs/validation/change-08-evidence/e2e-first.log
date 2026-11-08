@@ -1,0 +1,55 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:35284) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:36304) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\change-coverage.spec.ts:49:1 › CHANGE-08 Electron approvals explain full, partial command and unavailable oversized scope before one-shot consent (12.8s)
+  ok 2 e2e\change-coverage.spec.ts:85:1 › CHANGE-08 Electron actual ignored/link/binary scope remains explicit in light/dark narrow review and preserves background SDK (9.8s)
+  ok 3 e2e\change-coverage.spec.ts:134:1 › CHANGE-08 Electron measured capacity warning/full disables rollback, failed refresh never uses old permission, refs survive same-profile restart (10.3s)
+  x  4 e2e\change-coverage.spec.ts:187:1 › CHANGE-08 Electron missing reference explains unavailability and cannot replace history from current files after restart (11.2s)
+
+
+  1) e2e\change-coverage.spec.ts:187:1 › CHANGE-08 Electron missing reference explains unavailability and cannot replace history from current files after restart 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('region', { name: '范围、容量与版本保留', exact: true })
+    Expected substring: "引用"
+    Received string:    "重新核对回滚范围不可回滚 · 所选轮次版本仅普通文件字节，含限额内二进制；Diff 能力另行判断。来源不确定时须单独确认覆盖，范围说明不授予权限。独立账本 rev-parse 失败（128）。限制：单文件 5 MiB，单阶段 32 MiB，2048 项／8 层。忽略项、超限大文件、链接／硬链接、目录外路径、ACL、空目录及命令外部副作用不受保护。账本 Git 对象磁盘估算：0 MiB／512 MiB；80%预警。保留所有已发布版本，自动清理关闭；接受或重启不会回收必要版本。当前回滚已禁用；请核对上述版本、轮次与容量原因。"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" getByRole('region', { name: '范围、容量与版本保留', exact: true }) with timeout 5000ms
+      - waiting for getByRole('region', { name: '范围、容量与版本保留', exact: true })
+        14 × locator resolved to <section aria-label="范围、容量与版本保留" class="flex min-w-0 flex-col gap-2">…</section>
+           - unexpected value "重新核对回滚范围不可回滚 · 所选轮次版本仅普通文件字节，含限额内二进制；Diff 能力另行判断。来源不确定时须单独确认覆盖，范围说明不授予权限。独立账本 rev-parse 失败（128）。限制：单文件 5 MiB，单阶段 32 MiB，2048 项／8 层。忽略项、超限大文件、链接／硬链接、目录外路径、ACL、空目录及命令外部副作用不受保护。账本 Git 对象磁盘估算：0 MiB／512 MiB；80%预警。保留所有已发布版本，自动清理关闭；接受或重启不会回收必要版本。当前回滚已禁用；请核对上述版本、轮次与容量原因。"
+
+
+      204 |     await panel(f).getByRole('button', { name: '重新核对回滚范围', exact: true }).click()
+      205 |     await expect(panel(f)).toContainText('不可回滚')
+    > 206 |     await expect(panel(f)).toContainText('引用')
+          |                            ^
+      207 |     await expect(f.page.getByRole('button', { name: '预检整轮回滚', exact: true })).toBeDisabled()
+      208 |     expect(f.changes.history(s.id).rounds[0]).toEqual(t)
+      209 |     await f.restart()
+        at D:\Project\pi-workbench\e2e\change-coverage.spec.ts:206:28
+
+    Error Context: test-results\change-coverage-CHANGE-08--f8b87-current-files-after-restart\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\change-coverage-CHANGE-08--f8b87-current-files-after-restart\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\change-coverage-CHANGE-08--f8b87-current-files-after-restart\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\change-coverage.spec.ts:187:1 › CHANGE-08 Electron missing reference explains unavailability and cannot replace history from current files after restart 
+  3 passed (58.2s)

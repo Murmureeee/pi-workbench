@@ -20,7 +20,7 @@ function required<T>(v: T | undefined): T {
   }
   return v
 }
-export async function setupChanges() {
+export async function setupChanges(ledgerCapacityBytes?: number) {
   const root = mkdtempSync(join(tmpdir(), 'piw-review-ui-')),
     cwd = join(root, '中文工作目录'),
     other = join(root, '独立目录'),
@@ -36,6 +36,7 @@ export async function setupChanges() {
       port: 4318,
       development: true,
       resourceLimits: { kernels: 4, modelTasks: 3 },
+      ledgerCapacityBytes,
     }),
     sends = 0
   const opened = await app.get(WorkspaceService).open(cwd),
@@ -61,13 +62,17 @@ export async function setupChanges() {
         path,
         {
           ...input,
-          fixture: input.text.includes('环境上下文')
-            ? 'trust-context'
-            : input.text.includes('工具链')
-              ? 'change-chain'
-              : input.text.includes('保持')
-                ? 'hold'
-                : 'reply',
+          fixture: input.text.includes('范围写入')
+            ? 'approval-write'
+            : input.text.includes('范围命令')
+              ? 'approval-command'
+              : input.text.includes('环境上下文')
+                ? 'trust-context'
+                : input.text.includes('工具链')
+                  ? 'change-chain'
+                  : input.text.includes('保持')
+                    ? 'hold'
+                    : 'reply',
         },
         options,
       )
@@ -151,7 +156,7 @@ export async function setupChanges() {
     restart: async () => {
       await desktop.close()
       await app.close()
-      app = await createApp({ dataDir, port: 4318, development: true })
+      app = await createApp({ dataDir, port: 4318, development: true, ledgerCapacityBytes })
       sends = 0
       wire()
       await app.listen(4318, '127.0.0.1')

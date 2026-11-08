@@ -1,5 +1,5 @@
 /* oxlint-disable no-await-in-loop -- Sequential descriptor checks bound IO and preserve identity checks around each read. */
-import type { FileSnapshot } from '@pi-workbench/shared'
+import type { FileSnapshot, LedgerCapacity } from '@pi-workbench/shared'
 import type { BigIntStats } from 'node:fs'
 
 import { spawn } from 'node:child_process'
@@ -10,16 +10,14 @@ import { isAbsolute, join, relative, sep } from 'node:path'
 
 import { z } from 'zod'
 
+import { fileLedgerPolicy, ledgerCapacitySchema } from '@pi-workbench/shared'
+
 const digest = (bytes: Buffer | string) => createHash('sha256').update(bytes).digest('hex')
 const blobId = (bytes: Buffer) =>
   createHash('sha1').update(`blob ${bytes.length}\0`).update(bytes).digest('hex')
 const fileSchema = z.strictObject({
   path: z.string().min(1),
-  size: z
-    .number()
-    .int()
-    .min(0)
-    .max(5 * 1024 * 1024),
+  size: z.number().int().min(0).max(fileLedgerPolicy.fileBytes),
   sha256: z.string().regex(/^[a-f0-9]{64}$/),
   blob: z.string().regex(/^[a-f0-9]{40}$/),
 })
@@ -28,7 +26,7 @@ const manifestSchema = z.strictObject({
   directory: z.string().regex(/^[a-f0-9]{64}$/),
   turnId: z.uuid(),
   phase: z.enum(['baseline', 'final']),
-  files: z.array(fileSchema).max(2048),
+  files: z.array(fileSchema).max(fileLedgerPolicy.entries),
 })
 type Identity = { directoryKey: string; canonicalPath: string }
 type Captured = {
@@ -49,7 +47,18 @@ const stamp = (stat: BigIntStats) =>
  * bound traversal, memory and subprocesses. Observed stable bytes still prove no authorship. */
 export class FileLedger {
   private readonly scanning = new Set<string>()
-  constructor(private readonly dataDir: string) {}
+  private readonly capacityBytes: number
+  constructor(
+    private readonly dataDir: string,
+    capacityBytes: number = fileLedgerPolicy.capacityBytes,
+  ) {
+    this.capacityBytes = z
+      .number()
+      .int()
+      .min(65536)
+      .max(fileLedgerPolicy.capacityBytes)
+      .parse(capacityBytes)
+  }
 
   private repo(identity: Identity): string {
     return join(this.dataDir, 'ledger', digest(identity.directoryKey), 'objects.git')
@@ -119,6 +128,10 @@ export class FileLedger {
           'core.logAllRefUpdates=false',
           '-c',
           'core.quotePath=false',
+          '-c',
+          'gc.auto=0',
+          '-c',
+          'maintenance.auto=false',
           ...args,
         ],
         { env, windowsHide: true, stdio: ['pipe', 'pipe', 'pipe'] },
@@ -164,6 +177,80 @@ export class FileLedger {
     })
   }
 
+  /** Read actual Git object disk estimates, including garbage, without creating storage,
+   * following linked object roots or collecting anything. Failed inspection is unknown,
+   * never zero. Existing refs remain pinned regardless of decisions or current capacity. */
+  async capacity(identity: Identity): Promise<LedgerCapacity> {
+    let usedBytes: number | null = null,
+      diagnostic: string | null = null
+    try {
+      // A never-created per-directory store is empty; a missing host data root is unknown.
+      if ((await realpath(this.dataDir)) !== this.dataDir) {
+        throw new Error('账本数据目录身份已改变。')
+      }
+      let repo: string | null = null
+      try {
+        repo = await this.storage(identity, false)
+      } catch (error) {
+        if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT')) {
+          throw error
+        }
+      }
+      if (repo) {
+        const objects = join(repo, 'objects'),
+          stat = await lstat(objects)
+        if (!stat.isDirectory() || stat.isSymbolicLink() || (await realpath(objects)) !== objects) {
+          throw new Error('账本对象目录身份不安全。')
+        }
+        const output = (await this.git(repo, ['count-objects', '-v'])).toString('ascii')
+        usedBytes = ['size', 'size-pack', 'size-garbage'].reduce((total, key) => {
+          const match = new RegExp(`^${key}: (\\d+)$`, 'm').exec(output)
+          if (!match) {
+            throw new Error('账本容量结果无效。')
+          }
+          return total + Number(match[1]) * 1024
+        }, 0)
+        if (!Number.isSafeInteger(usedBytes)) {
+          throw new Error('账本容量超过可核对范围。')
+        }
+      } else {
+        usedBytes = 0
+      }
+    } catch {
+      usedBytes = null
+      diagnostic = '账本容量无法核对；暂停新采集，已保存版本保留。'
+    }
+    return ledgerCapacitySchema.parse({
+      state:
+        usedBytes === null
+          ? 'unavailable'
+          : usedBytes >= this.capacityBytes
+            ? 'full'
+            : usedBytes >= this.capacityBytes * fileLedgerPolicy.warningRatio
+              ? 'warning'
+              : 'normal',
+      usedBytes,
+      limitBytes: this.capacityBytes,
+      warningBytes: Math.ceil(this.capacityBytes * fileLedgerPolicy.warningRatio),
+      measurement: 'git-object-kib',
+      automaticCleanup: false,
+      retention: 'keep-all-published',
+      diagnostic,
+    })
+  }
+
+  private async requireCapacity(identity: Identity, estimatedBytes: number): Promise<void> {
+    const capacity = await this.capacity(identity)
+    if (capacity.usedBytes === null) {
+      throw new Error(capacity.diagnostic ?? '账本容量不可用。')
+    }
+    if (capacity.state === 'full' || capacity.usedBytes + estimatedBytes > capacity.limitBytes) {
+      throw new Error(
+        `账本容量不足，暂停新采集且保留所有旧版本；Git对象估算${capacity.usedBytes}字节，预计新增${estimatedBytes}字节，上限${capacity.limitBytes}字节。`,
+      )
+    }
+  }
+
   private async scan(identity: Identity, repo: string): Promise<Captured> {
     if (contained(this.dataDir, identity.canonicalPath)) {
       throw new Error('不能采集工作台私有数据目录。')
@@ -202,7 +289,7 @@ export class FileLedger {
       const names: string[] = []
       for await (const entry of dir) {
         check()
-        if (++entries > 2048) {
+        if (++entries > fileLedgerPolicy.entries) {
           throw new Error('文件采集超过 2048 项限额。')
         }
         names.push(entry.name)
@@ -277,13 +364,16 @@ export class FileLedger {
           continue
         }
         if (stat.isDirectory()) {
-          if (depth >= 8) {
+          if (depth >= fileLedgerPolicy.depth) {
             throw new Error('文件采集超过 8 层限额。')
           }
           await walk(full, depth + 1)
           continue
         }
-        if (stat.size > 5n * 1024n * 1024n || total + Number(stat.size) > 32 * 1024 * 1024) {
+        if (
+          stat.size > BigInt(fileLedgerPolicy.fileBytes) ||
+          total + Number(stat.size) > fileLedgerPolicy.snapshotBytes
+        ) {
           throw new Error('文件超过 5 MiB 或总计 32 MiB 限额。')
         }
         if ((await realpath(full)) !== full) {
@@ -438,6 +528,7 @@ export class FileLedger {
   ): Promise<FileSnapshot> {
     const repo = await this.storage(identity, true)
     await this.git(repo, ['init', '--bare', '--object-format=sha1', repo])
+    await this.requireCapacity(identity, 0)
     const before = await this.scan(identity, repo),
       after = await this.scan(identity, repo)
     if (before.fingerprint !== after.fingerprint) {
@@ -455,6 +546,13 @@ export class FileLedger {
         blob: blobId(file.bytes),
       })),
     })
+    // Conservative admission estimate includes raw bytes, manifests and tree/object overhead.
+    // It is distinct from measured disk use and does not promise free OS disk space.
+    await this.requireCapacity(
+      identity,
+      after.files.reduce((sum, file) => sum + file.bytes.length + 8192, 262144) +
+        Buffer.byteLength(JSON.stringify(manifest)),
+    )
     const chunks: Buffer[] = [
       Buffer.from(
         `commit refs/piw/${turnId}/${phase}\ncommitter Pi Workbench <local@piw.invalid> ${Math.floor(Date.now() / 1000)} +0000\ndata 0\n\ndeleteall\n`,
@@ -530,7 +628,7 @@ export class FileLedger {
         throw new Error('文件版本清单无效。')
       }
       paths.add(file.path)
-      if ((total += file.size) > 32 * 1024 * 1024) {
+      if ((total += file.size) > fileLedgerPolicy.snapshotBytes) {
         throw new Error('文件版本清单超过限额。')
       }
     }

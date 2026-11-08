@@ -1,0 +1,265 @@
+{
+  "feature": "CHANGE-08",
+  "at": "2026-11-08T15:19:47.683Z",
+  "source": {
+    "service": "Actual filesystem, SQLite, independent Git, installed SDK + local HTTP; 13 new tests.",
+    "electron": "Four actual Electron Playwright regressions, not native input.",
+    "native": "78 UIA/SendInput observations, CLI-seeded SDK sessions and actual Git/file faults separated in native-validation.json."
+  },
+  "gates": {
+    "finalCI": {
+      "command": "pnpm run ci",
+      "exitCode": 0,
+      "vitestFiles": 59,
+      "vitest": 398,
+      "sdkSmoke": true,
+      "e2e": 144,
+      "e2eDuration": "20.5m",
+      "log": "ci-final.log"
+    },
+    "frozen": {
+      "command": "pnpm verify:clean",
+      "exitCode": 0,
+      "attempts": 2,
+      "first": "397/398; existing SEC-08 one-second polling timeout",
+      "second": "complete frozen install/check/build/398 tests/SDK/service start and graceful stop",
+      "result": "clean-workspace.json",
+      "output": "clean-commands.json"
+    },
+    "documentFinalization": [
+      {
+        "exitCode": 0,
+        "at": "2026-11-08T15:17:06.5820748Z",
+        "command": "pnpm docs:build"
+      },
+      {
+        "command": "pnpm fix",
+        "exitCode": 0,
+        "at": "2026-11-08T15:17:29.3512590Z"
+      },
+      {
+        "command": "pnpm check",
+        "exitCode": 0,
+        "at": "2026-11-08T15:18:47.6410475Z"
+      }
+    ]
+  },
+  "reuse": "429 final inputs equal successful clean; only access.test.ts polling wait differs from final CI. No product, E2E or build changes after final CI. Pure documentation generation/check is additional, not a third full CI or clean.",
+  "failures": [
+    {
+      "log": "service-first.log",
+      "result": "6/9",
+      "reason": "Fault fixtures assumed arbitrary object-root fill and pack layout; use real Git objects and actual loose/pack layout."
+    },
+    {
+      "log": "service-second.log",
+      "result": "8/9",
+      "reason": "Windows read-only Git object; isolated fault changes permission before deliberate corruption."
+    },
+    {
+      "log": "e2e-first.log",
+      "result": "3/4",
+      "reason": "Disabled invalid rollback needed a specific baseline/final reference diagnostic."
+    },
+    {
+      "log": "preflight-red.log",
+      "result": "2 failed",
+      "reason": "Lost/changed original refs after preflight could still execute cached versions; fixed with lease-bound original reference checks."
+    },
+    {
+      "log": "preflight-green.log",
+      "result": "31/31"
+    },
+    {
+      "log": "ci-format-failed.log",
+      "reason": "Formatting in two tests; fixed, then final complete CI passed."
+    },
+    {
+      "log": "frozen-first-failed.log",
+      "result": "397/398",
+      "reason": "SEC-08 default polling one-second timeout. Same-clean original file 7/7, then bounded 15s polling wait and complete second frozen passed."
+    },
+    {
+      "log": "native-hidden-start.log",
+      "reason": "Temporary native launcher incorrectly hid window; owned attempt terminated, excluded from normal-menu-exit evidence."
+    }
+  ],
+  "native": {
+    "observations": 78,
+    "source": "native-validation.json",
+    "details": "native-observations.json",
+    "menuExitCodes": [
+      0,
+      0
+    ],
+    "restart": {
+      "prompts": 0,
+      "kernels": 0,
+      "pending": 0,
+      "grants": 0
+    },
+    "sdkJsonlUnchanged": 5,
+    "backgroundLimit": "Same PID/epoch during observations 04-12; later local hold timeout terminated the fixture. No claim of continuous background for whole native run.",
+    "ime": "No new native IME evidence.",
+    "command": "Native reviewed/cancelled only; actual execution guarded by service/Electron tests."
+  },
+  "boundaries": {
+    "realProviderRequests": 0,
+    "protectedFilesUnchanged": 5,
+    "userGitHistoryUnchangedByProduct": true,
+    "automaticCleanup": false,
+    "publishedReferencesRetained": true,
+    "capacityMeasurement": "Git object disk KiB estimate, not OS free disk guarantee",
+    "blockRollbackDelivered": false,
+    "ops08": {
+      "status": "in_progress",
+      "acceptanceChecked": [
+        true,
+        false
+      ]
+    }
+  },
+  "artifacts": [
+    {
+      "file": "ci-first.log",
+      "sha256": "ca93b93f7fd7e9529a573d4ec0231f4124975cfd7fa17f04bb5cf7bf01c720a9",
+      "bytes": 46834
+    },
+    {
+      "file": "ci-final.log",
+      "sha256": "84b89f8f5ec47159b8e672c2796ba096c78104ef8ba288699055fb2aed9feb76",
+      "bytes": 46834
+    },
+    {
+      "file": "ci-format-failed.log",
+      "sha256": "ae584ee859db772336d26ea544a57d9986a7e7f9a37e67ea53a2fad2aff0382c",
+      "bytes": 536
+    },
+    {
+      "file": "check-first.log",
+      "sha256": "021ae087bc8a71165ea5d954a393d3e119ba5187cb10c7b2b45c05dabd7fb6d1",
+      "bytes": 2711
+    },
+    {
+      "file": "service-first.log",
+      "sha256": "1de1c85902c3d41d7a2b1879549b4d8be18abb7f84d0021442e6ad441d92c019",
+      "bytes": 3251
+    },
+    {
+      "file": "service-second.log",
+      "sha256": "d612b9960165cec8c8d785f7e5dcdd99e5107f32db0a9169e3396074bb89a29c",
+      "bytes": 1213
+    },
+    {
+      "file": "service-related.log",
+      "sha256": "b7a0ec63f2fde747468580968c974666edd9ad656a50e9b00803cb188a2ba71d",
+      "bytes": 379
+    },
+    {
+      "file": "fix-tests-first.log",
+      "sha256": "651834d04e52c97a91b78c3bf7246d0089f67f0a89c3ba3ca5f4a78ac8e99349",
+      "bytes": 1022
+    },
+    {
+      "file": "fix-tests-second.log",
+      "sha256": "a8958e1f45bd5bedca2431c0d12168b432a8eca1cfb2ffe036d52598a17747df",
+      "bytes": 723
+    },
+    {
+      "file": "e2e-first.log",
+      "sha256": "114df55bb07934fef6491fbf71bd4e6f7fff0d6ff22841e366b9d10620244d06",
+      "bytes": 5188
+    },
+    {
+      "file": "e2e-stable.log",
+      "sha256": "cf21844b8ea1adeb0641168f737a5e8a474ed272754ea3c495913c86cdcb8aeb",
+      "bytes": 1427
+    },
+    {
+      "file": "e2e-lease.log",
+      "sha256": "f5c0075357f4b6ff88d5c8971409969d01815bdbdaa283f245048a867d47b30a",
+      "bytes": 1429
+    },
+    {
+      "file": "preflight-red.log",
+      "sha256": "711a0ccee9285dfdb82b98510ee1ff43dcb1f97b78cc6eaea44c73c757c13337",
+      "bytes": 2678
+    },
+    {
+      "file": "preflight-green.log",
+      "sha256": "5ea3dc68c2fffa279e378312d00965359e827aaa02ace6e3196bf223bccd2255",
+      "bytes": 379
+    },
+    {
+      "file": "frozen-first-failed.log",
+      "sha256": "ab689619e9c6920f0c1261a25ed5b0db654be90034d2fb8e4c8292394ec6b102",
+      "bytes": 3448
+    },
+    {
+      "file": "frozen-clean-recheck.log",
+      "sha256": "30467700adc6df5a021af47f17bb5af94e28c79fdde5afbc02179017ee614cb7",
+      "bytes": 1645
+    },
+    {
+      "file": "access-after-clean.log",
+      "sha256": "1bddd02c41f158ee51fcb1429ddeb8af6f94517ca5f2d3cae84f65d4ac461981",
+      "bytes": 186
+    },
+    {
+      "file": "clean-first-commands.json",
+      "sha256": "2a79de3ad6f20a228a8576ecb585e6dba62506a222fcfb5ed47403e9737d27de",
+      "bytes": 20473
+    },
+    {
+      "file": "clean-workspace.json",
+      "sha256": "28ed46ee8bd5fc9482bb2faa51a395c9282b8c3b8d46825321f092ab9fdae35f",
+      "bytes": 1040
+    },
+    {
+      "file": "clean-commands.json",
+      "sha256": "baf5a4c7e4f32afdd620921303f053ab98ae61d2e58ef458b36cf909082b8c31",
+      "bytes": 19583
+    },
+    {
+      "file": "native-hidden-start.log",
+      "sha256": "44220ac7cb568f427bff90439183e69dd428464ebb68cee7257779329bb50cd7",
+      "bytes": 396
+    },
+    {
+      "file": "docs-build-final.log",
+      "sha256": "20dc8e875ab1db2a96b72c3e069360529e04c2b5523ed45bee9201bc40e19563",
+      "bytes": 488
+    },
+    {
+      "file": "fix-docs-final.log",
+      "sha256": "56751f1ceafb8e249ddb49be6eb748bcdcfa75718ebb4543520b87cb9215cf96",
+      "bytes": 569
+    },
+    {
+      "file": "check-docs-final.log",
+      "sha256": "74ddc9377ccd921245e46d57c44c316e281fd3866a6be9580850983aded715f1",
+      "bytes": 2711
+    }
+  ],
+  "stagedReview": {
+    "at": "2026-11-08T15:22:52.325Z",
+    "paths": 76,
+    "evidenceBytesApprox": 2703033,
+    "credentialsScan": "No matches for provider-key, private-key, bearer or paired-cookie signatures; source/diff reviewed separately. Not a proof of all possible secret formats.",
+    "excludedRuntimeArtifacts": ".workbench, SQLite, profile, user config, lock and canonical budget are not staged.",
+    "whitespace": {
+      "rawEvidence": "Original Windows log CRLF and trailing blank lines trigger git diff --check. Preserve bytes under existing docs/validation/** -text; archive manifest hashes match originals.",
+      "authored": "git diff --cached --check -- . :(exclude)docs/validation/change-08-evidence/*.log exited 0."
+    },
+    "sourceEvidence": "source-audit-final.json; product/E2E/build inputs unchanged",
+    "next": {
+      "id": "GIT-01",
+      "milestone": "M4",
+      "dependsOn": {
+        "WS-03": "verified",
+        "CHANGE-03": "verified"
+      },
+      "implemented": false
+    }
+  }
+}
