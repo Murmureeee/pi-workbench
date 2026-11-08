@@ -1,0 +1,26 @@
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+apps/daemon/src/infrastructure/file-boundary.ts:42:14: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+apps/daemon/src/infrastructure/file-boundary.ts:44:34: warning eslint(no-await-in-loop): Unexpected `await` inside a loop. help: Collect all promises into an array and use `Promise.all()` to run them in parallel, rather than awaiting each one sequentially inside the loop.
+apps/daemon/src/modules/security/execution-policy.service.ts:8:10: error eslint(no-unused-vars): Identifier 'isAbsolute' is imported but never used. help: Consider removing this import.
+apps/daemon/test/files.test.ts:132:7: warning unicorn(consistent-function-scoping): Function `release` does not capture any variables from its parent scope help: Move `release` to the outer scope to avoid recreating it on every call.
+apps/daemon/test/files.test.ts:78:101: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+apps/daemon/test/files.test.ts:79:99: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+apps/daemon/test/files.test.ts:93:60: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+apps/daemon/test/files.test.ts:109:69: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+apps/daemon/test/files.test.ts:111:67: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+apps/daemon/test/files.test.ts:124:53: error vitest(require-to-throw-message): Require a message for "toThrow". help: Add an error message to "toThrow"
+e2e/files.spec.ts:49:7: warning unicorn(consistent-function-scoping): Function `release` does not capture any variables from its parent scope help: Move `release` to the outer scope to avoid recreating it on every call.
+apps/web/src/features/files/file-browser.tsx:46:5: warning typescript(consistent-return): Function expected no return value.
+apps/daemon/test/files.test.ts:1:1: error: Unused oxlint-disable directive (no problems were reported).
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

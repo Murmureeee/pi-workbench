@@ -1,0 +1,89 @@
+$ pnpm build:packages && node scripts/verify-clean.mjs
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+Clean workspace: pnpm install --frozen-lockfile
+Clean workspace: pnpm check
+Clean workspace: pnpm build
+Clean workspace: pnpm test
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: $ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/.piw-clean-c0BIlh
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+HEAD is now at 0ebc3a9 first
+Switched to a new branch '功能/中文'
+HEAD is now at db6dd6c offline baseline
+Switched to a new branch 'other'
+Switched to branch 'main'
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-LMBra5/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-change-chain-1v4oP2/中文目录/module'...
+done.
+ ❯ apps/daemon/test/resources.test.ts (12 tests | 1 failed) 81156ms
+   ❯ CORE-07 real SDK + local HTTP fixture resource admission (12)
+     × counts starting processes, caps at three and queues/cancels FIFO without reclaiming synthetic pending approval 8858ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/resources.test.ts > CORE-07 real SDK + local HTTP fixture resource admission > counts starting processes, caps at three and queues/cancels FIFO without reclaiming synthetic pending approval
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ apps/daemon/test/resources.test.ts:225:73
+    223|       expect(order).toEqual([nextId, lastId])
+    224|       expect(f.kernels.list().length).toBeLessThanOrEqual(3)
+    225|       expect(() => process.kill(required(handles[0]).snapshot.pid!, 0)…
+       |                                                                         ^
+    226|       expect(required(handles[1]).snapshot.state).toBe('ready')
+    227|       expect(required(handles[2]).snapshot.state).toBe('ready')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 60 passed (61)
+      Tests  1 failed | 415 passed (416)
+   Start at  04:19:27
+   Duration  126.26s (tests 89%, import 11%, transform 1%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+
+1 !== 0
+
+    at file:///D:/Project/pi-workbench/scripts/verify-clean.mjs:80:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+[ELIFECYCLE] Command failed with exit code 1.

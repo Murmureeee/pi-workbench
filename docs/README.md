@@ -131,3 +131,7 @@ OBS-03 已验收 Electron 工具时间线：调用身份／最终参数与父子
 OBS-03 已验收：完整 35 文件／251 项 Vitest、93 项浏览器及 Electron E2E、SDK 冒烟与 frozen clean 通过；Windows 原生工具身份／摘要／长输出脱敏与收起、跨会话及逐轮展开隔离、后台同 PID／epoch 和焦点、明暗 802px 窄窗、同 data/profile 只读重启 0 内核／0 新发送／0 注入、历史哈希不变及正常菜单退出已补证。316 文件与 CI／clean 一致，原生后复用门禁；仅文档模板另更新。两项勾选，当前本地 27 / 133，OPS-08 继续 in_progress。合成工具观察与真实 SDK 禁用工具错误分开，未开启生产工具／审批／MCP／回滚；真实提供商 0，配置／预算／锁未改。
 
 GIT-01 已验收：真实只读 Git 状态、轮前／工具来源及混合诊断，完整 407 项 Vitest／147 项 E2E、SDK、frozen clean 与阶段补充通过；71 条 Windows 原生观察、同 profile 重启零重放和两次正常退出补证。限制与失败见[验收记录](validation/git-01-evidence/acceptance.md)。
+
+## FILE-01 文件浏览验收
+
+FILE-01 已验收：当前授权 cwd 的异步目录分页、字面文件名／路径搜索、实时位置与忽略／权限／链接诊断，仓库根仅信息、附加根未开放。9 项实际服务与 4 项 Electron 回归；完整 61 文件／416 项 Vitest、SDK、151 项 E2E 通过。其后仅修正搜索结果上限及既有 CORE-07 PID 身份的测试判据，新的完整 frozen clean 覆盖最新 416 项测试；复用未变产品／窗口阶段。111 条 Windows 原生观察、明暗窄窗、同 PID 后台、同 data/profile 重启零发送／内核／审批／授权及两次正常菜单退出补证；3 份 settled JSONL、Git 元数据与 5 保护文件不变。最新 442 输入与 clean 一致，原生后复用门禁。真实提供商 0，pi 配置／canonical 预算／锁未改；OPS-08 继续 in_progress [true,false]。当前本地 49/133。来源与失败见[验收记录](validation/file-01-evidence/acceptance.md)。

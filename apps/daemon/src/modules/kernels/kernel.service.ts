@@ -2,6 +2,7 @@ import type { ChangeProvenanceService } from '../changes/change-provenance.servi
 import type { ChangeRollbackService } from '../changes/change-rollback.service.js'
 import type { ChangeService } from '../changes/change.service.js'
 import type { EventService } from '../events/event.service.js'
+import type { FileService } from '../files/file.service.js'
 import type { ApprovalService } from '../security/approval.service.js'
 import type { TrustService } from '../security/trust.service.js'
 import type { SessionStore } from '../sessions/session.store.js'
@@ -137,6 +138,7 @@ export class KernelService {
     private readonly approvals?: ApprovalService,
     private readonly provenance?: ChangeProvenanceService,
     private readonly rollback?: ChangeRollbackService,
+    private readonly files?: FileService,
   ) {
     this.limits = resourceLimitsSchema.parse(limits)
     this.pool = new KernelPool(
@@ -863,6 +865,7 @@ export class KernelService {
 
   private async close(): Promise<void> {
     this.closing = true
+    const readers = this.files?.close()
     clearInterval(this.directoryTimer)
     this.approvals?.close()
     this.unsubscribeResources()
@@ -878,6 +881,7 @@ export class KernelService {
     const result = await Promise.allSettled([
       this.pool.close(),
       ...[...this.tasks.values()].map((task) => task.promise),
+      readers,
       this.rollback?.close(),
     ])
     this.writes.close()

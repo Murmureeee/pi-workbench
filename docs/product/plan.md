@@ -93,7 +93,7 @@ M2 补齐基础项目管理、无项目会话、自动命名、重命名及标�
 
 ## 进度计算与完成定义
 
-当前工作区包含产品规划、交互原型与已验收条目。依据 canonical backlog 当前为 **48 / 133 已验收**；M3 的 9 项均 verified，本次 M4 GIT-01 两项已通过。[最新逐项记录](../validation/git-01-evidence/acceptance.md)区分真实 SDK 本地夹具、故障注入、自动窗口、Windows 原生、失败和阶段复用。真实提供商与扩展仍关闭；FILE-01／02 尚待本次后续顺序实现，OPS-08 仍按跨阶段门判断。
+当前工作区包含产品规划、交互原型与已验收条目。依据 canonical backlog 当前为 **49 / 133 已验收**；M4 GIT-01、FILE-01 已通过。FILE-02 继续按本次授权顺序推进，OPS-08 仍按跨阶段门判断。真实提供商与扩展仍关闭；[FILE-01 逐项记录](../validation/file-01-evidence/acceptance.md)区分实际 SDK 本地夹具、故障注入、自动窗口、Windows 原生及失败。
 
 OPS-08 首次基线通过 14 份来源标明的历史 SDK 样本只读重放、投影 / IPC 故障与实际 UI 组合回归；当时完整 85 项 Vitest、12 项浏览器 / Electron 测试和干净目录验证通过，新增真实提供商请求 0。第一条契约验收已勾选；后续 SESSION-01 / 02 / 03 / 11 已补齐输入、恢复、整理、改名及标题多端同步 / 重连，当前完整门禁见上文。本次文件回滚／审查已纳入；其余双端业务、回滚范围／容量／保留及后续平台门禁仍待各阶段补齐，第二条不勾选；[阶段矩阵与证据](../development/tooling.md#ops-08-契约回归门禁)记录边界，不增加已验收数。
 
@@ -287,3 +287,7 @@ CHANGE-08 已验收：审批与历史详情共用可回滚／部分／不可回�
 ## GIT-01 已验收
 
 GIT-01 已验收：当前 cwd 子树真实 staged／unstaged／untracked／分支只读观察，来源独立标识，混合／未知不冒充 agent 独占。完整 60 文件／407 项 Vitest、SDK、147 项 E2E，完整 frozen clean 及布局／测试判据后续补充检查通过；71 条 Windows 原生观察、802px 明暗、两次正常退出、同 data/profile 重启零发送／内核／审批／授权，3 份 JSONL 与 Git 元数据及 5 保护文件不变。435 输入与 clean 一致，原生后复用门禁；无新增 IME，子模块内部未扫描且明确不完整。真实提供商 0，配置／预算／锁未改，OPS-08 继续 in_progress [true,false]。本地 48/133；范围、失败与来源见[验收记录](../validation/git-01-evidence/acceptance.md)。
+
+## FILE-01 已验收
+
+FILE-01 已验收：当前授权 cwd 的异步目录分页、字面文件名／路径搜索、实时位置与忽略／权限／链接诊断，仓库根仅信息、附加根未开放。9 项实际服务与 4 项 Electron 回归；完整 61 文件／416 项 Vitest、SDK、151 项 E2E 通过。其后仅修正搜索结果上限及既有 CORE-07 PID 身份的测试判据，新的完整 frozen clean 覆盖最新 416 项测试；复用未变产品／窗口阶段。111 条 Windows 原生观察、明暗窄窗、同 PID 后台、同 data/profile 重启零发送／内核／审批／授权及两次正常菜单退出补证；3 份 settled JSONL、Git 元数据与 5 保护文件不变。最新 442 输入与 clean 一致，原生后复用门禁。真实提供商 0，pi 配置／canonical 预算／锁未改；OPS-08 继续 in_progress [true,false]。[逐项记录](../validation/file-01-evidence/acceptance.md)。

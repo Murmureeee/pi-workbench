@@ -1,0 +1,26 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/files.test.ts (9 tests | 1 failed) 6944ms
+   × fILE-01 coordinated daemon exit drains actual pending file IO before closing SQLite and rejects new reads 1058ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/files.test.ts > fILE-01 coordinated daemon exit drains actual pending file IO before closing SQLite and rejects new reads
+Error: Timed out in waitFor!
+ ❯ apps/daemon/test/files.test.ts:291:14
+    289|     const pending = f.files.list(f.target)
+    290|     const closing = f.app.close()
+    291|     await vi.waitFor(() => expect(f.files.list(f.target)).rejects.toTh…
+       |              ^
+    292|     expect(storeClose).not.toHaveBeenCalled()
+    293|     release()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 1 passed (2)
+      Tests  1 failed | 17 passed (18)
+   Start at  03:34:09
+   Duration  8.79s (tests 76%, import 23%, transform 2%)
+

@@ -5,12 +5,18 @@ import type { Stats } from 'node:fs'
 import { createHash } from 'node:crypto'
 import { constants } from 'node:fs'
 import { lstat, open, realpath } from 'node:fs/promises'
-import { isAbsolute, relative, resolve, sep } from 'node:path'
+import { relative, resolve, sep } from 'node:path'
 
 import { z } from 'zod'
 
 import { executionDigest, executionParameters } from '@pi-workbench/agent-adapter'
 import { executionRequestSchema } from '@pi-workbench/shared'
+
+import {
+  isAmbiguousPath as ambiguousPath,
+  isCredentialPath as credential,
+  isStrictlyWithin as within,
+} from '../../infrastructure/file-boundary.js'
 
 type Binding = { sessionId: string; epoch: string; turnId: string; cwd: string }
 const readInput = z.strictObject({
@@ -19,33 +25,10 @@ const readInput = z.strictObject({
   limit: z.number().int().min(1).max(2000).optional(),
 })
 const object = z.record(z.string(), z.unknown())
-const credential =
-  /(?:^|[\\/])(?:\.env(?:\..*)?|auth\.json|credentials?(?:\..*)?|id_(?:rsa|ed25519)|\.ssh|\.aws|\.gnupg|\.git)(?:$|[\\/])/i
 const fingerprint = (s: Stats) =>
   [s.dev, s.ino, s.birthtimeMs, s.size, s.mtimeMs, s.ctimeMs, s.nlink].join(':')
 const scopeHash = (value: unknown) =>
   createHash('sha256').update(JSON.stringify(value)).digest('hex')
-const within = (root: string, target: string) => {
-  const r = relative(root, target)
-  return r !== '' && !r.startsWith('..' + sep) && r !== '..' && !isAbsolute(r)
-}
-
-/** Reject ambiguous portable spellings before IO, including Win32's device aliases for
- * nonexistent write targets. Physical containment is checked separately; this never grants
- * an additional root or relies on lowercasing a path. */
-const ambiguousPath = (path: string) =>
-  path.length === 0 ||
-  /[\p{Cc}\p{Cf}]/u.test(path) ||
-  /^(?:\\\\|\/\/)|^[A-Za-z]:(?![\\/])/.test(path) ||
-  /[:<>"|?*]/.test(path.replace(/^[A-Za-z]:[\\/]/, '')) ||
-  path
-    .split(/[\\/]/)
-    .some(
-      (part) =>
-        /^(?:con|prn|aux|nul|conin\$|conout\$|com[1-9¹²³]|lpt[1-9¹²³])(?:[ .]|$)/i.test(part) ||
-        (part !== '.' && part !== '..' && /[ .]$/.test(part)),
-    )
-
 const commandInput = z.strictObject({
   command: z.string().min(1).max(65536),
   timeout: z.number().positive().finite().optional(),
@@ -152,11 +135,7 @@ export class ExecutionPolicyService {
       return identities.join('|')
     }
     const fields = object.parse(JSON.parse(request.parameters))
-    if (
-      typeof fields.path !== 'string' ||
-      credential.test(fields.path) ||
-      ambiguousPath(fields.path)
-    ) {
+    if (typeof fields.path !== 'string' || credential(fields.path) || ambiguousPath(fields.path)) {
       throw new Error('私密、设备、网络或无效文件路径当前不开放执行。')
     }
     const target = resolve(root, fields.path)
@@ -253,8 +232,8 @@ export class ExecutionPolicyService {
       add('L3', '调用可能访问外部服务或传输数据。')
     }
     if (
-      credential.test(filename ?? '') ||
-      command.split(' ').some((token) => credential.test(token)) ||
+      credential(filename ?? '') ||
+      command.split(' ').some((token) => credential(token)) ||
       /\b(?:api[_-]?key|authorization|password|credential|token)\b/i.test(command)
     ) {
       add('L3', '涉及凭证、私密配置或仓库控制数据。')

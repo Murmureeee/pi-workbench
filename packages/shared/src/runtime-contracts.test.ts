@@ -153,6 +153,7 @@ describe('CORE-05 authoritative observation contract', () => {
         'change-decisions-v1',
         'change-coverage-v1',
         'git-status-v1',
+        'file-browser-v1',
       ],
       mutations: false,
       realProviderEnabled: false,

@@ -1,0 +1,19 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:30468) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:46600) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\files.spec.ts:23:1 › FILE-01 Electron lazy pages, literal Chinese search, ignored markers and real containing directory preserve unsent draft (8.0s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Task cancelled"}}
+  ok 2 e2e\files.spec.ts:68:1 › FILE-01 Electron synthetic IME, cancel, late results and failed read cannot replace another target or stop real SDK background (7.1s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 3 e2e\files.spec.ts:141:1 › FILE-01 Electron directory mutation and stale file handle fail visibly, refresh recovers actual current location (3.4s)
+  ok 4 e2e\files.spec.ts:165:1 › FILE-01 Electron light/dark narrow, same-data/profile restart does not replay or retain stale handles (8.7s)
+
+  4 passed (41.0s)

@@ -63,6 +63,7 @@ import { sessionDraft, useSessionDrafts } from '../../stores/session-drafts.js'
 import { retainSessionView, sessionView, useSessionViews } from '../../stores/session-views.js'
 import { useWorkbench } from '../../stores/workbench.js'
 import { HistoricalChanges } from '../changes/historical-changes.js'
+import { FileBrowser } from '../files/file-browser.js'
 import { GitStatusPanel } from '../workspaces/git-status.js'
 import { useWorkspaceAvailability } from '../workspaces/use-workspace-availability.js'
 import { WorkspaceEnvironment } from '../workspaces/workspace-environment.js'
@@ -687,6 +688,7 @@ function SessionPane({
               />
               {active ? <WorkspaceWriteStatus target={directoryTarget} /> : null}
               {active ? <GitStatusPanel target={directoryTarget} /> : null}
+              {active ? <FileBrowser target={directoryTarget} /> : null}
               {active && sessionId ? (
                 <ChangeSnapshots
                   sessionId={sessionId}

@@ -1,0 +1,57 @@
+{
+  "feature": "FILE-01",
+  "at": "2026-11-08T20:52:41.757Z",
+  "providerRequests": 0,
+  "completeCI": {
+    "command": "pnpm run ci",
+    "exitCode": 0,
+    "log": "ci-bounded.log",
+    "vitestFiles": 61,
+    "vitest": 416,
+    "e2e": 151,
+    "sdk": true
+  },
+  "frozen": {
+    "command": "pnpm verify:clean",
+    "exitCode": 0,
+    "sourceInputs": 442,
+    "mismatches": []
+  },
+  "native": {
+    "observations": 111,
+    "normalExits": 2,
+    "restart": {
+      "prompts": 0,
+      "kernels": 0,
+      "pending": 0,
+      "grants": 0
+    },
+    "jsonlFiles": 3,
+    "historiesUnchanged": true,
+    "gitMetadataUnchanged": true,
+    "protectedUnchanged": true
+  },
+  "scope": {
+    "desktopOnly": true,
+    "currentCwdOnly": true,
+    "addedRoots": false,
+    "contentsRead": false,
+    "limits": {
+      "page": 100,
+      "directoryEntries": 5000,
+      "searchEntries": 5000,
+      "searchResults": 100,
+      "searchDirectoryDepth": 12,
+      "searchSoftMilliseconds": 2000,
+      "activeIO": 4,
+      "handleMinutes": 5
+    }
+  },
+  "ops08": {
+    "status": "in_progress",
+    "acceptanceChecked": [
+      true,
+      false
+    ]
+  }
+}

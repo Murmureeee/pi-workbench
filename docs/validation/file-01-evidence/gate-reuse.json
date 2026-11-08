@@ -1,0 +1,25 @@
+{
+  "postCIChanges": [
+    "apps/daemon/test/files.test.ts",
+    "apps/daemon/test/resources.test.ts"
+  ],
+  "reason": "The bounded search test incorrectly required all 100 maximum results before the existing two-second deadline. It now checks complete:false, at most 100, correct names and the limit diagnostic. The second frozen run exposed a raw PID existence assumption in CORE-07; remaining identical assertions now reuse the existing OS process-birth helper and check the old session left the kernel pool. No product, limits or Electron source changed. The new full frozen clean validates the corrected 416 tests; the passed 151-window CI is reused for identical product/Electron inputs.",
+  "firstClean": [
+    {
+      "command": "pnpm install --frozen-lockfile",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm check",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm build",
+      "exitCode": 0
+    },
+    {
+      "command": "pnpm test",
+      "exitCode": 1
+    }
+  ]
+}

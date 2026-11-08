@@ -1,0 +1,45 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 435ms on 391 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+$ knip
+Unused exports (1)
+fileStamp  apps/daemon/src/infrastructure/file-boundary.ts:30:14
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

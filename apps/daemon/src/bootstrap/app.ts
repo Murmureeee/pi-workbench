@@ -25,6 +25,8 @@ import { ChangeService } from '../modules/changes/change.service.js'
 import { registerChangeTransport } from '../modules/changes/change.transport.js'
 import { EventService } from '../modules/events/event.service.js'
 import { registerEventTransport } from '../modules/events/event.transport.js'
+import { FileService } from '../modules/files/file.service.js'
+import { registerFileTransport } from '../modules/files/file.transport.js'
 import { HealthController } from '../modules/health/health.controller.js'
 import { KernelController } from '../modules/kernels/kernel.controller.js'
 import { KernelService } from '../modules/kernels/kernel.service.js'
@@ -112,6 +114,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     throw error
   }
   const environment = new WorkspaceEnvironmentService(workspaces, store)
+  const files = new FileService(workspaces, store, security.redactor)
   const gitStatus = new GitStatusService(
     environment,
     workspaces,
@@ -153,6 +156,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     approvals,
     provenance,
     rollback,
+    files,
   )
   const sessionService = new SessionService(
     options.dataDir,
@@ -198,6 +202,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: ChangeDecisionService, useValue: decisions },
       { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: GitStatusService, useValue: gitStatus },
+      { provide: FileService, useValue: files },
       { provide: WorkspaceAvailabilityService, useValue: availability },
       { provide: ModelService, useValue: models },
       { provide: ProjectService, useValue: projects },
@@ -251,6 +256,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   registerChangeDecisions(adapter.getInstance(), decisions, access, store)
   registerTrustTransport(adapter.getInstance(), trust, access)
   registerGitStatusTransport(adapter.getInstance(), gitStatus, access)
+  registerFileTransport(adapter.getInstance(), files, access)
   registerWorkspaceTransport(
     adapter.getInstance(),
     workspaces,

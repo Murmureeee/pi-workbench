@@ -191,6 +191,9 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
       const opening = ids.map((id) => f.kernels.open(id, f.directory))
       expect(f.kernels.resources().kernels).toHaveLength(3)
       const handles = await Promise.all(opening)
+      const retiredPid = required(handles[0]).snapshot.pid!,
+        retiredBirth = processBirth(retiredPid)
+      expect(retiredBirth).not.toBe('')
       const release = ids.map((id) => approval(f, id))
       const controller = new AbortController(),
         cancelledId = randomUUID(),
@@ -222,7 +225,8 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
       await Promise.all([next, last])
       expect(order).toEqual([nextId, lastId])
       expect(f.kernels.list().length).toBeLessThanOrEqual(3)
-      expect(() => process.kill(required(handles[0]).snapshot.pid!, 0)).toThrow(/ESRCH/)
+      expect(processBirth(retiredPid)).not.toBe(retiredBirth)
+      expect(f.kernels.list().some((kernel) => kernel.sessionId === ids[0])).toBe(false)
       expect(required(handles[1]).snapshot.state).toBe('ready')
       expect(required(handles[2]).snapshot.state).toBe('ready')
       expect(f.store.list().some((session) => session.id === cancelledId)).toBe(false)
@@ -379,10 +383,13 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
         text: 'COLD_CONTEXT_SENTINEL',
       })
       const before = required(f.kernels.list()[0]),
+        beforeBirth = processBirth(before.pid!),
         bytes = readFileSync(before.sessionFile!),
         history = f.store.history(sessionId)!
+      expect(beforeBirth).not.toBe('')
       await f.kernels.open(randomUUID(), f.directory)
-      expect(() => process.kill(before.pid!, 0)).toThrow(/ESRCH/)
+      expect(processBirth(before.pid!)).not.toBe(beforeBirth)
+      expect(f.kernels.list().some((kernel) => kernel.sessionId === sessionId)).toBe(false)
       const restored = await f.kernels.open(sessionId, f.directory)
       expect(restored.snapshot).toMatchObject({
         sessionFile: before.sessionFile,
@@ -536,13 +543,18 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
         text: 'queued input',
       })
       const rejected = pending.catch((error: unknown) => error)
-      const pids = f.kernels.list().map((kernel) => kernel.pid!)
+      const processes = f.kernels.list().map((kernel) => ({
+        pid: kernel.pid!,
+        birth: processBirth(kernel.pid!),
+      }))
+      expect(processes.every((entry) => entry.birth !== '')).toBe(true)
       await f.app.close()
       expect(await rejected).toMatchObject({ message: 'Daemon is shutting down' })
       expect(await run).toMatchObject({ outcome: 'aborted' })
-      for (const pid of pids) {
-        expect(() => process.kill(pid, 0)).toThrow(/ESRCH/)
+      for (const entry of processes) {
+        expect(processBirth(entry.pid)).not.toBe(entry.birth)
       }
+      expect(f.kernels.list()).toEqual([])
       const app = await createApp({ dataDir: f.directory, port: 4338 })
       try {
         expect(app.get(KernelService).resources()).toMatchObject({

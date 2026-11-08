@@ -1,0 +1,88 @@
+$ pnpm build:packages && node scripts/verify-clean.mjs
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+Clean workspace: pnpm install --frozen-lockfile
+Clean workspace: pnpm check
+Clean workspace: pnpm build
+Clean workspace: pnpm test
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: $ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/.piw-clean-kbmUHQ
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+HEAD is now at 4223a7d first
+Switched to a new branch '功能/中文'
+HEAD is now at 4c156f1 offline baseline
+Switched to a new branch 'other'
+Switched to branch 'main'
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-I5oDby/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+ ❯ apps/daemon/test/files.test.ts (9 tests | 1 failed) 26738ms
+   × fILE-01 bounded search reports partial results and does not scan dependency children 5409ms
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-change-chain-Of1kSj/中文目录/module'...
+done.
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/files.test.ts > fILE-01 bounded search reports partial results and does not scan dependency children
+AssertionError: expected [ { …(9) }, { …(9) }, { …(9) }, …(51) ] to have a length of 100 but got 54
+
+- Expected
++ Received
+
+- 100
++ 54
+
+ ❯ apps/daemon/test/files.test.ts:258:29
+    256|     const limited = await f.files.search(f.target, 'match-')
+    257|     expect(limited.complete).toBe(false)
+    258|     expect(limited.entries).toHaveLength(100)
+       |                             ^
+    259|   } finally {
+    260|     await f.close()
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 60 passed (61)
+      Tests  1 failed | 415 passed (416)
+   Start at  04:11:19
+   Duration  128.42s (tests 89%, import 10%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+
+1 !== 0
+
+    at file:///D:/Project/pi-workbench/scripts/verify-clean.mjs:80:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+[ELIFECYCLE] Command failed with exit code 1.
