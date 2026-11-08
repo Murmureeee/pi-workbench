@@ -11,42 +11,62 @@ const unavailable = (
   message: string,
 ): GitEnvironment => ({ status: 'unavailable', code, message })
 
-/** Fixed, read-only Git plumbing only: no shell, status/index refresh, hooks, filters,
- * repository scripts, network or safe.directory override. Ignore inherited GIT_* routing.
- * Each child has bounded output/time and is reaped by execFile before its promise settles. */
-function run(cwd: string, args: string[]): Promise<CommandResult> {
+/** Read-only argv chosen by host callers, never shell text or client commands. Disable
+ * optional index writes, fsmonitor and maintenance; ignore inherited GIT_* routing.
+ * Status callers additionally check attributes and disable executable filters. No
+ * safe.directory override. Each bounded child is reaped before its promise settles. */
+export function readGitCommand(
+  cwd: string,
+  args: string[],
+  limits = { timeout: 1500, maxBuffer: 64 * 1024 },
+  input?: string,
+): Promise<CommandResult> {
   const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !/^GIT_/i.test(key)))
   return new Promise((done) => {
-    execFile(
+    const child = execFile(
       'git',
-      ['--no-pager', '--no-optional-locks', '-c', 'core.fsmonitor=false', '-C', cwd, ...args],
+      [
+        '--no-pager',
+        '--no-optional-locks',
+        '-c',
+        'core.fsmonitor=false',
+        '-c',
+        'gc.auto=0',
+        '-c',
+        'maintenance.auto=false',
+        '-C',
+        cwd,
+        ...args,
+      ],
       {
         env: { ...env, GIT_TERMINAL_PROMPT: '0', LC_ALL: 'C' },
         encoding: 'utf8',
-        timeout: 1500,
-        maxBuffer: 64 * 1024,
+        ...limits,
         windowsHide: true,
       },
       (error, stdout, stderr) =>
         done({
           code: error ? (error.code ?? null) : 0,
-          out: stdout.replace(/\r\n/g, '\n'),
+          out: stdout,
           error: stderr,
         }),
     )
+    // NUL-delimited filenames go through stdin, never command/shell interpolation.
+    child.stdin?.on('error', () => undefined)
+    child.stdin?.end(input)
   })
 }
 
 async function snapshot(cwd: string): Promise<GitEnvironment> {
   const [paths, symbolic, revision] = await Promise.all([
-    run(cwd, [
+    readGitCommand(cwd, [
       'rev-parse',
       '--show-toplevel',
       '--absolute-git-dir',
       '--show-superproject-working-tree',
     ]),
-    run(cwd, ['symbolic-ref', '--quiet', 'HEAD']),
-    run(cwd, ['rev-parse', '--verify', '--quiet', 'HEAD']),
+    readGitCommand(cwd, ['symbolic-ref', '--quiet', 'HEAD']),
+    readGitCommand(cwd, ['rev-parse', '--verify', '--quiet', 'HEAD']),
   ])
   if ([paths, symbolic, revision].some((result) => result.code === 'ENOENT')) {
     return unavailable('git_missing', '未找到 Git。目录与基础对话仍可使用；安装或恢复 Git 后刷新。')
@@ -60,7 +80,7 @@ async function snapshot(cwd: string): Promise<GitEnvironment> {
       'Git 信息无法读取或检查超时。请核对 Git 安装、目录权限及仓库信任后刷新。',
     )
   }
-  const lines = paths.out.replace(/\n$/, '').split('\n'),
+  const lines = paths.out.replace(/\r\n/g, '\n').replace(/\n$/, '').split('\n'),
     [root, gitDirectory, superprojectRoot] = lines
   const oid = revision.out.trim(),
     branch = symbolic.out.trim().replace(/^refs\/heads\//, '')

@@ -1,0 +1,9 @@
+{
+  "at": "2026-11-08T17:57:27.145Z",
+  "destination": "D:\\Project\\.piw-clean-FQfsIc",
+  "files": [
+    "apps/web/src/features/conversation/session-history.tsx",
+    "apps/web/src/features/conversation/session-workbench.css"
+  ],
+  "reason": "Two UI layout files changed after frozen; same frozen installation. Repeat clean check/build, reuse unchanged runtime tests/SDK/service lifecycle; final full CI covers UI."
+}

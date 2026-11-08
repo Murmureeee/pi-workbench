@@ -1,0 +1,17 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:35220) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:29240) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\git-status.spec.ts:29:1 › GIT-01 Electron actual Git overview refreshes staged, unstaged, untracked and broken index without writing metadata (8.5s)
+  ok 2 e2e\git-status.spec.ts:59:1 › GIT-01 Electron failed refresh and cancelled late result never replace another target or stop background SDK (7.7s)
+  ok 3 e2e\git-status.spec.ts:114:1 › GIT-01 Electron light/dark narrow overview and same-data/profile restart observe current files with zero replay (10.8s)
+  ok 4 e2e\scroll-reading.spec.ts:200:1 › OBS-04 Electron history pagination restores each page bookmark through reload (7.5s)
+
+  4 passed (48.2s)

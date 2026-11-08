@@ -1,3 +1,4 @@
+import { execFileSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import {
   appendFileSync,
@@ -70,6 +71,32 @@ async function streaming(f: Awaited<ReturnType<typeof fixture>>, sessionId: stri
     () => expect(f.events.snapshot(sessionId)?.turns.at(-1)?.text).toContain('OFFLINE_'),
     wait,
   )
+}
+
+/** Windows may reuse a reaped SDK PID while parallel tests spawn its successor.
+ * Compare the OS creation time, so a different process cannot be mistaken for the killed child. */
+function processBirth(pid: number): string {
+  if (process.platform !== 'win32') {
+    try {
+      process.kill(pid, 0)
+      return String(pid)
+    } catch (error) {
+      if (error instanceof Error && 'code' in error && error.code === 'ESRCH') {
+        return ''
+      }
+      throw error
+    }
+  }
+  return execFileSync(
+    'powershell.exe',
+    [
+      '-NoProfile',
+      '-NonInteractive',
+      '-Command',
+      `Get-Process | Where-Object Id -EQ ${pid} | ForEach-Object { $_.StartTime.ToUniversalTime().Ticks }`,
+    ],
+    { encoding: 'utf8', windowsHide: true },
+  ).trim()
 }
 
 describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
@@ -320,6 +347,8 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
       })
       expect(f.kernels.resources().modelTasks).toBe(2)
       const pid = f.kernels.list().find((kernel) => kernel.sessionId === ids[0])!.pid!
+      const birth = processBirth(pid)
+      expect(birth).not.toBe('')
       process.kill(pid, 'SIGKILL')
       const failure = await failed
       expect(failure).toBeInstanceOf(Error)
@@ -330,7 +359,8 @@ describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {
       const afterCrash = await last
       expect(afterCrash.error).toBeUndefined()
       expect(afterCrash).toMatchObject({ outcome: 'completed' })
-      expect(() => process.kill(pid, 0)).toThrow(/ESRCH/)
+      expect(processBirth(pid)).not.toBe(birth)
+      expect(f.kernels.list().some((kernel) => kernel.sessionId === ids[0])).toBe(false)
       expect(f.kernels.list().find((kernel) => kernel.sessionId === ids[1])?.state).toBe('running')
       await f.kernels.abort(ids[1], turns[1])
       expect(await second).toMatchObject({ outcome: 'aborted' })

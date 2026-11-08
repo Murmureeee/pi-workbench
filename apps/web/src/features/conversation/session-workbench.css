@@ -97,8 +97,19 @@
   color: var(--muted-foreground);
   font-size: 12px;
 }
-.embedded-history > p,
-.embedded-history > output {
+.history-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.embedded-history > .history-controls {
+  max-height: 40%;
+  min-height: 0;
+  flex-shrink: 0;
+  overflow-y: auto;
+}
+.embedded-history > .history-controls > p,
+.embedded-history > .history-controls > output {
   color: var(--muted-foreground);
   font-size: 12px;
 }

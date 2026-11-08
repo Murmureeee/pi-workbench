@@ -93,7 +93,7 @@ M2 补齐基础项目管理、无项目会话、自动命名、重命名及标�
 
 ## 进度计算与完成定义
 
-当前工作区包含产品规划、交互原型、M0 验证工程与已验收的 M1／M2／M3 条目。依据 canonical backlog 当前为 **46 / 133 已验收**；基线、来源与历史 Diff 之外，本次 CHANGE-05／07／09／04 的整文件／整轮回滚、历史链、环境事实和逐文件审查已验收。[最新逐项记录](../validation/change-04-05-07-09-evidence/acceptance.md)区分真实 SDK 本地夹具、合成／故障注入、自动窗口、Windows 原生、失败与阶段复用。固定工具继续经最终守卫和明确审批，真实提供商与扩展仍关闭；CHANGE-08 范围／容量／保留及 OPS-08 跨阶段门继续进行，规划和 PRD 不代表产品全部实现。
+当前工作区包含产品规划、交互原型与已验收条目。依据 canonical backlog 当前为 **48 / 133 已验收**；M3 的 9 项均 verified，本次 M4 GIT-01 两项已通过。[最新逐项记录](../validation/git-01-evidence/acceptance.md)区分真实 SDK 本地夹具、故障注入、自动窗口、Windows 原生、失败和阶段复用。真实提供商与扩展仍关闭；FILE-01／02 尚待本次后续顺序实现，OPS-08 仍按跨阶段门判断。
 
 OPS-08 首次基线通过 14 份来源标明的历史 SDK 样本只读重放、投影 / IPC 故障与实际 UI 组合回归；当时完整 85 项 Vitest、12 项浏览器 / Electron 测试和干净目录验证通过，新增真实提供商请求 0。第一条契约验收已勾选；后续 SESSION-01 / 02 / 03 / 11 已补齐输入、恢复、整理、改名及标题多端同步 / 重连，当前完整门禁见上文。本次文件回滚／审查已纳入；其余双端业务、回滚范围／容量／保留及后续平台门禁仍待各阶段补齐，第二条不勾选；[阶段矩阵与证据](../development/tooling.md#ops-08-契约回归门禁)记录边界，不增加已验收数。
 
@@ -283,3 +283,7 @@ MODEL-05 已验收：只读SDK原生历史，按会话／轮次／模型消息�
 ## CHANGE-08 已验收与当前阶段
 
 CHANGE-08 已验收：审批与历史详情共用可回滚／部分／不可回滚范围，沿用 5 MiB／32 MiB／2048 项／8 层限制；每物理目录 512 MiB Git 对象估算、80% 预警，容量未知／不足暂停且保留所有已发布版本。失效诊断禁用回滚，执行在物理租约内重验原引用，预检后失效整批零写。最终 59 文件／398 项 Vitest、SDK、144 项 E2E 与完整 frozen clean 通过；78 条 Windows 原生观察含中间态，明暗 802×961、容量及引用故障、两次正常菜单退出和同 data/profile 重启零重放通过，5 份 JSONL 哈希不变。429 输入与 clean 一致，最终 CI 仅另有既有 SEC-08 测试等待修正，完整 clean 已覆盖，复用未变产品／窗口阶段。真实提供商 0，pi 配置／canonical 预算／锁未改；OPS-08 仍 in_progress [true,false]。代码块回滚和清理／删除版本未交付。 canonical计算本地47/133、M3共9项均verified，整体OPS-08继续跨阶段判断。下一步建议M4 GIT-01，依赖WS-03、CHANGE-03已verified；CHANGE-06属于M6，不在本次范围。来源、失败与限制见[验收记录](../validation/change-08-evidence/acceptance.md)。
+
+## GIT-01 已验收
+
+GIT-01 已验收：当前 cwd 子树真实 staged／unstaged／untracked／分支只读观察，来源独立标识，混合／未知不冒充 agent 独占。完整 60 文件／407 项 Vitest、SDK、147 项 E2E，完整 frozen clean 及布局／测试判据后续补充检查通过；71 条 Windows 原生观察、802px 明暗、两次正常退出、同 data/profile 重启零发送／内核／审批／授权，3 份 JSONL 与 Git 元数据及 5 保护文件不变。435 输入与 clean 一致，原生后复用门禁；无新增 IME，子模块内部未扫描且明确不完整。真实提供商 0，配置／预算／锁未改，OPS-08 继续 in_progress [true,false]。本地 48/133；范围、失败与来源见[验收记录](../validation/git-01-evidence/acceptance.md)。

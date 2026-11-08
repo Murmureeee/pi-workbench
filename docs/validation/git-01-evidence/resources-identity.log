@@ -1,0 +1,28 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/resources.test.ts (12 tests | 1 failed) 31496ms
+   ❯ CORE-07 real SDK + local HTTP fixture resource admission (12)
+     × applies configurable model concurrency and admits the next task only after a killed SDK is reaped 3254ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/resources.test.ts > CORE-07 real SDK + local HTTP fixture resource admission > applies configurable model concurrency and admits the next task only after a killed SDK is reaped
+Error: Command failed: powershell.exe -NoProfile -NonInteractive -Command Get-Process -Id 31924 -ErrorAction SilentlyContinue | ForEach-Object { $_.StartTime.ToUniversalTime().Ticks }
+ ❯ windowsProcessBirth apps/daemon/test/resources.test.ts:79:10
+     77|  * Compare the OS creation time, so a different process cannot be mist…
+     78| function windowsProcessBirth(pid: number): string {
+     79|   return execFileSync(
+       |          ^
+     80|     'powershell.exe',
+     81|     [
+ ❯ apps/daemon/test/resources.test.ts:354:16
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 11 passed (12)
+   Start at  02:05:51
+   Duration  33.28s (tests 95%, import 5%)
+

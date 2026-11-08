@@ -230,6 +230,18 @@ export class ChangeService {
     return this.row(turnId)
   }
 
+  /** Latest physical-directory record, including other sessions and active/failed rounds.
+   * Read-only callers must not skip an incomplete newest round to invent current authorship. */
+  latestDirectoryRound(directoryKey: string) {
+    const row = this.database.db
+      .select()
+      .from(changeRounds)
+      .where(eq(changeRounds.directoryKey, directoryKey))
+      .orderBy(desc(changeRounds.id))
+      .get()
+    return row ? changeRoundSchema.parse(JSON.parse(row.data)) : null
+  }
+
   /** Display-only scope from verified immutable versions. No permission or source proof.
    * A missing version disables restoration, without replacing its historical metadata.
    * Invocation paths come only from the final host guard, never a renderer path query. */

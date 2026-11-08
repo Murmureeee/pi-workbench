@@ -274,3 +274,4 @@ export type { RollbackRecord, RollbackTarget, RollbackCommand } from './change-r
 export * from './change-availability.js'
 export * from './change-decisions.js'
 export * from './change-coverage.js'
+export * from './git-status.js'

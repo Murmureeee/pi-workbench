@@ -273,3 +273,7 @@ CHANGE-08 已验收：审批与历史详情共用可回滚／部分／不可回�
 新增13项服务与4项Electron使用真实文件／SQLite／独立Git对象／SDK本地HTTP。容量填充、引用／对象损坏是明确故障注入，原生CLI预置和UIA／SendInput分开。最终CI之后只有SEC-08旧用例首段轮询等待从默认1秒改为15秒（50ms间隔，保留原断言和20秒总限），首次clean397/398、原文件7/7及第二次完整clean398/398均保留。未改产品／E2E／构建输入，复用144项已通过窗口；收尾纯文档另运行docs:build／fix／check，不宣称再次运行完整CI或第三次frozen。
 
 [验收记录](../validation/change-08-evidence/acceptance.md)、[完整验证清单](../validation/change-08-evidence/validation.json)、[源码审计](../validation/change-08-evidence/source-audit-final.json)保留历史失败及原生限制。M3功能9项通过仍不等于OPS-08第二项完成，跨阶段门保持false。
+
+## GIT-01 门禁与阶段复用
+
+GIT-01 已验收：当前 cwd 子树真实 staged／unstaged／untracked／分支只读观察，来源独立标识，混合／未知不冒充 agent 独占。完整 60 文件／407 项 Vitest、SDK、147 项 E2E，完整 frozen clean 及布局／测试判据后续补充检查通过；71 条 Windows 原生观察、802px 明暗、两次正常退出、同 data/profile 重启零发送／内核／审批／授权，3 份 JSONL 与 Git 元数据及 5 保护文件不变。435 输入与 clean 一致，原生后复用门禁；无新增 IME，子模块内部未扫描且明确不完整。真实提供商 0，配置／预算／锁未改，OPS-08 继续 in_progress [true,false]。本地 48/133；范围、失败与来源见[验收记录](../validation/git-01-evidence/acceptance.md)。原始完整 frozen 后仅同步两处布局与一个 CORE-07 测试判据，补充 clean check／build／相关测试，不称第二次完整 frozen。最终源码与 clean 的 435 输入一致；文档收尾只需 docs:build／fix／check。

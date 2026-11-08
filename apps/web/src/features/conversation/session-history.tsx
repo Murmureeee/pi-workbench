@@ -259,87 +259,89 @@ export function SessionHistory({
       aria-label="会话历史与恢复"
       className={`mx-auto flex min-h-0 w-full max-w-4xl flex-1 flex-col gap-3 p-4 ${embedded ? 'embedded-history' : 'h-full sm:p-6'}`}
     >
-      <h1>会话历史与恢复 · 只读</h1>
-      {titles.data?.titles.find((row) => row.sessionId === sessionId) ? (
-        <p aria-label="会话标题">
-          {titles.data.titles.find((row) => row.sessionId === sessionId)?.title}
+      <header className="history-controls">
+        <h1>会话历史与恢复 · 只读</h1>
+        {titles.data?.titles.find((row) => row.sessionId === sessionId) ? (
+          <p aria-label="会话标题">
+            {titles.data.titles.find((row) => row.sessionId === sessionId)?.title}
+          </p>
+        ) : null}
+        <p>
+          {page
+            ? page.source === 'synthetic-ipc-fixture'
+              ? '合成测试记录。'
+              : '真实 SDK + 本地模型夹具。'
+            : '正在读取记录来源。'}{' '}
+          重启仅恢复记录；排队任务需重新确认，旧授权不恢复。
         </p>
-      ) : null}
-      <p>
-        {page
-          ? page.source === 'synthetic-ipc-fixture'
-            ? '合成测试记录。'
-            : '真实 SDK + 本地模型夹具。'
-          : '正在读取记录来源。'}{' '}
-        重启仅恢复记录；排队任务需重新确认，旧授权不恢复。
-      </p>
-      <div className="flex flex-wrap gap-2">
-        <a
-          className={buttonVariants({ variant: 'outline' })}
-          href={`/?observe=${encodeURIComponent(sessionId)}`}
-        >
-          实时观察
-        </a>
-        <Button
-          variant="outline"
-          disabled={history.isFetching}
-          onClick={() => {
-            setLocationDismissed(targetMessage)
-            if (cursor) {
-              setCursor(null)
-            } else {
-              void history.refetch()
+        <div className="flex flex-wrap gap-2">
+          <a
+            className={buttonVariants({ variant: 'outline' })}
+            href={`/?observe=${encodeURIComponent(sessionId)}`}
+          >
+            实时观察
+          </a>
+          <Button
+            variant="outline"
+            disabled={history.isFetching}
+            onClick={() => {
+              setLocationDismissed(targetMessage)
+              if (cursor) {
+                setCursor(null)
+              } else {
+                void history.refetch()
+              }
+            }}
+          >
+            刷新最新历史
+          </Button>
+          <Button
+            variant="outline"
+            disabled={!page?.nextCursor || history.isFetching}
+            onClick={() =>
+              setCursor(
+                page?.nextCursor ?? null,
+                [...(cursor ? (view?.historyTrail ?? []) : []), cursor].slice(-100),
+              )
             }
-          }}
-        >
-          刷新最新历史
-        </Button>
-        <Button
-          variant="outline"
-          disabled={!page?.nextCursor || history.isFetching}
-          onClick={() =>
-            setCursor(
-              page?.nextCursor ?? null,
-              [...(cursor ? (view?.historyTrail ?? []) : []), cursor].slice(-100),
-            )
-          }
-        >
-          更早的消息
-        </Button>
-        <Button
-          variant="outline"
-          disabled={!cursor || !view?.historyTrail.length || history.isFetching}
-          onClick={() => {
-            const trail = sessionView(sessionId).historyTrail
-            setCursor(trail.at(-1) ?? null, trail.slice(0, -1))
-          }}
-        >
-          返回较新一页
-        </Button>
-        <Button disabled>继续任务（尚未开放）</Button>
-      </div>
-      <output aria-label="历史载入状态">
-        {history.isFetching
-          ? '正在读取历史'
-          : history.isError
-            ? '历史读取失败'
-            : `本页 ${page?.messages.length ?? 0} 条消息`}
-      </output>
-      {around && history.isSuccess ? (
-        <output>已定位搜索命中消息 · 可阅读前后文或刷新最新历史</output>
-      ) : null}
-      {history.isError ? (
-        <Alert variant="destructive">
-          <AlertTitle>历史读取失败</AlertTitle>
-          <AlertDescription>{history.error.message}</AlertDescription>
-        </Alert>
-      ) : null}
+          >
+            更早的消息
+          </Button>
+          <Button
+            variant="outline"
+            disabled={!cursor || !view?.historyTrail.length || history.isFetching}
+            onClick={() => {
+              const trail = sessionView(sessionId).historyTrail
+              setCursor(trail.at(-1) ?? null, trail.slice(0, -1))
+            }}
+          >
+            返回较新一页
+          </Button>
+          <Button disabled>继续任务（尚未开放）</Button>
+        </div>
+        <output aria-label="历史载入状态">
+          {history.isFetching
+            ? '正在读取历史'
+            : history.isError
+              ? '历史读取失败'
+              : `本页 ${page?.messages.length ?? 0} 条消息`}
+        </output>
+        {around && history.isSuccess ? (
+          <output>已定位搜索命中消息 · 可阅读前后文或刷新最新历史</output>
+        ) : null}
+        {history.isError ? (
+          <Alert variant="destructive">
+            <AlertTitle>历史读取失败</AlertTitle>
+            <AlertDescription>{history.error.message}</AlertDescription>
+          </Alert>
+        ) : null}
+      </header>
       <MessageScrollerProvider
         key={around ?? cursor ?? 'latest'}
         autoScroll={false}
         defaultScrollPosition={around ? 'start' : 'end'}
       >
-        <MessageScroller>
+        <MessageScroller className="h-auto flex-1">
           <RememberedViewport
             aria-label="持久化历史"
             sessionId={sessionId}

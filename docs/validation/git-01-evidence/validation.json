@@ -1,0 +1,55 @@
+{
+  "feature": "GIT-01",
+  "at": "2026-11-08T18:56:08.986Z",
+  "providerRequests": 0,
+  "completeCI": {
+    "command": "pnpm run ci",
+    "exitCode": 0,
+    "log": "ci-identity.log",
+    "vitestFiles": 60,
+    "vitest": 407,
+    "e2e": 147,
+    "sdk": true
+  },
+  "frozen": {
+    "command": "pnpm verify:clean",
+    "exitCode": 0,
+    "subsequentSupplement": [
+      "clean-ui-check.log",
+      "clean-ui-build.log",
+      "clean-identity-check.log",
+      "clean-identity-test.log"
+    ],
+    "sourceInputs": 435,
+    "mismatches": []
+  },
+  "native": {
+    "observations": 71,
+    "normalExits": 2,
+    "restart": {
+      "prompts": 0,
+      "kernels": 0,
+      "pending": 0,
+      "grants": 0
+    },
+    "jsonlFiles": 3,
+    "historiesUnchanged": true,
+    "gitMetadataUnchanged": true,
+    "protectedUnchanged": true
+  },
+  "scope": {
+    "desktopOnly": true,
+    "currentCwdSubtreeOnly": true,
+    "gitWrites": false,
+    "historyDiffReplaced": false,
+    "submodulesScanned": false,
+    "sourceProof": "byte-chain consistency, never exclusive author proof"
+  },
+  "ops08": {
+    "status": "in_progress",
+    "acceptanceChecked": [
+      true,
+      false
+    ]
+  }
+}

@@ -33,6 +33,7 @@ export const runtimeCapabilities = [
   'change-rollback-history-v1',
   'change-decisions-v1',
   'change-coverage-v1',
+  'git-status-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),

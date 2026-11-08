@@ -47,6 +47,8 @@ import { SessionService } from '../modules/sessions/session.service.js'
 import { SessionStore } from '../modules/sessions/session.store.js'
 import { registerSessionTransport } from '../modules/sessions/session.transport.js'
 import { DirectoryWriteService } from '../modules/workspaces/directory-write.service.js'
+import { GitStatusService } from '../modules/workspaces/git-status.service.js'
+import { registerGitStatusTransport } from '../modules/workspaces/git-status.transport.js'
 import { ProjectService } from '../modules/workspaces/project.service.js'
 import { WorkspaceAvailabilityService } from '../modules/workspaces/workspace-availability.service.js'
 import { WorkspaceEnvironmentService } from '../modules/workspaces/workspace-environment.service.js'
@@ -110,6 +112,13 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     throw error
   }
   const environment = new WorkspaceEnvironmentService(workspaces, store)
+  const gitStatus = new GitStatusService(
+    environment,
+    workspaces,
+    changes,
+    provenance,
+    security.redactor,
+  )
   const changeAvailability = new ChangeAvailabilityService(
     changes,
     review,
@@ -188,6 +197,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: ChangeRollbackService, useValue: rollback },
       { provide: ChangeDecisionService, useValue: decisions },
       { provide: WorkspaceEnvironmentService, useValue: environment },
+      { provide: GitStatusService, useValue: gitStatus },
       { provide: WorkspaceAvailabilityService, useValue: availability },
       { provide: ModelService, useValue: models },
       { provide: ProjectService, useValue: projects },
@@ -240,6 +250,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   registerRollbackTransport(adapter.getInstance(), rollback, access, store)
   registerChangeDecisions(adapter.getInstance(), decisions, access, store)
   registerTrustTransport(adapter.getInstance(), trust, access)
+  registerGitStatusTransport(adapter.getInstance(), gitStatus, access)
   registerWorkspaceTransport(
     adapter.getInstance(),
     workspaces,
