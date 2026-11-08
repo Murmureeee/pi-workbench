@@ -17,6 +17,7 @@ import {
 } from '@pi-workbench/ui/components/trace'
 
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
+import { OpenFileButton } from '../files/file-reader.js'
 import { MessageBody } from './message-body.js'
 import { useReadingLayout } from './reading-layout.js'
 
@@ -41,6 +42,34 @@ const ToolRow = memo(function ToolRow({
   )
   const reading = useReadingLayout()
   const presentation = useMemo(() => toolPresentation(tool), [tool])
+  const file = useMemo(() => {
+    if (!['read', 'write', 'edit'].includes(tool.name) || !tool.parameters) {
+      return null
+    }
+    try {
+      const value: unknown = JSON.parse(tool.parameters)
+      if (
+        typeof value === 'object' &&
+        value !== null &&
+        'path' in value &&
+        typeof value.path === 'string'
+      ) {
+        return {
+          path: value.path,
+          line:
+            'offset' in value &&
+            typeof value.offset === 'number' &&
+            Number.isInteger(value.offset) &&
+            value.offset > 0
+              ? value.offset
+              : 1,
+        }
+      }
+    } catch {
+      /* Non-JSON tool observations carry no inferred file target. */
+    }
+    return null
+  }, [tool.name, tool.parameters])
   const failed = ['error', 'denied', 'cancelled', 'interrupted'].includes(tool.status)
   const Icon =
     tool.status === 'completed'
@@ -137,6 +166,11 @@ const ToolRow = memo(function ToolRow({
               <p role="note">工具已截断输出；此处只能展开已捕获内容，未自动读取外部输出文件。</p>
             ) : null}
             <section aria-label="工具参数">
+              {file ? (
+                <OpenFileButton path={file.path} line={file.line}>
+                  打开工具关联的当前文件 · 第 {file.line} 行
+                </OpenFileButton>
+              ) : null}
               <h4>最终参数快照</h4>
               <MessageBody
                 sessionId={sessionId}

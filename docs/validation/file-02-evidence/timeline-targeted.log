@@ -1,0 +1,21 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:37364) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:12064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\file-reading.spec.ts:31:1 › FILE-02 Electron actual Chinese code lines append only selected rechecked bytes to owned unsent draft; current changes hide old content (11.2s)
+  ok 2 e2e\file-reading.spec.ts:66:1 › FILE-02 Electron binary/encoding/line overflow downgrade, light/dark narrow and same-profile restart read new disk bytes without kernels (10.9s)
+  ok 3 e2e\file-reading.spec.ts:118:1 › FILE-02 Electron actual SDK tool final path and immutable historical Diff line open independently verified current file (7.2s)
+  ok 4 e2e\file-reading.spec.ts:150:1 › FILE-02 Electron synthetic assistant path/line observation stays within physical cwd and never opens system protocols (5.4s)
+  ok 5 e2e\file-reading.spec.ts:188:1 › FILE-02 Electron delayed reference check cannot mutate a changed draft or another target, observation failure preserves actual SDK background (9.2s)
+  ok 6 e2e\tool-timeline.spec.ts:36:1 › OBS-03 actual Electron read-only Trace: nested identity, result-before-start, explicit outcomes/unknown metrics, safe structures and keyboard (6.3s)
+  ok 7 e2e\tool-timeline.spec.ts:98:1 › OBS-03 actual Electron long redacted output expands without changing source, Diff remains observation, light/dark narrow layouts stay bounded (6.8s)
+  ok 8 e2e\tool-timeline.spec.ts:170:1 › OBS-03 actual Electron expansion survives 3-view eviction/reload; background observations and reused call IDs cannot change current focus or another turn (15.0s)
+
+  8 passed (1.4m)

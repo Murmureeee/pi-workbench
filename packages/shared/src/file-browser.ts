@@ -63,3 +63,104 @@ export type FileNode = z.infer<typeof fileNodeSchema>
 export type FileListing = z.infer<typeof fileListingSchema>
 export type FileSearch = z.infer<typeof fileSearchSchema>
 export type FileLocation = z.infer<typeof fileLocationSchema>
+
+const readSource = z.union([
+  z.strictObject({ file: z.uuid() }),
+  z.strictObject({ path: z.string().min(1).max(4096) }),
+])
+export const fileReadInputSchema = z.strictObject({
+  target: workspaceEnvironmentTargetSchema,
+  source: readSource,
+  version: z
+    .string()
+    .regex(/^[a-f0-9]{64}$/)
+    .optional(),
+})
+export const fileReadQuerySchema = z.union([
+  z.strictObject({
+    workspaceId: z.uuid(),
+    file: z.uuid(),
+    version: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .optional(),
+  }),
+  z.strictObject({
+    sessionId: z.uuid(),
+    file: z.uuid(),
+    version: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .optional(),
+  }),
+  z.strictObject({
+    workspaceId: z.uuid(),
+    path: z.string().min(1).max(4096),
+    version: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .optional(),
+  }),
+  z.strictObject({
+    sessionId: z.uuid(),
+    path: z.string().min(1).max(4096),
+    version: z
+      .string()
+      .regex(/^[a-f0-9]{64}$/)
+      .optional(),
+  }),
+])
+/** Content is a checked, redacted reading snapshot, never the historical Diff or a file
+ * write capability. A changed/unsupported result carries no stale content. */
+export const fileReadingSchema = z.strictObject({
+  target: workspaceEnvironmentTargetSchema,
+  path: z.string(),
+  absolutePath: z.string(),
+  checkedAt: z.number().int().nonnegative(),
+  version: z.string().nullable(),
+  status: z.enum(['ready', 'changed', 'binary', 'encoding', 'too_large', 'redacted_lines']),
+  diagnostic: z.string(),
+  lines: z.array(z.string()).max(10000),
+  bytes: z.number().nonnegative(),
+})
+export type FileReadInput = z.infer<typeof fileReadInputSchema>
+export type FileReading = z.infer<typeof fileReadingSchema>
+
+/** Recognize only explicit local Markdown destinations. They remain untrusted hints
+ * for the daemon's current root; never hand them to browser/system navigation. */
+export function fileLink(value: string): { path: string; line: number } | null {
+  if (/[\p{Cc}\p{Cf}]/u.test(value) || value.length > 4200) {
+    return null
+  }
+  let path = value
+  try {
+    if (/^file:\/\//i.test(path)) {
+      const url = new URL(path)
+      if (url.host || url.search || url.username || url.password) {
+        return null
+      }
+      path = decodeURIComponent(url.pathname).replace(/^\/([A-Za-z]:\/)/, '$1') + url.hash
+    } else {
+      path = decodeURIComponent(path)
+    }
+  } catch {
+    return null
+  }
+  const match = /(?:#L(\d+)(?:-L?\d+)?|:(\d+)(?::\d+)?)$/.exec(path)
+  const line = Number(match?.[1] ?? match?.[2] ?? 1)
+  if (match) {
+    path = path.slice(0, match.index)
+  }
+  if (
+    !Number.isSafeInteger(line) ||
+    line < 1 ||
+    line > 10000 ||
+    /[\p{Cc}\p{Cf}?#]/u.test(path) ||
+    /^(?:\\\\|\/\/)/.test(path) ||
+    /^[A-Za-z][\w+.-]*:/.test(path.replace(/^[A-Za-z]:[\\/]/, '')) ||
+    !/(?:[\\/]|\.[\p{L}\d]{1,12}$)/u.test(path)
+  ) {
+    return null
+  }
+  return { path, line }
+}

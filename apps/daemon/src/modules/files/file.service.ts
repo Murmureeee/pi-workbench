@@ -1,18 +1,25 @@
 /* oxlint-disable no-await-in-loop -- Bounded filesystem steps must observe cancellation, physical identity and scan order sequentially. */
 import type { SessionStore } from '../sessions/session.store.js'
 import type { WorkspaceService } from '../workspaces/workspace.service.js'
-import type { FileNode, Redactor, WorkspaceEnvironmentTarget } from '@pi-workbench/shared'
+import type {
+  FileNode,
+  FileReadInput,
+  Redactor,
+  WorkspaceEnvironmentTarget,
+} from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
 import { constants } from 'node:fs'
 import { lstat, open, opendir } from 'node:fs/promises'
-import { basename, dirname, join } from 'node:path'
+import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path'
 
 import { HttpException } from '@nestjs/common'
 
 import {
   fileListingSchema,
   fileLocationSchema,
+  fileReadingSchema,
+  fileReadInputSchema,
   fileSearchSchema,
   gitEnvironmentSchema,
 } from '@pi-workbench/shared'
@@ -24,6 +31,7 @@ import {
   proveFilePath,
 } from '../../infrastructure/file-boundary.js'
 import { readGitCommand, readGitEnvironment } from '../workspaces/git-environment.js'
+import { readFileSnapshot } from './file-reading.js'
 
 type Handle = {
   target: string
@@ -533,6 +541,29 @@ export class FileService {
         absolutePath: this.redactor.text(proof.absolute),
         directory: await this.node(scope, parent === '.' ? '' : parent, 'unknown'),
       })
+    })
+  }
+
+  /** Path links are untrusted hints, resolved only inside the existing physical cwd.
+   * Reuse the same IO admission, identity recheck and lifecycle as metadata browsing. */
+  read(input: FileReadInput, signal?: AbortSignal) {
+    return this.run(async () => {
+      const q = fileReadInputSchema.parse(input),
+        scope = await this.scope(q.target)
+      let path: string
+      if ('file' in q.source) {
+        path = (await this.resolve(scope, q.source.file)).path
+      } else {
+        if (isAmbiguousPath(q.source.path) || isCredentialPath(q.source.path)) {
+          throw failure('文件路径无效或超出当前授权范围。')
+        }
+        path = isAbsolute(q.source.path)
+          ? relative(scope.root, resolve(q.source.path))
+          : q.source.path
+      }
+      const data = await readFileSnapshot(scope.root, path, this.redactor, q.version, signal)
+      await this.verify(scope, signal)
+      return fileReadingSchema.parse({ ...data, target: q.target })
     })
   }
 }

@@ -1,0 +1,63 @@
+{
+  "feature": "FILE-02",
+  "at": "2026-11-08T23:03:02.750Z",
+  "providerRequests": 0,
+  "completeCI": {
+    "command": "pnpm run ci",
+    "exitCode": 0,
+    "vitestFiles": 63,
+    "vitest": 426,
+    "e2e": 156,
+    "sdk": true
+  },
+  "frozen": {
+    "command": "pnpm verify:clean",
+    "exitCode": 0,
+    "sourceInputs": 448,
+    "mismatches": []
+  },
+  "native": {
+    "observations": 191,
+    "normalExits": 2,
+    "restart": {
+      "prompts": 0,
+      "kernels": 0,
+      "pending": 0,
+      "grants": 0
+    },
+    "jsonlFiles": 3,
+    "historiesUnchanged": true,
+    "gitMetadataUnchanged": true,
+    "protectedUnchanged": true
+  },
+  "scope": {
+    "desktopOnly": true,
+    "currentCwdOnly": true,
+    "addedRoots": false,
+    "editorWrites": false,
+    "limits": {
+      "fileBytes": 262144,
+      "lines": 10000,
+      "pageLines": 200,
+      "selectedLines": 200,
+      "selectedBytes": 32768,
+      "draftCharacters": 16000,
+      "activeIO": 4
+    }
+  },
+  "ops08": {
+    "status": "in_progress",
+    "acceptanceChecked": [
+      true,
+      false
+    ]
+  },
+  "postEvidenceChecks": {
+    "docsBuild": 0,
+    "formatAndLintFix": 0,
+    "check": 0,
+    "sourceInputs": 448,
+    "sourceMatchesCIAndFrozen": true,
+    "evidenceBytesBeforeReview": 4036261
+  }
+}

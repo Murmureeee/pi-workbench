@@ -1,0 +1,185 @@
+# Instructions
+
+- Following Playwright test failed.
+- Explain why, be concise, respect Playwright best practices.
+- Provide a snippet of code with the fix, if possible.
+
+# Test info
+
+- Name: file-reading.spec.ts >> FILE-02 Electron explicit message path/line links stay within physical cwd and do not open system protocols
+- Location: e2e\file-reading.spec.ts:149:1
+
+# Error details
+
+```
+Test timeout of 120000ms exceeded.
+```
+
+# Page snapshot
+
+```yaml
+- generic [ref=f1e3]:
+  - banner "桌面控制栏" [ref=f1e4]:
+    - generic [ref=f1e5]:
+      - generic [ref=f1e6]:
+        - button "后退" [ref=f1e7] [cursor=pointer]
+        - button "前进" [disabled]
+      - navigation "应用菜单" [ref=f1e8]:
+        - button "文件" [ref=f1e9] [cursor=pointer]
+        - button "编辑" [ref=f1e10] [cursor=pointer]
+        - button "视图" [ref=f1e11] [cursor=pointer]
+        - button "帮助" [ref=f1e12] [cursor=pointer]
+      - generic [ref=f1e13]: Pi Workbench
+  - generic [ref=f1e14]:
+    - navigation "工作台导航" [ref=f1e15]:
+      - link "打开工作台" [ref=f1e16] [cursor=pointer]:
+        - /url: /?session=522101cb-7128-43be-92f5-fb75d306b665
+      - link "打开设置" [ref=f1e17] [cursor=pointer]:
+        - /url: /?settings=appearance
+    - generic [ref=f1e22]:
+      - complementary "项目与会话" [ref=f1e23]:
+        - generic [ref=f1e24]:
+          - generic [ref=f1e25]: π
+          - strong [ref=f1e26]: Pi Workbench
+          - button "收起导航" [ref=f1e27] [cursor=pointer]
+        - navigation [ref=f1e28]:
+          - button "新会话" [ref=f1e29] [cursor=pointer]
+          - button "搜索会话 Ctrl+K" [ref=f1e30] [cursor=pointer]:
+            - text: 搜索会话
+            - generic [ref=f1e31]: Ctrl+K
+          - link "打开工作区" [ref=f1e32] [cursor=pointer]:
+            - /url: /?workspaces
+        - generic [ref=f1e33]:
+          - generic [ref=f1e34]:
+            - generic [ref=f1e35]: 会话
+            - button "已归档" [ref=f1e36] [cursor=pointer]
+          - region "项目分组" [ref=f1e37]:
+            - generic [ref=f1e38]:
+              - generic [ref=f1e39]: 项目
+              - button "新建项目" [ref=f1e40] [cursor=pointer]
+            - generic [ref=f1e41]:
+              - generic [ref=f1e42]: 检索项目名称或路径
+              - textbox "检索项目名称或路径" [ref=f1e43]:
+                - /placeholder: 搜索项目名称或路径
+            - paragraph [ref=f1e44]: 置顶优先 · 组内手动排序
+            - region "项目 修改审查项目 · 3eb623ae" [ref=f1e45]:
+              - generic [ref=f1e46]:
+                - button "修改审查项目" [expanded] [ref=f1e47] [cursor=pointer]
+                - button "项目新会话：修改审查项目 · 3eb623ae" [ref=f1e49] [cursor=pointer]
+                - button "项目菜单：修改审查项目 · 3eb623ae" [ref=f1e50] [cursor=pointer]
+              - paragraph [ref=f1e51]:
+                - generic [ref=f1e54]: C:\Users\Murmure\AppData\Local\Temp\piw-review-ui-fTQPWj\中文工作目录 · 3eb623ae
+              - generic [ref=f1e56]:
+                - button "[定位代码](中文%20code.ts#L2) [越界](../outside." [ref=f1e57] [cursor=pointer]
+                - button "会话菜单：[定位代码](中文%20code.ts#L2) [越界](../outside." [ref=f1e59] [cursor=pointer]
+            - region "项目 独立后台项目 · 482a7032" [ref=f1e60]:
+              - generic [ref=f1e61]:
+                - button "独立后台项目" [expanded] [ref=f1e62] [cursor=pointer]
+                - button "项目新会话：独立后台项目 · 482a7032" [ref=f1e64] [cursor=pointer]
+                - button "项目菜单：独立后台项目 · 482a7032" [ref=f1e65] [cursor=pointer]
+              - paragraph [ref=f1e66]:
+                - generic [ref=f1e69]: C:\Users\Murmure\AppData\Local\Temp\piw-review-ui-fTQPWj\独立目录 · 482a7032
+          - region "最近无项目会话" [ref=f1e70]:
+            - paragraph [ref=f1e71]: 最近 · 无项目
+        - generic [ref=f1e72]:
+          - link "旧 pi 历史 · 只读" [ref=f1e73] [cursor=pointer]:
+            - /url: /?legacy
+          - link "模型与提供商" [ref=f1e74] [cursor=pointer]:
+            - /url: /?models
+          - link "设置" [ref=f1e75] [cursor=pointer]:
+            - /url: /?settings=appearance
+          - link "离线状态样本" [ref=f1e76] [cursor=pointer]:
+            - /url: /?samples
+      - main [ref=f1e77]:
+        - generic [ref=f1e78]:
+          - generic [ref=f1e79]:
+            - button "标题菜单：[定位代码](中文%20code.ts#L2) [越界](../outside." [ref=f1e80] [cursor=pointer]:
+              - strong [ref=f1e81]: "[定位代码](中文%20code.ts#L2) [越界](../outside."
+            - generic [ref=f1e82]: 修改审查项目 · C:\Users\Murmure\AppData\Local\Temp\piw-review-ui-fTQPWj\中文工作目录
+          - button "会话授权 · 0" [ref=f1e83] [cursor=pointer]
+          - button "上下文与用量" [ref=f1e84] [cursor=pointer]
+          - button "历史记录" [ref=f1e85] [cursor=pointer]
+        - region "工作区环境与恢复" [ref=f1e86]:
+          - region "工作区与 Git 环境" [ref=f1e87]:
+            - generic [ref=f1e88]:
+              - generic [ref=f1e89]: 实际 cwd
+              - generic "环境执行目录" [ref=f1e90]: C:\Users\Murmure\AppData\Local\Temp\piw-review-ui-fTQPWj\中文工作目录
+              - generic "Git 状态" [ref=f1e91]: 非 Git 目录
+              - generic [ref=f1e93]: 本地只读 · 自动更新
+              - button "刷新环境标识" [ref=f1e94] [cursor=pointer]: 刷新
+          - region "目录写入与来源" [ref=f1e95]:
+            - generic [ref=f1e97]:
+              - generic [ref=f1e98]: 目录当前空闲
+              - button "查看目录占用与来源" [ref=f1e99] [cursor=pointer]
+          - button "查看仓库状态" [ref=f1e101] [cursor=pointer]
+          - button "浏览与查找文件" [ref=f1e102] [cursor=pointer]
+          - region "轮次文件版本" [ref=f1e103]:
+            - generic [ref=f1e105]:
+              - generic [ref=f1e106]: 基线已保存
+              - generic [ref=f1e107]: 本轮成功 · 收尾已保存
+              - button "查看轮次文件版本" [ref=f1e108] [cursor=pointer]
+            - region "持久回滚记录" [ref=f1e109]:
+              - button "查看持久回滚记录" [ref=f1e111] [cursor=pointer]
+          - region "工作区信任与恢复" [ref=f1e112]:
+            - generic [ref=f1e113]:
+              - generic [ref=f1e114]: 项目资源受限
+              - generic [ref=f1e115]: 已确认文本 0 项 · 未确认 0 项 · 无法检查 0 项。仅已确认文本可在下轮加载。扩展、脚本与安装动作保持禁用。
+              - link "检查资源信任" [ref=f1e116] [cursor=pointer]:
+                - /url: /?trust&project=C%3A%5CUsers%5CMurmure%5CAppData%5CLocal%5CTemp%5Cpiw-review-ui-fTQPWj%5C%E4%B8%AD%E6%96%87%E5%B7%A5%E4%BD%9C%E7%9B%AE%E5%BD%95
+              - button "重新校验执行目录" [ref=f1e117] [cursor=pointer]
+        - generic [ref=f1e119]:
+          - generic [ref=f1e120]:
+            - generic [ref=f1e121]:
+              - region "受管会话消息" [ref=f1e122]:
+                - log [ref=f1e123]:
+                  - paragraph [ref=f1e125]:
+                    - text: 真实 pi SDK + 本地 HTTP 夹具；回复为验收样本。仅核验后的受限读取自动，写入与命令未批准不执行；扩展和真实提供商关闭。
+                    - status "会话同步状态" [ref=f1e126]: 已同步
+                  - generic [ref=f1e127]:
+                    - generic [ref=f1e129]:
+                      - generic [ref=f1e130]: 你
+                      - generic [ref=f1e131]: "[定位代码](中文%20code.ts#L2) [越界](../outside.ts#L1) [危险](javascript:alert(1))"
+                    - generic [ref=f1e136]:
+                      - generic [ref=f1e137]: Pi · 本地夹具
+                      - generic [ref=f1e140]:
+                        - paragraph [ref=f1e142]: OFFLINE_OK
+                        - button "纯文本显示" [ref=f1e143] [cursor=pointer]
+                      - paragraph [ref=f1e144]: 当前模型未声明支持思考信息
+                      - region "模型请求状态" [ref=f1e145]:
+                        - status "模型重试策略" [ref=f1e146]: 模型请求 1 次 · 自动重试 0 次 · 重试上限 0
+              - button "返回最新消息":
+                - generic: 返回最新
+            - region "当前运行阶段" [ref=f1e147]:
+              - generic [ref=f1e148]:
+                - status "任务状态" [ref=f1e152]: 本轮已结束
+                - button "隐藏状态提示" [ref=f1e153] [cursor=pointer]
+          - generic [ref=f1e154]:
+            - generic [ref=f1e155]:
+              - generic [ref=f1e156]:
+                - generic [ref=f1e157]: 项目
+                - combobox "项目 项目" [disabled] [ref=f1e158] [cursor=pointer]:
+                  - option "无项目"
+                  - option "修改审查项目 · C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-review-ui-fTQPWj\\中文工作目录 · 3eb623ae" [selected]
+                  - option "独立后台项目 · C:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-review-ui-fTQPWj\\独立目录 · 482a7032"
+              - generic [ref=f1e159]:
+                - generic [ref=f1e160]: 模型
+                - combobox "模型 模型" [disabled] [ref=f1e161] [cursor=pointer]:
+                  - option "离线验收模型 · pi SDK 本地夹具" [selected]
+                  - option "离线思考夹具 · 仅文本"
+            - generic [ref=f1e162]:
+              - button "模型与思考设置" [ref=f1e163] [cursor=pointer]
+              - status "模型生效状态" [ref=f1e164]: 已生效：fixture / off
+            - paragraph [ref=f1e165]: 离线验收：固定样本回复，思考 off；仅文本，附件未开放。受限读取经宿主守卫，写入与命令未批准不执行。
+            - group [ref=f1e166]:
+              - textbox "任务内容" [active] [ref=f1e167]:
+                - /placeholder: 继续当前会话…
+              - group [ref=f1e168]:
+                - generic [ref=f1e169]: 当前会话
+                - button "发送任务" [disabled]
+            - generic [ref=f1e170]:
+              - generic [ref=f1e171]: Enter 发送 · Shift+Enter 换行
+              - generic [ref=f1e172]: 费用未知 · 未调用真实提供商
+        - generic [ref=f1e173]:
+          - generic [ref=f1e174]: 桌面已授权
+          - generic [ref=f1e175]: 真实传输关闭
+```

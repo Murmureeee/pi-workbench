@@ -1,0 +1,17 @@
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+apps/web/src/features/conversation/markdown-body.tsx:80:26: warning eslint(no-shadow): 'value' is already declared in the upper scope. help: Consider renaming 'value' to avoid shadowing the variable from the outer scope.
+apps/daemon/test/file-reading.test.ts:218:7: warning unicorn(consistent-function-scoping): Function `release` does not capture any variables from its parent scope help: Move `release` to the outer scope to avoid recreating it on every call.
+apps/web/src/features/files/file-reader.tsx:245:13: error jsx-a11y(no-noninteractive-tabindex): `tabIndex` should only be declared on interactive elements. help: The `tabIndex` attribute should be removed.
+apps/web/src/features/files/file-reader.tsx:241:12: error: Unused oxlint-disable directive (no problems were reported).
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

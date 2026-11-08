@@ -1,0 +1,14 @@
+$ pnpm lint:fix && pnpm format
+$ pnpm build:server && oxlint --fix .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+apps/daemon/test/file-reading.test.ts:274:11: warning unicorn(consistent-function-scoping): Function `isReadPrototype` does not capture any variables from its parent scope help: Move `isReadPrototype` to the outer scope to avoid recreating it on every call.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

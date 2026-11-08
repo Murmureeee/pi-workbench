@@ -546,3 +546,7 @@ CHANGE-08 的共享范围契约、FileLedger 容量核对、daemon coverage 只�
 ## GIT-01 运行规则
 
 注册 workspace/session 身份限定当前执行目录子树，daemon 只读 Git 当前状态；基线保留、工具观察和混合／未知来源独立说明。检查有界、显式刷新、失败隐藏旧状态，不触发模型、审批或 Git 写入。完整 407 项 Vitest／147 项 E2E、SDK、frozen clean 及后续补充检查通过；71 条 Windows 原生观察、两次正常退出与同 profile 重启零重放补齐，435 输入与 clean 一致。子模块内部未扫描、过滤器受限和有界时点观察明确降级。实现及来源见[验收记录](../validation/git-01-evidence/acceptance.md)，不提前验收 FILE 或 OPS 跨阶段门。
+
+## FILE-02 当前代码观察
+
+FileService.read 复用 FILE-01 已登记物理目标、四项 IO 准入与 KernelService 顺序退出；稳定 descriptor 和祖先链前后重验，不调用模型、写文件或修改 Git。shared 公开严格请求／展示契约、能力和纯本地链接解析；renderer 只有当前快照与显式引用 UI。路径字符串均为不可信定位提示，不能增加根或绕过 SEC-10。历史 Diff 与当前阅读分开查询，失败不以当前文件补造历史。完整实际门禁和来源见[验收记录](../validation/file-02-evidence/acceptance.md)。

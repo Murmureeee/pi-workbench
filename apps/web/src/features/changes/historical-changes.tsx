@@ -17,6 +17,7 @@ import {
 } from '@pi-workbench/ui/components/dialog'
 
 import { sessionJson } from '../../services/session-client.js'
+import { OpenFileButton } from '../files/file-reader.js'
 import { ChangeCoveragePanel } from './change-coverage.js'
 import { sourceLabel } from './change-labels.js'
 import { ReviewDecisions } from './review-decisions.js'
@@ -282,6 +283,8 @@ function ReviewBody({
       {selected ? (
         <section aria-label="所选文件历史Diff" className="historical-file-diff">
           <strong>{selected.file.path}</strong>
+          <OpenFileButton path={selected.file.path}>打开当前文件 · 第 1 行</OpenFileButton>
+          <p>当前文件在独立阅读窗口核对，可能已变化或删除；历史 Diff 保持下方账本版本。</p>
           <RollbackActions
             key={`${sessionId}:${turnId}:${selected.file.id}`}
             sessionId={sessionId}
@@ -321,7 +324,15 @@ function ReviewBody({
                     {hunk.lines.map((line) => (
                       <tr key={line.id} data-change-line={line.kind}>
                         <td>{line.oldLine ?? ''}</td>
-                        <td>{line.newLine ?? ''}</td>
+                        <td>
+                          {line.newLine ? (
+                            <OpenFileButton path={selected.file.path} line={line.newLine}>
+                              当前文件第 {line.newLine} 行
+                            </OpenFileButton>
+                          ) : (
+                            ''
+                          )}
+                        </td>
                         <td>
                           <code>
                             {line.kind === 'add' ? '+' : line.kind === 'delete' ? '−' : ' '}

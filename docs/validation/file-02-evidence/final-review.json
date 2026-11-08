@@ -1,0 +1,130 @@
+{
+  "at": "2026-11-08T23:09:02.277Z",
+  "checks": [
+    {
+      "name": "docs-final",
+      "exitCode": 0
+    },
+    {
+      "name": "fix-final",
+      "exitCode": 0
+    },
+    {
+      "name": "check-docs-final",
+      "exitCode": 0
+    }
+  ],
+  "sourceInputs": 448,
+  "sourceMatchesCIAndFrozen": true,
+  "changedFeatures": [
+    "FILE-02",
+    "OPS-08"
+  ],
+  "paths": [
+    "AGENTS.md",
+    "apps/daemon/src/modules/files/file-reading.ts",
+    "apps/daemon/src/modules/files/file.service.ts",
+    "apps/daemon/src/modules/files/file.transport.ts",
+    "apps/daemon/test/file-reading.test.ts",
+    "apps/web/src/features/changes/historical-changes.tsx",
+    "apps/web/src/features/conversation/markdown-body.tsx",
+    "apps/web/src/features/conversation/session-workbench.tsx",
+    "apps/web/src/features/conversation/tool-timeline.tsx",
+    "apps/web/src/features/files/file-browser.tsx",
+    "apps/web/src/features/files/file-reader-context.ts",
+    "apps/web/src/features/files/file-reader.tsx",
+    "docs/README.md",
+    "docs/architecture/data-lifecycle.md",
+    "docs/architecture/implementation-plan.md",
+    "docs/design/core-spec.md",
+    "docs/development/tooling.md",
+    "docs/product/backlog.json",
+    "docs/product/feature-list.md",
+    "docs/product/plan.md",
+    "docs/product/prd.html",
+    "docs/product/roadmap.html",
+    "docs/validation/file-02-evidence/acceptance.md",
+    "docs/validation/file-02-evidence/check-candidate.log",
+    "docs/validation/file-02-evidence/check-docs-final.log",
+    "docs/validation/file-02-evidence/check-initial-failed.log",
+    "docs/validation/file-02-evidence/check-later-failed.log",
+    "docs/validation/file-02-evidence/ci-first-failed.log",
+    "docs/validation/file-02-evidence/ci.log",
+    "docs/validation/file-02-evidence/clean-commands.json",
+    "docs/validation/file-02-evidence/clean-workspace.json",
+    "docs/validation/file-02-evidence/clean.log",
+    "docs/validation/file-02-evidence/docs-final.log",
+    "docs/validation/file-02-evidence/e2e-first-failed.log",
+    "docs/validation/file-02-evidence/e2e-targeted.log",
+    "docs/validation/file-02-evidence/fix-candidate.log",
+    "docs/validation/file-02-evidence/fix-final.log",
+    "docs/validation/file-02-evidence/fix-initial-failed.log",
+    "docs/validation/file-02-evidence/fix-race-failed.log",
+    "docs/validation/file-02-evidence/fix-timeline.log",
+    "docs/validation/file-02-evidence/message-first-failure.md",
+    "docs/validation/file-02-evidence/native-observations.json",
+    "docs/validation/file-02-evidence/native-validation.json",
+    "docs/validation/file-02-evidence/native/108-restart-history-preserved.png",
+    "docs/validation/file-02-evidence/native/12-actual-tool-file-content.png",
+    "docs/validation/file-02-evidence/native/20-read-chinese-code.png",
+    "docs/validation/file-02-evidence/native/23-external-change-hidden.png",
+    "docs/validation/file-02-evidence/native/36-encoding-diagnostic.png",
+    "docs/validation/file-02-evidence/native/43-paged-code-second-page.png",
+    "docs/validation/file-02-evidence/native/45-maximized-code-reader.png",
+    "docs/validation/file-02-evidence/native/52-light-narrow-size-applied.png",
+    "docs/validation/file-02-evidence/native/64-real-chinese-candidate.png",
+    "docs/validation/file-02-evidence/native/65-real-ime-number-selection-unsent.png",
+    "docs/validation/file-02-evidence/native/70-dark-narrow-current-code.png",
+    "docs/validation/file-02-evidence/native/76-independent-file-browser.png",
+    "docs/validation/file-02-evidence/native/90-historical-line-opens-current-bytes.png",
+    "docs/validation/file-02-evidence/native/91-history-preserved-after-current-read.png",
+    "docs/validation/file-02-evidence/native/98-restart-open-current-reader.png",
+    "docs/validation/file-02-evidence/protected.json",
+    "docs/validation/file-02-evidence/services-candidate.log",
+    "docs/validation/file-02-evidence/source-audit-final.json",
+    "docs/validation/file-02-evidence/timeline-first-failure.md",
+    "docs/validation/file-02-evidence/timeline-recovery-failure.md",
+    "docs/validation/file-02-evidence/timeline-targeted.log",
+    "docs/validation/file-02-evidence/validation.json",
+    "e2e/file-reading.spec.ts",
+    "e2e/tool-timeline.spec.ts",
+    "packages/shared/src/file-browser.test.ts",
+    "packages/shared/src/file-browser.ts",
+    "packages/shared/src/runtime-contracts.test.ts",
+    "packages/shared/src/runtime-contracts.ts"
+  ],
+  "files": 71,
+  "totalBytes": 6124604,
+  "evidenceBytes": 4036261,
+  "pngFiles": 15,
+  "sensitiveCandidateLocations": [
+    {
+      "path": "apps/daemon/test/file-reading.test.ts",
+      "line": 101,
+      "pattern": 1
+    },
+    {
+      "path": "apps/daemon/test/file-reading.test.ts",
+      "line": 113,
+      "pattern": 3
+    },
+    {
+      "path": "apps/daemon/test/file-reading.test.ts",
+      "line": 117,
+      "pattern": 3
+    }
+  ],
+  "manualReview": {
+    "sourceDiffReviewed": true,
+    "whitespaceOnlyProviderIndentationReviewed": true,
+    "sensitiveCandidates": "Only TEST ONLY private-key literal, isolated-secret-marker input and redacted expected output in file-reading.test.ts; no real credential values.",
+    "excluded": "No lock/budget/pi config, raw SDK JSONL, runtime database/profile, dependency, build output or temporary fixture staged.",
+    "sourceChangesAfterPassingCIAndClean": false,
+    "protectedFilesUnchanged": 5,
+    "whitespace": {
+      "sourceAndDocumentsExitCode": 0,
+      "rawEvidenceFullCheckExitCode": 2,
+      "reason": "Preserve original Windows CRLF and formatter/test reporter whitespace under .gitattributes -text; all remaining warnings are raw logs/error snapshots, never edited to pass."
+    }
+  }
+}

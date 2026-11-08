@@ -1,0 +1,786 @@
+{
+  "first": {
+    "feature": "file02",
+    "directory": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA",
+    "source": "Actual Electron native UIA/SendInput, CLI file/Git faults separated; no CDP or renderer injection.",
+    "desktopPid": 15660,
+    "exitInfo": {
+      "code": 0,
+      "signal": null
+    },
+    "prompts": 3,
+    "kernels": [
+      {
+        "protocol": 1,
+        "sessionId": "c1e9c77c-aae8-403d-bdcf-6b5490492c5d",
+        "epoch": "6a93eb34-9517-43b6-abb9-eaf5740be36b",
+        "source": "real-sdk/local-fixture",
+        "state": "stopped",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+        "turnId": "6e68be8e-a298-41df-ac2e-a6b4a299a809",
+        "pid": 46136,
+        "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\data\\kernels\\c1e9c77c-aae8-403d-bdcf-6b5490492c5d\\6a93eb34-9517-43b6-abb9-eaf5740be36b\\sessions\\2026-11-08T22-45-42-057Z_01a1bd56-c228-761e-81fb-82c526a82fff.jsonl",
+        "nativeSessionId": "01a1bd56-c228-761e-81fb-82c526a82fff"
+      }
+    ],
+    "pending": [],
+    "grants": {
+      "grants": [],
+      "auditWarning": null
+    },
+    "sessions": [
+      {
+        "id": "ad51c36e-0f99-4350-b77b-20079ebae20c",
+        "title": "实际工具写入与轮前来源",
+        "titleSource": "local",
+        "titleVersion": 1,
+        "membershipVersion": 1,
+        "creationRequestId": "37b4480e-253b-4f7f-a20f-98b305139bae",
+        "configuration": {
+          "projectId": "cc393918-7f7f-415b-945d-faf5a38ec8cf",
+          "workspaceId": "b6fa4703-2681-4696-800a-7938f113ec67",
+          "model": {
+            "kind": "local-fixture",
+            "provider": "piw-offline",
+            "model": "fixture"
+          },
+          "thinking": "off"
+        },
+        "workspaceId": "b6fa4703-2681-4696-800a-7938f113ec67",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\中文仓库",
+        "createdAt": 1794176538740
+      },
+      {
+        "id": "7957fa30-df43-414f-95c6-44314f78e9cd",
+        "title": "保持 独立目录后台",
+        "titleSource": "local",
+        "titleVersion": 1,
+        "membershipVersion": 1,
+        "creationRequestId": "bdd71973-57fa-4c95-acec-937fa75bad65",
+        "configuration": {
+          "projectId": "5139262a-44d4-4ea6-81fb-fc90a104e875",
+          "workspaceId": "216f05c1-abb0-4741-bb7c-208400204dac",
+          "model": {
+            "kind": "local-fixture",
+            "provider": "piw-offline",
+            "model": "fixture"
+          },
+          "thinking": "off"
+        },
+        "workspaceId": "216f05c1-abb0-4741-bb7c-208400204dac",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+        "createdAt": 1794176541905
+      },
+      {
+        "id": "c1e9c77c-aae8-403d-bdcf-6b5490492c5d",
+        "title": "保持 后台明确新轮",
+        "titleSource": "local",
+        "titleVersion": 1,
+        "membershipVersion": 1,
+        "creationRequestId": "b49109cd-dd63-473b-ad66-97aaad764e69",
+        "configuration": {
+          "projectId": "5139262a-44d4-4ea6-81fb-fc90a104e875",
+          "workspaceId": "216f05c1-abb0-4741-bb7c-208400204dac",
+          "model": {
+            "kind": "local-fixture",
+            "provider": "piw-offline",
+            "model": "fixture"
+          },
+          "thinking": "off"
+        },
+        "workspaceId": "216f05c1-abb0-4741-bb7c-208400204dac",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+        "createdAt": 1794177941034
+      }
+    ],
+    "changes": [
+      {
+        "sessionId": "ad51c36e-0f99-4350-b77b-20079ebae20c",
+        "rounds": [
+          {
+            "sessionId": "ad51c36e-0f99-4350-b77b-20079ebae20c",
+            "turnId": "787f1525-61b0-4ac1-829e-13df3b360b86",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\中文仓库",
+            "startedAt": 1794176538752,
+            "endedAt": 1794176541878,
+            "outcome": "completed",
+            "baseline": {
+              "status": "ready",
+              "reference": "1075d0c1de45b9670898e56887a667c15123c358",
+              "capturedAt": 1794176540516,
+              "files": 140,
+              "bytes": 8692,
+              "excluded": 5,
+              "exclusions": [
+                {
+                  "path": ".env",
+                  "reason": "私密配置"
+                },
+                {
+                  "path": ".git",
+                  "reason": "固定排除目录"
+                },
+                {
+                  "path": "node_modules",
+                  "reason": "固定排除目录"
+                },
+                {
+                  "path": "外部链接",
+                  "reason": "链接或非普通独占文件"
+                },
+                {
+                  "path": "ignored",
+                  "reason": ".gitignore"
+                }
+              ],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "0435009d964edfd26ce1dd2233f1b2bcf5b6c0bf",
+              "capturedAt": 1794176541878,
+              "files": 140,
+              "bytes": 8701,
+              "excluded": 5,
+              "exclusions": [
+                {
+                  "path": ".env",
+                  "reason": "私密配置"
+                },
+                {
+                  "path": ".git",
+                  "reason": "固定排除目录"
+                },
+                {
+                  "path": "node_modules",
+                  "reason": "固定排除目录"
+                },
+                {
+                  "path": "外部链接",
+                  "reason": "链接或非普通独占文件"
+                },
+                {
+                  "path": "ignored",
+                  "reason": ".gitignore"
+                }
+              ],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      },
+      {
+        "sessionId": "7957fa30-df43-414f-95c6-44314f78e9cd",
+        "rounds": [
+          {
+            "sessionId": "7957fa30-df43-414f-95c6-44314f78e9cd",
+            "turnId": "2a33559a-21b6-44d7-9391-5c8d37d37bd7",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+            "startedAt": 1794176541912,
+            "endedAt": 1794176844543,
+            "outcome": "failed",
+            "baseline": {
+              "status": "ready",
+              "reference": "5421085476231d030ae3cb4b35e754f0078c3c74",
+              "capturedAt": 1794176543266,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "891ca2006366e8bec8bae9b963534adb5bc16f5f",
+              "capturedAt": 1794176844543,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      },
+      {
+        "sessionId": "c1e9c77c-aae8-403d-bdcf-6b5490492c5d",
+        "rounds": [
+          {
+            "sessionId": "c1e9c77c-aae8-403d-bdcf-6b5490492c5d",
+            "turnId": "6e68be8e-a298-41df-ac2e-a6b4a299a809",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+            "startedAt": 1794177941042,
+            "endedAt": 1794178044832,
+            "outcome": "aborted",
+            "baseline": {
+              "status": "ready",
+              "reference": "754050df8600148b32e35b72bd213a863631cf4e",
+              "capturedAt": 1794177942439,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "d30c29b2c91f27efa11b05758b513f640ed2679d",
+              "capturedAt": 1794178044832,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      }
+    ],
+    "operations": [
+      {
+        "action": "edit-code",
+        "at": "2026-11-08T22:32:51.883Z",
+        "source": "explicit CLI isolated disk/SDK fixture"
+      },
+      {
+        "action": "remove-target",
+        "at": "2026-11-08T22:35:56.105Z",
+        "source": "explicit CLI isolated disk/SDK fixture"
+      },
+      {
+        "action": "restore-target",
+        "at": "2026-11-08T22:36:15.034Z",
+        "source": "explicit CLI isolated disk/SDK fixture"
+      },
+      {
+        "action": "start-background",
+        "at": "2026-11-08T22:45:41.044Z",
+        "source": "explicit CLI isolated disk/SDK fixture"
+      },
+      {
+        "action": "edit-current-approved",
+        "at": "2026-11-08T22:50:03.727Z",
+        "source": "explicit CLI isolated disk/SDK fixture"
+      }
+    ],
+    "historyBefore": {
+      "7957fa30-df43-414f-95c6-44314f78e9cd\\181118b1-8b80-4130-933e-6b26257843c5\\sessions\\2026-11-08T22-22-22-901Z_01a1bd41-68b5-742e-b3cc-a250124bf5b6.jsonl": "2d1a48da7c2a2c69aed0461b3d311be8d13f46be50a309bed889ce6ab4c42dd4",
+      "ad51c36e-0f99-4350-b77b-20079ebae20c\\edaaf692-e947-4c25-8fa6-edf54ade4908\\sessions\\2026-11-08T22-22-19-716Z_01a1bd41-5c43-772e-832a-19c84f678f23.jsonl": "0519f35295cbc0a71bfe812b918b222ad9919491a7e3ec7439afaadf75baaa39"
+    },
+    "historyAfter": {
+      "7957fa30-df43-414f-95c6-44314f78e9cd\\181118b1-8b80-4130-933e-6b26257843c5\\sessions\\2026-11-08T22-22-22-901Z_01a1bd41-68b5-742e-b3cc-a250124bf5b6.jsonl": "2b2a0219346d9b2a5f44e8647150c5bdb87f535fdf6d2d6e31d57ea89bfd1922",
+      "ad51c36e-0f99-4350-b77b-20079ebae20c\\edaaf692-e947-4c25-8fa6-edf54ade4908\\sessions\\2026-11-08T22-22-19-716Z_01a1bd41-5c43-772e-832a-19c84f678f23.jsonl": "0519f35295cbc0a71bfe812b918b222ad9919491a7e3ec7439afaadf75baaa39",
+      "c1e9c77c-aae8-403d-bdcf-6b5490492c5d\\6a93eb34-9517-43b6-abb9-eaf5740be36b\\sessions\\2026-11-08T22-45-42-057Z_01a1bd56-c228-761e-81fb-82c526a82fff.jsonl": "58bd1bed4263f160220c5a66fe558ea40d2671331f6c7ddd2515dbcc8efc4608"
+    },
+    "metadataBefore": {
+      ".git\\COMMIT_EDITMSG": "c16dae03277cec4dcb29091262df4907a0943bf335c6b4524e850e09bcfe14a0",
+      ".git\\config": "05becdb83bb897f6103c8d91439e2e9092144edf5b3955a746fce4975c12bfdc",
+      ".git\\description": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+      ".git\\HEAD": "2679139845bcc0cf1913f28606ff3abb2e8c8ad17ba4ec420d0318fede9ab13d",
+      ".git\\index": "78061a47b3a69fc1a5b1294df92763a3efeb4e5a34898974e313284d4f5fd051",
+      ".git\\hooks\\applypatch-msg.sample": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+      ".git\\hooks\\commit-msg.sample": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+      ".git\\hooks\\fsmonitor-watchman.sample": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+      ".git\\hooks\\post-update.sample": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+      ".git\\hooks\\pre-applypatch.sample": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+      ".git\\hooks\\pre-commit.sample": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+      ".git\\hooks\\pre-merge-commit.sample": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+      ".git\\hooks\\pre-push.sample": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+      ".git\\hooks\\pre-rebase.sample": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+      ".git\\hooks\\pre-receive.sample": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+      ".git\\hooks\\prepare-commit-msg.sample": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+      ".git\\hooks\\push-to-checkout.sample": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+      ".git\\hooks\\sendemail-validate.sample": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+      ".git\\hooks\\update.sample": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+      ".git\\info\\exclude": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+      ".git\\logs\\HEAD": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f",
+      ".git\\objects\\04\\ac910b3c883d5a1011cd3d7ae062315832f07d": "c7a495735a35864ce5e5635fe02c58443e045ff8b455bb4efc3bc43fb84f244d",
+      ".git\\objects\\1d\\772ee2c05c5e25d3486009461dfb7ec6f18750": "25835311a2165ee655025eef46dcc44b352b172a1d47785030af8ae75df4c60a",
+      ".git\\objects\\21\\365dc3d06114818c69402c735f07f06537641e": "fe35a6297063b4ae81250d8ecbc5a38126abcc4a4e919f2c80cc6eaae8dd7ce3",
+      ".git\\objects\\3a\\ee44a1eb3975e94060b0588ecf4594aa14389c": "7bc7870544a301fbbf829f564fcf63ebac556228debe564d96f56a4a41ea3156",
+      ".git\\objects\\d0\\fe82252177cb2caf3563f8190643a292c2caa1": "c2d42fc6ffb0250d7205d57673e7817f775af167b34a5804975479ab3200a98c",
+      ".git\\refs\\heads\\中文主分支": "36e74071571853e095ff0b17ec9e5904b3a42f27c088c72cb86d6b69aef9ab6e",
+      ".git\\logs\\refs\\heads\\中文主分支": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f"
+    },
+    "metadataAfter": {
+      ".git\\COMMIT_EDITMSG": "c16dae03277cec4dcb29091262df4907a0943bf335c6b4524e850e09bcfe14a0",
+      ".git\\config": "05becdb83bb897f6103c8d91439e2e9092144edf5b3955a746fce4975c12bfdc",
+      ".git\\description": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+      ".git\\HEAD": "2679139845bcc0cf1913f28606ff3abb2e8c8ad17ba4ec420d0318fede9ab13d",
+      ".git\\index": "78061a47b3a69fc1a5b1294df92763a3efeb4e5a34898974e313284d4f5fd051",
+      ".git\\hooks\\applypatch-msg.sample": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+      ".git\\hooks\\commit-msg.sample": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+      ".git\\hooks\\fsmonitor-watchman.sample": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+      ".git\\hooks\\post-update.sample": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+      ".git\\hooks\\pre-applypatch.sample": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+      ".git\\hooks\\pre-commit.sample": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+      ".git\\hooks\\pre-merge-commit.sample": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+      ".git\\hooks\\pre-push.sample": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+      ".git\\hooks\\pre-rebase.sample": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+      ".git\\hooks\\pre-receive.sample": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+      ".git\\hooks\\prepare-commit-msg.sample": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+      ".git\\hooks\\push-to-checkout.sample": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+      ".git\\hooks\\sendemail-validate.sample": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+      ".git\\hooks\\update.sample": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+      ".git\\info\\exclude": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+      ".git\\logs\\HEAD": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f",
+      ".git\\objects\\04\\ac910b3c883d5a1011cd3d7ae062315832f07d": "c7a495735a35864ce5e5635fe02c58443e045ff8b455bb4efc3bc43fb84f244d",
+      ".git\\objects\\1d\\772ee2c05c5e25d3486009461dfb7ec6f18750": "25835311a2165ee655025eef46dcc44b352b172a1d47785030af8ae75df4c60a",
+      ".git\\objects\\21\\365dc3d06114818c69402c735f07f06537641e": "fe35a6297063b4ae81250d8ecbc5a38126abcc4a4e919f2c80cc6eaae8dd7ce3",
+      ".git\\objects\\3a\\ee44a1eb3975e94060b0588ecf4594aa14389c": "7bc7870544a301fbbf829f564fcf63ebac556228debe564d96f56a4a41ea3156",
+      ".git\\objects\\d0\\fe82252177cb2caf3563f8190643a292c2caa1": "c2d42fc6ffb0250d7205d57673e7817f775af167b34a5804975479ab3200a98c",
+      ".git\\refs\\heads\\中文主分支": "36e74071571853e095ff0b17ec9e5904b3a42f27c088c72cb86d6b69aef9ab6e",
+      ".git\\logs\\refs\\heads\\中文主分支": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f"
+    },
+    "protectedBefore": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    },
+    "protectedAfter": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    },
+    "files": {
+      "code": "f1a181a10f7831813d3053bc748e7bcf2dcd2596ff416c4bb91169e3fc40d519",
+      "tracked": "bef124c84f206203abb97d33d7b4f1f585d97d43f208625df631143a31b04343",
+      "approved": "60f169da116d5560ec412c285ec5da2d1ac6ece9dea674e2841fa799e0bce9c4",
+      "dirty": "a8e23108f0573da9a15700f4e2ef4850527f2235a0dd3e541129cceb64a14d03"
+    },
+    "providerRequests": 0,
+    "closed": true,
+    "managedProcessesAfterClose": [
+      {
+        "pid": 46136,
+        "alive": false
+      }
+    ],
+    "historyAtClose": {
+      "7957fa30-df43-414f-95c6-44314f78e9cd\\181118b1-8b80-4130-933e-6b26257843c5\\sessions\\2026-11-08T22-22-22-901Z_01a1bd41-68b5-742e-b3cc-a250124bf5b6.jsonl": "2b2a0219346d9b2a5f44e8647150c5bdb87f535fdf6d2d6e31d57ea89bfd1922",
+      "ad51c36e-0f99-4350-b77b-20079ebae20c\\edaaf692-e947-4c25-8fa6-edf54ade4908\\sessions\\2026-11-08T22-22-19-716Z_01a1bd41-5c43-772e-832a-19c84f678f23.jsonl": "0519f35295cbc0a71bfe812b918b222ad9919491a7e3ec7439afaadf75baaa39",
+      "c1e9c77c-aae8-403d-bdcf-6b5490492c5d\\6a93eb34-9517-43b6-abb9-eaf5740be36b\\sessions\\2026-11-08T22-45-42-057Z_01a1bd56-c228-761e-81fb-82c526a82fff.jsonl": "58bd1bed4263f160220c5a66fe558ea40d2671331f6c7ddd2515dbcc8efc4608"
+    },
+    "metadataAtClose": {
+      ".git\\COMMIT_EDITMSG": "c16dae03277cec4dcb29091262df4907a0943bf335c6b4524e850e09bcfe14a0",
+      ".git\\config": "05becdb83bb897f6103c8d91439e2e9092144edf5b3955a746fce4975c12bfdc",
+      ".git\\description": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+      ".git\\HEAD": "2679139845bcc0cf1913f28606ff3abb2e8c8ad17ba4ec420d0318fede9ab13d",
+      ".git\\index": "78061a47b3a69fc1a5b1294df92763a3efeb4e5a34898974e313284d4f5fd051",
+      ".git\\hooks\\applypatch-msg.sample": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+      ".git\\hooks\\commit-msg.sample": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+      ".git\\hooks\\fsmonitor-watchman.sample": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+      ".git\\hooks\\post-update.sample": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+      ".git\\hooks\\pre-applypatch.sample": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+      ".git\\hooks\\pre-commit.sample": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+      ".git\\hooks\\pre-merge-commit.sample": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+      ".git\\hooks\\pre-push.sample": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+      ".git\\hooks\\pre-rebase.sample": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+      ".git\\hooks\\pre-receive.sample": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+      ".git\\hooks\\prepare-commit-msg.sample": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+      ".git\\hooks\\push-to-checkout.sample": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+      ".git\\hooks\\sendemail-validate.sample": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+      ".git\\hooks\\update.sample": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+      ".git\\info\\exclude": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+      ".git\\logs\\HEAD": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f",
+      ".git\\objects\\04\\ac910b3c883d5a1011cd3d7ae062315832f07d": "c7a495735a35864ce5e5635fe02c58443e045ff8b455bb4efc3bc43fb84f244d",
+      ".git\\objects\\1d\\772ee2c05c5e25d3486009461dfb7ec6f18750": "25835311a2165ee655025eef46dcc44b352b172a1d47785030af8ae75df4c60a",
+      ".git\\objects\\21\\365dc3d06114818c69402c735f07f06537641e": "fe35a6297063b4ae81250d8ecbc5a38126abcc4a4e919f2c80cc6eaae8dd7ce3",
+      ".git\\objects\\3a\\ee44a1eb3975e94060b0588ecf4594aa14389c": "7bc7870544a301fbbf829f564fcf63ebac556228debe564d96f56a4a41ea3156",
+      ".git\\objects\\d0\\fe82252177cb2caf3563f8190643a292c2caa1": "c2d42fc6ffb0250d7205d57673e7817f775af167b34a5804975479ab3200a98c",
+      ".git\\refs\\heads\\中文主分支": "36e74071571853e095ff0b17ec9e5904b3a42f27c088c72cb86d6b69aef9ab6e",
+      ".git\\logs\\refs\\heads\\中文主分支": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f"
+    },
+    "protectedAtClose": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  },
+  "restart": {
+    "feature": "file02",
+    "directory": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA",
+    "source": "Actual Electron native UIA/SendInput, CLI file/Git faults separated; no CDP or renderer injection.",
+    "desktopPid": 43120,
+    "exitInfo": {
+      "code": 0,
+      "signal": null
+    },
+    "prompts": 0,
+    "kernels": [],
+    "pending": [],
+    "grants": {
+      "grants": [],
+      "auditWarning": null
+    },
+    "sessions": [
+      {
+        "id": "ad51c36e-0f99-4350-b77b-20079ebae20c",
+        "title": "实际工具写入与轮前来源",
+        "titleSource": "local",
+        "titleVersion": 1,
+        "membershipVersion": 1,
+        "creationRequestId": "37b4480e-253b-4f7f-a20f-98b305139bae",
+        "configuration": {
+          "projectId": "cc393918-7f7f-415b-945d-faf5a38ec8cf",
+          "workspaceId": "b6fa4703-2681-4696-800a-7938f113ec67",
+          "model": {
+            "kind": "local-fixture",
+            "provider": "piw-offline",
+            "model": "fixture"
+          },
+          "thinking": "off"
+        },
+        "workspaceId": "b6fa4703-2681-4696-800a-7938f113ec67",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\中文仓库",
+        "createdAt": 1794176538740
+      },
+      {
+        "id": "7957fa30-df43-414f-95c6-44314f78e9cd",
+        "title": "保持 独立目录后台",
+        "titleSource": "local",
+        "titleVersion": 1,
+        "membershipVersion": 1,
+        "creationRequestId": "bdd71973-57fa-4c95-acec-937fa75bad65",
+        "configuration": {
+          "projectId": "5139262a-44d4-4ea6-81fb-fc90a104e875",
+          "workspaceId": "216f05c1-abb0-4741-bb7c-208400204dac",
+          "model": {
+            "kind": "local-fixture",
+            "provider": "piw-offline",
+            "model": "fixture"
+          },
+          "thinking": "off"
+        },
+        "workspaceId": "216f05c1-abb0-4741-bb7c-208400204dac",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+        "createdAt": 1794176541905
+      },
+      {
+        "id": "c1e9c77c-aae8-403d-bdcf-6b5490492c5d",
+        "title": "保持 后台明确新轮",
+        "titleSource": "local",
+        "titleVersion": 1,
+        "membershipVersion": 1,
+        "creationRequestId": "b49109cd-dd63-473b-ad66-97aaad764e69",
+        "configuration": {
+          "projectId": "5139262a-44d4-4ea6-81fb-fc90a104e875",
+          "workspaceId": "216f05c1-abb0-4741-bb7c-208400204dac",
+          "model": {
+            "kind": "local-fixture",
+            "provider": "piw-offline",
+            "model": "fixture"
+          },
+          "thinking": "off"
+        },
+        "workspaceId": "216f05c1-abb0-4741-bb7c-208400204dac",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+        "createdAt": 1794177941034
+      }
+    ],
+    "changes": [
+      {
+        "sessionId": "ad51c36e-0f99-4350-b77b-20079ebae20c",
+        "rounds": [
+          {
+            "sessionId": "ad51c36e-0f99-4350-b77b-20079ebae20c",
+            "turnId": "787f1525-61b0-4ac1-829e-13df3b360b86",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\中文仓库",
+            "startedAt": 1794176538752,
+            "endedAt": 1794176541878,
+            "outcome": "completed",
+            "baseline": {
+              "status": "ready",
+              "reference": "1075d0c1de45b9670898e56887a667c15123c358",
+              "capturedAt": 1794176540516,
+              "files": 140,
+              "bytes": 8692,
+              "excluded": 5,
+              "exclusions": [
+                {
+                  "path": ".env",
+                  "reason": "私密配置"
+                },
+                {
+                  "path": ".git",
+                  "reason": "固定排除目录"
+                },
+                {
+                  "path": "node_modules",
+                  "reason": "固定排除目录"
+                },
+                {
+                  "path": "外部链接",
+                  "reason": "链接或非普通独占文件"
+                },
+                {
+                  "path": "ignored",
+                  "reason": ".gitignore"
+                }
+              ],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "0435009d964edfd26ce1dd2233f1b2bcf5b6c0bf",
+              "capturedAt": 1794176541878,
+              "files": 140,
+              "bytes": 8701,
+              "excluded": 5,
+              "exclusions": [
+                {
+                  "path": ".env",
+                  "reason": "私密配置"
+                },
+                {
+                  "path": ".git",
+                  "reason": "固定排除目录"
+                },
+                {
+                  "path": "node_modules",
+                  "reason": "固定排除目录"
+                },
+                {
+                  "path": "外部链接",
+                  "reason": "链接或非普通独占文件"
+                },
+                {
+                  "path": "ignored",
+                  "reason": ".gitignore"
+                }
+              ],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      },
+      {
+        "sessionId": "7957fa30-df43-414f-95c6-44314f78e9cd",
+        "rounds": [
+          {
+            "sessionId": "7957fa30-df43-414f-95c6-44314f78e9cd",
+            "turnId": "2a33559a-21b6-44d7-9391-5c8d37d37bd7",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+            "startedAt": 1794176541912,
+            "endedAt": 1794176844543,
+            "outcome": "failed",
+            "baseline": {
+              "status": "ready",
+              "reference": "5421085476231d030ae3cb4b35e754f0078c3c74",
+              "capturedAt": 1794176543266,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "891ca2006366e8bec8bae9b963534adb5bc16f5f",
+              "capturedAt": 1794176844543,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      },
+      {
+        "sessionId": "c1e9c77c-aae8-403d-bdcf-6b5490492c5d",
+        "rounds": [
+          {
+            "sessionId": "c1e9c77c-aae8-403d-bdcf-6b5490492c5d",
+            "turnId": "6e68be8e-a298-41df-ac2e-a6b4a299a809",
+            "cwd": "D:\\Project\\pi-workbench\\.workbench\\m4-readers\\file02\\native-GdzbnA\\独立非Git目录",
+            "startedAt": 1794177941042,
+            "endedAt": 1794178044832,
+            "outcome": "aborted",
+            "baseline": {
+              "status": "ready",
+              "reference": "754050df8600148b32e35b72bd213a863631cf4e",
+              "capturedAt": 1794177942439,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "final": {
+              "status": "ready",
+              "reference": "d30c29b2c91f27efa11b05758b513f640ed2679d",
+              "capturedAt": 1794178044832,
+              "files": 0,
+              "bytes": 0,
+              "excluded": 0,
+              "exclusions": [],
+              "diagnostic": null
+            },
+            "provenance": "uncertain",
+            "automaticRollback": false
+          }
+        ],
+        "next": null
+      }
+    ],
+    "operations": [],
+    "historyBefore": {
+      "7957fa30-df43-414f-95c6-44314f78e9cd\\181118b1-8b80-4130-933e-6b26257843c5\\sessions\\2026-11-08T22-22-22-901Z_01a1bd41-68b5-742e-b3cc-a250124bf5b6.jsonl": "2b2a0219346d9b2a5f44e8647150c5bdb87f535fdf6d2d6e31d57ea89bfd1922",
+      "ad51c36e-0f99-4350-b77b-20079ebae20c\\edaaf692-e947-4c25-8fa6-edf54ade4908\\sessions\\2026-11-08T22-22-19-716Z_01a1bd41-5c43-772e-832a-19c84f678f23.jsonl": "0519f35295cbc0a71bfe812b918b222ad9919491a7e3ec7439afaadf75baaa39",
+      "c1e9c77c-aae8-403d-bdcf-6b5490492c5d\\6a93eb34-9517-43b6-abb9-eaf5740be36b\\sessions\\2026-11-08T22-45-42-057Z_01a1bd56-c228-761e-81fb-82c526a82fff.jsonl": "58bd1bed4263f160220c5a66fe558ea40d2671331f6c7ddd2515dbcc8efc4608"
+    },
+    "historyAfter": {
+      "7957fa30-df43-414f-95c6-44314f78e9cd\\181118b1-8b80-4130-933e-6b26257843c5\\sessions\\2026-11-08T22-22-22-901Z_01a1bd41-68b5-742e-b3cc-a250124bf5b6.jsonl": "2b2a0219346d9b2a5f44e8647150c5bdb87f535fdf6d2d6e31d57ea89bfd1922",
+      "ad51c36e-0f99-4350-b77b-20079ebae20c\\edaaf692-e947-4c25-8fa6-edf54ade4908\\sessions\\2026-11-08T22-22-19-716Z_01a1bd41-5c43-772e-832a-19c84f678f23.jsonl": "0519f35295cbc0a71bfe812b918b222ad9919491a7e3ec7439afaadf75baaa39",
+      "c1e9c77c-aae8-403d-bdcf-6b5490492c5d\\6a93eb34-9517-43b6-abb9-eaf5740be36b\\sessions\\2026-11-08T22-45-42-057Z_01a1bd56-c228-761e-81fb-82c526a82fff.jsonl": "58bd1bed4263f160220c5a66fe558ea40d2671331f6c7ddd2515dbcc8efc4608"
+    },
+    "metadataBefore": {
+      ".git\\COMMIT_EDITMSG": "c16dae03277cec4dcb29091262df4907a0943bf335c6b4524e850e09bcfe14a0",
+      ".git\\config": "05becdb83bb897f6103c8d91439e2e9092144edf5b3955a746fce4975c12bfdc",
+      ".git\\description": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+      ".git\\HEAD": "2679139845bcc0cf1913f28606ff3abb2e8c8ad17ba4ec420d0318fede9ab13d",
+      ".git\\index": "78061a47b3a69fc1a5b1294df92763a3efeb4e5a34898974e313284d4f5fd051",
+      ".git\\hooks\\applypatch-msg.sample": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+      ".git\\hooks\\commit-msg.sample": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+      ".git\\hooks\\fsmonitor-watchman.sample": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+      ".git\\hooks\\post-update.sample": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+      ".git\\hooks\\pre-applypatch.sample": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+      ".git\\hooks\\pre-commit.sample": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+      ".git\\hooks\\pre-merge-commit.sample": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+      ".git\\hooks\\pre-push.sample": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+      ".git\\hooks\\pre-rebase.sample": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+      ".git\\hooks\\pre-receive.sample": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+      ".git\\hooks\\prepare-commit-msg.sample": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+      ".git\\hooks\\push-to-checkout.sample": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+      ".git\\hooks\\sendemail-validate.sample": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+      ".git\\hooks\\update.sample": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+      ".git\\info\\exclude": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+      ".git\\logs\\HEAD": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f",
+      ".git\\objects\\04\\ac910b3c883d5a1011cd3d7ae062315832f07d": "c7a495735a35864ce5e5635fe02c58443e045ff8b455bb4efc3bc43fb84f244d",
+      ".git\\objects\\1d\\772ee2c05c5e25d3486009461dfb7ec6f18750": "25835311a2165ee655025eef46dcc44b352b172a1d47785030af8ae75df4c60a",
+      ".git\\objects\\21\\365dc3d06114818c69402c735f07f06537641e": "fe35a6297063b4ae81250d8ecbc5a38126abcc4a4e919f2c80cc6eaae8dd7ce3",
+      ".git\\objects\\3a\\ee44a1eb3975e94060b0588ecf4594aa14389c": "7bc7870544a301fbbf829f564fcf63ebac556228debe564d96f56a4a41ea3156",
+      ".git\\objects\\d0\\fe82252177cb2caf3563f8190643a292c2caa1": "c2d42fc6ffb0250d7205d57673e7817f775af167b34a5804975479ab3200a98c",
+      ".git\\refs\\heads\\中文主分支": "36e74071571853e095ff0b17ec9e5904b3a42f27c088c72cb86d6b69aef9ab6e",
+      ".git\\logs\\refs\\heads\\中文主分支": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f"
+    },
+    "metadataAfter": {
+      ".git\\COMMIT_EDITMSG": "c16dae03277cec4dcb29091262df4907a0943bf335c6b4524e850e09bcfe14a0",
+      ".git\\config": "05becdb83bb897f6103c8d91439e2e9092144edf5b3955a746fce4975c12bfdc",
+      ".git\\description": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+      ".git\\HEAD": "2679139845bcc0cf1913f28606ff3abb2e8c8ad17ba4ec420d0318fede9ab13d",
+      ".git\\index": "78061a47b3a69fc1a5b1294df92763a3efeb4e5a34898974e313284d4f5fd051",
+      ".git\\hooks\\applypatch-msg.sample": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+      ".git\\hooks\\commit-msg.sample": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+      ".git\\hooks\\fsmonitor-watchman.sample": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+      ".git\\hooks\\post-update.sample": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+      ".git\\hooks\\pre-applypatch.sample": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+      ".git\\hooks\\pre-commit.sample": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+      ".git\\hooks\\pre-merge-commit.sample": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+      ".git\\hooks\\pre-push.sample": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+      ".git\\hooks\\pre-rebase.sample": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+      ".git\\hooks\\pre-receive.sample": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+      ".git\\hooks\\prepare-commit-msg.sample": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+      ".git\\hooks\\push-to-checkout.sample": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+      ".git\\hooks\\sendemail-validate.sample": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+      ".git\\hooks\\update.sample": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+      ".git\\info\\exclude": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+      ".git\\logs\\HEAD": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f",
+      ".git\\objects\\04\\ac910b3c883d5a1011cd3d7ae062315832f07d": "c7a495735a35864ce5e5635fe02c58443e045ff8b455bb4efc3bc43fb84f244d",
+      ".git\\objects\\1d\\772ee2c05c5e25d3486009461dfb7ec6f18750": "25835311a2165ee655025eef46dcc44b352b172a1d47785030af8ae75df4c60a",
+      ".git\\objects\\21\\365dc3d06114818c69402c735f07f06537641e": "fe35a6297063b4ae81250d8ecbc5a38126abcc4a4e919f2c80cc6eaae8dd7ce3",
+      ".git\\objects\\3a\\ee44a1eb3975e94060b0588ecf4594aa14389c": "7bc7870544a301fbbf829f564fcf63ebac556228debe564d96f56a4a41ea3156",
+      ".git\\objects\\d0\\fe82252177cb2caf3563f8190643a292c2caa1": "c2d42fc6ffb0250d7205d57673e7817f775af167b34a5804975479ab3200a98c",
+      ".git\\refs\\heads\\中文主分支": "36e74071571853e095ff0b17ec9e5904b3a42f27c088c72cb86d6b69aef9ab6e",
+      ".git\\logs\\refs\\heads\\中文主分支": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f"
+    },
+    "protectedBefore": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    },
+    "protectedAfter": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    },
+    "files": {
+      "code": "f1a181a10f7831813d3053bc748e7bcf2dcd2596ff416c4bb91169e3fc40d519",
+      "tracked": "bef124c84f206203abb97d33d7b4f1f585d97d43f208625df631143a31b04343",
+      "approved": "60f169da116d5560ec412c285ec5da2d1ac6ece9dea674e2841fa799e0bce9c4",
+      "dirty": "a8e23108f0573da9a15700f4e2ef4850527f2235a0dd3e541129cceb64a14d03"
+    },
+    "providerRequests": 0,
+    "closed": true,
+    "managedProcessesAfterClose": [],
+    "historyAtClose": {
+      "7957fa30-df43-414f-95c6-44314f78e9cd\\181118b1-8b80-4130-933e-6b26257843c5\\sessions\\2026-11-08T22-22-22-901Z_01a1bd41-68b5-742e-b3cc-a250124bf5b6.jsonl": "2b2a0219346d9b2a5f44e8647150c5bdb87f535fdf6d2d6e31d57ea89bfd1922",
+      "ad51c36e-0f99-4350-b77b-20079ebae20c\\edaaf692-e947-4c25-8fa6-edf54ade4908\\sessions\\2026-11-08T22-22-19-716Z_01a1bd41-5c43-772e-832a-19c84f678f23.jsonl": "0519f35295cbc0a71bfe812b918b222ad9919491a7e3ec7439afaadf75baaa39",
+      "c1e9c77c-aae8-403d-bdcf-6b5490492c5d\\6a93eb34-9517-43b6-abb9-eaf5740be36b\\sessions\\2026-11-08T22-45-42-057Z_01a1bd56-c228-761e-81fb-82c526a82fff.jsonl": "58bd1bed4263f160220c5a66fe558ea40d2671331f6c7ddd2515dbcc8efc4608"
+    },
+    "metadataAtClose": {
+      ".git\\COMMIT_EDITMSG": "c16dae03277cec4dcb29091262df4907a0943bf335c6b4524e850e09bcfe14a0",
+      ".git\\config": "05becdb83bb897f6103c8d91439e2e9092144edf5b3955a746fce4975c12bfdc",
+      ".git\\description": "85ab6c163d43a17ea9cf7788308bca1466f1b0a8d1cc92e26e9bf63da4062aee",
+      ".git\\HEAD": "2679139845bcc0cf1913f28606ff3abb2e8c8ad17ba4ec420d0318fede9ab13d",
+      ".git\\index": "78061a47b3a69fc1a5b1294df92763a3efeb4e5a34898974e313284d4f5fd051",
+      ".git\\hooks\\applypatch-msg.sample": "0223497a0b8b033aa58a3a521b8629869386cf7ab0e2f101963d328aa62193f7",
+      ".git\\hooks\\commit-msg.sample": "1f74d5e9292979b573ebd59741d46cb93ff391acdd083d340b94370753d92437",
+      ".git\\hooks\\fsmonitor-watchman.sample": "e0549964e93897b519bd8e333c037e51fff0f88ba13e086a331592bf801fa1d0",
+      ".git\\hooks\\post-update.sample": "81765af2daef323061dcbc5e61fc16481cb74b3bac9ad8a174b186523586f6c5",
+      ".git\\hooks\\pre-applypatch.sample": "e15c5b469ea3e0a695bea6f2c82bcf8e62821074939ddd85b77e0007ff165475",
+      ".git\\hooks\\pre-commit.sample": "f9af7d95eb1231ecf2eba9770fedfa8d4797a12b02d7240e98d568201251244a",
+      ".git\\hooks\\pre-merge-commit.sample": "d3825a70337940ebbd0a5c072984e13245920cdf8898bd225c8d27a6dfc9cb53",
+      ".git\\hooks\\pre-push.sample": "ecce9c7e04d3f5dd9d8ada81753dd1d549a9634b26770042b58dda00217d086a",
+      ".git\\hooks\\pre-rebase.sample": "4febce867790052338076f4e66cc47efb14879d18097d1d61c8261859eaaa7b3",
+      ".git\\hooks\\pre-receive.sample": "a4c3d2b9c7bb3fd8d1441c31bd4ee71a595d66b44fcf49ddb310252320169989",
+      ".git\\hooks\\prepare-commit-msg.sample": "e9ddcaa4189fddd25ed97fc8c789eca7b6ca16390b2392ae3276f0c8e1aa4619",
+      ".git\\hooks\\push-to-checkout.sample": "a53d0741798b287c6dd7afa64aee473f305e65d3f49463bb9d7408ec3b12bf5f",
+      ".git\\hooks\\sendemail-validate.sample": "44ebfc923dc5466bc009602f0ecf067b9c65459abfe8868ddc49b78e6ced7a92",
+      ".git\\hooks\\update.sample": "8d5f2fa83e103cf08b57eaa67521df9194f45cbdbcb37da52ad586097a14d106",
+      ".git\\info\\exclude": "6671fe83b7a07c8932ee89164d1f2793b2318058eb8b98dc5c06ee0a5a3b0ec1",
+      ".git\\logs\\HEAD": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f",
+      ".git\\objects\\04\\ac910b3c883d5a1011cd3d7ae062315832f07d": "c7a495735a35864ce5e5635fe02c58443e045ff8b455bb4efc3bc43fb84f244d",
+      ".git\\objects\\1d\\772ee2c05c5e25d3486009461dfb7ec6f18750": "25835311a2165ee655025eef46dcc44b352b172a1d47785030af8ae75df4c60a",
+      ".git\\objects\\21\\365dc3d06114818c69402c735f07f06537641e": "fe35a6297063b4ae81250d8ecbc5a38126abcc4a4e919f2c80cc6eaae8dd7ce3",
+      ".git\\objects\\3a\\ee44a1eb3975e94060b0588ecf4594aa14389c": "7bc7870544a301fbbf829f564fcf63ebac556228debe564d96f56a4a41ea3156",
+      ".git\\objects\\d0\\fe82252177cb2caf3563f8190643a292c2caa1": "c2d42fc6ffb0250d7205d57673e7817f775af167b34a5804975479ab3200a98c",
+      ".git\\refs\\heads\\中文主分支": "36e74071571853e095ff0b17ec9e5904b3a42f27c088c72cb86d6b69aef9ab6e",
+      ".git\\logs\\refs\\heads\\中文主分支": "9e94312c680bda7fb5edb86dddfa0876a2b49e1b2b599ed67e3b2894039bb65f"
+    },
+    "protectedAtClose": {
+      "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  },
+  "observations": 191
+}

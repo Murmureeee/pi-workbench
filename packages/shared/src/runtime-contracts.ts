@@ -35,6 +35,7 @@ export const runtimeCapabilities = [
   'change-coverage-v1',
   'git-status-v1',
   'file-browser-v1',
+  'file-reading-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),

@@ -5,6 +5,7 @@ import type { FastifyInstance } from 'fastify'
 import {
   fileListQuerySchema,
   fileLocateQuerySchema,
+  fileReadQuerySchema,
   fileSearchQuerySchema,
 } from '@pi-workbench/shared'
 
@@ -15,7 +16,7 @@ export function registerFileTransport(
   files: FileService,
   access: AccessService,
 ) {
-  for (const operation of ['list', 'search', 'locate'] as const) {
+  for (const operation of ['list', 'search', 'locate', 'read'] as const) {
     server.get(`/api/files/${operation}`, async (request, reply) => {
       if (access.authenticate(request.headers.cookie)?.info.kind !== 'desktop') {
         return reply.code(403).send({ message: '文件浏览目前仅向已配对 Electron 开放。' })
@@ -23,9 +24,11 @@ export function registerFileTransport(
       const schema =
         operation === 'list'
           ? fileListQuerySchema
-          : operation === 'search'
-            ? fileSearchQuerySchema
-            : fileLocateQuerySchema
+          : operation === 'read'
+            ? fileReadQuerySchema
+            : operation === 'search'
+              ? fileSearchQuerySchema
+              : fileLocateQuerySchema
       const parsed = schema.safeParse(request.query)
       if (!parsed.success) {
         return reply.code(400).send({ message: '文件请求无效；只接受已登记身份和当前文件句柄。' })
@@ -40,13 +43,28 @@ export function registerFileTransport(
       }
       reply.raw.once('close', close)
       try {
+        if ('path' in q || (operation === 'read' && 'file' in q)) {
+          return await files.read(
+            {
+              target,
+              source: 'file' in q ? { file: q.file } : { path: q.path },
+              ...('version' in q && q.version ? { version: q.version } : {}),
+            },
+            abort.signal,
+          )
+        }
         if ('query' in q) {
           return await files.search(target, q.query, abort.signal)
         }
         if ('file' in q) {
           return await files.locate(target, q.file, abort.signal)
         }
-        return await files.list(target, q.directory, q.cursor, abort.signal)
+        return await files.list(
+          target,
+          'directory' in q ? q.directory : undefined,
+          'cursor' in q ? q.cursor : undefined,
+          abort.signal,
+        )
       } finally {
         reply.raw.off('close', close)
       }

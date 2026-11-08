@@ -64,6 +64,7 @@ import { retainSessionView, sessionView, useSessionViews } from '../../stores/se
 import { useWorkbench } from '../../stores/workbench.js'
 import { HistoricalChanges } from '../changes/historical-changes.js'
 import { FileBrowser } from '../files/file-browser.js'
+import { FileReaderProvider } from '../files/file-reader.js'
 import { GitStatusPanel } from '../workspaces/git-status.js'
 import { useWorkspaceAvailability } from '../workspaces/use-workspace-availability.js'
 import { WorkspaceEnvironment } from '../workspaces/workspace-environment.js'
@@ -508,677 +509,699 @@ function SessionPane({
   const selectedModel = JSON.stringify(configuration.model)
   const missingModel = providerBlocked && !modelOptions.some((item) => item.key === selectedModel)
   return (
-    <div className="workbench-root session-workbench">
-      <div className={`workspace ${navOpen ? 'nav-open' : ''}`}>
-        <aside className="sidebar" aria-label="项目与会话">
-          <div className="sidebar-brand">
-            <span className="pi-mark">π</span>
-            <strong>Pi Workbench</strong>
-            <Button variant="ghost" size="icon-sm" aria-label="收起导航" onClick={toggleNav}>
-              <PanelLeftIcon />
-            </Button>
-          </div>
-          <nav className="sidebar-actions">
-            <Button variant="ghost" onClick={() => newSession()}>
-              <MessageSquarePlusIcon data-icon="inline-start" />
-              新会话
-            </Button>
-            <Button variant="ghost" disabled={!authorized} onClick={() => setSearchOpen(true)}>
-              <SearchIcon data-icon="inline-start" />
-              搜索会话<span className="ml-auto text-xs text-muted-foreground">Ctrl+K</span>
-            </Button>
-            <a className={buttonVariants({ variant: 'ghost' })} href="/?workspaces">
-              <FolderIcon data-icon="inline-start" />
-              打开工作区
-            </a>
-          </nav>
-          <div className="sidebar-list">
-            <SessionLibrary
-              sessions={authorized ? (sessions.data?.sessions ?? []) : []}
-              organizations={organization.data?.organizations ?? []}
-              projects={authorized ? (options.data?.projects ?? []) : []}
-              activity={activity.data?.sessions ?? []}
-              currentId={sessionId}
-              active={active}
-              available={Boolean(
-                authorized &&
-                options.isSuccess &&
-                !options.isError &&
-                sessions.isSuccess &&
-                !sessions.isError &&
-                organization.isSuccess &&
-                !organization.isError &&
-                activity.isSuccess &&
-                !activity.isError,
-              )}
-              change={organization.change}
-              rename={beginRenaming}
-              csrf={csrf}
-              initialWorkspace={draft.workspace}
-              createdProject={(result) => {
-                const latest = sessionDraft('new')
-                if (
-                  activeKey.current === 'new' &&
-                  activeView.current &&
-                  latest.projectId === draft.projectId &&
-                  latest.workspace?.id === draft.workspace?.id &&
-                  !latest.pending
-                ) {
-                  update('new', { projectId: result.id, workspace: null })
-                }
-              }}
-              newSession={(id) => newSession(id)}
-              select={(id) => {
-                navigate(`/?session=${id}`)
-                if (navOpen) {
-                  toggleNav()
-                }
-              }}
-            />
-          </div>
-          <div className="sidebar-footer">
-            <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?legacy">
-              旧 pi 历史 · 只读
-            </a>
-            <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?models">
-              模型与提供商
-            </a>
-            <a
-              className={buttonVariants({ variant: 'ghost' })}
-              href="/?settings=appearance"
-              data-settings-trigger
-            >
-              <SettingsIcon data-icon="inline-start" />
-              设置
-            </a>
-            <a href="/?samples" className="sample-link">
-              离线状态样本
-            </a>
-          </div>
-        </aside>
-        {navOpen ? (
-          <button className="nav-scrim" aria-label="关闭导航遮罩" onClick={toggleNav} />
-        ) : null}
-        <main className="main-area">
-          <header className="thread-header">
-            <Button
-              className="mobile-nav"
-              variant="ghost"
-              size="icon-sm"
-              aria-label="展开导航"
-              onClick={toggleNav}
-            >
-              <PanelLeftIcon />
-            </Button>
-            <div className="thread-identity">
-              {current ? (
-                <DropdownMenu open={titleMenuOpen && active} onOpenChange={setTitleMenuOpen}>
-                  <DropdownMenuTrigger
-                    render={
-                      <Button
-                        variant="ghost"
-                        className="thread-title-menu"
-                        aria-label={`标题菜单：${current.title}`}
-                      />
-                    }
-                  >
-                    <strong>{current.title}</strong>
-                    <ChevronDownIcon data-icon="inline-end" />
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="start">
-                    <DropdownMenuGroup>
-                      <DropdownMenuItem onClick={() => beginRenaming(current)}>
-                        <PencilIcon />
-                        重命名会话
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setSpaceToken(crypto.randomUUID())}>
-                        <FolderIcon />
-                        执行空间与项目归属
-                      </DropdownMenuItem>
-                    </DropdownMenuGroup>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <strong>新会话</strong>
-              )}
-              <span>
-                {current
-                  ? `${options.data?.projects.find((item) => item.id === current.configuration.projectId)?.name ?? '无项目'} · ${current.configuration.workspaceId ? '' : '独立目录 · '}${current.cwd}`
-                  : `${project?.name ?? '无项目'} · ${project?.directory ?? draft.workspace?.canonicalPath ?? '独立目录（首次发送时创建）'}`}
-              </span>
+    <FileReaderProvider
+      target={directoryTarget}
+      enabled={Boolean(active && authorized)}
+      prepareAdd={() => {
+        const origin = useSessionDrafts.getState().drafts[key]
+        if (!active || !authorized || origin?.pending) {
+          return null
+        }
+        return (text) => {
+          if (useSessionDrafts.getState().drafts[key] !== origin) {
+            return '草稿在核对期间已变化，未覆盖；请重新选择加入。'
+          }
+          const appended = (origin?.text ?? '') + (origin?.text ? '\n\n' : '') + text
+          if (appended.length > 16000) {
+            return '加入后超过输入的 16,000 字符限额，请缩小选区。'
+          }
+          update(key, { text: appended })
+          return null
+        }
+      }}
+    >
+      <div className="workbench-root session-workbench">
+        <div className={`workspace ${navOpen ? 'nav-open' : ''}`}>
+          <aside className="sidebar" aria-label="项目与会话">
+            <div className="sidebar-brand">
+              <span className="pi-mark">π</span>
+              <strong>Pi Workbench</strong>
+              <Button variant="ghost" size="icon-sm" aria-label="收起导航" onClick={toggleNav}>
+                <PanelLeftIcon />
+              </Button>
             </div>
-            {current && authorized ? (
-              <SessionAuthorizations sessionId={current.id} csrf={csrf} active={active} />
-            ) : null}
-            {current && authorized ? (
-              <SessionUsage key={current.id} sessionId={current.id} active={active} />
-            ) : null}
-            {current ? (
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => {
-                  updateView(key, { panel: historyVisible ? 'conversation' : 'history' })
-                  if (targetMessage) {
-                    navigate(`/?session=${encodeURIComponent(key)}`)
+            <nav className="sidebar-actions">
+              <Button variant="ghost" onClick={() => newSession()}>
+                <MessageSquarePlusIcon data-icon="inline-start" />
+                新会话
+              </Button>
+              <Button variant="ghost" disabled={!authorized} onClick={() => setSearchOpen(true)}>
+                <SearchIcon data-icon="inline-start" />
+                搜索会话<span className="ml-auto text-xs text-muted-foreground">Ctrl+K</span>
+              </Button>
+              <a className={buttonVariants({ variant: 'ghost' })} href="/?workspaces">
+                <FolderIcon data-icon="inline-start" />
+                打开工作区
+              </a>
+            </nav>
+            <div className="sidebar-list">
+              <SessionLibrary
+                sessions={authorized ? (sessions.data?.sessions ?? []) : []}
+                organizations={organization.data?.organizations ?? []}
+                projects={authorized ? (options.data?.projects ?? []) : []}
+                activity={activity.data?.sessions ?? []}
+                currentId={sessionId}
+                active={active}
+                available={Boolean(
+                  authorized &&
+                  options.isSuccess &&
+                  !options.isError &&
+                  sessions.isSuccess &&
+                  !sessions.isError &&
+                  organization.isSuccess &&
+                  !organization.isError &&
+                  activity.isSuccess &&
+                  !activity.isError,
+                )}
+                change={organization.change}
+                rename={beginRenaming}
+                csrf={csrf}
+                initialWorkspace={draft.workspace}
+                createdProject={(result) => {
+                  const latest = sessionDraft('new')
+                  if (
+                    activeKey.current === 'new' &&
+                    activeView.current &&
+                    latest.projectId === draft.projectId &&
+                    latest.workspace?.id === draft.workspace?.id &&
+                    !latest.pending
+                  ) {
+                    update('new', { projectId: result.id, workspace: null })
                   }
                 }}
-              >
-                {historyVisible ? '返回对话' : '历史记录'}
-              </Button>
-            ) : null}
-          </header>
-          {authorized ? (
-            <section aria-label="工作区环境与恢复" className="workspace-context">
-              <WorkspaceEnvironment
-                recoveryHandled={directoryBlocked}
-                active={active}
-                cwd={
-                  current?.cwd ??
-                  (project ? (project.directory ?? undefined) : draft.workspace?.canonicalPath)
-                }
-                planned={!sessionId}
-                target={
-                  sessionId
-                    ? { sessionId }
-                    : configuration.workspaceId
-                      ? { workspaceId: configuration.workspaceId }
-                      : null
-                }
+                newSession={(id) => newSession(id)}
+                select={(id) => {
+                  navigate(`/?session=${id}`)
+                  if (navOpen) {
+                    toggleNav()
+                  }
+                }}
               />
-              {active ? <WorkspaceWriteStatus target={directoryTarget} /> : null}
-              {active ? <GitStatusPanel target={directoryTarget} /> : null}
-              {active ? <FileBrowser target={directoryTarget} /> : null}
-              {active && sessionId ? (
-                <ChangeSnapshots
-                  sessionId={sessionId}
-                  review={(turnId, trigger) => {
-                    reviewTrigger.current = trigger
-                    updateView(key, {
-                      changeReview: { turnId, fileId: null },
-                      changeReviewOpen: true,
-                    })
-                  }}
-                />
-              ) : null}
-              {active ? (
-                <WorkspaceSafety
-                  key={JSON.stringify(directoryTarget)}
-                  target={directoryTarget}
-                  data={availability.data}
-                  failed={availability.isError}
-                  fetching={availability.isFetching}
-                  csrf={csrf}
-                />
-              ) : null}
-            </section>
+            </div>
+            <div className="sidebar-footer">
+              <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?legacy">
+                旧 pi 历史 · 只读
+              </a>
+              <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?models">
+                模型与提供商
+              </a>
+              <a
+                className={buttonVariants({ variant: 'ghost' })}
+                href="/?settings=appearance"
+                data-settings-trigger
+              >
+                <SettingsIcon data-icon="inline-start" />
+                设置
+              </a>
+              <a href="/?samples" className="sample-link">
+                离线状态样本
+              </a>
+            </div>
+          </aside>
+          {navOpen ? (
+            <button className="nav-scrim" aria-label="关闭导航遮罩" onClick={toggleNav} />
           ) : null}
-          <div className="conversation-workspace">
-            <div className="conversation-column">
-              {current && authorized && historyVisible ? (
-                <SessionHistory
-                  sessionId={current.id}
-                  embedded
+          <main className="main-area">
+            <header className="thread-header">
+              <Button
+                className="mobile-nav"
+                variant="ghost"
+                size="icon-sm"
+                aria-label="展开导航"
+                onClick={toggleNav}
+              >
+                <PanelLeftIcon />
+              </Button>
+              <div className="thread-identity">
+                {current ? (
+                  <DropdownMenu open={titleMenuOpen && active} onOpenChange={setTitleMenuOpen}>
+                    <DropdownMenuTrigger
+                      render={
+                        <Button
+                          variant="ghost"
+                          className="thread-title-menu"
+                          aria-label={`标题菜单：${current.title}`}
+                        />
+                      }
+                    >
+                      <strong>{current.title}</strong>
+                      <ChevronDownIcon data-icon="inline-end" />
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="start">
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem onClick={() => beginRenaming(current)}>
+                          <PencilIcon />
+                          重命名会话
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => setSpaceToken(crypto.randomUUID())}>
+                          <FolderIcon />
+                          执行空间与项目归属
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                ) : (
+                  <strong>新会话</strong>
+                )}
+                <span>
+                  {current
+                    ? `${options.data?.projects.find((item) => item.id === current.configuration.projectId)?.name ?? '无项目'} · ${current.configuration.workspaceId ? '' : '独立目录 · '}${current.cwd}`
+                    : `${project?.name ?? '无项目'} · ${project?.directory ?? draft.workspace?.canonicalPath ?? '独立目录（首次发送时创建）'}`}
+                </span>
+              </div>
+              {current && authorized ? (
+                <SessionAuthorizations sessionId={current.id} csrf={csrf} active={active} />
+              ) : null}
+              {current && authorized ? (
+                <SessionUsage key={current.id} sessionId={current.id} active={active} />
+              ) : null}
+              {current ? (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    updateView(key, { panel: historyVisible ? 'conversation' : 'history' })
+                    if (targetMessage) {
+                      navigate(`/?session=${encodeURIComponent(key)}`)
+                    }
+                  }}
+                >
+                  {historyVisible ? '返回对话' : '历史记录'}
+                </Button>
+              ) : null}
+            </header>
+            {authorized ? (
+              <section aria-label="工作区环境与恢复" className="workspace-context">
+                <WorkspaceEnvironment
+                  recoveryHandled={directoryBlocked}
                   active={active}
-                  targetMessage={targetMessage}
+                  cwd={
+                    current?.cwd ??
+                    (project ? (project.directory ?? undefined) : draft.workspace?.canonicalPath)
+                  }
+                  planned={!sessionId}
+                  target={
+                    sessionId
+                      ? { sessionId }
+                      : configuration.workspaceId
+                        ? { workspaceId: configuration.workspaceId }
+                        : null
+                  }
                 />
-              ) : current && authorized ? (
-                <ManagedThread
-                  key={current.id}
-                  sessionId={current.id}
-                  submissions={submissions.data?.submissions ?? []}
-                  retry={(submission) => void send(submission)}
-                  retryDisabled={locked || sendBlocked || submissions.isError}
-                  active={active}
-                  organization={currentOrganization}
-                  changeOrganization={organization.change}
-                  organizationAvailable={authorized && !organization.isError}
-                  queue={inputQueue}
-                  stop={stopping}
-                  submissionsSynchronized={submissions.isSuccess && !submissions.isError}
-                  csrf={csrf}
-                />
-              ) : (
-                <div className="new-conversation new-session">
-                  <h1>今天想完成什么？</h1>
-                  <p>先描述任务，项目可选。首次发送后才保存会话。</p>
-                  <Badge variant="outline">默认离线 · 真实模型传输关闭</Badge>
-                </div>
-              )}
-              <div className="session-feedback" aria-live="polite">
-                {!authorized ? (
-                  <p>正在确认桌面授权；如未连接，请通过受管桌面入口启动。草稿可继续编辑。</p>
+                {active ? <WorkspaceWriteStatus target={directoryTarget} /> : null}
+                {active ? <GitStatusPanel target={directoryTarget} /> : null}
+                {active ? <FileBrowser target={directoryTarget} /> : null}
+                {active && sessionId ? (
+                  <ChangeSnapshots
+                    sessionId={sessionId}
+                    review={(turnId, trigger) => {
+                      reviewTrigger.current = trigger
+                      updateView(key, {
+                        changeReview: { turnId, fileId: null },
+                        changeReviewOpen: true,
+                      })
+                    }}
+                  />
                 ) : null}
-                {sessions.isError ||
-                options.isError ||
-                submissions.isError ||
-                organization.isError ||
-                activity.isError ? (
-                  <Alert>
-                    <AlertTitle>本地状态未同步</AlertTitle>
-                    <AlertDescription>
-                      草稿保留；恢复连接后刷新核对。
-                      <Button
-                        variant="outline"
-                        onClick={() => {
-                          void sessions.refetch()
-                          void options.refetch()
-                          void organization.refetch()
-                          void activity.refetch()
-                          if (sessionId) {
-                            void submissions.refetch()
-                          }
+                {active ? (
+                  <WorkspaceSafety
+                    key={JSON.stringify(directoryTarget)}
+                    target={directoryTarget}
+                    data={availability.data}
+                    failed={availability.isError}
+                    fetching={availability.isFetching}
+                    csrf={csrf}
+                  />
+                ) : null}
+              </section>
+            ) : null}
+            <div className="conversation-workspace">
+              <div className="conversation-column">
+                {current && authorized && historyVisible ? (
+                  <SessionHistory
+                    sessionId={current.id}
+                    embedded
+                    active={active}
+                    targetMessage={targetMessage}
+                  />
+                ) : current && authorized ? (
+                  <ManagedThread
+                    key={current.id}
+                    sessionId={current.id}
+                    submissions={submissions.data?.submissions ?? []}
+                    retry={(submission) => void send(submission)}
+                    retryDisabled={locked || sendBlocked || submissions.isError}
+                    active={active}
+                    organization={currentOrganization}
+                    changeOrganization={organization.change}
+                    organizationAvailable={authorized && !organization.isError}
+                    queue={inputQueue}
+                    stop={stopping}
+                    submissionsSynchronized={submissions.isSuccess && !submissions.isError}
+                    csrf={csrf}
+                  />
+                ) : (
+                  <div className="new-conversation new-session">
+                    <h1>今天想完成什么？</h1>
+                    <p>先描述任务，项目可选。首次发送后才保存会话。</p>
+                    <Badge variant="outline">默认离线 · 真实模型传输关闭</Badge>
+                  </div>
+                )}
+                <div className="session-feedback" aria-live="polite">
+                  {!authorized ? (
+                    <p>正在确认桌面授权；如未连接，请通过受管桌面入口启动。草稿可继续编辑。</p>
+                  ) : null}
+                  {sessions.isError ||
+                  options.isError ||
+                  submissions.isError ||
+                  organization.isError ||
+                  activity.isError ? (
+                    <Alert>
+                      <AlertTitle>本地状态未同步</AlertTitle>
+                      <AlertDescription>
+                        草稿保留；恢复连接后刷新核对。
+                        <Button
+                          variant="outline"
+                          onClick={() => {
+                            void sessions.refetch()
+                            void options.refetch()
+                            void organization.refetch()
+                            void activity.refetch()
+                            if (sessionId) {
+                              void submissions.refetch()
+                            }
+                          }}
+                        >
+                          <RefreshCwIcon data-icon="inline-start" />
+                          刷新状态
+                        </Button>
+                      </AlertDescription>
+                    </Alert>
+                  ) : null}
+                  {currentOrganization?.archived ? (
+                    <Alert>
+                      <AlertTitle>此会话已归档</AlertTitle>
+                      <AlertDescription>
+                        历史和草稿保留；请从已归档列表恢复后继续发送。
+                      </AlertDescription>
+                    </Alert>
+                  ) : null}
+                  {error ||
+                  (requestError &&
+                    !submissions.data?.submissions.some(
+                      (item) => item.requestId === requestError.requestId,
+                    )) ? (
+                    <Alert variant="destructive">
+                      <AlertTitle>任务尚未完成</AlertTitle>
+                      <AlertDescription>{error || requestError?.message}</AlertDescription>
+                    </Alert>
+                  ) : null}
+                  {notice ? <output aria-label="发送反馈">{notice}</output> : null}
+                  {storageFailed || viewStorageFailed ? (
+                    <p>草稿或阅读位置存储不可用，目前仅保留在此窗口中。</p>
+                  ) : null}
+                  {draft.pending ? (
+                    <div className="pending-request">
+                      <p>原提交待核对，正文和配置暂时锁定。不会自动重发。</p>
+                      <Button variant="outline" disabled={pending} onClick={() => void reconcile()}>
+                        核对原提交
+                      </Button>
+                      <Button disabled={pending || !authorized} onClick={() => void send()}>
+                        使用原请求重试保存
+                      </Button>
+                    </div>
+                  ) : null}
+                </div>
+                <div className="composer-area">
+                  <FieldGroup className="session-options">
+                    <Field>
+                      <FieldLabel htmlFor="session-project">项目</FieldLabel>
+                      <select
+                        id="session-project"
+                        value={configuration.projectId ?? ''}
+                        disabled={locked || Boolean(current)}
+                        onChange={(event) =>
+                          update(key, { projectId: event.target.value || null, workspace: null })
+                        }
+                      >
+                        <option value="">无项目</option>
+                        {configuration.projectId &&
+                        !options.data?.projects.some(
+                          (item) => item.id === configuration.projectId,
+                        ) ? (
+                          <option value={configuration.projectId}>
+                            项目已移除或未同步 · 请重新选择
+                          </option>
+                        ) : null}
+                        {options.data?.projects.map((item) => (
+                          <option key={item.id} value={item.id}>
+                            {item.name} · {item.directory ?? '独立目录'} · {item.id.slice(0, 8)}
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
+                    <Field>
+                      <FieldLabel htmlFor="session-model">模型</FieldLabel>
+                      <select
+                        id="session-model"
+                        value={selectedModel}
+                        disabled={locked || Boolean(current)}
+                        onChange={(event) => {
+                          const parsed: unknown = JSON.parse(event.target.value)
+                          update(key, { model: sessionOptionsModel(parsed), thinking: 'off' })
                         }}
                       >
-                        <RefreshCwIcon data-icon="inline-start" />
-                        刷新状态
-                      </Button>
-                    </AlertDescription>
-                  </Alert>
-                ) : null}
-                {currentOrganization?.archived ? (
-                  <Alert>
-                    <AlertTitle>此会话已归档</AlertTitle>
-                    <AlertDescription>
-                      历史和草稿保留；请从已归档列表恢复后继续发送。
-                    </AlertDescription>
-                  </Alert>
-                ) : null}
-                {error ||
-                (requestError &&
-                  !submissions.data?.submissions.some(
-                    (item) => item.requestId === requestError.requestId,
-                  )) ? (
-                  <Alert variant="destructive">
-                    <AlertTitle>任务尚未完成</AlertTitle>
-                    <AlertDescription>{error || requestError?.message}</AlertDescription>
-                  </Alert>
-                ) : null}
-                {notice ? <output aria-label="发送反馈">{notice}</output> : null}
-                {storageFailed || viewStorageFailed ? (
-                  <p>草稿或阅读位置存储不可用，目前仅保留在此窗口中。</p>
-                ) : null}
-                {draft.pending ? (
-                  <div className="pending-request">
-                    <p>原提交待核对，正文和配置暂时锁定。不会自动重发。</p>
-                    <Button variant="outline" disabled={pending} onClick={() => void reconcile()}>
-                      核对原提交
-                    </Button>
-                    <Button disabled={pending || !authorized} onClick={() => void send()}>
-                      使用原请求重试保存
-                    </Button>
-                  </div>
-                ) : null}
-              </div>
-              <div className="composer-area">
-                <FieldGroup className="session-options">
-                  <Field>
-                    <FieldLabel htmlFor="session-project">项目</FieldLabel>
-                    <select
-                      id="session-project"
-                      value={configuration.projectId ?? ''}
-                      disabled={locked || Boolean(current)}
-                      onChange={(event) =>
-                        update(key, { projectId: event.target.value || null, workspace: null })
-                      }
-                    >
-                      <option value="">无项目</option>
-                      {configuration.projectId &&
-                      !options.data?.projects.some(
-                        (item) => item.id === configuration.projectId,
-                      ) ? (
-                        <option value={configuration.projectId}>
-                          项目已移除或未同步 · 请重新选择
-                        </option>
-                      ) : null}
-                      {options.data?.projects.map((item) => (
-                        <option key={item.id} value={item.id}>
-                          {item.name} · {item.directory ?? '独立目录'} · {item.id.slice(0, 8)}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-                  <Field>
-                    <FieldLabel htmlFor="session-model">模型</FieldLabel>
-                    <select
-                      id="session-model"
-                      value={selectedModel}
-                      disabled={locked || Boolean(current)}
-                      onChange={(event) => {
-                        const parsed: unknown = JSON.parse(event.target.value)
-                        update(key, { model: sessionOptionsModel(parsed), thinking: 'off' })
-                      }}
-                    >
-                      <option
-                        disabled={!options.data?.localFixtureEnabled}
-                        value={JSON.stringify({
-                          kind: 'local-fixture',
-                          provider: 'piw-offline',
-                          model: 'fixture',
-                        })}
-                      >
-                        离线验收模型 · pi SDK 本地夹具
-                      </option>
-                      <option
-                        value={JSON.stringify({
-                          kind: 'local-fixture',
-                          provider: 'piw-offline',
-                          model: 'fixture-reasoning',
-                        })}
-                        disabled={!options.data?.localFixtureEnabled}
-                      >
-                        离线思考夹具 · 仅文本
-                      </option>
-                      {missingModel ? (
-                        <option value={selectedModel}>
-                          所选模型当前不可用 · {configuration.model.provider} /{' '}
-                          {configuration.model.model} · 未联网验证
-                        </option>
-                      ) : null}
-                      {modelOptions.map((item) => (
-                        <option key={item.key} value={item.key}>
-                          {item.label}
-                        </option>
-                      ))}
-                    </select>
-                  </Field>
-                </FieldGroup>
-                {current ? (
-                  <SessionModelControl
-                    sessionId={current.id}
-                    csrf={csrf}
-                    active={active}
-                    enabled={Boolean(
-                      authorized && !currentOrganization?.archived && !draft.pending,
-                    )}
-                  />
-                ) : (
-                  <Field>
-                    <FieldLabel htmlFor="new-session-thinking">思考级别</FieldLabel>
-                    <select
-                      id="new-session-thinking"
-                      value={draft.thinking}
-                      disabled={locked || configuration.model.kind === 'provider'}
-                      onChange={(event) =>
-                        update(key, { thinking: thinkingLevelSchema.parse(event.target.value) })
-                      }
-                    >
-                      {thinkingLevelSchema.options.map((level) => (
                         <option
-                          key={level}
-                          value={level}
-                          disabled={
-                            configuration.model.model === 'fixture-reasoning'
-                              ? !['off', 'low', 'medium', 'high'].includes(level)
-                              : level !== 'off'
-                          }
+                          disabled={!options.data?.localFixtureEnabled}
+                          value={JSON.stringify({
+                            kind: 'local-fixture',
+                            provider: 'piw-offline',
+                            model: 'fixture',
+                          })}
                         >
-                          {level}
+                          离线验收模型 · pi SDK 本地夹具
                         </option>
-                      ))}
-                    </select>
-                  </Field>
-                )}
-                {!current && !project ? (
-                  <details className="directory-options">
-                    <summary>执行目录：{draft.workspace?.canonicalPath ?? '独立目录'}</summary>
-                    <div>
-                      <FieldGroup>
-                        <Field>
-                          <FieldLabel htmlFor="execution-path">目录绝对路径（可选）</FieldLabel>
-                          <Input
-                            id="execution-path"
-                            value={directoryPath}
-                            disabled={locked}
-                            onChange={(event) => setDirectoryPath(event.target.value)}
-                          />
-                        </Field>
-                      </FieldGroup>
-                      <div className="directory-buttons">
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          disabled={locked}
-                          onClick={() => void chooseDirectory(true)}
+                        <option
+                          value={JSON.stringify({
+                            kind: 'local-fixture',
+                            provider: 'piw-offline',
+                            model: 'fixture-reasoning',
+                          })}
+                          disabled={!options.data?.localFixtureEnabled}
                         >
-                          选择文件夹
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          disabled={locked || !directoryPath.trim()}
-                          onClick={() => void chooseDirectory(false)}
-                        >
-                          校验此目录
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="ghost"
-                          disabled={locked}
-                          onClick={() => update(key, { workspace: null })}
-                        >
-                          使用独立目录
-                        </Button>
-                      </div>
-                    </div>
-                  </details>
-                ) : null}
-                {providerBlocked ? (
-                  <p className="phase-note">
-                    所选 pi
-                    模型未联网验证，真实传输关闭；选择已保留，未调用提供商。可在模型设置中检查来源。
-                  </p>
-                ) : options.data?.localFixtureEnabled ? (
-                  <p className="phase-note">
-                    离线验收：固定样本回复，思考 {configuration.thinking}
-                    ；仅文本，附件未开放。受限读取经宿主守卫，写入与命令未批准不执行。
-                  </p>
-                ) : (
-                  <p className="phase-note">当前环境未启用离线验收模型；草稿保留，发送关闭。</p>
-                )}
-                <InputGroup className="composer-box">
-                  <InputGroupTextarea
-                    ref={textarea}
-                    aria-label="任务内容"
-                    maxLength={16000}
-                    placeholder={current ? '继续当前会话…' : '描述任务，或提出一个问题…'}
-                    value={draft.text}
-                    readOnly={Boolean(draft.pending)}
-                    onChange={(event) => update(key, { text: event.target.value })}
-                    onCompositionStart={() => {
-                      composing.current = true
-                    }}
-                    onCompositionEnd={() => {
-                      composing.current = false
-                    }}
-                    onKeyDown={(event) => {
-                      if (
-                        event.key === 'Enter' &&
-                        !event.shiftKey &&
-                        !composing.current &&
-                        !event.nativeEvent.isComposing &&
-                        event.nativeEvent.keyCode !== 229
-                      ) {
-                        event.preventDefault()
-                        if (!locked && !sendBlocked) {
-                          void send()
+                          离线思考夹具 · 仅文本
+                        </option>
+                        {missingModel ? (
+                          <option value={selectedModel}>
+                            所选模型当前不可用 · {configuration.model.provider} /{' '}
+                            {configuration.model.model} · 未联网验证
+                          </option>
+                        ) : null}
+                        {modelOptions.map((item) => (
+                          <option key={item.key} value={item.key}>
+                            {item.label}
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
+                  </FieldGroup>
+                  {current ? (
+                    <SessionModelControl
+                      sessionId={current.id}
+                      csrf={csrf}
+                      active={active}
+                      enabled={Boolean(
+                        authorized && !currentOrganization?.archived && !draft.pending,
+                      )}
+                    />
+                  ) : (
+                    <Field>
+                      <FieldLabel htmlFor="new-session-thinking">思考级别</FieldLabel>
+                      <select
+                        id="new-session-thinking"
+                        value={draft.thinking}
+                        disabled={locked || configuration.model.kind === 'provider'}
+                        onChange={(event) =>
+                          update(key, { thinking: thinkingLevelSchema.parse(event.target.value) })
                         }
-                      }
-                    }}
-                  />
-                  <InputGroupAddon align="block-end">
-                    <span className="composer-option">
-                      {current ? '当前会话' : (project?.name ?? '无项目')}
-                    </span>
-                    <span className="flex-1" />
-                    {activeSubmission ? (
+                      >
+                        {thinkingLevelSchema.options.map((level) => (
+                          <option
+                            key={level}
+                            value={level}
+                            disabled={
+                              configuration.model.model === 'fixture-reasoning'
+                                ? !['off', 'low', 'medium', 'high'].includes(level)
+                                : level !== 'off'
+                            }
+                          >
+                            {level}
+                          </option>
+                        ))}
+                      </select>
+                    </Field>
+                  )}
+                  {!current && !project ? (
+                    <details className="directory-options">
+                      <summary>执行目录：{draft.workspace?.canonicalPath ?? '独立目录'}</summary>
+                      <div>
+                        <FieldGroup>
+                          <Field>
+                            <FieldLabel htmlFor="execution-path">目录绝对路径（可选）</FieldLabel>
+                            <Input
+                              id="execution-path"
+                              value={directoryPath}
+                              disabled={locked}
+                              onChange={(event) => setDirectoryPath(event.target.value)}
+                            />
+                          </Field>
+                        </FieldGroup>
+                        <div className="directory-buttons">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={locked}
+                            onClick={() => void chooseDirectory(true)}
+                          >
+                            选择文件夹
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            disabled={locked || !directoryPath.trim()}
+                            onClick={() => void chooseDirectory(false)}
+                          >
+                            校验此目录
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            disabled={locked}
+                            onClick={() => update(key, { workspace: null })}
+                          >
+                            使用独立目录
+                          </Button>
+                        </div>
+                      </div>
+                    </details>
+                  ) : null}
+                  {providerBlocked ? (
+                    <p className="phase-note">
+                      所选 pi
+                      模型未联网验证，真实传输关闭；选择已保留，未调用提供商。可在模型设置中检查来源。
+                    </p>
+                  ) : options.data?.localFixtureEnabled ? (
+                    <p className="phase-note">
+                      离线验收：固定样本回复，思考 {configuration.thinking}
+                      ；仅文本，附件未开放。受限读取经宿主守卫，写入与命令未批准不执行。
+                    </p>
+                  ) : (
+                    <p className="phase-note">当前环境未启用离线验收模型；草稿保留，发送关闭。</p>
+                  )}
+                  <InputGroup className="composer-box">
+                    <InputGroupTextarea
+                      ref={textarea}
+                      aria-label="任务内容"
+                      maxLength={16000}
+                      placeholder={current ? '继续当前会话…' : '描述任务，或提出一个问题…'}
+                      value={draft.text}
+                      readOnly={Boolean(draft.pending)}
+                      onChange={(event) => update(key, { text: event.target.value })}
+                      onCompositionStart={() => {
+                        composing.current = true
+                      }}
+                      onCompositionEnd={() => {
+                        composing.current = false
+                      }}
+                      onKeyDown={(event) => {
+                        if (
+                          event.key === 'Enter' &&
+                          !event.shiftKey &&
+                          !composing.current &&
+                          !event.nativeEvent.isComposing &&
+                          event.nativeEvent.keyCode !== 229
+                        ) {
+                          event.preventDefault()
+                          if (!locked && !sendBlocked) {
+                            void send()
+                          }
+                        }
+                      }}
+                    />
+                    <InputGroupAddon align="block-end">
+                      <span className="composer-option">
+                        {current ? '当前会话' : (project?.name ?? '无项目')}
+                      </span>
+                      <span className="flex-1" />
+                      {activeSubmission ? (
+                        <Button
+                          size="icon-sm"
+                          variant="secondary"
+                          aria-label="停止本轮"
+                          disabled={
+                            stopping?.requestId === activeSubmission.requestId &&
+                            stopping.state === 'sending'
+                          }
+                          onClick={() => {
+                            const originKey = key
+                            setError('')
+                            setRequestError(null)
+                            setNotice('')
+                            const intent: StopIntent = {
+                              requestId: activeSubmission.requestId,
+                              turnId: activeSubmission.turnId,
+                              state: 'sending',
+                              error: null,
+                            }
+                            setStopping(intent)
+                            void sessionJson(
+                              `/api/chat/sessions/${sessionId}/abort`,
+                              undefined,
+                              { requestId: activeSubmission.requestId },
+                              csrf,
+                            )
+                              .then(() => {
+                                if (activeKey.current === originKey) {
+                                  setStopping((prior) =>
+                                    prior?.requestId === intent.requestId
+                                      ? { ...intent, state: 'requested' }
+                                      : prior,
+                                  )
+                                }
+                                return undefined
+                              })
+                              .catch((cause: unknown) => {
+                                if (activeKey.current === originKey) {
+                                  setStopping((prior) =>
+                                    prior?.requestId === intent.requestId
+                                      ? {
+                                          ...intent,
+                                          state: 'unknown',
+                                          error:
+                                            cause instanceof Error
+                                              ? cause.message
+                                              : '停止结果待确认。',
+                                        }
+                                      : prior,
+                                  )
+                                }
+                              })
+                          }}
+                        >
+                          <SquareIcon />
+                        </Button>
+                      ) : null}
                       <Button
                         size="icon-sm"
-                        variant="secondary"
-                        aria-label="停止本轮"
+                        aria-label="发送任务"
                         disabled={
-                          stopping?.requestId === activeSubmission.requestId &&
-                          stopping.state === 'sending'
+                          locked ||
+                          sendBlocked ||
+                          !draft.text.trim() ||
+                          submissions.isError ||
+                          sessions.isError
                         }
-                        onClick={() => {
-                          const originKey = key
-                          setError('')
-                          setRequestError(null)
-                          setNotice('')
-                          const intent: StopIntent = {
-                            requestId: activeSubmission.requestId,
-                            turnId: activeSubmission.turnId,
-                            state: 'sending',
-                            error: null,
-                          }
-                          setStopping(intent)
-                          void sessionJson(
-                            `/api/chat/sessions/${sessionId}/abort`,
-                            undefined,
-                            { requestId: activeSubmission.requestId },
-                            csrf,
-                          )
-                            .then(() => {
-                              if (activeKey.current === originKey) {
-                                setStopping((prior) =>
-                                  prior?.requestId === intent.requestId
-                                    ? { ...intent, state: 'requested' }
-                                    : prior,
-                                )
-                              }
-                              return undefined
-                            })
-                            .catch((cause: unknown) => {
-                              if (activeKey.current === originKey) {
-                                setStopping((prior) =>
-                                  prior?.requestId === intent.requestId
-                                    ? {
-                                        ...intent,
-                                        state: 'unknown',
-                                        error:
-                                          cause instanceof Error
-                                            ? cause.message
-                                            : '停止结果待确认。',
-                                      }
-                                    : prior,
-                                )
-                              }
-                            })
-                        }}
+                        onClick={() => void send()}
                       >
-                        <SquareIcon />
+                        <ArrowUpIcon />
                       </Button>
-                    ) : null}
-                    <Button
-                      size="icon-sm"
-                      aria-label="发送任务"
-                      disabled={
-                        locked ||
-                        sendBlocked ||
-                        !draft.text.trim() ||
-                        submissions.isError ||
-                        sessions.isError
-                      }
-                      onClick={() => void send()}
-                    >
-                      <ArrowUpIcon />
-                    </Button>
-                  </InputGroupAddon>
-                </InputGroup>
-                {current ? (
-                  <SessionInputQueue
-                    query={inputQueue}
-                    sessionId={current.id}
-                    turnId={activeSubmission?.turnId ?? null}
-                    csrf={csrf}
-                    text={draft.text}
-                    enabled={Boolean(
-                      authorized &&
-                      !directoryBlocked &&
-                      !currentOrganization?.archived &&
-                      !draft.pending,
-                    )}
-                    onQueued={(text) => {
-                      // Immutable draft identity also protects A→B→A edits while a queue
-                      // receipt is delayed; matching text alone is not a request version.
-                      if (sessionDraft(key) === draft && draft.text.trim() === text) {
-                        update(key, { text: '' })
-                      }
-                    }}
-                  />
-                ) : null}
-                <div className="composer-hint">
-                  <span>Enter 发送 · Shift+Enter 换行</span>
-                  <span>{pending ? '正在保存…' : '费用未知 · 未调用真实提供商'}</span>
+                    </InputGroupAddon>
+                  </InputGroup>
+                  {current ? (
+                    <SessionInputQueue
+                      query={inputQueue}
+                      sessionId={current.id}
+                      turnId={activeSubmission?.turnId ?? null}
+                      csrf={csrf}
+                      text={draft.text}
+                      enabled={Boolean(
+                        authorized &&
+                        !directoryBlocked &&
+                        !currentOrganization?.archived &&
+                        !draft.pending,
+                      )}
+                      onQueued={(text) => {
+                        // Immutable draft identity also protects A→B→A edits while a queue
+                        // receipt is delayed; matching text alone is not a request version.
+                        if (sessionDraft(key) === draft && draft.text.trim() === text) {
+                          update(key, { text: '' })
+                        }
+                      }}
+                    />
+                  ) : null}
+                  <div className="composer-hint">
+                    <span>Enter 发送 · Shift+Enter 换行</span>
+                    <span>{pending ? '正在保存…' : '费用未知 · 未调用真实提供商'}</span>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <footer className="status-bar">
-            <span>{authorized ? '桌面已授权' : '桌面授权待确认'}</span>
-            <span>真实传输关闭</span>
-          </footer>
-        </main>
-        {active && sessionId && view?.changeReviewOpen && view.changeReview ? (
-          <HistoricalChanges
-            sessionId={sessionId}
-            turnId={view.changeReview.turnId}
-            fileId={view.changeReview.fileId}
-            close={closeReview}
-            selectFile={(fileId) =>
-              updateView(key, { changeReview: { turnId: view.changeReview!.turnId, fileId } })
-            }
+            <footer className="status-bar">
+              <span>{authorized ? '桌面已授权' : '桌面授权待确认'}</span>
+              <span>真实传输关闭</span>
+            </footer>
+          </main>
+          {active && sessionId && view?.changeReviewOpen && view.changeReview ? (
+            <HistoricalChanges
+              sessionId={sessionId}
+              turnId={view.changeReview.turnId}
+              fileId={view.changeReview.fileId}
+              close={closeReview}
+              selectFile={(fileId) =>
+                updateView(key, { changeReview: { turnId: view.changeReview!.turnId, fileId } })
+              }
+            />
+          ) : null}
+        </div>
+        {renaming && active ? (
+          <SessionRenameDialog
+            key={renaming.token}
+            session={renaming.session}
+            latest={sessions.data?.sessions.find((row) => row.id === renaming.session.id)}
+            csrf={csrf}
+            close={() => setRenaming((row) => (row?.token === renaming.token ? null : row))}
+          />
+        ) : null}
+        {searchOpen && active && authorized ? (
+          <SessionSearchDialog
+            projects={options.data?.projects ?? []}
+            close={() => setSearchOpen(false)}
+            select={(result) => {
+              const prior = sessionView(result.sessionId)
+              updateView(result.sessionId, {
+                panel: result.messageId ? 'history' : 'conversation',
+                cursor: null,
+                historyTrail: [],
+                reading: result.messageId
+                  ? prior.reading
+                  : {
+                      ...prior.reading,
+                      conversation: { anchor: null, offset: 0, top: 0, follow: true },
+                    },
+              })
+              setSearchOpen(false)
+              navigate(
+                `/?session=${encodeURIComponent(result.sessionId)}${result.messageId ? `&message=${encodeURIComponent(result.messageId)}` : ''}`,
+              )
+              if (navOpen) {
+                toggleNav()
+              }
+            }}
+          />
+        ) : null}
+        {spaceToken && active && authorized && current ? (
+          <SessionSpaceDialog
+            key={spaceToken}
+            sessionId={current.id}
+            projects={options.data?.projects ?? []}
+            projectsAvailable={Boolean(options.data) && !options.isError}
+            refreshProjects={() => void options.refetch()}
+            csrf={csrf}
+            close={() => setSpaceToken((prior) => (prior === spaceToken ? null : prior))}
           />
         ) : null}
       </div>
-      {renaming && active ? (
-        <SessionRenameDialog
-          key={renaming.token}
-          session={renaming.session}
-          latest={sessions.data?.sessions.find((row) => row.id === renaming.session.id)}
-          csrf={csrf}
-          close={() => setRenaming((row) => (row?.token === renaming.token ? null : row))}
-        />
-      ) : null}
-      {searchOpen && active && authorized ? (
-        <SessionSearchDialog
-          projects={options.data?.projects ?? []}
-          close={() => setSearchOpen(false)}
-          select={(result) => {
-            const prior = sessionView(result.sessionId)
-            updateView(result.sessionId, {
-              panel: result.messageId ? 'history' : 'conversation',
-              cursor: null,
-              historyTrail: [],
-              reading: result.messageId
-                ? prior.reading
-                : {
-                    ...prior.reading,
-                    conversation: { anchor: null, offset: 0, top: 0, follow: true },
-                  },
-            })
-            setSearchOpen(false)
-            navigate(
-              `/?session=${encodeURIComponent(result.sessionId)}${result.messageId ? `&message=${encodeURIComponent(result.messageId)}` : ''}`,
-            )
-            if (navOpen) {
-              toggleNav()
-            }
-          }}
-        />
-      ) : null}
-      {spaceToken && active && authorized && current ? (
-        <SessionSpaceDialog
-          key={spaceToken}
-          sessionId={current.id}
-          projects={options.data?.projects ?? []}
-          projectsAvailable={Boolean(options.data) && !options.isError}
-          refreshProjects={() => void options.refetch()}
-          csrf={csrf}
-          close={() => setSpaceToken((prior) => (prior === spaceToken ? null : prior))}
-        />
-      ) : null}
-    </div>
+    </FileReaderProvider>
   )
 }
 

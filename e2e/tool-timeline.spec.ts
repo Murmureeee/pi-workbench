@@ -50,15 +50,19 @@ test('OBS-03 actual Electron read-only Trace: nested identity, result-before-sta
     await expect(pane.locator('[data-tool-id]')).toHaveCount(12)
     const child = pane.getByRole('region', { name: '工具调用 read-child', exact: true })
     await expect(child).toHaveAttribute('data-tool-depth', '1')
-    await child.getByRole('button').focus()
+    const childToggle = child.getByRole('button', {
+      name: 'read · 已完成 · read-child',
+      exact: true,
+    })
+    await childToggle.focus()
     await page.keyboard.press('Enter')
-    await expect(child.getByRole('button')).toHaveAttribute('aria-expanded', 'true')
+    await expect(childToggle).toHaveAttribute('aria-expanded', 'true')
     await expect(child).toContainText('只读样本🙂')
     await expect(child).toContainText('src/中文.ts · 请求从第 2 行开始 · 请求最多 4 行')
     await expect(child).not.toContainText('sample-key-hidden')
-    await child.getByRole('button').focus()
+    await childToggle.focus()
     await page.keyboard.press('Space')
-    await expect(child.getByRole('button')).toHaveAttribute('aria-expanded', 'false')
+    await expect(childToggle).toHaveAttribute('aria-expanded', 'false')
     const command = pane.locator('[data-tool-id="command"]')
     await command.getByRole('button').click()
     await expect(command.locator('dd').last()).toHaveText('未知')
@@ -169,7 +173,11 @@ test('OBS-03 actual Electron expansion survives 3-view eviction/reload; backgrou
   try {
     const { session, snapshot, turn } = await startTools(f)
     const pane = page.locator('.retained-session:not([hidden])')
-    await pane.locator('[data-tool-id="read-child"]').getByRole('button').click()
+    const childToggle = () =>
+      pane
+        .locator('[data-tool-id="read-child"]')
+        .getByRole('button', { name: 'read · 已完成 · read-child', exact: true })
+    await childToggle().click()
     const pid = f.kernels.list().find((kernel) => kernel.sessionId === session.id)?.pid
     await page.getByRole('button', { name: '新会话', exact: true }).click()
     const second = await f.send('第二会话工具隔离')
@@ -200,10 +208,7 @@ test('OBS-03 actual Electron expansion survives 3-view eviction/reload; backgrou
       ],
     }
     f.events.restore(other)
-    await expect(pane.locator('[data-tool-id="read-child"]').getByRole('button')).toHaveAttribute(
-      'aria-expanded',
-      'false',
-    )
+    await expect(childToggle()).toHaveAttribute('aria-expanded', 'false')
     const input = pane.getByRole('textbox', { name: '任务内容' })
     await input.fill('当前会话独立草稿')
     await input.focus()
@@ -228,16 +233,10 @@ test('OBS-03 actual Electron expansion survives 3-view eviction/reload; backgrou
     await sendNext('第四会话工具淘汰')
     await expect(page.locator(`[data-session-view="${session.id}"]`)).toHaveCount(0)
     await pane.getByTitle(session.title, { exact: true }).click()
-    await expect(pane.locator('[data-tool-id="read-child"]').getByRole('button')).toHaveAttribute(
-      'aria-expanded',
-      'true',
-    )
+    await expect(childToggle()).toHaveAttribute('aria-expanded', 'true')
     expect(f.kernels.list().find((kernel) => kernel.sessionId === session.id)?.pid).toBe(pid)
     await page.reload()
-    await expect(pane.locator('[data-tool-id="read-child"]').getByRole('button')).toHaveAttribute(
-      'aria-expanded',
-      'true',
-    )
+    await expect(childToggle()).toHaveAttribute('aria-expanded', 'true')
     expect(f.prompts()).toBe(4)
     await f.kernels.abort(session.id, turn.id)
     await pane.getByRole('button', { name: '历史记录', exact: true }).click()
@@ -269,8 +268,12 @@ test('OBS-03 actual Electron expansion survives 3-view eviction/reload; backgrou
     })
     const sameId = pane.locator('[data-tool-id="read-child"]')
     await expect(sameId).toHaveCount(2)
-    await expect(sameId.first().getByRole('button')).toHaveAttribute('aria-expanded', 'true')
-    await expect(sameId.last().getByRole('button')).toHaveAttribute('aria-expanded', 'false')
+    await expect(
+      sameId.first().getByRole('button', { name: 'read · 已完成 · read-child', exact: true }),
+    ).toHaveAttribute('aria-expanded', 'true')
+    await expect(
+      sameId.last().getByRole('button', { name: 'read · 已完成 · read-child', exact: true }),
+    ).toHaveAttribute('aria-expanded', 'false')
     expect(f.prompts()).toBe(5)
     await f.kernels.abort(session.id, next.id)
   } finally {

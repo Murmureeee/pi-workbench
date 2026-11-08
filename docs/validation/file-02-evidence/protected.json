@@ -1,0 +1,30 @@
+{
+  "allUnchanged": true,
+  "files": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "current": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "current": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "sha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "current": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "sha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "current": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "sha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2",
+      "current": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ]
+}

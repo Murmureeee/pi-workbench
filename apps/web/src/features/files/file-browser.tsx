@@ -21,6 +21,7 @@ import { Field, FieldLabel } from '@pi-workbench/ui/components/field'
 import { Input } from '@pi-workbench/ui/components/input'
 
 import { sessionJson } from '../../services/session-client.js'
+import { useFileReader } from './file-reader-context.js'
 
 const queryOptions = {
   retry: false,
@@ -295,6 +296,7 @@ function Location({
   file: string
   locate: (id: string) => void
 }) {
+  const read = useFileReader()
   const query = useQuery({
     ...queryOptions,
     queryKey: ['file-location', target, file],
@@ -316,6 +318,13 @@ function Location({
               : '目录'}
           </p>
           <NodeLabels node={query.data.file} />
+          {read &&
+          query.data.file.kind === 'file' &&
+          query.data.file.availability === 'available' ? (
+            <Button variant="outline" size="sm" onClick={() => read({ file: query.data.file.id })}>
+              只读查看代码
+            </Button>
+          ) : null}
           <Button variant="outline" size="sm" onClick={() => locate(query.data.directory.id)}>
             定位所在目录
           </Button>
