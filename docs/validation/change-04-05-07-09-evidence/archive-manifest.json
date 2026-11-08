@@ -1,0 +1,701 @@
+{
+  "at": "2026-11-08T11:32:08.544Z",
+  "files": [
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\first-closed.json",
+      "target": "change-05\\first-closed.json",
+      "bytes": 38424,
+      "originalSha256": "ee200bee6f8057e944916afbcb69b648d8dbe44cf2f83317868cf5fe3858d578",
+      "archiveSha256": "ee200bee6f8057e944916afbcb69b648d8dbe44cf2f83317868cf5fe3858d578",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\restart-closed.json",
+      "target": "change-05\\restart-closed.json",
+      "bytes": 36550,
+      "originalSha256": "f26f2ed5fd638da24d72eec262ae720a5de953df63df4e9a406cc8f51e0b2c13",
+      "archiveSha256": "f26f2ed5fd638da24d72eec262ae720a5de953df63df4e9a406cc8f51e0b2c13",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\restart-observed.json",
+      "target": "change-05\\restart-observed.json",
+      "bytes": 18751,
+      "originalSha256": "2cdafe5cd3cc7cb7dc4f1e6716d74844e690e6c6d159dcb5976a158fdd0c3253",
+      "archiveSha256": "2cdafe5cd3cc7cb7dc4f1e6716d74844e690e6c6d159dcb5976a158fdd0c3253",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\background-before.json",
+      "target": "change-05\\background-before.json",
+      "bytes": 20460,
+      "originalSha256": "d310c16158ecba3dfcb75541d0cf9fed00974a047ca1f2c17b3c757df170da71",
+      "archiveSha256": "d310c16158ecba3dfcb75541d0cf9fed00974a047ca1f2c17b3c757df170da71",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\background-after.json",
+      "target": "change-05\\background-after.json",
+      "bytes": 20461,
+      "originalSha256": "ff564cbc04acbcfdf1fa81b2b70305ecb3ac20e1e5cbc67ca0a2c88314bc2b15",
+      "archiveSha256": "ff564cbc04acbcfdf1fa81b2b70305ecb3ac20e1e5cbc67ca0a2c88314bc2b15",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\cancel-proof.json",
+      "target": "change-05\\cancel-proof.json",
+      "bytes": 748,
+      "originalSha256": "8749d86594cb7e401d3c2f826f8dd09467410e2d26c97458890a57dd32803322",
+      "archiveSha256": "8749d86594cb7e401d3c2f826f8dd09467410e2d26c97458890a57dd32803322",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\restored-file-proof.json",
+      "target": "change-05\\restored-file-proof.json",
+      "bytes": 258,
+      "originalSha256": "e68d7f73e386c348bce5d6b8d09a488b938e8efff0fdf692d7e57f3d1977e457",
+      "archiveSha256": "e68d7f73e386c348bce5d6b8d09a488b938e8efff0fdf692d7e57f3d1977e457",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\native-steps.jsonl",
+      "target": "change-05\\observations.json",
+      "sourceSha256": "50123e4ff7904bfe97573f1670c6c6a97369624028c087cacd14710e9151e770",
+      "archiveSha256": "9c06778871029d11f28d72a2b492b4e45f456daeeb30d8057784f43e4b512777",
+      "observations": 56,
+      "excludedInitialActivation": false
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\step-16.png",
+      "target": "change-05\\step-16.jpg",
+      "bytes": 158842,
+      "sha256": "8477f942841e0365f639984f17dbb2ac7272ff52ad25697f50427c33343dbf9b",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\step-18.png",
+      "target": "change-05\\step-18.jpg",
+      "bytes": 93070,
+      "sha256": "768c883b20dccc3c2c7094f79d34a1c453892258ea274635bb80cfc8517385b9",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\step-24.png",
+      "target": "change-05\\step-24.jpg",
+      "bytes": 161384,
+      "sha256": "7bd5ca957334f01c15513affb7ffe06b4fbc305f74243ef67483050ee171899d",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\step-26.png",
+      "target": "change-05\\step-26.jpg",
+      "bytes": 170784,
+      "sha256": "cb2945312c8c20a5e3452be14c694837ef2d8308b71f73888cab5b198626f746",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\step-40.png",
+      "target": "change-05\\step-40.jpg",
+      "bytes": 57394,
+      "sha256": "8ccb5e51fd4009dad29c5a830bd47b65e40cba37ee6b01bd43b82d7113de7d61",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\rollback-native-sOzxfk\\step-52.png",
+      "target": "change-05\\step-52.jpg",
+      "bytes": 109952,
+      "sha256": "d405d95838240620026bb0461f58fde6edce5dfc8272c2f8f462f940f6148d40",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\first-closed.json",
+      "target": "change-07\\first-closed.json",
+      "bytes": 32689,
+      "originalSha256": "de12011a75d9f0595d7559ef72c7279c26276699c365e53aa8e6f0093870f817",
+      "archiveSha256": "de12011a75d9f0595d7559ef72c7279c26276699c365e53aa8e6f0093870f817",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\restart-closed.json",
+      "target": "change-07\\restart-closed.json",
+      "bytes": 32183,
+      "originalSha256": "5e57483c4b612e8f9be7382b06785274e7abb57042efdf78bd84d3a03e5c130f",
+      "archiveSha256": "5e57483c4b612e8f9be7382b06785274e7abb57042efdf78bd84d3a03e5c130f",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\restart-observed.json",
+      "target": "change-07\\restart-observed.json",
+      "bytes": 17554,
+      "originalSha256": "ba5d8d0fbfdc142bfca64b4fdb19e903fb2f4650faa722b5e85faa4cf3f092fe",
+      "archiveSha256": "ba5d8d0fbfdc142bfca64b4fdb19e903fb2f4650faa722b5e85faa4cf3f092fe",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\background-before.json",
+      "target": "change-07\\background-before.json",
+      "bytes": 20108,
+      "originalSha256": "da40b277320c966f66a6637a23a1d634d2724ced52b65dd404ff091f1524e7da",
+      "archiveSha256": "da40b277320c966f66a6637a23a1d634d2724ced52b65dd404ff091f1524e7da",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\native-steps.jsonl",
+      "target": "change-07\\observations.json",
+      "sourceSha256": "41e4c419794e5270a252f69d521b3d2920f61ce19fba1c2d7efa4e581b43e2d5",
+      "archiveSha256": "4049b3f5c6412022fb8a3dca0eb52c19cde18909a1527288c3ca29a48f4fe680",
+      "observations": 47,
+      "excludedInitialActivation": true
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\step-13.png",
+      "target": "change-07\\step-13.jpg",
+      "bytes": 201508,
+      "sha256": "0dc88f02488401ca7dfd971edd91673d244ee44c129f834fd5cbcc2af2302af4",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\step-25.png",
+      "target": "change-07\\step-25.jpg",
+      "bytes": 157527,
+      "sha256": "b1d01eb77efd8af14887e853a60d525f659939057abc98861515a675af0e9426",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\step-32.png",
+      "target": "change-07\\step-32.jpg",
+      "bytes": 165570,
+      "sha256": "0b347b62b14c2ce7142d63f5200ea5e5170329c3b0e59e1e2f17d7f0e2280cda",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\step-33.png",
+      "target": "change-07\\step-33.jpg",
+      "bytes": 61318,
+      "sha256": "8ca84a2087191cc0338f64910752807dd0873a5440a83e24e23dd8f594cc784f",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\step-41.png",
+      "target": "change-07\\step-41.jpg",
+      "bytes": 60422,
+      "sha256": "befa91ba8828ae3c39a4209f7c9abcc13a9b65e9338e3e3d9701e2b1e8ea0e9a",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\chain-native-2oq643\\step-45.png",
+      "target": "change-07\\step-45.jpg",
+      "bytes": 110602,
+      "sha256": "5d9c7d62767790e4c16627337fde87dc6be706cc9dfaf774381df7dc4eca8364",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\first-closed.json",
+      "target": "change-09\\first-closed.json",
+      "bytes": 41653,
+      "originalSha256": "a4258a791af24a8586e45e94a34800905365b0ff0f424d5e84c55f43c7338269",
+      "archiveSha256": "a4258a791af24a8586e45e94a34800905365b0ff0f424d5e84c55f43c7338269",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\restart-closed.json",
+      "target": "change-09\\restart-closed.json",
+      "bytes": 39939,
+      "originalSha256": "c2fead4b477952290c612babc25008116a7d3736a1c41c46a3f02285b3d87238",
+      "archiveSha256": "c2fead4b477952290c612babc25008116a7d3736a1c41c46a3f02285b3d87238",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\restart-observed.json",
+      "target": "change-09\\restart-observed.json",
+      "bytes": 23570,
+      "originalSha256": "230407edfca815af41faaa91105963b5ac74b47712ebed86ea876856a381d7f4",
+      "archiveSha256": "230407edfca815af41faaa91105963b5ac74b47712ebed86ea876856a381d7f4",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\native-steps.jsonl",
+      "target": "change-09\\observations.json",
+      "sourceSha256": "65109f37e2e757b5ad425e7d5a9273c2f7c1b711e69729aee8117c07b3440dcc",
+      "archiveSha256": "719463c5eba43727f94ec01bf5f4d2f33bb00eb1ed454a543225ed7edad00653",
+      "observations": 62,
+      "excludedInitialActivation": true
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\step-11.png",
+      "target": "change-09\\step-11.jpg",
+      "bytes": 139001,
+      "sha256": "8d5b87d5d0034e4945f5ea1ceae0afb05eee2efc3b7ff1c749fc55446a6eb642",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\step-14.png",
+      "target": "change-09\\step-14.jpg",
+      "bytes": 143306,
+      "sha256": "ded83c84b0181e444e481df7fc3178a05841360eab809a9d7499932f94fe6505",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\step-22.png",
+      "target": "change-09\\step-22.jpg",
+      "bytes": 138782,
+      "sha256": "d58879ae3469d2f464fee560601fe1125a84b4e3c90cdd837028e59954da6734",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\step-29.png",
+      "target": "change-09\\step-29.jpg",
+      "bytes": 89813,
+      "sha256": "bb231b9ee2145f831d43136c819637b800c9c822f7ca4e95d4160676cf798457",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\step-37.png",
+      "target": "change-09\\step-37.jpg",
+      "bytes": 95395,
+      "sha256": "86de0919399cc82543bf68fafc0c51eac5ea4c6154ed515f147dfa9b94c347d5",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\facts-native-MhRpZt\\step-47.png",
+      "target": "change-09\\step-47.jpg",
+      "bytes": 133334,
+      "sha256": "cc57ef29be861c34726fdeb2933ef7f024b9afcfd049b7a8dec192ddf5aaeba1",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\first-closed.json",
+      "target": "change-04\\first-closed.json",
+      "bytes": 30774,
+      "originalSha256": "86dce4f9d5caa4d4bca5a1d68ccdcbffef0695201d6e3f6bdc1d6304f3cce881",
+      "archiveSha256": "86dce4f9d5caa4d4bca5a1d68ccdcbffef0695201d6e3f6bdc1d6304f3cce881",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\restart-closed.json",
+      "target": "change-04\\restart-closed.json",
+      "bytes": 29134,
+      "originalSha256": "1367321fb3579dfb556847888a5b9d6bb0a88e5501d0e582841188f6045b4d9f",
+      "archiveSha256": "1367321fb3579dfb556847888a5b9d6bb0a88e5501d0e582841188f6045b4d9f",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\restart-observed.json",
+      "target": "change-04\\restart-observed.json",
+      "bytes": 15523,
+      "originalSha256": "66b23032ca417b1ffa138ff90f5ccdc0e47884821a693a5c7c1315f0b1f1f2e0",
+      "archiveSha256": "66b23032ca417b1ffa138ff90f5ccdc0e47884821a693a5c7c1315f0b1f1f2e0",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\background-retry-before.json",
+      "target": "change-04\\background-retry-before.json",
+      "bytes": 18436,
+      "originalSha256": "04bcae517d1b9efd19842efb0b907b6aa0018bddc97906a2f0cf1901c622fb9a",
+      "archiveSha256": "04bcae517d1b9efd19842efb0b907b6aa0018bddc97906a2f0cf1901c622fb9a",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\background-retry-after.json",
+      "target": "change-04\\background-retry-after.json",
+      "bytes": 18436,
+      "originalSha256": "88126847ff1f0e8c74dc634b8c30c71322d37faa27d26f229ea9d537330cd075",
+      "archiveSha256": "88126847ff1f0e8c74dc634b8c30c71322d37faa27d26f229ea9d537330cd075",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\background-stopped.json",
+      "target": "change-04\\background-stopped.json",
+      "bytes": 18180,
+      "originalSha256": "f656311b4a84a7eca91455183eb3272fcf741b850a563def3873c1237711c6eb",
+      "archiveSha256": "f656311b4a84a7eca91455183eb3272fcf741b850a563def3873c1237711c6eb",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\failed-accept.json",
+      "target": "change-04\\failed-accept.json",
+      "bytes": 14531,
+      "originalSha256": "b3f36e766ef40d8311bef3feca738a65009876d531e63ae61fcae119440c2049",
+      "archiveSha256": "b3f36e766ef40d8311bef3feca738a65009876d531e63ae61fcae119440c2049",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\accepted-proof.json",
+      "target": "change-04\\accepted-proof.json",
+      "bytes": 15158,
+      "originalSha256": "facc904c95f60e6aa80cd7b3591f48fb1e9efcd1331ab3c9dcd3855c0a52f703",
+      "archiveSha256": "facc904c95f60e6aa80cd7b3591f48fb1e9efcd1331ab3c9dcd3855c0a52f703",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\mixed-2of2.json",
+      "target": "change-04\\mixed-2of2.json",
+      "bytes": 15402,
+      "originalSha256": "275f882790c150c60700d14792e34a8b9862d62de7f913ad7dcb027db8e4ff95",
+      "archiveSha256": "275f882790c150c60700d14792e34a8b9862d62de7f913ad7dcb027db8e4ff95",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\later-edit-decision.json",
+      "target": "change-04\\later-edit-decision.json",
+      "bytes": 15488,
+      "originalSha256": "aa72f323403935cf4a1c1991499d9c197db8334a20621c7e3c1e73145dde15bf",
+      "archiveSha256": "aa72f323403935cf4a1c1991499d9c197db8334a20621c7e3c1e73145dde15bf",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\native-steps.jsonl",
+      "target": "change-04\\observations.json",
+      "sourceSha256": "b547be7a77ea7b8024ca89387966d2d4219799f0739539b6270674b36828e8d3",
+      "archiveSha256": "2dc9f387745ad659967fc9ccae426ce5c711705d92335b76ee32dc9434fb90e5",
+      "observations": 63,
+      "excludedInitialActivation": false
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\step-8.png",
+      "target": "change-04\\step-8.jpg",
+      "bytes": 175984,
+      "sha256": "d0513215a03ef991e759a14b5774a71ce3ea1d1e009fd0bf2767261ae5b141d2",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\step-12.png",
+      "target": "change-04\\step-12.jpg",
+      "bytes": 173588,
+      "sha256": "c470c6096f0708f45b3d8e1967343abb82d869697f53518912e8399141218531",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\step-18.png",
+      "target": "change-04\\step-18.jpg",
+      "bytes": 92754,
+      "sha256": "00a3213224ec59ac5cabf9db69e16ae69a2605b5666e9da95cb57a102b99051d",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\step-19.png",
+      "target": "change-04\\step-19.jpg",
+      "bytes": 178841,
+      "sha256": "2df1ca9a56da103a86f1a4cfb1bb70172147e0776146e99e99d01d71aed9ae94",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\step-22.png",
+      "target": "change-04\\step-22.jpg",
+      "bytes": 180262,
+      "sha256": "7a5a61305493ff4961f4c1d7d21c545a254bb27ee0df48784ef7e585078bebb6",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\step-38.png",
+      "target": "change-04\\step-38.jpg",
+      "bytes": 82826,
+      "sha256": "4251b4a4a54688332f0a6175e6768b55528ab88af7e4c70824178080ab440c6f",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\step-50.png",
+      "target": "change-04\\step-50.jpg",
+      "bytes": 62003,
+      "sha256": "49f8325f2ef3f73f30dc1a45d21592c3608729da46b8091cf5a2b14fe86591cb",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\decisions-native-TIaoHQ\\step-59.png",
+      "target": "change-04\\step-59.jpg",
+      "bytes": 163095,
+      "sha256": "f2add625dc35c2655dbda217713935e34c0e61ca4f2d90ccc824d518959c24b6",
+      "format": "jpeg",
+      "note": "Unmodified native screenshot bytes; extension follows actual magic bytes."
+    },
+    {
+      "source": ".workbench\\rollback\\native-final-audit.json",
+      "target": "native-final-audit.json",
+      "bytes": 6317,
+      "originalSha256": "e2bdc92343d99019bfea7ed6205645af277f0f04ca9a51c0fb9ffd66b432e278",
+      "archiveSha256": "e2bdc92343d99019bfea7ed6205645af277f0f04ca9a51c0fb9ffd66b432e278",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-05-first.log",
+      "target": "service-05-first.log",
+      "bytes": 8437,
+      "originalSha256": "d17e9223e3558622080d2dbaff493293a762c8eb5c1df549c55a7b979edea5b4",
+      "archiveSha256": "d17e9223e3558622080d2dbaff493293a762c8eb5c1df549c55a7b979edea5b4",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-05-second.log",
+      "target": "service-05-second.log",
+      "bytes": 1325,
+      "originalSha256": "e75e139e64e884025ffdda0269334c67d627eadc09db5e30638fd63d8161652a",
+      "archiveSha256": "e75e139e64e884025ffdda0269334c67d627eadc09db5e30638fd63d8161652a",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-05-third.log",
+      "target": "service-05-third.log",
+      "bytes": 391,
+      "originalSha256": "8498f1957647193e2cd42c750b2f182447fc2cf7407aa40a4de733e1cfeadcd8",
+      "archiveSha256": "8498f1957647193e2cd42c750b2f182447fc2cf7407aa40a4de733e1cfeadcd8",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-05-confirmation.log",
+      "target": "service-05-confirmation.log",
+      "bytes": 377,
+      "originalSha256": "6c4d2ec274bcd835a5be2f76834a8d8b2351dab5e8123b9ea97d9d0e6e34e444",
+      "archiveSha256": "6c4d2ec274bcd835a5be2f76834a8d8b2351dab5e8123b9ea97d9d0e6e34e444",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-07-first.log",
+      "target": "service-07-first.log",
+      "bytes": 181,
+      "originalSha256": "3cb9eb18bac294cf68a7b58ea3fc2c26310f828155213a23ff51854618d946ec",
+      "archiveSha256": "3cb9eb18bac294cf68a7b58ea3fc2c26310f828155213a23ff51854618d946ec",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-09-first.log",
+      "target": "service-09-first.log",
+      "bytes": 1248,
+      "originalSha256": "d0decc886f729b5e2d8688916fc6c411347b98b6a04ef866f61cff373afb192c",
+      "archiveSha256": "d0decc886f729b5e2d8688916fc6c411347b98b6a04ef866f61cff373afb192c",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-09-second.log",
+      "target": "service-09-second.log",
+      "bytes": 182,
+      "originalSha256": "f49099c7d814fd88801a31171674f0ad51a4463ff8d34d5cfe2db9e0a9672826",
+      "archiveSha256": "f49099c7d814fd88801a31171674f0ad51a4463ff8d34d5cfe2db9e0a9672826",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-04-first.log",
+      "target": "service-04-first.log",
+      "bytes": 181,
+      "originalSha256": "d7dc2233055252f2358f4125f5e9a41ddce45ef9f723290bb1822b6ef3ef7146",
+      "archiveSha256": "d7dc2233055252f2358f4125f5e9a41ddce45ef9f723290bb1822b6ef3ef7146",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-04-second.log",
+      "target": "service-04-second.log",
+      "bytes": 1071,
+      "originalSha256": "99528ebfbb830fe47b1f995f6cb7afa4b244cccd49e3b1c399dff7299bd4bf95",
+      "archiveSha256": "99528ebfbb830fe47b1f995f6cb7afa4b244cccd49e3b1c399dff7299bd4bf95",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\service-04-third.log",
+      "target": "service-04-third.log",
+      "bytes": 181,
+      "originalSha256": "863574e30568ea78b69ac2c5c4046aeec7746a4c2a2d42012e0131cb822c6c15",
+      "archiveSha256": "863574e30568ea78b69ac2c5c4046aeec7746a4c2a2d42012e0131cb822c6c15",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-05-first.log",
+      "target": "e2e-05-first.log",
+      "bytes": 20584,
+      "originalSha256": "518da2ff5766245b7f3b8b548e342f8bc1ac46f1fbfe12f4a969714b5cf1af68",
+      "archiveSha256": "518da2ff5766245b7f3b8b548e342f8bc1ac46f1fbfe12f4a969714b5cf1af68",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-05-second.log",
+      "target": "e2e-05-second.log",
+      "bytes": 19585,
+      "originalSha256": "1f566c59f02670cadf38632d6097018dba500894d2193a37ec792831e9eceedf",
+      "archiveSha256": "1f566c59f02670cadf38632d6097018dba500894d2193a37ec792831e9eceedf",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-05-third.log",
+      "target": "e2e-05-third.log",
+      "bytes": 14497,
+      "originalSha256": "5d46a37ab10ba9f2f1ca36bc74583322da1a4726caaf9960fb06abde6e582211",
+      "archiveSha256": "5d46a37ab10ba9f2f1ca36bc74583322da1a4726caaf9960fb06abde6e582211",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-07-first.log",
+      "target": "e2e-07-first.log",
+      "bytes": 3186,
+      "originalSha256": "8d421ebca9560329bc7c505b774768b9187c454c82f3fd880ca4ff3a6bc53f34",
+      "archiveSha256": "8d421ebca9560329bc7c505b774768b9187c454c82f3fd880ca4ff3a6bc53f34",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-07-second.log",
+      "target": "e2e-07-second.log",
+      "bytes": 1043,
+      "originalSha256": "dba733cc3ecfb0db7954a5730e9241ee5d0642b9583b0e9ba53d90039ad019fc",
+      "archiveSha256": "dba733cc3ecfb0db7954a5730e9241ee5d0642b9583b0e9ba53d90039ad019fc",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-09-first.log",
+      "target": "e2e-09-first.log",
+      "bytes": 2466,
+      "originalSha256": "c77a223f3bb136ac3c7304eed37bb2c5e73c801d8acc0fc34c97b0a93845de2a",
+      "archiveSha256": "c77a223f3bb136ac3c7304eed37bb2c5e73c801d8acc0fc34c97b0a93845de2a",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-09-second.log",
+      "target": "e2e-09-second.log",
+      "bytes": 3182,
+      "originalSha256": "fca886d736b3d55133b58185785eb29bae73838bb1768c7e248162cbcdd08451",
+      "archiveSha256": "fca886d736b3d55133b58185785eb29bae73838bb1768c7e248162cbcdd08451",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-09-third.log",
+      "target": "e2e-09-third.log",
+      "bytes": 1050,
+      "originalSha256": "701eadec25a1272f117208e14b801a6d8e37b29d48294e95749658ab32366f67",
+      "archiveSha256": "701eadec25a1272f117208e14b801a6d8e37b29d48294e95749658ab32366f67",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\e2e-04-first.log",
+      "target": "e2e-04-first.log",
+      "bytes": 1166,
+      "originalSha256": "7e449a1107827ec852d3e5de13741a7b2b53dbce35e1ba0934c51371a4ad213c",
+      "archiveSha256": "7e449a1107827ec852d3e5de13741a7b2b53dbce35e1ba0934c51371a4ad213c",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\native-05-first.log",
+      "target": "native-05-first.log",
+      "bytes": 128,
+      "originalSha256": "dda8673dbcc6da67068f953ffb4f23417783eb5fd12bbb8bf6447c2dd093b0b5",
+      "archiveSha256": "dda8673dbcc6da67068f953ffb4f23417783eb5fd12bbb8bf6447c2dd093b0b5",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\native07-first.log",
+      "target": "native07-first.log",
+      "bytes": 492,
+      "originalSha256": "ef36b13a786d19acbd2a50a97e5a11a90d43e3c5660775d4ff9321bcb6c84215",
+      "archiveSha256": "ef36b13a786d19acbd2a50a97e5a11a90d43e3c5660775d4ff9321bcb6c84215",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\native07-second.log",
+      "target": "native07-second.log",
+      "bytes": 126,
+      "originalSha256": "1981dfd04fb225ed2126e27d78abd8c7a642405e80b3959e4446c8c72844aa63",
+      "archiveSha256": "1981dfd04fb225ed2126e27d78abd8c7a642405e80b3959e4446c8c72844aa63",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\native07-restart.log",
+      "target": "native07-restart.log",
+      "bytes": 126,
+      "originalSha256": "135d6358650debd833c8a6604b1db1f4dd4724a8daae50333003c806fc37f7ae",
+      "archiveSha256": "135d6358650debd833c8a6604b1db1f4dd4724a8daae50333003c806fc37f7ae",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\native09-first.log",
+      "target": "native09-first.log",
+      "bytes": 126,
+      "originalSha256": "ae22a889809e7f4b993119285f641aa385ecbc8f034453589e918bf2748d7755",
+      "archiveSha256": "ae22a889809e7f4b993119285f641aa385ecbc8f034453589e918bf2748d7755",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\native09-restart.log",
+      "target": "native09-restart.log",
+      "bytes": 126,
+      "originalSha256": "253cbe5140eba9842fac0d373b06e1ce88cc61b1f2dac20df3fb17727062c573",
+      "archiveSha256": "253cbe5140eba9842fac0d373b06e1ce88cc61b1f2dac20df3fb17727062c573",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\native04-first.log",
+      "target": "native04-first.log",
+      "bytes": 129,
+      "originalSha256": "1f3e0d1f3ad45990bdc76006f100982a7649531077977ecb36fb7918db3ed5f9",
+      "archiveSha256": "1f3e0d1f3ad45990bdc76006f100982a7649531077977ecb36fb7918db3ed5f9",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\native04-restart.log",
+      "target": "native04-restart.log",
+      "bytes": 130,
+      "originalSha256": "0f544d5b73940ad0dae3a9d18977572eb177c4c02fef50942d27fa934a04e3cc",
+      "archiveSha256": "0f544d5b73940ad0dae3a9d18977572eb177c4c02fef50942d27fa934a04e3cc",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\ci-all-final.log",
+      "target": "ci-all-final.log",
+      "bytes": 29587,
+      "originalSha256": "79f5f0c5348fd9a1d563c5ba2e9f772ffd8f161d2daedbcfe477614cea99b370",
+      "archiveSha256": "79f5f0c5348fd9a1d563c5ba2e9f772ffd8f161d2daedbcfe477614cea99b370",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\ci-all-second.log",
+      "target": "ci-all-second.log",
+      "bytes": 6883,
+      "originalSha256": "8a626c0552b17d2240617411fe9d5342ffed72f0d85b039ba7ac273c10e469f2",
+      "archiveSha256": "8a626c0552b17d2240617411fe9d5342ffed72f0d85b039ba7ac273c10e469f2",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\fix-all-third.log",
+      "target": "fix-all-third.log",
+      "bytes": 569,
+      "originalSha256": "c7c0a5e59d32a58aa52ba74432dc89be27d3c0b38432d0743700f01e8b287f12",
+      "archiveSha256": "c7c0a5e59d32a58aa52ba74432dc89be27d3c0b38432d0743700f01e8b287f12",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\workspace-recovery-diagnosis-first.log",
+      "target": "workspace-recovery-diagnosis-first.log",
+      "bytes": 193,
+      "originalSha256": "2e66d3e0cc29d2d25c91666fdfabd5a795efc55fae47b2c4b254bd4a953991b9",
+      "archiveSha256": "2e66d3e0cc29d2d25c91666fdfabd5a795efc55fae47b2c4b254bd4a953991b9",
+      "redacted": false
+    },
+    {
+      "source": ".workbench\\rollback\\workspace-recovery-diagnosis-fixed.log",
+      "target": "workspace-recovery-diagnosis-fixed.log",
+      "bytes": 193,
+      "originalSha256": "4a8a1e750870de45d710ecdabf1a25dffa87b3d035a5114c2cc95373b0a05e5c",
+      "archiveSha256": "4a8a1e750870de45d710ecdabf1a25dffa87b3d035a5114c2cc95373b0a05e5c",
+      "redacted": false
+    }
+  ]
+}

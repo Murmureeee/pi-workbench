@@ -1,0 +1,28 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+ ❯ apps/daemon/test/change-rollback.test.ts (9 tests | 1 failed) 29042ms
+   × cHANGE-05 actual same-directory SDK blocks rollback, independent SDK continues; shutdown waits an in-flight rollback IO 3839ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-rollback.test.ts > cHANGE-05 actual same-directory SDK blocks rollback, independent SDK continues; shutdown waits an in-flight rollback IO
+AssertionError: expected 0 to be greater than or equal to 2
+ ❯ apps/daemon/test/change-rollback.test.ts:376:7
+    374|         .kernels.list()
+    375|         .filter((k) => k.state === 'streaming').length,
+    376|     ).toBeGreaterThanOrEqual(2)
+       |       ^
+    377|     await f.get().kernels.abort(busy.sessionId, busy.turnId)
+    378|     await busy.promise
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 2 passed (3)
+      Tests  1 failed | 17 passed (18)
+   Start at  16:30:43
+   Duration  30.98s (tests 88%, import 10%, transform 1%)
+

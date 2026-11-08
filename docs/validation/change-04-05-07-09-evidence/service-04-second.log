@@ -1,0 +1,33 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/change-decisions.test.ts (4 tests | 1 failed) 19172ms
+   × cHANGE-04 paired desktop HTTP validates CSRF, protocol, opaque target and durable duplicate result 2359ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-decisions.test.ts > cHANGE-04 paired desktop HTTP validates CSRF, protocol, opaque target and durable duplicate result
+AssertionError: expected 400 to be 409 // Object.is equality
+
+- Expected
++ Received
+
+- 409
++ 400
+
+ ❯ apps/daemon/test/change-decisions.test.ts:152:7
+    150|         })
+    151|       ).statusCode,
+    152|     ).toBe(409)
+       |       ^
+    153|     const first = await f.app.inject({ method: 'POST', url, headers, p…
+    154|     expect(first.statusCode).toBe(201)
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 3 passed (4)
+   Start at  18:19:49
+   Duration  21.03s (tests 92%, import 8%, transform 1%)
+

@@ -2,7 +2,7 @@ import type { WorkspaceDatabase } from '../../infrastructure/database/database.j
 import type { DirectoryWriteService } from '../workspaces/directory-write.service.js'
 import type { ChangeRound, FileSnapshot, Redactor } from '@pi-workbench/shared'
 
-import { and, desc, eq, lt } from 'drizzle-orm'
+import { and, desc, eq, gt, lt } from 'drizzle-orm'
 
 import { changeHistorySchema, changeRoundSchema } from '@pi-workbench/shared'
 
@@ -220,6 +220,23 @@ export class ChangeService {
   /** Host-only immutable context. Never accepts a client filesystem path. */
   context(turnId: string) {
     return this.row(turnId)
+  }
+
+  /** Bounded physical-directory chain, including other sessions and interrupted rounds.
+   * Missing versions are exposed as unknown dependencies, never inferred from current IO. */
+  laterRounds(turnId: string) {
+    const { row } = this.row(turnId)
+    const rows = this.database.db
+      .select()
+      .from(changeRounds)
+      .where(and(eq(changeRounds.directoryKey, row.directoryKey), gt(changeRounds.id, row.id)))
+      .orderBy(desc(changeRounds.id))
+      .limit(21)
+      .all()
+    return {
+      rounds: rows.slice(0, 20).map((r) => changeRoundSchema.parse(JSON.parse(r.data))),
+      truncated: rows.length > 20,
+    }
   }
 
   async snapshotFiles(turnId: string, phase: 'baseline' | 'final'): Promise<Map<string, Buffer>> {

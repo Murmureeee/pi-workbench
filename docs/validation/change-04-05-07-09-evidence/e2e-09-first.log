@@ -1,0 +1,34 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:27320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:24884) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\change-rollback-history.spec.ts:8:1 › CHANGE-09 Electron durable rollback details survive restart; actual SDK gets facts once and historical messages remain (2.0m)
+(node:14348) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\change-rollback-history.spec.ts:59:1 › CHANGE-09 Electron failed durable history query exposes retry and never borrows another session record (5.5s)
+
+
+  1) e2e\change-rollback-history.spec.ts:8:1 › CHANGE-09 Electron durable rollback details survive restart; actual SDK gets facts once and historical messages remain 
+
+    Test timeout of 120000ms exceeded.
+
+    Error Context: test-results\change-rollback-history-CH-2b37f--historical-messages-remain\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\change-rollback-history-CH-2b37f--historical-messages-remain\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\change-rollback-history-CH-2b37f--historical-messages-remain\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\change-rollback-history.spec.ts:8:1 › CHANGE-09 Electron durable rollback details survive restart; actual SDK gets facts once and historical messages remain 
+  1 passed (2.4m)

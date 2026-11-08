@@ -1,4 +1,4 @@
-import { index, integer, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 // Independent file-version references; raw bytes belong only to the private Git ledger.
 export const changeRounds = sqliteTable(
@@ -237,4 +237,32 @@ export const changeToolObservations = sqliteTable(
     data: text('data').notNull(),
   },
   (table) => [index('change_tool_observations_turn').on(table.turnId, table.id)],
+)
+
+// Intent/progress journal, never a reusable authorization. Raw bytes stay in FileLedger.
+export const changeRollbacks = sqliteTable(
+  'change_rollbacks',
+  {
+    sequence: integer('sequence').primaryKey({ autoIncrement: true }),
+    id: text('id').notNull().unique(),
+    sessionId: text('session_id').notNull(),
+    turnId: text('turn_id').notNull(),
+    directoryKey: text('directory_key').notNull(),
+    cwd: text('cwd').notNull(),
+    state: text('state').notNull(),
+    data: text('data').notNull(),
+  },
+  (table) => [index('change_rollbacks_owner').on(table.sessionId, table.sequence)],
+)
+
+// Immutable human retention facts. No workspace bytes, permit or derived progress counter.
+export const changeDecisions = sqliteTable(
+  'change_decisions',
+  {
+    turnId: text('turn_id').notNull(),
+    fileId: text('file_id').notNull(),
+    sessionId: text('session_id').notNull(),
+    data: text('data').notNull(),
+  },
+  (table) => [primaryKey({ columns: [table.turnId, table.fileId] })],
 )

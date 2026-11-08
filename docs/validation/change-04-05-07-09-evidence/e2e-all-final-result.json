@@ -1,0 +1,6 @@
+{
+  "startedAt": "2026-11-08T11:53:10.0821942Z",
+  "command": "pnpm test:e2e",
+  "exitCode": 0,
+  "endedAt": "2026-11-08T12:11:22.9601844Z"
+}

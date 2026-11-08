@@ -18,6 +18,9 @@ import {
 
 import { sessionJson } from '../../services/session-client.js'
 import { sourceLabel } from './change-labels.js'
+import { ReviewDecisions } from './review-decisions.js'
+import { RollbackActions } from './rollback-actions.js'
+import { RollbackAvailability } from './rollback-availability.js'
 import './historical-changes.css'
 
 const kindLabel = {
@@ -32,7 +35,7 @@ const counts = (file: ChangeFile) =>
     : `+${file.additions ?? '未知'} −${file.deletions ?? '未知'}`
 
 /** Actual session-owned historical review. Wide layout shares conversation space; narrow
- * layout uses the existing accessible Dialog as a closable drawer. No execution controls. */
+ * layout uses the existing accessible Dialog as a closable drawer. */
 export function HistoricalChanges({
   sessionId,
   turnId,
@@ -111,7 +114,7 @@ export function HistoricalChanges({
         finalFocus={false}
       >
         <header>{header}</header>
-        <DialogDescription>只读历史文件版本；关闭后返回原对话，任务继续。</DialogDescription>
+        <DialogDescription>历史文件版本与明确回滚；关闭后返回原对话，任务继续。</DialogDescription>
         {body}
       </DialogContent>
     </Dialog>
@@ -188,7 +191,7 @@ function ReviewBody({
         {page?.baselineReference ? <p>基线 {page.baselineReference}</p> : null}
         {page?.finalReference ? <p>收尾 {page.finalReference}</p> : null}
         <p>
-          仅审查文件字节；排除项、ACL、空目录及命令外部副作用不在此范围。回滚与接受入口尚未交付。
+          仅处理文件字节；排除项、ACL、空目录及命令外部副作用不在此范围。回滚需要预检与本次明确确认。
         </p>
       </section>
       {list.isPending ? <output>正在核对历史文件版本…</output> : null}
@@ -211,6 +214,26 @@ function ReviewBody({
       ) : null}
       {page?.available && page.total === 0 ? <output>本轮无文件变更</output> : null}
       {page?.available ? <p>{page.total} 个文件变更</p> : null}
+      {page?.available && page.baselineReference && page.finalReference ? (
+        <ReviewDecisions
+          sessionId={sessionId}
+          turnId={turnId}
+          fileId={fileId}
+          baselineReference={page.baselineReference}
+          finalReference={page.finalReference}
+        />
+      ) : null}
+      {page?.available && page.total > 0 ? (
+        <RollbackAvailability sessionId={sessionId} turnId={turnId} />
+      ) : null}
+      {page?.available && page.total > 0 ? (
+        <RollbackActions
+          key={`round:${sessionId}:${turnId}`}
+          sessionId={sessionId}
+          turnId={turnId}
+          fileId={null}
+        />
+      ) : null}
       <ul aria-label="轮次文件列表" className="historical-change-files">
         {files.map((file) => (
           <li key={file.id}>
@@ -257,6 +280,12 @@ function ReviewBody({
       {selected ? (
         <section aria-label="所选文件历史Diff" className="historical-file-diff">
           <strong>{selected.file.path}</strong>
+          <RollbackActions
+            key={`${sessionId}:${turnId}:${selected.file.id}`}
+            sessionId={sessionId}
+            turnId={turnId}
+            fileId={selected.file.id}
+          />
           <p>
             {kindLabel[selected.file.kind]} · {counts(selected.file)} · {selected.file.beforeBytes}{' '}
             → {selected.file.afterBytes} 字节

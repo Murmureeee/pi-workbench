@@ -1,0 +1,178 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+ ❯ apps/daemon/test/change-rollback.test.ts (9 tests | 8 failed) 26214ms
+   × CHANGE-05 actual SDK chain restores preexisting dirty bytes without touching user HEAD/index/config 6154ms
+   × CHANGE-05 real files non-Git batch restores add/delete/rename/binary/zero/nested; unknown source requires separate confirmation and duplicates never replay 2308ms
+   × CHANGE-05 stale preflight causes whole-batch zero writes, even after explicit external consent 2162ms
+   × CHANGE-05 per-file selection leaves other paths, prepared cancellation and restart invalidate confirmation 2394ms
+   × CHANGE-05 injected second-write failure compensates only unchanged written bytes; preserve external edit=false 2202ms
+   × CHANGE-05 injected second-write failure compensates only unchanged written bytes; preserve external edit=true 2356ms
+   × CHANGE-05 actual same-directory SDK blocks rollback, independent SDK continues; shutdown waits an in-flight rollback IO 3838ms
+   × CHANGE-05 audit intent failure writes nothing; durable result failure quarantines lease and retains pre-operation objects 2151ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-rollback.test.ts > CHANGE-05 actual SDK chain restores preexisting dirty bytes without touching user HEAD/index/config
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "promise"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"promise\""
+  }
+]
+ ❯ ChangeRollbackService.prepare apps/daemon/src/modules/changes/change-rollback.service.ts:103:69
+ ❯ apps/daemon/test/change-rollback.test.ts:62:16
+     60|     }
+     61|     expect(await t.promise).toMatchObject({outcome:'completed',localRe…
+     62|     const plan=await f.prepare(t)
+       |                ^
+     63|     expect(plan.record.files.every(p=>!p.conflict&&p.source==='tool-ob…
+     64|     expect((await f.confirm(plan,false)).state).toBe('succeeded')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  apps/daemon/test/change-rollback.test.ts > CHANGE-05 real files non-Git batch restores add/delete/rename/binary/zero/nested; unknown source requires separate confirmation and duplicates never replay
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "promise"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"promise\""
+  }
+]
+ ❯ ChangeRollbackService.prepare apps/daemon/src/modules/changes/change-rollback.service.ts:103:69
+ ❯ apps/daemon/test/change-rollback.test.ts:85:16
+     83|       rmSync(join(f.cwd,'nested'),{recursive:true})
+     84|     })
+     85|     const plan=await f.prepare(t)
+       |                ^
+     86|     await expect(f.confirm(plan,false)).rejects.toThrow('冲突')
+     87|     expect(readFileSync(join(f.cwd,'dirty.txt'),'utf8')).toBe('agent a…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  apps/daemon/test/change-rollback.test.ts > CHANGE-05 stale preflight causes whole-batch zero writes, even after explicit external consent
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "promise"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"promise\""
+  }
+]
+ ❯ ChangeRollbackService.prepare apps/daemon/src/modules/changes/change-rollback.service.ts:103:69
+ ❯ apps/daemon/test/change-rollback.test.ts:108:16
+    106|     writeFileSync(join(f.cwd,'a'),'a0');writeFileSync(join(f.cwd,'b'),…
+    107|     const t=await f.collect(()=>{writeFileSync(join(f.cwd,'a'),'a1');w…
+    108|     const plan=await f.prepare(t);writeFileSync(join(f.cwd,'b'),'exter…
+       |                ^
+    109|     expect((await f.confirm(plan)).state).toBe('conflict')
+    110|     expect(readFileSync(join(f.cwd,'a'),'utf8')).toBe('a1');expect(rea…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  apps/daemon/test/change-rollback.test.ts > CHANGE-05 per-file selection leaves other paths, prepared cancellation and restart invalidate confirmation
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "promise"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"promise\""
+  }
+]
+ ❯ ChangeRollbackService.prepare apps/daemon/src/modules/changes/change-rollback.service.ts:103:69
+ ❯ apps/daemon/test/change-rollback.test.ts:122:16
+    120|     const t=await f.collect(()=>{writeFileSync(join(f.cwd,'a'),'a1');w…
+    121|     const selected=(await f.get().review.list(t.turnId)).files.find(p=…
+    122|     const plan=await f.prepare(t,selected.id)
+       |                ^
+    123|     const cancelled=await f.get().rollback.command({sessionId:t.sessio…
+    124|     expect(cancelled.state).toBe('cancelled');expect((await f.confirm(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  apps/daemon/test/change-rollback.test.ts > CHANGE-05 injected second-write failure compensates only unchanged written bytes; preserve external edit=false
+ FAIL  apps/daemon/test/change-rollback.test.ts > CHANGE-05 injected second-write failure compensates only unchanged written bytes; preserve external edit=true
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "promise"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"promise\""
+  }
+]
+ ❯ ChangeRollbackService.prepare apps/daemon/src/modules/changes/change-rollback.service.ts:103:69
+ ❯ apps/daemon/test/change-rollback.test.ts:139:16
+    137|     writeFileSync(join(f.cwd,'a'),'a0');writeFileSync(join(f.cwd,'b'),…
+    138|     const t=await f.collect(()=>{writeFileSync(join(f.cwd,'a'),'a1');w…
+    139|     const plan=await f.prepare(t),write=f.get().rollback.files.write.b…
+       |                ^
+    140|     let count=0
+    141|     vi.spyOn(f.get().rollback.files,'write').mockImplementation(async(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  apps/daemon/test/change-rollback.test.ts > CHANGE-05 actual same-directory SDK blocks rollback, independent SDK continues; shutdown waits an in-flight rollback IO
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "promise"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"promise\""
+  }
+]
+ ❯ ChangeRollbackService.prepare apps/daemon/src/modules/changes/change-rollback.service.ts:103:69
+ ❯ apps/daemon/test/change-rollback.test.ts:178:35
+    176|     const busy=f.start(),independent=f.start('hold',randomUUID(),other)
+    177|     await f.ready(busy.sessionId);await f.ready(independent.sessionId)
+    178|     const blocked=await f.confirm(await f.prepare(t))
+       |                                   ^
+    179|     expect(blocked.state).toBe('conflict');expect(blocked.diagnostic).…
+    180|     expect(f.get().kernels.list().filter(k=>k.state==='streaming').len…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  apps/daemon/test/change-rollback.test.ts > CHANGE-05 audit intent failure writes nothing; durable result failure quarantines lease and retains pre-operation objects
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "promise"
+    ],
+    "path": [],
+    "message": "Unrecognized key: \"promise\""
+  }
+]
+ ❯ ChangeRollbackService.prepare apps/daemon/src/modules/changes/change-rollback.service.ts:103:69
+ ❯ apps/daemon/test/change-rollback.test.ts:198:16
+    196|   try {
+    197|     writeFileSync(join(f.cwd,'a'),'before');const t=await f.collect(()…
+    198|     const plan=await f.prepare(t),audit=f.app.get(AuditService)
+       |                ^
+    199|     vi.spyOn(audit,'record').mockImplementation(()=>{throw new Error('…
+    200|     await expect(f.confirm(plan)).rejects.toThrow('disk failure')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  8 failed | 1 passed (9)
+   Start at  16:25:44
+   Duration  50.43s (tests 52%, import 46%, transform 2%)
+

@@ -262,3 +262,14 @@ export {
   changeDiffQuerySchema,
 } from './change-review.js'
 export type { ChangeFile, ChangeDiff } from './change-review.js'
+export {
+  rollbackTargetSchema,
+  rollbackCommandSchema,
+  rollbackRecordSchema,
+  rollbackPlanSchema,
+  rollbackHistorySchema,
+  rollbackHistoryQuerySchema,
+} from './change-rollback.js'
+export type { RollbackRecord, RollbackTarget, RollbackCommand } from './change-rollback.js'
+export * from './change-availability.js'
+export * from './change-decisions.js'

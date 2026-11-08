@@ -64,6 +64,7 @@ export const kernelCommandSchema = z.discriminatedUnion('type', [
     fixture: fixtureModeSchema,
     inputQueue: z.boolean().default(false),
     trustedContext: z.array(trustedContextSchema).max(128).default([]),
+    environmentChanges: z.string().max(16384).default(''),
   }),
   z.strictObject({ ...identity, type: z.literal('abort'), turnId: z.uuid() }),
   z.strictObject({

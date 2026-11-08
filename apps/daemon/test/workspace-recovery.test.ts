@@ -494,12 +494,19 @@ describe('WS-07 saved directory execution guard and explicit recovery; actual SD
       { turnId, text: 'old', fixture: 'hold' },
       {
         directoryCheck: () => {
+          // Arm the injected hang after the SDK has committed native history. Under full
+          // suite load, baseline capture can still be running at the first timer tick.
+          if (
+            !f.app.get(EventService).snapshot(sessionId)?.turns.at(-1)?.text.includes('OFFLINE_')
+          ) {
+            return Promise.resolve()
+          }
           checked = true
           return stale
         },
       },
     )
-    await expect.poll(() => checked, { timeout: 5000 }).toBe(true)
+    await expect.poll(() => checked, { timeout: 15000 }).toBe(true)
     await expect(task).rejects.toThrow('目录检查超时')
     expect(f.kernels.list()).toEqual([])
     const newTurn = randomUUID(),
@@ -517,5 +524,5 @@ describe('WS-07 saved directory execution guard and explicit recovery; actual SD
     )
     await f.kernels.abort(sessionId, newTurn)
     expect((await next).outcome).toBe('aborted')
-  })
+  }, 40000)
 })

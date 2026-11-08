@@ -1,0 +1,501 @@
+{
+  "features": [
+    "CHANGE-05"
+  ],
+  "source": "Windows native UIA/SendInput; actual Electron/daemon/SQLite/independent Git/installed SDK + local HTTP. No CDP, renderer injection or synthetic source records. Controlled external edits explicitly identified.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk",
+  "a": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\来源审查目录",
+  "b": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\独立后台目录",
+  "desktopPid": 29336,
+  "prompts": 0,
+  "results": [],
+  "operations": [],
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+      "title": "保持 WS 回滚原生批量夹具",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "9e177b99-a28a-4365-95ff-74e9247626df",
+      "configuration": {
+        "projectId": "bf185db7-0857-4c53-93f6-c07ec23f3b37",
+        "workspaceId": "1383b48b-b6d4-4c44-92fc-fe3ed69eb707",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "1383b48b-b6d4-4c44-92fc-fe3ed69eb707",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\来源审查目录",
+      "createdAt": 1794127868462
+    },
+    {
+      "id": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+      "title": "保持 独立后台退出验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "0c4b3c12-3d48-49b0-94f4-81a4b64bace4",
+      "configuration": {
+        "projectId": "1a29c87f-f183-441b-a39f-6e8483de2fc5",
+        "workspaceId": "0121cfc7-ea8f-492f-82b7-220af4580523",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "0121cfc7-ea8f-492f-82b7-220af4580523",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\独立后台目录",
+      "createdAt": 1794128632322
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+      "items": [
+        {
+          "requestId": "9e177b99-a28a-4365-95ff-74e9247626df",
+          "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+          "messageId": "afdccd9f-5043-4508-b400-1c8d33d4300d",
+          "turnId": "ee1a3a2b-61fb-4741-914b-4c6527277547",
+          "status": "aborted",
+          "text": "保持 WS 回滚原生批量夹具",
+          "retryOf": null,
+          "error": "Request was aborted",
+          "createdAt": 1794127868463
+        }
+      ]
+    },
+    {
+      "sessionId": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+      "items": [
+        {
+          "requestId": "0c4b3c12-3d48-49b0-94f4-81a4b64bace4",
+          "sessionId": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+          "messageId": "ccfa5288-82c5-43c2-ab30-2dcfece63256",
+          "turnId": "9a16a22b-f077-41eb-b130-041ee8b0bc2f",
+          "status": "aborted",
+          "text": "保持 独立后台退出验收",
+          "retryOf": null,
+          "error": "Request was aborted",
+          "createdAt": 1794128632323
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "14f0e23d-9164-458b-b7f8-ad48cee4bdab",
+      "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+      "epoch": "62a10592-fc81-4336-b054-d1867e28cdc8",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "ee1a3a2b-61fb-4741-914b-4c6527277547",
+          "messageId": "ee1a3a2b-61fb-4741-914b-4c6527277547:assistant",
+          "prompt": "保持 WS 回滚原生批量夹具",
+          "text": "OFFLINE_",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted"
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "14f0e23d-9164-458b-b7f8-ad48cee4bdab",
+      "sessionId": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+      "epoch": "5d2c1580-61e7-4c67-90a7-92273cb9737f",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "9a16a22b-f077-41eb-b130-041ee8b0bc2f",
+          "messageId": "9a16a22b-f077-41eb-b130-041ee8b0bc2f:assistant",
+          "prompt": "保持 独立后台退出验收",
+          "text": "OFFLINE_",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request was aborted"
+          },
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request was aborted"
+        }
+      ]
+    }
+  ],
+  "writes": [
+    {
+      "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+      "latest": {
+        "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+        "turnId": "1ea03538-d1cf-42be-87e4-916ab7f1f5f2",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794128155907,
+        "checkedAt": 1794128156943,
+        "endedAt": 1794128156945,
+        "coverage": "bounded",
+        "changedPaths": [
+          "added.txt",
+          "binary.bin",
+          "tracked.txt",
+          "新名称.txt",
+          "deleted.txt",
+          "old-name.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+      "latest": {
+        "sessionId": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+        "turnId": "9a16a22b-f077-41eb-b130-041ee8b0bc2f",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\独立后台目录",
+        "state": "released",
+        "startedAt": 1794128632328,
+        "checkedAt": 1794128713911,
+        "endedAt": 1794128713912,
+        "coverage": "bounded",
+        "changedPaths": [],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    }
+  ],
+  "changes": [
+    {
+      "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+      "rounds": [
+        {
+          "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+          "turnId": "ee1a3a2b-61fb-4741-914b-4c6527277547",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\来源审查目录",
+          "startedAt": 1794127868473,
+          "endedAt": 1794127895432,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "5814a7d7de5f9010b04fc0b66fb148ff9eb4aca3",
+            "capturedAt": 1794127869925,
+            "files": 3,
+            "bytes": 51,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "c47924c7a05e32e55fb350f75e1f7b9e2efddbed",
+            "capturedAt": 1794127895432,
+            "files": 4,
+            "bytes": 117,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+      "rounds": [
+        {
+          "sessionId": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+          "turnId": "9a16a22b-f077-41eb-b130-041ee8b0bc2f",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\独立后台目录",
+          "startedAt": 1794128632329,
+          "endedAt": 1794128713908,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "8beb7fa24915cd3e8a606eac24a2ebe1102a90f7",
+            "capturedAt": 1794128633651,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "39984c2c1b4235f97cd0dd5ec351bc21faa58f7e",
+            "capturedAt": 1794128713908,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    }
+  ],
+  "observations": [
+    {
+      "turnId": "ee1a3a2b-61fb-4741-914b-4c6527277547",
+      "items": []
+    },
+    {
+      "turnId": "9a16a22b-f077-41eb-b130-041ee8b0bc2f",
+      "items": []
+    }
+  ],
+  "rollbackRecords": [
+    {
+      "id": "81ca8bc6-715a-4a4e-a47b-6e927f2b9977",
+      "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+      "turnId": "ee1a3a2b-61fb-4741-914b-4c6527277547",
+      "fileId": null,
+      "state": "cancelled",
+      "startedAt": 1794128053131,
+      "endedAt": 1794128085340,
+      "baselineReference": "5814a7d7de5f9010b04fc0b66fb148ff9eb4aca3",
+      "finalReference": "c47924c7a05e32e55fb350f75e1f7b9e2efddbed",
+      "beforeReference": null,
+      "afterReference": null,
+      "externalConfirmed": false,
+      "source": "human",
+      "actor": "f7761906-043f-4029-a921-0f0c6f974f73",
+      "diagnostic": null,
+      "files": [
+        {
+          "fileId": "61ae8e6143269a8270bce53c9c29831c56f8945a60a03383a14d584609a14fca",
+          "path": "old-name.txt",
+          "current": null,
+          "expected": null,
+          "target": "0d4f9be6679cb5b2b2318436708f9aaa43091e853f51c732deb5cd59d679c7d4",
+          "source": "unknown",
+          "conflict": true,
+          "written": false,
+          "compensated": false
+        },
+        {
+          "fileId": "61ae8e6143269a8270bce53c9c29831c56f8945a60a03383a14d584609a14fca",
+          "path": "新名称.txt",
+          "current": "0d4f9be6679cb5b2b2318436708f9aaa43091e853f51c732deb5cd59d679c7d4",
+          "expected": "0d4f9be6679cb5b2b2318436708f9aaa43091e853f51c732deb5cd59d679c7d4",
+          "target": null,
+          "source": "unknown",
+          "conflict": true,
+          "written": false,
+          "compensated": false
+        },
+        {
+          "fileId": "8b075cb817c8347e315bf0e4c9f1a550fc63239ab151d3a3bd8f4be2a0b01b19",
+          "path": "binary.bin",
+          "current": "2c8d07cd986f58eb210bd800133d6645c7340c59865377c8ea431cebca0b3113",
+          "expected": "2c8d07cd986f58eb210bd800133d6645c7340c59865377c8ea431cebca0b3113",
+          "target": null,
+          "source": "unknown",
+          "conflict": true,
+          "written": false,
+          "compensated": false
+        },
+        {
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "path": "tracked.txt",
+          "current": "a4e2c34d38b30988589d76e9323a78c3f0eb29d27806bb6313d10975fa1a2e11",
+          "expected": "a4e2c34d38b30988589d76e9323a78c3f0eb29d27806bb6313d10975fa1a2e11",
+          "target": "565952a8dcb88cef294c166e5c41649dddd2e94f0d1998f48a84805c6640e368",
+          "source": "unknown",
+          "conflict": true,
+          "written": false,
+          "compensated": false
+        },
+        {
+          "fileId": "cba2d2ef84067fa0bdad77c1f802f64790bbf6e9b1d204dafcef58bec32f9781",
+          "path": "deleted.txt",
+          "current": null,
+          "expected": null,
+          "target": "afd8a4f3b98e1bcfea2dad9be6d0d4cbf249c6f1be22fe2e775d18795759d760",
+          "source": "unknown",
+          "conflict": true,
+          "written": false,
+          "compensated": false
+        },
+        {
+          "fileId": "ce85564c5b58d277d95b6f672ac793f1004cc4ea39ec82cd7892460f53768693",
+          "path": "added.txt",
+          "current": "96482386b9b1119af476b9a031f454cbb63989eb66f37290041934896c5a48b9",
+          "expected": "96482386b9b1119af476b9a031f454cbb63989eb66f37290041934896c5a48b9",
+          "target": null,
+          "source": "unknown",
+          "conflict": true,
+          "written": false,
+          "compensated": false
+        }
+      ]
+    },
+    {
+      "id": "1ea03538-d1cf-42be-87e4-916ab7f1f5f2",
+      "sessionId": "21b02e47-c63b-49da-96cb-a8fafcab74ac",
+      "turnId": "ee1a3a2b-61fb-4741-914b-4c6527277547",
+      "fileId": null,
+      "state": "succeeded",
+      "startedAt": 1794128107335,
+      "endedAt": 1794128156938,
+      "baselineReference": "5814a7d7de5f9010b04fc0b66fb148ff9eb4aca3",
+      "finalReference": "c47924c7a05e32e55fb350f75e1f7b9e2efddbed",
+      "beforeReference": "59a2b7f6bd0319f2b346740573b8a7d0f0c6f69e",
+      "afterReference": "facb3d630ba7beb6143a4981902df3e3edaaf0f9",
+      "externalConfirmed": true,
+      "source": "human",
+      "actor": "f7761906-043f-4029-a921-0f0c6f974f73",
+      "diagnostic": null,
+      "files": [
+        {
+          "fileId": "61ae8e6143269a8270bce53c9c29831c56f8945a60a03383a14d584609a14fca",
+          "path": "old-name.txt",
+          "current": null,
+          "expected": null,
+          "target": "0d4f9be6679cb5b2b2318436708f9aaa43091e853f51c732deb5cd59d679c7d4",
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false
+        },
+        {
+          "fileId": "61ae8e6143269a8270bce53c9c29831c56f8945a60a03383a14d584609a14fca",
+          "path": "新名称.txt",
+          "current": "0d4f9be6679cb5b2b2318436708f9aaa43091e853f51c732deb5cd59d679c7d4",
+          "expected": "0d4f9be6679cb5b2b2318436708f9aaa43091e853f51c732deb5cd59d679c7d4",
+          "target": null,
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false
+        },
+        {
+          "fileId": "8b075cb817c8347e315bf0e4c9f1a550fc63239ab151d3a3bd8f4be2a0b01b19",
+          "path": "binary.bin",
+          "current": "2c8d07cd986f58eb210bd800133d6645c7340c59865377c8ea431cebca0b3113",
+          "expected": "2c8d07cd986f58eb210bd800133d6645c7340c59865377c8ea431cebca0b3113",
+          "target": null,
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false
+        },
+        {
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "path": "tracked.txt",
+          "current": "a4e2c34d38b30988589d76e9323a78c3f0eb29d27806bb6313d10975fa1a2e11",
+          "expected": "a4e2c34d38b30988589d76e9323a78c3f0eb29d27806bb6313d10975fa1a2e11",
+          "target": "565952a8dcb88cef294c166e5c41649dddd2e94f0d1998f48a84805c6640e368",
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false
+        },
+        {
+          "fileId": "cba2d2ef84067fa0bdad77c1f802f64790bbf6e9b1d204dafcef58bec32f9781",
+          "path": "deleted.txt",
+          "current": null,
+          "expected": null,
+          "target": "afd8a4f3b98e1bcfea2dad9be6d0d4cbf249c6f1be22fe2e775d18795759d760",
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false
+        },
+        {
+          "fileId": "ce85564c5b58d277d95b6f672ac793f1004cc4ea39ec82cd7892460f53768693",
+          "path": "added.txt",
+          "current": "96482386b9b1119af476b9a031f454cbb63989eb66f37290041934896c5a48b9",
+          "expected": "96482386b9b1119af476b9a031f454cbb63989eb66f37290041934896c5a48b9",
+          "target": null,
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "kernels": [],
+  "historyBefore": {
+    "21b02e47-c63b-49da-96cb-a8fafcab74ac\\62a10592-fc81-4336-b054-d1867e28cdc8\\sessions\\2026-11-08T08-51-09-530Z_01a1ba5a-b65a-7382-a089-e781a8c719f6.jsonl": "242478916ef8856304bd6e0fb9847edc4502ad0b02288973f2a8c5d8cd715180",
+    "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2\\5d2c1580-61e7-4c67-90a7-92273cb9737f\\sessions\\2026-11-08T09-03-53-365Z_01a1ba66-5e15-7197-9f4a-f347a98cc624.jsonl": "af210bbcb94a1c75b4902e552a4648d848bce7a8fba71838b35a8b3f21e57b96"
+  },
+  "historyAfter": {
+    "21b02e47-c63b-49da-96cb-a8fafcab74ac\\62a10592-fc81-4336-b054-d1867e28cdc8\\sessions\\2026-11-08T08-51-09-530Z_01a1ba5a-b65a-7382-a089-e781a8c719f6.jsonl": "242478916ef8856304bd6e0fb9847edc4502ad0b02288973f2a8c5d8cd715180",
+    "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2\\5d2c1580-61e7-4c67-90a7-92273cb9737f\\sessions\\2026-11-08T09-03-53-365Z_01a1ba66-5e15-7197-9f4a-f347a98cc624.jsonl": "af210bbcb94a1c75b4902e552a4648d848bce7a8fba71838b35a8b3f21e57b96"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

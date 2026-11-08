@@ -1,0 +1,48 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:22016) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:19956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\change-history-chain.spec.ts:8:1 › CHANGE-07 Electron preserves earlier block history, exposes later dependency and recomputes after newest rollback and restart (25.7s)
+(node:21080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\change-history-chain.spec.ts:58:1 › CHANGE-07 Electron failed current observation keeps immutable Diff and permits explicit refresh (6.8s)
+
+
+  1) e2e\change-history-chain.spec.ts:8:1 › CHANGE-07 Electron preserves earlier block history, exposes later dependency and recomputes after newest rollback and restart 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('region', { name: '当前回滚条件与后续版本' })
+    Expected substring: "当前匹配该轮收尾"
+    Received string:    ""
+
+
+      51 |     await f.restart();await f.open(a.id);await f.versions();await f.review()
+      52 |     await f.page.getByRole('button',{name:'核对当前回滚条件',exact:true}).click()
+    > 53 |     await expect(conditions).toContainText('当前匹配该轮收尾')
+         |                              ^
+      54 |     expect(f.sends()).toBe(0);expect(f.kernels.list()).toHaveLength(0)
+      55 |   }finally{await f.close()}
+      56 | })
+        at D:\Project\pi-workbench\e2e\change-history-chain.spec.ts:53:30
+
+    Error Context: test-results\change-history-chain-CHANG-41315-newest-rollback-and-restart\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\change-history-chain-CHANG-41315-newest-rollback-and-restart\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\change-history-chain-CHANG-41315-newest-rollback-and-restart\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\change-history-chain.spec.ts:8:1 › CHANGE-07 Electron preserves earlier block history, exposes later dependency and recomputes after newest rollback and restart 
+  1 passed (48.3s)

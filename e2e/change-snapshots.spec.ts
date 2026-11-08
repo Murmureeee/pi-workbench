@@ -130,7 +130,7 @@ async function setup() {
   }
 }
 
-test('CHANGE-01 Electron shows actual baseline and final references without exposing rollback, retains versions after same-profile restart', async () => {
+test('CHANGE-01 Electron shows actual baseline and final references without mutating files, retains versions after same-profile restart', async () => {
   test.setTimeout(90000)
   const f = await setup()
   try {
@@ -142,8 +142,11 @@ test('CHANGE-01 Electron shows actual baseline and final references without expo
     const record = required(f.changes.history(session.id).rounds[0])
     await expect(region).toContainText(required(record.baseline.reference ?? undefined))
     await expect(region).toContainText('来源不确定')
-    await expect(region).toContainText('接受和回滚入口尚未交付')
-    expect(await region.getByRole('button', { name: /回滚|恢复文件/ }).count()).toBe(0)
+    await expect(region).toContainText('来源不确定时须单独确认覆盖，禁止自动回滚')
+    await expect(
+      region.getByRole('button', { name: '查看持久回滚记录', exact: true }),
+    ).toBeVisible()
+    expect(readFileSync(join(f.cwd, 'original.txt'), 'utf8')).toBe('BEFORE_REAL_SDK')
     expect(
       (await f.changes.readVersion(record.turnId, 'baseline', 'original.txt'))?.toString(),
     ).toBe('BEFORE_REAL_SDK')
@@ -177,7 +180,7 @@ test('CHANGE-01 Electron baseline failure is visible before explicit one-shot ir
     expect(existsSync(join(f.cwd, 'APPROVED.txt'))).toBe(false)
     await f.send('写入单次明确确认')
     await f.page.getByRole('button', { name: '允许本次…', exact: true }).click()
-    await expect(f.page.getByRole('alertdialog')).toContainText('当前尚无整轮回滚入口')
+    await expect(f.page.getByRole('alertdialog')).toContainText('本次调用及外部副作用不保证可回滚')
     expect(existsSync(join(f.cwd, 'APPROVED.txt'))).toBe(false)
     await f.page.getByRole('button', { name: '明确允许本次不可回滚执行', exact: true }).click()
     await expect.poll(() => existsSync(join(f.cwd, 'APPROVED.txt'))).toBe(true)

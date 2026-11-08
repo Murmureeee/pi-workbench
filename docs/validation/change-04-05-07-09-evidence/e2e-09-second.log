@@ -1,0 +1,48 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:25336) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:27892) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\change-rollback-history.spec.ts:8:1 › CHANGE-09 Electron durable rollback details survive restart; actual SDK gets facts once and historical messages remain (10.6s)
+(node:19460) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\change-rollback-history.spec.ts:59:1 › CHANGE-09 Electron failed durable history query exposes retry and never borrows another session record (5.5s)
+
+
+  1) e2e\change-rollback-history.spec.ts:8:1 › CHANGE-09 Electron durable rollback details survive restart; actual SDK gets facts once and historical messages remain 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: getByRole('region', { name: '持久回滚记录', exact: true })
+    Expected substring: "回滚成功"
+    Received string:    ""
+
+
+      42 |     await f.versions()
+      43 |     await f.page.getByRole('button', { name: '查看持久回滚记录', exact: true }).click()
+    > 44 |     await expect(history).toContainText('回滚成功')
+         |                           ^
+      45 |     await history.getByRole('button', { name: /^回滚详情 / }).click()
+      46 |     await expect(detail).toContainText('消息保留')
+      47 |     expect(readFileSync(native)).toEqual(prior)
+        at D:\Project\pi-workbench\e2e\change-rollback-history.spec.ts:44:27
+
+    Error Context: test-results\change-rollback-history-CH-2b37f--historical-messages-remain\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\change-rollback-history-CH-2b37f--historical-messages-remain\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\change-rollback-history-CH-2b37f--historical-messages-remain\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\change-rollback-history.spec.ts:8:1 › CHANGE-09 Electron durable rollback details survive restart; actual SDK gets facts once and historical messages remain 
+  1 passed (31.8s)

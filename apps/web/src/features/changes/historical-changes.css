@@ -114,8 +114,42 @@
 .historical-change-drawer > [data-slot='dialog-description'] {
   padding: 0 16px;
 }
+.rollback-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+.rollback-confirmation {
+  max-width: min(640px, calc(100vw - 32px));
+  max-height: calc(100dvh - 64px);
+  overflow: auto;
+  overflow-wrap: anywhere;
+}
+.rollback-targets {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 32vh;
+  overflow: auto;
+  min-width: 0;
+  font-size: 12px;
+}
 @media (min-width: 1201px) and (max-width: 1599px) {
   .historical-change-panel {
     width: 540px;
   }
+}
+.rollback-availability {
+  display: grid;
+  gap: 0.5rem;
+  overflow-wrap: anywhere;
+}
+.rollback-availability-files {
+  max-height: 18rem;
+  overflow: auto;
+}
+.rollback-availability-files article {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--border);
 }

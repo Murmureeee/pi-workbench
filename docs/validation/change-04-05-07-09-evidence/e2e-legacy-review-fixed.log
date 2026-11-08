@@ -1,0 +1,22 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:25788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:33896) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\change-review.spec.ts:176:1 › CHANGE-02/03 Electron links actual SDK write/edit source to historical Diff and preserves the selected turn after read-only restart (14.7s)
+  ok 2 e2e\change-review.spec.ts:228:1 › CHANGE-03 Electron shows actual non-Git external file types, redaction and accessible light/dark narrow drawers with focus return (8.0s)
+  ok 3 e2e\change-review.spec.ts:279:1 › CHANGE-02/03 Electron late file response and closed or hidden review cannot replace another session or stop an independent background SDK (11.5s)
+  ok 4 e2e\change-review.spec.ts:340:1 › CHANGE-03 Electron list and Diff read failures preserve target and recover explicitly without replay (6.5s)
+  ok 5 e2e\change-snapshots.spec.ts:133:1 › CHANGE-01 Electron shows actual baseline and final references without mutating files, retains versions after same-profile restart (7.6s)
+  ok 6 e2e\change-snapshots.spec.ts:167:1 › CHANGE-01 Electron baseline failure is visible before explicit one-shot irreversible approval; cancel leaves actual files unchanged (7.7s)
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Queued task cancelled"}}
+  ok 7 e2e\change-snapshots.spec.ts:193:1 › CHANGE-01 Electron queued cancellation creates no version, background round retains PID and captures external mixed files on stop (6.8s)
+  ok 8 e2e\change-snapshots.spec.ts:226:1 › CHANGE-01 Electron read failure recovers and saved outcome is legible in light/dark narrow windows (5.9s)
+
+  8 passed (1.4m)

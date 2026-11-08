@@ -1,0 +1,432 @@
+{
+  "features": [
+    "CHANGE-04"
+  ],
+  "source": "Windows native UIA/SendInput; actual Electron/daemon/SQLite/independent Git/installed SDK + local HTTP. No CDP, renderer injection or synthetic source records. Controlled external edits explicitly identified.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ",
+  "a": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\来源审查目录",
+  "b": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\独立后台目录",
+  "desktopPid": 7792,
+  "prompts": 2,
+  "results": [
+    {
+      "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+      "protocol": 1,
+      "epoch": "dec9645d-fe1a-48a6-a8fe-fb6a3d5668aa",
+      "seq": 9,
+      "turnId": "bb0a4fa0-f4c9-46d3-8e6d-8f5dbc8463ce",
+      "type": "finished",
+      "outcome": "aborted",
+      "localRequests": 0,
+      "blockedNetworkAttempts": 0,
+      "error": "Model request cancelled"
+    },
+    {
+      "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+      "protocol": 1,
+      "epoch": "3b5a751a-69b7-45e6-a2e1-86ae13c7d814",
+      "seq": 14,
+      "turnId": "88e3860f-6220-4606-90ec-0781381411d2",
+      "type": "finished",
+      "outcome": "error",
+      "localRequests": 1,
+      "blockedNetworkAttempts": 0,
+      "error": "terminated"
+    }
+  ],
+  "operations": [
+    {
+      "action": "fail-accept",
+      "time": "2026-11-08T10:25:57.717Z"
+    },
+    {
+      "action": "clear-accept",
+      "time": "2026-11-08T10:27:33.736Z"
+    }
+  ],
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+      "title": "保持 混合处理原生轮次",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "5c90e7d8-c4a1-40bc-b6ed-dd82cc33de3c",
+      "configuration": {
+        "projectId": "889ce27c-29fe-4388-ba39-bbf1ae4484c2",
+        "workspaceId": "627ff68b-cddf-48d6-8300-529f6cc6640f",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "627ff68b-cddf-48d6-8300-529f6cc6640f",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\来源审查目录",
+      "createdAt": 1794133475047
+    },
+    {
+      "id": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+      "title": "保持 原生独立后台",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "fc1ecbdd-b601-4ea7-807a-d13969da5678",
+      "configuration": {
+        "projectId": "6740cc76-5820-4e8c-a63b-07771fe3b7fa",
+        "workspaceId": "a2f33ab7-5fa4-413c-a4ee-fd313f642c82",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a2f33ab7-5fa4-413c-a4ee-fd313f642c82",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\独立后台目录",
+      "createdAt": 1794133476861
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+      "items": [
+        {
+          "requestId": "5c90e7d8-c4a1-40bc-b6ed-dd82cc33de3c",
+          "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+          "messageId": "1620a3d1-49da-4452-88ce-b6ec34c6e4e4",
+          "turnId": "bb0a4fa0-f4c9-46d3-8e6d-8f5dbc8463ce",
+          "status": "aborted",
+          "text": "保持 混合处理原生轮次",
+          "retryOf": null,
+          "error": "Model request cancelled",
+          "createdAt": 1794133475049
+        }
+      ]
+    },
+    {
+      "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+      "items": [
+        {
+          "requestId": "fc1ecbdd-b601-4ea7-807a-d13969da5678",
+          "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+          "messageId": "b20aeb6b-2fdd-43b8-a64d-45cc1ff69030",
+          "turnId": "88e3860f-6220-4606-90ec-0781381411d2",
+          "status": "failed",
+          "text": "保持 原生独立后台",
+          "retryOf": null,
+          "error": "terminated",
+          "createdAt": 1794133476862
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "d5cbc945-98d9-4be0-bcce-f73f573b5396",
+      "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+      "epoch": "dec9645d-fe1a-48a6-a8fe-fb6a3d5668aa",
+      "seq": 8,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "bb0a4fa0-f4c9-46d3-8e6d-8f5dbc8463ce",
+          "messageId": "bb0a4fa0-f4c9-46d3-8e6d-8f5dbc8463ce:assistant",
+          "prompt": "保持 混合处理原生轮次",
+          "text": "",
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Model request cancelled",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 0,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Model request cancelled"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "d5cbc945-98d9-4be0-bcce-f73f573b5396",
+      "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+      "epoch": "3b5a751a-69b7-45e6-a2e1-86ae13c7d814",
+      "seq": 11,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "88e3860f-6220-4606-90ec-0781381411d2",
+          "messageId": "88e3860f-6220-4606-90ec-0781381411d2:assistant",
+          "prompt": "保持 原生独立后台",
+          "text": "OFFLINE_",
+          "phase": "error",
+          "tools": [],
+          "approval": null,
+          "error": "terminated",
+          "stage": "settling",
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "terminated"
+          },
+          "reasoning": {
+            "status": "unsupported"
+          }
+        }
+      ]
+    }
+  ],
+  "writes": [
+    {
+      "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+      "latest": {
+        "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+        "turnId": "19a7418d-2d8b-4757-9ba5-0e756f8d5740",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794133920588,
+        "checkedAt": 1794133921565,
+        "endedAt": 1794133921568,
+        "coverage": "bounded",
+        "changedPaths": [
+          "deleted.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+      "latest": {
+        "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+        "turnId": "88e3860f-6220-4606-90ec-0781381411d2",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\独立后台目录",
+        "state": "released",
+        "startedAt": 1794133476866,
+        "checkedAt": 1794133779407,
+        "endedAt": 1794133779410,
+        "coverage": "bounded",
+        "changedPaths": [],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    }
+  ],
+  "changes": [
+    {
+      "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+      "rounds": [
+        {
+          "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+          "turnId": "bb0a4fa0-f4c9-46d3-8e6d-8f5dbc8463ce",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\来源审查目录",
+          "startedAt": 1794133475059,
+          "endedAt": 1794133476826,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "eed44b355a875468217b9ac1e6d40a4b0e16e7f4",
+            "capturedAt": 1794133476441,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "98104b189eb840ac32aca6f412dbb1d0d9b1981b",
+            "capturedAt": 1794133476826,
+            "files": 3,
+            "bytes": 70,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+      "rounds": [
+        {
+          "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+          "turnId": "88e3860f-6220-4606-90ec-0781381411d2",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\独立后台目录",
+          "startedAt": 1794133476867,
+          "endedAt": 1794133779405,
+          "outcome": "failed",
+          "baseline": {
+            "status": "ready",
+            "reference": "2dba00551de782b3f30a98c0bb614e88d5c91cc5",
+            "capturedAt": 1794133478229,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "b5627eb1c1ca4a301d3996ee5afed1f382ecea06",
+            "capturedAt": 1794133779405,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    }
+  ],
+  "observations": [
+    {
+      "turnId": "bb0a4fa0-f4c9-46d3-8e6d-8f5dbc8463ce",
+      "items": []
+    },
+    {
+      "turnId": "88e3860f-6220-4606-90ec-0781381411d2",
+      "items": []
+    }
+  ],
+  "decisions": [
+    {
+      "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+      "turnId": "bb0a4fa0-f4c9-46d3-8e6d-8f5dbc8463ce",
+      "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+      "baselineReference": "eed44b355a875468217b9ac1e6d40a4b0e16e7f4",
+      "finalReference": "98104b189eb840ac32aca6f412dbb1d0d9b1981b",
+      "id": "c8d6fb63-606a-4088-92e9-a9df9f3a68c3",
+      "decision": "accepted",
+      "source": "human",
+      "actor": "bc039e26-76f2-43b0-aa08-7619030281b1",
+      "at": 1794133710213
+    }
+  ],
+  "rollbackRecords": [
+    {
+      "id": "19a7418d-2d8b-4757-9ba5-0e756f8d5740",
+      "sessionId": "6b25d7c2-f2da-49a7-9848-656aa9cbe107",
+      "turnId": "bb0a4fa0-f4c9-46d3-8e6d-8f5dbc8463ce",
+      "fileId": "6ec52c311514d5c5680ccdafe8660a6f22f8d7c019cc68e211c107897e83c7bc",
+      "state": "succeeded",
+      "startedAt": 1794133897512,
+      "endedAt": 1794133921561,
+      "baselineReference": "eed44b355a875468217b9ac1e6d40a4b0e16e7f4",
+      "finalReference": "98104b189eb840ac32aca6f412dbb1d0d9b1981b",
+      "beforeReference": "0fa566470d22c0f5598ca0722c981e3065a9f09f",
+      "afterReference": "d8db05f9bdfc0652df0bf6b55b1c3a46bd6676ca",
+      "afterSnapshotId": "19a7418d-2d8b-4757-9ba5-0e756f8d5740",
+      "afterStatus": "ready",
+      "attemptReference": null,
+      "externalConfirmed": true,
+      "source": "human",
+      "actor": "bc039e26-76f2-43b0-aa08-7619030281b1",
+      "diagnostic": null,
+      "files": [
+        {
+          "fileId": "6ec52c311514d5c5680ccdafe8660a6f22f8d7c019cc68e211c107897e83c7bc",
+          "path": "deleted.txt",
+          "current": "3cbec3de605c461b37bfcf7ecc311fa5ebb2a6d4a434f7feccc18c7d9fb4df03",
+          "expected": "3cbec3de605c461b37bfcf7ecc311fa5ebb2a6d4a434f7feccc18c7d9fb4df03",
+          "target": "afd8a4f3b98e1bcfea2dad9be6d0d4cbf249c6f1be22fe2e775d18795759d760",
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false,
+          "observedAfter": "afd8a4f3b98e1bcfea2dad9be6d0d4cbf249c6f1be22fe2e775d18795759d760",
+          "observation": "present"
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+        "epoch": "3b5a751a-69b7-45e6-a2e1-86ae13c7d814",
+        "state": "ready",
+        "pid": 7660,
+        "pins": 0,
+        "lastUsedAt": 1794133779412,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "kernels": [
+    {
+      "protocol": 1,
+      "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+      "epoch": "3b5a751a-69b7-45e6-a2e1-86ae13c7d814",
+      "source": "real-sdk/local-fixture",
+      "state": "ready",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\独立后台目录",
+      "turnId": "88e3860f-6220-4606-90ec-0781381411d2",
+      "pid": 7660,
+      "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\data\\kernels\\1a8932cf-a0d3-4f43-963b-41d65fdd55ab\\3b5a751a-69b7-45e6-a2e1-86ae13c7d814\\sessions\\2026-11-08T10-24-37-944Z_01a1bab0-4a38-7767-92ad-4aee996c0e4c.jsonl",
+      "nativeSessionId": "01a1bab0-4a38-7767-92ad-4aee996c0e4c"
+    }
+  ],
+  "historyBefore": {},
+  "historyAfter": {
+    "1a8932cf-a0d3-4f43-963b-41d65fdd55ab\\3b5a751a-69b7-45e6-a2e1-86ae13c7d814\\sessions\\2026-11-08T10-24-37-944Z_01a1bab0-4a38-7767-92ad-4aee996c0e4c.jsonl": "83dc975470cda58b40e05591ff48f236fb8c2eebd4a66672c3961f25c6aa0410",
+    "6b25d7c2-f2da-49a7-9848-656aa9cbe107\\dec9645d-fe1a-48a6-a8fe-fb6a3d5668aa\\sessions\\2026-11-08T10-24-36-048Z_01a1bab0-42d0-7632-85a9-e2a350a3f593.jsonl": "2c0ea47eb7a59379b38e518ebefc8e182320cbc64d80a471db660b6ae741f56f"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

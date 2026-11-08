@@ -1,0 +1,15 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:9720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 1 worker
+
+(node:29548) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\change-history-chain.spec.ts:8:1 › CHANGE-07 Electron preserves earlier block history, exposes later dependency and recomputes after newest rollback and restart (25.6s)
+  ok 2 e2e\change-history-chain.spec.ts:58:1 › CHANGE-07 Electron failed current observation keeps immutable Diff and permits explicit refresh (6.8s)
+
+  2 passed (46.1s)

@@ -1,0 +1,10 @@
+file:///D:/Project/pi-workbench/.workbench/rollback/native07.mjs:59
+    const p=projects.find(p=>p.directory===path);assert.ok(p)
+                     ^
+
+TypeError: Cannot read properties of undefined (reading 'find')
+    at seed (file:///D:/Project/pi-workbench/.workbench/rollback/native07.mjs:59:22)
+    at file:///D:/Project/pi-workbench/.workbench/rollback/native07.mjs:69:21
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+
+Node.js v24.22.2

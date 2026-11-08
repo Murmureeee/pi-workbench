@@ -101,7 +101,7 @@ export function SessionAuthorizations({
           </DialogDescription>
         </DialogHeader>
         <p>
-          撤销立即阻止后续复用，正在执行的动作需返回工作台单独停止。当前无回滚基线，每次仍须明确确认不可回滚执行。
+          撤销立即阻止后续复用，正在执行的动作需返回工作台单独停止。基线与回滚范围须逐轮核对，每次仍须明确确认不可回滚执行。
         </p>
         {list.isPending ? <output>正在同步授权…</output> : null}
         {list.isError ? (

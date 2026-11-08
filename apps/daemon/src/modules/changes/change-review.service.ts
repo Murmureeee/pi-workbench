@@ -145,6 +145,12 @@ export class ChangeReviewService {
     return { record, identity, entries }
   }
 
+  /** Host-only selection from verified immutable manifests. Never expose raw paths/bytes
+   * as execution inputs; callers must revalidate physical targets under a directory lease. */
+  rollbackEntries(turnId: string) {
+    return this.entries(turnId)
+  }
+
   async list(turnId: string, offset = 0) {
     const { record, entries } = await this.entries(turnId)
     return changeReviewSchema.parse(

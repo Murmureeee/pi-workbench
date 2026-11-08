@@ -1,0 +1,6 @@
+{
+  "exitCode": 1,
+  "endedAt": "2026-11-08T11:52:07.3486162Z",
+  "startedAt": "2026-11-08T11:31:17.3941732Z",
+  "command": "pnpm run ci"
+}

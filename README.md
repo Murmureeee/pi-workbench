@@ -30,9 +30,9 @@ CORE-04 已实现每会话单进程、守卫握手、流式、中止、销毁与
 
 CORE-05 已验收：`GET /api/protocol` 核对版本与能力，`GET /api/sessions/:sessionId/snapshot` 读取完整观察快照，`WS /api/events` 按游标重放并订阅。已存在运行时可用 `http://127.0.0.1:5173/?observe=<sessionId>` 只读查看，关闭观察不停止任务；不会自动创建会话或调用模型。缺口 / 缓冲不足重新同步，重连不重发任务；不兼容保留内容并禁用变更入口。CORE-06 已补齐重启后的只读历史与中断恢复，CORE-07 已补齐资源调度，接着进入 M2。协议与边界见[实施方案](docs/architecture/implementation-plan.md#core-05-已交付边界)。
 
-OPS-08 的 M1 契约基线及已交付 M1／M2 自动回归已接入；最新 OBS-06 257 项 Vitest、95 项 E2E及最终相关回归／frozen clean、Windows 原生已验收。失败与重跑来源详见[OBS-06 记录](docs/validation/obs-06-evidence/acceptance.md)。OPS-08 整体仍进行中，生产业务／双端审批、M3 回滚及平台门禁继续待验；真实提供商请求 0。
+OPS-08 已纳入已验收 M1／M2 及本次 M3 文件回滚／审查回归；最终 385 项 Vitest、140 项 E2E、SDK 和 frozen clean 的来源、失败及原生证据见[最新记录](docs/validation/change-04-05-07-09-evidence/acceptance.md)。整体仍进行中，CHANGE-08、其余双端业务和后续平台等跨阶段门继续按 backlog 判断；真实提供商请求 0。
 
-CORE-06 已验收：`GET /api/sessions` 发现受管索引，`http://127.0.0.1:5173/?history=<sessionId>` 查看只读原生历史与恢复记录。默认最新 100 条 / 页，每条预览最多 64 KiB，全文按需读取，展示与导出经过 SEC-06 脱敏；损坏记录保留原件，无法安全解析的内容不导出。独立 inflight 检查点以 1.5 秒为目标间隔，崩溃回复仅标为中断；重启不创建 SDK 进程、不重发队列或恢复旧授权。队列 / 审批 / 变更引用的存储用明确标记的合成记录验证，真实业务服务与 M3 回滚尚未接入。说明与证据见[实施方案](docs/architecture/implementation-plan.md#core-06-已交付边界)。
+CORE-06 已验收：`GET /api/sessions` 发现受管索引，`http://127.0.0.1:5173/?history=<sessionId>` 查看只读原生历史与恢复记录。默认最新 100 条 / 页，每条预览最多 64 KiB，全文按需读取，展示与导出经过 SEC-06 脱敏；损坏记录保留原件，无法安全解析的内容不导出。独立 inflight 检查点以 1.5 秒为目标间隔，崩溃回复仅标为中断；重启不创建 SDK 进程、不重发队列或恢复旧授权。CORE-06 初次的队列／审批／变更引用由合成记录验证；后续真实业务及本次 M3 回滚事实已接入，各阶段证据分别记录。说明与证据见[实施方案](docs/architecture/implementation-plan.md#core-06-已交付边界)。
 
 CORE-07 已验收：默认最多 3 个活跃内核、1 个模型任务，内核 / 模型各自 FIFO，支持内部任务入口取消；空闲内核按 LRU 或 300 秒超时回收，运行 / 待审批不回收。显式打开时从受管原生历史冷恢复，不额外复制历史、不重放输入或旧授权。`http://127.0.0.1:5173/?resources` 只读查看实际占用、限额和顺序；网页发送 / 取消接口随 M2 开放。终端仅预留 6 个预算，真实 PTY 在 M4 验收。完整 **118 项单元 / 集成、21 项浏览器 / Electron E2E**、SDK 冒烟与干净目录验证通过，新增真实提供商请求 0；[边界与证据](docs/architecture/implementation-plan.md#core-07-已交付边界)已归档。OPS-08 后续阶段继续进行，不据此把整个 M1 功能统计记成 100%。
 
@@ -257,4 +257,4 @@ MODEL-05 已验收：只读SDK原生历史，按会话／轮次／模型消息�
 
 受管轮次在写入前保存独立 Git 基线，落稳或实际进程退出后持久保存收尾与结果。基线失败先暂停，只有单次明确接受不可回滚执行才能继续。工具来源显示实际观察一致、混合或未知；文件列表和只读 Diff 固定到所选轮次的历史版本，当前文件变化不替换历史。Electron 在版本区展开来源并打开审查，窄窗使用可关闭 Dialog。切换和关闭审查保留后台任务，重启不恢复许可或自动重放。
 
-CHANGE-01／02／03 已验收，最终 367 项 Vitest、130 项 E2E、SDK 和 frozen clean 通过；来源、失败、原生观察与限制见[最新记录](docs/validation/change-02-03-evidence/acceptance.md)。接受／恢复／回滚尚未交付，工具观察不是 OS 作者证明，真实提供商保持关闭。
+CHANGE-01／02／03 的基线、来源与历史 Diff 继续保留。[此前记录](docs/validation/change-02-03-evidence/acceptance.md)对应当时无回滚的交付范围。CHANGE-05／07／09／04 已验收：整文件／整轮预检与单独覆盖确认、条件补偿、不可变历史与当前条件重算、持久回滚事实及 SDK 环境说明、接受和成功回滚的 2/2 处理进度。最终 58 文件／385 项 Vitest、SDK、140 项 E2E 与 frozen clean 通过；228 条 Windows 原生观察含中间态，四组同 data/profile 只读重启与八次正常菜单退出补证。真实提供商 0，配置／canonical 预算／锁未改，OPS-08 继续 in_progress；范围／容量／保留 CHANGE-08 和代码块 CHANGE-06 未交付。本地 46/133；[逐项证据与下一步提示词](docs/validation/change-04-05-07-09-evidence/acceptance.md)。

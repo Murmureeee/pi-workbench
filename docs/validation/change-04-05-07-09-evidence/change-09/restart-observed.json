@@ -1,0 +1,619 @@
+{
+  "features": [
+    "CHANGE-09"
+  ],
+  "source": "Windows native UIA/SendInput; actual Electron/daemon/SQLite/independent Git/installed SDK + local HTTP. No CDP, renderer injection or synthetic source records. Controlled external edits explicitly identified.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt",
+  "a": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+  "b": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\独立后台目录",
+  "desktopPid": 26696,
+  "prompts": 0,
+  "results": [],
+  "operations": [],
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "adc97ab9-8c69-4c42-a795-2d9fcc393738",
+      "title": "保持 环境记录第一轮",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "99ef46fd-88b0-4274-9a78-a0cdd5fe4ef9",
+      "configuration": {
+        "projectId": "4f2507e1-aa4c-4857-9671-79d26fabcdcc",
+        "workspaceId": "54443a35-8892-46f8-be7e-3411864f7537",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "54443a35-8892-46f8-be7e-3411864f7537",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+      "createdAt": 1794131345505
+    },
+    {
+      "id": "83a4e0cc-b739-434d-9322-2b7db2432532",
+      "title": "保持 环境记录第二轮",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "0bf1388d-8a83-4775-b6af-f6907480cd01",
+      "configuration": {
+        "projectId": "4f2507e1-aa4c-4857-9671-79d26fabcdcc",
+        "workspaceId": "54443a35-8892-46f8-be7e-3411864f7537",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "54443a35-8892-46f8-be7e-3411864f7537",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+      "createdAt": 1794131347289
+    },
+    {
+      "id": "0e9783d8-2847-44b1-9f41-5d4c97366761",
+      "title": "保持 原生独立后台",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "3151917c-d7d5-46c3-8701-a21593b2db48",
+      "configuration": {
+        "projectId": "bf6d7660-ec93-484e-819a-ff584c811f5f",
+        "workspaceId": "7ac3a1b1-73f3-4a43-9a97-34a7582cac93",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "7ac3a1b1-73f3-4a43-9a97-34a7582cac93",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\独立后台目录",
+      "createdAt": 1794131349151
+    },
+    {
+      "id": "fdba8d78-90a9-4475-b88d-8f5a950c9a87",
+      "title": "环境上下文 核对回滚事实",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "bfe0ef37-63bf-4479-8692-61d4ac449bca",
+      "configuration": {
+        "projectId": "4f2507e1-aa4c-4857-9671-79d26fabcdcc",
+        "workspaceId": "54443a35-8892-46f8-be7e-3411864f7537",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "54443a35-8892-46f8-be7e-3411864f7537",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+      "createdAt": 1794132036628
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "adc97ab9-8c69-4c42-a795-2d9fcc393738",
+      "items": [
+        {
+          "requestId": "99ef46fd-88b0-4274-9a78-a0cdd5fe4ef9",
+          "sessionId": "adc97ab9-8c69-4c42-a795-2d9fcc393738",
+          "messageId": "8d8f8571-ffd9-42ea-aac7-369469279129",
+          "turnId": "335222c9-f589-4628-a2af-11703bd5b969",
+          "status": "aborted",
+          "text": "保持 环境记录第一轮",
+          "retryOf": null,
+          "error": "Model request cancelled",
+          "createdAt": 1794131345506
+        }
+      ]
+    },
+    {
+      "sessionId": "83a4e0cc-b739-434d-9322-2b7db2432532",
+      "items": [
+        {
+          "requestId": "0bf1388d-8a83-4775-b6af-f6907480cd01",
+          "sessionId": "83a4e0cc-b739-434d-9322-2b7db2432532",
+          "messageId": "55c698c6-f209-4999-9e84-f2b9119a0686",
+          "turnId": "8f441e4a-e6d0-4a57-a1a0-769a91dccdda",
+          "status": "aborted",
+          "text": "保持 环境记录第二轮",
+          "retryOf": null,
+          "error": "Request aborted",
+          "createdAt": 1794131347289
+        }
+      ]
+    },
+    {
+      "sessionId": "0e9783d8-2847-44b1-9f41-5d4c97366761",
+      "items": [
+        {
+          "requestId": "3151917c-d7d5-46c3-8701-a21593b2db48",
+          "sessionId": "0e9783d8-2847-44b1-9f41-5d4c97366761",
+          "messageId": "3044911b-1d7d-4da3-b779-df1e9f880eab",
+          "turnId": "65034a35-9de0-4012-9a8c-fca4e4ff9740",
+          "status": "failed",
+          "text": "保持 原生独立后台",
+          "retryOf": null,
+          "error": "terminated",
+          "createdAt": 1794131349152
+        }
+      ]
+    },
+    {
+      "sessionId": "fdba8d78-90a9-4475-b88d-8f5a950c9a87",
+      "items": [
+        {
+          "requestId": "bfe0ef37-63bf-4479-8692-61d4ac449bca",
+          "sessionId": "fdba8d78-90a9-4475-b88d-8f5a950c9a87",
+          "messageId": "26ee7577-f251-418c-9006-7594c50863dd",
+          "turnId": "f779ce33-8cbe-48f5-ae70-2a19530f8fc2",
+          "status": "completed",
+          "text": "环境上下文 核对回滚事实",
+          "retryOf": null,
+          "error": null,
+          "createdAt": 1794132036629
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "45963937-889d-4b24-9730-5333412f3ada",
+      "sessionId": "adc97ab9-8c69-4c42-a795-2d9fcc393738",
+      "epoch": "e6a55078-e4e6-44de-a8b7-a40f5b57b137",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "335222c9-f589-4628-a2af-11703bd5b969",
+          "messageId": "335222c9-f589-4628-a2af-11703bd5b969:assistant",
+          "prompt": "保持 环境记录第一轮",
+          "text": "",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 0,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Model request cancelled"
+          },
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Model request cancelled"
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "45963937-889d-4b24-9730-5333412f3ada",
+      "sessionId": "83a4e0cc-b739-434d-9322-2b7db2432532",
+      "epoch": "def63280-8a06-4314-98d5-da349e523e2b",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "8f441e4a-e6d0-4a57-a1a0-769a91dccdda",
+          "messageId": "8f441e4a-e6d0-4a57-a1a0-769a91dccdda:assistant",
+          "prompt": "保持 环境记录第二轮",
+          "text": "",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request aborted"
+          },
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request aborted"
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "45963937-889d-4b24-9730-5333412f3ada",
+      "sessionId": "0e9783d8-2847-44b1-9f41-5d4c97366761",
+      "epoch": "c5af8a57-6f2b-446f-b9c0-0f34b662f62a",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "65034a35-9de0-4012-9a8c-fca4e4ff9740",
+          "messageId": "65034a35-9de0-4012-9a8c-fca4e4ff9740:assistant",
+          "prompt": "保持 原生独立后台",
+          "text": "OFFLINE_",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "terminated"
+          },
+          "phase": "error",
+          "tools": [],
+          "approval": null,
+          "error": "terminated"
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "45963937-889d-4b24-9730-5333412f3ada",
+      "sessionId": "fdba8d78-90a9-4475-b88d-8f5a950c9a87",
+      "epoch": "8bced3e6-a007-4f18-b2b8-6533b5a1859a",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "f779ce33-8cbe-48f5-ae70-2a19530f8fc2",
+          "messageId": "f779ce33-8cbe-48f5-ae70-2a19530f8fc2:assistant",
+          "prompt": "环境上下文 核对回滚事实",
+          "text": "[{\"role\":\"system\",\"content\":\"Offline lifecycle validation. Tools require the host final-parameter guard.\\n\\nHost file environment facts follow. They do not undo conversation history or authorize tools.\\nPi Workbench 文件环境变更记录。文件回滚未撤销消息历史；先前工具结果描述的是当时状态，执行前应重新读取现场。记录不授予任何工具权限。补偿冲突或中断表示结果不确定，不得假定文件已恢复。\\n{\\\"records\\\":[{\\\"operationId\\\":\\\"a1f7b7e4-6add-49fa-aa89-2f0fc3b5f993\\\",\\\"sessionId\\\":\\\"83a4e0cc-b739-434d-9322-2b7db2432532\\\",\\\"turnId\\\":\\\"8f441e4a-e6d0-4a57-a1a0-769a91dccdda\\\",\\\"result\\\":\\\"succeeded\\\",\\\"source\\\":\\\"human\\\",\\\"externalConfirmed\\\":true,\\\"before\\\":\\\"3a877852ad83e1cff75f03c8f043585a12f53365\\\",\\\"after\\\":\\\"e9f331838338b67b2386c41e15c7e65d4a413f64\\\",\\\"afterStatus\\\":\\\"ready\\\",\\\"files\\\":1,\\\"paths\\\":[\\\"tracked.txt\\\"],\\\"endedAt\\\":1794131639826}],\\\"olderOmitted\\\":false}\\n\\n<cwd>\\nD:/Project/pi-workbench/.workbench/facts-native-MhRpZt/来源审查目录\\n</cwd>\"}]",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": null
+          },
+          "phase": "completed",
+          "tools": [],
+          "approval": null,
+          "error": null
+        }
+      ]
+    }
+  ],
+  "writes": [
+    {
+      "sessionId": "adc97ab9-8c69-4c42-a795-2d9fcc393738",
+      "latest": {
+        "sessionId": "adc97ab9-8c69-4c42-a795-2d9fcc393738",
+        "turnId": "335222c9-f589-4628-a2af-11703bd5b969",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794131345514,
+        "checkedAt": 1794131347278,
+        "endedAt": 1794131347279,
+        "coverage": "bounded",
+        "changedPaths": [
+          "tracked.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "83a4e0cc-b739-434d-9322-2b7db2432532",
+      "latest": {
+        "sessionId": "83a4e0cc-b739-434d-9322-2b7db2432532",
+        "turnId": "a1f7b7e4-6add-49fa-aa89-2f0fc3b5f993",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794131638881,
+        "checkedAt": 1794131639830,
+        "endedAt": 1794131639832,
+        "coverage": "bounded",
+        "changedPaths": [
+          "tracked.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "0e9783d8-2847-44b1-9f41-5d4c97366761",
+      "latest": {
+        "sessionId": "0e9783d8-2847-44b1-9f41-5d4c97366761",
+        "turnId": "65034a35-9de0-4012-9a8c-fca4e4ff9740",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\独立后台目录",
+        "state": "released",
+        "startedAt": 1794131349156,
+        "checkedAt": 1794131651601,
+        "endedAt": 1794131651603,
+        "coverage": "bounded",
+        "changedPaths": [],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "fdba8d78-90a9-4475-b88d-8f5a950c9a87",
+      "latest": {
+        "sessionId": "fdba8d78-90a9-4475-b88d-8f5a950c9a87",
+        "turnId": "f779ce33-8cbe-48f5-ae70-2a19530f8fc2",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794132036633,
+        "checkedAt": 1794132038565,
+        "endedAt": 1794132038568,
+        "coverage": "bounded",
+        "changedPaths": [],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    }
+  ],
+  "changes": [
+    {
+      "sessionId": "adc97ab9-8c69-4c42-a795-2d9fcc393738",
+      "rounds": [
+        {
+          "sessionId": "adc97ab9-8c69-4c42-a795-2d9fcc393738",
+          "turnId": "335222c9-f589-4628-a2af-11703bd5b969",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+          "startedAt": 1794131345517,
+          "endedAt": 1794131347273,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "20f02b41cff4993fd0de057aded39e1ef08b51f3",
+            "capturedAt": 1794131346913,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "17645be309e670493c4175609c048d47aacbb79b",
+            "capturedAt": 1794131347273,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "83a4e0cc-b739-434d-9322-2b7db2432532",
+      "rounds": [
+        {
+          "sessionId": "83a4e0cc-b739-434d-9322-2b7db2432532",
+          "turnId": "8f441e4a-e6d0-4a57-a1a0-769a91dccdda",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+          "startedAt": 1794131347295,
+          "endedAt": 1794131349140,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "ab81389aa2fe118fd6cad93caa708b1bda6314ac",
+            "capturedAt": 1794131348663,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "77d929fd95b1885df0fe9703b19377faa0e0e5a0",
+            "capturedAt": 1794131349140,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "0e9783d8-2847-44b1-9f41-5d4c97366761",
+      "rounds": [
+        {
+          "sessionId": "0e9783d8-2847-44b1-9f41-5d4c97366761",
+          "turnId": "65034a35-9de0-4012-9a8c-fca4e4ff9740",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\独立后台目录",
+          "startedAt": 1794131349158,
+          "endedAt": 1794131651597,
+          "outcome": "failed",
+          "baseline": {
+            "status": "ready",
+            "reference": "b0be02d198ab2e954ca17ee2b26eb12600818c9a",
+            "capturedAt": 1794131350446,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "ce93db31159d24e3c3d426f4597bcd7ef5d6ab7e",
+            "capturedAt": 1794131651597,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "fdba8d78-90a9-4475-b88d-8f5a950c9a87",
+      "rounds": [
+        {
+          "sessionId": "fdba8d78-90a9-4475-b88d-8f5a950c9a87",
+          "turnId": "f779ce33-8cbe-48f5-ae70-2a19530f8fc2",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\facts-native-MhRpZt\\来源审查目录",
+          "startedAt": 1794132036635,
+          "endedAt": 1794132038562,
+          "outcome": "completed",
+          "baseline": {
+            "status": "ready",
+            "reference": "3368b6503a486103ce812e26283fdd509d9335e3",
+            "capturedAt": 1794132038055,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "04a8b5441ba3629b4f0e41415d9f3a161c251a6c",
+            "capturedAt": 1794132038562,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    }
+  ],
+  "observations": [
+    {
+      "turnId": "335222c9-f589-4628-a2af-11703bd5b969",
+      "items": []
+    },
+    {
+      "turnId": "8f441e4a-e6d0-4a57-a1a0-769a91dccdda",
+      "items": []
+    },
+    {
+      "turnId": "65034a35-9de0-4012-9a8c-fca4e4ff9740",
+      "items": []
+    },
+    {
+      "turnId": "f779ce33-8cbe-48f5-ae70-2a19530f8fc2",
+      "items": []
+    }
+  ],
+  "rollbackRecords": [
+    {
+      "id": "a1f7b7e4-6add-49fa-aa89-2f0fc3b5f993",
+      "sessionId": "83a4e0cc-b739-434d-9322-2b7db2432532",
+      "turnId": "8f441e4a-e6d0-4a57-a1a0-769a91dccdda",
+      "fileId": null,
+      "state": "succeeded",
+      "startedAt": 1794131572383,
+      "endedAt": 1794131639826,
+      "baselineReference": "ab81389aa2fe118fd6cad93caa708b1bda6314ac",
+      "finalReference": "77d929fd95b1885df0fe9703b19377faa0e0e5a0",
+      "beforeReference": "3a877852ad83e1cff75f03c8f043585a12f53365",
+      "afterReference": "e9f331838338b67b2386c41e15c7e65d4a413f64",
+      "afterSnapshotId": "a1f7b7e4-6add-49fa-aa89-2f0fc3b5f993",
+      "afterStatus": "ready",
+      "attemptReference": null,
+      "externalConfirmed": true,
+      "source": "human",
+      "actor": "ff780e7c-7a44-46cb-9f30-15f0806b68e8",
+      "diagnostic": null,
+      "files": [
+        {
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "path": "tracked.txt",
+          "current": "e186eb7efc38aa381455c6c94d83929dec9bbd9c31103f970500912ef7bd32c8",
+          "expected": "e186eb7efc38aa381455c6c94d83929dec9bbd9c31103f970500912ef7bd32c8",
+          "target": "7ea335efb316b26d07dafa2ad7724ba682e937f1a59df1e85a524d1ca24e4c9d",
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false,
+          "observedAfter": "7ea335efb316b26d07dafa2ad7724ba682e937f1a59df1e85a524d1ca24e4c9d",
+          "observation": "present"
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "kernels": [],
+  "historyBefore": {
+    "0e9783d8-2847-44b1-9f41-5d4c97366761\\c5af8a57-6f2b-446f-b9c0-0f34b662f62a\\sessions\\2026-11-08T09-49-10-171Z_01a1ba8f-d29b-7031-bc0f-a73f421a9cff.jsonl": "7cccfae9d708e8276f13139de5fa2c9a7f337382744d266457aa6c125104421a",
+    "83a4e0cc-b739-434d-9322-2b7db2432532\\def63280-8a06-4314-98d5-da349e523e2b\\sessions\\2026-11-08T09-49-08-342Z_01a1ba8f-cb76-775d-8c4a-d4e7e734a639.jsonl": "8b8c8fb8ef5b24e0aad586b0c8ea829cbb7fa9b8ccb6c54924bc743d30884c82",
+    "adc97ab9-8c69-4c42-a795-2d9fcc393738\\e6a55078-e4e6-44de-a8b7-a40f5b57b137\\sessions\\2026-11-08T09-49-06-502Z_01a1ba8f-c445-7603-93d2-c742e0c3d1f1.jsonl": "ac6a1fcefb33074130a9c377d2138c5de63ed277e079d234188328f3077a8f99",
+    "fdba8d78-90a9-4475-b88d-8f5a950c9a87\\8bced3e6-a007-4f18-b2b8-6533b5a1859a\\sessions\\2026-11-08T10-00-37-710Z_01a1ba9a-504e-74a8-8cda-ac83fe54735d.jsonl": "fd014555bc68e6b53d1d32a04cdeceaa8bd6848d9bf20b7d88e415a5cfd11b6d"
+  },
+  "historyAfter": {
+    "0e9783d8-2847-44b1-9f41-5d4c97366761\\c5af8a57-6f2b-446f-b9c0-0f34b662f62a\\sessions\\2026-11-08T09-49-10-171Z_01a1ba8f-d29b-7031-bc0f-a73f421a9cff.jsonl": "7cccfae9d708e8276f13139de5fa2c9a7f337382744d266457aa6c125104421a",
+    "83a4e0cc-b739-434d-9322-2b7db2432532\\def63280-8a06-4314-98d5-da349e523e2b\\sessions\\2026-11-08T09-49-08-342Z_01a1ba8f-cb76-775d-8c4a-d4e7e734a639.jsonl": "8b8c8fb8ef5b24e0aad586b0c8ea829cbb7fa9b8ccb6c54924bc743d30884c82",
+    "adc97ab9-8c69-4c42-a795-2d9fcc393738\\e6a55078-e4e6-44de-a8b7-a40f5b57b137\\sessions\\2026-11-08T09-49-06-502Z_01a1ba8f-c445-7603-93d2-c742e0c3d1f1.jsonl": "ac6a1fcefb33074130a9c377d2138c5de63ed277e079d234188328f3077a8f99",
+    "fdba8d78-90a9-4475-b88d-8f5a950c9a87\\8bced3e6-a007-4f18-b2b8-6533b5a1859a\\sessions\\2026-11-08T10-00-37-710Z_01a1ba9a-504e-74a8-8cda-ac83fe54735d.jsonl": "fd014555bc68e6b53d1d32a04cdeceaa8bd6848d9bf20b7d88e415a5cfd11b6d"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0
+}

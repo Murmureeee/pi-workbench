@@ -1,6 +1,13 @@
 import { z } from 'zod'
 
-const auditKindSchema = z.enum(['approval', 'session-grant', 'resource-trust', 'client-access'])
+const auditKindSchema = z.enum([
+  'approval',
+  'session-grant',
+  'resource-trust',
+  'client-access',
+  'rollback',
+  'change-review',
+])
 export const auditEntrySchema = z.strictObject({
   sequence: z.number().int().positive(),
   id: z.uuid(),

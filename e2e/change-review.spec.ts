@@ -202,7 +202,10 @@ test('CHANGE-02/03 Electron links actual SDK write/edit source to historical Dif
     await f.page.getByRole('button', { name: '审查文件 tracked.txt', exact: true }).click()
     await expect(diff).toContainText('second')
     await expect(diff).not.toContainText('CURRENT_MUST_NOT_REPLACE_HISTORY')
-    expect(await f.page.getByRole('button', { name: /回滚|接受本轮|恢复文件/ }).count()).toBe(0)
+    await expect(f.page.getByRole('button', { name: '预检整文件回滚', exact: true })).toBeVisible()
+    expect(readFileSync(join(f.cwd, 'tracked.txt'), 'utf8')).toBe(
+      'CURRENT_MUST_NOT_REPLACE_HISTORY\n',
+    )
     const record = required(f.changes.history(session.id).rounds[0]),
       observations = f.app.get(ChangeProvenanceService).observations(record.turnId)
     expect(observations).toHaveLength(2)

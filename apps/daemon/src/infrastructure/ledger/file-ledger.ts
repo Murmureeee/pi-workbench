@@ -357,6 +357,78 @@ export class FileLedger {
     return result
   }
 
+  /** Validate historical restore targets against TODAY's exclusions, including missing
+   * files and ancestors. Explicit human confirmation cannot bypass this boundary. */
+  async assertRestoreTargets(identity: Identity, paths: string[]): Promise<void> {
+    const repo = await this.storage(identity, false)
+    for (const path of paths) {
+      const parts = path.split('/')
+      if (
+        parts.length > 9 ||
+        parts.some(
+          (part) =>
+            !part ||
+            part === '.' ||
+            part === '..' ||
+            /[\\:]/.test(part) ||
+            Array.from(part).some(
+              (char) => char.charCodeAt(0) < 32 || char.charCodeAt(0) === 127,
+            ) ||
+            /[. ]$/.test(part) ||
+            /^(?:con|prn|aux|nul|com[1-9]|lpt[1-9])(?:\.|$)/i.test(part) ||
+            ['.git', 'node_modules', '.workbench'].includes(part.toLowerCase()) ||
+            /^(?:\.env(?:\..*)?|\.ssh|\.aws|\.azure|\.pi|auth\.json|credentials(?:\..*)?)$/i.test(
+              part,
+            ),
+        )
+      ) {
+        throw new Error('回滚目标包含排除或歧义路径。')
+      }
+      const full = join(identity.canonicalPath, ...parts)
+      if (!contained(identity.canonicalPath, full) || contained(this.dataDir, full)) {
+        throw new Error('回滚目标不属于可恢复目录。')
+      }
+      let missing = false
+      for (let i = 0; i < parts.length; i++) {
+        const parent = join(identity.canonicalPath, ...parts.slice(0, i))
+        if (missing) {
+          continue
+        }
+        try {
+          const stat = await lstat(parent)
+          if (!stat.isDirectory() || stat.isSymbolicLink() || (await realpath(parent)) !== parent) {
+            throw new Error('回滚目标父目录身份不安全。')
+          }
+          if (i > 0) {
+            try {
+              await lstat(join(parent, '.git'))
+              throw new Error('回滚目标位于嵌套仓库。')
+            } catch (error) {
+              if (!(error instanceof Error && 'code' in error && error.code === 'ENOENT')) {
+                throw error
+              }
+            }
+          }
+        } catch (error) {
+          if (i > 0 && error instanceof Error && 'code' in error && error.code === 'ENOENT') {
+            missing = true
+          } else {
+            throw error
+          }
+        }
+      }
+    }
+    const ignored = await this.git(
+      repo,
+      ['--work-tree', identity.canonicalPath, 'check-ignore', '--no-index', '-z', '--stdin'],
+      Buffer.from(paths.map((path) => `./${path}`).join('\0') + '\0'),
+      [0, 1],
+    )
+    if (ignored.length) {
+      throw new Error('回滚目标被当前忽略规则排除，未写入任何文件。')
+    }
+  }
+
   /** Capture two agreeing bounded traversals before publishing any reference. fsync-enabled
    * fast-import atomically installs an independent ref with immutable manifest/blob hashes. */
   async capture(

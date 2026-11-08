@@ -14,6 +14,7 @@ import {
 } from '@pi-workbench/ui/components/collapsible'
 
 import { sessionJson } from '../../services/session-client.js'
+import { RollbackHistory } from '../changes/rollback-history.js'
 import { ChangeSources } from './change-sources.js'
 
 const outcome = {
@@ -99,7 +100,7 @@ function SnapshotHistory({
         </div>
         <CollapsibleContent className="flex flex-col gap-3 pt-2">
           <p>
-            文件版本保存不等于可整轮回滚。可只读审查历史差异与来源；接受和回滚入口尚未交付，禁止自动回滚。
+            文件版本保存不等于可整轮回滚。可审查历史差异与来源，并经预检和明确确认回滚文件；来源不确定时须单独确认覆盖，禁止自动回滚。
           </p>
           {query.isError ? (
             <Alert>
@@ -133,6 +134,7 @@ function SnapshotHistory({
           ) : null}
         </CollapsibleContent>
       </Collapsible>
+      <RollbackHistory key={sessionId} sessionId={sessionId} />
     </section>
   )
 }

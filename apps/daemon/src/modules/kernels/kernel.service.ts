@@ -1,4 +1,5 @@
 import type { ChangeProvenanceService } from '../changes/change-provenance.service.js'
+import type { ChangeRollbackService } from '../changes/change-rollback.service.js'
 import type { ChangeService } from '../changes/change.service.js'
 import type { EventService } from '../events/event.service.js'
 import type { ApprovalService } from '../security/approval.service.js'
@@ -135,6 +136,7 @@ export class KernelService {
     private readonly executionPolicy: ExecutionPolicyService = new ExecutionPolicyService(),
     private readonly approvals?: ApprovalService,
     private readonly provenance?: ChangeProvenanceService,
+    private readonly rollback?: ChangeRollbackService,
   ) {
     this.limits = resourceLimitsSchema.parse(limits)
     this.pool = new KernelPool(
@@ -724,6 +726,7 @@ export class KernelService {
       const result = await kernel.prompt({
         ...task.input,
         trustedContext,
+        environmentChanges: this.rollback?.environmentNote(task.directory.directoryKey) ?? '',
         inputQueue: Boolean(this.inputQueue),
       })
       settled = true
@@ -870,12 +873,17 @@ export class KernelService {
     const result = await Promise.allSettled([
       this.pool.close(),
       ...[...this.tasks.values()].map((task) => task.promise),
+      this.rollback?.close(),
     ])
     this.writes.close()
     this.events.close()
     this.store.close()
     if (result[0]?.status === 'rejected') {
       throw result[0].reason
+    }
+    const rollbackResult = result.at(-1)
+    if (rollbackResult?.status === 'rejected') {
+      throw rollbackResult.reason
     }
   }
 }

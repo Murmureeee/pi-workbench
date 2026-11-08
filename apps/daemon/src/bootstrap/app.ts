@@ -14,8 +14,13 @@ import {
 } from '@pi-workbench/shared'
 
 import { WorkspaceDatabase } from '../infrastructure/database/database.js'
+import { ChangeAvailabilityService } from '../modules/changes/change-availability.service.js'
+import { ChangeDecisionService } from '../modules/changes/change-decision.service.js'
+import { registerChangeDecisions } from '../modules/changes/change-decision.transport.js'
 import { ChangeProvenanceService } from '../modules/changes/change-provenance.service.js'
 import { ChangeReviewService } from '../modules/changes/change-review.service.js'
+import { ChangeRollbackService } from '../modules/changes/change-rollback.service.js'
+import { registerRollbackTransport } from '../modules/changes/change-rollback.transport.js'
 import { ChangeService } from '../modules/changes/change.service.js'
 import { registerChangeTransport } from '../modules/changes/change.transport.js'
 import { EventService } from '../modules/events/event.service.js'
@@ -96,6 +101,12 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     throw error
   }
   const environment = new WorkspaceEnvironmentService(workspaces, store)
+  const changeAvailability = new ChangeAvailabilityService(
+    changes,
+    review,
+    writes,
+    security.redactor,
+  )
   const availability = new WorkspaceAvailabilityService(workspaces, store, trust)
   const models = new ModelService(security)
   const legacy = new LegacyHistoryService(options.piAgentDir)
@@ -103,6 +114,15 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   const executionPolicy = new ExecutionPolicyService()
   const grants = new SessionGrantService(store, executionPolicy, security.redactor)
   const approvals = new ApprovalService(store, events, executionPolicy, security.redactor, grants)
+  const rollback = new ChangeRollbackService(
+    database,
+    changes,
+    review,
+    writes,
+    audit,
+    security.redactor,
+  )
+  const decisions = new ChangeDecisionService(database, review, rollback, audit, security.redactor)
   const kernels = new KernelService(
     options.dataDir,
     events,
@@ -114,6 +134,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     executionPolicy,
     approvals,
     provenance,
+    rollback,
   )
   const sessionService = new SessionService(
     options.dataDir,
@@ -154,6 +175,9 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: ChangeService, useValue: changes },
       { provide: ChangeProvenanceService, useValue: provenance },
       { provide: ChangeReviewService, useValue: review },
+      { provide: ChangeAvailabilityService, useValue: changeAvailability },
+      { provide: ChangeRollbackService, useValue: rollback },
+      { provide: ChangeDecisionService, useValue: decisions },
       { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: WorkspaceAvailabilityService, useValue: availability },
       { provide: ModelService, useValue: models },
@@ -195,7 +219,17 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   })
   registerAccessTransport(adapter.getInstance(), access, options.port, Boolean(options.development))
   registerAuditTransport(adapter.getInstance(), audit, access)
-  registerChangeTransport(adapter.getInstance(), changes, store, access, provenance, review)
+  registerChangeTransport(
+    adapter.getInstance(),
+    changes,
+    store,
+    access,
+    provenance,
+    review,
+    changeAvailability,
+  )
+  registerRollbackTransport(adapter.getInstance(), rollback, access, store)
+  registerChangeDecisions(adapter.getInstance(), decisions, access, store)
   registerTrustTransport(adapter.getInstance(), trust, access)
   registerWorkspaceTransport(
     adapter.getInstance(),

@@ -1,6 +1,6 @@
 # 文档索引与维护
 
-CHANGE-01 轮次基线与持久文件版本见[独立记录](validation/change-01-evidence/acceptance.md)。CHANGE-02 修改来源与 CHANGE-03 历史 Diff 也已验收：最终 367 项 Vitest／130 项 E2E、SDK、frozen clean、149 条 Windows 原生观察、两次正常退出及只读重启见[最新验收记录](validation/change-02-03-evidence/acceptance.md)。本地 42/133，OPS-08 继续跨阶段门；接受／回滚未交付。
+CHANGE-05／07／09／04 已验收：整文件／整轮预检与单独覆盖确认、条件补偿、不可变历史与当前条件重算、持久回滚事实及 SDK 环境说明、接受和成功回滚的 2/2 处理进度。最终 58 文件／385 项 Vitest、SDK、140 项 E2E 与 frozen clean 通过；228 条 Windows 原生观察含中间态，四组同 data/profile 只读重启与八次正常菜单退出补证。真实提供商 0，配置／canonical 预算／锁未改，OPS-08 继续 in_progress；范围／容量／保留 CHANGE-08 和代码块 CHANGE-06 未交付。本地 46/133；[最新验收记录](validation/change-04-05-07-09-evidence/acceptance.md)。此前[基线](validation/change-01-evidence/acceptance.md)与[来源／Diff](validation/change-02-03-evidence/acceptance.md)证据按原交付时点保留。
 
 根 [README](../README.md) 负责运行和检查；本目录集中维护需求、方案、设计与验证。产品功能及进度的唯一数据源是 [product/backlog.json](product/backlog.json)，文档、原型和依赖安装不计为产品完成。
 
@@ -19,7 +19,7 @@ CHANGE-01 轮次基线与持久文件版本见[独立记录](validation/change-0
 
 CORE-04 的实现边界与验收说明合并在[实施方案](architecture/implementation-plan.md)，原始 [CI 输出](validation/core-04-evidence/ci.log)与[干净目录结果](validation/core-04-evidence/clean-workspace.json)独立保留；页面仍为离线样本，真实提供商未开放。
 
-OPS-08 的 M1 契约基线、来源说明、命令与后续阶段矩阵见[工具规范](development/tooling.md#ops-08-契约回归门禁)，本次 [CI 输出](validation/ops-08-evidence/ci.log)与[干净目录结果](validation/ops-08-evidence/clean-workspace.json)独立归档。整体仍为进行中，真实 M2 交互与后续回滚验收未完成。
+OPS-08 的 M1 契约基线、来源说明、命令与后续阶段矩阵见[工具规范](development/tooling.md#ops-08-契约回归门禁)，本次 [CI 输出](validation/ops-08-evidence/ci.log)与[干净目录结果](validation/ops-08-evidence/clean-workspace.json)独立归档。整体仍为进行中；已交付 M2 与本次 M3 回滚审查见各功能记录，其余双端业务、范围／保留及平台门仍待验收。
 
 CORE-05 的协议、只读观察入口、身份 / 游标 / 重同步及验收边界见[实施方案](architecture/implementation-plan.md#core-05-已交付边界)，[CI 输出](validation/core-05-evidence/ci.log)与[干净目录结果](validation/core-05-evidence/clean-workspace.json)独立归档；内存重放已验收。CORE-06 的 JSONL 分页 / 全文 / 记录导出、持久记录、独立检查点与实际硬杀恢复也已验收；[实现边界](architecture/implementation-plan.md#core-06-已交付边界)、[CI 输出](validation/core-06-evidence/ci.log)和[干净目录结果](validation/core-06-evidence/clean-workspace.json)独立保留。CORE-07 的配额、FIFO / 取消、空闲回收及原生上下文冷恢复也已验收；[边界](architecture/implementation-plan.md#core-07-已交付边界)、[CI](validation/core-07-evidence/ci.log)和[干净目录结果](validation/core-07-evidence/clean-workspace.json)独立保留。下一阶段为 M2。
 

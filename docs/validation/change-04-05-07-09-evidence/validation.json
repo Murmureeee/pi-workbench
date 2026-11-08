@@ -1,0 +1,167 @@
+{
+  "features": [
+    "CHANGE-05",
+    "CHANGE-07",
+    "CHANGE-09",
+    "CHANGE-04"
+  ],
+  "at": "2026-11-08T12:32:11.642Z",
+  "status": "verified",
+  "dependencies": {
+    "CORE-03": "verified",
+    "WS-04": "verified",
+    "CHANGE-01": "verified",
+    "CHANGE-02": "verified",
+    "CHANGE-03": "verified",
+    "CORE-06": "verified",
+    "SEC-09": "verified"
+  },
+  "acceptanceChecked": {
+    "CHANGE-05": [
+      true,
+      true
+    ],
+    "CHANGE-07": [
+      true,
+      true
+    ],
+    "CHANGE-09": [
+      true,
+      true
+    ],
+    "CHANGE-04": [
+      true,
+      true
+    ]
+  },
+  "cli": {
+    "fix": "passed",
+    "check": "passed in complete CI; final document check separately recorded",
+    "vitest": {
+      "files": 58,
+      "passed": 385,
+      "failed": 0
+    },
+    "sdk": "actual installed SDK/local HTTP fixture, passed",
+    "ciFourth": {
+      "exitCode": 1,
+      "nonWindow": "passed",
+      "e2e": {
+        "passed": 138,
+        "failed": 2
+      },
+      "reason": "Obsolete CHANGE-01/02/03 assertions expected rollback to remain unavailable."
+    },
+    "targetedLegacy": {
+      "passed": 8,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "ciFifth": {
+      "exitCode": 1,
+      "endedAt": "2026-11-08T11:52:07.3486162Z",
+      "startedAt": "2026-11-08T11:31:17.3941732Z",
+      "command": "pnpm run ci",
+      "log": "ci-all-fifth.log",
+      "nonWindow": "passed",
+      "e2e": {
+        "passed": 139,
+        "failed": 1
+      },
+      "reason": "The streamed assistant text became visible before durable snapshot settlement; the test incorrectly required completed immediately."
+    },
+    "targetedHistory": {
+      "passed": 2,
+      "failed": 0,
+      "exitCode": 0
+    },
+    "allCiStagesVerified": true,
+    "e2eFinal": {
+      "passed": 140,
+      "failed": 0,
+      "exitCode": 0,
+      "source": "e2e-all-final.log"
+    },
+    "clean": {
+      "commands": [
+        {
+          "command": "pnpm install --frozen-lockfile",
+          "exitCode": 0
+        },
+        {
+          "command": "pnpm check",
+          "exitCode": 0
+        },
+        {
+          "command": "pnpm build",
+          "exitCode": 0
+        },
+        {
+          "command": "pnpm test",
+          "exitCode": 0
+        },
+        {
+          "command": "pnpm smoke:sdk",
+          "exitCode": 0
+        }
+      ],
+      "gracefulShutdown": true,
+      "providerRequests": 0,
+      "lockSha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "cleanLockSha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "attempt": 3
+    },
+    "cleanFailures": [
+      {
+        "attempt": 1,
+        "exitCode": 1,
+        "stage": "pnpm test",
+        "passed": 384,
+        "total": 385,
+        "commands": "clean-first-failed-commands.json",
+        "log": "frozen-clean-first-failed.log",
+        "reason": "Numeric PID probe after successor launch lacked process identity; the original case passed in isolation. Replaced it with actual ChildProcess exit and successor ordering assertions."
+      },
+      {
+        "attempt": 2,
+        "exitCode": 1,
+        "stage": "pnpm check",
+        "commands": "clean-second-failed-commands.json",
+        "log": "frozen-clean-second-failed.log",
+        "reason": "Two intentionally captured prototype methods triggered unbound-method lint. Precise comments explain instance.call forwarding; global rules and lifecycle assertions remain enabled."
+      }
+    ],
+    "finalServiceTestFix": {
+      "file": "apps/daemon/test/directory-writes.test.ts",
+      "targetedPassed": 13,
+      "fixLog": "fix-unit-exit-final.log",
+      "checkLog": "check-unit-exit-final.log",
+      "full385ReverifiedByClean": true
+    }
+  },
+  "newServiceTests": 18,
+  "newElectronTests": 10,
+  "native": "native-validation.json",
+  "sourceAudit": "source-audit-final.json",
+  "local": {
+    "verified": 46,
+    "total": 133
+  },
+  "ops08": {
+    "status": "in_progress",
+    "acceptanceChecked": [
+      true,
+      false
+    ]
+  },
+  "providerRequests": 0,
+  "piConfigurationChanged": false,
+  "canonicalBudgetChanged": false,
+  "lockfileChanged": false,
+  "notDelivered": [
+    "CHANGE-06 hunk rollback",
+    "CHANGE-08 capacity/scope/retention policy",
+    "installer",
+    "independent browser business entry"
+  ]
+}

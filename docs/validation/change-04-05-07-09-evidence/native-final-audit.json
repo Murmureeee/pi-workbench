@@ -1,0 +1,182 @@
+{
+  "at": "2026-11-08T11:32:07.240Z",
+  "source": "Independent assertions over saved native host/OS observations; no new window operations",
+  "features": [
+    {
+      "feature": "CHANGE-05",
+      "directory": ".workbench/rollback-native-sOzxfk",
+      "observationCount": 56,
+      "distinctStepNumbers": 56,
+      "firstFixturePrompts": 2,
+      "restartPrompts": 0,
+      "restartKernels": 0,
+      "restartPending": 0,
+      "restartGrants": 0,
+      "gracefulExits": 2,
+      "managedProcessesAfterClose": 0,
+      "historyFiles": 2,
+      "historyHashesUnchanged": true,
+      "immutableRoundsUnchanged": 1,
+      "backgroundRoundsFinalizedOnExit": [
+        {
+          "turnId": "9a16a22b-f077-41eb-b130-041ee8b0bc2f",
+          "baseline": "8beb7fa24915cd3e8a606eac24a2ebe1102a90f7",
+          "finalAfterShutdown": "39984c2c1b4235f97cd0dd5ec351bc21faa58f7e"
+        }
+      ],
+      "rollbackRecordsUnchanged": 2,
+      "decisionsUnchanged": 0,
+      "protectedHashesUnchanged": 5,
+      "screenshotsAvailable": 17,
+      "providerRequests": 0
+    },
+    {
+      "feature": "CHANGE-07",
+      "directory": ".workbench/chain-native-2oq643",
+      "observationCount": 47,
+      "distinctStepNumbers": 47,
+      "firstFixturePrompts": 3,
+      "restartPrompts": 0,
+      "restartKernels": 0,
+      "restartPending": 0,
+      "restartGrants": 0,
+      "gracefulExits": 2,
+      "managedProcessesAfterClose": 0,
+      "historyFiles": 3,
+      "historyHashesUnchanged": true,
+      "immutableRoundsUnchanged": 3,
+      "backgroundRoundsFinalizedOnExit": [],
+      "rollbackRecordsUnchanged": 1,
+      "decisionsUnchanged": 0,
+      "protectedHashesUnchanged": 5,
+      "screenshotsAvailable": 14,
+      "providerRequests": 0
+    },
+    {
+      "feature": "CHANGE-09",
+      "directory": ".workbench/facts-native-MhRpZt",
+      "observationCount": 62,
+      "distinctStepNumbers": 52,
+      "firstFixturePrompts": 4,
+      "restartPrompts": 0,
+      "restartKernels": 0,
+      "restartPending": 0,
+      "restartGrants": 0,
+      "gracefulExits": 2,
+      "managedProcessesAfterClose": 0,
+      "historyFiles": 4,
+      "historyHashesUnchanged": true,
+      "immutableRoundsUnchanged": 4,
+      "backgroundRoundsFinalizedOnExit": [],
+      "rollbackRecordsUnchanged": 1,
+      "decisionsUnchanged": 0,
+      "protectedHashesUnchanged": 5,
+      "screenshotsAvailable": 24,
+      "providerRequests": 0
+    },
+    {
+      "feature": "CHANGE-04",
+      "directory": ".workbench/decisions-native-TIaoHQ",
+      "observationCount": 63,
+      "distinctStepNumbers": 63,
+      "firstFixturePrompts": 3,
+      "restartPrompts": 0,
+      "restartKernels": 0,
+      "restartPending": 0,
+      "restartGrants": 0,
+      "gracefulExits": 2,
+      "managedProcessesAfterClose": 0,
+      "historyFiles": 2,
+      "historyHashesUnchanged": true,
+      "immutableRoundsUnchanged": 3,
+      "backgroundRoundsFinalizedOnExit": [],
+      "rollbackRecordsUnchanged": 1,
+      "decisionsUnchanged": 1,
+      "protectedHashesUnchanged": 5,
+      "screenshotsAvailable": 40,
+      "providerRequests": 0
+    }
+  ],
+  "cancellation05": {
+    "hashesEqual": true,
+    "files": 4
+  },
+  "restoration05": {
+    "restoredHashes": {
+      "deleted.txt": "afd8a4f3b98e1bcfea2dad9be6d0d4cbf249c6f1be22fe2e775d18795759d760",
+      "old-name.txt": "0d4f9be6679cb5b2b2318436708f9aaa43091e853f51c732deb5cd59d679c7d4",
+      "tracked.txt": "565952a8dcb88cef294c166e5c41649dddd2e94f0d1998f48a84805c6640e368"
+    },
+    "removed": [
+      "added.txt",
+      "binary.bin",
+      "新名称.txt"
+    ],
+    "actualFilesVerified": true
+  },
+  "background05": {
+    "protocol": 1,
+    "sessionId": "c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2",
+    "epoch": "5d2c1580-61e7-4c67-90a7-92273cb9737f",
+    "source": "real-sdk/local-fixture",
+    "state": "running",
+    "cwd": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\独立后台目录",
+    "turnId": "9a16a22b-f077-41eb-b130-041ee8b0bc2f",
+    "pid": 19904,
+    "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\rollback-native-sOzxfk\\data\\kernels\\c13dd3bd-b9aa-4599-81a6-7b2163ac5ce2\\5d2c1580-61e7-4c67-90a7-92273cb9737f\\sessions\\2026-11-08T09-03-53-365Z_01a1ba66-5e15-7197-9f4a-f347a98cc624.jsonl",
+    "nativeSessionId": "01a1ba66-5e15-7197-9f4a-f347a98cc624",
+    "sameAcrossViewSwitch": true
+  },
+  "environment09": {
+    "nativeHistory": ".workbench\\facts-native-MhRpZt\\data\\kernels\\fdba8d78-90a9-4475-b88d-8f5a950c9a87\\8bced3e6-a007-4f18-b2b8-6533b5a1859a\\sessions\\2026-11-08T10-00-37-710Z_01a1ba9a-504e-74a8-8cda-ac83fe54735d.jsonl",
+    "sha256": "fd014555bc68e6b53d1d32a04cdeceaa8bd6848d9bf20b7d88e415a5cfd11b6d",
+    "entryId": "23886832",
+    "localRequests": 1,
+    "outcome": "completed",
+    "operationId": "a1f7b7e4-6add-49fa-aa89-2f0fc3b5f993",
+    "containsRollbackFact": true,
+    "containsHistoryNotice": true
+  },
+  "decisions": {
+    "failedAcceptSavedNothing": true,
+    "acceptedFactUnchanged": true,
+    "mixedProcessed": "2/2",
+    "background": {
+      "sessionId": "1a8932cf-a0d3-4f43-963b-41d65fdd55ab",
+      "turnId": "d391efdc-ea70-4481-a591-1985b28d11a0",
+      "pid": 7660,
+      "epoch": "3b5a751a-69b7-45e6-a2e1-86ae13c7d814",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\decisions-native-TIaoHQ\\独立后台目录",
+      "sameAcrossViewSwitch": true,
+      "explicitStopOutcome": "aborted"
+    }
+  },
+  "protectedFiles": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+      "unchanged": true
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Murmure/.pi/agent/auth.json",
+      "sha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Murmure/.pi/agent/models.json",
+      "sha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+      "unchanged": true
+    },
+    {
+      "path": "C:\\Users\\Murmure/.pi/agent/settings.json",
+      "sha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2",
+      "unchanged": true
+    }
+  ],
+  "providerRequests": 0
+}

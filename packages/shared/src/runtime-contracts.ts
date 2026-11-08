@@ -28,6 +28,10 @@ export const runtimeCapabilities = [
   'change-snapshots-v1',
   'change-sources-v1',
   'change-review-v1',
+  'change-rollback-v1',
+  'change-history-chain-v1',
+  'change-rollback-history-v1',
+  'change-decisions-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({
   type: z.literal('hello'),

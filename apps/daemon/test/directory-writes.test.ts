@@ -221,19 +221,40 @@ test('wS-04 real approved write and pending approvals retain the lease until hos
 
 test('wS-04 child death is reaped before a queued round is admitted; no retry or prior authorization survives', async () => {
   const f = await setup()
+  // oxlint-disable-next-line typescript/unbound-method -- Forwarded only with the actual SessionKernel instance via .call(this, input).
+  const prompt = SessionKernel.prototype.prompt,
+    order: string[] = [],
+    capture = vi.spyOn(SessionKernel.prototype, 'prompt').mockImplementation(function (
+      this: SessionKernel,
+      input,
+    ) {
+      order.push(`prompt:${input.turnId}`)
+      return prompt.call(this, input)
+    })
   try {
     const first = f.start()
     await f.stream(first.sessionId)
     const second = f.start(),
-      pid = required(f.kernels.list().find((k) => k.sessionId === first.sessionId)?.pid)
+      pid = required(f.kernels.list().find((k) => k.sessionId === first.sessionId)?.pid),
+      context: unknown = capture.mock.contexts[0],
+      child: unknown = context && typeof context === 'object' ? Reflect.get(context, 'child') : null
+    if (!(child instanceof ChildProcess) || child.pid !== pid) {
+      throw new Error('Actual SDK child-death fixture binding unavailable')
+    }
+    // Bind the actual process instance. A numeric PID can be reused by another SDK
+    // or a parallel test after exit, so kill(pid, 0) cannot prove this child's lifetime.
+    child.once('exit', () => order.push('original-exit'))
     process.kill(pid, 'SIGKILL')
     await expect(first.promise).rejects.toThrow(/Kernel/)
     await f.stream(second.sessionId)
-    expect(() => process.kill(pid, 0)).toThrow(/ESRCH/)
+    expect(order).toContain('original-exit')
+    expect(order.indexOf('original-exit')).toBeLessThan(order.indexOf(`prompt:${second.turnId}`))
+    expect(child.exitCode !== null || child.signalCode !== null).toBe(true)
     expect(f.writes.latest(first.sessionId)?.state).toBe('released')
     expect(f.app.get(ApprovalService).list()).toEqual([])
     expect(f.app.get(SessionGrantService).list().grants).toEqual([])
   } finally {
+    capture.mockRestore()
     await f.close()
   }
 }, 60000)
@@ -242,7 +263,16 @@ test('wS-04 actual SDK IPC disconnect retains directory ownership until its proc
   const f = await setup()
   // Capture the real host object only to sever its owned IPC channel. Prompt, stream,
   // process shutdown, database and successor dispatch all use the actual SDK lifecycle.
-  const capture = vi.spyOn(SessionKernel.prototype, 'prompt')
+  // oxlint-disable-next-line typescript/unbound-method -- Forwarded only with the actual SessionKernel instance via .call(this, input).
+  const prompt = SessionKernel.prototype.prompt,
+    order: string[] = [],
+    capture = vi.spyOn(SessionKernel.prototype, 'prompt').mockImplementation(function (
+      this: SessionKernel,
+      input,
+    ) {
+      order.push(`prompt:${input.turnId}`)
+      return prompt.call(this, input)
+    })
   try {
     const first = f.start()
     await f.stream(first.sessionId)
@@ -254,11 +284,14 @@ test('wS-04 actual SDK IPC disconnect retains directory ownership until its proc
     if (!(channel instanceof ChildProcess) || channel.pid !== pid) {
       throw new Error('Actual SDK IPC fixture binding unavailable')
     }
+    channel.once('exit', () => order.push('original-exit'))
     expect(f.writes.blocker(f.writes.identify(f.a))?.turnId).toBe(first.turnId)
     channel.disconnect()
     await expect(first.promise).rejects.toThrow(/Kernel/)
     await f.stream(second.sessionId)
-    expect(() => process.kill(pid, 0)).toThrow(/ESRCH/)
+    expect(order).toContain('original-exit')
+    expect(order.indexOf('original-exit')).toBeLessThan(order.indexOf(`prompt:${second.turnId}`))
+    expect(channel.exitCode !== null || channel.signalCode !== null).toBe(true)
     expect(f.writes.blocker(f.writes.identify(f.a))?.turnId).toBe(second.turnId)
     expect(f.app.get(ApprovalService).list()).toEqual([])
   } finally {

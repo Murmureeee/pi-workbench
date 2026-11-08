@@ -464,7 +464,7 @@ async function handle(command: KernelCommand) {
     ) {
       throw new Error('Execution guard changed')
     }
-    activeRuntime.setTrustedContext(command.trustedContext)
+    activeRuntime.setTrustedContext(command.trustedContext, command.environmentChanges)
     activeRuntime.provider.prepare(command.fixture)
     // SDK-owned metadata binds native entries to the workbench turn without entering model context.
     activeRuntime.session.sessionManager.appendCustomEntry('pi-workbench.turn.v1', {

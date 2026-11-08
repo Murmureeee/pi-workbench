@@ -1,0 +1,83 @@
+$ pnpm build:packages && node scripts/verify-clean.mjs
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+Clean workspace: pnpm install --frozen-lockfile
+Clean workspace: pnpm check
+Clean workspace: pnpm build
+Clean workspace: pnpm test
+node:internal/modules/run_main:107
+    triggerUncaughtException(
+    ^
+
+AssertionError [ERR_ASSERTION]: $ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/.piw-clean-TKJeI6
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+Switched to a new branch '功能/中文'
+HEAD is now at 4cdd8db offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-5mgsW2/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+ ❯ apps/daemon/test/directory-writes.test.ts (13 tests | 1 failed) 105264ms
+   × wS-04 child death is reaped before a queued round is admitted; no retry or prior authorization survives 10044ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/directory-writes.test.ts > wS-04 child death is reaped before a queued round is admitted; no retry or prior authorization survives
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ apps/daemon/test/directory-writes.test.ts:232:40
+    230|     await expect(first.promise).rejects.toThrow(/Kernel/)
+    231|     await f.stream(second.sessionId)
+    232|     expect(() => process.kill(pid, 0)).toThrow(/ESRCH/)
+       |                                        ^
+    233|     expect(f.writes.latest(first.sessionId)?.state).toBe('released')
+    234|     expect(f.app.get(ApprovalService).list()).toEqual([])
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 57 passed (58)
+      Tests  1 failed | 384 passed (385)
+   Start at  20:12:39
+   Duration  110.07s (tests 87%, import 12%, transform 1%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+
+
+1 !== 0
+
+    at file:///D:/Project/pi-workbench/scripts/verify-clean.mjs:80:10
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5) {
+  generatedMessage: false,
+  code: 'ERR_ASSERTION',
+  actual: 1,
+  expected: 0,
+  operator: 'strictEqual',
+  diff: 'simple'
+}
+
+Node.js v24.22.2
+[ELIFECYCLE] Command failed with exit code 1.

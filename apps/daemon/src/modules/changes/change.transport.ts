@@ -1,5 +1,6 @@
 import type { AccessService } from '../security/access.service.js'
 import type { SessionStore } from '../sessions/session.store.js'
+import type { ChangeAvailabilityService } from './change-availability.service.js'
 import type { ChangeProvenanceService } from './change-provenance.service.js'
 import type { ChangeReviewService } from './change-review.service.js'
 import type { ChangeService } from './change.service.js'
@@ -19,6 +20,7 @@ export function registerChangeTransport(
   access: AccessService,
   provenance: ChangeProvenanceService,
   review: ChangeReviewService,
+  availability: ChangeAvailabilityService,
 ) {
   server.get('/api/changes/rounds', (request, reply) => {
     if (access.authenticate(request.headers.cookie)?.info.kind !== 'desktop') {
@@ -37,7 +39,7 @@ export function registerChangeTransport(
       return reply.code(503).send({ message: '文件版本记录暂不可读，现场与任务保留，请重新同步。' })
     }
   })
-  for (const mode of ['sources', 'review', 'diff'] as const) {
+  for (const mode of ['sources', 'review', 'diff', 'availability'] as const) {
     server.get(`/api/changes/${mode}`, async (request, reply) => {
       if (access.authenticate(request.headers.cookie)?.info.kind !== 'desktop') {
         return reply.code(403).send({ message: '修改审查目前仅向已配对Electron开放。' })
@@ -66,6 +68,9 @@ export function registerChangeTransport(
         }
         if (mode === 'review') {
           return await review.list(turnId, 'offset' in query.data ? query.data.offset : 0)
+        }
+        if (mode === 'availability') {
+          return await availability.inspect(turnId, 'offset' in query.data ? query.data.offset : 0)
         }
         return await review.diff(turnId, 'fileId' in query.data ? query.data.fileId : '')
       } catch {

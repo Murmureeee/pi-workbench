@@ -1,0 +1,30 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+ ❯ apps/daemon/test/change-rollback-history.test.ts (3 tests | 1 failed) 14667ms
+   × cHANGE-09 stable pagination, redacted facts, restart interruption and bounded environment facts preserve uncertain outcomes 2293ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-rollback-history.test.ts > cHANGE-09 stable pagination, redacted facts, restart interruption and bounded environment facts preserve uncertain outcomes
+AssertionError: expected 'cancelled' to be 'interrupted' // Object.is equality
+
+Expected: "interrupted"
+Received: "cancelled"
+
+ ❯ apps/daemon/test/change-rollback-history.test.ts:120:92
+    118|     ).run(original.record.id)
+    119|     await f.restart()
+    120|     expect(f.app.get(ChangeRollbackService).record(a.sessionId, origin…
+       |                                                                                            ^
+    121|       'interrupted',
+    122|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  17:41:01
+   Duration  16.63s (tests 89%, import 10%, transform 1%)
+

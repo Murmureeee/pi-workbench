@@ -223,6 +223,7 @@ export class SessionKernel {
     fixture?: FixtureMode
     inputQueue?: boolean
     trustedContext?: TrustedContext[]
+    environmentChanges?: string
   }) {
     if (this.snapshotValue.state === 'starting') {
       await this.readyPromise

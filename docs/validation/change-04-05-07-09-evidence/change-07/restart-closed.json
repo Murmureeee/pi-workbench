@@ -1,0 +1,869 @@
+{
+  "features": [
+    "CHANGE-07"
+  ],
+  "source": "Windows native UIA/SendInput; actual Electron/daemon/SQLite/independent Git/installed SDK + local HTTP. No CDP, renderer injection or synthetic source records. Controlled external edits explicitly identified.",
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643",
+  "a": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\来源审查目录",
+  "b": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\独立后台目录",
+  "desktopPid": 20164,
+  "prompts": 0,
+  "results": [],
+  "operations": [],
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+      "title": "保持 原生历史第一轮",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "723dd7bc-267d-4629-9f40-8477cdd2f752",
+      "configuration": {
+        "projectId": "babd3ec8-97b6-43e4-b7ed-6d4796aee6c7",
+        "workspaceId": "b880830f-3415-4450-acb0-ddf2291638ee",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "b880830f-3415-4450-acb0-ddf2291638ee",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\来源审查目录",
+      "createdAt": 1794129398975
+    },
+    {
+      "id": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+      "title": "保持 原生历史第二轮",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "443fe825-c596-48dd-8d26-9e47192a895a",
+      "configuration": {
+        "projectId": "babd3ec8-97b6-43e4-b7ed-6d4796aee6c7",
+        "workspaceId": "b880830f-3415-4450-acb0-ddf2291638ee",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "b880830f-3415-4450-acb0-ddf2291638ee",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\来源审查目录",
+      "createdAt": 1794129400844
+    },
+    {
+      "id": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+      "title": "保持 原生独立后台",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "7553070e-2690-43d4-8cd4-bef88a272575",
+      "configuration": {
+        "projectId": "2b9f7d07-5ea4-468e-9f9e-8be3f0c945c3",
+        "workspaceId": "a4dabd8a-40a0-4992-9cc7-51abf0c9113d",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a4dabd8a-40a0-4992-9cc7-51abf0c9113d",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\独立后台目录",
+      "createdAt": 1794129402687
+    }
+  ],
+  "submissions": [
+    {
+      "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+      "items": [
+        {
+          "requestId": "723dd7bc-267d-4629-9f40-8477cdd2f752",
+          "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+          "messageId": "42beb977-0299-497b-8ffe-a520f3479463",
+          "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+          "status": "aborted",
+          "text": "保持 原生历史第一轮",
+          "retryOf": null,
+          "error": "Request aborted",
+          "createdAt": 1794129398976
+        }
+      ]
+    },
+    {
+      "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+      "items": [
+        {
+          "requestId": "443fe825-c596-48dd-8d26-9e47192a895a",
+          "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+          "messageId": "5b78c730-1725-4716-a254-609f17afa0b5",
+          "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+          "status": "aborted",
+          "text": "保持 原生历史第二轮",
+          "retryOf": null,
+          "error": "Request aborted",
+          "createdAt": 1794129400844
+        }
+      ]
+    },
+    {
+      "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+      "items": [
+        {
+          "requestId": "7553070e-2690-43d4-8cd4-bef88a272575",
+          "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+          "messageId": "f582c86d-98a6-47d4-8528-d9dd0902cd3d",
+          "turnId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+          "status": "failed",
+          "text": "保持 原生独立后台",
+          "retryOf": null,
+          "error": "terminated",
+          "createdAt": 1794129402687
+        }
+      ]
+    }
+  ],
+  "snapshots": [
+    {
+      "version": 1,
+      "daemonId": "d9471e76-303f-4dec-a911-71b732a3a693",
+      "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+      "epoch": "95aa2e8c-373c-4ac7-9b84-468b9285bfad",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "38f90154-8722-4506-a954-9bee878a0fde",
+          "messageId": "38f90154-8722-4506-a954-9bee878a0fde:assistant",
+          "prompt": "保持 原生历史第一轮",
+          "text": "",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request aborted"
+          },
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request aborted"
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "d9471e76-303f-4dec-a911-71b732a3a693",
+      "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+      "epoch": "6681ce2f-c534-41c5-9824-184c1edda1fd",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+          "messageId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659:assistant",
+          "prompt": "保持 原生历史第二轮",
+          "text": "",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "Request aborted"
+          },
+          "phase": "aborted",
+          "tools": [],
+          "approval": null,
+          "error": "Request aborted"
+        }
+      ]
+    },
+    {
+      "version": 1,
+      "daemonId": "d9471e76-303f-4dec-a911-71b732a3a693",
+      "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+      "epoch": "456deed5-4f03-4d20-b8cd-39d534564738",
+      "seq": 0,
+      "source": "real-sdk/local-fixture",
+      "turns": [
+        {
+          "id": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+          "messageId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04:assistant",
+          "prompt": "保持 原生独立后台",
+          "text": "OFFLINE_",
+          "reasoning": {
+            "status": "not-provided"
+          },
+          "modelRequest": {
+            "attempts": 1,
+            "retryCount": 0,
+            "retryLimit": 0,
+            "state": "settled",
+            "waitUntil": null,
+            "error": "terminated"
+          },
+          "phase": "error",
+          "tools": [],
+          "approval": null,
+          "error": "terminated"
+        }
+      ]
+    }
+  ],
+  "writes": [
+    {
+      "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+      "latest": {
+        "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+        "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794129398983,
+        "checkedAt": 1794129400836,
+        "endedAt": 1794129400838,
+        "coverage": "bounded",
+        "changedPaths": [
+          "tracked.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+      "latest": {
+        "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+        "turnId": "056ac046-628a-4ca2-a337-21b45d51243d",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\来源审查目录",
+        "state": "released",
+        "startedAt": 1794129860526,
+        "checkedAt": 1794129861381,
+        "endedAt": 1794129861383,
+        "coverage": "bounded",
+        "changedPaths": [
+          "tracked.txt"
+        ],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    },
+    {
+      "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+      "latest": {
+        "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+        "turnId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+        "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\独立后台目录",
+        "state": "released",
+        "startedAt": 1794129402692,
+        "checkedAt": 1794129705161,
+        "endedAt": 1794129705164,
+        "coverage": "bounded",
+        "changedPaths": [],
+        "changesTruncated": false,
+        "provenance": "uncertain",
+        "automaticRollback": false
+      },
+      "owner": null
+    }
+  ],
+  "changes": [
+    {
+      "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+      "rounds": [
+        {
+          "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+          "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\来源审查目录",
+          "startedAt": 1794129398987,
+          "endedAt": 1794129400832,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "2b9560ee29e499bfb77aa9f8af431001acc690de",
+            "capturedAt": 1794129400352,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "7537e4d2ab32a9bdaa556fd612d42f9c5b495f10",
+            "capturedAt": 1794129400832,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+      "rounds": [
+        {
+          "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+          "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\来源审查目录",
+          "startedAt": 1794129400850,
+          "endedAt": 1794129402674,
+          "outcome": "aborted",
+          "baseline": {
+            "status": "ready",
+            "reference": "9ddaf3938d9ccd7209cd2e3d3357f8e99cd4912d",
+            "capturedAt": 1794129402216,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "fbe463b9c2d072a32c45f64c6c81a51b7f17a2b2",
+            "capturedAt": 1794129402674,
+            "files": 3,
+            "bytes": 53,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    },
+    {
+      "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+      "rounds": [
+        {
+          "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+          "turnId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+          "cwd": "D:\\Project\\pi-workbench\\.workbench\\chain-native-2oq643\\独立后台目录",
+          "startedAt": 1794129402694,
+          "endedAt": 1794129705157,
+          "outcome": "failed",
+          "baseline": {
+            "status": "ready",
+            "reference": "6877ac78e90f57ac0cfbaec3b2deafd608b8dfc7",
+            "capturedAt": 1794129403989,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "final": {
+            "status": "ready",
+            "reference": "875fcb8ad633a1414b80468683a6b8644d661b1c",
+            "capturedAt": 1794129705157,
+            "files": 0,
+            "bytes": 0,
+            "excluded": 0,
+            "exclusions": [],
+            "diagnostic": null
+          },
+          "provenance": "uncertain",
+          "automaticRollback": false
+        }
+      ],
+      "next": null
+    }
+  ],
+  "observations": [
+    {
+      "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+      "items": []
+    },
+    {
+      "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+      "items": []
+    },
+    {
+      "turnId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+      "items": []
+    }
+  ],
+  "rollbackRecords": [
+    {
+      "id": "056ac046-628a-4ca2-a337-21b45d51243d",
+      "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+      "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+      "fileId": null,
+      "state": "succeeded",
+      "startedAt": 1794129781577,
+      "endedAt": 1794129861377,
+      "baselineReference": "9ddaf3938d9ccd7209cd2e3d3357f8e99cd4912d",
+      "finalReference": "fbe463b9c2d072a32c45f64c6c81a51b7f17a2b2",
+      "beforeReference": "7c08649ba5f43082b1c56a9363c93c8f18faf628",
+      "afterReference": "bdd669683a0688b6212c154924593374d8063758",
+      "externalConfirmed": true,
+      "source": "human",
+      "actor": "7bd80026-eb84-4322-a0fb-ed11585054f7",
+      "diagnostic": null,
+      "files": [
+        {
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "path": "tracked.txt",
+          "current": "e186eb7efc38aa381455c6c94d83929dec9bbd9c31103f970500912ef7bd32c8",
+          "expected": "e186eb7efc38aa381455c6c94d83929dec9bbd9c31103f970500912ef7bd32c8",
+          "target": "7ea335efb316b26d07dafa2ad7724ba682e937f1a59df1e85a524d1ca24e4c9d",
+          "source": "unknown",
+          "conflict": true,
+          "written": true,
+          "compensated": false
+        }
+      ]
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "kernels": [],
+  "historyBefore": {
+    "89b3afba-7421-47a2-8322-bdcdfd16e59f\\95aa2e8c-373c-4ac7-9b84-468b9285bfad\\sessions\\2026-11-08T09-16-39-952Z_01a1ba72-108f-746a-b4d2-a98402255b76.jsonl": "796c7dce3883e4a2fd8c56f874dea789ccdb8a0a34cf421f11e4c3c4ebbae5ad",
+    "bedc918b-f525-4604-a3d3-a56c1dca074d\\456deed5-4f03-4d20-b8cd-39d534564738\\sessions\\2026-11-08T09-16-43-699Z_01a1ba72-1f33-769d-b889-c737e1a17da6.jsonl": "4e3eca039227d9c7de63ccdda1a2880513d813b0e17a2b609d530dafdfd84d34",
+    "ebee3e5b-d8b7-4d4a-9857-310306beb29f\\6681ce2f-c534-41c5-9824-184c1edda1fd\\sessions\\2026-11-08T09-16-41-881Z_01a1ba72-1818-73d6-9675-8a1c999ce587.jsonl": "c834cba160bcacf7ad0ed58ab2efe5e58dc4403ba436a17e59c5fbc77e608670"
+  },
+  "historyAfter": {
+    "89b3afba-7421-47a2-8322-bdcdfd16e59f\\95aa2e8c-373c-4ac7-9b84-468b9285bfad\\sessions\\2026-11-08T09-16-39-952Z_01a1ba72-108f-746a-b4d2-a98402255b76.jsonl": "796c7dce3883e4a2fd8c56f874dea789ccdb8a0a34cf421f11e4c3c4ebbae5ad",
+    "bedc918b-f525-4604-a3d3-a56c1dca074d\\456deed5-4f03-4d20-b8cd-39d534564738\\sessions\\2026-11-08T09-16-43-699Z_01a1ba72-1f33-769d-b889-c737e1a17da6.jsonl": "4e3eca039227d9c7de63ccdda1a2880513d813b0e17a2b609d530dafdfd84d34",
+    "ebee3e5b-d8b7-4d4a-9857-310306beb29f\\6681ce2f-c534-41c5-9824-184c1edda1fd\\sessions\\2026-11-08T09-16-41-881Z_01a1ba72-1818-73d6-9675-8a1c999ce587.jsonl": "c834cba160bcacf7ad0ed58ab2efe5e58dc4403ba436a17e59c5fbc77e608670"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "versionProof": [
+    {
+      "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+      "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+      "baseline": "2b9560ee29e499bfb77aa9f8af431001acc690de",
+      "final": "7537e4d2ab32a9bdaa556fd612d42f9c5b495f10",
+      "availability": {
+        "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+        "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+        "checkedAt": 1794130310899,
+        "baselineReference": "2b9560ee29e499bfb77aa9f8af431001acc690de",
+        "finalReference": "7537e4d2ab32a9bdaa556fd612d42f9c5b495f10",
+        "diagnostic": null,
+        "owner": null,
+        "laterTruncated": false,
+        "files": [
+          {
+            "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "state": "matches-final",
+            "requiresExternalConfirmation": true,
+            "diagnostic": null,
+            "versions": [
+              {
+                "path": "tracked.txt",
+                "baseline": "1172e6c3a2848aa4042342978cd6f72a48c777e7aa143e88b83641a5312c2e45",
+                "final": "7ea335efb316b26d07dafa2ad7724ba682e937f1a59df1e85a524d1ca24e4c9d",
+                "current": "7ea335efb316b26d07dafa2ad7724ba682e937f1a59df1e85a524d1ca24e4c9d"
+              }
+            ],
+            "later": [
+              {
+                "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+                "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+                "baselineReference": "9ddaf3938d9ccd7209cd2e3d3357f8e99cd4912d",
+                "finalReference": "fbe463b9c2d072a32c45f64c6c81a51b7f17a2b2",
+                "relation": "changed-path"
+              }
+            ]
+          }
+        ],
+        "total": 1,
+        "next": null
+      },
+      "sources": {
+        "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+        "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+        "files": [
+          {
+            "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+            "path": "tracked.txt",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "complete": true,
+        "observations": 0,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+        "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+        "baselineReference": "2b9560ee29e499bfb77aa9f8af431001acc690de",
+        "finalReference": "7537e4d2ab32a9bdaa556fd612d42f9c5b495f10",
+        "available": true,
+        "diagnostic": null,
+        "files": [
+          {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 18,
+            "afterBytes": 18,
+            "additions": 1,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": [
+        {
+          "sessionId": "89b3afba-7421-47a2-8322-bdcdfd16e59f",
+          "turnId": "38f90154-8722-4506-a954-9bee878a0fde",
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "baselineReference": "2b9560ee29e499bfb77aa9f8af431001acc690de",
+          "finalReference": "7537e4d2ab32a9bdaa556fd612d42f9c5b495f10",
+          "file": {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 18,
+            "afterBytes": 18,
+            "additions": 1,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          "diagnostic": null,
+          "hunks": [
+            {
+              "header": "@@ -1,3 +1,3 @@",
+              "lines": [
+                {
+                  "id": "1:1:1:delete",
+                  "kind": "delete",
+                  "text": "first=0",
+                  "oldLine": 1,
+                  "newLine": null
+                },
+                {
+                  "id": "1:2:1:add",
+                  "kind": "add",
+                  "text": "first=1",
+                  "oldLine": null,
+                  "newLine": 1
+                },
+                {
+                  "id": "1:2:2:context",
+                  "kind": "context",
+                  "text": "",
+                  "oldLine": 2,
+                  "newLine": 2
+                },
+                {
+                  "id": "1:3:3:context",
+                  "kind": "context",
+                  "text": "second=0",
+                  "oldLine": 3,
+                  "newLine": 3
+                }
+              ]
+            }
+          ],
+          "redacted": true,
+          "automaticRollback": false
+        }
+      ]
+    },
+    {
+      "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+      "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+      "baseline": "9ddaf3938d9ccd7209cd2e3d3357f8e99cd4912d",
+      "final": "fbe463b9c2d072a32c45f64c6c81a51b7f17a2b2",
+      "availability": {
+        "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+        "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+        "checkedAt": 1794130311969,
+        "baselineReference": "9ddaf3938d9ccd7209cd2e3d3357f8e99cd4912d",
+        "finalReference": "fbe463b9c2d072a32c45f64c6c81a51b7f17a2b2",
+        "diagnostic": null,
+        "owner": null,
+        "laterTruncated": false,
+        "files": [
+          {
+            "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "state": "at-baseline",
+            "requiresExternalConfirmation": true,
+            "diagnostic": null,
+            "versions": [
+              {
+                "path": "tracked.txt",
+                "baseline": "7ea335efb316b26d07dafa2ad7724ba682e937f1a59df1e85a524d1ca24e4c9d",
+                "final": "e186eb7efc38aa381455c6c94d83929dec9bbd9c31103f970500912ef7bd32c8",
+                "current": "7ea335efb316b26d07dafa2ad7724ba682e937f1a59df1e85a524d1ca24e4c9d"
+              }
+            ],
+            "later": []
+          }
+        ],
+        "total": 1,
+        "next": null
+      },
+      "sources": {
+        "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+        "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+        "files": [
+          {
+            "fileId": "19033232c7f966831bfb0468dac9c2ca87b30cc955dec1752b3287f367cf5643",
+            "path": "tracked.txt",
+            "source": "unknown",
+            "netChanged": true,
+            "inSnapshot": true,
+            "tools": [],
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "complete": true,
+        "observations": 0,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+        "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+        "baselineReference": "9ddaf3938d9ccd7209cd2e3d3357f8e99cd4912d",
+        "finalReference": "fbe463b9c2d072a32c45f64c6c81a51b7f17a2b2",
+        "available": true,
+        "diagnostic": null,
+        "files": [
+          {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 18,
+            "afterBytes": 18,
+            "additions": 1,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          }
+        ],
+        "total": 1,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": [
+        {
+          "sessionId": "ebee3e5b-d8b7-4d4a-9857-310306beb29f",
+          "turnId": "3c06ae21-ce4f-4181-9ba5-3caa2b0a1659",
+          "fileId": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+          "baselineReference": "9ddaf3938d9ccd7209cd2e3d3357f8e99cd4912d",
+          "finalReference": "fbe463b9c2d072a32c45f64c6c81a51b7f17a2b2",
+          "file": {
+            "id": "8da92d23824f39308f7255b0bf66f55bfdb1b9bb5135959003e85e8a4aebb744",
+            "path": "tracked.txt",
+            "previousPath": null,
+            "kind": "modified",
+            "binary": false,
+            "beforeBytes": 18,
+            "afterBytes": 18,
+            "additions": 1,
+            "deletions": 1,
+            "source": "unknown",
+            "reasons": [
+              "基线、工具观察或收尾之间存在未解释区段／证据缺失，来源不确定。",
+              "没有足以确认本文件修改的完整工具证据。"
+            ],
+            "tools": [],
+            "automaticRollback": false
+          },
+          "diagnostic": null,
+          "hunks": [
+            {
+              "header": "@@ -1,3 +1,3 @@",
+              "lines": [
+                {
+                  "id": "1:1:1:context",
+                  "kind": "context",
+                  "text": "first=1",
+                  "oldLine": 1,
+                  "newLine": 1
+                },
+                {
+                  "id": "1:2:2:context",
+                  "kind": "context",
+                  "text": "",
+                  "oldLine": 2,
+                  "newLine": 2
+                },
+                {
+                  "id": "1:3:3:delete",
+                  "kind": "delete",
+                  "text": "second=0",
+                  "oldLine": 3,
+                  "newLine": null
+                },
+                {
+                  "id": "1:4:3:add",
+                  "kind": "add",
+                  "text": "second=1",
+                  "oldLine": null,
+                  "newLine": 3
+                }
+              ]
+            }
+          ],
+          "redacted": true,
+          "automaticRollback": false
+        }
+      ]
+    },
+    {
+      "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+      "turnId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+      "baseline": "6877ac78e90f57ac0cfbaec3b2deafd608b8dfc7",
+      "final": "875fcb8ad633a1414b80468683a6b8644d661b1c",
+      "availability": {
+        "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+        "turnId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+        "checkedAt": 1794130312974,
+        "baselineReference": "6877ac78e90f57ac0cfbaec3b2deafd608b8dfc7",
+        "finalReference": "875fcb8ad633a1414b80468683a6b8644d661b1c",
+        "diagnostic": null,
+        "owner": null,
+        "laterTruncated": false,
+        "files": [],
+        "total": 0,
+        "next": null
+      },
+      "sources": {
+        "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+        "turnId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+        "files": [],
+        "total": 0,
+        "next": null,
+        "complete": true,
+        "observations": 0,
+        "diagnostic": null,
+        "automaticRollback": false
+      },
+      "review": {
+        "sessionId": "bedc918b-f525-4604-a3d3-a56c1dca074d",
+        "turnId": "3e1aad1d-8ef0-4aac-bf20-f23ccbd71b04",
+        "baselineReference": "6877ac78e90f57ac0cfbaec3b2deafd608b8dfc7",
+        "finalReference": "875fcb8ad633a1414b80468683a6b8644d661b1c",
+        "available": true,
+        "diagnostic": null,
+        "files": [],
+        "total": 0,
+        "next": null,
+        "automaticRollback": false
+      },
+      "diffs": []
+    }
+  ],
+  "closed": true,
+  "managedProcessesAfterClose": [],
+  "historyAtClose": {
+    "89b3afba-7421-47a2-8322-bdcdfd16e59f\\95aa2e8c-373c-4ac7-9b84-468b9285bfad\\sessions\\2026-11-08T09-16-39-952Z_01a1ba72-108f-746a-b4d2-a98402255b76.jsonl": "796c7dce3883e4a2fd8c56f874dea789ccdb8a0a34cf421f11e4c3c4ebbae5ad",
+    "bedc918b-f525-4604-a3d3-a56c1dca074d\\456deed5-4f03-4d20-b8cd-39d534564738\\sessions\\2026-11-08T09-16-43-699Z_01a1ba72-1f33-769d-b889-c737e1a17da6.jsonl": "4e3eca039227d9c7de63ccdda1a2880513d813b0e17a2b609d530dafdfd84d34",
+    "ebee3e5b-d8b7-4d4a-9857-310306beb29f\\6681ce2f-c534-41c5-9824-184c1edda1fd\\sessions\\2026-11-08T09-16-41-881Z_01a1ba72-1818-73d6-9675-8a1c999ce587.jsonl": "c834cba160bcacf7ad0ed58ab2efe5e58dc4403ba436a17e59c5fbc77e608670"
+  },
+  "protectedAfterClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "currentTracked": "first=1\n\nsecond=0\n",
+  "currentTrackedSha256": "7ea335efb316b26d07dafa2ad7724ba682e937f1a59df1e85a524d1ca24e4c9d"
+}

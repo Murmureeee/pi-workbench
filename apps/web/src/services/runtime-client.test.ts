@@ -3,6 +3,8 @@ import type { RuntimeEvent, RuntimeSnapshot } from '@pi-workbench/shared'
 
 import { afterEach, expect, test, vi } from 'vitest'
 
+import { runtimeCapabilities } from '@pi-workbench/shared'
+
 import { RuntimeClient } from './runtime-client.js'
 
 afterEach(() => {
@@ -24,26 +26,7 @@ async function observer() {
     type: 'hello',
     protocolVersion: 1,
     daemonId: snapshot.daemonId,
-    capabilities: [
-      'snapshots',
-      'replay',
-      'tool-observation',
-      'redacted-observation',
-      'tool-timeline-v1',
-      'reasoning-observation-v1',
-      'model-request-v1',
-      'input-queue-v1',
-      'run-stage-v1',
-      'tool-risk-v1',
-      'execution-approval-v1',
-      'session-authorization-v1',
-      'operation-audit-v1',
-      'model-selection-v1',
-      'directory-write-v1',
-      'change-snapshots-v1',
-      'change-sources-v1',
-      'change-review-v1',
-    ],
+    capabilities: [...runtimeCapabilities],
     mutations: false,
     realProviderEnabled: false,
   }
