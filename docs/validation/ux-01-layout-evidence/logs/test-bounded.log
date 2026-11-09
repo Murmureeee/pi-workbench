@@ -1,0 +1,31 @@
+$ pnpm build:server && vitest run --maxWorkers=4
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+HEAD is now at 5fabbce first
+Switched to a new branch 'other'
+Switched to branch 'main'
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-change-chain-OfCPG4/中文目录/module'...
+done.
+Switched to a new branch '功能/中文'
+HEAD is now at 91f5424 offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-7kOkDd/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+
+ Test Files  63 passed (63)
+      Tests  426 passed (426)
+   Start at  09:27:19
+   Duration  199.25s (tests 91%, import 9%)
+

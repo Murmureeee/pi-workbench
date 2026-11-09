@@ -20,12 +20,14 @@ export function WorkspaceSafety({
   failed,
   fetching,
   csrf,
+  expanded = true,
 }: {
   target: WorkspaceEnvironmentTarget | null
   data: WorkspaceAvailability | undefined
   failed: boolean
   fetching: boolean
   csrf: string
+  expanded?: boolean
 }) {
   const cache = useQueryClient()
   const mounted = useRef(true)
@@ -76,33 +78,40 @@ export function WorkspaceSafety({
   const current =
     !failed && data && JSON.stringify(data.target) === JSON.stringify(target) ? data : undefined
   const blocked = target && current?.state !== 'available'
+  // Normal metadata follows the user's disclosure. Recovery and its feedback remain
+  // visible even when details are closed; hiding a panel never changes authorization.
+  if (!expanded && !blocked && !feedback && !relocating) {
+    return null
+  }
   return (
     <section
       aria-label="工作区信任与恢复"
       className="flex min-w-0 shrink-0 flex-col gap-2 border-b px-5 py-2 text-xs"
     >
-      <div className="flex min-w-0 flex-wrap items-center gap-2">
-        <Badge variant="outline">项目资源受限</Badge>
-        <span className="min-w-0 flex-1 text-muted-foreground">
-          {current?.resources
-            ? `已确认文本 ${current.resources.trusted} 项 · 未确认 ${current.resources.untrusted} 项 · 无法检查 ${current.resources.blocked} 项。仅已确认文本可在下轮加载。`
-            : '项目资源需逐项确认。'}
-          扩展、脚本与安装动作保持禁用。
-        </span>
-        {current?.state === 'available' ? (
-          <a
-            className={buttonVariants({ variant: 'ghost', size: 'sm' })}
-            href={`/?trust&project=${encodeURIComponent(current.cwd)}`}
-          >
-            检查资源信任
-          </a>
-        ) : null}
-        {target ? (
-          <Button variant="ghost" size="sm" disabled={checking} onClick={() => void recheck()}>
-            {checking ? '正在校验…' : '重新校验执行目录'}
-          </Button>
-        ) : null}
-      </div>
+      {expanded || blocked ? (
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
+          <Badge variant="outline">项目资源受限</Badge>
+          <span className="min-w-0 flex-1 text-muted-foreground">
+            {current?.resources
+              ? `已确认文本 ${current.resources.trusted} 项 · 未确认 ${current.resources.untrusted} 项 · 无法检查 ${current.resources.blocked} 项。仅已确认文本可在下轮加载。`
+              : '项目资源需逐项确认。'}
+            扩展、脚本与安装动作保持禁用。
+          </span>
+          {current?.state === 'available' ? (
+            <a
+              className={buttonVariants({ variant: 'ghost', size: 'sm' })}
+              href={`/?trust&project=${encodeURIComponent(current.cwd)}`}
+            >
+              检查资源信任
+            </a>
+          ) : null}
+          {target ? (
+            <Button variant="ghost" size="sm" disabled={checking} onClick={() => void recheck()}>
+              {checking ? '正在校验…' : '重新校验执行目录'}
+            </Button>
+          ) : null}
+        </div>
+      ) : null}
       {blocked ? (
         <Alert>
           <AlertTitle>

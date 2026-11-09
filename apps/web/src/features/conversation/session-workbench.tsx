@@ -17,6 +17,7 @@ import {
   RefreshCwIcon,
   SearchIcon,
   SettingsIcon,
+  SlidersHorizontalIcon,
   SquareIcon,
 } from 'lucide-react'
 import { useEffect, useLayoutEffect, useRef, useState } from 'react'
@@ -32,8 +33,12 @@ import {
   thinkingLevelSchema,
 } from '@pi-workbench/shared'
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
-import { Badge } from '@pi-workbench/ui/components/badge'
 import { Button, buttonVariants } from '@pi-workbench/ui/components/button'
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@pi-workbench/ui/components/collapsible'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -599,12 +604,6 @@ function SessionPane({
               />
             </div>
             <div className="sidebar-footer">
-              <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?legacy">
-                旧 pi 历史 · 只读
-              </a>
-              <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?models">
-                模型与提供商
-              </a>
               <a
                 className={buttonVariants({ variant: 'ghost' })}
                 href="/?settings=appearance"
@@ -613,9 +612,23 @@ function SessionPane({
                 <SettingsIcon data-icon="inline-start" />
                 设置
               </a>
-              <a href="/?samples" className="sample-link">
-                离线状态样本
-              </a>
+              <Collapsible>
+                <CollapsibleTrigger render={<Button variant="ghost" size="sm" />}>
+                  更多入口
+                  <ChevronDownIcon data-icon="inline-end" />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="sidebar-secondary">
+                  <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?legacy">
+                    旧 pi 历史 · 只读
+                  </a>
+                  <a className={buttonVariants({ variant: 'ghost', size: 'sm' })} href="/?models">
+                    模型与提供商
+                  </a>
+                  <a href="/?samples" className="sample-link">
+                    离线状态样本
+                  </a>
+                </CollapsibleContent>
+              </Collapsible>
             </div>
           </aside>
           {navOpen ? (
@@ -691,49 +704,75 @@ function SessionPane({
               ) : null}
             </header>
             {authorized ? (
-              <section aria-label="工作区环境与恢复" className="workspace-context">
-                <WorkspaceEnvironment
-                  recoveryHandled={directoryBlocked}
-                  active={active}
-                  cwd={
-                    current?.cwd ??
-                    (project ? (project.directory ?? undefined) : draft.workspace?.canonicalPath)
-                  }
-                  planned={!sessionId}
-                  target={
-                    sessionId
-                      ? { sessionId }
-                      : configuration.workspaceId
-                        ? { workspaceId: configuration.workspaceId }
-                        : null
-                  }
-                />
-                {active ? <WorkspaceWriteStatus target={directoryTarget} /> : null}
-                {active ? <GitStatusPanel target={directoryTarget} /> : null}
-                {active ? <FileBrowser target={directoryTarget} /> : null}
-                {active && sessionId ? (
-                  <ChangeSnapshots
-                    sessionId={sessionId}
-                    review={(turnId, trigger) => {
-                      reviewTrigger.current = trigger
-                      updateView(key, {
-                        changeReview: { turnId, fileId: null },
-                        changeReviewOpen: true,
-                      })
-                    }}
+              <div className="workspace-overview">
+                <section aria-label="工作区环境与恢复" className="workspace-context">
+                  <Collapsible
+                    className="workspace-details"
+                    open={view?.environmentOpen ?? false}
+                    onOpenChange={(environmentOpen) => updateView(key, { environmentOpen })}
+                  >
+                    <CollapsibleTrigger render={<Button variant="ghost" size="sm" />}>
+                      <FolderIcon data-icon="inline-start" />
+                      环境与权限
+                      <ChevronDownIcon data-icon="inline-end" />
+                    </CollapsibleTrigger>
+                    <CollapsibleContent keepMounted className="workspace-details-content">
+                      {active ? <GitStatusPanel target={directoryTarget} /> : null}
+                    </CollapsibleContent>
+                  </Collapsible>
+                  <WorkspaceEnvironment
+                    expanded={view?.environmentOpen ?? false}
+                    recoveryHandled={directoryBlocked}
+                    active={active}
+                    cwd={
+                      current?.cwd ??
+                      (project ? (project.directory ?? undefined) : draft.workspace?.canonicalPath)
+                    }
+                    planned={!sessionId}
+                    target={
+                      sessionId
+                        ? { sessionId }
+                        : configuration.workspaceId
+                          ? { workspaceId: configuration.workspaceId }
+                          : null
+                    }
                   />
-                ) : null}
+                  {active ? <FileBrowser target={directoryTarget} /> : null}
+                  {active && sessionId ? (
+                    <ChangeSnapshots
+                      compact
+                      sessionId={sessionId}
+                      review={(turnId, trigger) => {
+                        reviewTrigger.current = trigger
+                        updateView(key, {
+                          changeReview: { turnId, fileId: null },
+                          changeReviewOpen: true,
+                        })
+                      }}
+                    />
+                  ) : null}
+                </section>
                 {active ? (
-                  <WorkspaceSafety
-                    key={JSON.stringify(directoryTarget)}
-                    target={directoryTarget}
-                    data={availability.data}
-                    failed={availability.isError}
-                    fetching={availability.isFetching}
-                    csrf={csrf}
-                  />
+                  <div
+                    className="workspace-status"
+                    data-directory-blocked={directoryBlocked || undefined}
+                  >
+                    <WorkspaceWriteStatus
+                      target={directoryTarget}
+                      compact={!view?.environmentOpen}
+                    />
+                    <WorkspaceSafety
+                      key={JSON.stringify(directoryTarget)}
+                      target={directoryTarget}
+                      data={availability.data}
+                      failed={availability.isError}
+                      fetching={availability.isFetching}
+                      csrf={csrf}
+                      expanded={view?.environmentOpen ?? false}
+                    />
+                  </div>
                 ) : null}
-              </section>
+              </div>
             ) : null}
             <div className="conversation-workspace">
               <div className="conversation-column">
@@ -764,7 +803,6 @@ function SessionPane({
                   <div className="new-conversation new-session">
                     <h1>今天想完成什么？</h1>
                     <p>先描述任务，项目可选。首次发送后才保存会话。</p>
-                    <Badge variant="outline">默认离线 · 真实模型传输关闭</Badge>
                   </div>
                 )}
                 <div className="session-feedback" aria-live="polite">
@@ -833,78 +871,6 @@ function SessionPane({
                   ) : null}
                 </div>
                 <div className="composer-area">
-                  <FieldGroup className="session-options">
-                    <Field>
-                      <FieldLabel htmlFor="session-project">项目</FieldLabel>
-                      <select
-                        id="session-project"
-                        value={configuration.projectId ?? ''}
-                        disabled={locked || Boolean(current)}
-                        onChange={(event) =>
-                          update(key, { projectId: event.target.value || null, workspace: null })
-                        }
-                      >
-                        <option value="">无项目</option>
-                        {configuration.projectId &&
-                        !options.data?.projects.some(
-                          (item) => item.id === configuration.projectId,
-                        ) ? (
-                          <option value={configuration.projectId}>
-                            项目已移除或未同步 · 请重新选择
-                          </option>
-                        ) : null}
-                        {options.data?.projects.map((item) => (
-                          <option key={item.id} value={item.id}>
-                            {item.name} · {item.directory ?? '独立目录'} · {item.id.slice(0, 8)}
-                          </option>
-                        ))}
-                      </select>
-                    </Field>
-                    <Field>
-                      <FieldLabel htmlFor="session-model">模型</FieldLabel>
-                      <select
-                        id="session-model"
-                        value={selectedModel}
-                        disabled={locked || Boolean(current)}
-                        onChange={(event) => {
-                          const parsed: unknown = JSON.parse(event.target.value)
-                          update(key, { model: sessionOptionsModel(parsed), thinking: 'off' })
-                        }}
-                      >
-                        <option
-                          disabled={!options.data?.localFixtureEnabled}
-                          value={JSON.stringify({
-                            kind: 'local-fixture',
-                            provider: 'piw-offline',
-                            model: 'fixture',
-                          })}
-                        >
-                          离线验收模型 · pi SDK 本地夹具
-                        </option>
-                        <option
-                          value={JSON.stringify({
-                            kind: 'local-fixture',
-                            provider: 'piw-offline',
-                            model: 'fixture-reasoning',
-                          })}
-                          disabled={!options.data?.localFixtureEnabled}
-                        >
-                          离线思考夹具 · 仅文本
-                        </option>
-                        {missingModel ? (
-                          <option value={selectedModel}>
-                            所选模型当前不可用 · {configuration.model.provider} /{' '}
-                            {configuration.model.model} · 未联网验证
-                          </option>
-                        ) : null}
-                        {modelOptions.map((item) => (
-                          <option key={item.key} value={item.key}>
-                            {item.label}
-                          </option>
-                        ))}
-                      </select>
-                    </Field>
-                  </FieldGroup>
                   {current ? (
                     <SessionModelControl
                       sessionId={current.id}
@@ -914,90 +880,206 @@ function SessionPane({
                         authorized && !currentOrganization?.archived && !draft.pending,
                       )}
                     />
-                  ) : (
-                    <Field>
-                      <FieldLabel htmlFor="new-session-thinking">思考级别</FieldLabel>
-                      <select
-                        id="new-session-thinking"
-                        value={draft.thinking}
-                        disabled={locked || configuration.model.kind === 'provider'}
-                        onChange={(event) =>
-                          update(key, { thinking: thinkingLevelSchema.parse(event.target.value) })
+                  ) : null}
+                  <Collapsible
+                    className="composer-configuration"
+                    open={view?.configurationOpen ?? false}
+                    onOpenChange={(configurationOpen) => updateView(key, { configurationOpen })}
+                  >
+                    <div className="configuration-summary">
+                      <CollapsibleTrigger
+                        aria-label="会话配置"
+                        render={<Button variant="ghost" size="sm" />}
+                      >
+                        <SlidersHorizontalIcon data-icon="inline-start" />
+                        会话配置
+                        <ChevronDownIcon data-icon="inline-end" />
+                      </CollapsibleTrigger>
+                      <span
+                        title={
+                          current
+                            ? '首次发送时保存的配置'
+                            : `${configuration.model.provider} / ${configuration.model.model}`
                         }
                       >
-                        {thinkingLevelSchema.options.map((level) => (
-                          <option
-                            key={level}
-                            value={level}
-                            disabled={
-                              configuration.model.model === 'fixture-reasoning'
-                                ? !['off', 'low', 'medium', 'high'].includes(level)
-                                : level !== 'off'
+                        {current ? (
+                          '创建配置与目录'
+                        ) : (
+                          <>
+                            {project?.name ?? '无项目'} ·{' '}
+                            {configuration.model.kind === 'provider'
+                              ? configuration.model.model
+                              : configuration.model.model === 'fixture-reasoning'
+                                ? '离线思考模型'
+                                : '离线验收模型'}
+                            {configuration.thinking !== 'off' ? ` · ${configuration.thinking}` : ''}
+                          </>
+                        )}
+                      </span>
+                    </div>
+                    <CollapsibleContent keepMounted className="configuration-fields">
+                      <FieldGroup className="session-options">
+                        <Field>
+                          <FieldLabel htmlFor="session-project">项目</FieldLabel>
+                          <select
+                            id="session-project"
+                            value={configuration.projectId ?? ''}
+                            disabled={locked || Boolean(current)}
+                            onChange={(event) =>
+                              update(key, {
+                                projectId: event.target.value || null,
+                                workspace: null,
+                              })
                             }
                           >
-                            {level}
-                          </option>
-                        ))}
-                      </select>
-                    </Field>
-                  )}
-                  {!current && !project ? (
-                    <details className="directory-options">
-                      <summary>执行目录：{draft.workspace?.canonicalPath ?? '独立目录'}</summary>
-                      <div>
-                        <FieldGroup>
-                          <Field>
-                            <FieldLabel htmlFor="execution-path">目录绝对路径（可选）</FieldLabel>
-                            <Input
-                              id="execution-path"
-                              value={directoryPath}
-                              disabled={locked}
-                              onChange={(event) => setDirectoryPath(event.target.value)}
-                            />
-                          </Field>
-                        </FieldGroup>
-                        <div className="directory-buttons">
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            disabled={locked}
-                            onClick={() => void chooseDirectory(true)}
+                            <option value="">无项目</option>
+                            {configuration.projectId &&
+                            !options.data?.projects.some(
+                              (item) => item.id === configuration.projectId,
+                            ) ? (
+                              <option value={configuration.projectId}>
+                                项目已移除或未同步 · 请重新选择
+                              </option>
+                            ) : null}
+                            {options.data?.projects.map((item) => (
+                              <option key={item.id} value={item.id}>
+                                {item.name} · {item.directory ?? '独立目录'} · {item.id.slice(0, 8)}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
+                        <Field>
+                          <FieldLabel htmlFor="session-model">模型</FieldLabel>
+                          <select
+                            id="session-model"
+                            value={selectedModel}
+                            disabled={locked || Boolean(current)}
+                            onChange={(event) => {
+                              const parsed: unknown = JSON.parse(event.target.value)
+                              update(key, { model: sessionOptionsModel(parsed), thinking: 'off' })
+                            }}
                           >
-                            选择文件夹
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            disabled={locked || !directoryPath.trim()}
-                            onClick={() => void chooseDirectory(false)}
+                            <option
+                              disabled={!options.data?.localFixtureEnabled}
+                              value={JSON.stringify({
+                                kind: 'local-fixture',
+                                provider: 'piw-offline',
+                                model: 'fixture',
+                              })}
+                            >
+                              离线验收模型 · pi SDK 本地夹具
+                            </option>
+                            <option
+                              value={JSON.stringify({
+                                kind: 'local-fixture',
+                                provider: 'piw-offline',
+                                model: 'fixture-reasoning',
+                              })}
+                              disabled={!options.data?.localFixtureEnabled}
+                            >
+                              离线思考夹具 · 仅文本
+                            </option>
+                            {missingModel ? (
+                              <option value={selectedModel}>
+                                所选模型当前不可用 · {configuration.model.provider} /{' '}
+                                {configuration.model.model} · 未联网验证
+                              </option>
+                            ) : null}
+                            {modelOptions.map((item) => (
+                              <option key={item.key} value={item.key}>
+                                {item.label}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
+                      </FieldGroup>
+                      {!current ? (
+                        <Field>
+                          <FieldLabel htmlFor="new-session-thinking">思考级别</FieldLabel>
+                          <select
+                            id="new-session-thinking"
+                            value={draft.thinking}
+                            disabled={locked || configuration.model.kind === 'provider'}
+                            onChange={(event) =>
+                              update(key, {
+                                thinking: thinkingLevelSchema.parse(event.target.value),
+                              })
+                            }
                           >
-                            校验此目录
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            disabled={locked}
-                            onClick={() => update(key, { workspace: null })}
-                          >
-                            使用独立目录
-                          </Button>
-                        </div>
-                      </div>
-                    </details>
-                  ) : null}
+                            {thinkingLevelSchema.options.map((level) => (
+                              <option
+                                key={level}
+                                value={level}
+                                disabled={
+                                  configuration.model.model === 'fixture-reasoning'
+                                    ? !['off', 'low', 'medium', 'high'].includes(level)
+                                    : level !== 'off'
+                                }
+                              >
+                                {level}
+                              </option>
+                            ))}
+                          </select>
+                        </Field>
+                      ) : null}
+                      {!current && !project ? (
+                        <details className="directory-options">
+                          <summary>
+                            执行目录：{draft.workspace?.canonicalPath ?? '独立目录'}
+                          </summary>
+                          <div>
+                            <FieldGroup>
+                              <Field>
+                                <FieldLabel htmlFor="execution-path">
+                                  目录绝对路径（可选）
+                                </FieldLabel>
+                                <Input
+                                  id="execution-path"
+                                  value={directoryPath}
+                                  disabled={locked}
+                                  onChange={(event) => setDirectoryPath(event.target.value)}
+                                />
+                              </Field>
+                            </FieldGroup>
+                            <div className="directory-buttons">
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                disabled={locked}
+                                onClick={() => void chooseDirectory(true)}
+                              >
+                                选择文件夹
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="outline"
+                                disabled={locked || !directoryPath.trim()}
+                                onClick={() => void chooseDirectory(false)}
+                              >
+                                校验此目录
+                              </Button>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                disabled={locked}
+                                onClick={() => update(key, { workspace: null })}
+                              >
+                                使用独立目录
+                              </Button>
+                            </div>
+                          </div>
+                        </details>
+                      ) : null}
+                    </CollapsibleContent>
+                  </Collapsible>
                   {providerBlocked ? (
                     <p className="phase-note">
                       所选 pi
                       模型未联网验证，真实传输关闭；选择已保留，未调用提供商。可在模型设置中检查来源。
                     </p>
-                  ) : options.data?.localFixtureEnabled ? (
-                    <p className="phase-note">
-                      离线验收：固定样本回复，思考 {configuration.thinking}
-                      ；仅文本，附件未开放。受限读取经宿主守卫，写入与命令未批准不执行。
-                    </p>
-                  ) : (
+                  ) : !options.data?.localFixtureEnabled ? (
                     <p className="phase-note">当前环境未启用离线验收模型；草稿保留，发送关闭。</p>
-                  )}
+                  ) : null}
                   <InputGroup className="composer-box">
                     <InputGroupTextarea
                       ref={textarea}
@@ -1131,14 +1213,26 @@ function SessionPane({
                   ) : null}
                   <div className="composer-hint">
                     <span>Enter 发送 · Shift+Enter 换行</span>
-                    <span>{pending ? '正在保存…' : '费用未知 · 未调用真实提供商'}</span>
+                    {pending ? <span>正在保存…</span> : null}
                   </div>
                 </div>
               </div>
             </div>
             <footer className="status-bar">
               <span>{authorized ? '桌面已授权' : '桌面授权待确认'}</span>
-              <span>真实传输关闭</span>
+              <Collapsible className="runtime-source">
+                <CollapsibleTrigger render={<Button variant="ghost" size="sm" />}>
+                  离线验收 · 真实传输关闭
+                  <ChevronDownIcon data-icon="inline-end" />
+                </CollapsibleTrigger>
+                <CollapsibleContent className="runtime-source-details">
+                  <p>当前回复来自真实 pi SDK 与本地 HTTP 固定样本，未调用真实提供商，费用未知。</p>
+                  <p>
+                    仅核验后的受限读取可自动执行；写入与命令须经审批。扩展与真实模型传输保持关闭。
+                  </p>
+                  <p>项目、模型、思考级别与执行目录可在“会话配置”中核对；附件尚未开放。</p>
+                </CollapsibleContent>
+              </Collapsible>
             </footer>
           </main>
           {active && sessionId && view?.changeReviewOpen && view.changeReview ? (

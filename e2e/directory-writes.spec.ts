@@ -13,6 +13,7 @@ import { DirectoryWriteService } from '../apps/daemon/dist/modules/workspaces/di
 import { ProjectService } from '../apps/daemon/dist/modules/workspaces/project.service.js'
 import { WorkspaceService } from '../apps/daemon/dist/modules/workspaces/workspace.service.js'
 import { launchWorkspaceDesktop } from './helpers/desktop.js'
+import { openConfiguration, openEnvironment } from './helpers/workbench.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 function required<T>(value: T | undefined): T {
@@ -96,6 +97,7 @@ async function setup() {
         await page.getByRole('button', { name: '展开导航', exact: true }).click()
       }
       await page.getByRole('button', { name: '新会话', exact: true }).first().click()
+      await openConfiguration(page)
       await page.getByLabel('项目', { exact: true }).selectOption(project)
       await page.getByRole('textbox', { name: '任务内容' }).fill(text)
       await expect(page.getByRole('button', { name: '发送任务', exact: true })).toBeEnabled()
@@ -247,6 +249,7 @@ test('WS-04 Electron external file edit, stale read failure, target isolation an
     await checkTheme('light')
     await checkTheme('dark')
     const other = await f.send('独立来源乙', required(f.projects[1]).id)
+    await openEnvironment(f.page)
     await expect(region).not.toContainText('external.txt')
     await expect.poll(() => f.kernels.resources().modelTasks).toBe(2)
     expect(f.store.submissions(first.id)[0]?.status).toBe('executing')

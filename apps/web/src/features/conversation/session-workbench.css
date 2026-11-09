@@ -194,15 +194,132 @@
 .session-workbench .conversation-column {
   min-height: 0;
 }
-.workspace-context {
-  max-height: 30%;
+.workspace-overview {
+  --overview-limit: 30dvh;
+  display: flex;
+  flex-direction: column;
+  max-height: var(--overview-limit);
   min-height: 0;
   flex-shrink: 0;
+}
+.workspace-context {
+  flex: 1 1 auto;
+  min-height: 40px;
+  overflow-y: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.workspace-details,
+.compact-change-history,
+.compact-change-history > [data-slot='collapsible'],
+.compact-change-history .snapshot-summary {
+  display: contents;
+}
+.workspace-details-content,
+.compact-change-history > [data-slot='collapsible'] > [data-slot='collapsible-content'],
+.workspace-context > section:not(.compact-change-history) {
+  flex-basis: 100%;
+  min-width: 0;
+  order: 1;
+}
+.workspace-details-content > .workspace-environment,
+.workspace-context > section:not(.compact-change-history) {
+  padding-inline: 4px;
+  border-bottom: 0;
+}
+.workspace-details-content {
+  padding: 8px 0;
+}
+.workspace-status {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  max-height: calc(var(--overview-limit) - 40px);
+  min-height: 0;
   overflow-y: auto;
 }
+.workspace-status > section {
+  flex-shrink: 0;
+}
+.workspace-status[data-directory-blocked] > [aria-label='工作区信任与恢复'] {
+  order: -1;
+}
+.workspace-status:empty {
+  display: none;
+}
+.compact-change-history > [data-slot='collapsible'] > [data-slot='collapsible-content'] {
+  padding: 12px 4px;
+  font-size: 12px;
+}
+.workspace-details-content[data-closed],
+.configuration-fields[data-closed],
+.sidebar-secondary[data-closed],
+.runtime-source-details[data-closed] {
+  display: none;
+}
+.session-workbench .sidebar-footer {
+  gap: 4px;
+}
+.sidebar-secondary {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+  padding: 4px 0 8px;
+}
+.composer-configuration {
+  margin-bottom: 8px;
+}
+.configuration-summary {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+  color: var(--muted-foreground);
+  font-size: 12px;
+}
+.configuration-summary > span {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.configuration-summary > button {
+  max-width: 50%;
+  min-width: 0;
+  overflow: hidden;
+}
+.configuration-fields {
+  max-height: 26dvh;
+  overflow-y: auto;
+  padding: 12px 4px 4px;
+}
+.session-workbench .status-bar {
+  flex-wrap: wrap;
+  gap: 4px 12px;
+  align-items: center;
+  padding-block: 2px;
+}
+.runtime-source {
+  display: contents;
+}
+.runtime-source-details {
+  flex-basis: 100%;
+}
+.runtime-source > [data-slot='collapsible-trigger'] {
+  margin-left: auto;
+}
+.runtime-source-details > p {
+  flex-basis: 100%;
+  line-height: 1.6;
+}
 @media (max-height: 850px) {
-  .workspace-context {
-    max-height: 20%;
+  .workspace-overview {
+    --overview-limit: 20dvh;
   }
 }
 .session-options {

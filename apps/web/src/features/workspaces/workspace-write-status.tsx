@@ -17,11 +17,25 @@ import { sessionJson } from '../../services/session-client.js'
 
 /** A target-scoped, read-only view. Unloading cancels only this query; no old target's
  * owner or provenance is rendered and no observation can confer rollback authority. */
-export function WorkspaceWriteStatus({ target }: { target: WorkspaceEnvironmentTarget | null }) {
-  return target ? <WriteObservation key={JSON.stringify(target)} target={target} /> : null
+export function WorkspaceWriteStatus({
+  target,
+  compact = false,
+}: {
+  target: WorkspaceEnvironmentTarget | null
+  compact?: boolean
+}) {
+  return target ? (
+    <WriteObservation key={JSON.stringify(target)} target={target} compact={compact} />
+  ) : null
 }
 
-function WriteObservation({ target }: { target: WorkspaceEnvironmentTarget }) {
+function WriteObservation({
+  target,
+  compact,
+}: {
+  target: WorkspaceEnvironmentTarget
+  compact: boolean
+}) {
   const [visibleSince] = useState(() => Date.now())
   const query = useQuery({
     queryKey: ['workspace-write-status', target],
@@ -44,6 +58,20 @@ function WriteObservation({ target }: { target: WorkspaceEnvironmentTarget }) {
     (item) => 'sessionId' in target && item.sessionId === target.sessionId,
   )
   const round = data?.latest
+  // Quiet healthy observations, but never hide an unknown state, contention, isolation
+  // or mixed file changes behind the environment disclosure.
+  if (
+    compact &&
+    data?.available &&
+    !waiting &&
+    (!data.owner ||
+      ('sessionId' in target &&
+        data.owner.sessionId === target.sessionId &&
+        data.owner.state !== 'quarantined')) &&
+    !round?.changedPaths.length
+  ) {
+    return null
+  }
   return (
     <section
       aria-label="目录写入与来源"

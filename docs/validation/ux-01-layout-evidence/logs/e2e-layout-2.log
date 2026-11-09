@@ -1,0 +1,19 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:23224) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:19880) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\workbench-layout.spec.ts:12:1 › UX-01 Electron defaults to conversation, keyboard disclosures preserve IME drafts and settings return in light and narrow dark (2.7s)
+{"event":"session-run-failed","detail":{"name":"Error","message":"Daemon is shutting down"}}
+{"event":"session-run-failed","detail":{"name":"Error","message":"Daemon is shutting down"}}
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 2 e2e\workbench-layout.spec.ts:73:1 › UX-01 disclosures are session bookmarks across eviction and renderer reload without stopping or re-sending background SDK work (10.0s)
+  ok 3 e2e\workbench-layout.spec.ts:128:1 › UX-01 collapsed details retain actual final approval, failed recovery, file access and historical review (8.9s)
+
+  3 passed (35.7s)

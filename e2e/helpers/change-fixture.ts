@@ -12,6 +12,7 @@ import { SessionStore } from '../../apps/daemon/dist/modules/sessions/session.st
 import { ProjectService } from '../../apps/daemon/dist/modules/workspaces/project.service.js'
 import { WorkspaceService } from '../../apps/daemon/dist/modules/workspaces/workspace.service.js'
 import { launchWorkspaceDesktop } from './desktop.js'
+import { openConfiguration, openVersions } from './workbench.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 function required<T>(v: T | undefined): T {
@@ -110,6 +111,7 @@ export async function setupChanges(ledgerCapacityBytes?: number) {
         await desktop.page.getByRole('button', { name: '展开导航', exact: true }).click()
       }
       await button.click()
+      await openConfiguration(desktop.page)
       await desktop.page
         .getByLabel('项目', { exact: true })
         .selectOption(useIndependent ? second.id : project.id)
@@ -137,7 +139,7 @@ export async function setupChanges(ledgerCapacityBytes?: number) {
     open: async (id: string) => desktop.page.goto(`http://127.0.0.1:5173/?session=${id}`),
     versions: async () => {
       const region = desktop.page.getByRole('region', { name: '轮次文件版本', exact: true })
-      await region.getByRole('button', { name: '查看轮次文件版本', exact: true }).click()
+      await openVersions(region)
       return region
     },
     review: async () => {

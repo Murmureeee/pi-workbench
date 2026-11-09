@@ -21,6 +21,7 @@ export function WorkspaceEnvironment(props: {
   active?: boolean
   planned?: boolean
   recoveryHandled?: boolean
+  expanded?: boolean
 }) {
   return props.active === false ? null : (
     <EnvironmentObservation key={JSON.stringify(props.target)} {...props} />
@@ -33,12 +34,14 @@ function EnvironmentObservation({
   active = true,
   planned = false,
   recoveryHandled = false,
+  expanded = true,
 }: {
   target: WorkspaceEnvironmentTarget | null
   cwd?: string
   active?: boolean
   planned?: boolean
   recoveryHandled?: boolean
+  expanded?: boolean
 }) {
   const [visibleSince] = useState(() => Date.now())
   const query = useQuery({
@@ -70,87 +73,99 @@ function EnvironmentObservation({
     : git?.status === 'unavailable'
       ? git.message
       : ''
+  const showError = Boolean(
+    error &&
+    !(
+      recoveryHandled &&
+      git?.status === 'unavailable' &&
+      ['directory_unavailable', 'changed'].includes(git.code)
+    ),
+  )
+  if (!expanded && !showError) {
+    return null
+  }
   return (
     <section
       aria-label="工作区与 Git 环境"
       aria-busy={query.isFetching}
       className="workspace-environment flex min-w-0 shrink-0 flex-col gap-2 border-b bg-background px-5 py-2 text-xs"
     >
-      <div className="flex min-w-0 flex-wrap items-center gap-2">
-        <span className="text-muted-foreground">{planned ? '待用目录' : '实际 cwd'}</span>
-        <span aria-label="环境执行目录" className="min-w-0 flex-1 basis-60 break-all">
-          {current?.cwd ?? cwd ?? (target ? '正在核对目录…' : '独立目录（首次发送时创建）')}
-        </span>
-        <Badge variant="outline" aria-label="Git 状态" className="max-w-full min-w-0">
-          <GitBranchIcon aria-hidden="true" data-icon="inline-start" />
-          <span
-            className="min-w-0 truncate"
-            title={
-              git?.status === 'repository' && git.head.kind === 'branch' ? git.head.name : undefined
-            }
-          >
-            {!target
-              ? '尚未创建目录'
-              : !current
-                ? query.isError
-                  ? '未同步'
-                  : '检查中…'
-                : git?.status === 'repository'
-                  ? git.head.kind === 'branch'
-                    ? `${git.head.name}${git.head.commit ? '' : ' · 尚无提交'}`
-                    : `detached · ${git.head.commit.slice(0, 12)}`
-                  : git?.status === 'not_repository'
-                    ? '非 Git 目录'
-                    : 'Git 未知'}
-          </span>
-        </Badge>
-        {current ? (
-          <span className="text-muted-foreground">
-            {query.isFetching ? '正在核对（上次观察）' : '本地只读 · 自动更新'}
-          </span>
-        ) : null}
-        {target ? (
-          <Button
-            variant="ghost"
-            size="sm"
-            disabled={!active || query.isFetching}
-            onClick={() => void query.refetch()}
-            aria-label="刷新环境标识"
-          >
-            <RefreshCwIcon data-icon="inline-start" />
-            刷新
-          </Button>
-        ) : null}
-      </div>
-      {current?.resolvedCwd && current.resolvedCwd !== current.cwd ? (
-        <p className="break-all text-muted-foreground">物理目录：{current.resolvedCwd}</p>
-      ) : null}
-      {git?.status === 'repository' ? (
-        <div className="flex min-w-0 flex-wrap gap-x-4 gap-y-1 text-muted-foreground">
-          <span className="flex min-w-0 items-start gap-1">
-            <FolderGit2Icon className="size-3 shrink-0" aria-hidden="true" />
-            <span className="break-all" aria-label="Git 仓库">
-              仓库：{git.root}
+      {expanded ? (
+        <>
+          <div className="flex min-w-0 flex-wrap items-center gap-2">
+            <span className="text-muted-foreground">{planned ? '待用目录' : '实际 cwd'}</span>
+            <span aria-label="环境执行目录" className="min-w-0 flex-1 basis-60 break-all">
+              {current?.cwd ?? cwd ?? (target ? '正在核对目录…' : '独立目录（首次发送时创建）')}
             </span>
-          </span>
-          {git.superprojectRoot ? (
-            <span className="break-all" aria-label="Git 子模块">
-              子模块 · 主仓库：{git.superprojectRoot}
-            </span>
+            <Badge variant="outline" aria-label="Git 状态" className="max-w-full min-w-0">
+              <GitBranchIcon aria-hidden="true" data-icon="inline-start" />
+              <span
+                className="min-w-0 truncate"
+                title={
+                  git?.status === 'repository' && git.head.kind === 'branch'
+                    ? git.head.name
+                    : undefined
+                }
+              >
+                {!target
+                  ? '尚未创建目录'
+                  : !current
+                    ? query.isError
+                      ? '未同步'
+                      : '检查中…'
+                    : git?.status === 'repository'
+                      ? git.head.kind === 'branch'
+                        ? `${git.head.name}${git.head.commit ? '' : ' · 尚无提交'}`
+                        : `detached · ${git.head.commit.slice(0, 12)}`
+                      : git?.status === 'not_repository'
+                        ? '非 Git 目录'
+                        : 'Git 未知'}
+              </span>
+            </Badge>
+            {current ? (
+              <span className="text-muted-foreground">
+                {query.isFetching ? '正在核对（上次观察）' : '本地只读 · 自动更新'}
+              </span>
+            ) : null}
+            {target ? (
+              <Button
+                variant="ghost"
+                size="sm"
+                disabled={!active || query.isFetching}
+                onClick={() => void query.refetch()}
+                aria-label="刷新环境标识"
+              >
+                <RefreshCwIcon data-icon="inline-start" />
+                刷新
+              </Button>
+            ) : null}
+          </div>
+          {current?.resolvedCwd && current.resolvedCwd !== current.cwd ? (
+            <p className="break-all text-muted-foreground">物理目录：{current.resolvedCwd}</p>
           ) : null}
-        </div>
+          {git?.status === 'repository' ? (
+            <div className="flex min-w-0 flex-wrap gap-x-4 gap-y-1 text-muted-foreground">
+              <span className="flex min-w-0 items-start gap-1">
+                <FolderGit2Icon className="size-3 shrink-0" aria-hidden="true" />
+                <span className="break-all" aria-label="Git 仓库">
+                  仓库：{git.root}
+                </span>
+              </span>
+              {git.superprojectRoot ? (
+                <span className="break-all" aria-label="Git 子模块">
+                  子模块 · 主仓库：{git.superprojectRoot}
+                </span>
+              ) : null}
+            </div>
+          ) : null}
+          {current && current.cwd !== current.workspacePath ? (
+            <p className="break-all text-muted-foreground">
+              工作区登记：{current.workspacePath}；会话保留原 cwd。
+            </p>
+          ) : null}
+        </>
       ) : null}
-      {current && current.cwd !== current.workspacePath ? (
-        <p className="break-all text-muted-foreground">
-          工作区登记：{current.workspacePath}；会话保留原 cwd。
-        </p>
-      ) : null}
-      {error &&
-      !(
-        recoveryHandled &&
-        git?.status === 'unavailable' &&
-        ['directory_unavailable', 'changed'].includes(git.code)
-      ) ? (
+      {showError ? (
         <Alert>
           <AlertTitle>环境信息暂不可用</AlertTitle>
           <AlertDescription>

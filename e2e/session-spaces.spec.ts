@@ -17,6 +17,7 @@ import { SessionStore } from '../apps/daemon/dist/modules/sessions/session.store
 import { ProjectService } from '../apps/daemon/dist/modules/workspaces/project.service.js'
 import { WorkspaceService } from '../apps/daemon/dist/modules/workspaces/workspace.service.js'
 import { launchWorkspaceDesktop } from './helpers/desktop.js'
+import { openConfiguration } from './helpers/workbench.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 function forward(route: Route) {
@@ -112,6 +113,7 @@ test('SESSION-07 Electron global new never inherits project cwd; metadata associ
   const f = await fixture()
   try {
     let page = f.desktop.page
+    await openConfiguration(active(page))
     await active(page).getByLabel('项目', { exact: true }).selectOption(f.project.id)
     await send(page, '之前的项目会话')
     await active(page).getByRole('button', { name: '新会话', exact: true }).click()

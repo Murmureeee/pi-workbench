@@ -186,7 +186,7 @@ export function ManagedThread({
                 <p className="phase-note">
                   {view?.snapshot?.source === 'synthetic-ipc-fixture'
                     ? '合成观察记录；不代表真实工具执行或审批。'
-                    : '真实 pi SDK + 本地 HTTP 夹具；回复为验收样本。仅核验后的受限读取自动，写入与命令未批准不执行；扩展和真实提供商关闭。'}
+                    : null}
                   <output aria-label="会话同步状态">
                     {view?.status === 'connected'
                       ? '已同步'

@@ -11,6 +11,7 @@ import { WorkspaceDatabase } from '../apps/daemon/dist/infrastructure/database/d
 import { KernelService } from '../apps/daemon/dist/modules/kernels/kernel.service.js'
 import { SessionStore } from '../apps/daemon/dist/modules/sessions/session.store.js'
 import { launchWorkspaceDesktop } from './helpers/desktop.js'
+import { openConfiguration } from './helpers/workbench.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 function firstSessionId(store: SessionStore) {
@@ -116,6 +117,7 @@ test('SESSION-01 Electron drafts, composition Enter, durable first send and cont
     await box.fill('新会话独立草稿')
     const draftDirectory = join(f.directory, 'draft-directory')
     mkdirSync(draftDirectory)
+    await openConfiguration(page)
     await page.getByText('执行目录：独立目录', { exact: true }).click()
     await f.desktop.setSelection(draftDirectory)
     await page.getByRole('button', { name: '选择文件夹', exact: true }).click()
@@ -222,6 +224,7 @@ test('SESSION-01 Electron project entry preselects its verified directory, globa
     directory = join(f.directory, 'project')
   mkdirSync(directory)
   try {
+    await openConfiguration(page)
     await page.getByText('执行目录：独立目录', { exact: true }).click()
     await page.getByLabel('目录绝对路径（可选）').fill(directory)
     await page.getByRole('button', { name: '校验此目录' }).click()
@@ -283,6 +286,7 @@ test('SESSION-01 existing provider selection remains configured/unverified and d
         .locator('option')
         .filter({ hasText: '已有编码模型' }),
     ).toHaveCount(1)
+    await openConfiguration(page)
     await page
       .getByLabel('模型', { exact: true })
       .selectOption({ label: 'existing / 已有编码模型 · 已配置 · 未联网验证' })
@@ -438,6 +442,7 @@ test('INPUT-01 Electron restores project/model/new draft through navigation and 
     await page.getByRole('button', { name: '保存项目', exact: true }).click()
     await expect(pane.getByLabel('项目', { exact: true })).not.toHaveValue('')
     const projectId = await pane.getByLabel('项目', { exact: true }).inputValue()
+    await openConfiguration(pane)
     await pane.getByLabel('模型', { exact: true }).selectOption({
       label: 'existing / 已有编码模型 · 已配置 · 未联网验证',
     })

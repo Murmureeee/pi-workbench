@@ -34,19 +34,23 @@ const snapshotLabel = (snapshot: FileSnapshot) =>
 export function ChangeSnapshots({
   sessionId,
   review,
+  compact = false,
 }: {
   sessionId: string
   review: (turnId: string, trigger: HTMLButtonElement) => void
+  compact?: boolean
 }) {
-  return <SnapshotHistory key={sessionId} sessionId={sessionId} review={review} />
+  return <SnapshotHistory key={sessionId} sessionId={sessionId} review={review} compact={compact} />
 }
 
 function SnapshotHistory({
   sessionId,
   review,
+  compact,
 }: {
   sessionId: string
   review: (turnId: string, trigger: HTMLButtonElement) => void
+  compact: boolean
 }) {
   const [visibleSince] = useState(() => Date.now())
   const query = useInfiniteQuery({
@@ -76,20 +80,37 @@ function SnapshotHistory({
   return (
     <section
       aria-label="轮次文件版本"
-      className="flex min-w-0 flex-col gap-2 border-b bg-background px-5 py-2 text-xs"
+      className={
+        compact
+          ? 'compact-change-history'
+          : 'flex min-w-0 flex-col gap-2 border-b bg-background px-5 py-2 text-xs'
+      }
     >
       <Collapsible>
-        <div className="flex flex-wrap items-center gap-2">
-          <Badge variant={latest?.baseline.status === 'failed' ? 'destructive' : 'outline'}>
-            {query.isError
-              ? '文件版本待同步'
-              : !pages.length
-                ? '正在核对文件版本…'
-                : latest
-                  ? `基线${snapshotLabel(latest.baseline)}`
-                  : '尚无轮次文件版本'}
-          </Badge>
-          {latest ? (
+        <div className={compact ? 'snapshot-summary' : 'flex flex-wrap items-center gap-2'}>
+          {!compact ||
+          query.isError ||
+          latest?.baseline.status === 'failed' ||
+          latest?.final.status === 'failed' ? (
+            <Badge
+              variant={
+                latest?.baseline.status === 'failed' || latest?.final.status === 'failed'
+                  ? 'destructive'
+                  : 'outline'
+              }
+            >
+              {query.isError
+                ? '文件版本待同步'
+                : !pages.length
+                  ? '正在核对文件版本…'
+                  : latest
+                    ? latest.final.status === 'failed'
+                      ? '收尾版本保存失败'
+                      : `基线${snapshotLabel(latest.baseline)}`
+                    : '尚无轮次文件版本'}
+            </Badge>
+          ) : null}
+          {!compact && latest ? (
             <span>
               {outcome[latest.outcome]} · 收尾{snapshotLabel(latest.final)}
             </span>
@@ -99,9 +120,17 @@ function SnapshotHistory({
           </CollapsibleTrigger>
         </div>
         <CollapsibleContent className="flex flex-col gap-3 pt-2">
+          {compact ? (
+            <p>
+              {latest
+                ? `基线${snapshotLabel(latest.baseline)} · ${outcome[latest.outcome]} · 收尾${snapshotLabel(latest.final)}`
+                : '尚无轮次文件版本'}
+            </p>
+          ) : null}
           <p>
             文件版本保存不等于可整轮回滚。可审查历史差异与来源，并经预检和明确确认回滚文件；来源不确定时须单独确认覆盖，禁止自动回滚。
           </p>
+          {compact ? <RollbackHistory key={sessionId} sessionId={sessionId} /> : null}
           {query.isError ? (
             <Alert>
               <AlertTitle>文件版本记录未同步</AlertTitle>
@@ -134,7 +163,7 @@ function SnapshotHistory({
           ) : null}
         </CollapsibleContent>
       </Collapsible>
-      <RollbackHistory key={sessionId} sessionId={sessionId} />
+      {!compact ? <RollbackHistory key={sessionId} sessionId={sessionId} /> : null}
     </section>
   )
 }

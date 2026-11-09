@@ -110,6 +110,9 @@ test('OBS-06 actual Electron states, late/cross-session isolation, background fo
     const capture = async (colorScheme: 'light' | 'dark') => {
       await page.emulateMedia({ colorScheme })
       await page.setViewportSize({ width: 800, height: 760 })
+      // An explicit reading gesture releases the expansion bookmark before moving
+      // to another control. Programmatic scroll alone can race its resize restore.
+      await pane.getByLabel('受管会话消息', { exact: true }).press('Home')
       await trigger.scrollIntoViewIfNeeded()
       await trigger.focus()
       await expect(trigger).toBeVisible()

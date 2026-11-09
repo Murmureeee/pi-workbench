@@ -6,6 +6,7 @@ import { expect, test } from '@playwright/test'
 
 import { fixtureGit as git } from '../apps/daemon/test/helpers/git.js'
 import { setupChanges } from './helpers/change-fixture.js'
+import { openEnvironment } from './helpers/workbench.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 const noop = () => undefined
@@ -13,6 +14,7 @@ type Fixture = Awaited<ReturnType<typeof setupChanges>>
 const panel = (f: Fixture) =>
   f.page.getByRole('region', { name: '仓库状态与本地改动', exact: true })
 async function show(f: Fixture) {
+  await openEnvironment(f.page)
   await f.page.getByRole('button', { name: '查看仓库状态', exact: true }).click()
   return panel(f)
 }

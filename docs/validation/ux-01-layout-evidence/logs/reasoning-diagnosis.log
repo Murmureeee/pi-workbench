@@ -1,0 +1,301 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:18980) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:29068) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows (10.1s)
+(node:33248) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows (10.1s)
+(node:31212) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+REASONING_LAYOUT [
+  {
+    tag: 'BUTTON',
+    slot: 'trace-collapsible-trigger',
+    className: 'group/trace-collapsible-trigger flex w-fit max-w-full min-w-0 cursor-pointer items-center gap-1 rounded-md text-left text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 has-[[data-status=error]]:text-destructive',
+    y: 439.875,
+    height: 20,
+    scrollTop: 0,
+    scrollHeight: 20,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: 'trace-collapsible',
+    className: 'flex w-full min-w-0 flex-col',
+    y: 439.875,
+    height: 126.25,
+    scrollTop: 0,
+    scrollHeight: 126,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: 'trace',
+    className: 'flex w-full min-w-0 flex-col gap-2 *:has-[>[data-slot=trace-line]]:flex *:has-[>[data-slot=trace-line]]:w-fit *:has-[>[data-slot=trace-line]]:max-w-full *:has-[>[data-slot=trace-line]]:min-w-0 *:has-[>[data-slot=trace-line]]:rounded-md *:has-[>[data-slot=trace-line]]:text-left *:has-[>[data-slot=trace-line]]:outline-none *:has-[>[data-slot=trace-line]]:focus-visible:ring-3 *:has-[>[data-slot=trace-line]]:focus-visible:ring-ring/50',
+    y: 439.875,
+    height: 126.25,
+    scrollTop: 0,
+    scrollHeight: 126,
+    overflow: 'visible'
+  },
+  {
+    tag: 'SECTION',
+    slot: null,
+    className: 'min-w-0',
+    y: 423.875,
+    height: 148.25,
+    scrollTop: 0,
+    scrollHeight: 148,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: 'message-content',
+    className: 'flex w-full min-w-0 flex-col gap-2.5 wrap-break-word group-data-[align=end]/message:*:data-slot:self-end',
+    y: 332.375,
+    height: 274.890625,
+    scrollTop: 0,
+    scrollHeight: 275,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: 'message',
+    className: 'group/message relative flex w-full min-w-0 gap-2 text-sm data-[align=end]:flex-row-reverse',
+    y: 332.375,
+    height: 274.890625,
+    scrollTop: 0,
+    scrollHeight: 275,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: 'message-scroller-item',
+    className: 'min-w-0 shrink-0 [contain-intrinsic-size:auto_10rem] [content-visibility:auto]',
+    y: 245.375,
+    height: 377.890625,
+    scrollTop: 0,
+    scrollHeight: 378,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: 'message-scroller-content',
+    className: 'flex h-max min-h-full flex-col gap-6 conversation-content',
+    y: 162.1875,
+    height: 491.078125,
+    scrollTop: 0,
+    scrollHeight: 491,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: 'message-scroller-viewport',
+    className: 'scroll-fade-b size-full min-h-0 min-w-0 scrollbar-thin scrollbar-gutter-stable overflow-y-auto overscroll-contain contain-content data-autoscrolling:scrollbar-thumb-transparent data-autoscrolling:scrollbar-track-transparent data-pending-scroll:invisible',
+    y: 162.1875,
+    height: 250.625,
+    scrollTop: 0,
+    scrollHeight: 491,
+    overflow: 'auto'
+  },
+  {
+    tag: 'DIV',
+    slot: 'message-scroller',
+    className: 'group/message-scroller relative flex size-full min-h-0 flex-col overflow-hidden',
+    y: 162.1875,
+    height: 250.625,
+    scrollTop: 0,
+    scrollHeight: 251,
+    overflow: 'hidden'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'managed-thread',
+    y: 162.1875,
+    height: 287.625,
+    scrollTop: 0,
+    scrollHeight: 288,
+    overflow: 'hidden'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'conversation-column',
+    y: 162.1875,
+    height: 563.8125,
+    scrollTop: 0,
+    scrollHeight: 564,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'conversation-workspace',
+    y: 162.1875,
+    height: 563.8125,
+    scrollTop: 0,
+    scrollHeight: 564,
+    overflow: 'visible'
+  },
+  {
+    tag: 'MAIN',
+    slot: null,
+    className: 'main-area',
+    y: 41,
+    height: 718,
+    scrollTop: 0,
+    scrollHeight: 718,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'workspace ',
+    y: 41,
+    height: 718,
+    scrollTop: 0,
+    scrollHeight: 718,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'workbench-root session-workbench',
+    y: 41,
+    height: 718,
+    scrollTop: 0,
+    scrollHeight: 718,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'retained-session',
+    y: 41,
+    height: 718,
+    scrollTop: 0,
+    scrollHeight: 718,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'retained-workbench',
+    y: 41,
+    height: 718,
+    scrollTop: 0,
+    scrollHeight: 718,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'app-surface',
+    y: 40,
+    height: 720,
+    scrollTop: 0,
+    scrollHeight: 718,
+    overflow: 'hidden'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'app-body',
+    y: 40,
+    height: 720,
+    scrollTop: 0,
+    scrollHeight: 720,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: 'app-frame',
+    y: 0,
+    height: 760,
+    scrollTop: 0,
+    scrollHeight: 760,
+    overflow: 'visible'
+  },
+  {
+    tag: 'DIV',
+    slot: null,
+    className: '',
+    y: 0,
+    height: 760,
+    scrollTop: 0,
+    scrollHeight: 760,
+    overflow: 'hidden'
+  },
+  {
+    tag: 'BODY',
+    slot: null,
+    className: '',
+    y: 0,
+    height: 760,
+    scrollTop: 0,
+    scrollHeight: 760,
+    overflow: 'hidden'
+  },
+  {
+    tag: 'HTML',
+    slot: null,
+    className: '',
+    y: 0,
+    height: 760,
+    scrollTop: 0,
+    scrollHeight: 760,
+    overflow: 'hidden'
+  }
+]
+  x  3 e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows (14.8s)
+
+
+  1) e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator:  locator('.retained-session:not([hidden])').getByRole('button', { name: '上游提供的思考信息', exact: true })
+    Expected: in viewport
+    Received: viewport ratio 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeInViewport" locator('.retained-session:not([hidden])').getByRole('button', { name: '上游提供的思考信息', exact: true }) with timeout 5000ms
+      - waiting for locator('.retained-session:not([hidden])').getByRole('button', { name: '上游提供的思考信息', exact: true })
+        13 × locator resolved to <button tabindex="0" type="button" data-panel-open="" aria-expanded="true" aria-label="上游提供的思考信息" aria-controls="base-ui-_r_2p_" data-slot="trace-collapsible-trigger" class="group/trace-collapsible-trigger flex w-fit max-w-full min-w-0 cursor-pointer items-center gap-1 rounded-md text-left text-muted-foreground transition-colors outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 has-[[data-status=error]]:text-destructive">…</button>
+           - unexpected value "viewport ratio 0"
+
+
+      115 |       await expect(trigger).toBeVisible()
+      116 |       try {
+    > 117 |         await expect(trigger).toBeInViewport()
+          |                               ^
+      118 |       } catch (error) {
+      119 |         console.log('REASONING_LAYOUT', await trigger.evaluate((element) => {
+      120 |           const ancestors = []
+        at capture (D:\Project\pi-workbench\e2e\reasoning.spec.ts:117:31)
+        at D:\Project\pi-workbench\e2e\reasoning.spec.ts:140:5
+
+    Error Context: test-results\reasoning-OBS-06-actual-El-c367a-d-light-dark-narrow-windows-repeat2\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\reasoning-OBS-06-actual-El-c367a-d-light-dark-narrow-windows-repeat2\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\reasoning-OBS-06-actual-El-c367a-d-light-dark-narrow-windows-repeat2\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows 
+  2 passed (55.9s)

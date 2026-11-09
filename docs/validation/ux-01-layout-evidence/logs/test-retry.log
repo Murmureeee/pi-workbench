@@ -1,0 +1,57 @@
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+HEAD is now at a0b44dd first
+Switched to a new branch 'other'
+Switched to branch 'main'
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-change-chain-aToGFu/中文目录/module'...
+done.
+ ❯ packages/agent-adapter/src/kernel.test.ts (31 tests | 1 failed) 45517ms
+   ❯ CORE-04 synthetic IPC fault fixtures (not SDK evidence) (21)
+     × isolates gap-delta from another SDK process 2609ms
+Switched to a new branch '功能/中文'
+HEAD is now at 733c0e5 offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-KmtRcY/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/agent-adapter/src/kernel.test.ts > CORE-04 synthetic IPC fault fixtures (not SDK evidence) > isolates gap-delta from another SDK process
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ packages/agent-adapter/src/kernel.test.ts:419:40
+    417|     })
+    418|     await broken.dispose()
+    419|     expect(alive(broken.snapshot.pid)).toBe(false)
+       |                                        ^
+    420|   })
+    421|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 62 passed (63)
+      Tests  1 failed | 425 passed (426)
+   Start at  09:19:43
+   Duration  118.65s (tests 87%, import 13%)
+
+[ELIFECYCLE] Test failed. See above for more details.

@@ -1,0 +1,51 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:28760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:33152) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\workbench-layout.spec.ts:128:1 › UX-01 collapsed details retain actual final approval, failed recovery, file access and historical review (12.3s)
+
+
+  1) e2e\workbench-layout.spec.ts:128:1 › UX-01 collapsed details retain actual final approval, failed recovery, file access and historical review 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator:  getByText('目录状态未同步，发送暂不可用', { exact: true })
+    Expected: in viewport
+    Received: viewport ratio 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeInViewport" getByText('目录状态未同步，发送暂不可用', { exact: true }) with timeout 5000ms
+      - waiting for getByText('目录状态未同步，发送暂不可用', { exact: true })
+        13 × locator resolved to <div data-slot="alert-title" class="font-medium group-has-[>svg]/alert:col-start-2 [&_a]:underline [&_a]:underline-offset-3 [&_a]:hover:text-foreground">目录状态未同步，发送暂不可用</div>
+           - unexpected value "viewport ratio 0"
+
+
+      171 |     )
+      172 |     await expect(page.getByText('目录状态未同步，发送暂不可用', { exact: true })).toBeVisible()
+    > 173 |     await expect(page.getByText('目录状态未同步，发送暂不可用', { exact: true })).toBeInViewport()
+          |                                                                     ^
+      174 |     await expect(page.getByRole('button', { name: '发送任务', exact: true })).toBeDisabled()
+      175 |     await expect(page.getByRole('button', { name: '环境与权限', exact: true })).toHaveAttribute(
+      176 |       'aria-expanded',
+        at D:\Project\pi-workbench\e2e\workbench-layout.spec.ts:173:69
+
+    Error Context: test-results\workbench-layout-UX-01-col-b0936-ccess-and-historical-review\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workbench-layout-UX-01-col-b0936-ccess-and-historical-review\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\workbench-layout-UX-01-col-b0936-ccess-and-historical-review\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\workbench-layout.spec.ts:128:1 › UX-01 collapsed details retain actual final approval, failed recovery, file access and historical review 

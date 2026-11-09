@@ -1,0 +1,79 @@
+{
+  "source": "Actual Electron main/preload + daemon, real installed SDK + local HTTP fixture only; no CDP/renderer injection/OS-dialog stubs.",
+  "restarting": false,
+  "directory": "D:\\Project\\pi-workbench\\.workbench\\ux-01-layout\\native",
+  "hostPid": 32256,
+  "desktopPid": 24248,
+  "sends": 1,
+  "kernels": [
+    {
+      "protocol": 1,
+      "sessionId": "0e4a3a17-3328-4c65-a771-172be3851d0e",
+      "epoch": "909741c6-484f-4d42-b2cc-5a1caa430cb8",
+      "source": "real-sdk/local-fixture",
+      "state": "ready",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ux-01-layout\\native\\data\\standalone\\0e4a3a17-3328-4c65-a771-172be3851d0e",
+      "turnId": "e859c49c-fce0-4f0f-b732-7c46bab90e82",
+      "pid": 10424,
+      "sessionFile": "D:\\Project\\pi-workbench\\.workbench\\ux-01-layout\\native\\data\\kernels\\0e4a3a17-3328-4c65-a771-172be3851d0e\\909741c6-484f-4d42-b2cc-5a1caa430cb8\\sessions\\2026-11-09T03-39-52-995Z_01a1be64-1723-7741-a1d9-2035c8a9db16.jsonl",
+      "nativeSessionId": "01a1be64-1723-7741-a1d9-2035c8a9db16"
+    }
+  ],
+  "sessions": [
+    {
+      "id": "0e4a3a17-3328-4c65-a771-172be3851d0e",
+      "title": "界面整理后的中文草稿 设置返回后继续保留。",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "1effd51b-c286-4d42-9868-3d4160877832",
+      "configuration": {
+        "projectId": null,
+        "workspaceId": null,
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "bd58b4d7-52f0-42be-a3ea-c2b52c52ad27",
+      "cwd": "D:\\Project\\pi-workbench\\.workbench\\ux-01-layout\\native\\data\\standalone\\0e4a3a17-3328-4c65-a771-172be3851d0e",
+      "createdAt": 1794195591909
+    }
+  ],
+  "pendingApprovals": [],
+  "historyBefore": {},
+  "historyAfter": {
+    "0e4a3a17-3328-4c65-a771-172be3851d0e\\909741c6-484f-4d42-b2cc-5a1caa430cb8\\sessions\\2026-11-09T03-39-52-995Z_01a1be64-1723-7741-a1d9-2035c8a9db16.jsonl": "c2def5ba52635d631d5fd750a8a76ea1064acdc3dbd4cea35bf9ce091e60b04d"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "closed": true,
+  "historyAtClose": {
+    "0e4a3a17-3328-4c65-a771-172be3851d0e\\909741c6-484f-4d42-b2cc-5a1caa430cb8\\sessions\\2026-11-09T03-39-52-995Z_01a1be64-1723-7741-a1d9-2035c8a9db16.jsonl": "c2def5ba52635d631d5fd750a8a76ea1064acdc3dbd4cea35bf9ce091e60b04d"
+  },
+  "protectedAtClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  }
+}

@@ -1,0 +1,56 @@
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+HEAD is now at 6530b5c first
+Switched to a new branch 'other'
+Switched to branch 'main'
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-change-chain-wlULKE/中文目录/module'...
+done.
+Switched to a new branch '功能/中文'
+HEAD is now at 0c4a22a offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-I5qH6d/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+ ❯ apps/daemon/test/change-snapshots.test.ts (12 tests | 1 failed) 89314ms
+   × cHANGE-01 baseline failure pauses actual SDK writes until explicit per-call irreversible consent 20257ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/change-snapshots.test.ts > cHANGE-01 baseline failure pauses actual SDK writes until explicit per-call irreversible consent
+AssertionError: expected [] to have a length of 1 but got +0
+
+- Expected
++ Received
+
+- 1
++ 0
+
+ ❯ apps/daemon/test/change-snapshots.test.ts:230:55
+    228|     writeFileSync(join(f.cwd, 'too-large.bin'), Buffer.alloc(5 * 1024 …
+    229|     const turn = f.start('approval-write')
+    230|     await vi.waitFor(() => expect(f.approvals.list()).toHaveLength(1),…
+       |                                                       ^
+    231|     expect(f.latest(turn.sessionId).baseline).toMatchObject({ status: …
+    232|     expect(required(f.approvals.list()[0]).risk.reasons.join(' ')).toC…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 62 passed (63)
+      Tests  1 failed | 425 passed (426)
+   Start at  09:23:40
+   Duration  117.47s (tests 87%, import 13%)
+
+[ELIFECYCLE] Test failed. See above for more details.

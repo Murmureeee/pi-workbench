@@ -1,0 +1,63 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:516) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:28744) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\workbench-layout.spec.ts:12:1 › UX-01 Electron defaults to conversation, keyboard disclosures preserve IME drafts and settings return in light and narrow dark (8.4s)
+(node:26788) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+{"event":"session-run-failed","detail":{"name":"Error","message":"Daemon is shutting down"}}
+{"event":"session-run-failed","detail":{"name":"Error","message":"Daemon is shutting down"}}
+{"event":"session-run-failed","detail":{"name":"AbortError","message":"Resource request cancelled"}}
+  ok 2 e2e\workbench-layout.spec.ts:70:1 › UX-01 disclosures are session bookmarks across eviction and renderer reload without stopping or re-sending background SDK work (13.3s)
+  ok 3 e2e\workbench-layout.spec.ts:125:1 › UX-01 collapsed details retain actual final approval, failed recovery, file access and historical review (9.7s)
+
+
+  1) e2e\workbench-layout.spec.ts:12:1 › UX-01 Electron defaults to conversation, keyboard disclosures preserve IME drafts and settings return in light and narrow dark 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: '任务内容' })
+    Timeout: 5000ms
+    - Expected  - 0
+    + Received  + 1
+
+      布局整理后的中文草稿
+    +
+
+    Call log:
+      - Expect "toHaveValue" getByRole('textbox', { name: '任务内容' }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: '任务内容' })
+        14 × locator resolved to <textarea aria-label="任务内容" maxlength="16000" placeholder="描述任务，或提出一个问题…" data-slot="input-group-control" class="flex field-sizing-content min-h-16 w-full border-input px-2.5 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-destructive/20 md:text-sm dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 fle…>布局整理后的中文草稿↵</textarea>
+           - unexpected value "布局整理后的中文草稿
+    "
+
+
+      40 |     await box.press('Enter')
+      41 |     await box.dispatchEvent('compositionend')
+    > 42 |     await expect(box).toHaveValue('布局整理后的中文草稿')
+         |                       ^
+      43 |     expect(f.sends()).toBe(0)
+      44 |     await page.getByRole('link', { name: '设置', exact: true }).click()
+      45 |     await page.getByLabel('外观主题').selectOption('dark')
+        at D:\Project\pi-workbench\e2e\workbench-layout.spec.ts:42:23
+
+    Error Context: test-results\workbench-layout-UX-01-Ele-3a6a9-rn-in-light-and-narrow-dark\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\workbench-layout-UX-01-Ele-3a6a9-rn-in-light-and-narrow-dark\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\workbench-layout-UX-01-Ele-3a6a9-rn-in-light-and-narrow-dark\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\workbench-layout.spec.ts:12:1 › UX-01 Electron defaults to conversation, keyboard disclosures preserve IME drafts and settings return in light and narrow dark 
+  2 passed (51.7s)

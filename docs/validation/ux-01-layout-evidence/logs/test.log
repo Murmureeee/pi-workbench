@@ -1,0 +1,57 @@
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+HEAD is now at 5eba354 first
+Switched to a new branch 'other'
+Switched to branch 'main'
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-change-chain-REtFPs/中文目录/module'...
+done.
+ ❯ packages/agent-adapter/src/kernel.test.ts (31 tests | 1 failed) 49387ms
+   ❯ CORE-04 synthetic IPC fault fixtures (not SDK evidence) (21)
+     × isolates unknown-outcome from another SDK process 2641ms
+Switched to a new branch '功能/中文'
+HEAD is now at 68bd594 offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-A8gwXZ/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/agent-adapter/src/kernel.test.ts > CORE-04 synthetic IPC fault fixtures (not SDK evidence) > isolates unknown-outcome from another SDK process
+AssertionError: expected true to be false // Object.is equality
+
+- Expected
++ Received
+
+- false
++ true
+
+ ❯ packages/agent-adapter/src/kernel.test.ts:419:40
+    417|     })
+    418|     await broken.dispose()
+    419|     expect(alive(broken.snapshot.pid)).toBe(false)
+       |                                        ^
+    420|   })
+    421|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 62 passed (63)
+      Tests  1 failed | 425 passed (426)
+   Start at  09:16:23
+   Duration  120.66s (tests 84%, import 15%, transform 1%)
+
+[ELIFECYCLE] Test failed. See above for more details.

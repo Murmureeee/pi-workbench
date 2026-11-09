@@ -16,6 +16,7 @@ import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
 import { KernelService } from '../apps/daemon/dist/modules/kernels/kernel.service.js'
 import { SessionStore } from '../apps/daemon/dist/modules/sessions/session.store.js'
 import { launchWorkspaceDesktop } from './helpers/desktop.js'
+import { openMore } from './helpers/workbench.js'
 
 /** Actual installed SDK catalog, synthetic pi config, real daemon/HTTP/desktop host identity.
  * No provider server or model session is needed. HTTP failures below are fault injection.
@@ -108,6 +109,7 @@ test('MODEL-01 Electron discovers actual SDK/config sources, capabilities, expir
     readFileSync(join(f.source, name), 'utf8'),
   ])
   try {
+    await openMore(page)
     await page.getByRole('link', { name: '模型与提供商', exact: true }).click()
     await expect(page.getByRole('heading', { name: '模型与提供商', exact: true })).toBeVisible()
     await expect(page.getByLabel('模型同步状态')).toHaveText('模型目录已同步')
@@ -228,6 +230,7 @@ test('MODEL-01 unconnected Electron stays offline and offers SDK catalog without
   const f = await fixture(false),
     { page } = f.desktop
   try {
+    await openMore(page)
     await page.getByRole('link', { name: '模型与提供商', exact: true }).click()
     await expect(page.getByText('尚无已有提供商配置', { exact: true })).toBeVisible()
     await expect(page.getByLabel('模型配置来源')).toContainText('PIW_PI_AGENT_DIR')

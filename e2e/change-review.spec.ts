@@ -1,3 +1,4 @@
+import { openConfiguration, openVersions } from './helpers/workbench.js'
 /* oxlint-disable no-await-in-loop -- Approvals, theme captures and file selections share one actual Electron window. */
 import { randomUUID } from 'node:crypto'
 import {
@@ -113,6 +114,7 @@ async function setup() {
         await desktop.page.getByRole('button', { name: '展开导航', exact: true }).click()
       }
       await button.click()
+      await openConfiguration(desktop.page)
       await desktop.page
         .getByLabel('项目', { exact: true })
         .selectOption(useIndependent ? second.id : project.id)
@@ -140,7 +142,7 @@ async function setup() {
     open: async (id: string) => desktop.page.goto(`http://127.0.0.1:5173/?session=${id}`),
     versions: async () => {
       const region = desktop.page.getByRole('region', { name: '轮次文件版本', exact: true })
-      await region.getByRole('button', { name: '查看轮次文件版本', exact: true }).click()
+      await openVersions(region)
       return region
     },
     review: async () => {
@@ -183,6 +185,7 @@ test('CHANGE-02/03 Electron links actual SDK write/edit source to historical Dif
       await f.page.getByRole('button', { name: '明确允许本次不可回滚执行', exact: true }).click()
     }
     const region = f.page.getByRole('region', { name: '轮次文件版本', exact: true })
+    await f.versions()
     await expect(region).toContainText('收尾已保存', { timeout: 20000 })
     await f.versions()
     await region.getByRole('button', { name: '核对修改来源', exact: true }).click()
@@ -240,6 +243,7 @@ test('CHANGE-03 Electron shows actual non-Git external file types, redaction and
     writeFileSync(join(f.cwd, 'binary.bin'), Buffer.from([0, 255]))
     writeFileSync(join(f.cwd, 'added.txt'), 'new\n')
     await f.page.getByRole('button', { name: '停止本轮', exact: true }).click()
+    await f.versions()
     await expect(f.page.getByRole('region', { name: '轮次文件版本' })).toContainText('收尾已保存', {
       timeout: 20000,
     })
@@ -313,6 +317,7 @@ test('CHANGE-02/03 Electron late file response and closed or hidden review canno
     await f.ready(b.id)
     const kernel = required(f.kernels.list().find((k) => k.sessionId === b.id))
     const c = await f.send('空轮次')
+    await f.versions()
     await expect(f.page.getByRole('region', { name: '轮次文件版本' })).toContainText('收尾已保存', {
       timeout: 20000,
     })

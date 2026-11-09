@@ -1,3 +1,4 @@
+import { openConfiguration, openVersions } from './helpers/workbench.js'
 /* oxlint-disable no-await-in-loop -- Theme screenshots operate sequentially on the same Electron window. */
 import { randomUUID } from 'node:crypto'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
@@ -96,6 +97,7 @@ async function setup() {
         await desktop.page.getByRole('button', { name: '展开导航', exact: true }).click()
       }
       await button.click()
+      await openConfiguration(desktop.page)
       await desktop.page.getByLabel('项目', { exact: true }).selectOption(project.id)
       await desktop.page.getByRole('textbox', { name: '任务内容' }).fill(text)
       await expect(
@@ -136,9 +138,10 @@ test('CHANGE-01 Electron shows actual baseline and final references without muta
   try {
     const session = await f.send('保存文件版本')
     const region = f.page.getByRole('region', { name: '轮次文件版本', exact: true })
+    await openVersions(region)
     await expect(region).toContainText('基线已保存')
     await expect(region).toContainText('收尾已保存')
-    await region.getByRole('button', { name: '查看轮次文件版本', exact: true }).click()
+    await openVersions(region)
     const record = required(f.changes.history(session.id).rounds[0])
     await expect(region).toContainText(required(record.baseline.reference ?? undefined))
     await expect(region).toContainText('来源不确定')
@@ -152,6 +155,7 @@ test('CHANGE-01 Electron shows actual baseline and final references without muta
     ).toBe('BEFORE_REAL_SDK')
     await f.restart()
     await f.open(session.id)
+    await openVersions(f.page)
     await expect(f.page.getByRole('region', { name: '轮次文件版本' })).toContainText('收尾已保存')
     expect(f.changes.history(session.id).rounds[0]?.baseline.reference).toBe(
       record.baseline.reference,
@@ -172,7 +176,7 @@ test('CHANGE-01 Electron baseline failure is visible before explicit one-shot ir
     const first = await f.send('写入失败基线')
     const region = f.page.getByRole('region', { name: '轮次文件版本' })
     await expect(region).toContainText('基线保存失败')
-    await region.getByRole('button', { name: '查看轮次文件版本' }).click()
+    await openVersions(region)
     await expect(region).toContainText('写入暂停')
     expect(existsSync(join(f.cwd, 'APPROVED.txt'))).toBe(false)
     await f.page.getByRole('button', { name: '取消本次调用', exact: true }).click()
@@ -201,17 +205,19 @@ test('CHANGE-01 Electron queued cancellation creates no version, background roun
     const kernel = required(f.kernels.list().find((k) => k.sessionId === first.id))
     const second = await f.send('排队文件版本')
     const region = f.page.getByRole('region', { name: '轮次文件版本' })
+    await openVersions(region)
     await expect(region).toContainText('尚无轮次文件版本')
     expect(f.changes.history(second.id).rounds).toEqual([])
     await f.page.getByRole('button', { name: '停止本轮', exact: true }).click()
     expect(f.kernels.list().find((k) => k.sessionId === first.id)?.pid).toBe(kernel.pid)
     writeFileSync(join(f.cwd, 'original.txt'), 'EXTERNAL_MIXED_WHILE_BACKGROUND')
     await f.open(first.id)
+    await openVersions(region)
     await expect(region).toContainText('基线已保存')
     await f.page.getByRole('button', { name: '停止本轮', exact: true }).click()
     await expect(region).toContainText('本轮已中止')
     await expect(region).toContainText('收尾已保存')
-    await region.getByRole('button', { name: '查看轮次文件版本' }).click()
+    await openVersions(region)
     await expect(region).toContainText('来源不确定')
     const record = required(f.changes.history(first.id).rounds[0])
     expect((await f.changes.readVersion(record.turnId, 'final', 'original.txt'))?.toString()).toBe(
@@ -229,6 +235,7 @@ test('CHANGE-01 Electron read failure recovers and saved outcome is legible in l
   try {
     await f.send('失败轮次文件版本')
     const region = f.page.getByRole('region', { name: '轮次文件版本' })
+    await openVersions(region)
     await expect(region).toContainText('本轮失败')
     let fail = true
     await f.page.route('**/api/changes/rounds?**', async (route) => {
@@ -243,7 +250,7 @@ test('CHANGE-01 Electron read failure recovers and saved outcome is legible in l
       }
     })
     await expect(region).toContainText('文件版本待同步')
-    await region.getByRole('button', { name: '查看轮次文件版本' }).click()
+    await openVersions(region)
     await expect(region).toContainText('现场与任务保留')
     fail = false
     await region.getByRole('button', { name: '刷新文件版本' }).click()

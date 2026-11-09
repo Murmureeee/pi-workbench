@@ -1,0 +1,80 @@
+{
+  "at": "2026-11-09T03:52:56.247Z",
+  "source": "Actual Electron main/preload + daemon, real installed SDK + local HTTP fixture only; no CDP/renderer injection/OS-dialog stubs.",
+  "gate": {
+    "command": "pnpm run ci",
+    "environment": {
+      "VITEST_MAX_WORKERS": "4"
+    },
+    "files": 63,
+    "vitest": 426,
+    "e2e": 159,
+    "sdkSmoke": true,
+    "build": true,
+    "exit": 0,
+    "immutableInputCount": 447
+  },
+  "native": {
+    "observations": 57,
+    "excluded": 1,
+    "archivedImages": [
+      "02-active-initial.png",
+      "10-ime-ni.png",
+      "11-ime-enter-no-submit.png",
+      "13-ime-escape-no-submit.png",
+      "15-ime-space-committed.png",
+      "19-second-line.png",
+      "24-return-settled.png",
+      "25-more-open.png",
+      "28-source-open.png",
+      "30-narrow-dark.png",
+      "32-narrow-environment-settled.png",
+      "35-narrow-configuration-bottom.png",
+      "40-configuration-coordinate-close.png",
+      "45-light-return-settled.png",
+      "47-local-result.png",
+      "48-version-diagnostic.png",
+      "53-restart-initial.png",
+      "55-restart-history-settled.png"
+    ],
+    "firstSends": 1,
+    "restartSends": 0,
+    "restartKernels": 0,
+    "restartPending": 0,
+    "historyUnchanged": true,
+    "protectedFilesUnchanged": true,
+    "firstExit": {
+      "code": 0,
+      "signal": null
+    },
+    "restartExit": {
+      "code": 0,
+      "signal": null
+    },
+    "finalProcessAudit": {
+      "at": "2026-11-09T03:52:55.2448821Z",
+      "activePorts": [],
+      "ownedProcesses": []
+    }
+  },
+  "scope": {
+    "UX01": {
+      "status": "in_progress",
+      "owner": "Codex",
+      "targetDate": "",
+      "note": "首批工作包已验收：现有工作台信息层级与默认布局整理，主归 UX-01，UX-03 配套密度验证。环境／配置默认收起，合并来源说明，辅助入口按需展开；审批、停止与异常保持可达。完整 63 文件／426 项 Vitest、SDK 冒烟、构建及 159 项浏览器／Electron E2E 通过；57 条原生记录含中间态及退出请求，排除 1 条遮挡截图，核对真实 OS 拼音候选、中文草稿／换行／设置返回、明暗窄窗及同 data/profile 重启零重发。447 项代码／测试／配置与最终 CI 一致后复用门禁。保留原依赖，完整分屏、可调面板和终端布局恢复仍未交付，仅第三项勾选，整体继续 in_progress。",
+      "evidence": "docs/design/core-spec.md 的工作台信息层级与默认布局整理；docs/validation/ux-01-layout-evidence/acceptance.md",
+      "acceptanceChecked": [
+        false,
+        false,
+        true
+      ],
+      "updatedAt": "2026-11-09"
+    },
+    "localVerified": 50,
+    "localTotal": 133,
+    "realProviderRequests": 0,
+    "installer": false,
+    "cleanInstallRun": false
+  }
+}

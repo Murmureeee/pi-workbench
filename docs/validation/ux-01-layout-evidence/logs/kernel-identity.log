@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 D:/Project/pi-workbench
+
+
+ Test Files  1 passed (1)
+      Tests  7 passed | 24 skipped (31)
+   Start at  09:22:17
+   Duration  11.46s (tests 98%, import 1%, transform 1%)
+

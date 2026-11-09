@@ -18,6 +18,7 @@ test('CHANGE-05 Electron actual SDK file rollback requires preflight, preserves 
       await f.page.getByRole('button', { name: '允许本次…', exact: true }).click()
       await f.page.getByRole('button', { name: '明确允许本次不可回滚执行', exact: true }).click()
     }
+    await f.versions()
     await expect(f.page.getByRole('region', { name: '轮次文件版本' })).toContainText('收尾已保存', {
       timeout: 20000,
     })

@@ -24,6 +24,7 @@ import { SessionStore } from '../apps/daemon/dist/modules/sessions/session.store
 import { ProjectService } from '../apps/daemon/dist/modules/workspaces/project.service.js'
 import { WorkspaceService } from '../apps/daemon/dist/modules/workspaces/workspace.service.js'
 import { launchWorkspaceDesktop } from './helpers/desktop.js'
+import { openConfiguration, openEnvironment } from './helpers/workbench.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 function nothingToRestore() {}
@@ -118,8 +119,10 @@ test('WS-07 Electron untrusted resource notice, moved-directory recovery, physic
   const f = await fixture()
   try {
     const page = f.desktop.page
+    await openConfiguration(pane(f))
     await pane(f).getByLabel('项目', { exact: true }).selectOption(f.project.id)
     const first = await send(f, '目录恢复与历史')
+    await openEnvironment(pane(f))
     await expect(pane(f).getByRole('region', { name: '工作区信任与恢复' })).toContainText('未确认')
     expect(f.app.get(TrustService).inspect().records).toEqual([])
     expect(existsSync(f.marker)).toBe(false)
@@ -241,6 +244,7 @@ test('WS-07 Electron untrusted resource notice, moved-directory recovery, physic
     await page.getByLabel('新的目录位置').fill(f.cwd)
     await page.getByRole('button', { name: '保存位置', exact: true }).click()
     await expect(dialog).toHaveCount(0)
+    await openEnvironment(pane(f))
     const check = pane(f).getByRole('button', { name: '重新校验执行目录' })
     await check.focus()
     await check.press('Enter')
@@ -265,6 +269,7 @@ test('WS-07 actual Electron background task stops on real OS directory access lo
       original = kernels.prompt.bind(kernels)
     kernels.prompt = (id, cwd, input, options) =>
       original(id, cwd, { ...input, fixture: 'hold' }, options)
+    await openConfiguration(pane(f))
     await pane(f).getByLabel('项目', { exact: true }).selectOption(f.project.id)
     await pane(f).getByRole('textbox', { name: '任务内容' }).fill('后台目录失效任务')
     await pane(f).getByRole('button', { name: '发送任务' }).click()
@@ -308,6 +313,7 @@ test('WS-07 actual Electron background task stops on real OS directory access lo
     await expect(pane(f).getByText(/本轮已中断，请核对历史/)).toBeVisible()
     restore()
     restore = nothingToRestore
+    await openEnvironment(pane(f))
     await pane(f).getByRole('button', { name: '重新校验执行目录' }).click()
     await expect(pane(f).getByRole('status').filter({ hasText: '目录检查通过' })).toBeVisible()
     const history = f.app.get(SessionStore).resumeRuntime(session.id, f.cwd)!,
@@ -331,6 +337,7 @@ test('WS-07 Electron failed and late recovery checks keep drafts, isolate target
   const f = await fixture()
   let release!: () => void
   try {
+    await openConfiguration(pane(f))
     await pane(f).getByLabel('项目', { exact: true }).selectOption(f.project.id)
     const session = await send(f, '恢复失败隔离')
     await pane(f).getByRole('textbox', { name: '任务内容' }).fill('原会话草稿')
@@ -339,9 +346,11 @@ test('WS-07 Electron failed and late recovery checks keep drafts, isolate target
       (route) => route.fulfill({ status: 503, json: { message: '明确故障夹具：校验暂不可用' } }),
       { times: 1 },
     )
+    await openEnvironment(pane(f))
     await pane(f).getByRole('button', { name: '重新校验执行目录' }).click()
     await expect(pane(f).getByRole('status').filter({ hasText: '明确故障夹具' })).toBeVisible()
     await expect(pane(f).getByRole('textbox', { name: '任务内容' })).toHaveValue('原会话草稿')
+    await openEnvironment(pane(f))
     await pane(f).getByRole('button', { name: '重新校验执行目录' }).click()
     await expect(pane(f).getByRole('status').filter({ hasText: '目录检查通过' })).toBeVisible()
     let intercepted = false
@@ -357,6 +366,7 @@ test('WS-07 Electron failed and late recovery checks keep drafts, isolate target
       },
       { times: 1 },
     )
+    await openEnvironment(pane(f))
     await pane(f).getByRole('button', { name: '重新校验执行目录' }).click()
     await expect.poll(() => intercepted).toBe(true)
     await pane(f).getByRole('button', { name: '新会话', exact: true }).click()
@@ -377,6 +387,7 @@ test('WS-07 Electron failed and late recovery checks keep drafts, isolate target
 test('WS-07 Electron unavailable new-draft directory blocks sending but permits explicit replacement and project changes without creating a session', async () => {
   const f = await fixture()
   try {
+    await openConfiguration(pane(f))
     await pane(f).getByText('执行目录：独立目录', { exact: true }).click()
     await pane(f).getByLabel('目录绝对路径（可选）').fill(f.cwd)
     await pane(f).getByRole('button', { name: '校验此目录' }).click()
@@ -387,8 +398,10 @@ test('WS-07 Electron unavailable new-draft directory blocks sending but permits 
     await expect(pane(f).getByRole('button', { name: '发送任务' })).toBeDisabled()
     await pane(f).getByRole('button', { name: '使用独立目录', exact: true }).click()
     await expect(pane(f).getByRole('button', { name: '发送任务' })).toBeEnabled()
+    await openConfiguration(pane(f))
     await pane(f).getByLabel('项目', { exact: true }).selectOption(f.project.id)
     await expect(pane(f).getByRole('button', { name: '发送任务' })).toBeDisabled()
+    await openConfiguration(pane(f))
     await pane(f).getByLabel('项目', { exact: true }).selectOption('')
     await expect(pane(f).getByRole('button', { name: '发送任务' })).toBeEnabled()
     await expect(pane(f).getByRole('textbox', { name: '任务内容' })).toHaveValue(

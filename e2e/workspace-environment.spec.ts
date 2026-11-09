@@ -17,6 +17,7 @@ import { SessionStore } from '../apps/daemon/dist/modules/sessions/session.store
 import { WorkspaceService } from '../apps/daemon/dist/modules/workspaces/workspace.service.js'
 import { fixtureGit as git } from '../apps/daemon/test/helpers/git.js'
 import { launchWorkspaceDesktop } from './helpers/desktop.js'
+import { openConfiguration, openEnvironment } from './helpers/workbench.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 function forward(route: Route) {
@@ -220,6 +221,7 @@ test('WS-03 Electron keeps saved cwd and background SDK PID when viewing other r
       retryOf: null,
     })
     await f.page.goto(`http://127.0.0.1:5173/?session=${receipt.session.id}`)
+    await openEnvironment(f.page)
     await expect(f.status).toHaveText('功能/主分支')
     await expect(f.environment.getByLabel('环境执行目录', { exact: true })).toHaveText(f.a)
     await expect.poll(() => kernels.list()[0]?.pid).toBeGreaterThan(0)
@@ -256,8 +258,10 @@ test('WS-03 Electron keeps saved cwd and background SDK PID when viewing other r
 test('WS-03 Electron permits actual first-send/continuation in a non-Git directory and does not invent a directory before send', async () => {
   const f = await fixture()
   try {
+    await openEnvironment(f.page)
     await expect(f.status).toHaveText('尚未创建目录')
     expect(f.store.list()).toEqual([])
+    await openConfiguration(f.page)
     await f.page.getByText('执行目录：独立目录', { exact: true }).click()
     await f.page.getByLabel('目录绝对路径（可选）', { exact: true }).fill(f.plain)
     await f.page.getByRole('button', { name: '校验此目录', exact: true }).click()
@@ -266,6 +270,7 @@ test('WS-03 Electron permits actual first-send/continuation in a non-Git directo
     const box = f.page.getByRole('textbox', { name: '任务内容' })
     await box.fill('非 Git 的真实本地夹具会话')
     await f.page.getByRole('button', { name: '发送任务' }).click()
+    await openEnvironment(f.page)
     await expect(f.page.getByLabel('任务状态')).toHaveText('本轮已结束', { timeout: 15000 })
     await expect(f.status).toHaveText('非 Git 目录')
     await expect(f.environment).toContainText('实际 cwd')

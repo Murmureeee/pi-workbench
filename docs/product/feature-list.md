@@ -1546,7 +1546,7 @@
 
 | ID | 功能 | 阶段 | 优先级 | 设计 | 实现 | 依赖 |
 | --- | --- | --- | --- | --- | --- | --- |
-| [UX-01](roadmap.html#feature=UX-01) | 面板、分屏与布局恢复 | M4 | P1 | 已列范围，待细化 | 未开始 | OBS-01, FILE-02, EXEC-01 |
+| [UX-01](roadmap.html#feature=UX-01) | 面板、分屏与布局恢复 | M4 | P1 | 已列范围，待细化 | 进行中 | OBS-01, FILE-02, EXEC-01 |
 | [UX-02](roadmap.html#feature=UX-02) | 命令面板与键盘操作 | M4 | P1 | 已列范围，待细化 | 未开始 | SESSION-03, OBS-02 |
 | [UX-03](roadmap.html#feature=UX-03) | 主题、字号、密度与中文体验 | M4 | P1 | 已列范围，待细化 | 进行中 | OBS-01 |
 | [UX-04](roadmap.html#feature=UX-04) | 无障碍与减弱动效 | M5 | P1 | 已列范围，待细化 | 未开始 | UX-02, SEC-02, CHANGE-05 |
@@ -1555,12 +1555,17 @@
 
 ### UX-01 面板、分屏与布局恢复
 
-采用已确认的 A 日常对话 + B 展开审查组合，按需组织会话、文件、Diff、终端与预览。
+采用已确认的 A 日常对话 + B 展开审查组合，按需组织会话、文件、Diff、终端与预览。 首批整理现有工作台的信息层级与默认布局，随后随文件阅读和终端补齐完整布局恢复。
 
-实现来源：工作台自行实现。负责人：未分配；目标日期：未估算。
+实现来源：工作台自行实现。负责人：Codex；目标日期：未估算。
 
 - [ ] 日常对话使用 A 的阅读与内联过程布局，打开变更采用 B 的宽审查 / 轮次摘要，关闭回到日常布局，保留草稿、阅读位置和工具展开；用户可调整 / 关闭面板并恢复布局，各会话面板上下文独立，后台不抢焦点。
 - [ ] 小窗口侧栏与面板可折叠，切换保留阅读 / 终端位置；自动收起 / 展开使用不同阈值避免边界抖动，手动收起保持到用户再次展开，输入 / 停止 / 审批入口仍可达。M1 有基础壳、M2 接真实对话，完整分屏 / 布局恢复仍在 M4 验收。
+- [x] 现有工作台默认以对话与输入为中心，环境和配置展示紧凑摘要，辅助详情按需展开，合并重复提示；文件、Git、历史、设置和变更入口仍可访问。审批参数、风险、目录失效与来源不确定等关键反馈保持清晰可达；展开记录按本窗口会话隔离，切换、返回设置与视图淘汰不丢草稿或改变后台任务。
+
+进展 / 阻塞：首批工作包已验收：现有工作台信息层级与默认布局整理，主归 UX-01，UX-03 配套密度验证。环境／配置默认收起，合并来源说明，辅助入口按需展开；审批、停止与异常保持可达。完整 63 文件／426 项 Vitest、SDK 冒烟、构建及 159 项浏览器／Electron E2E 通过；57 条原生记录含中间态及退出请求，排除 1 条遮挡截图，核对真实 OS 拼音候选、中文草稿／换行／设置返回、明暗窄窗及同 data/profile 重启零重发。447 项代码／测试／配置与最终 CI 一致后复用门禁。保留原依赖，完整分屏、可调面板和终端布局恢复仍未交付，仅第三项勾选，整体继续 in_progress。
+
+验证证据：docs/design/core-spec.md 的工作台信息层级与默认布局整理；docs/validation/ux-01-layout-evidence/acceptance.md
 
 ### UX-02 命令面板与键盘操作
 
@@ -1580,9 +1585,9 @@
 - [ ] 默认跟随系统且实时响应系统主题变化，也可显式选择明暗主题；明暗两套同等设计，主题、字号和密度设置持久保存，文字和状态有可读对比；冷启动 / 重启首帧不闪错主题，Electron 可控底色与应用主题协调。初始字号采用用户确认的界面 14 px / 消息 15 px / 辅助 12 px 基线，字号与缩放设置后续按 UX 验收。
 - [ ] 中等密度为用户确认基线；在 1920×1080 @100% 主稿及窄窗口 / 放大场景下，中文、长路径、长工具名和大代码块不截断关键决定信息，代码区内部滚动而整页不横向溢出；1080 100% 的宽高解释保留为设计假设。
 
-进展 / 阻塞：部分实现：统一外观 / 模型 / 凭证 / 客户端 / 信任 / 资源设置布局，主题跟随系统或显式明暗并持久化非敏感偏好，跨页与 Electron 窗口颜色同步；中性灰和 14 / 15 / 12 px 基线保留。1920×1080、800 px 桌面与 390 px 布局纳入离线 E2E。完整字号 / 密度可配置、真实会话和全部放大 / 中文场景未验收，依赖 OBS-01 尚未完成，两项验收继续不勾选。 PRD 可点击原型同步顶部栏、轨道、全页设置与窄窗导航；保留全部原型分类，设计不增加已验收数。Windows 原生菜单、Ctrl+逗号、明暗、最大化 / 还原、最小化恢复和 × 后服务保持已核对；空白区双击可最大化，自动拖动未观察到位移，真实拖动和托盘菜单恢复仍待人工确认。
+进展 / 阻塞：部分实现：统一外观 / 模型 / 凭证 / 客户端 / 信任 / 资源设置布局，主题跟随系统或显式明暗并持久化非敏感偏好，跨页与 Electron 窗口颜色同步；中性灰和 14 / 15 / 12 px 基线保留。1920×1080、800 px 桌面与 390 px 布局纳入离线 E2E。OBS-01 已验收；完整字号 / 密度可配置及全部放大 / 中文场景未验收，两项验收继续不勾选。PRD 可点击原型同步顶部栏、轨道、全页设置与窄窗导航；保留全部原型分类，设计不增加已验收数。Windows 原生菜单、Ctrl+逗号、明暗、最大化 / 还原、最小化恢复和 × 后服务保持已核对；空白区双击可最大化，标题栏真实拖动和托盘菜单恢复仍待人工确认。2026-11-09 配套 UX-01 首批信息层级整理：完整 426 项 Vitest／159 项 E2E、SDK 冒烟与构建通过；原生实际边框拖动至 802×762、明暗主题、中文草稿／真实 OS 候选及浅色重启已核对，主动展开完整配置后通过内部滚动到达发送。字号／密度配置及完整放大验收仍保留，原两项继续不勾选。
 
-验证证据：docs/design/core-spec.md 的 Electron 控制栏与统一设置；docs/architecture/implementation-plan.md#electron-控制栏与统一设置；apps/desktop/src/window-chrome.ts、apps/web/src/app/app-frame.tsx、features/settings/settings-shell.tsx / appearance.tsx；e2e/settings.spec.ts、e2e/desktop.spec.ts。；docs/validation/ui-shell-evidence（ci.log、clean-workspace.json、clean-commands.json、native-validation.json、prd-layout.json、实际应用与 PRD 截图）；完整 155 项 Vitest / 35 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 新目录复现通过；真实提供商请求 0。
+验证证据：docs/design/core-spec.md 的 Electron 控制栏与统一设置；docs/architecture/implementation-plan.md#electron-控制栏与统一设置；apps/desktop/src/window-chrome.ts、apps/web/src/app/app-frame.tsx、features/settings/settings-shell.tsx / appearance.tsx；e2e/settings.spec.ts、e2e/desktop.spec.ts；docs/validation/ui-shell-evidence（ci.log、clean-workspace.json、clean-commands.json、native-validation.json、prd-layout.json、实际应用与 PRD 截图）；此前完整 155 项 Vitest / 35 项浏览器与 Electron E2E、SDK 本地冒烟及 frozen 新目录复现通过。本轮 docs/validation/ux-01-layout-evidence/acceptance.md 补充 426／159 与原生明暗窄窗、中文输入及重启证据；真实提供商请求 0。
 
 ### UX-04 无障碍与减弱动效
 

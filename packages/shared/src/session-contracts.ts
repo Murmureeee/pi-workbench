@@ -176,6 +176,8 @@ export const sessionViewSchema = z.strictObject({
     .nullable()
     .default(null),
   changeReviewOpen: z.boolean().default(false),
+  environmentOpen: z.boolean().default(false),
+  configurationOpen: z.boolean().default(false),
   reading: z.record(z.string(), readingPositionSchema).default({}),
 })
 export const sessionViewsSchema = z.record(z.string(), sessionViewSchema)

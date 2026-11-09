@@ -1,0 +1,23 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:10944) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 1 worker
+
+(node:19476) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\reasoning.spec.ts:10:1 › OBS-06 actual Electron/SDK public reasoning is collapsed, redacted, copyable and downloadable; privacy survives refresh (11.8s)
+  ok 2 e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows (9.6s)
+(node:7820) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 e2e\reasoning.spec.ts:10:1 › OBS-06 actual Electron/SDK public reasoning is collapsed, redacted, copyable and downloadable; privacy survives refresh (11.5s)
+  ok 4 e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows (9.4s)
+(node:33608) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 5 e2e\reasoning.spec.ts:10:1 › OBS-06 actual Electron/SDK public reasoning is collapsed, redacted, copyable and downloadable; privacy survives refresh (11.6s)
+  ok 6 e2e\reasoning.spec.ts:60:1 › OBS-06 actual Electron states, late/cross-session isolation, background focus and light/dark narrow windows (9.6s)
+
+  6 passed (1.4m)

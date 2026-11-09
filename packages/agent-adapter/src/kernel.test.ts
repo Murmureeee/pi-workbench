@@ -1,6 +1,6 @@
 import type { KernelMessage } from './kernel-protocol.js'
 
-import { ChildProcess, fork } from 'node:child_process'
+import { ChildProcess, execFileSync, fork } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import { existsSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
@@ -45,6 +45,24 @@ function alive(pid: number | undefined) {
   } catch {
     return false
   }
+}
+
+/** A reaped Windows PID may belong to a new parallel fixture by the time its peer
+ * finishes. Compare the OS process birth, matching CORE-07's identity check. */
+function processBirth(pid: number | undefined): string {
+  if (!pid || process.platform !== 'win32') {
+    return alive(pid) ? String(pid) : ''
+  }
+  return execFileSync(
+    'powershell.exe',
+    [
+      '-NoProfile',
+      '-NonInteractive',
+      '-Command',
+      `Get-Process | Where-Object Id -EQ ${pid} | ForEach-Object { $kernelBirth = $_.StartTime; if ($null -ne $kernelBirth) { $kernelBirth.ToUniversalTime().Ticks } }`,
+    ],
+    { encoding: 'utf8', windowsHide: true },
+  ).trim()
 }
 
 afterEach(async () => {
@@ -407,6 +425,8 @@ describe('CORE-04 synthetic IPC fault fixtures (not SDK evidence)', () => {
     const broken = create(mode)
     const healthy = create()
     await Promise.all([broken.ready(), healthy.ready()])
+    const originalBirth = processBirth(broken.snapshot.pid)
+    expect(originalBirth).not.toBe('')
     expect(broken.snapshot.pid).not.toBe(healthy.snapshot.pid)
     await expect(broken.prompt({ turnId: randomUUID(), text: 'fault fixture' })).rejects.toThrow(
       /kernel/i,
@@ -416,7 +436,7 @@ describe('CORE-04 synthetic IPC fault fixtures (not SDK evidence)', () => {
       outcome: 'completed',
     })
     await broken.dispose()
-    expect(alive(broken.snapshot.pid)).toBe(false)
+    expect(processBirth(broken.snapshot.pid)).not.toBe(originalBirth)
   })
 
   it('rejects a prior turn terminal received after the next IPC turn starts', async () => {

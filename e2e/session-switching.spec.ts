@@ -20,6 +20,7 @@ import { KernelService } from '../apps/daemon/dist/modules/kernels/kernel.servic
 import { SessionService } from '../apps/daemon/dist/modules/sessions/session.service.js'
 import { SessionStore } from '../apps/daemon/dist/modules/sessions/session.store.js'
 import { launchWorkspaceDesktop } from './helpers/desktop.js'
+import { openConfiguration, openMore } from './helpers/workbench.js'
 
 const evidence = process.env.PIW_EVIDENCE_DIR || '.workbench/evidence/latest'
 async function fixture() {
@@ -362,6 +363,7 @@ test('SESSION-02 Electron isolates evicted draft-directory and A-B-A history res
     await route.fulfill({ response }).catch(() => undefined)
   })
   try {
+    await openConfiguration(pane)
     await pane.getByText('执行目录：独立目录', { exact: true }).click()
     await pane.getByLabel('目录绝对路径（可选）').fill(oldDirectory)
     await pane.getByRole('button', { name: '校验此目录', exact: true }).click()
@@ -471,6 +473,7 @@ test('SESSION-02 Electron reads external pi history, handles concurrent append/p
     before = readFileSync(f.path),
     count = f.kernels.list().length
   try {
+    await openMore(page)
     await page.getByRole('link', { name: '旧 pi 历史 · 只读' }).click()
     await page.getByRole('button', { name: /D:\\旧目录/ }).click()
     await expect(page.getByLabel('旧 pi 历史消息')).toContainText('旧记录 6')
