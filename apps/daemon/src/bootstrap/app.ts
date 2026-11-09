@@ -27,6 +27,7 @@ import { EventService } from '../modules/events/event.service.js'
 import { registerEventTransport } from '../modules/events/event.transport.js'
 import { FileService } from '../modules/files/file.service.js'
 import { registerFileTransport } from '../modules/files/file.transport.js'
+import { InputReferenceService } from '../modules/files/input-reference.service.js'
 import { HealthController } from '../modules/health/health.controller.js'
 import { KernelController } from '../modules/kernels/kernel.controller.js'
 import { KernelService } from '../modules/kernels/kernel.service.js'
@@ -115,6 +116,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   }
   const environment = new WorkspaceEnvironmentService(workspaces, store)
   const files = new FileService(workspaces, store, security.redactor)
+  const references = new InputReferenceService(database, files, security.redactor)
   const gitStatus = new GitStatusService(
     environment,
     workspaces,
@@ -169,6 +171,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     security,
     events,
     trust,
+    references,
   )
   const search = new SearchService(database, store, sessionService, projects, security)
   @Module({
@@ -185,6 +188,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
         useValue: database,
       },
       { provide: SessionStore, useValue: store },
+      { provide: InputReferenceService, useValue: references },
       { provide: SecurityService, useValue: security },
       { provide: AccessService, useValue: access },
       { provide: TrustService, useValue: trust },

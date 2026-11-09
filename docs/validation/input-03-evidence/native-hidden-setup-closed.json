@@ -1,0 +1,128 @@
+{
+  "feature": "input03",
+  "directory": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\input03-native-iY4I9H",
+  "desktopPid": 5728,
+  "exitInfo": {
+    "code": 4294967295,
+    "signal": null
+  },
+  "prompts": 2,
+  "kernels": [
+    {
+      "protocol": 1,
+      "sessionId": "3eef6238-cac8-415d-a4c2-a9ea4d141f34",
+      "epoch": "0cc90b24-5e98-4fca-aeb4-1c6c1165796e",
+      "source": "real-sdk/local-fixture",
+      "state": "ready",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\input03-native-iY4I9H\\中文目录",
+      "turnId": "b7763532-b7de-4911-a1c1-38ef29127a8e",
+      "pid": 10528,
+      "sessionFile": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\input03-native-iY4I9H\\data\\kernels\\3eef6238-cac8-415d-a4c2-a9ea4d141f34\\0cc90b24-5e98-4fca-aeb4-1c6c1165796e\\sessions\\2026-11-09T12-31-00-934Z_01a1c04a-5b46-779a-a10d-c623982d7f75.jsonl",
+      "nativeSessionId": "01a1c04a-5b46-779a-a10d-c623982d7f75"
+    },
+    {
+      "protocol": 1,
+      "sessionId": "074852f0-d02a-4c25-b3c0-bbf1c09d424c",
+      "epoch": "d77a2f17-9bb2-4f1c-9e24-4197a8f3baa7",
+      "source": "real-sdk/local-fixture",
+      "state": "running",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\input03-native-iY4I9H\\后台目录",
+      "turnId": "b9e4c0ce-6997-46e5-8795-8020166d17be",
+      "pid": 23320,
+      "sessionFile": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\input03-native-iY4I9H\\data\\kernels\\074852f0-d02a-4c25-b3c0-bbf1c09d424c\\d77a2f17-9bb2-4f1c-9e24-4197a8f3baa7\\sessions\\2026-11-09T12-31-03-428Z_01a1c04a-6504-7468-9b96-7c861d303da0.jsonl",
+      "nativeSessionId": "01a1c04a-6504-7468-9b96-7c861d303da0"
+    }
+  ],
+  "pending": [],
+  "sessions": [
+    {
+      "id": "3eef6238-cac8-415d-a4c2-a9ea4d141f34",
+      "title": "中文文件引用本地验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "740e024b-5a6a-47a6-a203-e7746a49a19b",
+      "configuration": {
+        "projectId": "708b9f50-13a8-4ddc-a45c-72644afb93a5",
+        "workspaceId": "2d6d6524-0790-4119-8da8-e1bc953efa53",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "2d6d6524-0790-4119-8da8-e1bc953efa53",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\input03-native-iY4I9H\\中文目录",
+      "createdAt": 1794227459469
+    },
+    {
+      "id": "074852f0-d02a-4c25-b3c0-bbf1c09d424c",
+      "title": "保持 后台引用验收",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "6f515523-8c6f-449d-aedd-3f3afdb933a8",
+      "configuration": {
+        "projectId": "87d53998-e4e6-4344-8639-a41ebfeb292b",
+        "workspaceId": "611b73dd-a3be-4752-b3b7-e5a0382c4e1c",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "611b73dd-a3be-4752-b3b7-e5a0382c4e1c",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\input03-native-iY4I9H\\后台目录",
+      "createdAt": 1794227462010
+    }
+  ],
+  "references": [],
+  "operations": [],
+  "historyBefore": {
+    "074852f0-d02a-4c25-b3c0-bbf1c09d424c\\d77a2f17-9bb2-4f1c-9e24-4197a8f3baa7\\sessions\\2026-11-09T12-31-03-428Z_01a1c04a-6504-7468-9b96-7c861d303da0.jsonl": "c24ba731fe1f1e3b70667d63652857730dc13e53a5adaf4c1656bec7fa826032",
+    "3eef6238-cac8-415d-a4c2-a9ea4d141f34\\0cc90b24-5e98-4fca-aeb4-1c6c1165796e\\sessions\\2026-11-09T12-31-00-934Z_01a1c04a-5b46-779a-a10d-c623982d7f75.jsonl": "7504a0f91e169e916ba5525027e1f796d5a0bacc00c64bbc0fe9fcac8a1733ec"
+  },
+  "historyAfter": {
+    "074852f0-d02a-4c25-b3c0-bbf1c09d424c\\d77a2f17-9bb2-4f1c-9e24-4197a8f3baa7\\sessions\\2026-11-09T12-31-03-428Z_01a1c04a-6504-7468-9b96-7c861d303da0.jsonl": "c24ba731fe1f1e3b70667d63652857730dc13e53a5adaf4c1656bec7fa826032",
+    "3eef6238-cac8-415d-a4c2-a9ea4d141f34\\0cc90b24-5e98-4fca-aeb4-1c6c1165796e\\sessions\\2026-11-09T12-31-00-934Z_01a1c04a-5b46-779a-a10d-c623982d7f75.jsonl": "7504a0f91e169e916ba5525027e1f796d5a0bacc00c64bbc0fe9fcac8a1733ec"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "closed": true,
+  "managedAfter": [
+    {
+      "pid": 10528,
+      "alive": false
+    },
+    {
+      "pid": 23320,
+      "alive": false
+    }
+  ],
+  "historyAtClose": {
+    "074852f0-d02a-4c25-b3c0-bbf1c09d424c\\d77a2f17-9bb2-4f1c-9e24-4197a8f3baa7\\sessions\\2026-11-09T12-31-03-428Z_01a1c04a-6504-7468-9b96-7c861d303da0.jsonl": "e051dac84d0067cd2ab97d80d62b08de241d7f2fcfc461c566137aadeabcdbd1",
+    "3eef6238-cac8-415d-a4c2-a9ea4d141f34\\0cc90b24-5e98-4fca-aeb4-1c6c1165796e\\sessions\\2026-11-09T12-31-00-934Z_01a1c04a-5b46-779a-a10d-c623982d7f75.jsonl": "7504a0f91e169e916ba5525027e1f796d5a0bacc00c64bbc0fe9fcac8a1733ec"
+  },
+  "protectedAtClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  }
+}

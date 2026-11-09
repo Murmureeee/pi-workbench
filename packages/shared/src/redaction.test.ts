@@ -3,6 +3,19 @@ import { describe, expect, it } from 'vitest'
 import { redacted, Redactor } from './redaction.js'
 
 describe('SEC-06 shared presentation policy', () => {
+  it('handles attachment-sized text while still masking late assignments and malformed quotes', () => {
+    const scrub = new Redactor()
+    const text = 'x'.repeat(256 * 1024) + ':' + '-'.repeat(256 * 1024)
+    expect(scrub.text(text)).toBe(text)
+    expect(scrub.text(text + '\n', true)).toBe(text + '\n')
+    for (const prefix of ['123api_key=', '"api_key=', '\'api_key" api_key=', '"api_key":']) {
+      expect(scrub.text(`${text}\nurl=https://example.test/?${prefix}private-value`)).not.toContain(
+        'private-value',
+      )
+    }
+    expect(scrub.text(`${text}\n--access-token private-value`)).not.toContain('private-value')
+  })
+
   it('redacts nested fields and common command/header/URL/key forms without changing execution input', () => {
     const scrub = new Redactor()
     const input = {

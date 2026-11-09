@@ -1,4 +1,3 @@
-import { execFileSync } from 'node:child_process'
 import { randomUUID } from 'node:crypto'
 import {
   appendFileSync,
@@ -22,6 +21,7 @@ import { EventService } from '../dist/modules/events/event.service.js'
 import { KernelService } from '../dist/modules/kernels/kernel.service.js'
 import { SessionStore } from '../dist/modules/sessions/session.store.js'
 import { authorizedHeaders } from './helpers/access.js'
+import { processBirth } from './helpers/process-identity.js'
 
 const wait = { timeout: 10000, interval: 20 }
 function required<T>(value: T | undefined): T {
@@ -71,32 +71,6 @@ async function streaming(f: Awaited<ReturnType<typeof fixture>>, sessionId: stri
     () => expect(f.events.snapshot(sessionId)?.turns.at(-1)?.text).toContain('OFFLINE_'),
     wait,
   )
-}
-
-/** Windows may reuse a reaped SDK PID while parallel tests spawn its successor.
- * Compare the OS creation time, so a different process cannot be mistaken for the killed child. */
-function processBirth(pid: number): string {
-  if (process.platform !== 'win32') {
-    try {
-      process.kill(pid, 0)
-      return String(pid)
-    } catch (error) {
-      if (error instanceof Error && 'code' in error && error.code === 'ESRCH') {
-        return ''
-      }
-      throw error
-    }
-  }
-  return execFileSync(
-    'powershell.exe',
-    [
-      '-NoProfile',
-      '-NonInteractive',
-      '-Command',
-      `Get-Process | Where-Object Id -EQ ${pid} | ForEach-Object { $_.StartTime.ToUniversalTime().Ticks }`,
-    ],
-    { encoding: 'utf8', windowsHide: true },
-  ).trim()
 }
 
 describe('CORE-07 real SDK + local HTTP fixture resource admission', () => {

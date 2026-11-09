@@ -1,5 +1,6 @@
 import { z } from 'zod'
 
+import { inputReferenceSchema, inputReferenceSelectionSchema } from './input-references.js'
 import { workspaceNameSchema } from './workspace-contracts.js'
 
 export const sessionModelSchema = z.discriminatedUnion('kind', [
@@ -87,13 +88,18 @@ export const sessionConfigurationSchema = z.strictObject({
 /** A request ID binds immutable input. HTTP retries reconcile that ID; they never create a
  * second session/turn. A manual retry is a new command, explicitly linked to the failed one.
  */
-export const sessionSubmitSchema = z.strictObject({
-  requestId: z.uuid(),
-  sessionId: z.uuid().nullable(),
-  configuration: sessionConfigurationSchema,
-  text: z.string().trim().min(1).max(16000),
-  retryOf: z.uuid().nullable(),
-})
+export const sessionSubmitSchema = z
+  .strictObject({
+    requestId: z.uuid(),
+    sessionId: z.uuid().nullable(),
+    configuration: sessionConfigurationSchema,
+    text: z.string().trim().min(1).max(600000),
+    retryOf: z.uuid().nullable(),
+    references: inputReferenceSelectionSchema.optional(),
+  })
+  .refine((input) => input.retryOf !== null || input.text.length <= 16000, {
+    message: '普通任务最多 16,000 字符。',
+  })
 export const submissionSchema = z.strictObject({
   requestId: z.uuid(),
   sessionId: z.uuid(),
@@ -138,6 +144,8 @@ export type SessionReceipt = z.infer<typeof sessionReceiptSchema>
 export type SessionOptions = z.infer<typeof sessionOptionsSchema>
 export type Project = z.infer<typeof projectSchema>
 export const sessionDraftSchema = z.strictObject({
+  draftId: z.uuid().default(() => crypto.randomUUID()),
+  references: z.array(inputReferenceSchema).max(8).default([]),
   text: z.string().max(16000),
   projectId: z.uuid().nullable(),
   model: sessionModelSchema,

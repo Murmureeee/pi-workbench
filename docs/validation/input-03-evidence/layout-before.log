@@ -1,0 +1,51 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:14628) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:7360) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\input-references.spec.ts:178:1 › INPUT-03 Electron eight references remain reachable in narrow view and replacement works at the item limit (9.4s)
+
+
+  1) e2e\input-references.spec.ts:178:1 › INPUT-03 Electron eight references remain reachable in narrow view and replacement works at the item limit 
+
+    Error: expect(locator).toBeInViewport() failed
+
+    Locator:  getByRole('button', { name: '发送任务', exact: true })
+    Expected: in viewport
+    Received: viewport ratio 0
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeInViewport" getByRole('button', { name: '发送任务', exact: true }) with timeout 5000ms
+      - waiting for getByRole('button', { name: '发送任务', exact: true })
+        14 × locator resolved to <button tabindex="0" type="button" aria-label="发送任务" data-slot="button" class="group/button inline-flex shrink-0 items-center justify-center border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructiv…>…</button>
+           - unexpected value "viewport ratio 0"
+
+
+      194 |       return {height:innerHeight,width:innerWidth,nodes}
+      195 |     }),null,2))
+    > 196 |     await expect(f.page.getByRole('button', { name: '发送任务', exact: true })).toBeInViewport()
+          |                                                                             ^
+      197 |     // An explicitly expanded configuration uses the existing scrollable composer.
+      198 |     await f.page.getByRole('button', { name: '会话配置', exact: true }).click()
+      199 |     await f.page.getByRole('button', { name: '发送任务', exact: true }).scrollIntoViewIfNeeded()
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\input-references.spec.ts:196:77
+
+    Error Context: test-results\input-references-INPUT-03--fd107-ent-works-at-the-item-limit\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\input-references-INPUT-03--fd107-ent-works-at-the-item-limit\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\input-references-INPUT-03--fd107-ent-works-at-the-item-limit\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\input-references.spec.ts:178:1 › INPUT-03 Electron eight references remain reachable in narrow view and replacement works at the item limit 

@@ -8,7 +8,7 @@ import type {
   WorkspaceEnvironmentTarget,
 } from '@pi-workbench/shared'
 
-import { randomUUID } from 'node:crypto'
+import { createHash, randomUUID } from 'node:crypto'
 import { constants } from 'node:fs'
 import { lstat, open, opendir } from 'node:fs/promises'
 import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:path'
@@ -564,6 +564,47 @@ export class FileService {
       const data = await readFileSnapshot(scope.root, path, this.redactor, q.version, signal)
       await this.verify(scope, signal)
       return fileReadingSchema.parse({ ...data, target: q.target })
+    })
+  }
+
+  /** Private host capture for INPUT-03. Exact bytes never cross the read transport.
+   * Registered physical roots, IO admission and descriptor cleanup are shared with reads. */
+  capture(target: WorkspaceEnvironmentTarget, hint: string, directory = false, expected?: string) {
+    return this.run(async () => {
+      const scope = await this.scope(target)
+      if (isAmbiguousPath(hint) || isCredentialPath(hint)) {
+        throw failure('引用路径无效或属于私密项。')
+      }
+      const path = isAbsolute(hint) ? relative(scope.root, resolve(hint)) : hint
+      let bytes: Buffer = Buffer.alloc(0),
+        version: string
+      if (directory) {
+        const proof = await proveFilePath(scope.root, path)
+        if (!proof.stat.isDirectory()) {
+          throw failure('引用目标不是目录。')
+        }
+        version = createHash('sha256').update(proof.chain).digest('hex')
+        if (expected && expected !== version) {
+          throw failure('目录身份已变化，请重新添加引用。')
+        }
+      } else {
+        const snapshot = await readFileSnapshot(
+          scope.root,
+          path,
+          this.redactor,
+          expected,
+          undefined,
+          (raw) => {
+            bytes = raw
+          },
+        )
+        if (snapshot.status !== 'ready' || !snapshot.version) {
+          throw failure(snapshot.diagnostic)
+        }
+        version = snapshot.version
+      }
+      await this.verify(scope)
+      return { path, root: scope.root, workspaceId: scope.workspaceId, version, bytes }
     })
   }
 }

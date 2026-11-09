@@ -1,0 +1,6 @@
+{
+  "source": "Actual SQLite/files/SessionService with explicit delayed capture fault injection",
+  "managedAfterRemoval": 1,
+  "error": null,
+  "providerRequests": 0
+}

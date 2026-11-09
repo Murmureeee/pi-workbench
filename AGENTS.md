@@ -294,3 +294,7 @@ FILE-01 已验收：当前授权 cwd 的异步目录分页、字面文件名／�
 ## FILE-02 已验收
 
 FILE-02 已验收：稳定有界 UTF-8 只读代码快照、真实行号分页及工具／历史 Diff／明确消息路径定位；选区重验后只加入仍未变化的所属草稿，不自动发送。外部变化、删除、二进制、编码及脱敏行数异常准确降级，历史 Diff 保持独立账本版本。8 项实际服务、2 项共享契约／路径测试和 5 项 Electron 回归；完整 63 文件／426 项 Vitest、SDK、156 项 E2E 与新目录完整 frozen clean 通过。191 条 Windows 原生观察、明暗窄窗、后台同 PID／epoch、同 data/profile 重启零发送／内核／审批／授权及两次正常菜单退出补证；3 份 settled JSONL、Git 元数据和 5 保护文件不变。448 输入与 CI／clean 一致，原生后复用未变源码门禁。合成助手路径观察及 CLI 磁盘故障单独标注。真实提供商 0，pi 配置／canonical 预算／锁未改；OPS-08 继续 in_progress [true,false]。当前本地 50/133。具体限制、失败与来源见[验收记录](docs/validation/file-02-evidence/acceptance.md)。
+
+## INPUT-03 已验收
+
+INPUT-03 已验收物理目录内文件／范围、仅目录路径及精确接收UTF-8粘贴，daemon不可变版本与draftId原子首发绑定；取消／迟到和发送前变化拒绝已覆盖。最终64文件／437项Vitest、SDK、165项E2E与完整frozen clean通过；455输入与clean一致后复用未变窗口阶段。原生明暗802px、中文候选、同PID／epoch后台、同profile零重放及两次正常退出补证。长路径夹具Git账本失败及遮挡截图单列，不作快照／回滚证据；真实提供商0，配置／预算／锁未改，OPS-08继续跨阶段。见[验收记录](docs/validation/input-03-evidence/acceptance.md)。

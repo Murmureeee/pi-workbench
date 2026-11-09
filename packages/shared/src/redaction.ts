@@ -8,6 +8,23 @@ function secretName(name: string): boolean {
   return secretField.test(name) || camelSecret.test(name)
 }
 
+/** Scan each name once, then check its delimiter without restarting on every suffix of a
+ * long non-assignment. Prefixes remain separate from values so URLs cannot hide later keys. */
+function* assignmentPrefixes(input: string, command: boolean) {
+  const names = command ? /--([\w-]+)/g : /(["']?)([A-Za-z_][\w.-]*)/g
+  const delimiter = command ? /(?:=|\s+)/y : /\s*[:=]\s*/y
+  for (const match of input.matchAll(names)) {
+    let end = match.index + match[0].length
+    if (!command && match[1] && input[end] === match[1]) {
+      end++
+    }
+    delimiter.lastIndex = end
+    if (delimiter.test(input)) {
+      yield { index: match.index, start: delimiter.lastIndex, name: match[command ? 1 : 2] ?? '' }
+    }
+  }
+}
+
 /** One policy for presentation, diagnostics, approval summaries and exports. Known values stay
  * host-side; a renderer must never receive the registry. This is a best-effort content filter,
  * not a guarantee that arbitrary user prose or encoded/unknown secrets can be identified.
@@ -88,17 +105,15 @@ export class Redactor {
     return visit(input, 0)
   }
 
-  private values(input: string, prefixes: RegExp, nameGroup: number): string {
+  private values(input: string, command: boolean): string {
     let cursor = 0,
       output = ''
     // Match only the assignment prefix, so an innocent value (for example an entire URL)
     // cannot consume and conceal a later api_key= assignment from the scanner.
-    for (const match of input.matchAll(prefixes)) {
-      const name = match[nameGroup]
-      if (!name || !secretName(name) || match.index < cursor) {
+    for (const { index, start, name } of assignmentPrefixes(input, command)) {
+      if (!secretName(name) || index < cursor) {
         continue
       }
-      const start = match.index + match[0].length
       const value = input
         .slice(start)
         .match(/^(?:"(?:\\.|[^"\\\r\n])*(?:"|$)|'(?:\\.|[^'\\\r\n])*(?:'|$)|[^\s,;&}\]<>]+)/)?.[0]
@@ -133,7 +148,11 @@ export class Redactor {
           }
         }
       }
-      const tail = value.match(/[A-Za-z0-9_.-]+$/)?.[0]
+      let tailStart = value.length
+      while (tailStart > 0 && /[A-Za-z0-9_.-]/.test(value[tailStart - 1] ?? '')) {
+        tailStart--
+      }
+      const tail = value.slice(tailStart)
       if (
         tail &&
         ['sk-', 'ghp_', 'gho_', 'ghu_', 'ghs_', 'ghr_', 'github_pat_', 'eyJ'].some(
@@ -159,8 +178,8 @@ export class Redactor {
       )
       .replace(/\b(Bearer|Basic)\s+[^\s"'`,;<>]+/gi, `$1 ${redacted}`)
       .replace(/(https?:\/\/)[^\s/@]+:[^\s/@]+@/gi, `$1${redacted}@`)
-    value = this.values(value, /(["']?)([A-Za-z_][\w.-]*)\1\s*[:=]\s*/g, 2)
-    value = this.values(value, /--([\w-]+)(?:=|\s+)/g, 1)
+    value = this.values(value, false)
+    value = this.values(value, true)
     return value
   }
 }

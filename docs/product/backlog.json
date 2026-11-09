@@ -1641,16 +1641,16 @@
       ],
       "legacy": null,
       "progress": {
-        "status": "not_started",
+        "status": "verified",
         "owner": "",
         "targetDate": "",
-        "note": "",
-        "evidence": "",
+        "note": "已验收物理目录内文件／范围／仅目录路径及原始UTF-8粘贴版本、draftId原子首发绑定、版本重验与取消／迟到隔离。最终64文件437项Vitest、SDK、165项E2E及新目录完整frozen clean通过；两次原生正常退出、明暗802px、真实中文候选、后台同PID／epoch及同data/profile重启零重发已补证。455输入与clean一致；CI后只改测试进程身份判据并由完整clean覆盖，窗口代码未变复用。长路径原生夹具的独立Git账本失败单列，不宣称本次验证快照／回滚。真实提供商0、配置／预算／锁未改；OPS-08继续跨阶段。",
+        "evidence": "docs/validation/input-03-evidence/acceptance.md、ci-final.log、clean-workspace.json、clean-commands.json、native-validation.json、native-observations.json、source-audit-final.json；apps/daemon/test/input-references.test.ts；e2e/input-references.spec.ts",
         "acceptanceChecked": [
-          false,
-          false
+          true,
+          true
         ],
-        "updatedAt": null
+        "updatedAt": "2026-11-09T12:57:08.943Z"
       }
     },
     {

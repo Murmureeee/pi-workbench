@@ -1,0 +1,61 @@
+$ pnpm build:server && vitest run
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+
+ RUN  v5.0.5 C:/Users/Murmure/.codex/worktrees/input-links-open/.piw-clean-GKJjSD
+
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'tracked.txt', LF will be replaced by CRLF the next time Git touches it
+HEAD is now at ed2b02c first
+stderr | apps/daemon/test/session-creation.test.ts > SESSION-01 durable first-send, actual SDK/local fixture and desktop boundary > preserves input after an actual SDK hard kill and restart; repeated creation recovers the same ID without replaying uncertain work
+{"event":"session-run-failed","detail":{"name":"Error","message":"Kernel IPC disconnected"}}
+
+Switched to a new branch 'other'
+Switched to branch 'main'
+ ❯ apps/daemon/test/session-creation.test.ts (9 tests | 1 failed) 56230ms
+   ❯ SESSION-01 durable first-send, actual SDK/local fixture and desktop boundary (9)
+     × preserves input after an actual SDK hard kill and restart; repeated creation recovers the same ID without replaying uncertain work 5405ms
+Switched to a new branch '功能/中文'
+HEAD is now at 5cdaa75 offline baseline
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-change-chain-nKY9rB/中文目录/module'...
+done.
+Cloning into 'C:/Users/Murmure/AppData/Local/Temp/piw-environment-cJRbTS/中文仓库/modules/child'...
+done.
+Preparing worktree (new branch 'linked-head')
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/session-creation.test.ts > SESSION-01 durable first-send, actual SDK/local fixture and desktop boundary > preserves input after an actual SDK hard kill and restart; repeated creation recovers the same ID without replaying uncertain work
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ apps/daemon/test/session-creation.test.ts:224:40
+    222|     expect(prompt).toHaveBeenCalledTimes(1)
+    223|     expect(f.store.receipt(task.requestId)?.submission.text).toBe(task…
+    224|     expect(() => process.kill(pid, 0)).toThrow(/ESRCH/)
+       |                                        ^
+    225|     await f.app.close()
+    226|     const restarted = await createApp({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 63 passed (64)
+      Tests  1 failed | 436 passed (437)
+   Start at  20:21:53
+   Duration  140.49s (tests 83%, import 16%, transform 1%)
+
+[ELIFECYCLE] Test failed. See above for more details.
+

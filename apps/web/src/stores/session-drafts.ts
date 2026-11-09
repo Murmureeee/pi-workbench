@@ -5,6 +5,8 @@ import { create } from 'zustand'
 import { sessionDraftCollectionSchema } from '@pi-workbench/shared'
 const storageKey = 'piw-session-drafts-v1'
 const empty = (): SessionDraft => ({
+  draftId: crypto.randomUUID(),
+  references: [],
   text: '',
   projectId: null,
   model: { kind: 'local-fixture', provider: 'piw-offline', model: 'fixture' },

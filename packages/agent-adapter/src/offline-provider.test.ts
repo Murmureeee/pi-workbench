@@ -8,6 +8,49 @@ function isListener(value: unknown): value is () => void {
   return typeof value === 'function'
 }
 
+it.runIf(process.platform === 'win32')(
+  'retries a reserved Windows port before any request',
+  async () => {
+    const listen = vi.spyOn(Server.prototype, 'listen').mockImplementationOnce(function (
+      this: Server,
+    ) {
+      listen.mockRestore()
+      queueMicrotask(() =>
+        this.emit('error', Object.assign(new Error('reserved port'), { code: 'EACCES' })),
+      )
+      return this
+    })
+    const provider = await createOfflineProvider()
+    try {
+      expect(provider.stats()).toEqual({ localRequests: 0, blockedNetworkAttempts: 0 })
+      provider.prepare('reply')
+      const response = await fetch(`${provider.baseUrl}/chat/completions`, { method: 'POST' })
+      expect(await response.text()).toContain('OFFLINE_')
+      expect(provider.stats()).toEqual({ localRequests: 1, blockedNetworkAttempts: 0 })
+    } finally {
+      await provider.close()
+      vi.restoreAllMocks()
+    }
+  },
+)
+
+it.runIf(process.platform === 'win32')(
+  'fails persistent local permission denial after sixteen attempts',
+  async () => {
+    const error = Object.assign(new Error('persistent permission denial'), { code: 'EACCES' })
+    const listen = vi.spyOn(Server.prototype, 'listen').mockImplementation(function (this: Server) {
+      queueMicrotask(() => this.emit('error', error))
+      return this
+    })
+    try {
+      await expect(createOfflineProvider()).rejects.toBe(error)
+      expect(listen).toHaveBeenCalledTimes(16)
+    } finally {
+      vi.restoreAllMocks()
+    }
+  },
+)
+
 it('serves one local response even when Windows assigns fetch-forbidden port 6000 for port zero', async () => {
   // Reproduce this machine's low dynamic TCP range without changing OS settings.
   const listen = vi.spyOn(Server.prototype, 'listen').mockImplementationOnce(function (

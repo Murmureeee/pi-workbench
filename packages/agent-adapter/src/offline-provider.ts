@@ -285,7 +285,8 @@ export async function createOfflineProvider() {
   })
   let requestLimit = 0
   // Some Windows hosts configure low ephemeral ports, including fetch-forbidden 6000.
-  // Bind in the high range; only address collisions retry, before any model request exists.
+  // Bind in the high range. Windows may reserve individual ports (EACCES); retry only
+  // local binding failures, before any model request exists, with a fixed attempt limit.
   const bind = (attempt: number): Promise<void> =>
     new Promise<void>((resolve, reject) => {
       const ready = () => {
@@ -301,7 +302,11 @@ export async function createOfflineProvider() {
       server.listen(randomInt(49152, 65536), '127.0.0.1')
     }).catch((error: unknown) => {
       if (
-        !(error instanceof Error && 'code' in error && error.code === 'EADDRINUSE') ||
+        !(
+          error instanceof Error &&
+          'code' in error &&
+          (error.code === 'EADDRINUSE' || (process.platform === 'win32' && error.code === 'EACCES'))
+        ) ||
         attempt === 15
       ) {
         throw error

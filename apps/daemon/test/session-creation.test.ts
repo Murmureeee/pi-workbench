@@ -28,6 +28,7 @@ import { SessionService } from '../dist/modules/sessions/session.service.js'
 import { SessionStore } from '../dist/modules/sessions/session.store.js'
 import { ProjectService } from '../dist/modules/workspaces/project.service.js'
 import { WorkspaceService } from '../dist/modules/workspaces/workspace.service.js'
+import { processBirth } from './helpers/process-identity.js'
 
 const port = 24358
 const apps: Awaited<ReturnType<typeof createApp>>[] = [],
@@ -215,13 +216,16 @@ describe('SESSION-01 durable first-send, actual SDK/local fixture and desktop bo
     if (!pid) {
       throw new Error('No SDK process to kill')
     }
+    const birth = processBirth(pid)
+    expect(birth).not.toBe('')
     process.kill(pid, 'SIGKILL')
     await expect
       .poll(() => f.store.receipt(task.requestId)?.submission.status, { timeout: 10000 })
       .toBe('interrupted')
     expect(prompt).toHaveBeenCalledTimes(1)
     expect(f.store.receipt(task.requestId)?.submission.text).toBe(task.text.trim())
-    expect(() => process.kill(pid, 0)).toThrow(/ESRCH/)
+    // IPC failure can precede OS reaping; wait for this exact process identity.
+    await expect.poll(() => processBirth(pid), { timeout: 10000 }).not.toBe(birth)
     await f.app.close()
     const restarted = await createApp({
       dataDir: join(f.directory, 'data'),

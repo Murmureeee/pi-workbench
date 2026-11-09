@@ -15,6 +15,7 @@ export async function readFileSnapshot(
   redactor: Redactor,
   expected?: string,
   signal?: AbortSignal,
+  capture?: (bytes: Buffer) => void,
 ) {
   const before = await proveFilePath(root, path)
   if (!before.stat.isFile()) {
@@ -131,6 +132,7 @@ export async function readFileSnapshot(
       diagnostic: '脱敏改变了行数，无法保证真实行号；未展示代码或提供选区。',
     }
   }
+  capture?.(bytes)
   return {
     ...result,
     status: 'ready' as const,

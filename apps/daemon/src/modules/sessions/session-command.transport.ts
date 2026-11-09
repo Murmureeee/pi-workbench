@@ -13,6 +13,7 @@ import { z } from 'zod'
 import {
   executionApprovalCommandSchema,
   inputQueueCommandSchema,
+  inputReferenceCreateSchema,
   projectCommandSchema,
   projectCreateSchema,
   runtimeCapabilities,
@@ -63,6 +64,20 @@ export function registerSessionCommands(
     }
   })
   server.get('/api/chat/options', () => service.options())
+  server.post('/api/chat/input-references', { bodyLimit: 1600000 }, async (request, reply) => {
+    const parsed = inputReferenceCreateSchema.safeParse(request.body)
+    if (!parsed.success) {
+      return reply.code(400).send({ message: '引用参数无效；未保存。' })
+    }
+    try {
+      if (!service.references) {
+        throw new HttpException('引用服务不可用。', 503)
+      }
+      return await service.references.create(parsed.data)
+    } catch (error) {
+      return failure(reply, error)
+    }
+  })
   server.get('/api/chat/approvals', () => ({ approvals: approvals.list() }))
   server.get<{ Querystring: { sessionId?: string } }>('/api/chat/grants', (request, reply) => {
     if (request.query.sessionId && !z.uuid().safeParse(request.query.sessionId).success) {
@@ -253,7 +268,7 @@ export function registerSessionCommands(
       return { submissions: store.submissions(request.params.sessionId).slice(-100) }
     },
   )
-  server.post('/api/chat/submit', async (request, reply) => {
+  server.post('/api/chat/submit', { bodyLimit: 1600000 }, async (request, reply) => {
     const parsed = sessionSubmitSchema.safeParse(request.body)
     if (!parsed.success) {
       return reply.code(400).send({ message: '任务或配置无效；正文不能为空，最多 16000 字符。' })

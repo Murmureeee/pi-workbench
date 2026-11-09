@@ -1,4 +1,5 @@
 import type { EventService } from '../events/event.service.js'
+import type { InputReferenceService } from '../files/input-reference.service.js'
 import type { KernelService } from '../kernels/kernel.service.js'
 import type { ModelService } from '../models/model.service.js'
 import type { SecurityService } from '../security/security.service.js'
@@ -27,6 +28,7 @@ import { HttpException } from '@nestjs/common'
 
 import { sessionProjectSchema, sessionRenameSchema, sessionSpaceSchema } from '@pi-workbench/shared'
 
+import { InputReferenceUnavailable } from '../files/input-reference.service.js'
 import { KernelDirectoryUnavailable, KernelExecutionUncertain } from '../kernels/kernel.service.js'
 import { SessionOrganizationConflict, SessionTitleConflict } from './session.store.js'
 
@@ -59,6 +61,7 @@ export class SessionService {
     private readonly security: SecurityService,
     private readonly events: EventService,
     private readonly trust: TrustService,
+    readonly references?: InputReferenceService,
   ) {
     kernels.setInputQueue({
       take: (sessionId, epoch, turnId) => {
@@ -513,12 +516,15 @@ export class SessionService {
       throw new HttpException('已有会话继续使用已保存配置；不能在发送时静默切换环境。', 409)
     }
     if (input.retryOf) {
+      if (input.references) {
+        throw new HttpException('重试已保存输入不能追加新引用，请发送新的任务。', 409)
+      }
       const failed = this.store.receipt(input.retryOf)
       if (
         !failed ||
         failed.session.id !== input.sessionId ||
         failed.submission.status !== 'failed' ||
-        this.security.redactor.text(failed.submission.text) !== input.text
+        this.security.redactor.text(failed.submission.text).trim() !== input.text.trim()
       ) {
         throw new HttpException(
           '只能明确重试当前会话已确认失败的任务；中断或结果未知不能重放。',
@@ -526,6 +532,9 @@ export class SessionService {
         )
       }
       input = { ...input, text: failed.submission.text }
+      if (failed.submission.error?.startsWith('输入引用失效')) {
+        throw new HttpException('原引用版本已失效，请重新添加引用后发送新任务。', 409)
+      }
       if (this.store.retryRequiresReview(failed.session.id, failed.submission.turnId)) {
         throw new HttpException(
           '此任务含工具或审批记录，不能重放整项任务。请检查历史与现场，再明确输入新的任务；旧拒绝不会重新授权。',
@@ -597,11 +606,28 @@ export class SessionService {
       ) {
         throw new HttpException('会话归属已变化，请刷新核对；原执行目录保留。', 409)
       }
-      saved = this.store.acceptSubmission(input, digest, prepared, queueId)
+      const promptText = input.references
+        ? await this.references?.prepare(input, prepared)
+        : input.text
+      if (promptText === undefined) {
+        throw new HttpException('引用服务不可用；草稿保留。', 503)
+      }
+      // Reference IO is asynchronous: recheck metadata after it and immediately before
+      // the SQLite acceptance transaction, preserving the original SESSION-01 CAS boundary.
+      if (!existing) {
+        this.projects.assertDefault(input.configuration.projectId, input.configuration.workspaceId)
+      } else if (
+        JSON.stringify(
+          this.store.managedSessions().find((row) => row.id === existing.id)?.configuration,
+        ) !== JSON.stringify(input.configuration)
+      ) {
+        throw new HttpException('会话归属已变化，请刷新核对；原执行目录保留。', 409)
+      }
+      saved = this.store.acceptSubmission(input, digest, prepared, queueId, promptText)
       const receipt = this.store.receipt(input.requestId)!
       if (saved) {
         try {
-          this.dispatch(receipt)
+          this.dispatch(receipt, input)
         } catch (error) {
           this.security.log('session-dispatch-failed', error)
           this.store.settleSubmission(
@@ -633,7 +659,7 @@ export class SessionService {
     }
   }
 
-  private dispatch(receipt: SessionReceipt): void {
+  private dispatch(receipt: SessionReceipt, input: SessionSubmit): void {
     const { session, submission } = receipt
     this.store.settleSubmission(submission.requestId, 'executing')
     void this.kernels
@@ -655,6 +681,9 @@ export class SessionService {
             const checked = await this.workspaces.validate(session.workspaceId)
             if (!checked.ok || checked.workspace.canonicalPath !== session.cwd) {
               throw new Error('执行前目录复核失败；原会话与任务保留，请恢复目录后明确重试。')
+            }
+            if (input.references) {
+              await this.references?.prepare(input, session)
             }
           },
         },
@@ -698,9 +727,11 @@ export class SessionService {
               : 'failed',
           error instanceof KernelDirectoryUnavailable
             ? this.security.redactor.text(error.message)
-            : error instanceof KernelExecutionUncertain
-              ? '内核连接中断，执行结果待确认；请检查历史和现场，未自动重发。'
-              : '内核未能完成任务。原会话与首条消息保留，请检查目录和本地服务后明确重试。',
+            : error instanceof InputReferenceUnavailable
+              ? this.security.redactor.text(error.message)
+              : error instanceof KernelExecutionUncertain
+                ? '内核连接中断，执行结果待确认；请检查历史和现场，未自动重发。'
+                : '内核未能完成任务。原会话与首条消息保留，请检查目录和本地服务后明确重试。',
         )
       })
       .catch((error: unknown) => this.security.log('session-settlement-failed', error))

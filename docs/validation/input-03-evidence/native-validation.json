@@ -1,0 +1,33 @@
+{
+  "at": "2026-11-09T12:57:08.941Z",
+  "feature": "INPUT-03",
+  "source": "Windows native sky/SendInput + actual SDK local HTTP fixture; CLI file edit/background seed and stop labelled separately",
+  "observations": 90,
+  "background": {
+    "pid": 29624,
+    "epoch": "a736b05d-df1f-4840-b9ad-65e927ee749b"
+  },
+  "restart": {
+    "prompts": 0,
+    "kernels": 0,
+    "pending": 0,
+    "historyFiles": 4,
+    "historyUnchanged": true
+  },
+  "normalExits": 2,
+  "protectedFilesUnchanged": true,
+  "providerRequests": 0,
+  "sourceCount": 455,
+  "cleanMismatches": [],
+  "ciDifferences": [
+    "apps/daemon/test/helpers/process-identity.ts",
+    "apps/daemon/test/resources.test.ts",
+    "apps/daemon/test/session-creation.test.ts"
+  ],
+  "limitations": [
+    "Initial background seed expired; new actual SDK background round supplies switch evidence.",
+    "Native fixture long data path hits Git ref lock path limit; isolated core.longpaths=false/true probe reproduced failure/success. No snapshot or rollback acceptance claimed here.",
+    "49 screenshot excluded due to occlusion; activated observations used.",
+    "No app-restart recovery of unsent window draft promised; daemon immutable reference records persist."
+  ]
+}

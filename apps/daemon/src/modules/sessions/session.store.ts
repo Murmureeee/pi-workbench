@@ -63,6 +63,7 @@ import {
 } from '@pi-workbench/shared'
 
 import {
+  inputReferences,
   sessionApprovals,
   sessionChanges,
   sessionConfigurations,
@@ -513,6 +514,7 @@ export class SessionStore {
     digest: string,
     prepared: ManagedSession,
     queueId?: string,
+    promptText = input.text,
   ) {
     this.assertWritable(prepared.id)
     return this.database.db.transaction((tx) => {
@@ -586,6 +588,20 @@ export class SessionStore {
           .run()
       }
       const acceptedTurnId = randomUUID()
+      for (const id of input.references?.ids ?? []) {
+        const row = tx.select().from(inputReferences).where(eq(inputReferences.id, id)).get()
+        if (
+          !row ||
+          row.draftId !== input.references?.draftId ||
+          (row.sessionId && row.sessionId !== prepared.id)
+        ) {
+          throw new Error('Input reference no longer belongs to this draft')
+        }
+        tx.update(inputReferences)
+          .set({ sessionId: prepared.id, requestId: input.requestId })
+          .where(eq(inputReferences.id, id))
+          .run()
+      }
       if (queueId) {
         const queued = this.inputQueue(prepared.id).find((item) => item.id === queueId)
         if (!queued || queued.status !== 'sending' || queued.text !== input.text) {
@@ -611,7 +627,7 @@ export class SessionStore {
           messageId: randomUUID(),
           turnId: acceptedTurnId,
           digest,
-          text: input.text,
+          text: promptText,
           retryOf: input.retryOf,
           status: 'pending',
           createdAt: Date.now(),

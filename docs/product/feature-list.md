@@ -2,7 +2,7 @@
 
 基线：2026-11-03 · 146 项功能 · 19 个模块 · M0–M8
 
-完整本地产品 M0–M7：50/133 已验收；M8 候选扩展 13 项单列。已有详细设计 63 项；文档不计作产品实现。
+完整本地产品 M0–M7：51/133 已验收；M8 候选扩展 13 项单列。已有详细设计 63 项；文档不计作产品实现。
 
 > 本文件由 `node scripts/planning/build-roadmap.mjs` 生成。请维护 backlog JSON，不要手工改本表。
 
@@ -16,7 +16,7 @@
 | M1 运行与数据底座 | 可恢复的本地服务、会话运行内核、事件契约和持久化。 | 6 | 5 |
 | M2 双端对话与审批 | 桌面与本机浏览器可直接输入创建项目或无项目会话，自动命名、搜索并观察和控制真实任务。 | 32 | 29 |
 | M3 变更审查闭环 | 形成可日常试用的观察、审批、审查与文件回滚闭环。 | 9 | 9 |
-| M4 日常开发能力 | 补齐上下文、终端、命令任务、配置和文件阅读。 | 29 | 4 |
+| M4 日常开发能力 | 补齐上下文、终端、命令任务、配置和文件阅读。 | 29 | 5 |
 | M5 稳定桌面版 | 建立可分发、可恢复、有权限边界的 Windows 稳定版。 | 10 | 0 |
 | M6 完整编码工作台 | 补齐独立 Worktree、Git、PR、审查和扩展管理。 | 31 | 0 |
 | M7 并行与自动化 | 增加子 Agent、任务计划、预算和无人值守运行的管理能力。 | 13 | 0 |
@@ -424,7 +424,7 @@
 | --- | --- | --- | --- | --- | --- | --- |
 | [INPUT-01](roadmap.html#feature=INPUT-01) | 文本输入、中文输入法与草稿 | M2 | P0 | 已有详细设计，待校正 | 已验收 | SESSION-01 |
 | [INPUT-02](roadmap.html#feature=INPUT-02) | 斜杠命令与技能选择 | M4 | P1 | 已有详细设计，待校正 | 未开始 | INPUT-01, EXT-01 |
-| [INPUT-03](roadmap.html#feature=INPUT-03) | 文件、目录与代码范围引用 | M4 | P1 | 已列范围，待细化 | 未开始 | INPUT-01, FILE-02, SEC-10 |
+| [INPUT-03](roadmap.html#feature=INPUT-03) | 文件、目录与代码范围引用 | M4 | P1 | 已列范围，待细化 | 已验收 | INPUT-01, FILE-02, SEC-10 |
 | [INPUT-04](roadmap.html#feature=INPUT-04) | 图片与截图附件 | M6 | P1 | 已列范围，待细化 | 未开始 | INPUT-01, MODEL-03 |
 | [INPUT-05](roadmap.html#feature=INPUT-05) | 文档与其他附件 | M6 | P1 | 已列范围，待细化 | 未开始 | INPUT-01, FILE-04 |
 | [INPUT-06](roadmap.html#feature=INPUT-06) | 引导、追加与可编辑队列 | M2 | P0 | 已有详细设计，待校正 | 已验收 | CORE-05, INPUT-01 |
@@ -461,8 +461,12 @@
 
 实现来源：pi 已有接口，待集成验证。负责人：未分配；目标日期：未估算。
 
-- [ ] 发送前显示引用路径、行号和内容规模，可移除或修改；长粘贴引用保留精确字节、预览和撤销，不以引用形式宣称天然节省 token。
-- [ ] 不存在、越界、过大或变化文件有提示，不自动发送整个目录；新会话附件按 draftId 暂存，首次发送成功才绑定 sessionId，失败保留草稿，不提前持久建会话。
+- [x] 发送前显示引用路径、行号和内容规模，可移除或修改；长粘贴引用保留精确字节、预览和撤销，不以引用形式宣称天然节省 token。
+- [x] 不存在、越界、过大或变化文件有提示，不自动发送整个目录；新会话附件按 draftId 暂存，首次发送成功才绑定 sessionId，失败保留草稿，不提前持久建会话。
+
+进展 / 阻塞：已验收物理目录内文件／范围／仅目录路径及原始UTF-8粘贴版本、draftId原子首发绑定、版本重验与取消／迟到隔离。最终64文件437项Vitest、SDK、165项E2E及新目录完整frozen clean通过；两次原生正常退出、明暗802px、真实中文候选、后台同PID／epoch及同data/profile重启零重发已补证。455输入与clean一致；CI后只改测试进程身份判据并由完整clean覆盖，窗口代码未变复用。长路径原生夹具的独立Git账本失败单列，不宣称本次验证快照／回滚。真实提供商0、配置／预算／锁未改；OPS-08继续跨阶段。
+
+验证证据：docs/validation/input-03-evidence/acceptance.md、ci-final.log、clean-workspace.json、clean-commands.json、native-validation.json、native-observations.json、source-audit-final.json；apps/daemon/test/input-references.test.ts；e2e/input-references.spec.ts
 
 ### INPUT-04 图片与截图附件
 

@@ -1,0 +1,51 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:35444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:31708) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\input-references.spec.ts:199:1 › INPUT-03 Electron closing a pending reference cancels its late draft attachment without sending (7.8s)
+
+
+  1) e2e\input-references.spec.ts:199:1 › INPUT-03 Electron closing a pending reference cancels its late draft attachment without sending 
+
+    Error: expect(locator).toHaveCount(expected) failed
+
+    Locator:  getByRole('region', { name: '输入引用', exact: true }).locator('[data-reference-id]')
+    Expected: 0
+    Received: 1
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveCount" getByRole('region', { name: '输入引用', exact: true }).locator('[data-reference-id]') with timeout 5000ms
+      - waiting for getByRole('region', { name: '输入引用', exact: true }).locator('[data-reference-id]')
+        14 × locator resolved to 1 element
+           - unexpected value "1"
+
+
+      226 |     await f.page.evaluate(() => new Promise<void>((done) => requestAnimationFrame(() => requestAnimationFrame(() => done()))))
+      227 |     await expect(f.page.getByRole('alert')).toHaveCount(0)
+    > 228 |     await expect(refs(f).locator('[data-reference-id]')).toHaveCount(0)
+          |                                                          ^
+      229 |     expect(f.sends()).toBe(0)
+      230 |     expect(f.app.get(SessionStore).managedSessions()).toHaveLength(0)
+      231 |     await add(f, 'tracked.txt')
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\input-references.spec.ts:228:58
+
+    Error Context: test-results\input-references-INPUT-03--6d4f1--attachment-without-sending\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\input-references-INPUT-03--6d4f1--attachment-without-sending\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\input-references-INPUT-03--6d4f1--attachment-without-sending\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\input-references.spec.ts:199:1 › INPUT-03 Electron closing a pending reference cancels its late draft attachment without sending 

@@ -1,4 +1,4 @@
-import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { blob, index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core'
 
 // Independent file-version references; raw bytes belong only to the private Git ledger.
 export const changeRounds = sqliteTable(
@@ -266,3 +266,15 @@ export const changeDecisions = sqliteTable(
   },
   (table) => [primaryKey({ columns: [table.turnId, table.fileId] })],
 )
+
+/** Original input bytes are private like the submission outbox; views use redacted data. */
+export const inputReferences = sqliteTable('input_references', {
+  id: text('id').primaryKey(),
+  draftId: text('draft_id').notNull(),
+  data: text('data').notNull(),
+  scope: text('scope'),
+  content: blob('content', { mode: 'buffer' }).notNull(),
+  createdAt: integer('created_at').notNull(),
+  sessionId: text('session_id'),
+  requestId: text('request_id'),
+})

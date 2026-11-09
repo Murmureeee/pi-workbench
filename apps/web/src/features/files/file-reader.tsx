@@ -23,7 +23,17 @@ import { sessionJson } from '../../services/session-client.js'
 import { ReaderContext, useFileReader } from './file-reader-context.js'
 
 type Source = FileReadInput['source']
-type PrepareAdd = () => ((text: string) => string | null) | null
+type PrepareAdd = () =>
+  | ((
+      selection: {
+        path: string
+        from: number
+        to: number
+        version: string
+      },
+      signal: AbortSignal,
+    ) => Promise<string | null>)
+  | null
 
 /** The active pane owns navigation and a separate current-file Dialog. Historical Diff
  * and messages stay mounted and immutable. The callback reserves a draft revision only
@@ -210,8 +220,13 @@ function FileReader({
         setNotice('选区超过 32 KiB，请缩小范围。')
         return
       }
-      const context = `[文件引用 ${current.absolutePath}:${from}-${to} · 读取版本 ${current.version}]\n${text}\n[/文件引用]`
-      setNotice(commit(context) ?? '选区已加入所属草稿，尚未发送。')
+      const resultNotice = await commit(
+        { path: current.absolutePath, from, to, version: current.version },
+        controller.signal,
+      )
+      if (alive.current && !controller.signal.aborted) {
+        setNotice(resultNotice ?? '选区已加入所属草稿，尚未发送。')
+      }
     } catch (error) {
       if (alive.current && !controller.signal.aborted) {
         setInvalid(true)

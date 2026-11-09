@@ -1,0 +1,19 @@
+{
+  "root": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\git-path-probe-xfBG5h",
+  "results": [
+    {
+      "longpaths": false,
+      "repoLength": 202,
+      "init": 0,
+      "status": 1,
+      "stderr": "error: cannot lock ref 'refs/piw/00112233-4455-4677-8899-aabbccddeeff/baseline': unable to create directory for C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\input-links-open\\git-path-probe-xfBG5h\\storagestoragestoragestoragestoragestoragestoragestoragestoragestorage\\false\\objects.git/refs/piw/00112233-4455-4677-8899-aabbccddeeff/baseline\n"
+    },
+    {
+      "longpaths": true,
+      "repoLength": 201,
+      "init": 0,
+      "status": 0,
+      "stderr": ""
+    }
+  ]
+}

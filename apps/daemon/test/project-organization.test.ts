@@ -125,7 +125,7 @@ describe('WS-06 actual SQLite/default directory/SDK local fixture boundaries', (
       'DROP TABLE session_origins; ALTER TABLE session_configurations DROP COLUMN membership_version',
     )
     f.db.exec(
-      'ALTER TABLE projects DROP COLUMN pinned; ALTER TABLE projects DROP COLUMN position; ALTER TABLE projects DROP COLUMN revision; ALTER TABLE projects DROP COLUMN removed; ALTER TABLE projects DROP COLUMN creation_input; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DROP TABLE session_model_settings; DROP TABLE directory_rounds; DROP TABLE change_rounds; DROP TABLE change_tool_observations; DROP TABLE change_rollbacks; DROP TABLE change_decisions; DELETE FROM __drizzle_migrations WHERE created_at >= 1793711585232',
+      'ALTER TABLE projects DROP COLUMN pinned; ALTER TABLE projects DROP COLUMN position; ALTER TABLE projects DROP COLUMN revision; ALTER TABLE projects DROP COLUMN removed; ALTER TABLE projects DROP COLUMN creation_input; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DROP TABLE session_model_settings; DROP TABLE directory_rounds; DROP TABLE change_rounds; DROP TABLE change_tool_observations; DROP TABLE change_rollbacks; DROP TABLE change_decisions; DROP TABLE input_references; DELETE FROM __drizzle_migrations WHERE created_at >= 1793711585232',
     )
     await f.app.close()
     const next = await fixture(f.directory)

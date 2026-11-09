@@ -155,6 +155,7 @@ describe('CORE-05 authoritative observation contract', () => {
         'git-status-v1',
         'file-browser-v1',
         'file-reading-v1',
+        'input-references-v1',
       ],
       mutations: false,
       realProviderEnabled: false,

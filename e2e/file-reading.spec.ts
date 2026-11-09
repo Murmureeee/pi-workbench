@@ -45,9 +45,15 @@ test('FILE-02 Electron actual Chinese code lines append only selected rechecked 
     await reader(f).getByRole('button', { name: '选区加入输入', exact: true }).click()
     await expect(reader(f)).toContainText('尚未发送')
     await close(f)
-    await expect(draft(f)).toHaveValue(
-      /原有中文草稿[\s\S]*中文代码.ts:2-2[\s\S]*const selected = 2/,
+    await expect(draft(f)).toHaveValue('原有中文草稿')
+    await expect(f.page.getByRole('region', { name: '输入引用', exact: true })).toContainText(
+      '中文代码.ts:2-2',
     )
+    await f.page.getByRole('button', { name: '预览引用', exact: true }).click()
+    await expect(f.page.getByRole('dialog', { name: '引用预览', exact: true })).toContainText(
+      'const selected = 2',
+    )
+    await f.page.getByRole('button', { name: '关闭引用', exact: true }).click()
     expect(await draft(f).inputValue()).not.toContain('const last = 3')
     expect(f.sends()).toBe(1)
     await browse(f, '中文代码.ts')

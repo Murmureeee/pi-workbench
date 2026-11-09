@@ -214,7 +214,7 @@ describe('WS-01 actual directory identity, SQLite and SDK isolation (no provider
         code: 'storage_failed',
       })
       database.sqlite.exec(
-        'DROP TRIGGER deny_workspace; DROP TABLE session_origins; DROP TABLE session_organization; DROP TABLE session_submissions; DROP TABLE session_configurations; DROP TABLE projects; DROP TABLE workspaces; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DROP TABLE session_model_settings; DROP TABLE directory_rounds; DROP TABLE change_rounds; DROP TABLE change_tool_observations; DROP TABLE change_rollbacks; DROP TABLE change_decisions; DELETE FROM __drizzle_migrations WHERE created_at >= 1793609651034',
+        'DROP TRIGGER deny_workspace; DROP TABLE session_origins; DROP TABLE session_organization; DROP TABLE session_submissions; DROP TABLE session_configurations; DROP TABLE projects; DROP TABLE workspaces; ALTER TABLE session_turns DROP COLUMN model_request; DROP TABLE operation_audit; DROP TABLE session_model_settings; DROP TABLE directory_rounds; DROP TABLE change_rounds; DROP TABLE change_tool_observations; DROP TABLE change_rollbacks; DROP TABLE change_decisions; DROP TABLE input_references; DELETE FROM __drizzle_migrations WHERE created_at >= 1793609651034',
       )
       await app.close()
       app = await createApp({ dataDir: f.dataDir, port: 4339 })

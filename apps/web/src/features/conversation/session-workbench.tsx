@@ -54,6 +54,7 @@ import {
   InputGroupTextarea,
 } from '@pi-workbench/ui/components/input-group'
 
+import { saveInputReference } from '../../services/input-reference-client.js'
 import { getModelCatalog } from '../../services/model-client.js'
 import { navigate, useNavigation } from '../../services/navigation.js'
 import {
@@ -76,6 +77,7 @@ import { WorkspaceEnvironment } from '../workspaces/workspace-environment.js'
 import { WorkspaceSafety } from '../workspaces/workspace-safety.js'
 import { WorkspaceWriteStatus } from '../workspaces/workspace-write-status.js'
 import { ChangeSnapshots } from './change-snapshots.js'
+import { InputReferences } from './input-references.js'
 import { ManagedThread } from './managed-thread.js'
 import { SessionAuthorizations } from './session-authorizations.js'
 import { SessionHistory } from './session-history.js'
@@ -162,6 +164,14 @@ function SessionPane({
     }
   }
   const draft = drafts[key] ?? sessionDraft(key)
+  const [referenceRequest, setReferenceRequest] = useState<{ token: string; text?: string } | null>(
+    null,
+  )
+  useEffect(() => {
+    if (!useSessionDrafts.getState().drafts[key]) {
+      update(key, {})
+    }
+  }, [key, update])
   const navOpen = useWorkbench((state) => state.navOpen),
     toggleNav = useWorkbench((state) => state.toggleNav)
   const textarea = useRef<HTMLTextAreaElement>(null),
@@ -333,6 +343,9 @@ function SessionPane({
       update(originKey, {
         pending: null,
         lastAttempt: null,
+        ...(latest.references.map((r) => r.id).join(',') === input.references?.ids.join(',')
+          ? { references: [] }
+          : {}),
         ...(latest.text.trim() === input.text ? { text: '' } : {}),
       })
     }
@@ -377,7 +390,10 @@ function SessionPane({
   const send = async (retry?: SessionSubmission) => {
     if (
       busy.current ||
-      (!draft.pending && (locked || sendBlocked || !(retry?.text ?? draft.text).trim()))
+      (!draft.pending &&
+        (locked ||
+          sendBlocked ||
+          (!(retry?.text ?? draft.text).trim() && !draft.references.length)))
     ) {
       return
     }
@@ -387,8 +403,11 @@ function SessionPane({
       requestId: crypto.randomUUID(),
       sessionId,
       configuration,
-      text: (retry?.text ?? draft.text).trim(),
+      text: (retry?.text ?? draft.text).trim() || '文件分析',
       retryOf: retry?.requestId ?? null,
+      ...(!retry && draft.references.length
+        ? { references: { draftId: draft.draftId, ids: draft.references.map((r) => r.id) } }
+        : {}),
     }
     const prior = draft.lastAttempt
     const input =
@@ -522,16 +541,23 @@ function SessionPane({
         if (!active || !authorized || origin?.pending) {
           return null
         }
-        return (text) => {
+        return async (selection, signal) => {
           if (useSessionDrafts.getState().drafts[key] !== origin) {
             return '草稿在核对期间已变化，未覆盖；请重新选择加入。'
           }
-          const appended = (origin?.text ?? '') + (origin?.text ? '\n\n' : '') + text
-          if (appended.length > 16000) {
-            return '加入后超过输入的 16,000 字符限额，请缩小选区。'
+          try {
+            await saveInputReference(
+              key,
+              csrf,
+              { kind: 'range', target: directoryTarget!, ...selection },
+              origin,
+              null,
+              signal,
+            )
+            return null
+          } catch (cause) {
+            return cause instanceof Error ? cause.message : '引用未保存；草稿保留。'
           }
-          update(key, { text: appended })
-          return null
         }
       }}
     >
@@ -1080,6 +1106,14 @@ function SessionPane({
                   ) : !options.data?.localFixtureEnabled ? (
                     <p className="phase-note">当前环境未启用离线验收模型；草稿保留，发送关闭。</p>
                   ) : null}
+                  <InputReferences
+                    draftKey={key}
+                    target={directoryTarget}
+                    csrf={csrf}
+                    disabled={Boolean(locked || draft.pending)}
+                    request={referenceRequest}
+                    dismiss={() => setReferenceRequest(null)}
+                  />
                   <InputGroup className="composer-box">
                     <InputGroupTextarea
                       ref={textarea}
@@ -1089,6 +1123,13 @@ function SessionPane({
                       value={draft.text}
                       readOnly={Boolean(draft.pending)}
                       onChange={(event) => update(key, { text: event.target.value })}
+                      onPaste={(event) => {
+                        const pasted = event.clipboardData.getData('text/plain')
+                        if (!draft.pending && pasted.length > 4096) {
+                          event.preventDefault()
+                          setReferenceRequest({ token: crypto.randomUUID(), text: pasted })
+                        }
+                      }}
                       onCompositionStart={() => {
                         composing.current = true
                       }}
@@ -1096,6 +1137,16 @@ function SessionPane({
                         composing.current = false
                       }}
                       onKeyDown={(event) => {
+                        if (
+                          event.key === '@' &&
+                          !composing.current &&
+                          !event.nativeEvent.isComposing &&
+                          !draft.pending
+                        ) {
+                          event.preventDefault()
+                          setReferenceRequest({ token: crypto.randomUUID() })
+                          return
+                        }
                         if (
                           event.key === 'Enter' &&
                           !event.shiftKey &&
@@ -1179,7 +1230,7 @@ function SessionPane({
                         disabled={
                           locked ||
                           sendBlocked ||
-                          !draft.text.trim() ||
+                          (!draft.text.trim() && !draft.references.length) ||
                           submissions.isError ||
                           sessions.isError
                         }
