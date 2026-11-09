@@ -17,6 +17,7 @@ import { trustSnapshotSchema } from '@pi-workbench/shared'
 
 import { createApp } from '../dist/bootstrap/app.js'
 import { WorkspaceDatabase } from '../dist/infrastructure/database/database.js'
+import { EventService } from '../dist/modules/events/event.service.js'
 import { KernelService } from '../dist/modules/kernels/kernel.service.js'
 import { TrustService } from '../dist/modules/security/trust.service.js'
 import { SessionStore } from '../dist/modules/sessions/session.store.js'
@@ -336,11 +337,19 @@ describe('SEC-07 metadata discovery, content consent and real SDK isolation (loc
         fixture: 'hold',
       })
       await expect.poll(() => trust.inspect().activeTurns.length, { timeout: 8000 }).toBe(1)
+      // Trust capture precedes the SDK response. Observe actual fixture streaming before
+      // exercising in-flight revocation/abort, rather than racing child request startup.
+      await expect
+        .poll(() => app.get(EventService).snapshot(first)?.turns.at(-1)?.text ?? '', {
+          timeout: 15000,
+        })
+        .toContain('OFFLINE_')
       const queued = kernels.prompt(second, f.project, {
         turnId: randomUUID(),
         text: 'queued',
         fixture: 'trust-context',
       })
+      expect(kernels.resources().queue.some((item) => item.sessionId === second)).toBe(true)
       trust.revoke(record.recordId)
       expect(trust.inspect().activeTurns[0]?.resources).toMatchObject([{ id: resource.id }])
       await kernels.abort(first, firstTurn)
@@ -359,7 +368,7 @@ describe('SEC-07 metadata discovery, content consent and real SDK isolation (loc
       await app.close()
       rmSync(f.directory, { recursive: true, force: true })
     }
-  })
+  }, 60000)
 
   it('enforces SEC-08 authentication, CSRF, Origin, strict schema and stale-preview conflict on trust writes', async () => {
     const f = fixture(),

@@ -1,0 +1,18 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:16740) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:33760) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\message-links.spec.ts:104:1 › OBS-05 Electron message search scopes every hit, references only the owned draft, and exact code copy excludes UI decoration (5.6s)
+  ok 2 e2e\message-links.spec.ts:136:1 › OBS-05 Electron copied message links survive pagination, view eviction, profile restart and unavailable-source recovery (9.8s)
+  ok 3 e2e\message-links.spec.ts:180:1 › OBS-05 Electron tool links expand the exact archived call; changed current files leave historical messages intact in light/dark narrow views (7.7s)
+  ok 4 e2e\message-links.spec.ts:219:1 › OBS-05 Electron late reference resolution cannot overwrite edits or another view; failures preserve draft and allow retry (5.0s)
+  ok 5 e2e\message-links.spec.ts:315:1 › OBS-05 Electron rechecks a new tool target before reusing a cached history page, and hides stale location success on failure (3.0s)
+
+  5 passed (49.7s)

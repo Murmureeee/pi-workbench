@@ -1,0 +1,29 @@
+{
+  "at": "2026-11-09T14:44:12.246Z",
+  "observations": 86,
+  "source": "Windows sky native input; actual SDK rendering/hold; explicitly synthetic paged history/tool; CLI external edit, archive, seed and stop labelled separately",
+  "normalExits": 2,
+  "background": {
+    "pid": 27492,
+    "epoch": "cf70c250-8f83-4af3-bc0d-a5532007da00"
+  },
+  "restart": {
+    "prompts": 0,
+    "kernels": 0,
+    "pending": 0,
+    "historyFiles": 4,
+    "historyUnchanged": true
+  },
+  "protectedFilesUnchanged": true,
+  "providerRequests": 0,
+  "excluded": [
+    "after-input-guard-refresh",
+    "apply-dark"
+  ],
+  "limitations": [
+    "No new IME candidate evidence in OBS-05; native set_value Chinese and keyboard copy/paste are separate.",
+    "Initial hold seed expired. New actual SDK round provides switch/same PID evidence; explicit CLI abort is not a native stop-button result.",
+    "Intermediate captures can retain stale accessibility during loading; settled observations supply acceptance.",
+    "Unsent window draft is not promised across full application restart."
+  ]
+}

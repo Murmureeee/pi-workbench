@@ -5,6 +5,7 @@ import type {
   HistoryMessage,
   InputQueueRecord,
   ManagedSession,
+  MessageTarget,
   ModelSelection,
   ModelUsageRecord,
   RuntimeSnapshot,
@@ -1572,6 +1573,48 @@ export class SessionStore {
       totalTurns: submissions.length,
       diagnostics: loaded.diagnostics.map((item) => item.code),
     })
+  }
+
+  /** Resolve persisted objects within one managed session. UI submission/reply IDs are not
+   * history IDs: turn/role resolves SDK records or explicitly sourced durable interruption
+   * checkpoints, never volatile observations. Tools must belong to the recorded turn;
+   * resolution never opens a kernel or confirms an undelivered checkpoint input. */
+  locate(sessionId: string, target: MessageTarget) {
+    if (!this.managedSessions().some((session) => session.id === sessionId)) {
+      return undefined
+    }
+    const loaded = this.load(sessionId)
+    if (target.kind === 'tool') {
+      const turn = this.database.db
+        .select()
+        .from(sessionTurns)
+        .where(and(eq(sessionTurns.sessionId, sessionId), eq(sessionTurns.id, target.turnId)))
+        .get()
+      const tools = runtimeSnapshotSchema.shape.turns.element.shape.tools.safeParse(
+        this.parse(turn?.tools ?? 'null'),
+      )
+      if (!tools.success || !tools.data.some((tool) => tool.id === target.toolId)) {
+        return undefined
+      }
+    }
+    const message =
+      target.kind === 'message'
+        ? loaded.messages.find((item) => item.message.id === target.messageId)?.message
+        : loaded.messages.findLast(
+            (item) =>
+              item.message.turnId === target.turnId &&
+              (target.kind === 'tool' || item.message.role === target.role),
+          )?.message
+    if (!message) {
+      return undefined
+    }
+    return {
+      sessionId,
+      messageId: message.id,
+      turnId: message.turnId,
+      toolId: target.kind === 'tool' ? target.toolId : null,
+      archived: this.organizations().find((row) => row.sessionId === sessionId)?.archived ?? false,
+    }
   }
 
   /** Newest page by default, at most 100 messages, 64 KiB UTF-8 preview each. Stable IDs anchor

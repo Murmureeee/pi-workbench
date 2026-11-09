@@ -3,7 +3,11 @@ import type { HistoryMessage } from '@pi-workbench/shared'
 import { useQuery } from '@tanstack/react-query'
 import { useEffect, useRef, useState } from 'react'
 
-import { historyPageSchema, sessionTitleListSchema } from '@pi-workbench/shared'
+import {
+  historyPageSchema,
+  messageLocationSchema,
+  sessionTitleListSchema,
+} from '@pi-workbench/shared'
 import { Alert, AlertDescription, AlertTitle } from '@pi-workbench/ui/components/alert'
 import { Badge } from '@pi-workbench/ui/components/badge'
 import { Bubble, BubbleContent } from '@pi-workbench/ui/components/bubble'
@@ -20,6 +24,7 @@ import { sessionJson } from '../../services/session-client.js'
 import { mergeTitles } from '../../services/session-title-cache.js'
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { LatestMessagesButton } from './latest-messages-button.js'
+import { MessageActions } from './message-actions.js'
 import { MessageBody } from './message-body.js'
 import { useReadingLayout } from './reading-layout.js'
 import { ReasoningCard } from './reasoning-card.js'
@@ -83,6 +88,11 @@ function HistoryEntry({
             />
           </BubbleContent>
         </Bubble>
+        <MessageActions
+          sessionId={sessionId}
+          target={{ kind: 'message', messageId: message.id }}
+          text={full.data ?? message.text}
+        />
         {message.role === 'assistant' ? (
           <ReasoningCard
             sessionId={sessionId}
@@ -212,11 +222,15 @@ export function SessionHistory({
   embedded = false,
   active = true,
   targetMessage = null,
+  targetTurn = null,
+  targetTool = null,
 }: {
   sessionId: string
   embedded?: boolean
   active?: boolean
   targetMessage?: string | null
+  targetTurn?: string | null
+  targetTool?: string | null
 }) {
   const view = useSessionViews((state) => state.views[sessionId])
   const titles = useQuery({
@@ -226,12 +240,39 @@ export function SessionHistory({
       sessionTitleListSchema.parse(await sessionJson('/api/session-titles', signal)),
   })
   const cursor = view?.cursor ?? null
+  const targetToken = JSON.stringify([targetMessage, targetTurn, targetTool])
   const [locationDismissed, setLocationDismissed] = useState<string | null>(null)
-  const around = cursor || locationDismissed === targetMessage ? null : targetMessage
+  const requested = Boolean(targetMessage || targetTool)
+  const locator = useQuery({
+    queryKey: ['message-location', sessionId, targetToken],
+    enabled: requested && active,
+    gcTime: 0,
+    retry: false,
+    queryFn: async ({ signal }) =>
+      messageLocationSchema.parse(
+        await sessionJson(
+          `/api/sessions/${encodeURIComponent(sessionId)}/locate?${new URLSearchParams(
+            targetTool
+              ? { kind: 'tool', turnId: targetTurn ?? '', toolId: targetTool }
+              : { kind: 'message', messageId: targetMessage ?? '' },
+          )}`,
+          signal,
+        ),
+      ),
+  })
+  const around =
+    cursor || locationDismissed === targetToken ? null : (locator.data?.messageId ?? targetMessage)
+  useEffect(() => {
+    setLocationDismissed(null)
+    if (requested) {
+      useSessionViews.getState().update(sessionId, { cursor: null, historyTrail: [] })
+    }
+  }, [sessionId, targetToken, requested])
   const setCursor = (value: string | null, trail: (string | null)[] = []) =>
     useSessionViews.getState().update(sessionId, { cursor: value, historyTrail: trail })
   const history = useQuery({
     queryKey: ['session-history', sessionId, cursor, around],
+    enabled: !requested || locator.isSuccess,
     queryFn: async ({ signal }) => {
       const params = new URLSearchParams({
         limit: '100',
@@ -253,7 +294,9 @@ export function SessionHistory({
     },
     gcTime: 0,
   })
-  const page = history.data
+  // A different tool can reuse the same surrounding-history query key. Do not display
+  // that cached page or its success status until this exact target has been rechecked.
+  const page = requested && !locator.isSuccess ? undefined : history.data
   return (
     <section
       aria-label="会话历史与恢复"
@@ -261,6 +304,20 @@ export function SessionHistory({
     >
       <header className="history-controls">
         <h1>会话历史与恢复 · 只读</h1>
+        {locator.isSuccess && locator.data.archived ? (
+          <Badge variant="outline">来源会话已归档 · 仅阅读，不恢复运行</Badge>
+        ) : null}
+        {locator.isError ? (
+          <Alert variant="destructive">
+            <AlertTitle>链接目标不可用</AlertTitle>
+            <AlertDescription>
+              {locator.error.message}
+              <Button variant="outline" onClick={() => void locator.refetch()}>
+                重新核对目标
+              </Button>
+            </AlertDescription>
+          </Alert>
+        ) : null}
         {titles.data?.titles.find((row) => row.sessionId === sessionId) ? (
           <p aria-label="会话标题">
             {titles.data.titles.find((row) => row.sessionId === sessionId)?.title}
@@ -285,7 +342,7 @@ export function SessionHistory({
             variant="outline"
             disabled={history.isFetching}
             onClick={() => {
-              setLocationDismissed(targetMessage)
+              setLocationDismissed(targetToken)
               if (cursor) {
                 setCursor(null)
               } else {
@@ -326,7 +383,8 @@ export function SessionHistory({
               ? '历史读取失败'
               : `本页 ${page?.messages.length ?? 0} 条消息`}
         </output>
-        {around && history.isSuccess ? (
+        {requested && locator.isPending ? <output>正在核对链接目标…</output> : null}
+        {around && page && history.isSuccess ? (
           <output>已定位搜索命中消息 · 可阅读前后文或刷新最新历史</output>
         ) : null}
         {history.isError ? (
@@ -347,7 +405,7 @@ export function SessionHistory({
             sessionId={sessionId}
             surface={`history:${around ?? cursor ?? 'latest'}`}
             active={active}
-            ready={history.isSuccess}
+            ready={Boolean(page) && history.isSuccess}
             locateMessage={around}
             navigation={<LatestMessagesButton count={0} label="返回本页末尾" />}
           >
@@ -385,6 +443,14 @@ export function SessionHistory({
                     <ToolTimeline
                       sessionId={sessionId}
                       turnId={message.turnId}
+                      targetTool={
+                        active &&
+                        !cursor &&
+                        locationDismissed !== targetToken &&
+                        message.turnId === targetTurn
+                          ? targetTool
+                          : null
+                      }
                       tools={
                         page.toolTimelines?.find((timeline) => timeline.turnId === message.turnId)
                           ?.tools ?? []

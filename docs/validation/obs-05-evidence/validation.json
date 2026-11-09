@@ -1,0 +1,50 @@
+{
+  "at": "2026-11-09T15:22:46.554Z",
+  "feature": "OBS-05",
+  "commands": [
+    {
+      "command": "pnpm run ci",
+      "exitCode": 0,
+      "vitest": {
+        "files": 66,
+        "tests": 441
+      },
+      "sdk": true,
+      "e2e": 170
+    },
+    {
+      "command": "pnpm verify:clean",
+      "exitCode": 0,
+      "commands": [
+        {
+          "command": "pnpm install --frozen-lockfile",
+          "exitCode": 0
+        },
+        {
+          "command": "pnpm check",
+          "exitCode": 0
+        },
+        {
+          "command": "pnpm build",
+          "exitCode": 0
+        },
+        {
+          "command": "pnpm test",
+          "exitCode": 0
+        },
+        {
+          "command": "pnpm smoke:sdk",
+          "exitCode": 0
+        }
+      ]
+    }
+  ],
+  "native": "native-validation.json",
+  "sourceCount": 461,
+  "ciDifferences": [
+    "apps/daemon/test/trust.test.ts"
+  ],
+  "mismatches": [],
+  "providerRequests": 0,
+  "ops08": "in_progress [true,false]"
+}

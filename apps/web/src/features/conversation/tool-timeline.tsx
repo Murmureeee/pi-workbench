@@ -1,7 +1,7 @@
 import type { RuntimeTool } from '@pi-workbench/shared'
 
 import { CheckIcon, CircleDashedIcon, TerminalIcon, XIcon } from 'lucide-react'
-import { memo, useMemo } from 'react'
+import { memo, useEffect, useMemo, useRef } from 'react'
 
 import { toolPresentation, toolRows, toolStatusNames } from '@pi-workbench/shared'
 import { Badge } from '@pi-workbench/ui/components/badge'
@@ -18,6 +18,7 @@ import {
 
 import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { OpenFileButton } from '../files/file-reader.js'
+import { MessageActions } from './message-actions.js'
 import { MessageBody } from './message-body.js'
 import { useReadingLayout } from './reading-layout.js'
 
@@ -29,14 +30,31 @@ const ToolRow = memo(function ToolRow({
   tool,
   depth,
   diagnostic,
+  located = false,
 }: {
   sessionId: string
   turnId: string
   tool: RuntimeTool
   depth: number
   diagnostic: string
+  located?: boolean
 }) {
   const key = `tool:${JSON.stringify([turnId, tool.id])}`
+  const element = useRef<HTMLElement>(null)
+  useEffect(() => {
+    if (located) {
+      const prior = sessionView(sessionId).expanded
+      if (!prior.includes(key)) {
+        useSessionViews.getState().update(sessionId, { expanded: [...prior, key] })
+      }
+      const frame = requestAnimationFrame(() => {
+        element.current?.scrollIntoView({ block: 'center' })
+        element.current?.focus({ preventScroll: true })
+      })
+      return () => cancelAnimationFrame(frame)
+    }
+    return undefined
+  }, [located, key, sessionId])
   const open = useSessionViews(
     (state) => state.views[sessionId]?.expanded.some((id) => id === key || id === tool.id) ?? false,
   )
@@ -81,6 +99,9 @@ const ToolRow = memo(function ToolRow({
           : TerminalIcon
   return (
     <section
+      ref={element}
+      tabIndex={-1}
+      data-tool-located={located || undefined}
       aria-label={`工具调用 ${tool.id}`}
       data-tool-id={tool.id}
       data-tool-depth={depth}
@@ -121,6 +142,10 @@ const ToolRow = memo(function ToolRow({
         </TraceCollapsibleTrigger>
         <TraceCollapsibleContent>
           <div className="flex min-w-0 flex-col gap-3">
+            <MessageActions
+              sessionId={sessionId}
+              target={{ kind: 'tool', turnId, toolId: tool.id }}
+            />
             <div className="flex flex-wrap gap-2">
               <Badge variant="outline">{presentation.kind}</Badge>
               {tool.risk ? (
@@ -216,10 +241,12 @@ export function ToolTimeline({
   sessionId,
   turnId,
   tools,
+  targetTool = null,
 }: {
   sessionId: string
   turnId: string
   tools: readonly RuntimeTool[]
+  targetTool?: string | null
 }) {
   const rows = useMemo(() => toolRows(tools), [tools])
   if (!rows.length) {
@@ -230,7 +257,13 @@ export function ToolTimeline({
       <p className="text-xs text-muted-foreground">工具过程 · {rows.length} 次调用 · 只读</p>
       <Trace>
         {rows.map((row) => (
-          <ToolRow key={row.tool.id} sessionId={sessionId} turnId={turnId} {...row} />
+          <ToolRow
+            key={row.tool.id}
+            sessionId={sessionId}
+            turnId={turnId}
+            located={targetTool === row.tool.id}
+            {...row}
+          />
         ))}
       </Trace>
     </section>

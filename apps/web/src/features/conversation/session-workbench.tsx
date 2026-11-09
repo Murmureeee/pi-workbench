@@ -20,7 +20,7 @@ import {
   SlidersHorizontalIcon,
   SquareIcon,
 } from 'lucide-react'
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
+import { createElement, useEffect, useLayoutEffect, useRef, useState } from 'react'
 
 import {
   accessSnapshotSchema,
@@ -79,6 +79,8 @@ import { WorkspaceWriteStatus } from '../workspaces/workspace-write-status.js'
 import { ChangeSnapshots } from './change-snapshots.js'
 import { InputReferences } from './input-references.js'
 import { ManagedThread } from './managed-thread.js'
+import { MessageActions } from './message-actions.js'
+import { MessageQuoteContext } from './message-quote-context.js'
 import { SessionAuthorizations } from './session-authorizations.js'
 import { SessionHistory } from './session-history.js'
 import { SessionInputQueue } from './session-input-queue.js'
@@ -119,6 +121,8 @@ export function SessionWorkbench() {
         sessionId={id === 'new' ? null : id}
         active={id === selected && primaryView}
         targetMessage={id === selected ? query.get('message') : null}
+        targetTurn={id === selected ? query.get('turn') : null}
+        targetTool={id === selected ? query.get('tool') : null}
       />
     </div>
   ))
@@ -130,10 +134,14 @@ function SessionPane({
   sessionId,
   active,
   targetMessage,
+  targetTurn,
+  targetTool,
 }: {
   sessionId: string | null
   active: boolean
   targetMessage: string | null
+  targetTurn: string | null
+  targetTool: string | null
 }) {
   const key = sessionId ?? 'new'
   const activeView = useRef(active)
@@ -149,7 +157,7 @@ function SessionPane({
     update = useSessionDrafts((state) => state.update)
   const storageFailed = useSessionDrafts((state) => state.storageFailed)
   const view = useSessionViews((state) => state.views[key])
-  const historyVisible = view?.panel === 'history' || Boolean(targetMessage)
+  const historyVisible = view?.panel === 'history' || Boolean(targetMessage || targetTool)
   const viewStorageFailed = useSessionViews((state) => state.storageFailed)
   const updateView = useSessionViews((state) => state.update)
   const reviewTrigger = useRef<HTMLButtonElement | null>(null)
@@ -197,6 +205,14 @@ function SessionPane({
     setRenaming({ session, token: crypto.randomUUID() })
   const [titleMenuOpen, setTitleMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const [searchSession, setSearchSession] = useState<string | null>(null)
+  const quoteRevision = useRef(0)
+  useLayoutEffect(() => {
+    quoteRevision.current += 1
+    return () => {
+      quoteRevision.current += 1
+    }
+  }, [active, key])
   const [spaceToken, setSpaceToken] = useState<string | null>(null)
   useEffect(() => {
     if (!active) {
@@ -532,7 +548,32 @@ function SessionPane({
       ) ?? []
   const selectedModel = JSON.stringify(configuration.model)
   const missingModel = providerBlocked && !modelOptions.some((item) => item.key === selectedModel)
-  return (
+  return createElement(
+    MessageQuoteContext,
+    {
+      value: () => {
+        const origin = useSessionDrafts.getState().drafts[key]
+        const revision = quoteRevision.current
+        if (!active || !authorized || currentOrganization?.archived || !origin || origin.pending) {
+          return null
+        }
+        return (text) => {
+          if (
+            !activeView.current ||
+            revision !== quoteRevision.current ||
+            useSessionDrafts.getState().drafts[key] !== origin
+          ) {
+            return '草稿或视图已变化，未加入引用；请在目标输入重新操作。'
+          }
+          const next = `${origin.text}${origin.text ? '\n\n' : ''}${text}`
+          if (next.length > 16000) {
+            return '引用后超过输入 16000 字符上限；原草稿保留。'
+          }
+          update(key, { text: next })
+          return null
+        }
+      },
+    },
     <FileReaderProvider
       target={directoryTarget}
       enabled={Boolean(active && authorized)}
@@ -576,7 +617,14 @@ function SessionPane({
                 <MessageSquarePlusIcon data-icon="inline-start" />
                 新会话
               </Button>
-              <Button variant="ghost" disabled={!authorized} onClick={() => setSearchOpen(true)}>
+              <Button
+                variant="ghost"
+                disabled={!authorized}
+                onClick={() => {
+                  setSearchSession(null)
+                  setSearchOpen(true)
+                }}
+              >
                 <SearchIcon data-icon="inline-start" />
                 搜索会话<span className="ml-auto text-xs text-muted-foreground">Ctrl+K</span>
               </Button>
@@ -720,13 +768,28 @@ function SessionPane({
                   size="sm"
                   onClick={() => {
                     updateView(key, { panel: historyVisible ? 'conversation' : 'history' })
-                    if (targetMessage) {
+                    if (targetMessage || targetTool) {
                       navigate(`/?session=${encodeURIComponent(key)}`)
                     }
                   }}
                 >
                   {historyVisible ? '返回对话' : '历史记录'}
                 </Button>
+              ) : null}
+              {current && authorized ? (
+                <>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => {
+                      setSearchSession(current.id)
+                      setSearchOpen(true)
+                    }}
+                  >
+                    查找本会话
+                  </Button>
+                  <MessageActions sessionId={current.id} />
+                </>
               ) : null}
             </header>
             {authorized ? (
@@ -808,6 +871,8 @@ function SessionPane({
                     embedded
                     active={active}
                     targetMessage={targetMessage}
+                    targetTurn={targetTurn}
+                    targetTool={targetTool}
                   />
                 ) : current && authorized ? (
                   <ManagedThread
@@ -1309,6 +1374,7 @@ function SessionPane({
         ) : null}
         {searchOpen && active && authorized ? (
           <SessionSearchDialog
+            initialSession={searchSession}
             projects={options.data?.projects ?? []}
             close={() => setSearchOpen(false)}
             select={(result) => {
@@ -1346,7 +1412,7 @@ function SessionPane({
           />
         ) : null}
       </div>
-    </FileReaderProvider>
+    </FileReaderProvider>,
   )
 }
 

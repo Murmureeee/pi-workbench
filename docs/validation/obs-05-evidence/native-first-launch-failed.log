@@ -1,0 +1,10 @@
+file:///C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench/apps/daemon/dist/modules/sessions/session.store.js:576
+            throw new Error('Native history is outside its managed runtime');
+                  ^
+
+Error: Native history is outside its managed runtime
+    at SessionStore.registerRuntime (file:///C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench/apps/daemon/dist/modules/sessions/session.store.js:576:19)
+    at seedSearchSession (file:///C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench/apps/daemon/test/helpers/search.ts:54:9)
+    at async file:///C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench/.workbench/input-links-open/obs-native.mjs:35:530
+
+Node.js v24.22.2

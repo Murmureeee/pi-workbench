@@ -5,9 +5,10 @@ import { createContext, useContext, useMemo } from 'react'
 import Markdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
 
-import { fileLink } from '@pi-workbench/shared'
+import { fileLink, parseMessageLink } from '@pi-workbench/shared'
 import { Button } from '@pi-workbench/ui/components/button'
 
+import { navigate } from '../../services/navigation.js'
 import { useFileReader } from '../files/file-reader-context.js'
 import { closedFence, messageUrl } from './content-policy.js'
 import { HighlightedCode } from './highlighted-code.js'
@@ -29,7 +30,12 @@ const components: Components = {
 function LocalOrWebLink({ children, href }: ComponentProps<'a'>) {
   const open = useFileReader(),
     local = href ? fileLink(href) : null
-  return local && open ? (
+  const link = href ? parseMessageLink(href, location.origin) : null
+  return link ? (
+    <Button variant="link" className="h-auto p-0 whitespace-normal" onClick={() => navigate(link)}>
+      {children}
+    </Button>
+  ) : local && open ? (
     <Button
       variant="link"
       className="h-auto p-0 whitespace-normal"
@@ -78,7 +84,8 @@ export default function MarkdownBody({ text, streaming }: { text: string; stream
         <Markdown
           remarkPlugins={plugins}
           urlTransform={(destination, key) =>
-            reader && key === 'href' && fileLink(destination)
+            key === 'href' &&
+            (parseMessageLink(destination, location.origin) || (reader && fileLink(destination)))
               ? destination
               : messageUrl(destination, key)
           }

@@ -1,0 +1,46 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:21076) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:5768) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\message-links.spec.ts:104:1 › OBS-05 Electron message search scopes every hit, references only the owned draft, and exact code copy excludes UI decoration (5.6s)
+  ok 2 e2e\message-links.spec.ts:136:1 › OBS-05 Electron copied message links survive pagination, view eviction, profile restart and unavailable-source recovery (10.2s)
+  ok 3 e2e\message-links.spec.ts:180:1 › OBS-05 Electron tool links expand the exact archived call; changed current files leave historical messages intact in light/dark narrow views (7.6s)
+  x  4 e2e\message-links.spec.ts:219:1 › OBS-05 Electron late reference resolution cannot overwrite edits or another view; failures preserve draft and allow retry (4.3s)
+(node:28576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 5 e2e\message-links.spec.ts:294:1 › OBS-05 Electron rechecks a new tool target before reusing a cached history page, and hides stale location success on failure (3.3s)
+
+
+  1) e2e\message-links.spec.ts:219:1 › OBS-05 Electron late reference resolution cannot overwrite edits or another view; failures preserve draft and allow retry 
+
+    Error: route.fulfill: Route is already handled!
+
+      266 |       reached = true
+      267 |       await navigating
+    > 268 |       await route.fulfill({
+          |                   ^
+      269 |         status: 200,
+      270 |         contentType: 'application/json',
+      271 |         body: JSON.stringify(
+        at afterNavigation (C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\message-links.spec.ts:268:19)
+
+    Error Context: test-results\message-links-OBS-05-Elect-bf770-serve-draft-and-allow-retry\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\message-links-OBS-05-Elect-bf770-serve-draft-and-allow-retry\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\message-links-OBS-05-Elect-bf770-serve-draft-and-allow-retry\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\message-links.spec.ts:219:1 › OBS-05 Electron late reference resolution cannot overwrite edits or another view; failures preserve draft and allow retry 
+  4 passed (53.0s)

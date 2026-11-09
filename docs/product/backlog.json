@@ -2026,21 +2026,21 @@
         "FILE-02"
       ],
       "priority": "P1",
-      "definition": "outline",
+      "definition": "detailed",
       "support": "sdk",
       "sources": [],
       "legacy": null,
       "progress": {
-        "status": "not_started",
+        "status": "verified",
         "owner": "",
         "targetDate": "",
-        "note": "",
-        "evidence": "",
+        "note": "已验收脱敏逐条消息检索、持久消息／工具归属深链接、所属草稿引用及纯代码复制。最终66文件441项Vitest、SDK、170项E2E与完整frozen clean通过；461输入与clean一致；相对CI仅强化既有SEC-07服务夹具等待，窗口源码未变复用。86条Windows原生观察、明暗802px、后台同PID／epoch、同data/profile重启零重放及两次正常退出，4份历史与5保护文件不变。真实SDK本地夹具与合成分页／工具及CLI故障单列；无新增真实IME候选。真实提供商0，配置／预算／锁未改；OPS-08继续跨阶段。",
+        "evidence": "docs/validation/obs-05-evidence/acceptance.md、validation.json、ci-final.log、clean-workspace.json、native-validation.json、native-observations.json、source-audit-final.json；apps/daemon/test/message-links.test.ts；e2e/message-links.spec.ts",
         "acceptanceChecked": [
-          false,
-          false
+          true,
+          true
         ],
-        "updatedAt": null
+        "updatedAt": "2026-11-09T15:22:46.555Z"
       }
     },
     {

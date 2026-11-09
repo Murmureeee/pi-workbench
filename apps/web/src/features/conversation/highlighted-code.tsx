@@ -2,8 +2,10 @@ import type { ThemedToken } from 'shiki'
 
 import { useEffect, useState } from 'react'
 
+import { Button } from '@pi-workbench/ui/components/button'
 import {
   CodeBlock,
+  CodeBlockActions,
   CodeBlockContent,
   CodeBlockHeader,
   CodeBlockTitle,
@@ -46,6 +48,7 @@ export function HighlightedCode({
     tokens: { id: number; parts: { id: number; token: ThemedToken }[] }[]
   } | null>(null)
   const [failed, setFailed] = useState(false)
+  const [copyStatus, setCopyStatus] = useState('')
   const selected = Object.entries(languages).find(([alias]) => alias === language)?.[1]
   const supported = enabled && Boolean(selected) && text.length <= 12000
   useEffect(() => {
@@ -90,7 +93,26 @@ export function HighlightedCode({
           {!tokens ? ' · 纯文本' : ''}
           {failed ? ' · 高亮暂不可用' : ''}
         </CodeBlockTitle>
+        <CodeBlockActions>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              void navigator.clipboard.writeText(text).then(
+                () => setCopyStatus('代码已复制'),
+                () => setCopyStatus('复制失败，请重试或选择代码复制'),
+              )
+            }}
+          >
+            复制代码
+          </Button>
+        </CodeBlockActions>
       </CodeBlockHeader>
+      {copyStatus ? (
+        <output className="px-3 text-xs" aria-live="polite">
+          {copyStatus}
+        </output>
+      ) : null}
       <CodeBlockContent
         aria-label={`代码：${language || '纯文本'}`}
         data-highlighted={Boolean(tokens)}

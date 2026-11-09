@@ -198,6 +198,13 @@ export type {
   SessionSearchPage,
 } from './session-search.js'
 export {
+  messageTargetSchema,
+  messageLocationSchema,
+  messageLink,
+  parseMessageLink,
+} from './message-links.js'
+export type { MessageTarget, MessageLocation } from './message-links.js'
+export {
   workspaceEnvironmentTargetSchema,
   workspaceEnvironmentSchema,
   gitEnvironmentSchema,

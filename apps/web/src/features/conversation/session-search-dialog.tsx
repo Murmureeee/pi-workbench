@@ -41,6 +41,7 @@ const defaults = {
   project: 'all',
   state: 'all',
   archive: 'active',
+  mode: 'sessions',
   page: 1,
   limit: 20,
 } as const
@@ -52,19 +53,25 @@ export function SessionSearchDialog({
   projects,
   close,
   select,
+  initialSession = null,
 }: {
   projects: Project[]
   close: () => void
   select: (result: SessionSearchResult) => void
+  initialSession?: string | null
 }) {
   const id = useId(),
     input = useRef<HTMLInputElement>(null),
     composing = useRef(false)
-  const [query, setQuery] = useState<SessionSearchQuery>(defaults)
+  const initial = {
+    ...defaults,
+    ...(initialSession ? { mode: 'messages' as const, session: initialSession } : {}),
+  }
+  const [query, setQuery] = useState<SessionSearchQuery>(initial)
   const [from, setFrom] = useState(''),
     [to, setTo] = useState('')
   const [composition, setComposition] = useState(false)
-  const [debounced, setDebounced] = useState(JSON.stringify(defaults))
+  const [debounced, setDebounced] = useState(JSON.stringify(initial))
   const [selected, setSelected] = useState(0)
   const token = JSON.stringify(query)
   const valid = sessionSearchQuerySchema.safeParse(query).success
@@ -179,6 +186,34 @@ export function SessionSearchDialog({
           </Field>
           <div className="search-filter-grid">
             <Field>
+              <FieldLabel htmlFor={`${id}-mode`}>检索对象</FieldLabel>
+              <select
+                id={`${id}-mode`}
+                value={query.mode}
+                onChange={(event) =>
+                  update({ mode: event.target.value === 'messages' ? 'messages' : 'sessions' })
+                }
+              >
+                <option value="sessions">会话概览</option>
+                <option value="messages">逐条消息</option>
+              </select>
+            </Field>
+            {initialSession ? (
+              <Field>
+                <FieldLabel htmlFor={`${id}-scope`}>会话范围</FieldLabel>
+                <select
+                  id={`${id}-scope`}
+                  value={query.session ?? 'all'}
+                  onChange={(event) =>
+                    update({ session: event.target.value === 'all' ? undefined : initialSession })
+                  }
+                >
+                  <option value={initialSession}>当前会话</option>
+                  <option value="all">全部会话</option>
+                </select>
+              </Field>
+            ) : null}
+            <Field>
               <FieldLabel htmlFor={`${id}-project`}>项目范围</FieldLabel>
               <select
                 id={`${id}-project`}
@@ -277,7 +312,7 @@ export function SessionSearchDialog({
                 : results.isError
                   ? '搜索失败，条件已保留'
                   : page
-                    ? `共 ${page.total} 个会话 · 第 ${page.page} 页`
+                    ? `共 ${page.total} ${query.mode === 'messages' ? '条消息' : '个会话'} · 第 ${page.page} 页`
                     : '正在搜索…'}
           </output>
           <Button variant="ghost" size="sm" onClick={clear}>
@@ -308,12 +343,15 @@ export function SessionSearchDialog({
           aria-busy={changing || results.isFetching}
         >
           {rows.map((row, index) => (
-            <li key={row.sessionId}>
+            <li key={`${row.sessionId}:${row.messageId ?? 'title'}`}>
               <Button
                 id={`${id}-result-${index}`}
                 variant="ghost"
                 className="session-search-result"
-                data-selected={chosen?.sessionId === row.sessionId || undefined}
+                data-selected={
+                  (chosen?.sessionId === row.sessionId && chosen?.messageId === row.messageId) ||
+                  undefined
+                }
                 aria-label={`${row.title} · ${row.projectName} · ${row.match === 'user' ? '用户正文命中' : row.match === 'assistant' ? '助手正文命中' : row.match === 'title' ? '标题命中' : '最近会话'}`}
                 onFocus={() => setSelected(index)}
                 onKeyDown={(event) => {

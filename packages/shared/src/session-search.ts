@@ -21,6 +21,8 @@ export const sessionSearchQuerySchema = z
     project: z.union([z.literal('all'), z.literal('none'), z.uuid()]).default('all'),
     state: z.enum(sessionSearchStates).default('all'),
     archive: z.enum(['active', 'all', 'archived']).default('active'),
+    mode: z.enum(['sessions', 'messages']).default('sessions'),
+    session: z.uuid().optional(),
     from: z.coerce.number().int().nonnegative().optional(),
     to: z.coerce.number().int().nonnegative().optional(),
     page: z.coerce.number().int().min(1).max(100000).default(1),

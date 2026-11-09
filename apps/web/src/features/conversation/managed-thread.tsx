@@ -28,6 +28,7 @@ import { sessionView, useSessionViews } from '../../stores/session-views.js'
 import { CurrentRunStatus } from './current-run-status.js'
 import { ExecutionApprovals } from './execution-approvals.js'
 import { LatestMessagesButton } from './latest-messages-button.js'
+import { MessageActions } from './message-actions.js'
 import { MessageBody } from './message-body.js'
 import { messageStamp, updatedMessages } from './message-updates.js'
 import { ModelRequestStatus } from './model-request-status.js'
@@ -246,6 +247,11 @@ export function ManagedThread({
                             />
                           </BubbleContent>
                         </Bubble>
+                        <MessageActions
+                          sessionId={sessionId}
+                          target={{ kind: 'turn', turnId: submission.turnId, role: 'user' }}
+                          text={submission.text}
+                        />
                       </MessageContent>
                     </Message>
                     <Message>
@@ -269,6 +275,13 @@ export function ManagedThread({
                             />
                           </BubbleContent>
                         </Bubble>
+                        {!['pending', 'executing'].includes(submission.status) ? (
+                          <MessageActions
+                            sessionId={sessionId}
+                            target={{ kind: 'turn', turnId: submission.turnId, role: 'assistant' }}
+                            text={text}
+                          />
+                        ) : null}
                         {submission.requestId !== currentSubmission?.requestId ? (
                           <output aria-label="任务状态">
                             {submission.status === 'executing' && turn?.phase === 'running'

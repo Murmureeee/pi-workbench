@@ -298,3 +298,7 @@ FILE-02 已验收：稳定有界 UTF-8 只读代码快照、真实行号分页�
 ## INPUT-03 已验收
 
 INPUT-03 已验收物理目录内文件／范围、仅目录路径及精确接收UTF-8粘贴，daemon不可变版本与draftId原子首发绑定；取消／迟到和发送前变化拒绝已覆盖。最终64文件／437项Vitest、SDK、165项E2E与完整frozen clean通过；455输入与clean一致后复用未变窗口阶段。原生明暗802px、中文候选、同PID／epoch后台、同profile零重放及两次正常退出补证。长路径夹具Git账本失败及遮挡截图单列，不作快照／回滚证据；真实提供商0，配置／预算／锁未改，OPS-08继续跨阶段。见[验收记录](docs/validation/input-03-evidence/acceptance.md)。
+
+## OBS-05 已验收
+
+OBS-05 已验收脱敏逐条消息检索、持久消息／工具深链接、所属草稿引用与纯代码复制。最终66文件／441项Vitest、SDK、170项E2E及完整frozen clean通过，461输入与clean一致；CI后仅强化既有SEC-07服务夹具等待，窗口未变复用；86条Windows原生观察、明暗802px、后台同PID／epoch、同profile零重放、4历史不变及两次正常退出补证。实际SDK、合成分页／工具及CLI故障分开，无新增IME候选；遮挡或无关应用捕获排除。真实提供商0、配置／预算／锁未改，OPS-08继续in_progress [true,false]。见[验收记录](docs/validation/obs-05-evidence/acceptance.md)。

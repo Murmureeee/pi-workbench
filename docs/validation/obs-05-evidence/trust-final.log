@@ -1,0 +1,16 @@
+
+ RUN  v5.0.5 C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench
+
+ ✓ apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > does not inherit ancestor instructions or trust another directory; missing, oversized and directory contexts stay unloaded 221ms
+ ✓ apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > fails closed on a SQLite consent write failure and migrates existing history without changing its ownership 2483ms
+ ✓ apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > distinguishes sources and impacts, rejects outside references/links, never imports extensions or runs scripts 2813ms
+ ✓ apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > requires explicit current-content confirmation, survives restart and revokes only the chosen record 141ms
+ ✓ apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > replaces actual provider system context per turn: untrusted, trusted, changed, revoked, cold-resumed 8662ms
+ ✓ apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > rechecks consent after FIFO wait, reports immutable in-flight use, fails closed on corrupt DB consent 6725ms
+ ✓ apps/daemon/test/trust.test.ts > SEC-07 metadata discovery, content consent and real SDK isolation (local HTTP fixture) > enforces SEC-08 authentication, CSRF, Origin, strict schema and stale-preview conflict on trust writes 114ms
+
+ Test Files  1 passed (1)
+      Tests  7 passed (7)
+   Start at  23:17:17
+   Duration  23.40s (tests 91%, import 8%, transform 1%)
+

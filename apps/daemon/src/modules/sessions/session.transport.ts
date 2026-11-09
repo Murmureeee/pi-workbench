@@ -3,7 +3,12 @@ import type { SessionStore } from './session.store.js'
 import type { HistoryMessage } from '@pi-workbench/shared'
 import type { FastifyInstance } from 'fastify'
 
-import { visibleModelRequest, visibleReasoning, visibleToolObservation } from '@pi-workbench/shared'
+import {
+  messageTargetSchema,
+  visibleModelRequest,
+  visibleReasoning,
+  visibleToolObservation,
+} from '@pi-workbench/shared'
 
 function incomplete(message: Pick<HistoryMessage, 'origin' | 'outcome'>): boolean {
   return (
@@ -30,6 +35,20 @@ export function registerSessionTransport(
     }
     return reply.header('cache-control', 'no-store').send({ titles: store.titles(query) })
   })
+  server.get<{ Params: { sessionId: string } }>(
+    '/api/sessions/:sessionId/locate',
+    (request, reply) => {
+      const target = messageTargetSchema.safeParse(request.query)
+      if (!target.success) {
+        return reply.code(400).send({ message: '消息或工具链接参数无效，请重新复制。' })
+      }
+      const location = store.locate(request.params.sessionId, target.data)
+      return reply
+        .header('cache-control', 'no-store')
+        .code(location ? 200 : 404)
+        .send(location ?? { message: '目标记录不可用或尚未持久保存；未定位到其他记录。' })
+    },
+  )
   server.get<{
     Params: { sessionId: string }
     Querystring: { cursor?: string; limit?: string; around?: string }

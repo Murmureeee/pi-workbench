@@ -96,6 +96,9 @@ export class SearchService {
       projects = this.projects.list()
     const rows: SessionSearchResult[] = []
     for (const session of managed) {
+      if (input.session && input.session !== session.id) {
+        continue
+      }
       const meta = organizations.find((row) => row.sessionId === session.id)
       const archived = meta?.archived ?? false
       const projectId = session.configuration.projectId
@@ -132,8 +135,8 @@ export class SearchService {
       }
       const title = this.security.redactor.text(session.title)
       const titleHit = query && fold(title).includes(query)
-      const bodyHit =
-        query && !titleHit
+      const bodyHits =
+        (query && !titleHit) || input.mode === 'messages'
           ? this.database.db
               .select()
               .from(sessionSearchDocuments)
@@ -144,25 +147,37 @@ export class SearchService {
                 ),
               )
               .orderBy(desc(sessionSearchDocuments.position))
-              .get()
-          : undefined
-      if (query && !titleHit && !bodyHit) {
+              .all()
+          : []
+      if (
+        (query && !titleHit && !bodyHits.length) ||
+        (input.mode === 'messages' && !bodyHits.length)
+      ) {
         continue
       }
       const project = projects.find((row) => row.id === projectId)
-      rows.push({
-        sessionId: session.id,
-        title,
-        projectId,
-        projectName: project?.name ?? '无项目',
-        projectDirectory: project?.directory ?? null,
-        updatedAt,
-        state,
-        archived,
-        match: !query ? 'recent' : titleHit ? 'title' : bodyHit!.role,
-        messageId: bodyHit?.messageId ?? null,
-        snippet: snippet(bodyHit?.body ?? title, query),
-      })
+      for (const bodyHit of input.mode === 'messages' ? bodyHits : [bodyHits[0]]) {
+        rows.push({
+          sessionId: session.id,
+          title,
+          projectId,
+          projectName: project?.name ?? '无项目',
+          projectDirectory: project?.directory ?? null,
+          updatedAt,
+          state,
+          archived,
+          match:
+            input.mode === 'messages'
+              ? bodyHit!.role
+              : !query
+                ? 'recent'
+                : titleHit
+                  ? 'title'
+                  : bodyHit!.role,
+          messageId: bodyHit?.messageId ?? null,
+          snippet: snippet(bodyHit?.body ?? title, query),
+        })
+      }
     }
     rows.sort((a, b) => b.updatedAt - a.updatedAt || a.sessionId.localeCompare(b.sessionId))
     return {
