@@ -127,6 +127,27 @@ export type { ModelCatalog, ModelProvider } from './model-contracts.js'
 export { desktopMenuSchema, desktopPageSchema, desktopThemeSchema } from './desktop-contracts.js'
 export type { DesktopBridge, DesktopPage, DesktopTheme } from './desktop-contracts.js'
 export {
+  ideAdapterSchema,
+  externalFileInputSchema,
+  externalFileRequestSchema,
+  editorCommandSchema,
+  externalResultSchema,
+  editorStatusSchema,
+  editorPreferenceSchema,
+  hostFileRequestSchema,
+  hostFileResultSchema,
+  externalTargetSchema,
+  systemOpenAllowed,
+} from './external-files.js'
+export type {
+  IdeAdapter,
+  ExternalFileInput,
+  ExternalTarget,
+  ExternalResult,
+  EditorStatus,
+  HostFileResult,
+} from './external-files.js'
+export {
   managedSessionSchema,
   projectCreateSchema,
   projectCommandSchema,

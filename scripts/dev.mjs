@@ -9,8 +9,11 @@ import { createServer } from 'vite'
 
 import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
 import { readOptions } from '../apps/daemon/dist/bootstrap/options.js'
+import { resolveHostFile } from '../apps/daemon/dist/modules/files/file-host.js'
+import { FileService } from '../apps/daemon/dist/modules/files/file.service.js'
 import { AccessService } from '../apps/daemon/dist/modules/security/access.service.js'
 import { pairingConsole } from '../apps/daemon/dist/modules/security/host-access.js'
+import { SecurityService } from '../apps/daemon/dist/modules/security/security.service.js'
 import { hostAccessRequestSchema } from '../packages/shared/dist/index.js'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
@@ -79,6 +82,19 @@ try {
       env: desktopEnvironment,
     })
     desktop.on('message', (message) => {
+      void resolveHostFile(
+        daemon.get(AccessService),
+        daemon.get(FileService),
+        daemon.get(SecurityService).redactor,
+        message,
+      )
+        .then((result) => {
+          if (result && desktop?.connected) {
+            desktop.send(result, () => undefined)
+          }
+          return undefined
+        })
+        .catch(() => process.stderr.write('Host file check unavailable\n'))
       const parsed = hostAccessRequestSchema.safeParse(message)
       if (!parsed.success || !desktop?.connected) {
         return

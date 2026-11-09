@@ -75,7 +75,16 @@ test('WS-01 real Electron picker bridge opens/deduplicates/switches; cancellatio
         const bridge: unknown = Reflect.get(window, 'piWorkbench')
         return bridge && typeof bridge === 'object' ? Object.keys(bridge) : []
       }),
-    ).toEqual(['selectDirectory', 'openMenu', 'setTheme', 'onNavigate'])
+    ).toEqual([
+      'selectDirectory',
+      'openMenu',
+      'setTheme',
+      'editorStatus',
+      'configureEditor',
+      'openFileExternally',
+      'cancelExternal',
+      'onNavigate',
+    ])
     expect(await page.evaluate(() => 'require' in window || 'process' in window)).toBe(false)
     await page.getByRole('button', { name: '选择文件夹', exact: true }).click()
     await expect(page.getByLabel('工作区操作状态')).toContainText('已取消选择')

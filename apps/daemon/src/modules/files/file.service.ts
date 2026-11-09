@@ -2,6 +2,7 @@
 import type { SessionStore } from '../sessions/session.store.js'
 import type { WorkspaceService } from '../workspaces/workspace.service.js'
 import type {
+  ExternalFileInput,
   FileNode,
   FileReadInput,
   Redactor,
@@ -16,12 +17,15 @@ import { basename, dirname, isAbsolute, join, relative, resolve } from 'node:pat
 import { HttpException } from '@nestjs/common'
 
 import {
+  externalFileInputSchema,
+  externalTargetSchema,
   fileListingSchema,
   fileLocationSchema,
   fileReadingSchema,
   fileReadInputSchema,
   fileSearchSchema,
   gitEnvironmentSchema,
+  systemOpenAllowed,
 } from '@pi-workbench/shared'
 
 import {
@@ -605,6 +609,58 @@ export class FileService {
       }
       await this.verify(scope)
       return { path, root: scope.root, workspaceId: scope.workspaceId, version, bytes }
+    })
+  }
+
+  /** Private desktop handoff, sharing registered physical identity and IO draining.
+   * Returns no permission beyond this checked target. Main must recheck immediately;
+   * external applications reopen paths, so this is not an OS lock or sandbox. */
+  externalTarget(input: ExternalFileInput) {
+    return this.run(async () => {
+      const q = externalFileInputSchema.parse(input),
+        scope = await this.scope(q.target)
+      let path: string
+      if ('file' in q.source) {
+        path = (await this.resolve(scope, q.source.file)).path
+      } else {
+        if (isAmbiguousPath(q.source.path) || isCredentialPath(q.source.path)) {
+          throw failure('打开路径无效或属于私密项；请从授权文件列表重新选择。')
+        }
+        path = isAbsolute(q.source.path)
+          ? relative(scope.root, resolve(q.source.path))
+          : q.source.path
+      }
+      const before = await proveFilePath(scope.root, path)
+      if (before.stat.isDirectory() && (q.line !== 1 || q.action === 'system')) {
+        throw failure('目录不接收代码行号或文档关联打开；请使用 IDE 或文件管理器定位。')
+      }
+      if (q.action === 'system' && !systemOpenAllowed(path)) {
+        throw failure('此类型不提供系统关联打开；请明确选择 IDE，或在文件管理器定位。')
+      }
+      if (before.stat.isFile() && (q.version || q.line > 1)) {
+        const data = await readFileSnapshot(scope.root, path, this.redactor, q.version)
+        if (data.status === 'changed' || (q.version && data.version !== q.version)) {
+          throw failure('文件版本已变化；请明确刷新当前文件后重新打开。')
+        }
+        if (q.line > 1 && (data.status !== 'ready' || q.line > data.lines.length)) {
+          throw failure('无法核对当前代码行号；请使用可阅读的当前版本与实际行号，或从第 1 行打开。')
+        }
+      }
+      const after = await proveFilePath(scope.root, path)
+      if (before.chain !== after.chain || before.stamp !== after.stamp) {
+        throw failure('打开前文件或目录已变化，请刷新后重试。')
+      }
+      await this.verify(scope)
+      return externalTargetSchema.parse({
+        root: scope.root,
+        path,
+        chain: after.chain,
+        stamp: after.stamp,
+        kind: after.stat.isDirectory() ? 'directory' : 'file',
+        action: q.action,
+        line: q.line,
+        expiresAt: Date.now() + 5000,
+      })
     })
   }
 }

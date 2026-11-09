@@ -21,6 +21,7 @@ import { Field, FieldLabel } from '@pi-workbench/ui/components/field'
 import { Input } from '@pi-workbench/ui/components/input'
 
 import { sessionJson } from '../../services/session-client.js'
+import { ExternalFileActions } from './external-file-actions.js'
 import { useFileReader } from './file-reader-context.js'
 
 const queryOptions = {
@@ -228,6 +229,9 @@ function FileResults({
               当前目录：{list.directory.path} · 按文件系统顺序分页，每页最多 100 项
             </p>
           ) : null}
+          {list ? (
+            <ExternalFileActions target={target} source={{ file: list.directory.id }} directory />
+          ) : null}
           {list?.parent ? (
             <Button variant="outline" size="sm" onClick={() => go(list.parent!.id)}>
               上级目录
@@ -318,6 +322,13 @@ function Location({
               : '目录'}
           </p>
           <NodeLabels node={query.data.file} />
+          {query.data.file.availability === 'available' ? (
+            <ExternalFileActions
+              target={target}
+              source={{ file: query.data.file.id }}
+              directory={query.data.file.kind === 'directory'}
+            />
+          ) : null}
           {read &&
           query.data.file.kind === 'file' &&
           query.data.file.availability === 'available' ? (

@@ -1,0 +1,1 @@
+e2e/external-files.spec.ts(2,36): error TS2307: Cannot find module '@pi-workbench/shared' or its corresponding type declarations.

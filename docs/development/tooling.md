@@ -289,3 +289,7 @@ FILE-02 已验收：稳定有界 UTF-8 只读代码快照、真实行号分页�
 ## OBS-05 门禁与来源
 
 OBS-05 新增3项实际服务、1项共享与5项Electron回归。最终完整66文件／441项Vitest、SDK、170项浏览器及Electron和新目录完整frozen clean通过；461产品／测试／脚本／根配置与CI／clean一致，原生后复用未变源码门禁。86条Windows原生观察（含中间态）、明暗802px、实际SDK后台同PID／epoch、同data/profile零重放、4份JSONL及5保护文件不变、两次正常退出补证。合成分页／工具、CLI归档／编辑／停止和实际SDK分开；未新增真实IME。首轮完整CI的3项窗口判据失败、stale定位修前红及定向夹具失败原文保留，见[验收记录](../validation/obs-05-evidence/acceptance.md)。真实提供商0、配置／预算／锁未改，OPS-08继续跨阶段in_progress [true,false]。
+
+## FILE-06 已验收
+
+FILE-06 已验收：daemon物理范围与5秒私有证明、main再次核对身份／版本／行号，VS Code发现及明确程序选择，固定argv且shell:false，取消／迟到／重复／导航收尾和失败恢复。9项服务与5项Electron回归；最终完整67文件／450项Vitest、SDK、175项E2E和新目录完整frozen clean通过，473输入与CI／clean一致后复用。123条Windows原生观察含中间态：真实VS Code中文路径第2行、Explorer选中、程序取消／失效恢复、明暗802px、后台同PID／epoch、同profile零重放与两次正常退出，2份JSONL及5保护文件不变。系统打开仅证明真实Windows应用选择器，未证明最终关联应用启动；无新增IME。真实提供商0，配置／预算／锁未改，OPS-08继续in_progress [true,false]。实际SDK本地HTTP、C#无窗口argv夹具、自动shell／dialog替身和原生真实应用分别记录；首轮CI精确preload白名单未更新导致174／175，修正后完整CI与clean通过。服务ACL SID语法及初轮E2E遮罩判据失败保留，SID脱敏。见[验收记录](../validation/file-06-evidence/acceptance.md)。

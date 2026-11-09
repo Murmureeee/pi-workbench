@@ -20,6 +20,13 @@ contextBridge.exposeInMainWorld(
       const result: unknown = await ipcRenderer.invoke('piw:theme', theme)
       return result === true
     },
+    editorStatus: async (): Promise<unknown> => ipcRenderer.invoke('piw:editor-status'),
+    configureEditor: async (command): Promise<unknown> =>
+      ipcRenderer.invoke('piw:configure-editor', command),
+    openFileExternally: async (request): Promise<unknown> =>
+      ipcRenderer.invoke('piw:external-file', request),
+    cancelExternal: async (id): Promise<boolean> =>
+      (await ipcRenderer.invoke('piw:cancel-external', id)) === true,
     onNavigate: (receive) => {
       const listener = (_event: unknown, page: DesktopPage) => receive(page)
       ipcRenderer.on('piw:navigate', listener)

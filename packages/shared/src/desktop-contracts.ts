@@ -1,3 +1,5 @@
+import type { editorCommandSchema, externalFileRequestSchema } from './external-files.js'
+
 import { z } from 'zod'
 
 export const desktopThemeSchema = z.enum(['system', 'light', 'dark'])
@@ -22,4 +24,8 @@ export interface DesktopBridge {
   openMenu: (menu: z.infer<typeof desktopMenuSchema>) => Promise<boolean>
   setTheme: (theme: DesktopTheme) => Promise<boolean>
   onNavigate: (receive: (page: DesktopPage) => void) => () => void
+  editorStatus: () => Promise<unknown>
+  configureEditor: (command: z.infer<typeof editorCommandSchema>) => Promise<unknown>
+  openFileExternally: (request: z.infer<typeof externalFileRequestSchema>) => Promise<unknown>
+  cancelExternal: (id: string) => Promise<boolean>
 }

@@ -1,5 +1,5 @@
 // @env node
-import type { DesktopPage } from '@pi-workbench/shared'
+import type { DesktopPage, ExternalFileInput, ExternalTarget } from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
 import process from 'node:process'
@@ -7,9 +7,11 @@ import { fileURLToPath } from 'node:url'
 
 import { app, BrowserWindow, Menu, nativeTheme, shell, Tray } from 'electron'
 
-import { hostAccessResultSchema } from '@pi-workbench/shared'
+import { hostAccessResultSchema, hostFileResultSchema } from '@pi-workbench/shared'
 
 import { registerDirectoryPicker } from './directory-picker.js'
+import { registerExternalFiles } from './external-files.js'
+import { ExternalOpenError } from './external-target.js'
 import { trayIcon } from './tray-icon.js'
 import { registerWindowChrome } from './window-chrome.js'
 
@@ -58,7 +60,51 @@ async function hostAccess(operation: 'desktop' | 'browser') {
 app.on('before-quit', () => {
   exiting = true
 })
+
+/** The parent's authenticated daemon resolves the target; neither the renderer nor an
+ * HTTP caller can obtain this raw physical proof or the main-only desktop cookie. */
+async function hostFileTarget(cookie: string, input: ExternalFileInput): Promise<ExternalTarget> {
+  if (!process.send || !cookie) {
+    throw new ExternalOpenError('桌面宿主不可用，请重新连接应用后重试。')
+  }
+  const id = randomUUID()
+  return new Promise((resolve, reject) => {
+    const cleanup = () => {
+      clearTimeout(timer)
+      process.off('message', receive)
+      process.off('disconnect', disconnected)
+    }
+    const receive = (value: unknown) => {
+      const parsed = hostFileResultSchema.safeParse(value)
+      if (!parsed.success || parsed.data.id !== id) {
+        return
+      }
+      cleanup()
+      if (parsed.data.ok) {
+        resolve(parsed.data.target)
+      } else {
+        reject(new ExternalOpenError(parsed.data.message))
+      }
+    }
+    const disconnected = () => {
+      cleanup()
+      reject(new ExternalOpenError('宿主连接已断开；未打开目标，请重新连接。'))
+    }
+    const timer = setTimeout(() => {
+      cleanup()
+      reject(new ExternalOpenError('宿主文件检查超时；请重新连接后重试。'))
+    }, 5000)
+    process.on('message', receive)
+    process.once('disconnect', disconnected)
+    process.send?.({ type: 'host-file-target', id, cookie, input }, (error) => {
+      if (error) {
+        disconnected()
+      }
+    })
+  })
+}
 async function createDesktop() {
+  let desktopCookie = ''
   const window = new BrowserWindow({
     width: 1440,
     height: 960,
@@ -82,6 +128,12 @@ async function createDesktop() {
     },
   })
   registerDirectoryPicker(window, workbenchUrl)
+  registerExternalFiles(
+    window,
+    workbenchUrl,
+    (input) => hostFileTarget(desktopCookie, input),
+    () => exiting,
+  )
   function showWindow() {
     window.show()
     window.focus()
@@ -236,6 +288,7 @@ async function createDesktop() {
         httpOnly: true,
         sameSite: 'strict',
       })
+      desktopCookie = `${cookie[1]}=${cookie[2]}`
     } catch {
       console.error('Desktop client authorization unavailable; pairing is required')
     }

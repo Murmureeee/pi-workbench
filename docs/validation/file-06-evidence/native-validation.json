@@ -1,0 +1,96 @@
+{
+  "at": "2026-11-09T17:56:44.221Z",
+  "observations": 123,
+  "source": "Windows native sky input and actual VS Code/Explorer/OS picker; actual SDK local HTTP; CLI program deletion, file edit, background start/abort explicitly separate",
+  "normalExits": 2,
+  "background": {
+    "pid": 31760,
+    "epoch": "1309deb5-ad0a-4c57-935b-86a35a6248ad",
+    "observations": [
+      "92-background-start-dark",
+      "93-view-background",
+      "94-background-running-native",
+      "95-back-main",
+      "96-main-background-alive",
+      "97-dark-browser",
+      "98-dark-narrow-browser",
+      "99-open-fresh-code",
+      "100-fresh-reader-background",
+      "101-reject-code-system-open",
+      "102-system-script-rejected",
+      "103-read-code",
+      "104-reader-current-dark",
+      "105-real-file-change-blocked",
+      "106-explicit-refresh",
+      "107-new-version-visible"
+    ]
+  },
+  "restart": {
+    "prompts": 0,
+    "kernels": 0,
+    "pending": 0,
+    "grants": 0,
+    "historyFiles": 2,
+    "historyUnchanged": true,
+    "editorChoicePreserved": true,
+    "externalWindowsReopened": false
+  },
+  "protectedFilesUnchanged": true,
+  "providerRequests": 0,
+  "privacyOmitted": [
+    "19-real-explorer-selection",
+    "20-return-explorer",
+    "41-native-picker",
+    "42-native-dialog",
+    "43-dialog-refresh",
+    "44-picker-cancel-coordinate",
+    "49-root-picker",
+    "50-escape-picker",
+    "52-select-fixture",
+    "53-picker-current",
+    "54-focus-program-filename",
+    "55-native-filename-geometry",
+    "56-focus-native-name",
+    "57-enter-local-program-path",
+    "58-save-local-program",
+    "64-select-real-code",
+    "65-real-code-dialog",
+    "66-focus-real-code-name",
+    "67-enter-real-code",
+    "68-save-real-code-choice"
+  ],
+  "crops": [
+    {
+      "source": "19-real-explorer-selection-1.png",
+      "sourceSha256": "b3a0f410bb214535d89f9d81a4e4ca7428594540c645ba883892a4a45e26b1c6",
+      "crop": "explorer-fixture-crop.png",
+      "rectangle": {
+        "x": 270,
+        "y": 100,
+        "width": 1200,
+        "height": 330
+      },
+      "purpose": "Omit private Quick Access/sidebar; retain actual selected fixture file"
+    },
+    {
+      "source": "36-system-result-0.png",
+      "sourceSha256": "403a877559168cef74143e6bc5ec186cf8b52e9433600150357d821621883061",
+      "crop": "system-picker-crop.png",
+      "rectangle": {
+        "x": 497,
+        "y": 193,
+        "width": 447,
+        "height": 160
+      },
+      "purpose": "Retain .txt OS picker header, omit unrelated installed-app list"
+    }
+  ],
+  "limitations": [
+    "System open reached actual Windows application picker; no final Notepad/association launch proved. The later only-once attempt activated owner and reached the reader, so is not successful application evidence.",
+    "No new real IME candidate evidence; Chinese draft used native set_value.",
+    "Earlier expired 300-second file handle is not an external file change; the later real 61-to-25-byte CLI edit has independent native observation.",
+    "Native background start/stop is explicit CLI SDK fixture, not a native stop-button result.",
+    "Native selector/combobox accessibility can lag; settled observations supply acceptance. Native theme click hit an owned popup and recovered by activation plus keyboard confirmation.",
+    "External requests are handed off to independently running apps; no OS sandbox or final IDE execution-success guarantee."
+  ]
+}

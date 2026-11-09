@@ -1,0 +1,54 @@
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 372ms on 421 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+$ pnpm build:server && pnpm -r typecheck && tsc -p tsconfig.tools.json
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/shared build$ tsc -p tsconfig.json
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+packages/shared typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck$ tsc -p tsconfig.json --noEmit
+packages/shared typecheck: Done
+apps/desktop typecheck$ tsc -p tsconfig.json --noEmit
+packages/agent-adapter typecheck$ tsc -p tsconfig.json --noEmit
+packages/ui typecheck: Done
+apps/web typecheck$ tsc --noEmit
+apps/desktop typecheck: Done
+packages/agent-adapter typecheck: Done
+apps/daemon typecheck$ tsc -p tsconfig.json --noEmit
+apps/web typecheck: Done
+apps/daemon typecheck: Done
+$ knip
+$ node scripts/planning/verify-roadmap.mjs && node scripts/docs/verify.mjs
+PASS current backlog definitions, dependencies and progress are valid
+PASS design coverage does not count as implementation
+PASS cannot mark done without acceptance or evidence
+PASS unmet prerequisites prevent false completion
+PASS batch import checks the whole resulting graph, regardless of row order
+PASS failed import is atomic and cannot corrupt existing definitions
+PASS unknown IDs and changed acceptance definitions are rejected
+PASS blocked status requires a cause and invalid dates are rejected
+PASS cycles and dependencies in later stages are detected
+PASS downgrading a prerequisite cannot leave dependent completion valid
+PASS generated HTML embeds exactly the canonical scope and compiles
+PASS generated Markdown includes every stable feature and acceptance criterion
+Verified 12 checks. Product progress unchanged.
+PASS documentation structure: 29 documents, 945 local links, legacy redirects and PRD data

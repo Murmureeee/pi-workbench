@@ -20,6 +20,7 @@ import { Field, FieldLabel } from '@pi-workbench/ui/components/field'
 import { Input } from '@pi-workbench/ui/components/input'
 
 import { sessionJson } from '../../services/session-client.js'
+import { ExternalFileActions } from './external-file-actions.js'
 import { ReaderContext, useFileReader } from './file-reader-context.js'
 
 type Source = FileReadInput['source']
@@ -255,6 +256,20 @@ function FileReader({
           <p className="text-xs text-muted-foreground">{data.diagnostic}</p>
         </>
       ) : null}
+      <ExternalFileActions
+        target={target}
+        source={source}
+        line={Number(start)}
+        {...(data?.version ? { version: data.version } : {})}
+        disabled={
+          !data ||
+          data.status === 'changed' ||
+          invalid ||
+          !Number.isInteger(Number(start)) ||
+          Number(start) < 1 ||
+          Number(start) > 10000
+        }
+      />
       {ready ? (
         <>
           {line > ready.lines.length ? (

@@ -550,3 +550,9 @@ CHANGE-08 的共享范围契约、FileLedger 容量核对、daemon coverage 只�
 ## FILE-02 当前代码观察
 
 FileService.read 复用 FILE-01 已登记物理目标、四项 IO 准入与 KernelService 顺序退出；稳定 descriptor 和祖先链前后重验，不调用模型、写文件或修改 Git。shared 公开严格请求／展示契约、能力和纯本地链接解析；renderer 只有当前快照与显式引用 UI。路径字符串均为不可信定位提示，不能增加根或绕过 SEC-10。历史 Diff 与当前阅读分开查询，失败不以当前文件补造历史。完整实际门禁和来源见[验收记录](../validation/file-02-evidence/acceptance.md)。
+
+## FILE-06 外部程序交付规则
+
+固定 preload 请求经 Electron main 的发送窗口／主 frame／Origin 校验；daemon 复用 FileService 物理根、目标归属、版本／实际行数、私密／链接边界与四项 IO 收尾。主进程私有 Cookie 和五秒路径证明仅走父子 IPC，不增加原始路径 REST；父进程在 IO 前后重查 desktop 身份，main 交付前重查物理链与版本。视图卸载、主 frame 导航、取消或退出使尚未交付的动作失效，真实 IO settle 前保留本窗口占用；不停止 SDK 或关闭已交付外部应用。
+
+默认只读发现标准安装与绝对 PATH 指向的 VS Code，不运行 code.cmd。原生选择器选择真实 .exe，固定 VS Code／JetBrains／仅路径三种参数数组；选择与启动分开，程序版本变化需重新明确选择。spawn 使用 shell:false；系统关联只开放普通文档／图片白名单，文件管理器定位同样重验路径。启动确认仅代表操作系统接收或进程早期状态，不保证外部应用最终显示，也不提供 OS 沙箱或原子路径锁。验收状态及来源见[本项记录](../validation/file-06-evidence/acceptance.md)。

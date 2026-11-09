@@ -302,3 +302,7 @@ INPUT-03 已验收物理目录内文件／范围、仅目录路径及精确接�
 ## OBS-05 已验收
 
 OBS-05 已验收脱敏逐条消息检索、持久消息／工具深链接、所属草稿引用与纯代码复制。最终66文件／441项Vitest、SDK、170项E2E及完整frozen clean通过，461输入与clean一致；CI后仅强化既有SEC-07服务夹具等待，窗口未变复用；86条Windows原生观察、明暗802px、后台同PID／epoch、同profile零重放、4历史不变及两次正常退出补证。实际SDK、合成分页／工具及CLI故障分开，无新增IME候选；遮挡或无关应用捕获排除。真实提供商0、配置／预算／锁未改，OPS-08继续in_progress [true,false]。见[验收记录](docs/validation/obs-05-evidence/acceptance.md)。
+
+## FILE-06 已验收
+
+FILE-06 已验收：daemon物理范围与5秒私有证明、main再次核对身份／版本／行号，VS Code发现及明确程序选择，固定argv且shell:false，取消／迟到／重复／导航收尾和失败恢复。9项服务与5项Electron回归；最终完整67文件／450项Vitest、SDK、175项E2E和新目录完整frozen clean通过，473输入与CI／clean一致后复用。123条Windows原生观察含中间态：真实VS Code中文路径第2行、Explorer选中、程序取消／失效恢复、明暗802px、后台同PID／epoch、同profile零重放与两次正常退出，2份JSONL及5保护文件不变。系统打开仅证明真实Windows应用选择器，未证明最终关联应用启动；无新增IME。真实提供商0，配置／预算／锁未改，OPS-08继续in_progress [true,false]。见[验收记录](docs/validation/file-06-evidence/acceptance.md)。

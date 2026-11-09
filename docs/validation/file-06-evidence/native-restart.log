@@ -1,0 +1,14 @@
+{"ready":true,"directory":"C:\\Users\\Murmure\\AppData\\Local\\Temp\\pw-fo-T8Z0Ow","desktopPid":35772}
+
+[35772:1110/014816.366:INFO:CONSOLE:946] "[vite] connecting...", source: http://127.0.0.1:5173/@vite/client (946)
+[35772:1110/014816.384:INFO:CONSOLE:1055] "[vite] connected.", source: http://127.0.0.1:5173/@vite/client (1055)
+[35772:1110/014816.614:INFO:CONSOLE:15803] "%cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold", source: http://127.0.0.1:5173/node_modules/.vite/deps/react-dom_client.js?v=e48002bb (15803)
+[35772:1110/014816.642:INFO:CONSOLE:0] "Electron Security Warning (Insecure Content-Security-Policy) This renderer process has either no Content Security
+  Policy set or a policy with "unsafe-eval" enabled. This exposes users of
+  this app to unnecessary security risks.
+
+For more information and help, consult
+https://electronjs.org/docs/tutorial/security.
+This warning will not show up
+once the app is packaged.", source: http://127.0.0.1:5173/ (0)
+NATIVE_CLOSED_OK

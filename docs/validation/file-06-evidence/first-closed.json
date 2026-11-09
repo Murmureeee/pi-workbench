@@ -1,0 +1,145 @@
+{
+  "feature": "FILE-06",
+  "directory": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\pw-fo-T8Z0Ow",
+  "desktopPid": 13588,
+  "exitInfo": {
+    "code": 0,
+    "signal": null
+  },
+  "prompts": 2,
+  "kernels": [
+    {
+      "protocol": 1,
+      "sessionId": "8cbf0eae-8d59-43eb-a955-3eddc89e8412",
+      "epoch": "1309deb5-ad0a-4c57-935b-86a35a6248ad",
+      "source": "real-sdk/local-fixture",
+      "state": "stopped",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\pw-fo-T8Z0Ow\\后台目录",
+      "turnId": "239cb413-fbea-4b61-a741-b32da2a91988",
+      "pid": 31760,
+      "sessionFile": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\pw-fo-T8Z0Ow\\data\\kernels\\8cbf0eae-8d59-43eb-a955-3eddc89e8412\\1309deb5-ad0a-4c57-935b-86a35a6248ad\\sessions\\2026-11-09T17-43-00-272Z_01a1c167-fdaf-708d-819e-8283ec843029.jsonl",
+      "nativeSessionId": "01a1c167-fdaf-708d-819e-8283ec843029"
+    }
+  ],
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "7de585c9-a57d-48c1-9b6a-819e12d08519",
+      "title": "FILE-06 外部打开主会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "fac33f87-1d7d-4c1c-872e-614eb00b3505",
+      "configuration": {
+        "projectId": "7b78a821-6b7b-44f2-a7db-a75e90684de9",
+        "workspaceId": "63da5313-8e7a-446a-998d-8e689683c965",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "63da5313-8e7a-446a-998d-8e689683c965",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\pw-fo-T8Z0Ow\\中文目录",
+      "createdAt": 1794244082987
+    },
+    {
+      "id": "8cbf0eae-8d59-43eb-a955-3eddc89e8412",
+      "title": "保持 FILE-06 后台原生观察",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "434cbe71-51b1-44f1-a826-f75dcc536a68",
+      "configuration": {
+        "projectId": "17aa4484-c23f-43e7-802f-c0857c75ed35",
+        "workspaceId": "56e8c9d4-c08a-43a9-ade3-25948851b683",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "56e8c9d4-c08a-43a9-ade3-25948851b683",
+      "cwd": "C:\\Users\\Murmure\\AppData\\Local\\Temp\\pw-fo-T8Z0Ow\\后台目录",
+      "createdAt": 1794246179014
+    }
+  ],
+  "operations": [
+    {
+      "action": "remove-editor",
+      "source": "explicit CLI file/SDK fixture",
+      "at": "2026-11-09T17:30:34.355Z"
+    },
+    {
+      "backgroundRequest": "434cbe71-51b1-44f1-a826-f75dcc536a68",
+      "source": "explicit CLI actual SDK local fixture"
+    },
+    {
+      "action": "start-background",
+      "source": "explicit CLI file/SDK fixture",
+      "at": "2026-11-09T17:42:59.037Z"
+    },
+    {
+      "action": "edit-file",
+      "source": "explicit CLI file/SDK fixture",
+      "at": "2026-11-09T17:45:46.521Z"
+    },
+    {
+      "action": "stop-background",
+      "source": "explicit CLI file/SDK fixture",
+      "at": "2026-11-09T17:46:40.634Z"
+    }
+  ],
+  "historyBefore": {
+    "7de585c9-a57d-48c1-9b6a-819e12d08519\\e113b59a-5530-4d69-96db-23eca35457a2\\sessions\\2026-11-09T17-08-04-286Z_01a1c148-023d-75c6-a885-c6bf97104faf.jsonl": "9a24939373c940f05d56ced61fd90c97c8a167dc5078ad0502c4fe5021e39fed"
+  },
+  "historyAfter": {
+    "7de585c9-a57d-48c1-9b6a-819e12d08519\\e113b59a-5530-4d69-96db-23eca35457a2\\sessions\\2026-11-09T17-08-04-286Z_01a1c148-023d-75c6-a885-c6bf97104faf.jsonl": "9a24939373c940f05d56ced61fd90c97c8a167dc5078ad0502c4fe5021e39fed",
+    "8cbf0eae-8d59-43eb-a955-3eddc89e8412\\1309deb5-ad0a-4c57-935b-86a35a6248ad\\sessions\\2026-11-09T17-43-00-272Z_01a1c167-fdaf-708d-819e-8283ec843029.jsonl": "b520710ed1957b8577e9cf00f2890063915bbe17eef759724d87cc3dea5f00a8"
+  },
+  "protectedBefore": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "protectedAfter": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  },
+  "providerRequests": 0,
+  "editorPreference": {
+    "version": 1,
+    "path": "D:\\Software\\Microsoft VS Code\\Code.exe",
+    "stamp": "1418807871:281474977805258:1793208358913.4243:238751552:1793105588000:1793286948626.754:1",
+    "adapter": "vscode"
+  },
+  "closed": true,
+  "managedAfter": [
+    {
+      "pid": 31760,
+      "alive": false
+    }
+  ],
+  "historyAtClose": {
+    "7de585c9-a57d-48c1-9b6a-819e12d08519\\e113b59a-5530-4d69-96db-23eca35457a2\\sessions\\2026-11-09T17-08-04-286Z_01a1c148-023d-75c6-a885-c6bf97104faf.jsonl": "9a24939373c940f05d56ced61fd90c97c8a167dc5078ad0502c4fe5021e39fed",
+    "8cbf0eae-8d59-43eb-a955-3eddc89e8412\\1309deb5-ad0a-4c57-935b-86a35a6248ad\\sessions\\2026-11-09T17-43-00-272Z_01a1c167-fdaf-708d-819e-8283ec843029.jsonl": "b520710ed1957b8577e9cf00f2890063915bbe17eef759724d87cc3dea5f00a8"
+  },
+  "protectedAtClose": {
+    "docs/validation/live-validation-budget.json": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251",
+    "pnpm-lock.yaml": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c",
+    "C:\\Users\\Murmure\\.pi\\agent\\auth.json": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d",
+    "C:\\Users\\Murmure\\.pi\\agent\\models.json": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb",
+    "C:\\Users\\Murmure\\.pi\\agent\\settings.json": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+  }
+}

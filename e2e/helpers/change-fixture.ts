@@ -21,7 +21,7 @@ function required<T>(v: T | undefined): T {
   }
   return v
 }
-export async function setupChanges(ledgerCapacityBytes?: number) {
+export async function setupChanges(ledgerCapacityBytes?: number, externalShell = false) {
   const root = mkdtempSync(join(tmpdir(), 'piw-review-ui-')),
     cwd = join(root, '中文工作目录'),
     other = join(root, '独立目录'),
@@ -81,7 +81,7 @@ export async function setupChanges(ledgerCapacityBytes?: number) {
   }
   wire()
   await app.listen(4318, '127.0.0.1')
-  let desktop = await launchWorkspaceDesktop(root, app)
+  let desktop = await launchWorkspaceDesktop(root, app, externalShell)
   return {
     root,
     cwd,
@@ -91,6 +91,9 @@ export async function setupChanges(ledgerCapacityBytes?: number) {
     },
     get page() {
       return desktop.page
+    },
+    get desktop() {
+      return desktop
     },
     get kernels() {
       return app.get(KernelService)
@@ -162,7 +165,7 @@ export async function setupChanges(ledgerCapacityBytes?: number) {
       sends = 0
       wire()
       await app.listen(4318, '127.0.0.1')
-      desktop = await launchWorkspaceDesktop(root, app)
+      desktop = await launchWorkspaceDesktop(root, app, externalShell)
     },
     close: async () => {
       await desktop.close()

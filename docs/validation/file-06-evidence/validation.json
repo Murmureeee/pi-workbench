@@ -1,0 +1,69 @@
+{
+  "at": "2026-11-09T17:56:44.243Z",
+  "feature": "FILE-06",
+  "source": "actual files, SQLite, physical proofs, exact argv local executable fixture, actual SDK local HTTP; renderer shell/dialog substitutions only in automated tests",
+  "serviceTests": 9,
+  "electronTests": 5,
+  "ci": {
+    "command": "pnpm run ci",
+    "exitCode": 0,
+    "testFiles": 67,
+    "vitest": 450,
+    "e2e": 175,
+    "providerRequests": 0
+  },
+  "clean": {
+    "command": "pnpm verify:clean",
+    "exitCode": 0,
+    "frozenInstall": true,
+    "commands": [
+      {
+        "command": "pnpm install --frozen-lockfile",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm check",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm build",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm test",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm smoke:sdk",
+        "exitCode": 0
+      }
+    ],
+    "gracefulShutdown": true,
+    "lockUnchanged": true
+  },
+  "sourceCount": 473,
+  "sourceUnchangedAfterWindows": true,
+  "windows": {
+    "observations": 123,
+    "normalExits": 2
+  },
+  "providerRequests": 0,
+  "finalDocumentation": {
+    "commands": [
+      {
+        "command": "pnpm docs:build",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm fix",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm check",
+        "exitCode": 0
+      }
+    ],
+    "sourceUnchanged": true,
+    "ciAndCleanReused": true
+  }
+}

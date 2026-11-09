@@ -8,7 +8,10 @@ import { pathToFileURL } from 'node:url'
 import { chromium, _electron as electron, expect, test } from '@playwright/test'
 
 import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
+import { resolveHostFile } from '../apps/daemon/dist/modules/files/file-host.js'
+import { FileService } from '../apps/daemon/dist/modules/files/file.service.js'
 import { AccessService } from '../apps/daemon/dist/modules/security/access.service.js'
+import { SecurityService } from '../apps/daemon/dist/modules/security/security.service.js'
 import { hostAccessRequestSchema } from '../packages/shared/dist/index.js'
 
 test('Electron native chrome, settings navigation, theme and isolated renderer retain tray lifecycle', async () => {
@@ -227,6 +230,17 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
   })
   child.stdout?.resume()
   child.on('message', (message: unknown) => {
+    void resolveHostFile(
+      app.get(AccessService),
+      app.get(FileService),
+      app.get(SecurityService).redactor,
+      message,
+    ).then((result) => {
+      if (result && child.connected) {
+        child.send(result, () => undefined)
+      }
+      return undefined
+    })
     const request = hostAccessRequestSchema.safeParse(message)
     if (request.success && child.connected) {
       child.send({

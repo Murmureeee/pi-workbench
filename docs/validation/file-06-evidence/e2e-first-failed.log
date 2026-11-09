@@ -1,0 +1,57 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:26156) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:29508) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+  x  1 e2e\external-files.spec.ts:43:1 › FILE-06 Electron native selection fixture and real process receive exact Unicode path/line arguments without sending a draft (12.1s)
+(node:36320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+  ok 2 e2e\external-files.spec.ts:79:1 › FILE-06 Electron program failure/missing recovery, system association diagnostics, themes and same-profile restart never replay opens (11.2s)
+  ok 3 e2e\external-files.spec.ts:134:1 › FILE-06 Electron delayed private proof, queue ownership, cancel, duplicate ID and view switch preserve the actual background kernel (6.2s)
+  ok 4 e2e\external-files.spec.ts:187:1 › FILE-06 Electron rejects malformed privileges, other window and wrong origin; changed/deleted targets fail before shell handoff (8.6s)
+
+
+  1) e2e\external-files.spec.ts:43:1 › FILE-06 Electron native selection fixture and real process receive exact Unicode path/line arguments without sending a draft 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator: getByRole('textbox', { name: '任务内容' })
+    Expected: "保留未发送中文草稿"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toHaveValue" getByRole('textbox', { name: '任务内容' }) with timeout 5000ms
+      - waiting for getByRole('textbox', { name: '任务内容' })
+
+
+      68 |     expect(argv).toEqual(['--new-window', '--goto', path + ':2'])
+      69 |     await f.page.getByRole('button', { name: '关闭代码阅读', exact: true }).click()
+    > 70 |     await expect(f.page.getByRole('textbox', { name: '任务内容' })).toHaveValue(
+         |                                                                 ^
+      71 |       '保留未发送中文草稿',
+      72 |     )
+      73 |     expect(f.sends()).toBe(1)
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\external-files.spec.ts:70:65
+
+    Error Context: test-results\external-files-FILE-06-Ele-c1188-nts-without-sending-a-draft\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\external-files-FILE-06-Ele-c1188-nts-without-sending-a-draft\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\external-files-FILE-06-Ele-c1188-nts-without-sending-a-draft\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\external-files.spec.ts:43:1 › FILE-06 Electron native selection fixture and real process receive exact Unicode path/line arguments without sending a draft 
+  3 passed (56.2s)

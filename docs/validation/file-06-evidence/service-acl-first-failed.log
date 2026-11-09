@@ -1,0 +1,29 @@
+
+ RUN  v5.0.5 C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench
+
+SID-REDACTED: �˻����밲ȫ��ʶ�����κ�ӳ����ɡ�
+ ❯ apps/daemon/test/external-files.test.ts (9 tests | 1 failed) 1247ms
+   × fILE-06 isolated native executable permission denial fails with recovery and never alters the selected program 351ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/external-files.test.ts > fILE-06 isolated native executable permission denial fails with recovery and never alters the selected program
+Error: Command failed: icacls C:\Users\Murmure\AppData\Local\Temp\piw-change-chain-1UAT8t\local editor.exe /deny SID-REDACTED:(X)
+SID-REDACTED: �˻����밲ȫ��ʶ�����κ�ӳ����ɡ�
+
+ ❯ apps/daemon/test/external-files.test.ts:54:7
+     52|       const sid=execFileSync('whoami',['/user','/fo','csv','/nh'],{enc…
+     53|       if (!sid) {throw Error('Current isolated ACL principal unavailab…
+     54|       execFileSync('icacls',[program.path,'/deny',sid+':(X)'],{windows…
+       |       ^
+     55|       restore=()=>{execFileSync('icacls',[program.path,'/remove:d',sid…
+     56|     } else {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  23:54:55
+   Duration  3.65s (import 59%, tests 35%, transform 6%)
+

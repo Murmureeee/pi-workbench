@@ -143,3 +143,7 @@ FILE-02 已验收：稳定有界 UTF-8 只读代码快照、真实行号分页�
 INPUT-03 已验收：有界不可变引用、原子首发绑定和变化／取消隔离，437 项 Vitest／165 项 E2E、SDK、完整 frozen clean及原生重启／明暗窄窗／中文／后台证据见[验收记录](validation/input-03-evidence/acceptance.md)。真实提供商0；长路径账本限制单列。
 
 OBS-05 已验收：消息检索、所属草稿引用、持久消息／工具深链接与纯代码复制，441项Vitest／170项E2E、SDK、完整frozen clean和86条Windows原生观察及重启／后台证据见[验收记录](validation/obs-05-evidence/acceptance.md)。真实提供商0，来源与失败单列。
+
+## FILE-06 已验收
+
+外部IDE／文件管理器／适用系统打开的实现、450／175完整门禁、frozen clean与123条Windows原生观察见[验收记录](validation/file-06-evidence/acceptance.md)。真实应用、argv进程夹具及替身分别记录；系统选择器未冒充最终关联应用。
