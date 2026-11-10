@@ -18,6 +18,12 @@
 
 运行 E2E 和 clean 验证前核对本项目服务归属，释放 5173 / 4317；CORE-05 浏览器隔离 daemon 使用 4318，原生事件 TCP 集成测试使用 4328、SEC-08 使用 24348，不停止无关服务。检查默认离线，不调用真实提供商。`pnpm smoke:sdk` 使用真实 SDK 子进程与本地 HTTP 夹具，验证握手、prompt 流式、abort 和 dispose；输出区分 localRequests 与真实 providerRequests。独立 SDK 冒烟默认 deny-all；daemon 的 SEC-01 工具夹具仅开放最终守卫核验的受限读取，其余没有有效审批均拒绝。扩展禁用，不读取用户认证。合成 IPC 故障夹具单独标记为 synthetic-ipc-fixture，不作为真实 SDK 对话证据。
 
+`pnpm verify:clean` 在仓库的同级目录创建本次专用 `.piw-clean-*` 副本。全部检查通过、服务进程及输出流关闭、锁文件一致且证据保存后，默认自动删除该副本；验证失败或中断则保留，便于排查。成功后也需检查副本时，可先在 PowerShell 设置 `$env:PIW_KEEP_CLEAN = '1'`，用完后 `Remove-Item Env:PIW_KEEP_CLEAN` 恢复默认。清理前核对绝对路径、父目录及创建时的物理身份；目录被替换、变成链接或证据指向副本内部时拒绝删除。Windows 占用错误仅作有限重试，仍失败则命令失败并报告路径。
+
+安装与检查输出 `clean-commands.json`、成功验证 `clean-workspace.json` 和清理状态 `clean-cleanup.json` 均写入原项目证据目录（默认 `.workbench/evidence/latest`，可用 `PIW_EVIDENCE_DIR` 指定），不会随副本删除。清理状态区分 `removed`、`kept-failed`、`kept-requested`、`cleanup-failed`；开始时先记 `kept-incomplete`，强制终止可能停留在该状态，`pending-cleanup` 表示验证已通过且即将清理。历史 `.piw-clean-*` 不按名称或年龄批量删除；旧证据中的 `destination` 是当次来源路径，不保证验证成功后副本仍存在。该维护关联 OPS-01 / OPS-08，不改变产品验收状态。
+
+本次未提交改动的去留、实际 Windows 文件系统与子进程测试、首次 CI 失败及修正后的分阶段复用依据见[清理工具审查与验收记录](../validation/clean-workspace-evidence/acceptance.md)。
+
 `lint` 先构建 workspace 声明及 daemon：类型感知规则需要解析跨包导出，daemon 测试也使用编译后的 Nest 模块。保留 TypeScript 6.0.3 的 `tsc` 为正式类型检查，Oxlint 不替代它；`options.typeCheck` 关闭，`options.typeAware` 开启。升级任一类型工具时，重跑类型规则反例和全量检查。
 
 ## 排序与格式

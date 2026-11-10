@@ -1,0 +1,127 @@
+{
+  "scope": "OPS-01 / OPS-08 engineering maintenance; no feature progress change",
+  "source": "Actual Windows filesystem and local subprocess fixtures; SDK local HTTP; automated browser/Electron",
+  "targeted": {
+    "fileReadingTests": 8,
+    "tests": 17,
+    "exitCode": 0,
+    "testFiles": 2,
+    "cleanupTests": 9
+  },
+  "initialCi": {
+    "command": "pnpm run ci",
+    "vitestTests": 480,
+    "sdk": "passed",
+    "windowPassed": 187,
+    "failure": "WS-07 native keyboard scrolling not settled before viewport assertion",
+    "vitestFiles": 71,
+    "providerRequests": 0,
+    "exitCode": 1,
+    "windowFailed": 1
+  },
+  "windowFollowup": {
+    "tests": 4,
+    "exitCode": 0,
+    "command": "pnpm exec playwright test e2e/workspace-recovery.spec.ts --reporter=line"
+  },
+  "windowRepeat": {
+    "tests": 2,
+    "exitCode": 0,
+    "command": "pnpm exec playwright test e2e/workspace-recovery.spec.ts --grep 'untrusted resource notice' --repeat-each=2 --reporter=line",
+    "fixedCaseConsecutivePasses": 3
+  },
+  "windowCoverage": {
+    "total": 188,
+    "singleCompleteCiRerun": false,
+    "freshInChangedFile": 4,
+    "reusedUnchanged": 184
+  },
+  "finalFrozen": {
+    "command": "pnpm verify:clean",
+    "testFiles": 71,
+    "copyExists": false,
+    "tests": 480,
+    "gracefulShutdown": true,
+    "cleanup": "removed",
+    "commands": [
+      {
+        "command": "pnpm install --frozen-lockfile",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm check",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm build",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm test",
+        "exitCode": 0
+      },
+      {
+        "command": "pnpm smoke:sdk",
+        "exitCode": 0
+      }
+    ],
+    "providerRequests": 0,
+    "exitCode": 0,
+    "locksMatch": true
+  },
+  "nativeWindowAcceptance": "No new native manual/IME evidence; product UI unchanged",
+  "progress": "Canonical feature progress unchanged; OPS-08 remains cross-stage in_progress",
+  "review": [
+    {
+      "path": ".oxlintrc.json",
+      "originalSha256": "68BDD08AD649310A297B31CFC4E925E4F0DB750CEAB86804D053B9531BF8D682",
+      "decision": "retain-on-latest-source"
+    },
+    {
+      "path": "apps/daemon/test/file-reading.test.ts",
+      "originalSha256": "06B85091FB354B2B6E182B8E4D0DDBA8F7C0A2C94E0A2CB57E9E910DBA1240B9",
+      "decision": "discard-obsolete"
+    },
+    {
+      "path": "docs/development/tooling.md",
+      "originalSha256": "255E20E099121279A8B9BA9AACDD5CDEB42F7866B1B5C86C3FF148F7A6C85353",
+      "decision": "retain-on-latest-source"
+    },
+    {
+      "path": "scripts/verify-clean.mjs",
+      "originalSha256": "E2010F8E44BFC4A3F080FD3B79D0874E07FA31AE943A6813F6E714FA113A1143",
+      "decision": "retain-on-latest-source"
+    },
+    {
+      "path": "vitest.config.ts",
+      "originalSha256": "D5AD49A8E594924E646BA4349E1CDD49244AA5C6C9ECF6D74A5D3D329A4AD393",
+      "decision": "retain-on-latest-source"
+    },
+    {
+      "path": "scripts/clean-workspace.mjs",
+      "originalSha256": "69A5F58757008A5B5452D3C97F38969E215FE9D7DB3508C2ABA78E75729FE513",
+      "decision": "retain-on-latest-source"
+    },
+    {
+      "path": "scripts/clean-workspace.test.mjs",
+      "originalSha256": "8287B80D7070091624309443E86CF98DD7D2672A8543CD040DF4C5816EEAE452",
+      "decision": "retain-on-latest-source"
+    }
+  ],
+  "docOnlyFinalChecks": {
+    "fix": {
+      "command": "pnpm fix",
+      "exitCode": 0,
+      "completedAt": "2026-11-10T15:20:35.9409619Z",
+      "log": "fix-final.log"
+    },
+    "check": {
+      "command": "pnpm check",
+      "exitCode": 0,
+      "completedAt": "2026-11-10T15:21:42.9461724Z",
+      "log": "check-final.log"
+    },
+    "sourceInputCount": 496,
+    "sourceDrift": []
+  }
+}

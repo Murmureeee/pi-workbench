@@ -157,7 +157,7 @@
       }
     },
     {
-      "files": ["**/*.test.ts"],
+      "files": ["**/*.test.ts", "**/*.test.mjs"],
       "plugins": ["typescript", "unicorn", "oxc", "import", "node", "promise", "vitest"],
       "rules": {
         "vitest/no-focused-tests": "error",

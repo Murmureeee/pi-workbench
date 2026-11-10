@@ -1,0 +1,26 @@
+
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:3452) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+
+(node:5476) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+[1/4] e2e\workspace-recovery.spec.ts:118:1 › WS-07 Electron untrusted resource notice, moved-directory recovery, physical-only relocation, draft/history preservation and light/dark narrow layouts
+[2/4] e2e\workspace-recovery.spec.ts:282:1 › WS-07 actual Electron background task stops on real OS directory access loss; recovery and full restart never replay
+
+e2e\workspace-recovery.spec.ts:282:1 › WS-07 actual Electron background task stops on real OS directory access loss; recovery and full restart never replay
+{"event":"session-run-failed","detail":{"name":"Error","message":"执行目录不可用：当前 Windows 用户无法读取这个目录。 本轮已中断，请核对历史与现场后明确发送；未自动重发。"}}
+[3/4] e2e\workspace-recovery.spec.ts:354:1 › WS-07 Electron failed and late recovery checks keep drafts, isolate targets and allow explicit retry
+[4/4] e2e\workspace-recovery.spec.ts:405:1 › WS-07 Electron unavailable new-draft directory blocks sending but permits explicit replacement and project changes without creating a session
+  4 passed (1.1m)
