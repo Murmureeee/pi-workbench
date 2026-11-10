@@ -4,16 +4,18 @@ CHANGE-08 已验收：审批与历史详情共用可回滚／部分／不可回�
 
 根 [README](../README.md) 负责运行和检查；本目录集中维护需求、方案、设计与验证。产品功能及进度的唯一数据源是 [product/backlog.json](product/backlog.json)，文档、原型和依赖安装不计为产品完成。
 
+新会话先按 [验收与上下文恢复导航](validation/README.md) 从 backlog 读取全部已验收 / 进行中的功能，再查任务相关证据；原 AGENTS 中的详细验收摘要保留在 [历史归档](validation/agents-history.md)。
+
 ## 文档分区
 
-| 目录            | 主要入口                                                                                                                                                                                                       | 维护方式                                             |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
-| `product/`      | [规划](product/plan.md)、[backlog](product/backlog.json)、[会话设计](product/session-design.md)、[看板](product/roadmap.html)、[PRD](product/prd.html)、[功能清单](product/feature-list.md)                    | 编辑需求源与规格；后面三项通过脚本生成               |
-| `architecture/` | [实施方案](architecture/implementation-plan.md)、[项目结构](architecture/project-structure.md)、[数据生命周期](architecture/data-lifecycle.md)、[架构草案](architecture/overview.html)                         | 维护工程边界与阶段设计；产品决定以 backlog 为准      |
-| `design/`       | [高保真评审](design/review.html)、[UI brief](design/brief.md)、[核心规格](design/core-spec.md)、[PRD 设计依据](design/prd-design.md)、[参考](design/prd-references.md)、[设计验证记录](design/verification.md) | 设计稿源码与 `assets/` 同目录；截图放 `screenshots/` |
-| `decisions/`    | [共同确认](decisions/project-confirmation.md)、[PI-Desktop 评估](decisions/pi-desktop-review.md)、[spec 审计](decisions/pi-desktop-spec-audit.json)                                                            | 记录用户选择和方案依据，保留待验证边界               |
-| `development/`  | [工具规范与排障](development/tooling.md)、[组件来源](development/ui-components.md)                                                                                                                             | 当前开发约定；同步维护根 AGENTS 的引用               |
-| `validation/`   | [OPS-01](validation/ops-01-acceptance.md)、[工具验收](validation/tooling-acceptance.md)、[真实验收政策](validation/live-validation-policy.md)、[预算账本](validation/live-validation-budget.json)              | 验收说明与各次独立证据目录配套，历史输出不改写       |
+| 目录            | 主要入口                                                                                                                                                                                                                                  | 维护方式                                             |
+| --------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------- |
+| `product/`      | [规划](product/plan.md)、[backlog](product/backlog.json)、[会话设计](product/session-design.md)、[看板](product/roadmap.html)、[PRD](product/prd.html)、[功能清单](product/feature-list.md)                                               | 编辑需求源与规格；后面三项通过脚本生成               |
+| `architecture/` | [实施方案](architecture/implementation-plan.md)、[项目结构](architecture/project-structure.md)、[数据生命周期](architecture/data-lifecycle.md)、[架构草案](architecture/overview.html)                                                    | 维护工程边界与阶段设计；产品决定以 backlog 为准      |
+| `design/`       | [高保真评审](design/review.html)、[UI brief](design/brief.md)、[核心规格](design/core-spec.md)、[PRD 设计依据](design/prd-design.md)、[参考](design/prd-references.md)、[设计验证记录](design/verification.md)                            | 设计稿源码与 `assets/` 同目录；截图放 `screenshots/` |
+| `decisions/`    | [共同确认](decisions/project-confirmation.md)、[PI-Desktop 评估](decisions/pi-desktop-review.md)、[spec 审计](decisions/pi-desktop-spec-audit.json)                                                                                       | 记录用户选择和方案依据，保留待验证边界               |
+| `development/`  | [工具规范与排障](development/tooling.md)、[组件来源](development/ui-components.md)                                                                                                                                                        | 当前开发约定；同步维护根 AGENTS 的引用               |
+| `validation/`   | [验收与恢复导航](validation/README.md)、[OPS-01](validation/ops-01-acceptance.md)、[工具验收](validation/tooling-acceptance.md)、[真实验收政策](validation/live-validation-policy.md)、[预算账本](validation/live-validation-budget.json) | 验收说明与各次独立证据目录配套，历史输出不改写       |
 
 [M0 阶段门及边界](validation/m0-acceptance.md)、原始验收报告与预算在本目录归档；14 份固定契约录制归入 `packages/agent-adapter/test/contracts/recordings/`。本机 `spikes/` 及其完整历史工作区、SDK 会话和 Git 对象库整个目录不提交；常规 CI、文档预览与 clean 不依赖它。精简归档不代表完整现场可在克隆后直接重放。
 
