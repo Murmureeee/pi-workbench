@@ -1,4 +1,5 @@
 import type { AccessService } from '../security/access.service.js'
+import type { FileEditService } from './file-edit.service.js'
 import type { FileService } from './file.service.js'
 import type { FastifyInstance } from 'fastify'
 
@@ -15,7 +16,34 @@ export function registerFileTransport(
   server: FastifyInstance,
   files: FileService,
   access: AccessService,
+  edits: FileEditService,
 ) {
+  for (const operation of ['open', 'save'] as const) {
+    server.post(
+      `/api/files/edit/${operation}`,
+      { bodyLimit: 2 * 1024 * 1024 },
+      async (request, reply) => {
+        const client = access.authenticate(request.headers.cookie)
+        if (client?.info.kind !== 'desktop') {
+          return reply.code(403).send({ message: '文件编辑仅向已配对 Electron 开放。' })
+        }
+        const abort = new AbortController()
+        const close = () => {
+          if (!reply.raw.writableFinished) {
+            abort.abort()
+          }
+        }
+        reply.raw.once('close', close)
+        try {
+          return operation === 'open'
+            ? await edits.open(request.body, client.info.id, abort.signal)
+            : await edits.save(request.body, client.info.id, abort.signal)
+        } finally {
+          reply.raw.off('close', close)
+        }
+      },
+    )
+  }
   for (const operation of ['list', 'search', 'locate', 'read'] as const) {
     server.get(`/api/files/${operation}`, async (request, reply) => {
       if (access.authenticate(request.headers.cookie)?.info.kind !== 'desktop') {

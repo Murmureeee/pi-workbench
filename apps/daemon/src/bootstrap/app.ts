@@ -25,6 +25,7 @@ import { ChangeService } from '../modules/changes/change.service.js'
 import { registerChangeTransport } from '../modules/changes/change.transport.js'
 import { EventService } from '../modules/events/event.service.js'
 import { registerEventTransport } from '../modules/events/event.transport.js'
+import { FileEditService } from '../modules/files/file-edit.service.js'
 import { FileService } from '../modules/files/file.service.js'
 import { registerFileTransport } from '../modules/files/file.transport.js'
 import { InputReferenceService } from '../modules/files/input-reference.service.js'
@@ -116,6 +117,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   }
   const environment = new WorkspaceEnvironmentService(workspaces, store)
   const files = new FileService(workspaces, store, security.redactor)
+  const fileEdits = new FileEditService(files, writes, audit, security.redactor)
   const references = new InputReferenceService(database, files, security.redactor)
   const gitStatus = new GitStatusService(
     environment,
@@ -159,6 +161,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
     provenance,
     rollback,
     files,
+    fileEdits,
   )
   const sessionService = new SessionService(
     options.dataDir,
@@ -207,6 +210,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
       { provide: WorkspaceEnvironmentService, useValue: environment },
       { provide: GitStatusService, useValue: gitStatus },
       { provide: FileService, useValue: files },
+      { provide: FileEditService, useValue: fileEdits },
       { provide: WorkspaceAvailabilityService, useValue: availability },
       { provide: ModelService, useValue: models },
       { provide: ProjectService, useValue: projects },
@@ -260,7 +264,7 @@ export async function createApp(options: DaemonOptions): Promise<NestFastifyAppl
   registerChangeDecisions(adapter.getInstance(), decisions, access, store)
   registerTrustTransport(adapter.getInstance(), trust, access)
   registerGitStatusTransport(adapter.getInstance(), gitStatus, access)
-  registerFileTransport(adapter.getInstance(), files, access)
+  registerFileTransport(adapter.getInstance(), files, access, fileEdits)
   registerWorkspaceTransport(
     adapter.getInstance(),
     workspaces,

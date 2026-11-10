@@ -1,0 +1,9 @@
+{
+  "ownerPid": 26580,
+  "at": "2026-11-10T14:56:34.3384973+08:00",
+  "pushAfterAcceptance": true,
+  "reason": "No targetable native window after Computer Use recovered",
+  "nativeInputs": 0,
+  "source": "explicit isolated fixture teardown, not normal product exit",
+  "hostPid": 16912
+}

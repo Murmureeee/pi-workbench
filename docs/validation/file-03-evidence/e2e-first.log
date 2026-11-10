@@ -1,0 +1,36 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:19128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:7992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\file-editing.spec.ts:33:1 › FILE-03 Electron exact BOM/CRLF manual editing undo and explicit save preserve bytes and report external source without another SDK send (10.1s)
+  ok 2 e2e\file-editing.spec.ts:60:1 › FILE-03 Electron external rewrite separate overwrite cancellation, another racing version, permission failure and deletion all preserve the draft (13.0s)
+  x  3 e2e\file-editing.spec.ts:105:1 › FILE-03 Electron distinct drafts survive file/session switches, view eviction and refresh; unload cancellation retains the draft and restart drops window drafts (3.0m)
+(node:4084) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 e2e\file-editing.spec.ts:153:1 › FILE-03 Electron unsupported format and redaction downgrade, late opening and HTTP failure preserve ownership while SDK background and narrow themes remain usable (16.9s)
+
+
+  1) e2e\file-editing.spec.ts:105:1 › FILE-03 Electron distinct drafts survive file/session switches, view eviction and refresh; unload cancellation retains the draft and restart drops window drafts 
+
+    Test timeout of 180000ms exceeded.
+
+    Error Context: test-results\file-editing-FILE-03-Elect-b52e3-restart-drops-window-drafts\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-editing-FILE-03-Elect-b52e3-restart-drops-window-drafts\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-editing-FILE-03-Elect-b52e3-restart-drops-window-drafts\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\file-editing.spec.ts:105:1 › FILE-03 Electron distinct drafts survive file/session switches, view eviction and refresh; unload cancellation retains the draft and restart drops window drafts 
+  3 passed (4.1m)

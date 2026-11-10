@@ -1,0 +1,57 @@
+
+ RUN  v5.0.5 C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench
+
+ ❯ apps/daemon/test/file-editing.test.ts (8 tests | 2 failed) 27070ms
+   × fILE-03 independent external exclusive writer makes native save fail closed and retry after lock release works 1218ms
+   × fILE-03 real SDK managed writer blocks manual saves; reverse lease blocks admission; final native version check catches mutation after arbiter claim 4995ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/file-editing.test.ts > fILE-03 independent external exclusive writer makes native save fail closed and retry after lock release works
+AssertionError: promise resolved "{ status: 'saved', …(4) }" instead of rejecting
+
+- Expected
++ Received
+
+- Error {
+-   "message": "rejected promise",
++ {
++   "confirmationId": null,
++   "diagnostic": "已保存为用户／外部修改；历史 Diff 和决定保留。",
++   "source": "user-external",
++   "status": "saved",
++   "version": "3d5e0727a038e1121eaf636b0d0e2d9b98fe9677c9b1ab3de0b40db843fcb633",
+  }
+
+ ❯ apps/daemon/test/file-editing.test.ts:244:79
+    242|     try {
+    243|       await vi.waitFor(() => expect(out).toContain('locked'))
+    244|       await expect(f.edits.save({ editId: d.editId, text: 'draft' }, f…
+       |                                                                               ^
+    245|         '独占',
+    246|       )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  apps/daemon/test/file-editing.test.ts > fILE-03 real SDK managed writer blocks manual saves; reverse lease blocks admission; final native version check catches mutation after arbiter claim
+AssertionError: expected [Function] to throw error including '受管写入' but got '保存或读取未完成；编辑稿保留。请核对文件、权限与独占占用后重试；不会自动覆…'
+
+Expected: "受管写入"
+Received: "保存或读取未完成；编辑稿保留。请核对文件、权限与独占占用后重试；不会自动覆盖。"
+
+ ❯ apps/daemon/test/file-editing.test.ts:267:77
+    265|     await f.ready(task.sessionId)
+    266|     const pid = f.app.get(KernelService).list()[0]?.pid
+    267|     await expect(f.edits.save({ editId: d.editId, text: 'draft' }, f.o…
+       |                                                                             ^
+    268|       '受管写入',
+    269|     )
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 6 passed (8)
+   Start at  10:55:41
+   Duration  39.40s (tests 69%, import 28%, transform 3%)
+

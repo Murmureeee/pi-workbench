@@ -1,0 +1,30 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:29620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:29448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\file-editing.spec.ts:245:1 › FILE-03 Electron four bounded drafts keep long Chinese paths contained; a fifth draft is refused without eviction (2.0m)
+
+
+  1) e2e\file-editing.spec.ts:245:1 › FILE-03 Electron four bounded drafts keep long Chinese paths contained; a fifth draft is refused without eviction 
+
+    Test timeout of 120000ms exceeded.
+
+    Error Context: test-results\file-editing-FILE-03-Elect-1c72c-is-refused-without-eviction\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-editing-FILE-03-Elect-1c72c-is-refused-without-eviction\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-editing-FILE-03-Elect-1c72c-is-refused-without-eviction\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\file-editing.spec.ts:245:1 › FILE-03 Electron four bounded drafts keep long Chinese paths contained; a fifth draft is refused without eviction 

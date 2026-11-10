@@ -2771,16 +2771,16 @@
       "sources": [],
       "legacy": null,
       "progress": {
-        "status": "not_started",
-        "owner": "",
+        "status": "verified",
+        "owner": "Codex",
         "targetDate": "",
-        "note": "",
-        "evidence": "",
+        "note": "有界UTF-8／BOM／LF或CRLF手动编辑、撤销和四稿暂存，daemon物理身份／ACL／完整版本与独占句柄重验，复用目录写互斥；真实冲突保稿，覆盖另行单次明确确认。9项实际服务／5项Electron；完整459项Vitest／180项E2E、SDK和frozen clean通过。79条原生观察、真实字节竞争／权限恢复／明暗802px／后台同PID区间、同data/profile零重放与两次正常退出补证。480输入与clean一致，原生后复用门禁；原目录七文件及五保护哈希不变。历史Diff／接受／用户Git保留，混合未知不改归属；真实提供商0，OPS-08继续跨阶段。无新增真实IME，原生刷新不声称通过，初始工具与隐藏夹具恢复分开记录。",
+        "evidence": "docs/validation/file-03-evidence/acceptance.md",
         "acceptanceChecked": [
-          false,
-          false
+          true,
+          true
         ],
-        "updatedAt": null
+        "updatedAt": "2026-11-10T07:33:06.764Z"
       }
     },
     {

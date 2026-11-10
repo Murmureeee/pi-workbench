@@ -268,3 +268,7 @@ CHANGE-08 已验收：审批与历史详情共用可回滚／部分／不可回�
 ## FILE-06 已验收
 
 外部打开先重验路径／版本／行号，Electron main以固定参数数组交付。默认发现VS Code，原生选择只保存、另点打开；编辑器失效可更换，不安装程序。查看／切换保留后台任务，重启不重放打开。完整450项Vitest／175项E2E、SDK、frozen clean和Windows原生证据见[验收记录](docs/validation/file-06-evidence/acceptance.md)。系统打开原生仅达到Windows选择器，不承诺最终关联应用已启动。真实提供商0。
+
+## FILE-03 已验收
+
+FILE-03 已验收：有界UTF-8／BOM／统一换行编辑、撤销、四稿暂存与明确保存；daemon复用物理目录互斥并在独占句柄内重验身份／ACL／完整字节版本，冲突保稿、覆盖单独确认。完整459项Vitest／180项E2E、SDK、frozen clean、79条原生观察和同profile零重放／两次正常退出通过；480输入未变后复用门禁。真实提供商0，pi配置／预算／锁及原目录工作不改，OPS-08继续in_progress。见[验收记录](docs/validation/file-03-evidence/acceptance.md)。

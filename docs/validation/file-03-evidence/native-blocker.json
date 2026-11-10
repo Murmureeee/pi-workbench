@@ -1,0 +1,38 @@
+{
+  "at": "2026-11-10T06:15:49.889Z",
+  "feature": "FILE-03",
+  "status": "blocked-native-tool",
+  "nativeActions": 0,
+  "error": "Computer Use native pipe is unavailable: failed to connect native pipe: 系统找不到指定的文件。 (os error 2)",
+  "attempts": [
+    {
+      "tool": "sky.list_windows",
+      "result": "unavailable"
+    },
+    {
+      "tool": "sky.list_windows",
+      "after": "2 seconds",
+      "result": "unavailable"
+    },
+    {
+      "tool": "sky.list_windows",
+      "after": "node_repl reset and @oai/sky reinitialization",
+      "result": "unavailable"
+    }
+  ],
+  "noAlternativeWindowsAutomation": true,
+  "ciExit": 0,
+  "vitest": {
+    "files": 68,
+    "passed": 459
+  },
+  "e2e": {
+    "passed": 180
+  },
+  "cleanExit": 0,
+  "providerRequests": 0,
+  "commits": [],
+  "file07": "not_started",
+  "file04": "not_started",
+  "shutdownRequested": false
+}

@@ -20,7 +20,9 @@ import { Field, FieldLabel } from '@pi-workbench/ui/components/field'
 import { Input } from '@pi-workbench/ui/components/input'
 
 import { sessionJson } from '../../services/session-client.js'
+import { hasUnsavedFiles, useFileEditDrafts } from '../../stores/file-edit-drafts.js'
 import { ExternalFileActions } from './external-file-actions.js'
+import { FileEditor } from './file-editor.js'
 import { ReaderContext, useFileReader } from './file-reader-context.js'
 
 type Source = FileReadInput['source']
@@ -41,11 +43,13 @@ type PrepareAdd = () =>
  * at explicit Add, then revalidates file bytes and that same draft before appending. */
 export function FileReaderProvider({
   target,
+  csrf,
   enabled,
   prepareAdd,
   children,
 }: {
   target: WorkspaceEnvironmentTarget | null
+  csrf: string
   enabled: boolean
   prepareAdd: PrepareAdd
   children: ReactNode
@@ -55,7 +59,19 @@ export function FileReaderProvider({
     line: number
     token: string
     target: string
+    edit?: boolean
   } | null>(null)
+  const drafts = useFileEditDrafts((s) => s.drafts)
+  useEffect(() => {
+    const guard = (event: BeforeUnloadEvent) => {
+      if (hasUnsavedFiles()) {
+        event.preventDefault()
+        event.returnValue = ''
+      }
+    }
+    window.addEventListener('beforeunload', guard)
+    return () => window.removeEventListener('beforeunload', guard)
+  }, [])
   const scope = JSON.stringify(target)
   const open = useMemo<OpenFile | null>(
     () =>
@@ -84,12 +100,36 @@ export function FileReaderProvider({
                 当前磁盘读取快照；历史 Diff 和消息不改变，浏览不会加入上下文。
               </DialogDescription>
             </DialogHeader>
+            {Object.entries(drafts)
+              .filter(([, d]) => JSON.stringify(d.snapshot.target) === scope)
+              .map(([id, d]) => (
+                <Button
+                  key={id}
+                  variant="outline"
+                  size="sm"
+                  className="min-w-0 shrink-0 justify-start"
+                  title={d.snapshot.absolutePath}
+                  onClick={() =>
+                    setRequest({
+                      source: { path: d.snapshot.absolutePath },
+                      line: 1,
+                      token: crypto.randomUUID(),
+                      target: scope,
+                      edit: true,
+                    })
+                  }
+                >
+                  <span className="truncate">恢复文件编辑稿：{d.snapshot.path}</span>
+                </Button>
+              ))}
             <FileReader
               key={request.token}
               target={target}
               source={request.source}
               line={request.line}
               prepareAdd={prepareAdd}
+              csrf={csrf}
+              initialEdit={Boolean(request.edit)}
               refresh={(path) =>
                 setRequest({
                   ...request,
@@ -129,13 +169,24 @@ function FileReader({
   line,
   prepareAdd,
   refresh,
+  csrf,
+  initialEdit,
 }: {
   target: WorkspaceEnvironmentTarget
   source: Source
   line: number
   prepareAdd: PrepareAdd
   refresh: (path?: string) => void
+  csrf: string
+  initialEdit: boolean
 }) {
+  const [editPath, setEditPath] = useState<string | null>(() =>
+    initialEdit && 'path' in source ? source.path : null,
+  )
+  const editInput = useMemo(
+    () => ({ target, source: { path: editPath ?? '' } }),
+    [target, editPath],
+  )
   const [queryId] = useState(() => crypto.randomUUID())
   const version = useRef<string | undefined>(undefined),
     alive = useRef(true),
@@ -270,6 +321,12 @@ function FileReader({
           Number(start) > 10000
         }
       />
+      {ready && !editPath ? (
+        <Button variant="outline" size="sm" onClick={() => setEditPath(ready.absolutePath)}>
+          手动编辑文件
+        </Button>
+      ) : null}
+      {editPath ? <FileEditor input={editInput} csrf={csrf} /> : null}
       {ready ? (
         <>
           {line > ready.lines.length ? (

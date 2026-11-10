@@ -23,6 +23,7 @@ export async function launchWorkspaceDesktop(
   directory: string,
   app: Awaited<ReturnType<typeof createApp>>,
   externalShell = false,
+  unloadFixture = false,
 ) {
   const requireDesktop = createRequire(resolve('apps/desktop/package.json'))
   const electronPath: unknown = requireDesktop('electron')
@@ -36,6 +37,12 @@ export async function launchWorkspaceDesktop(
 let selection = null;
 let shellFailure = '';
 ${
+  unloadFixture
+    ? `let unloadChoice=0;
+dialog.showMessageBoxSync = (_window, options) => { process.send({type:'fixture-unload',title:options.title});return unloadChoice; };`
+    : ''
+}
+${
   externalShell
     ? `shell.showItemInFolder = path => process.send({type:'fixture-shell',action:'reveal',path});
 shell.openPath = async path => {process.send({type:'fixture-shell',action:'system',path});return shellFailure;};`
@@ -46,6 +53,7 @@ app.on('web-contents-created', (_event, contents) => {
 });
 dialog.showOpenDialog = async () => selection ? {canceled: false, filePaths: [selection]} : {canceled: true, filePaths: []};
 process.on('message', message => {
+  ${unloadFixture ? `if(message&&message.type==='unload-choice'){unloadChoice=message.value;process.send({type:'fixture-unload-ready'});}` : ''}
   if (message === 'quit') app.quit();
   if (message && message.type === 'selection') {selection = message.path; process.send({selected: message.path});}
   if (message && message.type === 'shell-failure') {shellFailure = message.value;process.send({type:'fixture-shell-ready'});}
@@ -76,6 +84,8 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     rendererReady = false,
     selected: unknown
   const shellCalls: { action: string; path: string }[] = []
+  const unloadPrompts: string[] = []
+  let unloadReady = false
   let shellReady = false,
     wrongWindowResult: unknown,
     proofHeld = false,
@@ -124,6 +134,17 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
         ticket: app.get(AccessService).issueTicket(request.data.operation),
       })
     } else if (message && typeof message === 'object') {
+      if (
+        'type' in message &&
+        message.type === 'fixture-unload' &&
+        'title' in message &&
+        typeof message.title === 'string'
+      ) {
+        unloadPrompts.push(message.title)
+      }
+      if ('type' in message && message.type === 'fixture-unload-ready') {
+        unloadReady = true
+      }
       if ('selected' in message) {
         selected = message.selected
       }
@@ -248,6 +269,18 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
       context,
       close,
       shellCalls,
+      unloadPrompts,
+      requestQuit: () => {
+        child.send('quit')
+      },
+      setUnloadChoice: async (value: 0 | 1) => {
+        if (!unloadFixture) {
+          throw new Error('Unload result fixture was not explicitly enabled')
+        }
+        unloadReady = false
+        child.send({ type: 'unload-choice', value })
+        await expect.poll(() => unloadReady).toBe(true)
+      },
       holdExternal: () => {
         proofHeld = true
       },

@@ -5,7 +5,7 @@ import { randomUUID } from 'node:crypto'
 import process from 'node:process'
 import { fileURLToPath } from 'node:url'
 
-import { app, BrowserWindow, Menu, nativeTheme, shell, Tray } from 'electron'
+import { app, BrowserWindow, dialog, Menu, nativeTheme, shell, Tray } from 'electron'
 
 import { hostAccessResultSchema, hostFileResultSchema } from '@pi-workbench/shared'
 
@@ -262,6 +262,23 @@ async function createDesktop() {
     tray?.destroy()
   })
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }))
+  window.webContents.on('will-prevent-unload', (event) => {
+    const leave =
+      dialog.showMessageBoxSync(window, {
+        type: 'warning',
+        title: '未保存的文件编辑',
+        message: '有未保存或结果待核对的文件编辑稿。',
+        detail: '刷新后可恢复本窗口暂存稿；退出应用或系统关机不保证恢复。保存中的结果须重新核对。',
+        buttons: ['返回保留编辑', '明确离开（退出时丢弃）'],
+        defaultId: 0,
+        cancelId: 0,
+      }) === 1
+    if (leave) {
+      event.preventDefault()
+    } else {
+      exiting = false
+    }
+  })
   window.webContents.on('will-navigate', (event, url) => {
     if (new URL(url).origin !== workbenchUrl) {
       event.preventDefault()

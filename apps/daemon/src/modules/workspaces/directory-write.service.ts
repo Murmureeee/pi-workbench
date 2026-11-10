@@ -2,6 +2,7 @@ import type { WorkspaceDatabase } from '../../infrastructure/database/database.j
 import type { WorkspaceService } from './workspace.service.js'
 import type { DirectoryRound, Redactor } from '@pi-workbench/shared'
 
+import { randomUUID } from 'node:crypto'
 import { lstat, opendir, realpath } from 'node:fs/promises'
 import { join, relative, sep } from 'node:path'
 
@@ -153,6 +154,39 @@ export class DirectoryWriteService {
     }
     this.save(lease)
     this.leases.set(turnId, lease)
+  }
+
+  /** A human save shares the exact overlap arbiter with SDK/rollback writers. Claim
+   * synchronously before IO and release only after the native helper exits. Volatile,
+   * never a new SDK round or a persisted execution/rollback permission. */
+  acquireManual(cwd: string, sessionId?: string): () => void {
+    const identity = this.identify(cwd)
+    if (this.closed || this.blocker(identity)) {
+      throw new Error('目录有受管写入或回滚正在进行；编辑稿保留，请等待实际结束后重试。')
+    }
+    const id = randomUUID(),
+      now = Date.now()
+    this.leases.set(id, {
+      identity,
+      pid: null,
+      record: {
+        sessionId: sessionId ?? randomUUID(),
+        turnId: id,
+        cwd: identity.canonicalPath,
+        state: 'active',
+        startedAt: now,
+        checkedAt: now,
+        endedAt: null,
+        coverage: 'unavailable',
+        changedPaths: [],
+        changesTruncated: false,
+        provenance: 'uncertain',
+        automaticRollback: false,
+      },
+    })
+    return () => {
+      this.leases.delete(id)
+    }
   }
 
   /** Binds an actually created child before dispatch. Identity is checked again after IO

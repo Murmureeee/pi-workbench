@@ -1,5 +1,7 @@
 # Pi Workbench 实施方案
 
+FILE-03 当前编辑／精确字节／原生锁／冲突覆盖及草稿生命周期规则见 [运行规则与验收](../validation/file-03-evidence/acceptance.md)。实现状态以 backlog 为准；此引用不表示已验收。
+
 日期：2026-11-01（Asia/Shanghai）。状态：方案已确定，OPS-01 工程 / 离线 UI 基线已验收。关联 M1–M7；全量范围、依赖及进度仍以 `docs/product/backlog.json` 为准。
 
 共同确认进展：用户已确认 Windows 桌面优先、保留本机网页入口、首个重点交付目标为 M3；服务采用 NestJS + Fastify，存储为 Drizzle + better-sqlite3 / pi JSONL，前端采用 React 组合，仓库采用 pnpm workspace。UI 已确认 Codex 式克制、中等密度、按需面板、跟随系统且明暗同等设计；屏幕“1080 100%”暂按 1920×1080 @100% 制稿。高保真已确认 A 日常对话 + B 展开审查组合，界面 / 消息 / 辅助字号为 14 / 15 / 12 px；[核心页面](../design/review.html)与[状态规格](../design/core-spec.md)继续细化。Node 24 仍为工程兼容基线，OPS-01 已固定并验证精确运行时与依赖版本。R9 已确认核心稿作为 M1 / M2 实现基线，先个人本地使用。记录见 [共同确认清单](../decisions/project-confirmation.md)，目录与边界见 [项目结构设计](project-structure.md)。

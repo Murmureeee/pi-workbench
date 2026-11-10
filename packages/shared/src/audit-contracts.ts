@@ -7,6 +7,7 @@ const auditKindSchema = z.enum([
   'client-access',
   'rollback',
   'change-review',
+  'user-file-save',
 ])
 export const auditEntrySchema = z.strictObject({
   sequence: z.number().int().positive(),

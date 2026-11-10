@@ -21,7 +21,11 @@ function required<T>(v: T | undefined): T {
   }
   return v
 }
-export async function setupChanges(ledgerCapacityBytes?: number, externalShell = false) {
+export async function setupChanges(
+  ledgerCapacityBytes?: number,
+  externalShell = false,
+  unloadFixture = false,
+) {
   const root = mkdtempSync(join(tmpdir(), 'piw-review-ui-')),
     cwd = join(root, '中文工作目录'),
     other = join(root, '独立目录'),
@@ -81,7 +85,7 @@ export async function setupChanges(ledgerCapacityBytes?: number, externalShell =
   }
   wire()
   await app.listen(4318, '127.0.0.1')
-  let desktop = await launchWorkspaceDesktop(root, app, externalShell)
+  let desktop = await launchWorkspaceDesktop(root, app, externalShell, unloadFixture)
   return {
     root,
     cwd,
@@ -165,7 +169,7 @@ export async function setupChanges(ledgerCapacityBytes?: number, externalShell =
       sends = 0
       wire()
       await app.listen(4318, '127.0.0.1')
-      desktop = await launchWorkspaceDesktop(root, app, externalShell)
+      desktop = await launchWorkspaceDesktop(root, app, externalShell, unloadFixture)
     },
     close: async () => {
       await desktop.close()

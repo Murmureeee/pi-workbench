@@ -1,0 +1,42 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:31816) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 1 test using 1 worker
+
+(node:25948) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\file-editing.spec.ts:245:1 › FILE-03 Electron four bounded drafts keep long Chinese paths contained; a fifth draft is refused without eviction (13.6s)
+
+
+  1) e2e\file-editing.spec.ts:245:1 › FILE-03 Electron four bounded drafts keep long Chinese paths contained; a fifth draft is refused without eviction 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      268 |     const recover = f.page.getByRole('button', { name: /^恢复文件编辑稿：/ })
+      269 |     await expect(recover).toHaveCount(4)
+    > 270 |     expect(await recover.evaluateAll((nodes) => nodes.every((node) => node.scrollWidth <= node.clientWidth))).toBe(true)
+          |                                                                                                               ^
+      271 |     await f.page.getByRole('button', { name: '手动编辑文件', exact: true }).click()
+      272 |     await expect(region(f)).toContainText('已有 4 份编辑稿')
+      273 |     await expect(text(f)).toHaveCount(0)
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\file-editing.spec.ts:270:111
+
+    Error Context: test-results\file-editing-FILE-03-Elect-1c72c-is-refused-without-eviction\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-editing-FILE-03-Elect-1c72c-is-refused-without-eviction\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-editing-FILE-03-Elect-1c72c-is-refused-without-eviction\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\file-editing.spec.ts:245:1 › FILE-03 Electron four bounded drafts keep long Chinese paths contained; a fifth draft is refused without eviction 

@@ -1,0 +1,72 @@
+{
+  "at": "2026-11-10T07:33:06.761Z",
+  "feature": "FILE-03",
+  "source": "Windows Computer Use SendInput/UIA; actual installed SDK local HTTP; explicit CLI file/permission fixtures; no CDP or renderer injection",
+  "observations": 79,
+  "normalMenuExits": 2,
+  "exitCodes": [
+    0,
+    0
+  ],
+  "restart": {
+    "sends": 0,
+    "kernels": 0,
+    "approvals": 0,
+    "grants": 0,
+    "historyUnchanged": true
+  },
+  "background": {
+    "observed": 13,
+    "identity": [
+      13220,
+      "87a4a089-34e1-47e1-bc60-5ce763bcc5ac"
+    ],
+    "from": "35-permission-recovery-result",
+    "to": "47-system-window-menu",
+    "submissions": [
+      {
+        "session_id": "9b7e5925-4415-4e63-84d0-a06d64fe19ec",
+        "status": "completed",
+        "error": null
+      },
+      {
+        "session_id": "078532b3-02d3-4b60-bf6e-eb5a66a4194c",
+        "status": "failed",
+        "error": "terminated"
+      }
+    ]
+  },
+  "fileBytesVerified": "UTF-8 BOM + CRLF + final newline; saved 7, explicit conflict overwrite 8, permission recovery 10, final preserved draft 11",
+  "gitUnchanged": true,
+  "protectedFilesUnchanged": true,
+  "originalDirectoryFilesPreserved": 7,
+  "sourceInputs": 480,
+  "ci": {
+    "exit": 0,
+    "vitest": 459,
+    "e2e": 180
+  },
+  "clean": {
+    "exit": 0
+  },
+  "providerRequests": 0,
+  "selectedScreenshots": [
+    "11-editor-ready-0.png",
+    "20-saved-result-0.png",
+    "23-conflict-confirmation-0.png",
+    "31-readonly-failure-0.png",
+    "50-finish-narrow-size-0.png",
+    "65-native-unsaved-exit-warning-0.png",
+    "74-dark-narrow-editor-preserved-0.png",
+    "80-same-profile-restart-0.png"
+  ],
+  "limitations": [
+    "No new real IME candidate evidence; Chinese text used native set_value.",
+    "Native Ctrl+R/F5 refresh not claimed; actual Electron page.reload is automated evidence.",
+    "Initial Computer Use pipe failure resolved on a later user turn.",
+    "Two inaccessible windows launched with windowsHide:true were explicitly stopped as owned isolated fixtures, separately from two normal exits. Visible launch uses windowsHide:false.",
+    "Expired FILE-02 five-minute read handles produced a diagnostic; explicit reopen restored the original dirty draft.",
+    "One final CLI assertion initially read grants.length instead of grants.grants.length; corrected schema-aware audit passed.",
+    "Background hold reached its own terminal state after the recorded same-PID interval; later observations are not ongoing-task evidence."
+  ]
+}

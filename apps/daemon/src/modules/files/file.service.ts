@@ -612,6 +612,33 @@ export class FileService {
     })
   }
 
+  /** Host editor uses the same scope/opaque handle resolver without receiving authority
+   * from a display path. The caller must re-prove this root and path around its IO. */
+  editTarget(input: FileReadInput) {
+    return this.run(async () => {
+      const q = fileReadInputSchema.parse(input),
+        scope = await this.scope(q.target)
+      if (
+        'path' in q.source &&
+        (isAmbiguousPath(q.source.path) || isCredentialPath(q.source.path))
+      ) {
+        throw failure('编辑路径无效或属于私密项。')
+      }
+      const path =
+        'file' in q.source
+          ? (await this.resolve(scope, q.source.file)).path
+          : isAbsolute(q.source.path)
+            ? relative(scope.root, resolve(q.source.path))
+            : q.source.path
+      const proof = await proveFilePath(scope.root, path)
+      if (!proof.stat.isFile()) {
+        throw failure('编辑目标不是普通文件。')
+      }
+      await this.verify(scope)
+      return { root: scope.root, path, chain: proof.chain, absolute: proof.absolute }
+    })
+  }
+
   /** Private desktop handoff, sharing registered physical identity and IO draining.
    * Returns no permission beyond this checked target. Main must recheck immediately;
    * external applications reopen paths, so this is not an OS lock or sandbox. */

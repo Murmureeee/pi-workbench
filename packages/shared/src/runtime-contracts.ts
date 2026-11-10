@@ -36,6 +36,7 @@ export const runtimeCapabilities = [
   'git-status-v1',
   'file-browser-v1',
   'file-reading-v1',
+  'file-editing-v1',
   'input-references-v1',
 ] as const
 export const runtimeHelloSchema = z.strictObject({

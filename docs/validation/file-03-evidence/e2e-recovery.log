@@ -1,0 +1,21 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:29956) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:7296) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\change-rollback.spec.ts:12:1 › CHANGE-05 Electron actual SDK file rollback requires preflight, preserves historical Diff and reconciles after same-profile restart (17.6s)
+  ok 2 e2e\change-rollback.spec.ts:62:1 › CHANGE-05 Electron unknown-source batch cancels without writes, then separately confirms add/delete/rename restoration in light/dark narrow window (10.7s)
+  ok 3 e2e\change-rollback.spec.ts:117:1 › CHANGE-05 Electron stale whole-round preflight writes nothing and injected failure shows conditional compensation; background SDK stays owned (14.2s)
+  ok 4 e2e\file-editing.spec.ts:33:1 › FILE-03 Electron exact BOM/CRLF manual editing undo and explicit save preserve bytes and report external source without another SDK send (8.1s)
+  ok 5 e2e\file-editing.spec.ts:60:1 › FILE-03 Electron external rewrite separate overwrite cancellation, another racing version, permission failure and deletion all preserve the draft (11.3s)
+  ok 6 e2e\file-editing.spec.ts:105:1 › FILE-03 Electron distinct drafts survive file/session switches, view eviction and refresh; unload cancellation retains the draft and restart drops window drafts (31.5s)
+  ok 7 e2e\file-editing.spec.ts:164:1 › FILE-03 Electron unsupported format and redaction downgrade, late opening and HTTP failure preserve ownership while SDK background and narrow themes remain usable (14.7s)
+  ok 8 e2e\file-editing.spec.ts:245:1 › FILE-03 Electron four bounded drafts keep long Chinese paths contained; a fifth draft is refused without eviction (13.4s)
+
+  8 passed (2.3m)

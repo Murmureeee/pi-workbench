@@ -156,11 +156,18 @@ describe('CORE-05 authoritative observation contract', () => {
         'file-browser-v1',
         'file-reading-v1',
         'input-references-v1',
+        'file-editing-v1',
       ],
       mutations: false,
       realProviderEnabled: false,
     }
     expect(compatibleRuntime(hello)).toBe(true)
+    expect(
+      compatibleRuntime({
+        ...hello,
+        capabilities: hello.capabilities.filter((item) => item !== 'file-editing-v1'),
+      }),
+    ).toBe(false)
     expect(
       compatibleRuntime({
         ...hello,

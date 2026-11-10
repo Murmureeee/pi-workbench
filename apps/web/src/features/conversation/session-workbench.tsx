@@ -576,6 +576,7 @@ function SessionPane({
     },
     <FileReaderProvider
       target={directoryTarget}
+      csrf={csrf}
       enabled={Boolean(active && authorized)}
       prepareAdd={() => {
         const origin = useSessionDrafts.getState().drafts[key]

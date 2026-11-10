@@ -1,0 +1,9 @@
+
+ RUN  v5.0.5 C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench
+
+
+ Test Files  1 passed (1)
+      Tests  8 passed (8)
+   Start at  10:59:08
+   Duration  31.23s (tests 92%, import 7%, transform 1%)
+

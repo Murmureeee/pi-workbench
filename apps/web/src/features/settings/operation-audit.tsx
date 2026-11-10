@@ -42,6 +42,7 @@ const kindNames: Record<AuditKind, string> = {
   'client-access': '客户端访问',
   rollback: '文件回滚',
   'change-review': '文件审查',
+  'user-file-save': '用户文件保存',
 }
 const sourceNames = { human: '人类决定', host: '宿主记录', 'synthetic-fixture': '合成夹具' }
 const decisions: Record<string, string> = {
