@@ -191,30 +191,48 @@ test('WS-07 Electron untrusted resource notice, moved-directory recovery, physic
     await readingArea.focus()
     await readingArea.press('Home')
     await expect(readingArea).toBeFocused()
-    await expect
-      .poll(
-        async () => {
-          const visible = await pane(f)
-            .getByText('OFFLINE_OK', { exact: true })
-            .evaluate((element) => {
-              const bounds = element.getBoundingClientRect()
-              const readerBounds = element
-                .closest('[data-slot="message-scroller-viewport"]')
-                ?.getBoundingClientRect()
-              return Boolean(
-                readerBounds &&
-                bounds.top >= readerBounds.top &&
-                bounds.bottom <= readerBounds.bottom,
-              )
-            })
-          if (!visible) {
-            await readingArea.press('ArrowDown')
+    // Arrow keys use native smooth scrolling. Wait for a stable position before
+    // choosing another gesture; a transient intersection can otherwise pass the
+    // geometry poll while already queued key animation moves the reply out again.
+    for (let step = 0; step < 12; step += 1) {
+      let previousTop = -1,
+        stableSince = Date.now()
+      // oxlint-disable-next-line no-await-in-loop -- Each real key gesture must settle before deciding the next one.
+      await expect
+        .poll(
+          async () => {
+            const top = await readingArea.evaluate((element) => element.scrollTop)
+            if (top !== previousTop) {
+              previousTop = top
+              stableSince = Date.now()
+            }
+            return Date.now() - stableSince
+          },
+          { intervals: [50], timeout: 3000 },
+        )
+        .toBeGreaterThanOrEqual(200)
+      // oxlint-disable-next-line no-await-in-loop -- Measure only after native scrolling settles; do not manipulate scrollTop in this test.
+      const direction = await pane(f)
+        .getByText('OFFLINE_OK', { exact: true })
+        .evaluate((element) => {
+          const bounds = element.getBoundingClientRect()
+          const readerBounds = element
+            .closest('[data-slot="message-scroller-viewport"]')
+            ?.getBoundingClientRect()
+          if (!readerBounds) {
+            throw new Error('Reading viewport missing')
           }
-          return visible
-        },
-        { intervals: [100], timeout: 4000 },
-      )
-      .toBe(true)
+          if (bounds.top >= readerBounds.top && bounds.bottom <= readerBounds.bottom) {
+            return null
+          }
+          return bounds.top < readerBounds.top ? 'ArrowUp' : 'ArrowDown'
+        })
+      if (!direction) {
+        break
+      }
+      // oxlint-disable-next-line no-await-in-loop -- Bounded user gestures retain the full final viewport assertion below.
+      await readingArea.press(direction)
+    }
     try {
       await expect(pane(f).getByText('OFFLINE_OK', { exact: true })).toBeInViewport({ ratio: 1 })
     } catch (error) {
