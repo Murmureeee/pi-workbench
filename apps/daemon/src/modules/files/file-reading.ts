@@ -59,6 +59,19 @@ export async function readFileSnapshot(
       }
       length += result.bytesRead
     }
+    // NTFS can defer timestamp updates while a read descriptor remains open. A second
+    // full pass also rejects same-length mutations with temporarily unchanged stamps.
+    const verification = Buffer.alloc(length)
+    let verified = 0
+    while (verified < length) {
+      signal?.throwIfAborted()
+      // oxlint-disable-next-line no-await-in-loop -- Compare the same descriptor at exact offsets within the original fixed bound.
+      const result = await fd.read(verification, verified, length - verified, verified)
+      if (!result.bytesRead) {
+        break
+      }
+      verified += result.bytesRead
+    }
     const after = await proveFilePath(root, path),
       stat = await fd.stat()
     if (
@@ -69,7 +82,9 @@ export async function readFileSnapshot(
       stat.mtimeMs !== opened.mtimeMs ||
       stat.ctimeMs !== opened.ctimeMs ||
       stat.nlink !== 1 ||
-      length !== opened.size
+      length !== opened.size ||
+      verified !== length ||
+      !verification.equals(buffer.subarray(0, length))
     ) {
       throw new Error('读取期间文件变化，未展示混合内容。')
     }

@@ -1,0 +1,56 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:2320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:1904) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads (6.3s)
+(node:32196) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\file-preview-isolation.spec.ts:137:1 › FILE-07 cancellation, late results, repeated requests, initialization failure and four-window limit fail closed and recover (7.7s)
+  ok 3 e2e\file-preview-isolation.spec.ts:182:1 › FILE-07 real preview renderer crash leaves workbench and actual SDK background PID/epoch intact; same profile restart restores no preview (20.4s)
+
+
+  1) e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads 
+
+    Error: expect(received).toMatchObject(expected)
+
+    - Expected  - 1
+    + Received  + 1
+
+      Object {
+    -   "beacon": false,
+    +   "beacon": true,
+        "cookie": "denied",
+        "popup": true,
+        "storage": "denied",
+        "worker": "denied",
+      }
+
+      102 |     })()`,
+      103 |     )
+    > 104 |     expect(capabilities).toMatchObject({
+          |                          ^
+      105 |       cookie: 'denied',
+      106 |       storage: 'denied',
+      107 |       popup: true,
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\file-preview-isolation.spec.ts:104:26
+
+    Error Context: test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads 
+  2 passed (52.6s)

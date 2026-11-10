@@ -310,3 +310,7 @@ FILE-06 已验收：daemon物理范围与5秒私有证明、main再次核对身�
 ## FILE-03 已验收
 
 FILE-03 已验收：有界UTF-8／BOM／统一换行编辑、撤销、四稿暂存与明确保存；daemon复用物理目录互斥并在独占句柄内重验身份／ACL／完整字节版本，冲突保稿、覆盖单独确认。完整459项Vitest／180项E2E、SDK、frozen clean、79条原生观察和同profile零重放／两次正常退出通过；480输入未变后复用门禁。真实提供商0，pi配置／预算／锁及原目录工作不改，OPS-08继续in_progress。见[验收记录](docs/validation/file-03-evidence/acceptance.md)。
+
+## FILE-07 已验收
+
+FILE-07已验收：独立临时session／无preload／无配对身份，静态HTML脚本、网络、导航和内容动作关闭，可信路径／版本顶部及失败拒绝加载／崩溃隔离。完整464项Vitest／183项E2E、SDK与frozen clean通过，97条原生观察及两次正常退出、同profile零重放补证；487输入一致后复用门禁。真实提供商0，保护文件及原目录未改，OPS-08继续进行。见[验收记录](docs/validation/file-07-evidence/acceptance.md)。

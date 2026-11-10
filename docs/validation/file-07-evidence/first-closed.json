@@ -1,0 +1,242 @@
+{
+  "feature": "file-07",
+  "directory": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-07\\native-uELp2R",
+  "desktopPid": 24484,
+  "sends": 3,
+  "kernels": [
+    {
+      "protocol": 1,
+      "sessionId": "8251c70f-2432-4b6e-a732-1ec941a1c665",
+      "epoch": "46e4ddca-94b3-453d-a094-fb189fb14932",
+      "source": "real-sdk/local-fixture",
+      "state": "ready",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-07\\native-uELp2R\\独立后台目录",
+      "turnId": "8640f0ba-1f7a-4b3c-8cea-26ae2c5d9a79",
+      "pid": 31424,
+      "sessionFile": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-07\\native-uELp2R\\data\\kernels\\8251c70f-2432-4b6e-a732-1ec941a1c665\\46e4ddca-94b3-453d-a094-fb189fb14932\\sessions\\2026-11-10T09-07-20-406Z_01a1c4b6-3ed5-74cd-8003-bd866c9d88dc.jsonl",
+      "nativeSessionId": "01a1c4b6-3ed5-74cd-8003-bd866c9d88dc"
+    }
+  ],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [
+      {
+        "sessionId": "8251c70f-2432-4b6e-a732-1ec941a1c665",
+        "epoch": "46e4ddca-94b3-453d-a094-fb189fb14932",
+        "state": "ready",
+        "pid": 31424,
+        "pins": 0,
+        "lastUsedAt": 1794301946314,
+        "waitingApproval": false,
+        "retiring": false
+      }
+    ],
+    "queue": []
+  },
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "6cd82c32-179a-4a55-83ef-a490237a62e2",
+      "title": "file-07 原生预览主会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "d9afde6d-13ba-4167-949b-161e5bac678f",
+      "configuration": {
+        "projectId": "62bc526d-2d8b-4a46-9df0-af251bc533dc",
+        "workspaceId": "a86a5fac-eb4e-4420-8f3b-f9b538e06fc9",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "a86a5fac-eb4e-4420-8f3b-f9b538e06fc9",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-07\\native-uELp2R\\中文预览目录",
+      "createdAt": 1794300723695
+    },
+    {
+      "id": "0a235e4e-30d1-49f1-b484-6e701c570046",
+      "title": "保持 file-07 独立后台",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "f40af860-e15a-4d8f-a744-9ba85dbf35c1",
+      "configuration": {
+        "projectId": "7c059644-f28d-4c3a-89ff-f5dc1f815fbe",
+        "workspaceId": "7ba9beb1-0e3a-4f93-872b-43a2cf6f1044",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "7ba9beb1-0e3a-4f93-872b-43a2cf6f1044",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-07\\native-uELp2R\\独立后台目录",
+      "createdAt": 1794300788394
+    },
+    {
+      "id": "8251c70f-2432-4b6e-a732-1ec941a1c665",
+      "title": "保持 file-07 独立后台",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "d5e768e8-054f-43c3-853d-b7d9aa9511b7",
+      "configuration": {
+        "projectId": "7c059644-f28d-4c3a-89ff-f5dc1f815fbe",
+        "workspaceId": "7ba9beb1-0e3a-4f93-872b-43a2cf6f1044",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "7ba9beb1-0e3a-4f93-872b-43a2cf6f1044",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-07\\native-uELp2R\\独立后台目录",
+      "createdAt": 1794301638972
+    }
+  ],
+  "operations": [
+    {
+      "request": "f40af860-e15a-4d8f-a744-9ba85dbf35c1"
+    },
+    {
+      "action": "start-background",
+      "at": "2026-11-10T08:53:08.413Z",
+      "source": "explicit CLI isolated file/SDK fixture"
+    },
+    {
+      "request": "d5e768e8-054f-43c3-853d-b7d9aa9511b7"
+    },
+    {
+      "action": "start-background",
+      "at": "2026-11-10T09:07:18.994Z",
+      "source": "explicit CLI isolated file/SDK fixture"
+    },
+    {
+      "action": "stop-background",
+      "at": "2026-11-10T09:14:31.109Z",
+      "source": "explicit CLI isolated file/SDK fixture"
+    }
+  ],
+  "historyBefore": {
+    "6cd82c32-179a-4a55-83ef-a490237a62e2\\175c3479-0b55-4235-a981-7de98f7dd883\\sessions\\2026-11-10T08-52-04-957Z_01a1c4a8-46dc-75f4-8017-11957c496e7a.jsonl": "c08ade5498db60afa35c2bdb15d391b53f80af1c53a2322d7894dccd5e253ba3"
+  },
+  "historyAfter": {
+    "0a235e4e-30d1-49f1-b484-6e701c570046\\024a689a-1993-476c-9f3b-a6b77e0a933b\\sessions\\2026-11-10T08-53-09-744Z_01a1c4a9-43f0-703b-af6d-115e55059aed.jsonl": "57912d1c66f774dc836169ec9a9a14c045818e61eb1997c516af53fc4b99b3c8",
+    "6cd82c32-179a-4a55-83ef-a490237a62e2\\175c3479-0b55-4235-a981-7de98f7dd883\\sessions\\2026-11-10T08-52-04-957Z_01a1c4a8-46dc-75f4-8017-11957c496e7a.jsonl": "c08ade5498db60afa35c2bdb15d391b53f80af1c53a2322d7894dccd5e253ba3",
+    "8251c70f-2432-4b6e-a732-1ec941a1c665\\46e4ddca-94b3-453d-a094-fb189fb14932\\sessions\\2026-11-10T09-07-20-406Z_01a1c4b6-3ed5-74cd-8003-bd866c9d88dc.jsonl": "306c6df1fa2dbdcad20481e2eafc31c37633aaacc68841e6785b5fa34eefefb7"
+  },
+  "beforeProtected": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "sha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "sha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "sha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ],
+  "afterProtected": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "sha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "sha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "sha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ],
+  "gitBefore": {
+    "HEAD": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10",
+    "index": "98a32675afffcdcbb86539374bd3e192df2bd5d954b09b7ad70dac9ea7c95770",
+    "logs/HEAD": "8c296619456318eeac564e4d4c92b2177277c0330596885de73e83f932761050"
+  },
+  "gitAfter": {
+    "HEAD": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10",
+    "index": "98a32675afffcdcbb86539374bd3e192df2bd5d954b09b7ad70dac9ea7c95770",
+    "logs/HEAD": "8c296619456318eeac564e4d4c92b2177277c0330596885de73e83f932761050"
+  },
+  "providerRequests": 0,
+  "trapRequests": [],
+  "exited": {
+    "code": 0,
+    "signal": null
+  },
+  "closed": true,
+  "managedAfter": [
+    {
+      "pid": 31424,
+      "alive": false
+    }
+  ],
+  "historyAtClose": {
+    "0a235e4e-30d1-49f1-b484-6e701c570046\\024a689a-1993-476c-9f3b-a6b77e0a933b\\sessions\\2026-11-10T08-53-09-744Z_01a1c4a9-43f0-703b-af6d-115e55059aed.jsonl": "57912d1c66f774dc836169ec9a9a14c045818e61eb1997c516af53fc4b99b3c8",
+    "6cd82c32-179a-4a55-83ef-a490237a62e2\\175c3479-0b55-4235-a981-7de98f7dd883\\sessions\\2026-11-10T08-52-04-957Z_01a1c4a8-46dc-75f4-8017-11957c496e7a.jsonl": "c08ade5498db60afa35c2bdb15d391b53f80af1c53a2322d7894dccd5e253ba3",
+    "8251c70f-2432-4b6e-a732-1ec941a1c665\\46e4ddca-94b3-453d-a094-fb189fb14932\\sessions\\2026-11-10T09-07-20-406Z_01a1c4b6-3ed5-74cd-8003-bd866c9d88dc.jsonl": "306c6df1fa2dbdcad20481e2eafc31c37633aaacc68841e6785b5fa34eefefb7"
+  },
+  "protectedAtClose": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "sha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "sha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "sha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ]
+}

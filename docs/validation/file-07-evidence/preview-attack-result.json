@@ -1,0 +1,47 @@
+{
+  "source": "actual Electron static document and CDP Runtime.evaluate in its isolated renderer; external files authored by CLI",
+  "states": [
+    {
+      "id": 3,
+      "url": "piw-preview://a4c83bd8-bdd9-472b-91d9-bac9204504a6/document",
+      "persistent": false,
+      "cookies": 0,
+      "preferences": {
+        "allowRunningInsecureContent": false,
+        "contextIsolation": true,
+        "disableDialogs": true,
+        "disablePopups": false,
+        "disableWakeLocks": false,
+        "enableBlinkFeatures": "",
+        "experimentalFeatures": false,
+        "javascript": false,
+        "nodeIntegration": false,
+        "nodeIntegrationInSubFrames": false,
+        "nodeIntegrationInWorker": false,
+        "safeDialogs": false,
+        "safeDialogsMessage": "",
+        "sandbox": true,
+        "webSecurity": true,
+        "webviewTag": false
+      }
+    }
+  ],
+  "capabilities": {
+    "beacon": true,
+    "cookie": "denied",
+    "popup": true,
+    "storage": "denied",
+    "worker": "denied"
+  },
+  "blocked": {
+    "results": {
+      "daemon": "denied",
+      "file": "denied",
+      "network": "denied"
+    },
+    "socketState": 3,
+    "xhrStatus": 0
+  },
+  "trapRequests": 0,
+  "providerRequests": 0
+}

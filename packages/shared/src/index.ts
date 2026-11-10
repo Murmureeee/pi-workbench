@@ -306,3 +306,10 @@ export * from './git-status.js'
 export * from './file-browser.js'
 export * from './file-editing.js'
 export * from './input-references.js'
+export {
+  previewRequestSchema,
+  previewSnapshotSchema,
+  hostPreviewRequestSchema,
+  hostPreviewResultSchema,
+} from './file-preview.js'
+export type { PreviewSnapshot, HostPreviewResult } from './file-preview.js'

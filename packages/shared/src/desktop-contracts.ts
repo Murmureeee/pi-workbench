@@ -1,4 +1,5 @@
 import type { editorCommandSchema, externalFileRequestSchema } from './external-files.js'
+import type { previewRequestSchema } from './file-preview.js'
 
 import { z } from 'zod'
 
@@ -28,4 +29,6 @@ export interface DesktopBridge {
   configureEditor: (command: z.infer<typeof editorCommandSchema>) => Promise<unknown>
   openFileExternally: (request: z.infer<typeof externalFileRequestSchema>) => Promise<unknown>
   cancelExternal: (id: string) => Promise<boolean>
+  previewFile: (request: z.infer<typeof previewRequestSchema>) => Promise<unknown>
+  cancelPreview: (id: string) => Promise<boolean>
 }

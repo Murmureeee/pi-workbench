@@ -558,3 +558,10 @@ FileService.read 复用 FILE-01 已登记物理目标、四项 IO 准入与 Kern
 固定 preload 请求经 Electron main 的发送窗口／主 frame／Origin 校验；daemon 复用 FileService 物理根、目标归属、版本／实际行数、私密／链接边界与四项 IO 收尾。主进程私有 Cookie 和五秒路径证明仅走父子 IPC，不增加原始路径 REST；父进程在 IO 前后重查 desktop 身份，main 交付前重查物理链与版本。视图卸载、主 frame 导航、取消或退出使尚未交付的动作失效，真实 IO settle 前保留本窗口占用；不停止 SDK 或关闭已交付外部应用。
 
 默认只读发现标准安装与绝对 PATH 指向的 VS Code，不运行 code.cmd。原生选择器选择真实 .exe，固定 VS Code／JetBrains／仅路径三种参数数组；选择与启动分开，程序版本变化需重新明确选择。spawn 使用 shell:false；系统关联只开放普通文档／图片白名单，文件管理器定位同样重验路径。启动确认仅代表操作系统接收或进程早期状态，不保证外部应用最终显示，也不提供 OS 沙箱或原子路径锁。验收状态及来源见[本项记录](../validation/file-06-evidence/acceptance.md)。
+# FILE-07：离线静态预览边界
+
+已配对 desktop 的固定 previewFile 请求经 main／daemon 父子私有 IPC 捕获当前物理 cwd 的单链接普通 UTF-8 HTML。沿用 FILE-02 的有界读取、完整字节版本、逐级物理身份与 FileService IO 排空；NTFS 延迟时间戳以第二次完整 descriptor 字节比对补强。需要脱敏的正文拒绝预览，不发布原件 HTTP URL。
+
+每次预览使用唯一非持久 Electron session，最多四个在途／已打开窗口。独立顶部视图显示已转义路径、读取时点、来源未判定及版本；内容位于独立 WebContentsView。两者均无 preload、关闭 JavaScript／Node，启用 sandbox／contextIsolation／webSecurity；内容另受 CSP sandbox 和固定单文档请求白名单约束。所有权限、网络、file、WS、导航、弹窗、内容下载及文件选择交互拒绝，不转交系统外链。只允许静态滚动，不接开发服务器。
+
+首次加载前完成守卫，取消／导航／退出前重查请求身份，迟到不展示；关闭取消协议并清空临时存储。初始化或加载失败关闭窗口，renderer 崩溃释放该内容，工作台和 daemon 独立。FILE-04 必须在 FILE-07 实际验收并独立提交后复用这一能力；具体证据和限制见 [FILE-07 验收](../validation/file-07-evidence/acceptance.md)。

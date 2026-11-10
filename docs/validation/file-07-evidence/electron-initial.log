@@ -1,0 +1,114 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:16092) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 5 tests using 1 worker
+
+(node:27992) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads (6.0s)
+(node:12276) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\file-preview-isolation.spec.ts:130:1 › FILE-07 cancellation, late results, repeated requests, initialization failure and four-window limit fail closed and recover (7.6s)
+  x  3 e2e\file-preview-isolation.spec.ts:175:1 › FILE-07 real preview renderer crash leaves workbench and actual SDK background PID/epoch intact; same profile restart restores no preview (10.0s)
+(node:6164) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 4 e2e\workspaces.spec.ts:65:1 › WS-01 real Electron picker bridge opens/deduplicates/switches; cancellation and invalid paths preserve current view and running SDK task (6.0s)
+  ok 5 e2e\workspaces.spec.ts:159:1 › WS-01 Electron ignores stale responses, preserves selection on disconnect, and recovers a missing directory without phantom sessions (3.9s)
+
+
+  1) e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads 
+
+    Error: expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  3
+    + Received  + 15
+
+      Array [
+    -   ObjectContaining {
+    +   Object {
+          "cookies": 0,
+    +     "id": 3,
+          "persistent": false,
+    -     "preferences": ObjectContaining {
+    +     "preferences": Object {
+    +       "allowRunningInsecureContent": false,
+            "contextIsolation": true,
+    +       "disableDialogs": false,
+    +       "disablePopups": false,
+    +       "disableWakeLocks": false,
+    +       "enableBlinkFeatures": "",
+    +       "experimentalFeatures": false,
+            "javascript": false,
+            "nodeIntegration": false,
+    -       "plugins": false,
+    +       "nodeIntegrationInSubFrames": false,
+    +       "nodeIntegrationInWorker": false,
+    +       "safeDialogs": false,
+    +       "safeDialogsMessage": "",
+            "sandbox": true,
+            "webSecurity": true,
+    +       "webviewTag": false,
+          },
+    +     "url": "piw-preview://96ac02a9-20b6-418d-8ecc-d933f0ddfa6b/document",
+        },
+      ]
+
+      56 |     expect(await open(f, s.id)).toMatchObject({ status: 'requested' })
+      57 |     const states = await f.desktop.previewControl('list')
+    > 58 |     expect(states).toEqual([
+         |                    ^
+      59 |       expect.objectContaining({
+      60 |         persistent: false,
+      61 |         cookies: 0,
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\file-preview-isolation.spec.ts:58:20
+
+    Error Context: test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\file-preview-isolation.spec.ts:175:1 › FILE-07 real preview renderer crash leaves workbench and actual SDK background PID/epoch intact; same profile restart restores no preview 
+
+    Error: page.goto: Page crashed
+    Call log:
+      - navigating to "about:blank", waiting until "load"
+
+
+       at helpers\desktop.ts:227
+
+      225 |       browser
+      226 |         ?.contexts()
+    > 227 |         .flatMap((context) => context.pages().map((page) => page.goto('about:blank'))) ?? [],
+          |                                                                  ^
+      228 |     )
+      229 |     releaseProofs()
+      230 |     // Polling can still be inside route.fetch when the renderer closes. Drain those
+        at map (C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\helpers\desktop.ts:227:66)
+        at flatMap (C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\helpers\desktop.ts:227:47)
+        at Object.close (C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\helpers\desktop.ts:227:10)
+        at Object.close (C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\helpers\change-fixture.ts:175:21)
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\file-preview-isolation.spec.ts:202:13
+
+    Error Context: test-results\file-preview-isolation-FIL-4b5c9-restart-restores-no-preview\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-preview-isolation-FIL-4b5c9-restart-restores-no-preview\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-preview-isolation-FIL-4b5c9-restart-restores-no-preview\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads 
+    e2e\file-preview-isolation.spec.ts:175:1 › FILE-07 real preview renderer crash leaves workbench and actual SDK background PID/epoch intact; same profile restart restores no preview 
+  3 passed (54.8s)

@@ -23,6 +23,7 @@ import { sessionJson } from '../../services/session-client.js'
 import { hasUnsavedFiles, useFileEditDrafts } from '../../stores/file-edit-drafts.js'
 import { ExternalFileActions } from './external-file-actions.js'
 import { FileEditor } from './file-editor.js'
+import { FilePreview } from './file-preview.js'
 import { ReaderContext, useFileReader } from './file-reader-context.js'
 
 type Source = FileReadInput['source']
@@ -307,6 +308,9 @@ function FileReader({
           <p className="text-xs text-muted-foreground">{data.diagnostic}</p>
         </>
       ) : null}
+      <FilePreview
+        input={{ target, source, ...(data?.version ? { version: data.version } : {}) }}
+      />
       <ExternalFileActions
         target={target}
         source={source}

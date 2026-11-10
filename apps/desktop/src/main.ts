@@ -1,5 +1,11 @@
 // @env node
-import type { DesktopPage, ExternalFileInput, ExternalTarget } from '@pi-workbench/shared'
+import type {
+  DesktopPage,
+  ExternalFileInput,
+  ExternalTarget,
+  FileReadInput,
+  PreviewSnapshot,
+} from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
 import process from 'node:process'
@@ -7,11 +13,16 @@ import { fileURLToPath } from 'node:url'
 
 import { app, BrowserWindow, dialog, Menu, nativeTheme, shell, Tray } from 'electron'
 
-import { hostAccessResultSchema, hostFileResultSchema } from '@pi-workbench/shared'
+import {
+  hostAccessResultSchema,
+  hostFileResultSchema,
+  hostPreviewResultSchema,
+} from '@pi-workbench/shared'
 
 import { registerDirectoryPicker } from './directory-picker.js'
 import { registerExternalFiles } from './external-files.js'
 import { ExternalOpenError } from './external-target.js'
+import { registerFilePreviews } from './file-previews.js'
 import { trayIcon } from './tray-icon.js'
 import { registerWindowChrome } from './window-chrome.js'
 
@@ -103,6 +114,47 @@ async function hostFileTarget(cookie: string, input: ExternalFileInput): Promise
     })
   })
 }
+/** Frozen bytes stay on private parent IPC; the workbench never receives preview content. */
+async function hostPreviewSnapshot(cookie: string, input: FileReadInput): Promise<PreviewSnapshot> {
+  if (!process.send || !cookie) {
+    throw new ExternalOpenError('桌面宿主不可用，请重新连接后重试。')
+  }
+  const id = randomUUID()
+  return new Promise((resolve, reject) => {
+    const cleanup = () => {
+      clearTimeout(timer)
+      process.off('message', receive)
+      process.off('disconnect', disconnected)
+    }
+    const receive = (value: unknown) => {
+      const parsed = hostPreviewResultSchema.safeParse(value)
+      if (!parsed.success || parsed.data.id !== id) {
+        return
+      }
+      cleanup()
+      if (parsed.data.ok) {
+        resolve(parsed.data.snapshot)
+      } else {
+        reject(new ExternalOpenError(parsed.data.message))
+      }
+    }
+    const disconnected = () => {
+      cleanup()
+      reject(new ExternalOpenError('宿主已断开；未加载预览，请重新连接。'))
+    }
+    const timer = setTimeout(() => {
+      cleanup()
+      reject(new ExternalOpenError('预览检查超时；请刷新后重试。'))
+    }, 5000)
+    process.on('message', receive)
+    process.once('disconnect', disconnected)
+    process.send?.({ type: 'host-preview', id, cookie, input }, (error) => {
+      if (error) {
+        disconnected()
+      }
+    })
+  })
+}
 async function createDesktop() {
   let desktopCookie = ''
   const window = new BrowserWindow({
@@ -132,6 +184,12 @@ async function createDesktop() {
     window,
     workbenchUrl,
     (input) => hostFileTarget(desktopCookie, input),
+    () => exiting,
+  )
+  registerFilePreviews(
+    window,
+    workbenchUrl,
+    (input) => hostPreviewSnapshot(desktopCookie, input),
     () => exiting,
   )
   function showWindow() {

@@ -27,6 +27,10 @@ contextBridge.exposeInMainWorld(
       ipcRenderer.invoke('piw:external-file', request),
     cancelExternal: async (id): Promise<boolean> =>
       (await ipcRenderer.invoke('piw:cancel-external', id)) === true,
+    previewFile: async (request): Promise<unknown> =>
+      ipcRenderer.invoke('piw:preview-file', request),
+    cancelPreview: async (id): Promise<boolean> =>
+      (await ipcRenderer.invoke('piw:cancel-preview', id)) === true,
     onNavigate: (receive) => {
       const listener = (_event: unknown, page: DesktopPage) => receive(page)
       ipcRenderer.on('piw:navigate', listener)

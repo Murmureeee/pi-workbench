@@ -35,6 +35,7 @@ import {
   proveFilePath,
 } from '../../infrastructure/file-boundary.js'
 import { readGitCommand, readGitEnvironment } from '../workspaces/git-environment.js'
+import { capturePreview } from './file-preview.js'
 import { readFileSnapshot } from './file-reading.js'
 
 type Handle = {
@@ -612,24 +613,45 @@ export class FileService {
     })
   }
 
+  /** Host-only frozen preview. Physical scope and all actual IO share the file admission
+   * and shutdown drain; caller cancellation never releases an in-flight descriptor. */
+  preview(input: FileReadInput) {
+    return this.run(async () => {
+      const q = fileReadInputSchema.parse(input),
+        scope = await this.scope(q.target)
+      const path = await this.inputPath(scope, q)
+      const snapshot = await capturePreview(scope.root, path, q, this.redactor).catch(
+        (error: unknown) => {
+          throw failure(
+            error instanceof Error
+              ? this.redactor.text(error.message)
+              : '预览读取失败，请刷新后重试。',
+          )
+        },
+      )
+      await this.verify(scope)
+      return snapshot
+    })
+  }
+
+  private async inputPath(scope: Scope, q: FileReadInput) {
+    if ('path' in q.source && (isAmbiguousPath(q.source.path) || isCredentialPath(q.source.path))) {
+      throw failure('文件路径无效或属于私密项。')
+    }
+    return 'file' in q.source
+      ? (await this.resolve(scope, q.source.file)).path
+      : isAbsolute(q.source.path)
+        ? relative(scope.root, resolve(q.source.path))
+        : q.source.path
+  }
+
   /** Host editor uses the same scope/opaque handle resolver without receiving authority
    * from a display path. The caller must re-prove this root and path around its IO. */
   editTarget(input: FileReadInput) {
     return this.run(async () => {
       const q = fileReadInputSchema.parse(input),
         scope = await this.scope(q.target)
-      if (
-        'path' in q.source &&
-        (isAmbiguousPath(q.source.path) || isCredentialPath(q.source.path))
-      ) {
-        throw failure('编辑路径无效或属于私密项。')
-      }
-      const path =
-        'file' in q.source
-          ? (await this.resolve(scope, q.source.file)).path
-          : isAbsolute(q.source.path)
-            ? relative(scope.root, resolve(q.source.path))
-            : q.source.path
+      const path = await this.inputPath(scope, q)
       const proof = await proveFilePath(scope.root, path)
       if (!proof.stat.isFile()) {
         throw failure('编辑目标不是普通文件。')

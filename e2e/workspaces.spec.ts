@@ -83,6 +83,8 @@ test('WS-01 real Electron picker bridge opens/deduplicates/switches; cancellatio
       'configureEditor',
       'openFileExternally',
       'cancelExternal',
+      'previewFile',
+      'cancelPreview',
       'onNavigate',
     ])
     expect(await page.evaluate(() => 'require' in window || 'process' in window)).toBe(false)

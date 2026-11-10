@@ -1,0 +1,97 @@
+{
+  "feature": "FILE-07",
+  "source": "Windows Computer Use SendInput/UIA; actual installed SDK local HTTP; explicit CLI file/SDK fixture; no native CDP or renderer injection",
+  "observations": 97,
+  "normalMenuExits": 2,
+  "exitCodes": [
+    0,
+    0
+  ],
+  "restart": {
+    "sends": 0,
+    "kernels": 0,
+    "pending": 0,
+    "grants": 0,
+    "previews": 0,
+    "historyUnchanged": true
+  },
+  "background": {
+    "runningObservations": 37,
+    "identities": [
+      [
+        14308,
+        "024a689a-1993-476c-9f3b-a6b77e0a933b"
+      ],
+      [
+        31424,
+        "46e4ddca-94b3-453d-a094-fb189fb14932"
+      ]
+    ],
+    "intervals": [
+      {
+        "identity": [
+          14308,
+          "024a689a-1993-476c-9f3b-a6b77e0a933b"
+        ],
+        "from": "main-session-loaded",
+        "to": "preview-narrow"
+      },
+      {
+        "identity": [
+          31424,
+          "46e4ddca-94b3-453d-a094-fb189fb14932"
+        ],
+        "from": "settings-geometry",
+        "to": "native-size-command-settled"
+      }
+    ],
+    "submissions": [
+      {
+        "session_id": "6cd82c32-179a-4a55-83ef-a490237a62e2",
+        "status": "completed",
+        "error": null
+      },
+      {
+        "session_id": "0a235e4e-30d1-49f1-b484-6e701c570046",
+        "status": "failed",
+        "error": "terminated"
+      },
+      {
+        "session_id": "8251c70f-2432-4b6e-a732-1ec941a1c665",
+        "status": "failed",
+        "error": "terminated"
+      }
+    ]
+  },
+  "trapRequests": 0,
+  "providerRequests": 0,
+  "sourceInputs": 487,
+  "gitUnchanged": true,
+  "protectedFilesUnchanged": true,
+  "ci": {
+    "exit": 0,
+    "files": 69,
+    "vitest": 464,
+    "e2e": 183
+  },
+  "clean": {
+    "exit": 0
+  },
+  "selectedScreenshots": [
+    "13-attack-preview-0.png",
+    "17-file-picker-denied-0.png",
+    "37-long-preview-loaded-0.png",
+    "74-finish-narrow-size-settled-0.png",
+    "76-return-session-dark-narrow-settled-0.png",
+    "79-same-profile-restart-0.png",
+    "95-light-narrow-restart-settled-0.png"
+  ],
+  "limitations": [
+    "Native resize drags and keyboard size accelerator did not resize; actual 802px evidence comes from clicking native Size, selecting right edge and clicking final size.",
+    "Some AX clicks lacked element geometry; keyboard Escape and screenshot coordinates recovered. A theme popup owner mismatch was handled by keyboard selection.",
+    "Preview header follows system appearance; workbench manual theme is independent. No new OS theme change or real IME candidate evidence.",
+    "Both background holds ended with failed/terminated after their recorded running intervals, before the later stop-background request. Their termination cause was not established; CLI stop is not claimed as the cause. No claim of uninterrupted background execution across the whole native run.",
+    "Native external links/download/protocol/file picker clicks and zero HTTP/WS trap are separate from CDP active-renderer attack probes and injected crash/initialization failures.",
+    "First unrelated foreground screenshot was excluded. Intermediate observations and failed sizing attempts are retained."
+  ]
+}

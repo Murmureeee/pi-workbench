@@ -1,0 +1,54 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:2028) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:26748) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads (21.0s)
+(node:5544) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\file-preview-isolation.spec.ts:133:1 › FILE-07 cancellation, late results, repeated requests, initialization failure and four-window limit fail closed and recover (8.1s)
+  ok 3 e2e\file-preview-isolation.spec.ts:178:1 › FILE-07 real preview renderer crash leaves workbench and actual SDK background PID/epoch intact; same profile restart restores no preview (17.0s)
+
+
+  1) e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+    Call Log:
+    - Timeout 15000ms exceeded while waiting on the predicate
+
+       at helpers\desktop.ts:330
+
+      328 |         const id = crypto.randomUUID()
+      329 |         child.send({ type: 'preview-control', id, action, code, index })
+    > 330 |         await expect.poll(() => previewResults.has(id), { timeout: 15000 }).toBe(true)
+          |                                                                             ^
+      331 |         const value = previewResults.get(id)!
+      332 |         previewResults.delete(id)
+      333 |         if (value.error) {
+        at Object.previewControl (C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\helpers\desktop.ts:330:77)
+        at inspect (C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\file-preview-isolation.spec.ts:21:57)
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\file-preview-isolation.spec.ts:88:32
+
+    Error Context: test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads 
+  2 passed (1.1m)

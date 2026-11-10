@@ -8,11 +8,18 @@ import { pathToFileURL } from 'node:url'
 
 import { chromium, expect } from '@playwright/test'
 
-import { resolveHostFile } from '../../apps/daemon/dist/modules/files/file-host.js'
+import {
+  resolveHostFile,
+  resolveHostPreview,
+} from '../../apps/daemon/dist/modules/files/file-host.js'
 import { FileService } from '../../apps/daemon/dist/modules/files/file.service.js'
 import { AccessService } from '../../apps/daemon/dist/modules/security/access.service.js'
 import { SecurityService } from '../../apps/daemon/dist/modules/security/security.service.js'
-import { hostAccessRequestSchema, hostFileRequestSchema } from '../../packages/shared/dist/index.js'
+import {
+  hostAccessRequestSchema,
+  hostFileRequestSchema,
+  hostPreviewRequestSchema,
+} from '../../packages/shared/dist/index.js'
 
 /** Actual Electron main/preload, SEC-08 parent IPC, native cookie store, renderer and daemon.
  * OS dialog results are explicit fixtures. FILE-06 can additionally observe system-shell
@@ -33,9 +40,12 @@ export async function launchWorkspaceDesktop(
   const driver = join(directory, 'desktop-driver.cjs')
   writeFileSync(
     driver,
-    `const { app, dialog, shell, BrowserWindow } = require('electron');
+    `const { app, dialog, shell, BrowserWindow, webContents, session } = require('electron');
 let selection = null;
 let shellFailure = '';
+let breakPreview = false;
+const fromPartition = session.fromPartition.bind(session);
+session.fromPartition = (...args) => { if(breakPreview && args[0].startsWith('piw-preview-')) {breakPreview=false;throw Error('隔离初始化故障注入，拒绝加载');} return fromPartition(...args); };
 ${
   unloadFixture
     ? `let unloadChoice=0;
@@ -53,6 +63,25 @@ app.on('web-contents-created', (_event, contents) => {
 });
 dialog.showOpenDialog = async () => selection ? {canceled: false, filePaths: [selection]} : {canceled: true, filePaths: []};
 process.on('message', message => {
+  if(message && message.type === 'preview-control') {
+    const contents = webContents.getAllWebContents().filter(c=>c.getURL().endsWith('/document'));
+    const c = contents[message.index || 0];
+    const run = async () => {
+      if(message.action === 'fault') {breakPreview = true;return true;}
+      if(message.action === 'list') return Promise.all(contents.map(async c=>({id:c.id,url:c.getURL(),persistent:c.session.isPersistent(),cookies:(await c.session.cookies.get({})).length,preferences:c.getLastWebPreferences()})));
+      if(!c) throw Error('Missing actual preview renderer');
+      if(message.action === 'js') {
+        if(!c.debugger.isAttached()) c.debugger.attach('1.3');
+        const result=await c.debugger.sendCommand('Runtime.evaluate',{expression:message.code,awaitPromise:true,returnByValue:true});
+        if(result.exceptionDetails) throw Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
+        return result.result.value;
+      }
+      if(message.action === 'crash') {c.forcefullyCrashRenderer();return true;}
+      if(message.action === 'close') {BrowserWindow.getAllWindows().find(w=>w.contentView.children.some(v=>v.webContents===c))?.close();return true;}
+      throw Error('Unknown preview fixture control');
+    };
+    run().then(result=>process.send({type:'fixture-preview-result',id:message.id,result})).catch(error=>process.send({type:'fixture-preview-result',id:message.id,error:error.message}));
+  }
   ${unloadFixture ? `if(message&&message.type==='unload-choice'){unloadChoice=message.value;process.send({type:'fixture-unload-ready'});}` : ''}
   if (message === 'quit') app.quit();
   if (message && message.type === 'selection') {selection = message.path; process.send({selected: message.path});}
@@ -86,6 +115,7 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
   const shellCalls: { action: string; path: string }[] = []
   const unloadPrompts: string[] = []
   let unloadReady = false
+  const previewResults = new Map<string, { result?: unknown; error?: string }>()
   let shellReady = false,
     wrongWindowResult: unknown,
     proofHeld = false,
@@ -104,10 +134,15 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
   })
   child.stdout?.resume()
   child.on('message', (message: unknown) => {
-    if (hostFileRequestSchema.safeParse(message).success) {
+    if (
+      hostFileRequestSchema.safeParse(message).success ||
+      hostPreviewRequestSchema.safeParse(message).success
+    ) {
       proofCount++
       const resolveProof = () => {
-        void resolveHostFile(
+        void (
+          hostPreviewRequestSchema.safeParse(message).success ? resolveHostPreview : resolveHostFile
+        )(
           app.get(AccessService),
           app.get(FileService),
           app.get(SecurityService).redactor,
@@ -134,6 +169,19 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
         ticket: app.get(AccessService).issueTicket(request.data.operation),
       })
     } else if (message && typeof message === 'object') {
+      if (
+        'type' in message &&
+        message.type === 'fixture-preview-result' &&
+        'id' in message &&
+        typeof message.id === 'string'
+      ) {
+        previewResults.set(message.id, {
+          ...('result' in message ? { result: message.result } : {}),
+          ...('error' in message && typeof message.error === 'string'
+            ? { error: message.error }
+            : {}),
+        })
+      }
       if (
         'type' in message &&
         message.type === 'fixture-unload' &&
@@ -179,9 +227,12 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     // Unmount pollers before removing the fixture's forwarding route. Otherwise new
     // requests can escape to the unrelated development daemon during teardown.
     await Promise.all(
-      browser
-        ?.contexts()
-        .flatMap((context) => context.pages().map((page) => page.goto('about:blank'))) ?? [],
+      browser?.contexts().flatMap((context) =>
+        context
+          .pages()
+          .filter((page) => !page.url().startsWith('piw-preview:'))
+          .map((page) => page.goto('about:blank')),
+      ) ?? [],
     )
     releaseProofs()
     // Polling can still be inside route.fetch when the renderer closes. Drain those
@@ -269,6 +320,21 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
       context,
       close,
       shellCalls,
+      previewControl: async (
+        action: 'list' | 'js' | 'crash' | 'close' | 'fault',
+        code = '',
+        index = 0,
+      ) => {
+        const id = crypto.randomUUID()
+        child.send({ type: 'preview-control', id, action, code, index })
+        await expect.poll(() => previewResults.has(id), { timeout: 15000 }).toBe(true)
+        const value = previewResults.get(id)!
+        previewResults.delete(id)
+        if (value.error) {
+          throw Error(value.error)
+        }
+        return value.result
+      },
       unloadPrompts,
       requestQuit: () => {
         child.send('quit')

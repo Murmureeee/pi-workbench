@@ -1,0 +1,47 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ [WebServer] pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:31916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 3 tests using 1 worker
+
+(node:32652) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  x  1 e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads (6.0s)
+(node:27476) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 2 e2e\file-preview-isolation.spec.ts:133:1 › FILE-07 cancellation, late results, repeated requests, initialization failure and four-window limit fail closed and recover (7.4s)
+  ok 3 e2e\file-preview-isolation.spec.ts:178:1 › FILE-07 real preview renderer crash leaves workbench and actual SDK background PID/epoch intact; same profile restart restores no preview (17.8s)
+
+
+  1) e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads 
+
+    Error: Script failed to execute, this normally means an error was thrown. Check the renderer console for the error.
+
+       at helpers\desktop.ts:329
+
+      327 |         previewResults.delete(id)
+      328 |         if (value.error) {
+    > 329 |           throw Error(value.error)
+          |                 ^
+      330 |         }
+      331 |         return value.result
+      332 |       },
+        at Object.previewControl (C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\helpers\desktop.ts:329:17)
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\file-preview-isolation.spec.ts:76:7
+
+    Error Context: test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-preview-isolation-FIL-51aa3-ces-navigation-or-downloads\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  1 failed
+    e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads 
+  2 passed (49.3s)

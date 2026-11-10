@@ -9,7 +9,7 @@ import { createServer } from 'vite'
 
 import { createApp } from '../apps/daemon/dist/bootstrap/app.js'
 import { readOptions } from '../apps/daemon/dist/bootstrap/options.js'
-import { resolveHostFile } from '../apps/daemon/dist/modules/files/file-host.js'
+import { resolveHostFile, resolveHostPreview } from '../apps/daemon/dist/modules/files/file-host.js'
 import { FileService } from '../apps/daemon/dist/modules/files/file.service.js'
 import { AccessService } from '../apps/daemon/dist/modules/security/access.service.js'
 import { pairingConsole } from '../apps/daemon/dist/modules/security/host-access.js'
@@ -82,6 +82,19 @@ try {
       env: desktopEnvironment,
     })
     desktop.on('message', (message) => {
+      void resolveHostPreview(
+        daemon.get(AccessService),
+        daemon.get(FileService),
+        daemon.get(SecurityService).redactor,
+        message,
+      )
+        .then((result) => {
+          if (result && desktop?.connected) {
+            desktop.send(result, () => undefined)
+          }
+          return undefined
+        })
+        .catch(() => process.stderr.write('Host preview check unavailable\n'))
       void resolveHostFile(
         daemon.get(AccessService),
         daemon.get(FileService),

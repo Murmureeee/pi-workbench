@@ -2900,16 +2900,16 @@
       "sources": [],
       "legacy": null,
       "progress": {
-        "status": "not_started",
-        "owner": "",
+        "status": "verified",
+        "owner": "Codex",
         "targetDate": "",
-        "note": "",
-        "evidence": "",
+        "note": "独立非持久Electron上下文、无preload／配对身份、静态HTML脚本及外部访问关闭；可信顶部与固定单文档协议，取消／迟到／故障拒绝加载、崩溃独立。5项真实服务／3项攻击与生命周期Electron；完整464项Vitest／183项E2E、SDK和frozen clean通过，487输入与clean一致。97条Windows原生观察、长中文路径、拒绝内容动作、明暗802px、后台两个独立PID区间、同profile零重放及两次正常退出补证；真实提供商0，原目录／五保护文件不改，OPS-08继续跨阶段。静态预览非OS扩展沙箱；预览顶部跟随系统而非手选主题，主动探针／故障注入与原生分开。",
+        "evidence": "docs/validation/file-07-evidence/acceptance.md",
         "acceptanceChecked": [
-          false,
-          false
+          true,
+          true
         ],
-        "updatedAt": null
+        "updatedAt": "2026-11-10T09:21:50.338Z"
       }
     },
     {

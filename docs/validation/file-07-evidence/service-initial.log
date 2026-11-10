@@ -1,0 +1,30 @@
+
+ RUN  v5.0.5 C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench
+
+ ❯ apps/daemon/test/file-preview.test.ts (5 tests | 1 failed) 430ms
+   × fILE-07 actual Unicode long-path frozen bytes match FILE-02 version; external rewrite, replacement and deletion refuse old versions 189ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/file-preview.test.ts > fILE-07 actual Unicode long-path frozen bytes match FILE-02 version; external rewrite, replacement and deletion refuse old versions
+AssertionError: expected [Function] to throw error including '外部变化' but got '文件或目录已变化、不可访问或句柄已过期。请从根目录刷新重试。'
+
+Expected: "外部变化"
+Received: "文件或目录已变化、不可访问或句柄已过期。请从根目录刷新重试。"
+
+ ❯ apps/daemon/test/file-preview.test.ts:35:66
+     33|     expect(snapshot).toMatchObject({absolutePath:path,source:'current-…
+     34|     writeFileSync(path,'<p>external</p>')
+     35|     await expect(f.files.preview(f.input(path,snapshot.version))).reje…
+       |                                                                  ^
+     36|     const rewritten=await f.files.preview(input)
+     37|     renameSync(path,path+'.old');writeFileSync(path,'<p>external</p>')
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 4 passed (5)
+   Start at  15:51:35
+   Duration  2.76s (import 75%, tests 16%, transform 9%)
+
