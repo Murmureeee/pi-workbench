@@ -41,6 +41,15 @@ export async function launchWorkspaceDesktop(
   writeFileSync(
     driver,
     `const { app, dialog, shell, BrowserWindow, webContents, session } = require('electron');
+const childProcess = require('node:child_process');
+const nativeSpawn = childProcess.spawn;
+childProcess.spawn = (...args) => {
+  const child = nativeSpawn(...args);
+  if(typeof args[0] === 'string' && /powershell.exe$/i.test(args[0]) && child.pid) process.send({type:'fixture-pdf-helper',pid:child.pid});
+  return child;
+};
+require('node:module').syncBuiltinESMExports();
+process.on('uncaughtExceptionMonitor', error => process.send({type:'fixture-native-error',message:error.stack || error.message}));
 let selection = null;
 let shellFailure = '';
 let breakPreview = false;
@@ -61,21 +70,40 @@ shell.openPath = async path => {process.send({type:'fixture-shell',action:'syste
 app.on('web-contents-created', (_event, contents) => {
   contents.once('did-finish-load', () => process.send({type: 'renderer-ready'}));
 });
+// Test driver only: observe/invoke actual native menu callbacks without adding any
+// product debug IPC or content bridge. Windows clicks are verified separately.
+const previewMenus = new Map();
+const setNativeMenu = BrowserWindow.prototype.setMenu;
+BrowserWindow.prototype.setMenu = function(menu) { previewMenus.set(this.id, menu);return setNativeMenu.call(this, menu); };
+const evaluatePreview = async (contents, expression) => {
+  if(!contents.debugger.isAttached()) contents.debugger.attach('1.3');
+  const result=await contents.debugger.sendCommand('Runtime.evaluate',{expression,awaitPromise:true,returnByValue:true});
+  if(result.exceptionDetails) throw Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
+  return result.result.value;
+};
 dialog.showOpenDialog = async () => selection ? {canceled: false, filePaths: [selection]} : {canceled: true, filePaths: []};
 process.on('message', message => {
   if(message && message.type === 'preview-control') {
-    const contents = webContents.getAllWebContents().filter(c=>c.getURL().endsWith('/document'));
+    const contents = webContents.getAllWebContents().filter(c=>c.getURL().endsWith('/document')).sort((a,b)=>a.id-b.id);
+    const previews = BrowserWindow.getAllWindows().filter(w=>w.webContents.getURL().endsWith('/header')).sort((a,b)=>a.id-b.id);
     const c = contents[message.index || 0];
     const run = async () => {
       if(message.action === 'fault') {breakPreview = true;return true;}
+      if(message.action === 'headers') return Promise.all(previews.map(async w=>({id:w.id,bounds:w.getBounds(),text:await evaluatePreview(w.webContents,'document.body.innerText'),scheme:await evaluatePreview(w.webContents,'getComputedStyle(document.documentElement).colorScheme'),views:w.contentView.children.length})));
+      if(message.action === 'closeAll') {previews.forEach(w=>w.close());return true;}
+      if(message.action === 'original' || message.action === 'appearance') {
+        const w=previews[message.index || 0];
+        const item=w && previewMenus.get(w.id)?.getMenuItemById('preview-'+message.code);
+        if(!item || !item.enabled) return false;
+        item.click(item,w);return true;
+      }
+      if(message.action === 'resize') {previews[message.index || 0]?.setSize(800,760);return true;}
       if(message.action === 'list') return Promise.all(contents.map(async c=>({id:c.id,url:c.getURL(),persistent:c.session.isPersistent(),cookies:(await c.session.cookies.get({})).length,preferences:c.getLastWebPreferences()})));
       if(!c) throw Error('Missing actual preview renderer');
       if(message.action === 'js') {
-        if(!c.debugger.isAttached()) c.debugger.attach('1.3');
-        const result=await c.debugger.sendCommand('Runtime.evaluate',{expression:message.code,awaitPromise:true,returnByValue:true});
-        if(result.exceptionDetails) throw Error(result.exceptionDetails.exception?.description || result.exceptionDetails.text);
-        return result.result.value;
+        return evaluatePreview(c, message.code);
       }
+      if(message.action === 'screenshot') return (await c.capturePage()).toPNG().toString('base64');
       if(message.action === 'crash') {c.forcefullyCrashRenderer();return true;}
       if(message.action === 'close') {BrowserWindow.getAllWindows().find(w=>w.contentView.children.some(v=>v.webContents===c))?.close();return true;}
       throw Error('Unknown preview fixture control');
@@ -114,6 +142,8 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     selected: unknown
   const shellCalls: { action: string; path: string }[] = []
   const unloadPrompts: string[] = []
+  const pdfHelpers: number[] = []
+  const nativeErrors: string[] = []
   let unloadReady = false
   const previewResults = new Map<string, { result?: unknown; error?: string }>()
   let shellReady = false,
@@ -171,6 +201,23 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
     } else if (message && typeof message === 'object') {
       if (
         'type' in message &&
+        message.type === 'fixture-native-error' &&
+        'message' in message &&
+        typeof message.message === 'string'
+      ) {
+        nativeErrors.push(message.message)
+        process.stderr.write('Actual Electron uncaught exception: ' + message.message + '\n')
+      }
+      if (
+        'type' in message &&
+        message.type === 'fixture-pdf-helper' &&
+        'pid' in message &&
+        typeof message.pid === 'number'
+      ) {
+        pdfHelpers.push(message.pid)
+      }
+      if (
+        'type' in message &&
         message.type === 'fixture-preview-result' &&
         'id' in message &&
         typeof message.id === 'string'
@@ -224,6 +271,10 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
   let closing = false
   const close = async () => {
     closing = true
+    if (child.exitCode !== null) {
+      await browser?.close()
+      return
+    }
     // Unmount pollers before removing the fixture's forwarding route. Otherwise new
     // requests can escape to the unrelated development daemon during teardown.
     await Promise.all(
@@ -320,14 +371,32 @@ void import(${JSON.stringify(pathToFileURL(resolve('apps/desktop/dist/main.js'))
       context,
       close,
       shellCalls,
+      pdfHelpers,
+      waitForExit: () => exited,
       previewControl: async (
-        action: 'list' | 'js' | 'crash' | 'close' | 'fault',
+        action:
+          | 'list'
+          | 'js'
+          | 'crash'
+          | 'close'
+          | 'fault'
+          | 'headers'
+          | 'original'
+          | 'appearance'
+          | 'resize'
+          | 'closeAll'
+          | 'screenshot',
         code = '',
         index = 0,
       ) => {
         const id = crypto.randomUUID()
         child.send({ type: 'preview-control', id, action, code, index })
-        await expect.poll(() => previewResults.has(id), { timeout: 15000 }).toBe(true)
+        await expect
+          .poll(() => previewResults.has(id) || nativeErrors.length > 0, { timeout: 15000 })
+          .toBe(true)
+        if (nativeErrors[0]) {
+          throw Error(nativeErrors[0])
+        }
         const value = previewResults.get(id)!
         previewResults.delete(id)
         if (value.error) {

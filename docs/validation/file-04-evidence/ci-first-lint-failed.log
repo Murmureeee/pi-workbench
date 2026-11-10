@@ -1,0 +1,23 @@
+$ pnpm check && pnpm test && pnpm smoke:sdk && pnpm test:e2e
+$ pnpm format:check && pnpm lint && pnpm typecheck && pnpm knip && pnpm docs:check
+$ oxfmt --check .
+Checking formatting...
+
+All matched files use the correct format.
+Finished in 434ms on 440 files using 20 threads.
+$ pnpm build:server && oxlint .
+$ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+$ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+packages/ui build$ tsc -p tsconfig.json
+packages/shared build$ tsc -p tsconfig.json
+packages/shared build: Done
+packages/agent-adapter build$ tsc -p tsconfig.json
+packages/ui build: Done
+packages/agent-adapter build: Done
+$ tsc -p tsconfig.json
+apps/daemon/test/pdf-preview.test.ts:6:6: warning vitest(prefer-lowercase-title): Enforce lowercase test names help: `"FILE-04 actual Windows PDF memory stream renders every page to bounded PNG, including active document actions as inert pixels"`s should begin with lowercase
+apps/daemon/test/pdf-preview.test.ts:21:6: warning vitest(prefer-lowercase-title): Enforce lowercase test names help: `"FILE-04 native PDF decoder refuses malformed and over-page documents without returning partial pages; next valid render recovers"`s should begin with lowercase
+apps/daemon/test/pdf-preview.test.ts:29:6: warning vitest(prefer-lowercase-title): Enforce lowercase test names help: `"FILE-04 actual in-flight native PDF helper cancellation drains owned process before rejecting and permits another render"`s should begin with lowercase
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.
+[ELIFECYCLE] Command failed with exit code 1.

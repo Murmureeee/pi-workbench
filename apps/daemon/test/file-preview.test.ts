@@ -7,6 +7,9 @@ import { expect, test, vi } from 'vitest'
 
 import { Redactor } from '@pi-workbench/shared'
 
+import { previewJpeg, previewPdf, previewPng } from '../../../e2e/helpers/preview-files.js'
+import { ChangeReviewService } from '../dist/modules/changes/change-review.service.js'
+import { ChangeService } from '../dist/modules/changes/change.service.js'
 import { resolveHostPreview } from '../dist/modules/files/file-host.js'
 import { FileService } from '../dist/modules/files/file.service.js'
 import { KernelService } from '../dist/modules/kernels/kernel.service.js'
@@ -21,11 +24,15 @@ async function fixture() {
   if (!w.ok) {
     throw Error('preview fixture root failed')
   }
-  const files = f.app.get(FileService),
-    target = { workspaceId: w.workspace.id }
+  const target = { workspaceId: w.workspace.id }
   return {
     ...f,
-    files,
+    get app() {
+      return f.app
+    },
+    get files() {
+      return f.app.get(FileService)
+    },
     target,
     input: (path: string, version?: string) => ({
       target,
@@ -105,7 +112,7 @@ test('fILE-07 rejects oversized, malformed, binary and redaction-sensitive HTML 
       ['encoding.html', Buffer.from([255, 254])],
       ['binary.html', Buffer.from([0, 1])],
       ['key.html', Buffer.from('<p>sk-proj-' + 'a'.repeat(60) + '</p>')],
-      ['text.txt', Buffer.from('text')],
+      ['vector.svg', Buffer.from('<svg/>')],
     ] as const) {
       writeFileSync(join(f.cwd, name), bytes)
       await expect(f.files.preview(f.input(name))).rejects.toThrow(/.+/)
@@ -185,6 +192,121 @@ test('fILE-07 bounded preview IO retains all four slots through cancellation and
     expect(closed).toBe(true)
   } finally {
     release()
+    await f.close()
+  }
+})
+
+test('fILE-04 actual PNG, JPEG, PDF and strict UTF-8 text retain exact binary bytes, identity version and explicit uncertain current-disk provenance', async () => {
+  const f = await fixture()
+  try {
+    for (const [name, kind, bytes] of [
+      ['中文图片.png', 'png', previewPng()],
+      ['照片.jpg', 'jpeg', previewJpeg()],
+      ['报告.pdf', 'pdf', previewPdf()],
+      ['说明.md', 'text', Buffer.from('\ufeff# 纯文本\r\n<script>not code</script>')],
+    ] as const) {
+      writeFileSync(join(f.cwd, name), bytes)
+      const snapshot = await f.files.preview(f.input(name))
+      expect(snapshot).toMatchObject({
+        kind,
+        bytes: bytes.length,
+        source: 'current-disk-uncertain',
+      })
+      expect(Buffer.from(snapshot.content, 'base64')).toEqual(bytes)
+      expect(snapshot.version).toBe((await f.files.read(f.input(name))).version)
+    }
+  } finally {
+    await f.close()
+  }
+})
+
+test('fILE-04 binary original over text limit has a complete stable version and verified handoff; same-length writes, replacements and deletion refuse the preview version', async () => {
+  const f = await fixture()
+  try {
+    const path = join(f.cwd, '大报告.pdf'),
+      bytes = Buffer.from(
+        previewPdf()
+          .toString()
+          .replace('%%EOF', ' '.repeat(300000) + '%%EOF'),
+      )
+    writeFileSync(path, bytes)
+    const snapshot = await f.files.preview(f.input(path))
+    expect(snapshot.bytes).toBe(bytes.length)
+    expect(Buffer.from(snapshot.content, 'base64')).toEqual(bytes)
+    const input = { ...f.input(path, snapshot.version), action: 'system' as const, line: 1 }
+    expect(await f.files.externalTarget(input)).toMatchObject({ kind: 'file', action: 'system' })
+    writeFileSync(path, Buffer.from(bytes).fill(32, 50, 60))
+    await expect(f.files.externalTarget(input)).rejects.toThrow('版本已变化')
+    await expect(f.files.preview(f.input(path, snapshot.version))).rejects.toThrow('外部变化')
+    writeFileSync(path, bytes)
+    const b = await f.files.preview(f.input(path))
+    renameSync(path, path + '.old')
+    writeFileSync(path, bytes)
+    await expect(f.files.preview(f.input(path, b.version))).rejects.toThrow('外部变化')
+    unlinkSync(path)
+    await expect(f.files.preview(f.input(path, b.version))).rejects.toThrow(/.+/)
+  } finally {
+    await f.close()
+  }
+})
+
+test('fILE-04 unsupported, signature mismatch, oversize and secret originals fail without content; private verification returns no raw bytes', async () => {
+  const f = await fixture(),
+    access = new AccessService(24477, new Redactor())
+  try {
+    for (const [name, bytes] of [
+      ['fake.png', Buffer.from('<html>fake</html>')],
+      ['fake.pdf', Buffer.from('%PDF-1.7 no EOF')],
+      ['huge.jpg', Buffer.alloc(8 * 1024 * 1024 + 1)],
+      ['vector.svg', Buffer.from('<svg/>')],
+      ['key.txt', Buffer.from('sk-proj-' + 'a'.repeat(60))],
+    ] as const) {
+      writeFileSync(join(f.cwd, name), bytes)
+      await expect(f.files.preview(f.input(name))).rejects.toThrow(/.+/)
+    }
+    writeFileSync(join(f.cwd, 'safe.png'), previewPng())
+    const original = await f.files.preview(f.input('safe.png'))
+    const result = await resolveHostPreview(access, f.files, new Redactor(), {
+      type: 'host-preview',
+      id: randomUUID(),
+      checkOnly: true,
+      cookie: access.redeem(access.issueTicket('desktop').code, 'fixture')!.cookie.split(';')[0],
+      input: f.input('safe.png', original.version),
+    })
+    expect(result).toMatchObject({ ok: true, verification: { version: original.version } })
+    expect(result).not.toHaveProperty('snapshot')
+    expect(JSON.stringify(result)).not.toContain(original.content)
+  } finally {
+    access.close()
+    await f.close()
+  }
+})
+
+test('fILE-04 current disk artifact preview never rewrites actual SDK/SQLite/ledger historical versions or fills missing historical content after restart', async () => {
+  const f = await fixture()
+  try {
+    const path = join(f.cwd, '历史产物.html')
+    writeFileSync(path, '<h1>baseline</h1>')
+    const turn = await f.collect(() => writeFileSync(path, '<h1>round artifact</h1>'))
+    const review = f.app.get(ChangeReviewService),
+      list = await review.list(turn.turnId, 0)
+    if (!list.files[0]) {
+      throw Error('artifact history fixture missing')
+    }
+    const diff = await review.diff(turn.turnId, list.files[0].id),
+      history = f.app.get(ChangeService).history(turn.sessionId)
+    writeFileSync(path, '<h1>current external version</h1>')
+    const current = await f.files.preview(f.input(path))
+    expect(Buffer.from(current.content, 'base64').toString()).toContain('current external')
+    expect(current.source).toBe('current-disk-uncertain')
+    expect(await review.diff(turn.turnId, list.files[0].id)).toEqual(diff)
+    unlinkSync(path)
+    await expect(f.files.preview(f.input(path))).rejects.toThrow(/.+/)
+    await f.restart()
+    expect(f.app.get(ChangeService).history(turn.sessionId)).toEqual(history)
+    expect(await f.app.get(ChangeReviewService).diff(turn.turnId, list.files[0].id)).toEqual(diff)
+    expect(f.app.get(KernelService).list()).toEqual([])
+  } finally {
     await f.close()
   }
 })

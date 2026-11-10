@@ -1,0 +1,169 @@
+{
+  "feature": "file-04",
+  "directory": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-04\\native-SbxGgt",
+  "desktopPid": 5580,
+  "sends": 0,
+  "kernels": [],
+  "resources": {
+    "version": 1,
+    "source": "real-sdk/local-fixture",
+    "realProviderEnabled": false,
+    "limits": {
+      "kernels": 4,
+      "modelTasks": 3,
+      "terminals": 6,
+      "idleMs": 300000
+    },
+    "modelTasks": 0,
+    "terminalEnforcement": "reserved-until-M4",
+    "viewCacheIndependent": true,
+    "kernels": [],
+    "queue": []
+  },
+  "pending": [],
+  "grants": {
+    "grants": [],
+    "auditWarning": null
+  },
+  "sessions": [
+    {
+      "id": "8dc71e4f-517d-4969-a0f7-a4776d455edb",
+      "title": "file-04 原生预览主会话",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "c0fddb22-1ba2-493f-8bca-8148b6422c6c",
+      "configuration": {
+        "projectId": "7586df66-19cb-4fa5-b28a-b005183e6ae1",
+        "workspaceId": "96a636fd-df75-464f-8ec1-fa47c152eafc",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "96a636fd-df75-464f-8ec1-fa47c152eafc",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-04\\native-SbxGgt\\中文预览目录",
+      "createdAt": 1794308448339
+    },
+    {
+      "id": "f23dbf68-ea0f-4931-9e9f-b123f6ceb81a",
+      "title": "保持 file-04 独立后台",
+      "titleSource": "local",
+      "titleVersion": 1,
+      "membershipVersion": 1,
+      "creationRequestId": "205d9ee0-677c-49b5-a9bb-b9592590558a",
+      "configuration": {
+        "projectId": "f6968bcc-2d83-434c-9fd8-2e8b1973a149",
+        "workspaceId": "f5fb0a54-18b1-42ac-ab4d-ad40fa54b38d",
+        "model": {
+          "kind": "local-fixture",
+          "provider": "piw-offline",
+          "model": "fixture"
+        },
+        "thinking": "off"
+      },
+      "workspaceId": "f5fb0a54-18b1-42ac-ab4d-ad40fa54b38d",
+      "cwd": "C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-04\\native-SbxGgt\\独立后台目录",
+      "createdAt": 1794308606952
+    }
+  ],
+  "operations": [],
+  "historyBefore": {
+    "8dc71e4f-517d-4969-a0f7-a4776d455edb\\da5977a0-b825-424b-8c57-6255e7e4b309\\sessions\\2026-11-10T11-00-49-503Z_01a1c51e-24df-7462-ada4-dc31d78a9cc8.jsonl": "56288c773379165670e275e46cb43b5b0f00e68cc9353b3963bbf6f57865a514",
+    "f23dbf68-ea0f-4931-9e9f-b123f6ceb81a\\ccbab5c2-d146-4818-90ca-826ad4e6864e\\sessions\\2026-11-10T11-03-28-217Z_01a1c520-90d8-77e8-a0f5-3811cf55cb6b.jsonl": "5062fc8190472b3774694926b27507745e8928e3dca1103adb2a3bdf142f3419"
+  },
+  "historyAfter": {
+    "8dc71e4f-517d-4969-a0f7-a4776d455edb\\da5977a0-b825-424b-8c57-6255e7e4b309\\sessions\\2026-11-10T11-00-49-503Z_01a1c51e-24df-7462-ada4-dc31d78a9cc8.jsonl": "56288c773379165670e275e46cb43b5b0f00e68cc9353b3963bbf6f57865a514",
+    "f23dbf68-ea0f-4931-9e9f-b123f6ceb81a\\ccbab5c2-d146-4818-90ca-826ad4e6864e\\sessions\\2026-11-10T11-03-28-217Z_01a1c520-90d8-77e8-a0f5-3811cf55cb6b.jsonl": "5062fc8190472b3774694926b27507745e8928e3dca1103adb2a3bdf142f3419"
+  },
+  "beforeProtected": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "sha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "sha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "sha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ],
+  "afterProtected": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "sha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "sha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "sha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ],
+  "gitBefore": {
+    "HEAD": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10",
+    "index": "0bc879960729d2e58c33ea1023e247be554b50a3dc10046bd00e59317dd24f7b",
+    "logs/HEAD": "5dd7d4cba3de1f5e3408ffd20022da804f7715cbee8168328d76d62d02f9c15f"
+  },
+  "gitAfter": {
+    "HEAD": "f6f2b945f6c411b02ba3da9c7ace88dcf71b6af65ba2e0d89aa82900042b5a10",
+    "index": "0bc879960729d2e58c33ea1023e247be554b50a3dc10046bd00e59317dd24f7b",
+    "logs/HEAD": "5dd7d4cba3de1f5e3408ffd20022da804f7715cbee8168328d76d62d02f9c15f"
+  },
+  "providerRequests": 0,
+  "trapRequests": [],
+  "exited": {
+    "code": 0,
+    "signal": null
+  },
+  "closed": true,
+  "managedAfter": [],
+  "historyAtClose": {
+    "8dc71e4f-517d-4969-a0f7-a4776d455edb\\da5977a0-b825-424b-8c57-6255e7e4b309\\sessions\\2026-11-10T11-00-49-503Z_01a1c51e-24df-7462-ada4-dc31d78a9cc8.jsonl": "56288c773379165670e275e46cb43b5b0f00e68cc9353b3963bbf6f57865a514",
+    "f23dbf68-ea0f-4931-9e9f-b123f6ceb81a\\ccbab5c2-d146-4818-90ca-826ad4e6864e\\sessions\\2026-11-10T11-03-28-217Z_01a1c520-90d8-77e8-a0f5-3811cf55cb6b.jsonl": "5062fc8190472b3774694926b27507745e8928e3dca1103adb2a3bdf142f3419"
+  },
+  "protectedAtClose": [
+    {
+      "path": "pnpm-lock.yaml",
+      "sha256": "197aab68d34cad0c7e4956a63ff84bb088b9544d33885aa902e8443308047f5c"
+    },
+    {
+      "path": "docs/validation/live-validation-budget.json",
+      "sha256": "cbc52551a5e083e17dd8f1f2343a67ebab8b05a199b53ecb5d48be48f25f1251"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\auth.json",
+      "sha256": "af4708907b85128cc4794a4fc57acab5c19977e53b7a146f2520e5041f64334d"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\models.json",
+      "sha256": "55059beb12099775bb8ca130d19ca293acee64fb84b158c421ba751e44eaf0eb"
+    },
+    {
+      "path": "C:\\Users\\Murmure\\.pi\\agent\\settings.json",
+      "sha256": "e56f8a6d201f254c8d23eece05c8f9015d3f8efb56bc2978d59ac5cb595b24d2"
+    }
+  ]
+}

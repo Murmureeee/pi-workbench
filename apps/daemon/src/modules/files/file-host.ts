@@ -58,7 +58,14 @@ export async function resolveHostPreview(
     if (access.authenticate(q.cookie)?.info.kind !== 'desktop') {
       throw Error('检查期间桌面身份已失效；未加载预览。')
     }
-    return { type: 'host-preview-result', id: q.id, ok: true, snapshot }
+    return q.checkOnly
+      ? {
+          type: 'host-preview-result',
+          id: q.id,
+          ok: true,
+          verification: { version: snapshot.version, checkedAt: snapshot.checkedAt },
+        }
+      : { type: 'host-preview-result', id: q.id, ok: true, snapshot }
   } catch (error) {
     return {
       type: 'host-preview-result',

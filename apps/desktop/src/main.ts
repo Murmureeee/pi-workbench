@@ -4,7 +4,7 @@ import type {
   ExternalFileInput,
   ExternalTarget,
   FileReadInput,
-  PreviewSnapshot,
+  HostPreviewResult,
 } from '@pi-workbench/shared'
 
 import { randomUUID } from 'node:crypto'
@@ -115,7 +115,11 @@ async function hostFileTarget(cookie: string, input: ExternalFileInput): Promise
   })
 }
 /** Frozen bytes stay on private parent IPC; the workbench never receives preview content. */
-async function hostPreviewSnapshot(cookie: string, input: FileReadInput): Promise<PreviewSnapshot> {
+async function hostPreviewSnapshot(
+  cookie: string,
+  input: FileReadInput,
+  checkOnly = false,
+): Promise<Extract<HostPreviewResult, { ok: true }>> {
   if (!process.send || !cookie) {
     throw new ExternalOpenError('桌面宿主不可用，请重新连接后重试。')
   }
@@ -133,7 +137,7 @@ async function hostPreviewSnapshot(cookie: string, input: FileReadInput): Promis
       }
       cleanup()
       if (parsed.data.ok) {
-        resolve(parsed.data.snapshot)
+        resolve(parsed.data)
       } else {
         reject(new ExternalOpenError(parsed.data.message))
       }
@@ -148,11 +152,14 @@ async function hostPreviewSnapshot(cookie: string, input: FileReadInput): Promis
     }, 5000)
     process.on('message', receive)
     process.once('disconnect', disconnected)
-    process.send?.({ type: 'host-preview', id, cookie, input }, (error) => {
-      if (error) {
-        disconnected()
-      }
-    })
+    process.send?.(
+      { type: 'host-preview', id, cookie, input, ...(checkOnly ? { checkOnly: true } : {}) },
+      (error) => {
+        if (error) {
+          disconnected()
+        }
+      },
+    )
   })
 }
 async function createDesktop() {
@@ -180,18 +187,49 @@ async function createDesktop() {
     },
   })
   registerDirectoryPicker(window, workbenchUrl)
-  registerExternalFiles(
+  const externalFiles = registerExternalFiles(
     window,
     workbenchUrl,
     (input) => hostFileTarget(desktopCookie, input),
     () => exiting,
   )
-  registerFilePreviews(
+  const drainPreviews = registerFilePreviews(
     window,
     workbenchUrl,
-    (input) => hostPreviewSnapshot(desktopCookie, input),
+    async (input) => {
+      const result = await hostPreviewSnapshot(desktopCookie, input)
+      if (!('snapshot' in result)) {
+        throw new ExternalOpenError('预览快照响应不匹配。')
+      }
+      return result.snapshot
+    },
     () => exiting,
+    async (input) => {
+      const result = await hostPreviewSnapshot(desktopCookie, input, true)
+      if (!('verification' in result)) {
+        throw new ExternalOpenError('预览复验响应不匹配。')
+      }
+      return result.verification
+    },
+    externalFiles,
   )
+  let drainingPreviews = false
+  app.on('before-quit', (event) => {
+    const pending = drainPreviews()
+    if (!pending) {
+      return
+    }
+    event.preventDefault()
+    if (drainingPreviews) {
+      return
+    }
+    drainingPreviews = true
+    void pending.then(() => {
+      drainingPreviews = false
+      app.quit()
+      return undefined
+    })
+  })
   function showWindow() {
     window.show()
     window.focus()

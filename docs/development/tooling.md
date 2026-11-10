@@ -301,3 +301,7 @@ FILE-03 已验收：有界UTF-8／BOM／统一换行编辑、撤销、四稿暂�
 ## FILE-07 已验收
 
 FILE-07已验收：独立临时session／无preload／无配对身份，静态HTML脚本、网络、导航和内容动作关闭，可信路径／版本顶部及失败拒绝加载／崩溃隔离。完整464项Vitest／183项E2E、SDK与frozen clean通过，97条原生观察及两次正常退出、同profile零重放补证；487输入一致后复用门禁。真实提供商0，保护文件及原目录未改，OPS-08继续进行。见[验收记录](../validation/file-07-evidence/acceptance.md)。
+
+## FILE-04 已验收
+
+FILE-04 已验收：PNG／JPEG、Windows 全部页静态 PDF、HTML 与明确 UTF-8 纯文本类型复用 FILE-07 隔离；可信路径／来源未判定／完整版本、粘性失效隐藏和重验原件菜单，损坏／超限拒绝并保留替代入口。完整70文件／471项Vitest、SDK本地HTTP、188项E2E及新目录frozen clean通过，492输入与CI／clean一致后复用；150条Windows原生观察（1条Explorer隐私省略）、明暗窄窗、原件实际照片打开、同profile零重放和两次正常退出补证。首段夹具宿主异常未复现、根因未知，恢复后完整场景通过，失败与限制保留。真实提供商0，pi配置／预算／锁及原目录7文件未改，OPS-08继续in_progress [true,false]。见[验收记录](../validation/file-04-evidence/acceptance.md)。

@@ -1,0 +1,72 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:19856) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:24472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\file-artifact-preview.spec.ts:41:1 › FILE-04 actual PNG JPEG PDF HTML and text previews display verified pixels or inert text, real path/provenance/version, and zero PDF action requests (10.3s)
+  x  2 e2e\file-artifact-preview.spec.ts:158:1 › FILE-04 native original menu revalidates the preview version and live checks hide changed replaced or deleted files without auto-replacing snapshots (2.5m)
+(node:28472) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 3 e2e\file-artifact-preview.spec.ts:202:1 › FILE-04 unsupported corrupt oversized and PDF page-limit files provide usable fallback; held cancellation and navigation produce no late window and recover (11.6s)
+  x  4 e2e\file-artifact-preview.spec.ts:259:1 › FILE-04 raster assets remain isolated from other previews and host, with actual background PID, light/dark narrow layouts and same-profile restart restoring no preview (14.6s)
+(node:20720) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 5 e2e\file-artifact-preview.spec.ts:312:1 › FILE-04 normal Electron quit during actual PDF rendering drains its owned native helper before exit (5.8s)
+  ok 6 e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads (7.3s)
+  ok 7 e2e\file-preview-isolation.spec.ts:155:1 › FILE-07 cancellation, late results, repeated requests, initialization failure and four-window limit fail closed and recover (7.4s)
+  ok 8 e2e\file-preview-isolation.spec.ts:200:1 › FILE-07 real preview renderer crash leaves workbench and actual SDK background PID/epoch intact; same profile restart restores no preview (18.2s)
+
+
+  1) e2e\file-artifact-preview.spec.ts:158:1 › FILE-04 native original menu revalidates the preview version and live checks hide changed replaced or deleted files without auto-replacing snapshots 
+
+    Test timeout of 150000ms exceeded.
+
+    Error Context: test-results\file-artifact-preview-FILE-7b31a-ut-auto-replacing-snapshots\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-artifact-preview-FILE-7b31a-ut-auto-replacing-snapshots\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-artifact-preview-FILE-7b31a-ut-auto-replacing-snapshots\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) e2e\file-artifact-preview.spec.ts:259:1 › FILE-04 raster assets remain isolated from other previews and host, with actual background PID, light/dark narrow layouts and same-profile restart restoring no preview 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 0
+    Received: 48
+
+    Call Log:
+    - Timeout 5000ms exceeded while waiting on the predicate
+
+      280 |     ).toEqual({ bridge: 'undefined', node: 'undefined', opener: true })
+      281 |     await inspect(f, `document.images[0].src=${JSON.stringify(firstAsset)}`, 1)
+    > 282 |     await expect.poll(() => inspect(f, 'document.images[0].naturalWidth', 1)).toBe(0)
+          |                                                                               ^
+      283 |     await f.desktop.previewControl('resize')
+      284 |     await f.desktop.previewControl('appearance', 'dark')
+      285 |     await expect.poll(async () => JSON.stringify(await headers(f))).toContain('"scheme":"dark"')
+        at C:\Users\Murmure\.codex\worktrees\input-links-open\pi-workbench\e2e\file-artifact-preview.spec.ts:282:79
+
+    Error Context: test-results\file-artifact-preview-FILE-ce88d-estart-restoring-no-preview\error-context.md
+
+    attachment #2: trace (application/zip) ─────────────────────────────────────────────────────────
+    test-results\file-artifact-preview-FILE-ce88d-estart-restoring-no-preview\trace.zip
+    Usage:
+
+        pnpm exec playwright show-trace test-results\file-artifact-preview-FILE-ce88d-estart-restoring-no-preview\trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    e2e\file-artifact-preview.spec.ts:158:1 › FILE-04 native original menu revalidates the preview version and live checks hide changed replaced or deleted files without auto-replacing snapshots 
+    e2e\file-artifact-preview.spec.ts:259:1 › FILE-04 raster assets remain isolated from other previews and host, with actual background PID, light/dark narrow layouts and same-profile restart restoring no preview 
+  6 passed (4.2m)

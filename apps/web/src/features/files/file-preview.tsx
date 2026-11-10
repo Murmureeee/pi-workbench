@@ -55,7 +55,7 @@ export function FilePreview({ input }: { input: FileReadInput }) {
     <section aria-label="隔离文件预览" className="shrink-0 space-y-1">
       <div className="flex flex-wrap gap-2">
         <Button variant="outline" size="sm" disabled={busy} onClick={() => void open()}>
-          隔离 HTML 预览
+          隔离文件预览
         </Button>
         {busy ? (
           <Button
@@ -71,6 +71,12 @@ export function FilePreview({ input }: { input: FileReadInput }) {
           </Button>
         ) : null}
       </div>
+      <p className="text-xs text-muted-foreground">
+        PNG／JPEG、PDF（8 MiB／12 页）；静态 HTML、UTF-8 TXT／MD／JSON／CSV／LOG（256 KiB）。
+        预览为当前磁盘快照，来源未判定；历史消息与 Diff
+        保留原版本。原件由预览窗口“原件”菜单单独核验打开。 不支持、损坏或超限时，可使用下方
+        IDE／文件管理器或适用的系统打开入口。
+      </p>
       {notice ? (
         <output aria-live="polite" className="block text-xs wrap-anywhere">
           {notice}

@@ -1,0 +1,21 @@
+[WebServer] $ pnpm build:server && node scripts/dev.mjs
+[WebServer] $ pnpm build:packages && pnpm --filter @pi-workbench/daemon build
+[WebServer] $ pnpm --filter @pi-workbench/shared --filter @pi-workbench/ui --filter @pi-workbench/agent-adapter -r build
+[WebServer] $ tsc -p tsconfig.json
+[WebServer] (node:30176) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:31656) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ok 1 e2e\file-artifact-preview.spec.ts:41:1 › FILE-04 actual PNG JPEG PDF HTML and text previews display verified pixels or inert text, real path/provenance/version, and zero PDF action requests (10.5s)
+  ok 2 e2e\file-artifact-preview.spec.ts:158:1 › FILE-04 native original menu revalidates the preview version and live checks hide changed replaced or deleted files without auto-replacing snapshots (7.8s)
+  ok 3 e2e\file-artifact-preview.spec.ts:202:1 › FILE-04 unsupported corrupt oversized and PDF page-limit files provide usable fallback; held cancellation and navigation produce no late window and recover (11.4s)
+  ok 4 e2e\file-artifact-preview.spec.ts:259:1 › FILE-04 raster assets remain isolated from other previews and host, with actual background PID, light/dark narrow layouts and same-profile restart restoring no preview (14.5s)
+  ok 5 e2e\file-artifact-preview.spec.ts:312:1 › FILE-04 normal Electron quit during actual PDF rendering drains its owned native helper before exit (5.7s)
+  ok 6 e2e\file-preview-isolation.spec.ts:23:1 › FILE-07 actual isolated static HTML and active renderer probes cannot access host identity, files, services, navigation or downloads (7.4s)
+  ok 7 e2e\file-preview-isolation.spec.ts:155:1 › FILE-07 cancellation, late results, repeated requests, initialization failure and four-window limit fail closed and recover (7.3s)
+  ok 8 e2e\file-preview-isolation.spec.ts:200:1 › FILE-07 real preview renderer crash leaves workbench and actual SDK background PID/epoch intact; same profile restart restores no preview (13.3s)
+
+  8 passed (1.6m)

@@ -36,7 +36,7 @@ import {
 } from '../../infrastructure/file-boundary.js'
 import { readGitCommand, readGitEnvironment } from '../workspaces/git-environment.js'
 import { capturePreview } from './file-preview.js'
-import { readFileSnapshot } from './file-reading.js'
+import { readFileBytes, readFileSnapshot } from './file-reading.js'
 
 type Handle = {
   target: string
@@ -687,11 +687,20 @@ export class FileService {
         throw failure('此类型不提供系统关联打开；请明确选择 IDE，或在文件管理器定位。')
       }
       if (before.stat.isFile() && (q.version || q.line > 1)) {
-        const data = await readFileSnapshot(scope.root, path, this.redactor, q.version)
-        if (data.status === 'changed' || (q.version && data.version !== q.version)) {
+        const binary =
+          q.version && q.line === 1 && before.stat.size > 256 * 1024
+            ? await readFileBytes(scope.root, path, 8 * 1024 * 1024)
+            : null
+        const data = binary
+          ? null
+          : await readFileSnapshot(scope.root, path, this.redactor, q.version)
+        if (
+          data?.status === 'changed' ||
+          (q.version && (binary?.version ?? data?.version) !== q.version)
+        ) {
           throw failure('文件版本已变化；请明确刷新当前文件后重新打开。')
         }
-        if (q.line > 1 && (data.status !== 'ready' || q.line > data.lines.length)) {
+        if (q.line > 1 && (!data || data.status !== 'ready' || q.line > data.lines.length)) {
           throw failure('无法核对当前代码行号；请使用可阅读的当前版本与实际行号，或从第 1 行打开。')
         }
       }

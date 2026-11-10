@@ -1,0 +1,12 @@
+file:///C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench/apps/desktop/dist/pdf-preview.js:104
+                    throw Error(result.reason === 'pages'
+                          ^
+
+Error: PDF 损坏、加密或当前 Windows 渲染不可用；请使用原件入口。
+    at ChildProcess.<anonymous> (file:///C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench/apps/desktop/dist/pdf-preview.js:104:27)
+    at ChildProcess.wrapper (node:events:639:12)
+    at ChildProcess.emit (node:events:514:28)
+    at maybeClose (node:internal/child_process:1172:16)
+    at ChildProcess._handle.onexit (node:internal/child_process:335:5)
+
+Node.js v24.22.2

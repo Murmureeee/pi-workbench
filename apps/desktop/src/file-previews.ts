@@ -1,4 +1,9 @@
-import type { FileReadInput, PreviewSnapshot } from '@pi-workbench/shared'
+import type {
+  ExternalFileInput,
+  ExternalResult,
+  FileReadInput,
+  PreviewSnapshot,
+} from '@pi-workbench/shared'
 import type { BrowserWindow, IpcMainInvokeEvent } from 'electron'
 
 import { ipcMain } from 'electron'
@@ -15,8 +20,10 @@ export function registerFilePreviews(
   origin: string,
   capture: (input: FileReadInput) => Promise<PreviewSnapshot>,
   exiting: () => boolean,
+  verify: (input: FileReadInput) => Promise<{ version: string; checkedAt: number }>,
+  openOriginal: (input: ExternalFileInput, active: () => boolean) => Promise<ExternalResult>,
 ) {
-  const pending = new Map<string, { cancelled: boolean }>(),
+  const pending = new Map<string, { cancelled: boolean; settled: Promise<void> }>(),
     seen = new Set<string>(),
     windows = new Set<BrowserWindow>()
   const trusted = (event: IpcMainInvokeEvent) =>
@@ -53,7 +60,13 @@ export function registerFilePreviews(
     if (seen.size > 512) {
       seen.delete(seen.values().next().value!)
     }
-    const state = { cancelled: false }
+    let complete: (() => void) | undefined
+    const state = {
+      cancelled: false,
+      settled: new Promise<void>((resolve) => {
+        complete = resolve
+      }),
+    }
     pending.set(q.id, state)
     const active = () => !state.cancelled && !exiting() && !owner.isDestroyed()
     let preview: BrowserWindow | undefined
@@ -65,7 +78,22 @@ export function registerFilePreviews(
       if (JSON.stringify(snapshot.target) !== JSON.stringify(q.input.target)) {
         throw Error('预览目标不匹配，已拒绝加载。')
       }
-      preview = await openIsolatedPreview(snapshot, active)
+      const current = {
+        target: snapshot.target,
+        source: { path: snapshot.absolutePath },
+        version: snapshot.version,
+      }
+      preview = await openIsolatedPreview(
+        snapshot,
+        active,
+        async () => {
+          const result = await verify(current)
+          if (result.version !== snapshot.version) {
+            throw Error('文件版本已变化；旧内容已隐藏。')
+          }
+        },
+        (action, live) => openOriginal({ ...current, action, line: 1 }, live),
+      )
       if (!active()) {
         preview.destroy()
         return { status: 'cancelled', message: '预览已取消。' }
@@ -89,6 +117,7 @@ export function registerFilePreviews(
       }
     } finally {
       pending.delete(q.id)
+      complete?.()
     }
   })
   ipcMain.handle('piw:cancel-preview', (event, ...args: unknown[]) => {
@@ -112,4 +141,13 @@ export function registerFilePreviews(
     ipcMain.removeHandler('piw:preview-file')
     ipcMain.removeHandler('piw:cancel-preview')
   })
+  /** Keep Electron alive until an owned native PDF helper/host capture actually exits.
+   * A cancelled application quit can subsequently use this registration again. */
+  return () => {
+    if (!pending.size) {
+      return null
+    }
+    cancel()
+    return Promise.all([...pending.values()].map((state) => state.settled)).then(() => undefined)
+  }
 }

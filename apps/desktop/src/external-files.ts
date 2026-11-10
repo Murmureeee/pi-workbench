@@ -1,6 +1,8 @@
 import type { ExternalFileInput, ExternalResult, ExternalTarget } from '@pi-workbench/shared'
 import type { BrowserWindow, IpcMainInvokeEvent } from 'electron'
 
+import { randomUUID } from 'node:crypto'
+
 import { app, dialog, ipcMain, shell } from 'electron'
 
 import { editorCommandSchema, externalFileRequestSchema } from '@pi-workbench/shared'
@@ -22,7 +24,7 @@ export function registerExternalFiles(
   origin: string,
   resolveTarget: (input: ExternalFileInput) => Promise<ExternalTarget>,
   exiting: () => boolean,
-): void {
+) {
   const editor = new ExternalEditor(app.getPath('userData'))
   let pending: { id: string; cancelled: boolean } | undefined
   const seen = new Set<string>()
@@ -39,7 +41,14 @@ export function registerExternalFiles(
     event.senderFrame !== null &&
     URL.canParse(event.senderFrame.url) &&
     new URL(event.senderFrame.url).origin === origin
-  const run = async (id: string, operation: (active: () => boolean) => Promise<ExternalResult>) => {
+  const run = async (
+    id: string,
+    operation: (active: () => boolean) => Promise<ExternalResult>,
+    stillActive: () => boolean = () => true,
+  ) => {
+    if (exiting() || window.isDestroyed() || !stillActive()) {
+      return cancelled()
+    }
     if (pending) {
       return failed('另一个外部操作尚未结束；请先完成或取消，再重试。')
     }
@@ -53,7 +62,11 @@ export function registerExternalFiles(
     const operationState = { id, cancelled: false }
     pending = operationState
     const active = () =>
-      pending === operationState && !operationState.cancelled && !exiting() && !window.isDestroyed()
+      pending === operationState &&
+      !operationState.cancelled &&
+      !exiting() &&
+      !window.isDestroyed() &&
+      stillActive()
     try {
       return await operation(active)
     } catch (error) {
@@ -98,39 +111,45 @@ export function registerExternalFiles(
         : cancelled()
     })
   })
+  const open = (q: { id: string; input: ExternalFileInput }, stillActive?: () => boolean) => {
+    return run(
+      q.id,
+      async (active) => {
+        const target = await resolveTarget(q.input)
+        if (!active()) {
+          return cancelled()
+        }
+        if (target.action !== q.input.action || target.line !== q.input.line) {
+          throw new ExternalOpenError('宿主返回的目标不匹配；请重新连接后重试。')
+        }
+        if (target.action === 'ide') {
+          return (await editor.open(target, active))
+            ? { status: 'requested', message: '已请求 IDE 打开核验后的路径；外部应用独立运行。' }
+            : cancelled()
+        }
+        const absolute = await verifyExternalTarget(target)
+        if (!active()) {
+          return cancelled()
+        }
+        if (target.action === 'reveal') {
+          shell.showItemInFolder(absolute)
+          return { status: 'requested', message: '已请求文件管理器定位；请在系统窗口核对结果。' }
+        }
+        const error = await shell.openPath(absolute)
+        if (error) {
+          return failed('系统关联打开失败；请检查关联程序，或选择 IDE／文件管理器。')
+        }
+        return { status: 'requested', message: '系统已接收打开请求；外部应用独立运行。' }
+      },
+      stillActive,
+    )
+  }
   ipcMain.handle('piw:external-file', async (event, ...args: unknown[]) => {
     const parsed = externalFileRequestSchema.safeParse(args[0])
     if (!trusted(event) || args.length !== 1 || !parsed.success) {
       return failed('外部打开请求无效；请从授权文件重新选择。')
     }
-    const q = parsed.data
-    return run(q.id, async (active) => {
-      const target = await resolveTarget(q.input)
-      if (!active()) {
-        return cancelled()
-      }
-      if (target.action !== q.input.action || target.line !== q.input.line) {
-        throw new ExternalOpenError('宿主返回的目标不匹配；请重新连接后重试。')
-      }
-      if (target.action === 'ide') {
-        return (await editor.open(target, active))
-          ? { status: 'requested', message: '已请求 IDE 打开核验后的路径；外部应用独立运行。' }
-          : cancelled()
-      }
-      const absolute = await verifyExternalTarget(target)
-      if (!active()) {
-        return cancelled()
-      }
-      if (target.action === 'reveal') {
-        shell.showItemInFolder(absolute)
-        return { status: 'requested', message: '已请求文件管理器定位；请在系统窗口核对结果。' }
-      }
-      const error = await shell.openPath(absolute)
-      if (error) {
-        return failed('系统关联打开失败；请检查关联程序，或选择 IDE／文件管理器。')
-      }
-      return { status: 'requested', message: '系统已接收打开请求；外部应用独立运行。' }
-    })
+    return open(parsed.data)
   })
   ipcMain.handle('piw:cancel-external', (event, ...args: unknown[]) => {
     const id = editorCommandSchema.shape.id.safeParse(args[0])
@@ -155,4 +174,8 @@ export function registerExternalFiles(
       ipcMain.removeHandler(channel)
     }
   })
+  // Host-only native preview menu reuses exactly the same single-operation lane and
+  // revalidation. No new content IPC or privilege is exposed to preview renderers.
+  return (input: ExternalFileInput, active: () => boolean) =>
+    open({ id: randomUUID(), input }, active)
 }

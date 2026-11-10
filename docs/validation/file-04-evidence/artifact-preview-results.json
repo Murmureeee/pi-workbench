@@ -1,0 +1,150 @@
+{
+  "source": "actual Electron/native Windows PDF, authored local fixtures; CDP observations",
+  "results": [
+    {
+      "name": "中文图片.png",
+      "header": [
+        {
+          "id": 2,
+          "bounds": {
+            "x": 460,
+            "y": 136,
+            "width": 1000,
+            "height": 760
+          },
+          "text": "隔离静态预览 · PNG\n\nC:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-review-ui-0TRl9W\\中文工作目录\\中文图片.png\n\n来源：读取时的磁盘快照，修改来源未判定；不代表历史产物版本。\n\n内容版本：1ca9bca78c00fd190c120e878a535b42bc37eca2e50400af63ce6a3356d668b4 · 112 字节 · 2026-11-10T10:35:49.915Z\n\nPNG · 48×32 · 静态图片；可见时每两秒及聚焦复验，非 OS 锁。原件通过上方“原件”菜单单独核验打开。\n\n脚本、网络、导航、弹窗、文件选择和内容下载关闭；滚轮／方向键滚动。图像未做 OCR 脱敏；仅本机显示。\n\n读取版本已核对。",
+          "scheme": "light dark",
+          "views": 1
+        }
+      ],
+      "content": {
+        "bridge": "undefined",
+        "images": [
+          {
+            "height": 32,
+            "loaded": true,
+            "width": 48
+          }
+        ],
+        "node": "undefined",
+        "script": "undefined",
+        "text": "PNG · 48×32 · 静态图片"
+      }
+    },
+    {
+      "name": "照片.jpg",
+      "header": [
+        {
+          "id": 3,
+          "bounds": {
+            "x": 460,
+            "y": 136,
+            "width": 1000,
+            "height": 760
+          },
+          "text": "隔离静态预览 · JPEG\n\nC:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-review-ui-0TRl9W\\中文工作目录\\照片.jpg\n\n来源：读取时的磁盘快照，修改来源未判定；不代表历史产物版本。\n\n内容版本：aa82c3da8e7a0eb2cf3b99f46e19f5ac58f5316dd1f8bbcd1945e4bea20ebf16 · 646 字节 · 2026-11-10T10:35:50.652Z\n\nJPEG · 32×24 · 静态图片；可见时每两秒及聚焦复验，非 OS 锁。原件通过上方“原件”菜单单独核验打开。\n\n脚本、网络、导航、弹窗、文件选择和内容下载关闭；滚轮／方向键滚动。图像未做 OCR 脱敏；仅本机显示。\n\n读取版本已核对。",
+          "scheme": "light dark",
+          "views": 1
+        }
+      ],
+      "content": {
+        "bridge": "undefined",
+        "images": [
+          {
+            "height": 24,
+            "loaded": true,
+            "width": 32
+          }
+        ],
+        "node": "undefined",
+        "script": "undefined",
+        "text": "JPEG · 32×24 · 静态图片"
+      }
+    },
+    {
+      "name": "报告.pdf",
+      "header": [
+        {
+          "id": 4,
+          "bounds": {
+            "x": 460,
+            "y": 136,
+            "width": 1000,
+            "height": 760
+          },
+          "text": "隔离静态预览 · PDF\n\nC:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-review-ui-0TRl9W\\中文工作目录\\报告.pdf\n\n来源：读取时的磁盘快照，修改来源未判定；不代表历史产物版本。\n\n内容版本：7dec9e8d8a38219a662d5a614bd4482f006b0e561334c605c8e8df6ce163d59f · 1235 字节 · 2026-11-10T10:35:51.363Z\n\nPDF · 全部 2 页静态渲染 · 每页最多 1200×1800 · 非可选择文本；可见时每两秒及聚焦复验，非 OS 锁。原件通过上方“原件”菜单单独核验打开。\n\n脚本、网络、导航、弹窗、文件选择和内容下载关闭；滚轮／方向键滚动。图像未做 OCR 脱敏；仅本机显示。\n\n读取版本已核对。",
+          "scheme": "light dark",
+          "views": 1
+        }
+      ],
+      "content": {
+        "bridge": "undefined",
+        "images": [
+          {
+            "height": 899,
+            "loaded": true,
+            "width": 1200
+          },
+          {
+            "height": 899,
+            "loaded": true,
+            "width": 1200
+          }
+        ],
+        "node": "undefined",
+        "script": "undefined",
+        "text": "第 1 页／共 2 页\n第 2 页／共 2 页"
+      }
+    },
+    {
+      "name": "说明.md",
+      "header": [
+        {
+          "id": 5,
+          "bounds": {
+            "x": 460,
+            "y": 136,
+            "width": 1000,
+            "height": 760
+          },
+          "text": "隔离静态预览 · TEXT\n\nC:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-review-ui-0TRl9W\\中文工作目录\\说明.md\n\n来源：读取时的磁盘快照，修改来源未判定；不代表历史产物版本。\n\n内容版本：6891ae554f463b0c2544de23070c18e894377efb3b032b4504a449b269b79b5c · 71 字节 · 2026-11-10T10:35:52.816Z\n\nUTF-8 纯文本 · 不执行 Markdown／HTML；可见时每两秒及聚焦复验，非 OS 锁。原件通过上方“原件”菜单单独核验打开。\n\n脚本、网络、导航、弹窗、文件选择和内容下载关闭；滚轮／方向键滚动。\n\n读取版本已核对。",
+          "scheme": "light dark",
+          "views": 1
+        }
+      ],
+      "content": {
+        "bridge": "undefined",
+        "images": [],
+        "node": "undefined",
+        "script": "undefined",
+        "text": "# 纯文本\n<script>window.ran=true</script>\n[link](http://127.0.0.1:1)"
+      }
+    },
+    {
+      "name": "页面.html",
+      "header": [
+        {
+          "id": 6,
+          "bounds": {
+            "x": 460,
+            "y": 136,
+            "width": 1000,
+            "height": 760
+          },
+          "text": "隔离静态预览 · HTML\n\nC:\\Users\\Murmure\\AppData\\Local\\Temp\\piw-review-ui-0TRl9W\\中文工作目录\\页面.html\n\n来源：读取时的磁盘快照，修改来源未判定；不代表历史产物版本。\n\n内容版本：d2e788c6e466a156def8a85f116572ed3f157d7e70ef6bde5c894034aa4fe2b0 · 52 字节 · 2026-11-10T10:35:53.516Z\n\nHTML · 离线静态原件；可见时每两秒及聚焦复验，非 OS 锁。原件通过上方“原件”菜单单独核验打开。\n\n脚本、网络、导航、弹窗、文件选择和内容下载关闭；滚轮／方向键滚动。\n\n读取版本已核对。",
+          "scheme": "light dark",
+          "views": 1
+        }
+      ],
+      "content": {
+        "bridge": "undefined",
+        "images": [],
+        "node": "undefined",
+        "script": "undefined",
+        "text": "静态 HTML"
+      }
+    }
+  ],
+  "requests": 0,
+  "providerRequests": 0
+}

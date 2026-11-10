@@ -1,0 +1,83 @@
+{
+  "feature": "FILE-04",
+  "source": "Windows Computer Use SendInput/UIA; actual SDK local HTTP; explicit CLI filesystem faults. No native CDP or renderer injection.",
+  "observations": 150,
+  "privacyOmittedObservation": 19,
+  "normalMenuExits": 2,
+  "exitCodes": [
+    0,
+    0
+  ],
+  "restart": {
+    "sends": 0,
+    "kernels": 0,
+    "pending": 0,
+    "grants": 0,
+    "previews": 0,
+    "historyUnchanged": true
+  },
+  "background": {
+    "runningObservations": 6,
+    "identities": [
+      {
+        "pid": 10388,
+        "epoch": "ccbab5c2-d146-4818-90ca-826ad4e6864e"
+      }
+    ],
+    "from": "open-preview-appearance",
+    "to": "original-handoff-result",
+    "submissions": [
+      {
+        "session_id": "8dc71e4f-517d-4969-a0f7-a4776d455edb",
+        "status": "completed",
+        "error": null
+      },
+      {
+        "session_id": "f23dbf68-ea0f-4931-9e9f-b123f6ceb81a",
+        "status": "aborted",
+        "error": "Request was aborted"
+      }
+    ]
+  },
+  "gitUnchanged": true,
+  "historyUnchanged": true,
+  "protectedFilesUnchanged": true,
+  "originalDirectoryPreserved": true,
+  "sourceInputs": 492,
+  "ci": {
+    "exit": 0,
+    "vitestFiles": 70,
+    "vitest": 471,
+    "e2e": 188
+  },
+  "clean": {
+    "exit": 0,
+    "frozen": true,
+    "gracefulShutdown": true
+  },
+  "providerRequests": 0,
+  "selectedScreenshots": [
+    "11-png-visible-0.png",
+    "25-photos-original-visible-0.png",
+    "61-继续滚动到第二页像素-0.png",
+    "77-PDF窄窗深色顶部-0.png",
+    "104-长中文物理路径PNG成功-0.png",
+    "112-恶意HTML静态渲染脚本未运行-0.png",
+    "138-工作台原生窄窗浅色-0.png",
+    "144-深色窄窗返回会话-0.png",
+    "146-同dataProfile第二次启动零预览-0.png"
+  ],
+  "firstAbandonedRun": {
+    "desktopPid": 31684,
+    "normalExitEvidence": false,
+    "reason": "Fixture host exited unexpectedly; PowerShell CLIXML stderr decoding errors, no root cause established. No first-closed.json. The requested PNG write was not recorded as completed. Recovery used the same data/profile without product source changes."
+  },
+  "limitations": [
+    "Background PID/epoch is proved only in the recorded running interval. A later explicit CLI stop produced a SQLite aborted terminal state; it is not claimed as native stop-button evidence or uninterrupted execution.",
+    "The restored HTML fixture retained the initial trap URL, while the recovered listener used a different port. Native recovered zero requests is not used as a live-network security claim. Actual live HTTP/WS and active renderer attack probes are covered separately by Electron automation.",
+    "No new real IME candidate evidence. AX geometry failures recovered with activation and fresh screenshot coordinates. Transient close-animation frames are not selected as layout evidence.",
+    "One complete Explorer accessibility observation and its screenshots are omitted from public evidence for unrelated favorites privacy. Photos screenshot contains only the authored test image.",
+    "Initial host exit was not reproduced; monitor-only diagnostics added to ignored fixture, no exception swallowed and no product fix attributed. Both subsequent menu exits and same-profile restart passed; native-errors.log absent.",
+    "PDF is a bounded full-page static raster, not selectable text or an active PDF viewer. No OCR or guarantee of recognizing encoded/unknown secrets. Windows native decoder only; unsupported hosts refuse PDF."
+  ]
+}

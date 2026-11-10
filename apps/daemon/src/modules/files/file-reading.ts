@@ -36,68 +36,7 @@ export async function readFileSnapshot(
       diagnostic: '文件超过只读阅读的 256 KiB 限额；未读取部分内容。',
     }
   }
-  signal?.throwIfAborted()
-  const fd = await open(before.absolute, constants.O_RDONLY)
-  let bytes: Buffer
-  try {
-    const opened = await fd.stat()
-    if (
-      !opened.isFile() ||
-      opened.nlink !== 1 ||
-      fileIdentity(opened) !== fileIdentity(before.stat)
-    ) {
-      throw new Error('文件已变化。')
-    }
-    const buffer = Buffer.alloc(256 * 1024 + 1)
-    let length = 0
-    while (length < buffer.length) {
-      signal?.throwIfAborted()
-      // oxlint-disable-next-line no-await-in-loop -- short descriptor reads must continue at the exact byte offset within the fixed allocation.
-      const result = await fd.read(buffer, length, buffer.length - length, length)
-      if (!result.bytesRead) {
-        break
-      }
-      length += result.bytesRead
-    }
-    // NTFS can defer timestamp updates while a read descriptor remains open. A second
-    // full pass also rejects same-length mutations with temporarily unchanged stamps.
-    const verification = Buffer.alloc(length)
-    let verified = 0
-    while (verified < length) {
-      signal?.throwIfAborted()
-      // oxlint-disable-next-line no-await-in-loop -- Compare the same descriptor at exact offsets within the original fixed bound.
-      const result = await fd.read(verification, verified, length - verified, verified)
-      if (!result.bytesRead) {
-        break
-      }
-      verified += result.bytesRead
-    }
-    const after = await proveFilePath(root, path),
-      stat = await fd.stat()
-    if (
-      before.chain !== after.chain ||
-      before.stamp !== after.stamp ||
-      fileIdentity(stat) !== fileIdentity(opened) ||
-      stat.size !== opened.size ||
-      stat.mtimeMs !== opened.mtimeMs ||
-      stat.ctimeMs !== opened.ctimeMs ||
-      stat.nlink !== 1 ||
-      length !== opened.size ||
-      verified !== length ||
-      !verification.equals(buffer.subarray(0, length))
-    ) {
-      throw new Error('读取期间文件变化，未展示混合内容。')
-    }
-    bytes = buffer.subarray(0, length)
-  } finally {
-    await fd.close()
-  }
-  signal?.throwIfAborted()
-  const version = createHash('sha256')
-    .update(before.chain)
-    .update(before.stamp)
-    .update(bytes)
-    .digest('hex')
+  const { bytes, version } = await readPhysicalBytes(before, root, path, 256 * 1024, signal)
   const result = { ...base, version, checkedAt: Date.now() }
   if (expected && expected !== version) {
     return {
@@ -154,4 +93,94 @@ export async function readFileSnapshot(
     lines: visible,
     diagnostic: '只读文件快照，已统一脱敏；两秒可见复查及加入输入前重验，外部变化需明确刷新。',
   }
+}
+
+/** Binary originals share FILE-02's descriptor, ancestor proofs, double byte pass and
+ * exact version formula. Bounds are checked before allocation/read; never partial. */
+export async function readFileBytes(
+  root: string,
+  path: string,
+  limit: number,
+  signal?: AbortSignal,
+) {
+  const before = await proveFilePath(root, path)
+  if (!before.stat.isFile()) {
+    throw Error('此项不是普通文件。')
+  }
+  if (before.stat.size > limit) {
+    throw Error(`文件超过 ${limit / 1024} KiB 预览限额；未读取部分内容，请使用原件入口。`)
+  }
+  return readPhysicalBytes(before, root, path, limit, signal)
+}
+
+async function readPhysicalBytes(
+  before: Awaited<ReturnType<typeof proveFilePath>>,
+  root: string,
+  path: string,
+  limit: number,
+  signal?: AbortSignal,
+) {
+  signal?.throwIfAborted()
+  const fd = await open(before.absolute, constants.O_RDONLY)
+  let bytes: Buffer
+  try {
+    const opened = await fd.stat()
+    if (
+      !opened.isFile() ||
+      opened.nlink !== 1 ||
+      fileIdentity(opened) !== fileIdentity(before.stat)
+    ) {
+      throw new Error('文件已变化。')
+    }
+    const buffer = Buffer.alloc(limit + 1)
+    let length = 0
+    while (length < buffer.length) {
+      signal?.throwIfAborted()
+      // oxlint-disable-next-line no-await-in-loop -- short descriptor reads must continue at the exact byte offset within the fixed allocation.
+      const result = await fd.read(buffer, length, buffer.length - length, length)
+      if (!result.bytesRead) {
+        break
+      }
+      length += result.bytesRead
+    }
+    // NTFS can defer timestamp updates while a read descriptor remains open. A second
+    // full pass also rejects same-length mutations with temporarily unchanged stamps.
+    const verification = Buffer.alloc(length)
+    let verified = 0
+    while (verified < length) {
+      signal?.throwIfAborted()
+      // oxlint-disable-next-line no-await-in-loop -- Compare the same descriptor at exact offsets within the original fixed bound.
+      const result = await fd.read(verification, verified, length - verified, verified)
+      if (!result.bytesRead) {
+        break
+      }
+      verified += result.bytesRead
+    }
+    const after = await proveFilePath(root, path),
+      stat = await fd.stat()
+    if (
+      before.chain !== after.chain ||
+      before.stamp !== after.stamp ||
+      fileIdentity(stat) !== fileIdentity(opened) ||
+      stat.size !== opened.size ||
+      stat.mtimeMs !== opened.mtimeMs ||
+      stat.ctimeMs !== opened.ctimeMs ||
+      stat.nlink !== 1 ||
+      length !== opened.size ||
+      verified !== length ||
+      !verification.equals(buffer.subarray(0, length))
+    ) {
+      throw new Error('读取期间文件变化，未展示混合内容。')
+    }
+    bytes = buffer.subarray(0, length)
+  } finally {
+    await fd.close()
+  }
+  signal?.throwIfAborted()
+  const version = createHash('sha256')
+    .update(before.chain)
+    .update(before.stamp)
+    .update(bytes)
+    .digest('hex')
+  return { bytes, version, proof: before, checkedAt: Date.now() }
 }

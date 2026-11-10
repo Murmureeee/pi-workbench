@@ -1,0 +1,5 @@
+{"ready":true,"directory":"C:\\Users\\Murmure\\.codex\\worktrees\\input-links-open\\pi-workbench\\.workbench\\evidence\\file-04\\native-SbxGgt","desktopPid":11860}
+
+(node:11860) electron: Failed to load URL: http://127.0.0.1:5173/ with error: ERR_BLOCKED_BY_CSP
+(Use `electron --trace-warnings ...` to show where the warning was created)
+NATIVE_CLOSED_OK

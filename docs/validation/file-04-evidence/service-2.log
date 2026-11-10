@@ -1,0 +1,32 @@
+
+ RUN  v5.0.5 C:/Users/Murmure/.codex/worktrees/input-links-open/pi-workbench
+
+ ❯ apps/daemon/test/file-preview.test.ts (9 tests | 1 failed) 4885ms
+   × fILE-04 current disk artifact preview never rewrites actual SDK/SQLite/ledger historical versions or fills missing historical content after restart 3538ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/daemon/test/file-preview.test.ts > fILE-04 current disk artifact preview never rewrites actual SDK/SQLite/ledger historical versions or fills missing historical content after restart
+TypeError: The database connection is not open
+ ❯ Database.prepare node_modules/.pnpm/better-sqlite3@13.0.3/node_modules/better-sqlite3/lib/methods/wrappers.js:5:21
+ ❯ BetterSQLiteSession.prepareQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/better-sqlite3/session.ts:60:28
+ ❯ BetterSQLiteSession.prepareOneTimeQuery node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/session.ts:250:15
+ ❯ SQLiteSelectBase._prepare node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/query-builders/select.ts:916:85
+ ❯ SQLiteSelectBase.all node_modules/.pnpm/drizzle-orm@0.45.4_@types+b_4678bad2d94718e08c0e622b73378c2a/node_modules/src/sqlite-core/query-builders/select.ts:950:15
+ ❯ ChangeService.history apps/daemon/src/modules/changes/change.service.ts:218:8
+ ❯ apps/daemon/test/file-preview.test.ts:302:37
+    300|     await expect(f.files.preview(f.input(path))).rejects.toThrow(/.+/)
+    301|     await f.restart()
+    302|     expect(f.app.get(ChangeService).history(turn.sessionId)).toEqual(h…
+       |                                     ^
+    303|     expect(await f.app.get(ChangeReviewService).diff(turn.turnId, list…
+    304|     expect(f.app.get(KernelService).list()).toEqual([])
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 3 passed (4)
+      Tests  1 failed | 28 passed (29)
+   Start at  18:05:23
+   Duration  7.47s (tests 64%, import 33%, transform 3%)
+

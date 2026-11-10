@@ -311,5 +311,7 @@ export {
   previewSnapshotSchema,
   hostPreviewRequestSchema,
   hostPreviewResultSchema,
+  previewKind,
+  previewRasterResultSchema,
 } from './file-preview.js'
 export type { PreviewSnapshot, HostPreviewResult } from './file-preview.js'
