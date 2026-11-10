@@ -151,3 +151,5 @@ OBS-05 已验收：消息检索、所属草稿引用、持久消息／工具深�
 ## FILE-03／07／04 文件编辑与预览验收
 
 三项按顺序独立验收：[FILE-03 编辑保存](validation/file-03-evidence/acceptance.md)、[FILE-07 隔离边界](validation/file-07-evidence/acceptance.md)、[FILE-04 图片／PDF／文档](validation/file-04-evidence/acceptance.md)。完整门禁、Windows 原生、失败与限制分别归档；真实提供商请求 0，OPS-08 继续跨阶段进行。
+
+[本批交付记录与下一步提示词](validation/file-04-evidence/delivery.md)列出三项独立提交、实际验证、限制及 GIT-02 的依赖核对。
